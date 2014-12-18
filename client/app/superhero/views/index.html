@@ -1,0 +1,31 @@
+<div ng-controller="IndexController">
+  <super-navbar>
+    <super-navbar-title>
+      Superhero Index
+    </super-navbar-title>
+  </super-navbar>
+
+  <div ng-show="showSpinner" ng-include="'_spinner.html'"></div>
+  <div ng-hide="showSpinner">
+    <ul class="list" ng-hide="superheros.length == 0">
+
+      <super-navigate location="superhero#show" data-params-id="{{ superhero.id }}" ng-repeat="superhero in superheros">
+        <li class="item item-icon-right">
+          <span ng-bind="superhero['name']"></span>
+          <i class="icon super-ios7-arrow-right"></i>
+        </li>
+      </super-navigate>
+
+    </ul>
+
+    <h4 ng-show="superheros.length == 0" class="assertive padding">
+      No superheros found. Create one?
+    </h4>
+
+    <super-modal-show location="superhero#new">
+      <button class="button button-full button-positive">
+        Create a new superhero
+      </button>
+    </super-modal-show>
+  </div>
+</div>

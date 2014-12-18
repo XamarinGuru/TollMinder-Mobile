@@ -1,0 +1,32 @@
+<div ng-controller="ShowController">
+  <super-navbar>
+    <super-navbar-title>
+      Show
+    </super-navbar-title>
+  </super-navbar>
+
+  <div class="padding">
+    <div ng-show="showSpinner" ng-include="'_spinner.html'"></div>
+    <div ng-hide="showSpinner">
+      <h2 ng-bind="superhero['name']"></h2>
+      
+      
+      
+       <p>alter_ego: <span ng-bind="superhero['alter_ego']"></span></p> 
+      
+       <p>publisher: <span ng-bind="superhero['publisher']"></span></p> 
+      
+
+
+      <super-modal-show location="superhero#edit?id={{ superhero.id }}">
+        <button class="button button-block button-positive">
+          Edit
+        </button>
+      </super-modal-show>
+
+      <button ng-click="remove(superhero.id)" class="button button-block button-negative">
+        Remove
+      </button>
+    </div>
+  </div>
+</div>
