@@ -32,7 +32,8 @@ module.exports = [
 module.exports.metadata = 
 // TOP OF METADATA
 {
-    "org.apache.cordova.geolocation": "0.3.11"
+    "org.apache.cordova.geolocation": "0.3.11",
+    "org.apache.cordova.speech.speechsynthesis": "0.1.0"
 }
 // BOTTOM OF METADATA
 });

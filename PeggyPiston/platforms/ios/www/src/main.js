@@ -41,6 +41,11 @@ define(function(require, exports, module) {
     function onDeviceReady() {
         container.setContent('waiting for onGeolocationSuccess');
         navigator.geolocation.getCurrentPosition(onGeolocationSuccess, onGeolocationError);
+
+        var u = new SpeechSynthesisUtterance();
+        u.text = "Determining current location";
+        u.lang = 'en-US';
+        speechSynthesis.speak(u);  
     }
 
     document.addEventListener('deviceready', onDeviceReady, false);

@@ -36,5 +36,12 @@
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/platforms/android/assets/www/plugins \
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/platforms/android/assets/www/src \
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/platforms/android/assets/www/css/app.css \
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/platforms/android/assets/www/plugins/org.apache.cordova.speech.speechsynthesis \
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/platforms/android/assets/www/plugins/org.apache.cordova.speech.speechsynthesis/www \
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/platforms/android/assets/www/plugins/org.apache.cordova.speech.speechsynthesis/www/SpeechSynthesis.js \
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/platforms/android/assets/www/plugins/org.apache.cordova.speech.speechsynthesis/www/SpeechSynthesisEvent.js \
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/platforms/android/assets/www/plugins/org.apache.cordova.speech.speechsynthesis/www/SpeechSynthesisUtterance.js \
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/platforms/android/assets/www/plugins/org.apache.cordova.speech.speechsynthesis/www/SpeechSynthesisVoice.js \
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/platforms/android/assets/www/plugins/org.apache.cordova.speech.speechsynthesis/www/SpeechSynthesisVoiceList.js \
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/platforms/android/assets/www/src/main.js \
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/platforms/android/ant-build/AndroidManifest.xml \

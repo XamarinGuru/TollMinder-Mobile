@@ -61,3 +61,82 @@ To disable web storage backup to iCloud, set the BackupWebStorage preference to 
 2014-12-28 09:23:34.449 PeggyPiston[16990:741261] Finished load of: file:///Users/chris/Library/Developer/CoreSimulator/Devices/7A7283F6-E826-41FC-AC89-BD7004B57CA3/data/Containers/Bundle/Application/5774F161-9991-4C18-AFCD-7ED855E53484/PeggyPiston.app/www/index.html
 2014-12-28 09:23:34.869 PeggyPiston[16990:741261] THREAD WARNING: ['Geolocation'] took '71.979980' ms. Plugin should use a background thread.
 2014-12-28 09:23:34.903 PeggyPiston[16990:741261] locationManager::didFailWithError (null)
+2014-12-28 09:29:30.109 PeggyPiston[17336:744006] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/chris/Library/Developer/CoreSimulator/Devices/7A7283F6-E826-41FC-AC89-BD7004B57CA3/data/Containers/Data/Application/1C08D3B8-043C-4644-822E-599E40602BE6/Library/Cookies/Cookies.binarycookies
+2014-12-28 09:29:30.477 PeggyPiston[17336:744006] Apache Cordova native platform version 3.7.0 is starting.
+2014-12-28 09:29:30.478 PeggyPiston[17336:744006] Multi-tasking -> Device: YES, App: YES
+2014-12-28 09:29:30.501 PeggyPiston[17336:744006] Unlimited access to network resources
+2014-12-28 09:29:30.517 PeggyPiston[17336:744006] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+To disable web storage backup to iCloud, set the BackupWebStorage preference to "local" in the Cordova config.xml file
+
+2014-12-28 09:29:31.986 PeggyPiston[17336:744006] Resetting plugins due to page load.
+2014-12-28 09:29:32.916 PeggyPiston[17336:744006] Finished load of: file:///Users/chris/Library/Developer/CoreSimulator/Devices/7A7283F6-E826-41FC-AC89-BD7004B57CA3/data/Containers/Bundle/Application/D068DC66-CB09-4494-8FBD-9C709F9B33EA/PeggyPiston.app/www/index.html
+2014-12-28 09:29:33.129 PeggyPiston[17336:744006] THREAD WARNING: ['Geolocation'] took '39.013184' ms. Plugin should use a background thread.
+2014-12-28 09:29:33.148 PeggyPiston[17336:744006] locationManager::didFailWithError (null)
+2014-12-28 09:43:36.441 PeggyPiston[17829:749895] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/chris/Library/Developer/CoreSimulator/Devices/7A7283F6-E826-41FC-AC89-BD7004B57CA3/data/Containers/Data/Application/2DD5CD7C-4092-447A-81AC-254469C751C7/Library/Cookies/Cookies.binarycookies
+2014-12-28 09:43:36.789 PeggyPiston[17829:749895] Apache Cordova native platform version 3.7.0 is starting.
+2014-12-28 09:43:36.789 PeggyPiston[17829:749895] Multi-tasking -> Device: YES, App: YES
+2014-12-28 09:43:36.810 PeggyPiston[17829:749895] Unlimited access to network resources
+2014-12-28 09:43:36.824 PeggyPiston[17829:749895] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+To disable web storage backup to iCloud, set the BackupWebStorage preference to "local" in the Cordova config.xml file
+
+2014-12-28 09:43:37.921 PeggyPiston[17829:749895] Resetting plugins due to page load.
+2014-12-28 09:43:38.871 PeggyPiston[17829:749895] Finished load of: file:///Users/chris/Library/Developer/CoreSimulator/Devices/7A7283F6-E826-41FC-AC89-BD7004B57CA3/data/Containers/Bundle/Application/6E07C771-0A75-4CD2-B911-E44F079FCD0C/PeggyPiston.app/www/index.html
+2014-12-28 09:43:39.077 PeggyPiston[17829:749895] THREAD WARNING: ['Geolocation'] took '30.193848' ms. Plugin should use a background thread.
+2014-12-28 09:43:39.098 PeggyPiston[17829:749895] locationManager::didFailWithError (null)
+2014-12-28 09:51:55.104 PeggyPiston[18167:753484] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/chris/Library/Developer/CoreSimulator/Devices/7A7283F6-E826-41FC-AC89-BD7004B57CA3/data/Containers/Data/Application/61B9C53D-B3B6-4A76-8C58-65DCB92C8C11/Library/Cookies/Cookies.binarycookies
+2014-12-28 09:51:55.525 PeggyPiston[18167:753484] Apache Cordova native platform version 3.7.0 is starting.
+2014-12-28 09:51:55.525 PeggyPiston[18167:753484] Multi-tasking -> Device: YES, App: YES
+2014-12-28 09:51:55.547 PeggyPiston[18167:753484] Unlimited access to network resources
+2014-12-28 09:51:55.562 PeggyPiston[18167:753484] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+To disable web storage backup to iCloud, set the BackupWebStorage preference to "local" in the Cordova config.xml file
+
+2014-12-28 09:51:56.509 PeggyPiston[18167:753484] Resetting plugins due to page load.
+2014-12-28 09:51:57.554 PeggyPiston[18167:753484] Finished load of: file:///Users/chris/Library/Developer/CoreSimulator/Devices/7A7283F6-E826-41FC-AC89-BD7004B57CA3/data/Containers/Bundle/Application/133C897D-F3A1-4D94-A4F3-24BEB2E892EA/PeggyPiston.app/www/index.html
+2014-12-28 09:51:57.737 PeggyPiston[18167:753484] THREAD WARNING: ['Geolocation'] took '32.914062' ms. Plugin should use a background thread.
+2014-12-28 09:51:57.762 PeggyPiston[18167:753484] locationManager::didFailWithError (null)
+2014-12-28 09:54:29.510 PeggyPiston[18486:755142] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/chris/Library/Developer/CoreSimulator/Devices/7A7283F6-E826-41FC-AC89-BD7004B57CA3/data/Containers/Data/Application/838FDCDE-E41B-4A36-B0D4-48DC4D894158/Library/Cookies/Cookies.binarycookies
+2014-12-28 09:54:29.868 PeggyPiston[18486:755142] Apache Cordova native platform version 3.7.0 is starting.
+2014-12-28 09:54:29.869 PeggyPiston[18486:755142] Multi-tasking -> Device: YES, App: YES
+2014-12-28 09:54:29.889 PeggyPiston[18486:755142] Unlimited access to network resources
+2014-12-28 09:54:29.908 PeggyPiston[18486:755142] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+To disable web storage backup to iCloud, set the BackupWebStorage preference to "local" in the Cordova config.xml file
+
+2014-12-28 09:54:31.115 PeggyPiston[18486:755142] Resetting plugins due to page load.
+2014-12-28 09:54:31.738 PeggyPiston[18486:755142] Finished load of: file:///Users/chris/Library/Developer/CoreSimulator/Devices/7A7283F6-E826-41FC-AC89-BD7004B57CA3/data/Containers/Bundle/Application/8EE010FA-1597-48D5-909F-DDF5E9AD05F9/PeggyPiston.app/www/index.html
+2014-12-28 09:54:31.902 PeggyPiston[18486:755142] THREAD WARNING: ['Geolocation'] took '28.975098' ms. Plugin should use a background thread.
+2014-12-28 09:54:31.925 PeggyPiston[18486:755142] locationManager::didFailWithError (null)
+2014-12-28 09:55:44.757 PeggyPiston[18486:755142] locationManager::didFailWithError (null)
+2014-12-28 10:15:21.406 PeggyPiston[18865:763696] Apache Cordova native platform version 3.7.0 is starting.
+2014-12-28 10:15:21.409 PeggyPiston[18865:763696] Multi-tasking -> Device: YES, App: YES
+2014-12-28 10:15:21.428 PeggyPiston[18865:763696] Unlimited access to network resources
+2014-12-28 10:15:21.440 PeggyPiston[18865:763696] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+To disable web storage backup to iCloud, set the BackupWebStorage preference to "local" in the Cordova config.xml file
+
+2014-12-28 10:15:22.413 PeggyPiston[18865:763696] Resetting plugins due to page load.
+2014-12-28 10:15:23.658 PeggyPiston[18865:763696] Finished load of: file:///Users/chris/Library/Developer/CoreSimulator/Devices/7A7283F6-E826-41FC-AC89-BD7004B57CA3/data/Containers/Bundle/Application/50DA8F3B-CD2E-4834-8D21-148E7F02AE2F/PeggyPiston.app/www/index.html
+2014-12-28 10:15:23.856 PeggyPiston[18865:763696] THREAD WARNING: ['Geolocation'] took '34.914062' ms. Plugin should use a background thread.
