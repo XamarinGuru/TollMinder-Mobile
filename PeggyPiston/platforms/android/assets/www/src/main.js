@@ -8,6 +8,7 @@ define(function(require, exports, module) {
     var YOUR_API_KEY = 'AIzaSyATj2V80z9vs1AQOgxrwL95opxYsxdUvEM';
     var mainContext = Engine.createContext();
 
+
     // onGeolocationSuccess Callback
     //   This method accepts a `Position` object, which contains
     //   the current GPS coordinates
@@ -38,21 +39,44 @@ define(function(require, exports, module) {
             'message: ' + error.message + '\n');
     }
 
+    function greeting() {
+        // initialize the speaking engine.
+        //speechEngine = new SpeechSynthesisUtterance();
+        console.log('greeting triggered');
+        console.log(window.speechSynthesis);
+
+//*
+
+        var speechEngine = new SpeechSynthesisUtterance();
+        speechEngine.lang = 'en-US';
+        speechEngine.text = "Hello!  My name is Peggy Piston.  How are you doing?";
+        speechSynthesis.speak(speechEngine);  
+//*/
+
+        console.log("speaking: " + speechEngine.text);
+
+
+    }
+
     function onDeviceReady() {
         container.setContent('waiting for onGeolocationSuccess');
         navigator.geolocation.getCurrentPosition(onGeolocationSuccess, onGeolocationError);
 
         var u = new SpeechSynthesisUtterance();
-        u.text = "Determining current location";
+        u.text = "You know you're going to make the app say something naughty.";
         u.lang = 'en-US';
-        speechSynthesis.speak(u);  
+        speechSynthesis.speak(u);
+
+        setTimeout(function() {
+            greeting();
+        }, 3000);
     }
 
     document.addEventListener('deviceready', onDeviceReady, false);
 
     var title = new Surface({
         size: [true, true],
-        content: 'updated with an expired key.',
+        content: 'why does the speechSynthesis not work?!?!',
         classes: ['title']
     });
 

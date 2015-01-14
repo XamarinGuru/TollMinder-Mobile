@@ -31,10 +31,4 @@
 	</author>
     <content src="index.html" />
     <access origin="*" />
-    <gap:plugin name="org.apache.cordova.geolocation" />
-    <gap:config-file overwrite="false" parent="NSLocationAlwaysUsageDescription" platform="ios">
-        <array>
-            <string>Allow GPS</string>
-        </array>
-    </gap:config-file>
 </widget>

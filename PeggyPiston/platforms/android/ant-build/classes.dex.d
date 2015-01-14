@@ -6,5 +6,4 @@
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/platforms/android/ant-build/classes/com/steelanvilstudios/peggypiston/R$string.class \
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/platforms/android/ant-build/classes/com/steelanvilstudios/peggypiston/R$xml.class \
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/platforms/android/ant-build/classes/com/steelanvilstudios/peggypiston/R.class \
-/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/platforms/android/ant-build/classes/org/apache/cordova/speech/SpeechSynthesis.class \
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/platforms/android/ant-build/dexedLibs/classes-380f71d29caaa0bc2e1514cea719c334.jar \

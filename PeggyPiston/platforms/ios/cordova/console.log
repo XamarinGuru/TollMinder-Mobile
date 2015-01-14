@@ -140,3 +140,44 @@ To disable web storage backup to iCloud, set the BackupWebStorage preference to 
 2014-12-28 10:15:22.413 PeggyPiston[18865:763696] Resetting plugins due to page load.
 2014-12-28 10:15:23.658 PeggyPiston[18865:763696] Finished load of: file:///Users/chris/Library/Developer/CoreSimulator/Devices/7A7283F6-E826-41FC-AC89-BD7004B57CA3/data/Containers/Bundle/Application/50DA8F3B-CD2E-4834-8D21-148E7F02AE2F/PeggyPiston.app/www/index.html
 2014-12-28 10:15:23.856 PeggyPiston[18865:763696] THREAD WARNING: ['Geolocation'] took '34.914062' ms. Plugin should use a background thread.
+2014-12-28 15:53:02.292 PeggyPiston[20856:863824] Apache Cordova native platform version 3.7.0 is starting.
+2014-12-28 15:53:02.303 PeggyPiston[20856:863824] Multi-tasking -> Device: YES, App: YES
+2014-12-28 15:53:02.328 PeggyPiston[20856:863824] Unlimited access to network resources
+2014-12-28 15:53:02.343 PeggyPiston[20856:863824] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+To disable web storage backup to iCloud, set the BackupWebStorage preference to "local" in the Cordova config.xml file
+
+2014-12-28 15:53:03.224 PeggyPiston[20856:863824] Resetting plugins due to page load.
+2014-12-28 15:53:05.857 PeggyPiston[20856:863824] Finished load of: file:///Users/chris/Library/Developer/CoreSimulator/Devices/7A7283F6-E826-41FC-AC89-BD7004B57CA3/data/Containers/Bundle/Application/3E38EA27-97AF-446E-BDCB-C3F8B5308127/PeggyPiston.app/www/index.html
+2014-12-28 15:53:06.042 PeggyPiston[20856:863824] THREAD WARNING: ['Geolocation'] took '39.843750' ms. Plugin should use a background thread.
+2014-12-28 15:53:06.062 PeggyPiston[20856:863824] locationManager::didFailWithError (null)
+2014-12-29 07:14:14.193 PeggyPiston[20856:1226196] Communications error: <OS_xpc_error: <error: 0x2e1d5f4> { count = 1, contents =
+	"XPCErrorDescription" => <string: 0x2e1d83c> { length = 22, contents = "Connection interrupted" }
+}>
+2015-01-02 07:48:54.451 PeggyPiston[37147:1566522] Apache Cordova native platform version 3.7.0 is starting.
+2015-01-02 07:48:54.455 PeggyPiston[37147:1566522] Multi-tasking -> Device: YES, App: YES
+2015-01-02 07:48:54.476 PeggyPiston[37147:1566522] Unlimited access to network resources
+2015-01-02 07:48:54.493 PeggyPiston[37147:1566522] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+To disable web storage backup to iCloud, set the BackupWebStorage preference to "local" in the Cordova config.xml file
+
+2015-01-02 07:48:55.438 PeggyPiston[37147:1566522] Resetting plugins due to page load.
+2015-01-02 07:48:55.690 PeggyPiston[37147:1566522] Finished load of: file:///Users/chris/Library/Developer/CoreSimulator/Devices/7A7283F6-E826-41FC-AC89-BD7004B57CA3/data/Containers/Bundle/Application/B86EF01D-6999-47E5-AEBA-C2F0BBA5EFDF/PeggyPiston.app/www/index.html
+2015-01-02 07:48:55.776 PeggyPiston[37147:1566522] ERROR: Plugin 'SpeechSynthesis' not found, or is not a CDVPlugin. Check your plugin mapping in config.xml.
+2015-01-02 07:48:55.777 PeggyPiston[37147:1566522] -[CDVCommandQueue executePending] [Line 158] FAILED pluginJSON = [
+  "SpeechSynthesis1674070434",
+  "SpeechSynthesis",
+  "startup",
+  [
+
+  ]
+]
+2015-01-02 07:48:55.864 PeggyPiston[37147:1566522] locationManager::didFailWithError (null)

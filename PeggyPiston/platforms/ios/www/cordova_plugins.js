@@ -27,6 +27,41 @@ module.exports = [
         "clobbers": [
             "navigator.geolocation"
         ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.speech.speechsynthesis/www/SpeechSynthesis.js",
+        "id": "org.apache.cordova.speech.speechsynthesis.SpeechSynthesis",
+        "merges": [
+            "cordova.plugins.SpeechSynthesis"
+        ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.speech.speechsynthesis/www/SpeechSynthesisUtterance.js",
+        "id": "org.apache.cordova.speech.speechsynthesis.SpeechSynthesisUtterance",
+        "merges": [
+            "SpeechSynthesisUtterance"
+        ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.speech.speechsynthesis/www/SpeechSynthesisEvent.js",
+        "id": "org.apache.cordova.speech.speechsynthesis.SpeechSynthesisEvent",
+        "merges": [
+            "SpeechSynthesisEvent"
+        ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.speech.speechsynthesis/www/SpeechSynthesisVoice.js",
+        "id": "org.apache.cordova.speech.speechsynthesis.SpeechSynthesisVoice",
+        "merges": [
+            "SpeechSynthesisVoice"
+        ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.speech.speechsynthesis/www/SpeechSynthesisVoiceList.js",
+        "id": "org.apache.cordova.speech.speechsynthesis.SpeechSynthesisVoiceList",
+        "clobbers": [
+            "SpeechSynthesisVoiceList"
+        ]
     }
 ];
 module.exports.metadata = 
