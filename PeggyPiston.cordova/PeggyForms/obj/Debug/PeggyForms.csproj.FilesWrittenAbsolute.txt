@@ -1,0 +1,7 @@
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/PeggyForms/obj/Debug/.NETPortable,Version=v4.5,Profile=Profile78.AssemblyAttribute.cs
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/PeggyForms/bin/Debug/PeggyForms.dll.mdb
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/PeggyForms/bin/Debug/PeggyForms.dll
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/PeggyForms/obj/Debug/PeggyForms.dll
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/PeggyForms/obj/Debug/PeggyForms.dll.mdb
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/PeggyForms/bin/Debug/Xamarin.Forms.Core.dll
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/PeggyForms/bin/Debug/Xamarin.Forms.Xaml.dll

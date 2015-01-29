@@ -1,0 +1,14 @@
+﻿<Properties StartupItem="PeggyForms/PeggyForms.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="PeggyShared/MyClass.cs">
+    <Files>
+      <File FileName="PeggyShared/MyClass.cs" Line="1" Column="1" />
+      <File FileName="PeggyForms/packages.config" Line="1" Column="1" />
+      <File FileName="PeggyForms/MyPage.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
