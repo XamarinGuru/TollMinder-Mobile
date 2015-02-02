@@ -7,3 +7,13 @@
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/PeggyPiston/bin/Debug/Xamarin.Forms.Xaml.dll
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/PeggyPiston/obj/Debug/PeggyPiston.Home.xaml
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/PeggyPiston/obj/Debug/Home.xaml.g.cs
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/PeggyPiston/bin/Debug/mscorlib.dll
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/PeggyPiston/bin/Debug/System.Core.dll
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/PeggyPiston/bin/Debug/System.dll
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/PeggyPiston/bin/Debug/System.Linq.Queryable.dll
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/PeggyPiston/bin/Debug/System.Diagnostics.Tools.dll
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/PeggyPiston/bin/Debug/System.ComponentModel.EventBasedAsync.dll
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/PeggyPiston/bin/Debug/System.Net.Primitives.dll
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/PeggyPiston/bin/Debug/System.Net.Requests.dll
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/PeggyPiston/bin/Debug/System.Net.NetworkInformation.dll
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/PeggyPiston/bin/Debug/System.Text.RegularExpressions.dll

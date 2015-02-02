@@ -1,5 +1,6 @@
 PeggyPiston.Droid.MainActivity;peggypiston.droid.MainActivity
 PeggyPiston.Droid.TextToSpeech_Android;peggypiston.droid.TextToSpeech_Android
+PeggyPiston.Droid.GeoLocation_Android;peggypiston.droid.GeoLocation_Android
 Android.Support.V4.Content.Loader.IOnLoadCompleteListenerImplementor;mono.android.support.v4.content.Loader_OnLoadCompleteListenerImplementor
 Android.Support.V4.View.ViewPager.IOnPageChangeListenerImplementor;mono.android.support.v4.view.ViewPager_OnPageChangeListenerImplementor
 Android.Support.V4.Widget.DrawerLayout.IDrawerListenerImplementor;mono.android.support.v4.widget.DrawerLayout_DrawerListenerImplementor
@@ -79,3 +80,7 @@ Xamarin.Forms.Platform.Android.WebViewRenderer.WebClient;xamarin.forms.platform.
 Xamarin.Forms.Platform.Android.VisualElementTracker.AttachTracker;xamarin.forms.platform.android.VisualElementTracker_AttachTracker
 Xamarin.Forms.Platform.Android.PickerRenderer;xamarin.forms.platform.android.PickerRenderer
 Xamarin.Forms.Platform.Android.PickerRenderer.PickerListener;xamarin.forms.platform.android.PickerRenderer_PickerListener
+Xamarin.AsyncQuery`1;xamarin.AsyncQuery_1
+Xamarin.Geolocation.GeolocationContinuousListener;xamarin.geolocation.GeolocationContinuousListener
+Xamarin.Geolocation.GeolocationSingleListener;xamarin.geolocation.GeolocationSingleListener
+Xamarin.Media.MediaPickerActivity;xamarin.media.MediaPickerActivity

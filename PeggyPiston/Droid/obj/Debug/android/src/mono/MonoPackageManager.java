@@ -73,6 +73,7 @@ class MonoPackageManager_Resources {
 		"FormsViewGroup.dll",
 		"Xamarin.Forms.Core.dll",
 		"Xamarin.Forms.Xaml.dll",
+		"Xamarin.Mobile.dll",
 		"PeggyPiston.dll",
 		"System.Collections.Concurrent.dll",
 		"System.Collections.dll",
@@ -123,5 +124,5 @@ class MonoPackageManager_Resources {
 	};
 	public static final String[] Dependencies = new String[]{
 	};
-	public static final String ApiPackageName = "Mono.Android.Platform.ApiLevel_19";
+	public static final String ApiPackageName = "Mono.Android.Platform.ApiLevel_15";
 }
