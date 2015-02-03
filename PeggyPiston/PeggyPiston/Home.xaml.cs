@@ -16,7 +16,7 @@ namespace PeggyPiston
 
 			_locationProvider = DependencyService.Get<IGeoLocation>();
 
-			MessagingCenter.Subscribe<IGeoLocation,string>(this, "init state string", HandleLocationUpdate);
+			MessagingCenter.Subscribe<IGeoLocation,string>(this, "TestingLocation", HandleLocationUpdate);
 
 		}
 

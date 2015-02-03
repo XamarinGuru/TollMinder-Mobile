@@ -35,6 +35,8 @@ namespace PeggyPiston.Droid
 		{
 			_locationManager = (LocationManager)Forms.Context.GetSystemService(Context.LocationService);
 
+
+			// doing it this way works.
 			if (_locationManager.AllProviders.Contains (LocationManager.NetworkProvider)
 				&& _locationManager.IsProviderEnabled (LocationManager.NetworkProvider)) {
 				_locationManager.RequestLocationUpdates (LocationManager.NetworkProvider, 2000, 1, this);
@@ -43,6 +45,7 @@ namespace PeggyPiston.Droid
 			}
 
 
+			// doing it this way, does not.
 			/*
 			Criteria criteriaForLocationService = new Criteria
 			{
@@ -88,7 +91,7 @@ namespace PeggyPiston.Droid
 				? "Can't determine the current address." 
 				: string.Format("{0} - {1}", _currentLocation.Latitude, _currentLocation.Longitude);
 
-			MessagingCenter.Send<IGeoLocation, string> (this, "location was updated - sending state", currentLocationString);
+			MessagingCenter.Send<IGeoLocation, string> (this, "TestingLocation", currentLocationString);
 
 		}
 
@@ -99,12 +102,12 @@ namespace PeggyPiston.Droid
 			if (_currentLocation == null)
 			{
 				System.Diagnostics.Debug.WriteLine ("location could not be determined");
-				MessagingCenter.Send<IGeoLocation, string> (this, "location was updated - sending state", "Unable to determine your location.");
+				MessagingCenter.Send<IGeoLocation, string> (this, "TestingLocation", "Unable to determine your location.");
 			}
 			else
 			{
 				System.Diagnostics.Debug.WriteLine ("location was changed");
-				MessagingCenter.Send<IGeoLocation, string> (this, "location was updated - sending state", String.Format("{0},{1}", _currentLocation.Latitude, _currentLocation.Longitude));
+				MessagingCenter.Send<IGeoLocation, string> (this, "TestingLocation", String.Format("{0},{1}", _currentLocation.Latitude, _currentLocation.Longitude));
 			}
 			//SetLocation();
 		}

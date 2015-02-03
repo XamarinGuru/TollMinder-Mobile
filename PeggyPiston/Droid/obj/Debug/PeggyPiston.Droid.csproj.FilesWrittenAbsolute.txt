@@ -1,4 +1,4 @@
-/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/Droid/obj/Debug/MonoAndroid,Version=v4.4.AssemblyAttribute.cs
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/Droid/obj/Debug/MonoAndroid,Version=v4.0.3.AssemblyAttribute.cs
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/Droid/bin/Debug/PeggyPiston.Droid.dll.mdb
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/Droid/bin/Debug/PeggyPiston.Droid.dll
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/Droid/bin/Debug/PeggyPiston.Droid.apk
@@ -20,4 +20,3 @@
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/Droid/bin/Debug/Xamarin.Mobile.dll
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/Droid/bin/Debug/PeggyPiston.dll
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/Droid/bin/Debug/PeggyPiston.dll.mdb
-/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/Droid/obj/Debug/MonoAndroid,Version=v4.0.3.AssemblyAttribute.cs
