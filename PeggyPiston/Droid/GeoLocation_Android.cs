@@ -14,6 +14,8 @@ using Android.Content;
 using PeggyPiston.Droid;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading;
 
 
 [assembly: Dependency (typeof (GeoLocation_Android))]
@@ -43,27 +45,6 @@ namespace PeggyPiston.Droid
 			} else {
 				System.Diagnostics.Debug.WriteLine ("location provider not available - not requesting updates");
 			}
-
-
-			// doing it this way, does not.
-			/*
-			Criteria criteriaForLocationService = new Criteria
-			{
-				Accuracy = Accuracy.Coarse
-			};
-			IList<string> acceptableLocationProviders = _locationManager.GetProviders(criteriaForLocationService, true);
-
-			if (acceptableLocationProviders.Any())
-			{
-				_locationProvider = acceptableLocationProviders.First();
-			}
-			else
-			{
-				_locationProvider = String.Empty;
-			}
-
-			//MessagingCenter.Subscribe<IGeoLocation,string>(this, "init state string", HandleLocationUpdate);
-*/
 
 		}
 
@@ -102,12 +83,44 @@ namespace PeggyPiston.Droid
 			if (_currentLocation == null)
 			{
 				System.Diagnostics.Debug.WriteLine ("location could not be determined");
-				MessagingCenter.Send<IGeoLocation, string> (this, "TestingLocation", "Unable to determine your location.");
+				MessagingCenter.Send<IGeoLocation, string> (this, "LocationUnavailable", "Unable to determine your location.");
 			}
 			else
 			{
 				System.Diagnostics.Debug.WriteLine ("location was changed");
-				MessagingCenter.Send<IGeoLocation, string> (this, "TestingLocation", String.Format("{0},{1}", _currentLocation.Latitude, _currentLocation.Longitude));
+
+				new Thread (new ThreadStart (() => {
+				
+					Geocoder geocoder = new Geocoder(Forms.Context);
+					IList<Address> addressList = geocoder.GetFromLocation(_currentLocation.Latitude, _currentLocation.Longitude, 10);
+
+					Address address = addressList.FirstOrDefault();
+					if (address != null)
+					{
+						StringBuilder deviceAddress = new StringBuilder();
+						for (int i = 0; i < address.MaxAddressLineIndex; i++)
+						{
+							deviceAddress.Append(address.GetAddressLine(i)).AppendLine(",");
+						}
+
+						MessagingCenter.Send<IGeoLocation, string> (this, "TestingLocation", deviceAddress.ToString());
+					}
+					else
+					{
+						MessagingCenter.Send<IGeoLocation, string> (this, "TestingLocation", "Unable to determine the address.");
+					}				
+				
+				
+				} )).Start ();
+
+
+
+
+/*
+
+*/
+
+
 			}
 			//SetLocation();
 		}

@@ -4,3 +4,7 @@
 .DS_Store
 
 PeggyPiston/platforms/*
+PeggyPiston/PeggyPiston/bin/*
+PeggyPiston/PeggyPiston/obj/*
+PeggyPiston/Droid/bin/*
+PeggyPiston/Droid/obj/*
