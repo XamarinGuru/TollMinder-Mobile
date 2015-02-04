@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-
 using Xamarin.Forms;
 
 namespace PeggyPiston
@@ -29,7 +27,7 @@ namespace PeggyPiston
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
-			_locationProvider.Start();
+			//_locationProvider.Start();
 		}
 
 		private static void HandleLocationUpdate(IGeoLocation service, string newLocation)

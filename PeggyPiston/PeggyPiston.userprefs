@@ -1,19 +1,26 @@
 ﻿<Properties StartupItem="iOS/PeggyPiston.iOS.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone4s.8.1" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone6.8.1" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Droid/GeoLocation_Android.cs">
     <Files>
       <File FileName="PeggyPiston/PeggyPiston.cs" Line="1" Column="1" />
       <File FileName="PeggyPiston/MyPage.cs" Line="1" Column="1" />
       <File FileName="PeggyPiston/ITextToSpeech.cs" Line="1" Column="1" />
       <File FileName="Droid/TextToSpeech_Android.cs" Line="1" Column="1" />
-      <File FileName="iOS/TextToSpeech_iOS.cs" Line="1" Column="1" />
+      <File FileName="iOS/TextToSpeech_iOS.cs" Line="6" Column="6" />
       <File FileName="PeggyPiston/Home.xaml" Line="1" Column="1" />
-      <File FileName="PeggyPiston/Home.xaml.cs" Line="1" Column="1" />
-      <File FileName="Droid/GeoLocation_Android.cs" Line="2" Column="2" />
+      <File FileName="PeggyPiston/Home.xaml.cs" Line="6" Column="6" />
+      <File FileName="Droid/GeoLocation_Android.cs" Line="73" Column="73" />
+      <File FileName="PeggyPiston/IGeoLocation.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
-        <State selected="True" />
+        <State expanded="True" selected="True">
+          <Node name="PeggyPiston" expanded="True">
+            <Node name="Home.xaml" expanded="True" />
+          </Node>
+          <Node name="PeggyPiston.Droid" expanded="True" />
+          <Node name="PeggyPiston.iOS" expanded="True" />
+        </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>

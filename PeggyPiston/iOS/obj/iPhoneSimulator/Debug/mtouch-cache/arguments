@@ -23,11 +23,13 @@
 	-r \
 	/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/Xamarin.iOS/Xamarin.iOS.dll \
 	-r \
-	../packages/Xamarin.Forms.1.3.1.6296/lib/Xamarin.iOS10/Xamarin.Forms.Platform.iOS.dll \
+	../Components/xamarin.mobile-0.7.5/lib/ios-unified/Xamarin.Mobile.dll \
 	-r \
-	../packages/Xamarin.Forms.1.3.1.6296/lib/Xamarin.iOS10/Xamarin.Forms.Core.dll \
+	../packages/Xamarin.Forms.1.3.2.6316/lib/Xamarin.iOS10/Xamarin.Forms.Platform.iOS.dll \
 	-r \
-	../packages/Xamarin.Forms.1.3.1.6296/lib/Xamarin.iOS10/Xamarin.Forms.Xaml.dll \
+	../packages/Xamarin.Forms.1.3.2.6316/lib/Xamarin.iOS10/Xamarin.Forms.Core.dll \
+	-r \
+	../packages/Xamarin.Forms.1.3.2.6316/lib/Xamarin.iOS10/Xamarin.Forms.Xaml.dll \
 	-r \
 	/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/Xamarin.iOS/System.Core.dll \
 	-r \
@@ -121,11 +123,13 @@
 	-r \
 	/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/Xamarin.iOS/Facades/System.Xml.XmlSerializer.dll \
 	-r \
-	../packages/Xamarin.Forms.1.3.1.6296/lib/Xamarin.iOS10/Xamarin.Forms.Platform.iOS.dll \
+	../Components/xamarin.mobile-0.7.5/lib/ios-unified/Xamarin.Mobile.dll \
 	-r \
-	../packages/Xamarin.Forms.1.3.1.6296/lib/Xamarin.iOS10/Xamarin.Forms.Core.dll \
+	../packages/Xamarin.Forms.1.3.2.6316/lib/Xamarin.iOS10/Xamarin.Forms.Platform.iOS.dll \
 	-r \
-	../packages/Xamarin.Forms.1.3.1.6296/lib/Xamarin.iOS10/Xamarin.Forms.Xaml.dll \
+	../packages/Xamarin.Forms.1.3.2.6316/lib/Xamarin.iOS10/Xamarin.Forms.Core.dll \
+	-r \
+	../packages/Xamarin.Forms.1.3.2.6316/lib/Xamarin.iOS10/Xamarin.Forms.Xaml.dll \
 	-r \
 	/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/PeggyPiston/bin/Debug//PeggyPiston.dll \
 	/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/iOS/bin/iPhoneSimulator/Debug//PeggyPiston.iOS.exe \

@@ -7,7 +7,6 @@
  * 
 */
 
-using System;
 using Android.Locations;
 using Xamarin.Forms;
 using Android.Content;
@@ -24,13 +23,12 @@ namespace PeggyPiston.Droid
 {
 	public class GeoLocation_Android : Java.Lang.Object, IGeoLocation, ILocationListener
 	{
-		private LocationManager _locationManager;
-		private string _locationProvider;
-		private Location _currentLocation { get; set; }
+		LocationManager _locationManager;
+		Location _currentLocation { get; set; }
 
 		public GeoLocation_Android()
 		{
-			this.InitializeLocationManager();
+			InitializeLocationManager();
 		}
 
 		void InitializeLocationManager()
@@ -42,37 +40,17 @@ namespace PeggyPiston.Droid
 			if (_locationManager.AllProviders.Contains (LocationManager.NetworkProvider)
 				&& _locationManager.IsProviderEnabled (LocationManager.NetworkProvider)) {
 				_locationManager.RequestLocationUpdates (LocationManager.NetworkProvider, 2000, 1, this);
+
 			} else {
-				System.Diagnostics.Debug.WriteLine ("location provider not available - not requesting updates");
+				System.Diagnostics.Debug.WriteLine ("LocationManager.NetworkProvider not available - not requesting updates");
 			}
 
 		}
 
 		//ILocationService methods
-		public void Start()
-		{
-
-			if (!string.IsNullOrEmpty(_locationProvider) && _locationManager.IsProviderEnabled(_locationProvider))
-			{
-				_locationManager.RequestLocationUpdates(_locationProvider, 0, 0, this);
-				System.Diagnostics.Debug.WriteLine ("requesting location updates");
-
-			}
-			else
-			{
-				// Do something here to notify the user we can't get the location updates set up properly
-				System.Diagnostics.Debug.WriteLine("No (enabled) location provider available.");
-			}
-
-		}
-
 		public void SetLocation()
 		{
-			var currentLocationString = _currentLocation == null 
-				? "Can't determine the current address." 
-				: string.Format("{0} - {1}", _currentLocation.Latitude, _currentLocation.Longitude);
-
-			MessagingCenter.Send<IGeoLocation, string> (this, "TestingLocation", currentLocationString);
+			System.Diagnostics.Debug.WriteLine ("calling setlocation -- we don't really ever do this.");
 
 		}
 
@@ -91,13 +69,13 @@ namespace PeggyPiston.Droid
 
 				new Thread (new ThreadStart (() => {
 				
-					Geocoder geocoder = new Geocoder(Forms.Context);
+					var geocoder = new Geocoder(Forms.Context);
 					IList<Address> addressList = geocoder.GetFromLocation(_currentLocation.Latitude, _currentLocation.Longitude, 10);
 
 					Address address = addressList.FirstOrDefault();
 					if (address != null)
 					{
-						StringBuilder deviceAddress = new StringBuilder();
+						var deviceAddress = new StringBuilder();
 						for (int i = 0; i < address.MaxAddressLineIndex; i++)
 						{
 							deviceAddress.Append(address.GetAddressLine(i)).AppendLine(",");
@@ -113,16 +91,7 @@ namespace PeggyPiston.Droid
 				
 				} )).Start ();
 
-
-
-
-/*
-
-*/
-
-
 			}
-			//SetLocation();
 		}
 
 		public void OnStatusChanged(string provider, Availability status, global::Android.OS.Bundle extras)
