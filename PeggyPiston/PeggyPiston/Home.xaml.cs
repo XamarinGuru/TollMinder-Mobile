@@ -6,6 +6,7 @@ namespace PeggyPiston
 	public partial class Home : ContentPage
 	{
 		private IGeoLocation _locationProvider;
+		private string _currentLocation;
 
 		public Home ()
 		{
@@ -13,6 +14,7 @@ namespace PeggyPiston
 			InitializeComponent ();
 
 			_locationProvider = DependencyService.Get<IGeoLocation>();
+			_currentLocation = "";
 
 			MessagingCenter.Subscribe<IGeoLocation,string>(this, "TestingLocation", HandleLocationUpdate);
 
@@ -30,9 +32,12 @@ namespace PeggyPiston
 			//_locationProvider.Start();
 		}
 
-		private static void HandleLocationUpdate(IGeoLocation service, string newLocation)
+		public void HandleLocationUpdate(IGeoLocation service, string newLocation)
 		{
-			DependencyService.Get<ITextToSpeech>().Speak("your current address is " + newLocation);
+			if (_currentLocation != newLocation) {
+				DependencyService.Get<ITextToSpeech> ().Speak ("your current address is " + newLocation);
+				_currentLocation = newLocation;
+			}
 		}
 
 	}

@@ -68,12 +68,15 @@ public class MonoPackageManager {
 class MonoPackageManager_Resources {
 	public static final String[] Assemblies = new String[]{
 		"PeggyPiston.Droid.dll",
+		"Xamarin.Mobile.dll",
 		"Xamarin.Android.Support.v4.dll",
 		"Xamarin.Forms.Platform.Android.dll",
 		"FormsViewGroup.dll",
 		"Xamarin.Forms.Core.dll",
 		"Xamarin.Forms.Xaml.dll",
-		"Xamarin.Mobile.dll",
+		"Xamarin.Android.Support.v7.MediaRouter.dll",
+		"Xamarin.Android.Support.v7.AppCompat.dll",
+		"GooglePlayServicesLib.dll",
 		"PeggyPiston.dll",
 		"System.Collections.Concurrent.dll",
 		"System.Collections.dll",
@@ -124,5 +127,5 @@ class MonoPackageManager_Resources {
 	};
 	public static final String[] Dependencies = new String[]{
 	};
-	public static final String ApiPackageName = "Mono.Android.Platform.ApiLevel_15";
+	public static final String ApiPackageName = "Mono.Android.Platform.ApiLevel_16";
 }

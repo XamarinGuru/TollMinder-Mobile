@@ -15,6 +15,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using Android.Util;
+using Android.App;
+using Android.Gms.Common;
+
+
 
 
 [assembly: Dependency (typeof (GeoLocation_Android))]
@@ -44,6 +49,8 @@ namespace PeggyPiston.Droid
 			} else {
 				System.Diagnostics.Debug.WriteLine ("LocationManager.NetworkProvider not available - not requesting updates");
 			}
+
+			TestIfGooglePlayServicesIsInstalled();
 
 		}
 
@@ -92,6 +99,23 @@ namespace PeggyPiston.Droid
 				} )).Start ();
 
 			}
+		}
+
+		public void TestIfGooglePlayServicesIsInstalled()
+		{
+			int queryResult = GooglePlayServicesUtil.IsGooglePlayServicesAvailable(Forms.Context);
+			if (queryResult == ConnectionResult.Success)
+			{
+				Log.Info("SimpleMapDemo", "Google Play Services is installed on this device.");
+
+			}
+
+			if (GooglePlayServicesUtil.IsUserRecoverableError(queryResult))
+			{
+				string errorString = GooglePlayServicesUtil.GetErrorString(queryResult);
+				Log.Error("SimpleMapDemo", "There is a problem with Google Play Services on this device: {0} - {1}", queryResult, errorString);
+			}
+
 		}
 
 		public void OnStatusChanged(string provider, Availability status, global::Android.OS.Bundle extras)

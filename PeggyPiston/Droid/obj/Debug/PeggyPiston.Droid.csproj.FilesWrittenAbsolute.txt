@@ -20,3 +20,8 @@
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/Droid/bin/Debug/Xamarin.Mobile.dll
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/Droid/bin/Debug/PeggyPiston.dll
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/Droid/bin/Debug/PeggyPiston.dll.mdb
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/Droid/obj/Debug/MonoAndroid,Version=v5.0.AssemblyAttribute.cs
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/Droid/obj/Debug/MonoAndroid,Version=v4.1.AssemblyAttribute.cs
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/Droid/bin/Debug/Xamarin.Android.Support.v7.MediaRouter.dll
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/Droid/bin/Debug/Xamarin.Android.Support.v7.AppCompat.dll
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/Droid/bin/Debug/GooglePlayServicesLib.dll
