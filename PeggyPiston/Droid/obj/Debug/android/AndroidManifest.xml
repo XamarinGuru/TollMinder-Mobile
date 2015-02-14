@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="PeggyPiston.Droid">
-  <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="16" />
+  <uses-sdk android:minSdkVersion="16" />
   <application android:label="Peggy Piston" android:name="mono.android.app.Application" android:debuggable="true">
     <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
     <activity android:configChanges="orientation|screenSize" android:icon="@drawable/icon" android:label="PeggyPiston.Droid" android:name="peggypiston.droid.MainActivity" />

@@ -8,8 +8,7 @@ namespace PeggyPiston
 	{
 		public App ()
 		{
-			//MainPage = new MyPage();
-			MainPage = new Home();
+			MainPage = new MainScreen();
 		}
 
 		protected override void OnStart ()

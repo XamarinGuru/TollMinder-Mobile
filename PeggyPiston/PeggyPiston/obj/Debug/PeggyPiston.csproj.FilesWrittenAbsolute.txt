@@ -17,3 +17,5 @@
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/PeggyPiston/bin/Debug/System.Net.Requests.dll
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/PeggyPiston/bin/Debug/System.Net.NetworkInformation.dll
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/PeggyPiston/bin/Debug/System.Text.RegularExpressions.dll
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/PeggyPiston/obj/Debug/PeggyPiston.HomeOld.xaml
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/PeggyPiston/obj/Debug/HomeOld.xaml.g.cs

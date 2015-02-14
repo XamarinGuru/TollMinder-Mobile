@@ -74,8 +74,8 @@ class MonoPackageManager_Resources {
 		"FormsViewGroup.dll",
 		"Xamarin.Forms.Core.dll",
 		"Xamarin.Forms.Xaml.dll",
-		"Xamarin.Android.Support.v7.MediaRouter.dll",
 		"Xamarin.Android.Support.v7.AppCompat.dll",
+		"Xamarin.Android.Support.v7.MediaRouter.dll",
 		"GooglePlayServicesLib.dll",
 		"PeggyPiston.dll",
 		"System.Collections.Concurrent.dll",
@@ -127,5 +127,5 @@ class MonoPackageManager_Resources {
 	};
 	public static final String[] Dependencies = new String[]{
 	};
-	public static final String ApiPackageName = "Mono.Android.Platform.ApiLevel_16";
+	public static final String ApiPackageName = "Mono.Android.Platform.ApiLevel_21";
 }

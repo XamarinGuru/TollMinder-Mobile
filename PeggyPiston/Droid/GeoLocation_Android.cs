@@ -103,6 +103,7 @@ namespace PeggyPiston.Droid
 
 		public void TestIfGooglePlayServicesIsInstalled()
 		{
+
 			int queryResult = GooglePlayServicesUtil.IsGooglePlayServicesAvailable(Forms.Context);
 			if (queryResult == ConnectionResult.Success)
 			{
