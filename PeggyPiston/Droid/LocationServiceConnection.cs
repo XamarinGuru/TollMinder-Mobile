@@ -53,6 +53,3 @@ namespace PeggyPiston.Droid
 	}
 
 }
-
-}
-

@@ -1,35 +1,45 @@
-﻿/*
- * basically ripped from here:
- * http://developer.xamarin.com/guides/android/platform_features/maps_and_location/location/
- * 
- * and here:
- * https://github.com/raechten/TestGPS
- * 
-*/
-
-using Android.Locations;
-using Xamarin.Forms;
-using Android.Content;
+﻿using System;
 using PeggyPiston.Droid;
+using Xamarin.Forms;
+using System.Threading.Tasks;
+using Android.Util;
+using Android.Content;
+using Android.Locations;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
-using Android.Util;
-using Android.App;
-using Android.Gms.Common;
-
-
-
 
 [assembly: Dependency (typeof (GeoLocation_Android))]
 
 namespace PeggyPiston.Droid
 {
-	public class GeoLocation_Android : Java.Lang.Object, IGeoLocation, ILocationListener
+	public class GeoLocation_Android : IGeoLocation
 	{
-		LocationManager _locationManager;
-		Location _currentLocation { get; set; }
+		protected readonly string logTag = "GeoLocation_Android";
+
+		private Location _currentLocation;
+		protected LocationServiceConnection locationServiceConnection;
+
+		public LocationService LocationService
+		{
+			get {
+				if (locationServiceConnection.Binder == null) {
+					throw new Exception ("Service not bound yet");
+				}
+
+				// note that we use the ServiceConnection to get the Binder, and the Binder to get the Service here
+				return locationServiceConnection.Binder.Service;
+			}
+		}
+
+		#region IGeoLocation implementation
+
+		public void SetLocation ()
+		{
+			Log.Debug (logTag, "Calling SetLocation");
+		}
+
+		#endregion
 
 		public GeoLocation_Android()
 		{
@@ -38,32 +48,47 @@ namespace PeggyPiston.Droid
 
 		void InitializeLocationManager()
 		{
-			_locationManager = (LocationManager)Forms.Context.GetSystemService(Context.LocationService);
+			// starting a service like this is blocking, so we want to do it on a background thread
+			new Task ( () => { 
 
+				// start our main service
+				Log.Debug (logTag, "Calling StartService");
+				Android.App.Application.Context.StartService (new Intent (Android.App.Application.Context, typeof(LocationService)));
 
-			// doing it this way works.
-			if (_locationManager.AllProviders.Contains (LocationManager.NetworkProvider)
-				&& _locationManager.IsProviderEnabled (LocationManager.NetworkProvider)) {
-				_locationManager.RequestLocationUpdates (LocationManager.NetworkProvider, 2000, 1, this);
+				// create a new service connection so we can get a binder to the service
+				locationServiceConnection = new LocationServiceConnection (null);
 
-			} else {
-				System.Diagnostics.Debug.WriteLine ("LocationManager.NetworkProvider not available - not requesting updates");
-			}
+				// this event will fire when the Service connection in the OnServiceConnected call 
+				locationServiceConnection.ServiceConnected += (object sender, ServiceConnectedEventArgs e) => {
 
-			TestIfGooglePlayServicesIsInstalled();
+					Log.Debug (logTag, "Service Connected");
+					// we will use this event to notify the forms app when to start updating the UI
+					MessagingCenter.Send<IGeoLocation, string> (this, "LocationService", "Location service connected.");
+
+					LocationService.LocationChanged += HandleLocationChanged;
+
+				};
+
+				// bind our service (Android goes and finds the running service by type, and puts a reference
+				// on the binder to that service)
+				// The Intent tells the OS where to find our Service (the Context) and the Type of Service
+				// we're looking for (LocationService)
+				Intent locationServiceIntent = new Intent (Android.App.Application.Context, typeof(LocationService));
+				Log.Debug (logTag, "Calling service binding");
+
+				// Finally, we can bind to the Service using our Intent and the ServiceConnection we
+				// created in a previous step.
+				Android.App.Application.Context.BindService (locationServiceIntent, locationServiceConnection, Bind.AutoCreate);
+
+			} ).Start ();
 
 		}
 
-		//ILocationService methods
-		public void SetLocation()
+		public void HandleLocationChanged(object sender, LocationChangedEventArgs e)
 		{
-			System.Diagnostics.Debug.WriteLine ("calling setlocation -- we don't really ever do this.");
+			Android.Locations.Location location = e.Location;
+			Log.Debug (logTag, "Foreground updating");
 
-		}
-
-		// ILocationListener methods
-		public void OnLocationChanged(Location location)
-		{
 			_currentLocation = location;
 			if (_currentLocation == null)
 			{
@@ -74,67 +99,27 @@ namespace PeggyPiston.Droid
 			{
 				System.Diagnostics.Debug.WriteLine ("location was changed");
 
-				new Thread (new ThreadStart (() => {
-				
-					var geocoder = new Geocoder(Forms.Context);
-					IList<Address> addressList = geocoder.GetFromLocation(_currentLocation.Latitude, _currentLocation.Longitude, 10);
+				var geocoder = new Geocoder(Forms.Context);
+				IList<Address> addressList = geocoder.GetFromLocation(_currentLocation.Latitude, _currentLocation.Longitude, 10);
 
-					Address address = addressList.FirstOrDefault();
-					if (address != null)
+				Address address = addressList.FirstOrDefault();
+				if (address != null)
+				{
+					var deviceAddress = new StringBuilder();
+					for (int i = 0; i < address.MaxAddressLineIndex; i++)
 					{
-						var deviceAddress = new StringBuilder();
-						for (int i = 0; i < address.MaxAddressLineIndex; i++)
-						{
-							deviceAddress.Append(address.GetAddressLine(i)).AppendLine(",");
-						}
-
-						MessagingCenter.Send<IGeoLocation, string> (this, "TestingLocation", deviceAddress.ToString());
+						deviceAddress.Append(address.GetAddressLine(i)).AppendLine(",");
 					}
-					else
-					{
-						MessagingCenter.Send<IGeoLocation, string> (this, "TestingLocation", "Unable to determine the address.");
-					}				
-				
-				
-				} )).Start ();
+
+					MessagingCenter.Send<IGeoLocation, string> (this, "TestingLocation", deviceAddress.ToString());
+				}
+				else
+				{
+					MessagingCenter.Send<IGeoLocation, string> (this, "TestingLocation", "Unable to determine the address.");
+				}				
+
 
 			}
-		}
-
-		public void TestIfGooglePlayServicesIsInstalled()
-		{
-
-			int queryResult = GooglePlayServicesUtil.IsGooglePlayServicesAvailable(Forms.Context);
-			if (queryResult == ConnectionResult.Success)
-			{
-				Log.Info("SimpleMapDemo", "Google Play Services is installed on this device.");
-
-			}
-
-			if (GooglePlayServicesUtil.IsUserRecoverableError(queryResult))
-			{
-				string errorString = GooglePlayServicesUtil.GetErrorString(queryResult);
-				Log.Error("SimpleMapDemo", "There is a problem with Google Play Services on this device: {0} - {1}", queryResult, errorString);
-			}
-
-		}
-
-		public void OnStatusChanged(string provider, Availability status, global::Android.OS.Bundle extras)
-		{
-			//Not Implemented
-			System.Diagnostics.Debug.WriteLine ("status changed");
-		}
-
-		public void OnProviderDisabled(string provider)
-		{
-			//Not Implemented
-			System.Diagnostics.Debug.WriteLine ("provider disabled");
-		}
-
-		public void OnProviderEnabled(string provider)
-		{
-			//Not Implemented
-			System.Diagnostics.Debug.WriteLine ("provider enabled");
 		}
 	}
 }

@@ -9,6 +9,7 @@ using Android.Locations;
 using Android.Util;
 using Android.OS;
 using Android.Content;
+using Xamarin.Forms;
 
 
 namespace PeggyPiston.Droid
@@ -18,7 +19,6 @@ namespace PeggyPiston.Droid
 	{
 
 		private IGoogleApiClient _googleAPI;
-		private readonly Context _context;
 		public LocationRequest LocRequest
 		{
 			get;
@@ -33,17 +33,8 @@ namespace PeggyPiston.Droid
 		}
 
 
-		public void StartLocationUpdates (Context context) 
+		public void StartLocationUpdates () 
 		{        
-
-			if (context == null)
-			{
-				throw new ArgumentNullException("context");
-			}
-			else
-			{
-				_context = context;
-			}
 
 			/*
 			 * old Android.locations version
@@ -160,11 +151,11 @@ namespace PeggyPiston.Droid
 
 		private void initializeGoogleAPI()
 		{
-			int queryResult = GooglePlayServicesUtil.IsGooglePlayServicesAvailable(_context);
+			int queryResult = GooglePlayServicesUtil.IsGooglePlayServicesAvailable(Forms.Context);
 
 			if (queryResult == ConnectionResult.Success)
 			{
-				_googleAPI = new GoogleApiClientBuilder(_context).AddApi(LocationServices.Api).AddConnectionCallbacks(this).AddOnConnectionFailedListener(this).Build();
+				_googleAPI = new GoogleApiClientBuilder(Forms.Context).AddApi(LocationServices.Api).AddConnectionCallbacks(this).AddOnConnectionFailedListener(this).Build();
 			}
 			else
 			{

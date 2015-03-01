@@ -3,7 +3,13 @@
   <uses-sdk android:minSdkVersion="16" />
   <application android:label="Peggy Piston" android:name="mono.android.app.Application" android:debuggable="true">
     <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
-    <activity android:configChanges="orientation|screenSize" android:icon="@drawable/icon" android:label="PeggyPiston.Droid" android:name="peggypiston.droid.MainActivity" />
+    <activity android:configChanges="orientation|screenSize" android:icon="@drawable/icon" android:label="PeggyPiston.Droid" android:name="peggypiston.droid.MainActivity">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
+    <service android:name="peggypiston.droid.LocationService" />
     <activity android:name="xamarin.media.MediaPickerActivity" />
     <provider android:name="mono.MonoRuntimeProvider" android:exported="false" android:initOrder="2147483647" android:authorities="PeggyPiston.Droid.mono.MonoRuntimeProvider.__mono_init__" />
     <receiver android:name="mono.android.Seppuku">
@@ -12,12 +18,6 @@
         <category android:name="mono.android.intent.category.SEPPUKU.PeggyPiston.Droid" />
       </intent-filter>
     </receiver>
-    <activity android:configChanges="orientation|screenSize" android:icon="@drawable/icon" android:label="PeggyPiston.Droid" android:name="peggypiston.droid.TrialSplashScreen" android:theme="@style/Mono.Android.Theme.Splash" android:noHistory="true">
-      <intent-filter>
-        <action android:name="android.intent.action.MAIN" />
-        <category android:name="android.intent.category.LAUNCHER" />
-      </intent-filter>
-    </activity>
   </application>
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />

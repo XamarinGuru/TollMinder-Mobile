@@ -10,3 +10,16 @@
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/Droid/bin/Debug/Xamarin.Forms.Xaml.dll
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/Droid/bin/Debug/PeggyPiston.dll
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/Droid/bin/Debug/PeggyPiston.dll.mdb
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/Droid/bin/Debug/PeggyPiston.Droid.dll.mdb
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/Droid/bin/Debug/PeggyPiston.Droid.dll
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/Droid/bin/Debug/PeggyPiston.Droid.apk
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/Droid/obj/Debug/android/bin/PeggyPiston.Droid.apk
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/Droid/obj/Debug/res/drawable/icon.png
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/Droid/obj/Debug/res/drawable-hdpi/icon.png
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/Droid/obj/Debug/res/drawable-xhdpi/icon.png
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/Droid/obj/Debug/res/drawable-xxhdpi/icon.png
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/Droid/obj/Debug/R.cs.flag
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/Droid/bin/Debug/PeggyPiston.Droid-Signed.apk
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/Droid/obj/Debug/uploadflags.txt
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/Droid/obj/Debug/PeggyPiston.Droid.dll
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/Droid/obj/Debug/PeggyPiston.Droid.dll.mdb
