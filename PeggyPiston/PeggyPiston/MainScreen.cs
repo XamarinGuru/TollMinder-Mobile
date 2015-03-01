@@ -10,6 +10,8 @@ namespace PeggyPiston
 		private IGeoLocation _locationProvider;
 		private string _currentLocation;
 
+		int count = 1;
+
 		public MainScreen ()
 		{
 
@@ -19,32 +21,31 @@ namespace PeggyPiston
 			MessagingCenter.Subscribe<IGeoLocation,string>(this, "TestingLocation", HandleLocationUpdate);
 
 
-			Content = new TableView {
-				Intent = TableIntent.Form,
-				Root = new TableRoot ("Table Title") {
-					new TableSection ("Section 1 Title") {
-						new TextCell {
-							Text = "TextCell Text",
-							Detail = "TextCell Detail"
-						},
-						new EntryCell {
-							Label = "EntryCell:",
-							Placeholder = "default keyboard",
-							Keyboard = Keyboard.Default
-						}
-					},
-					new TableSection ("Section 2 Title") {
-						new EntryCell {
-							Label = "Another EntryCell:",
-							Placeholder = "phone keyboard",
-							Keyboard = Keyboard.Telephone
-						},
-						new SwitchCell {
-							Text = "SwitchCell:"
-						}
-					}
-				}
+			var layout = new StackLayout
+			{
+				Orientation = StackOrientation.Vertical,
+				Padding = 20
 			};
+
+			var grid = new Grid
+			{
+				RowSpacing = 50
+			};
+
+			grid.Children.Add(new Label { Text = "This" }, 0, 0); // Left, First element
+			grid.Children.Add(new Label { Text = "text is" }, 1, 0); // Right, First element
+			grid.Children.Add(new Label { Text = "in a" }, 0, 1); // Left, Second element
+			grid.Children.Add(new Label { Text = "grid!" }, 1, 1); // Right, Second element
+
+			var gridButton = new Button { Text = "So is this Button! Click me." };
+			gridButton.Clicked += delegate
+			{
+				gridButton.Text = string.Format("Thanks! {0} clicks.", count++);
+			};
+			grid.Children.Add(gridButton, 0, 2); // Left, Third element
+
+			layout.Children.Add(grid);
+			Content = layout;
 
 		}
 

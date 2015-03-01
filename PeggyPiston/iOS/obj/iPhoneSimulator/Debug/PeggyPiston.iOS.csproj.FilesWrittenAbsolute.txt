@@ -24,9 +24,9 @@
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/iOS/bin/iPhoneSimulator/Debug/PeggyPiston.iOS.exe
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/iOS/obj/iPhoneSimulator/Debug/PeggyPiston.iOS.exe
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/iOS/obj/iPhoneSimulator/Debug/PeggyPiston.iOS.exe.mdb
+/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/iOS/bin/iPhoneSimulator/Debug/Xamarin.Mobile.dll
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/iOS/bin/iPhoneSimulator/Debug/Xamarin.Forms.Platform.iOS.dll
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/iOS/bin/iPhoneSimulator/Debug/Xamarin.Forms.Core.dll
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/iOS/bin/iPhoneSimulator/Debug/Xamarin.Forms.Xaml.dll
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/iOS/bin/iPhoneSimulator/Debug/PeggyPiston.dll
 /Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/iOS/bin/iPhoneSimulator/Debug/PeggyPiston.dll.mdb
-/Users/chris/GoogleDrive/MyFiles/Documents/TollMinder/PeggyPiston/iOS/bin/iPhoneSimulator/Debug/Xamarin.Mobile.dll
