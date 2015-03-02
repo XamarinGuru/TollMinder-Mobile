@@ -52,8 +52,10 @@ namespace PeggyPiston.Droid
 			LocRequest.SetFastestInterval(500);
 			LocRequest.SetInterval(1000);
 
-			initializeGoogleAPI();
+			Log.Debug("LocationService", "StartLocationUpdates successful");
 
+			initializeGoogleAPI();
+			connectGoogleAPI();
 		}
 
 
@@ -94,7 +96,7 @@ namespace PeggyPiston.Droid
 
 		public void OnConnected(Bundle connectionHint)
 		{
-			Log.Debug("LocationService", "logged connected", connectionHint);
+			Log.Debug("LocationService", "logged OnConnected", connectionHint);
 			if (LocRequest == null)
 			{
 				throw new Exception("Unknown location request. Set this first by using property LocRequest or constructor.");
@@ -119,12 +121,7 @@ namespace PeggyPiston.Droid
 		public void OnLocationChanged (Location location)
 		{
 			LocationChanged (this, new LocationChangedEventArgs (location));
-			Log.Debug ("LocationService", String.Format ("Latitude is {0}", location.Latitude));
-			Log.Debug ("LocationService", String.Format ("Longitude is {0}", location.Longitude));
-			Log.Debug ("LocationService", String.Format ("Altitude is {0}", location.Altitude));
-			Log.Debug ("LocationService", String.Format ("Speed is {0}", location.Speed));
-			Log.Debug ("LocationService", String.Format ("Accuracy is {0}", location.Accuracy));
-			Log.Debug ("LocationService", String.Format ("Bearing is {0}", location.Bearing));
+			Log.Debug("LocationService", "logged OnLocationChanged");
 		}
 
 		public event EventHandler<LocationChangedEventArgs> ProviderEnabled = delegate { };
@@ -156,6 +153,7 @@ namespace PeggyPiston.Droid
 			if (queryResult == ConnectionResult.Success)
 			{
 				_googleAPI = new GoogleApiClientBuilder(Forms.Context).AddApi(LocationServices.Api).AddConnectionCallbacks(this).AddOnConnectionFailedListener(this).Build();
+				Log.Debug("LocationService", "google api client constructed.");
 			}
 			else
 			{

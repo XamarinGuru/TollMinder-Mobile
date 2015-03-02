@@ -18,7 +18,8 @@ namespace PeggyPiston
 			_locationProvider = DependencyService.Get<IGeoLocation>();
 			_currentLocation = "";
 
-			MessagingCenter.Subscribe<IGeoLocation,string>(this, "TestingLocation", HandleLocationUpdate);
+			MessagingCenter.Subscribe<IGeoLocation,string>(this, "LocationService", HandleLocationUpdate);
+			MessagingCenter.Subscribe<IGeoLocation,string>(this, "Debug", HandleDebugVoice);
 
 
 			var layout = new StackLayout
@@ -55,6 +56,11 @@ namespace PeggyPiston
 				DependencyService.Get<ITextToSpeech> ().Speak ("your current address is " + newLocation);
 				_currentLocation = newLocation;
 			}
+		}
+
+		public void HandleDebugVoice(IGeoLocation service, string debugText)
+		{
+			DependencyService.Get<ITextToSpeech> ().Speak (debugText);
 		}
 
 	}

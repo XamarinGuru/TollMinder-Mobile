@@ -19,13 +19,13 @@ namespace PeggyPiston
 		protected override void OnSleep ()
 		{
 			// Handle when your app sleeps
-			DependencyService.Get<ITextToSpeech> ().Speak ("Peggy Piston has gone to sleep.");
+			MessagingCenter.Send<App, string> (this, "Debug", "Peggy Piston has gone to sleep.");
 		}
 
 		protected override void OnResume ()
 		{
 			// Handle when your app resumes
-			DependencyService.Get<ITextToSpeech> ().Speak ("Peggy Piston has woken up!");
+			MessagingCenter.Send<App, string> (this, "Debug", "Peggy Piston has woken up.");
 		}
 	}
 }

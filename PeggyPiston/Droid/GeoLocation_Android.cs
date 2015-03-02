@@ -63,7 +63,7 @@ namespace PeggyPiston.Droid
 
 					Log.Debug (logTag, "Service Connected");
 					// we will use this event to notify the forms app when to start updating the UI
-					MessagingCenter.Send<IGeoLocation, string> (this, "LocationService", "Location service connected.");
+					MessagingCenter.Send<IGeoLocation, string> (this, "Debug", "Location service task successful.");
 
 					LocationService.LocationChanged += HandleLocationChanged;
 
@@ -99,6 +99,13 @@ namespace PeggyPiston.Droid
 			{
 				System.Diagnostics.Debug.WriteLine ("location was changed");
 
+				Log.Debug ("LocationService", String.Format ("Latitude is {0}", _currentLocation.Latitude));
+				Log.Debug ("LocationService", String.Format ("Longitude is {0}", _currentLocation.Longitude));
+				Log.Debug ("LocationService", String.Format ("Altitude is {0}", _currentLocation.Altitude));
+				Log.Debug ("LocationService", String.Format ("Speed is {0}", _currentLocation.Speed));
+				Log.Debug ("LocationService", String.Format ("Accuracy is {0}", _currentLocation.Accuracy));
+				Log.Debug ("LocationService", String.Format ("Bearing is {0}", _currentLocation.Bearing));
+
 				var geocoder = new Geocoder(Forms.Context);
 				IList<Address> addressList = geocoder.GetFromLocation(_currentLocation.Latitude, _currentLocation.Longitude, 10);
 
@@ -111,11 +118,11 @@ namespace PeggyPiston.Droid
 						deviceAddress.Append(address.GetAddressLine(i)).AppendLine(",");
 					}
 
-					MessagingCenter.Send<IGeoLocation, string> (this, "TestingLocation", deviceAddress.ToString());
+					MessagingCenter.Send<IGeoLocation, string> (this, "LocationService", deviceAddress.ToString());
 				}
 				else
 				{
-					MessagingCenter.Send<IGeoLocation, string> (this, "TestingLocation", "Unable to determine the address.");
+					MessagingCenter.Send<IGeoLocation, string> (this, "LocationService", "Unable to determine the address.");
 				}				
 
 
