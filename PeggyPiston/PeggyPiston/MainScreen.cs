@@ -1,5 +1,4 @@
 ﻿using System;
-
 using Xamarin.Forms;
 
 namespace PeggyPiston
@@ -18,8 +17,9 @@ namespace PeggyPiston
 			_locationProvider = DependencyService.Get<IGeoLocation>();
 			_currentLocation = "";
 
-			MessagingCenter.Subscribe<IGeoLocation,string>(this, "LocationService", HandleLocationUpdate);
-			MessagingCenter.Subscribe<IGeoLocation,string>(this, "Debug", HandleDebugVoice);
+			MessagingCenter.Subscribe<IGeoLocation,string>(this, PeggyConstants.channelLocationService, HandleLocationUpdate);
+			MessagingCenter.Subscribe<IGeoLocation,string>(this, PeggyConstants.channelDebug, HandleDebugVoice);
+			MessagingCenter.Subscribe<IGeoLocation,string>(this, PeggyConstants.channelLocationUnavailable, HandleLocationUnavailable);
 
 
 			var layout = new StackLayout
@@ -61,6 +61,11 @@ namespace PeggyPiston
 		public void HandleDebugVoice(IGeoLocation service, string debugText)
 		{
 			DependencyService.Get<ITextToSpeech> ().Speak (debugText);
+		}
+
+		public void HandleLocationUnavailable(IGeoLocation service, string debugText)
+		{
+			PeggyUtils.DebugLog(debugText, PeggyConstants.channelLocationUnavailable);
 		}
 
 	}

@@ -10,6 +10,8 @@ namespace PeggyPiston.Droid
 {
 	public class TextToSpeech_Android : Java.Lang.Object, ITextToSpeech, TextToSpeech.IOnInitListener
 	{
+		protected readonly string logChannel = "TextToSpeech_Android";
+
 		TextToSpeech speaker; string toSpeak;
 		public TextToSpeech_Android () {}
 
@@ -22,7 +24,7 @@ namespace PeggyPiston.Droid
 			} else {
 				var p = new Dictionary<string,string> ();
 				speaker.Speak (toSpeak, QueueMode.Flush, p);
-				System.Diagnostics.Debug.WriteLine ("spoke " + toSpeak);
+				PeggyUtils.DebugLog("spoke " + toSpeak, logChannel);
 			}
 		}
 
@@ -30,11 +32,11 @@ namespace PeggyPiston.Droid
 		public void OnInit (OperationResult status)
 		{
 			if (status.Equals (OperationResult.Success)) {
-				System.Diagnostics.Debug.WriteLine ("speaker init");
+				PeggyUtils.DebugLog("speaker init", logChannel);
 				var p = new Dictionary<string,string> ();
 				speaker.Speak (toSpeak, QueueMode.Flush, p);
 			} else {
-				System.Diagnostics.Debug.WriteLine ("was quiet");
+				PeggyUtils.DebugLog("was quiet", logChannel);
 			}
 		}
 		#endregion

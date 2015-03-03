@@ -15,7 +15,7 @@ namespace PeggyPiston.Droid
 {
 	public class GeoLocation_Android : IGeoLocation
 	{
-		protected readonly string logTag = "GeoLocation_Android";
+		protected readonly string logChannel = "GeoLocation_Android";
 
 		private Location _currentLocation;
 		protected LocationServiceConnection locationServiceConnection;
@@ -36,7 +36,7 @@ namespace PeggyPiston.Droid
 
 		public void SetLocation ()
 		{
-			Log.Debug (logTag, "Calling SetLocation");
+			PeggyUtils.DebugLog("Calling SetLocation", logChannel);
 		}
 
 		#endregion
@@ -52,7 +52,7 @@ namespace PeggyPiston.Droid
 			new Task ( () => { 
 
 				// start our main service
-				Log.Debug (logTag, "Calling StartService");
+				PeggyUtils.DebugLog("Calling StartService", logChannel);
 				Android.App.Application.Context.StartService (new Intent (Android.App.Application.Context, typeof(LocationService)));
 
 				// create a new service connection so we can get a binder to the service
@@ -61,9 +61,9 @@ namespace PeggyPiston.Droid
 				// this event will fire when the Service connection in the OnServiceConnected call 
 				locationServiceConnection.ServiceConnected += (object sender, ServiceConnectedEventArgs e) => {
 
-					Log.Debug (logTag, "Service Connected");
+					PeggyUtils.DebugLog("Service Connected", logChannel);
 					// we will use this event to notify the forms app when to start updating the UI
-					MessagingCenter.Send<IGeoLocation, string> (this, "Debug", "Location service task successful.");
+					MessagingCenter.Send<IGeoLocation, string> (this, PeggyConstants.channelDebug, "Location service task successful.");
 
 					LocationService.LocationChanged += HandleLocationChanged;
 
@@ -74,7 +74,7 @@ namespace PeggyPiston.Droid
 				// The Intent tells the OS where to find our Service (the Context) and the Type of Service
 				// we're looking for (LocationService)
 				Intent locationServiceIntent = new Intent (Android.App.Application.Context, typeof(LocationService));
-				Log.Debug (logTag, "Calling service binding");
+				PeggyUtils.DebugLog("Calling service binding", logChannel);
 
 				// Finally, we can bind to the Service using our Intent and the ServiceConnection we
 				// created in a previous step.
@@ -87,24 +87,24 @@ namespace PeggyPiston.Droid
 		public void HandleLocationChanged(object sender, LocationChangedEventArgs e)
 		{
 			Android.Locations.Location location = e.Location;
-			Log.Debug (logTag, "Foreground updating");
+			PeggyUtils.DebugLog("Foreground updating", logChannel);
 
 			_currentLocation = location;
 			if (_currentLocation == null)
 			{
-				System.Diagnostics.Debug.WriteLine ("location could not be determined");
-				MessagingCenter.Send<IGeoLocation, string> (this, "LocationUnavailable", "Unable to determine your location.");
+				PeggyUtils.DebugLog("location could not be determined", logChannel);
+				MessagingCenter.Send<IGeoLocation, string> (this, PeggyConstants.channelLocationUnavailable, "Unable to determine your location.");
 			}
 			else
 			{
-				System.Diagnostics.Debug.WriteLine ("location was changed");
+				PeggyUtils.DebugLog("location was changed", logChannel);
 
-				Log.Debug ("LocationService", String.Format ("Latitude is {0}", _currentLocation.Latitude));
-				Log.Debug ("LocationService", String.Format ("Longitude is {0}", _currentLocation.Longitude));
-				Log.Debug ("LocationService", String.Format ("Altitude is {0}", _currentLocation.Altitude));
-				Log.Debug ("LocationService", String.Format ("Speed is {0}", _currentLocation.Speed));
-				Log.Debug ("LocationService", String.Format ("Accuracy is {0}", _currentLocation.Accuracy));
-				Log.Debug ("LocationService", String.Format ("Bearing is {0}", _currentLocation.Bearing));
+				PeggyUtils.DebugLog (String.Format ("Latitude is {0}", _currentLocation.Latitude), logChannel);
+				PeggyUtils.DebugLog (String.Format ("Longitude is {0}", _currentLocation.Longitude), logChannel);
+				PeggyUtils.DebugLog (String.Format ("Altitude is {0}", _currentLocation.Altitude), logChannel);
+				PeggyUtils.DebugLog (String.Format ("Speed is {0}", _currentLocation.Speed), logChannel);
+				PeggyUtils.DebugLog (String.Format ("Accuracy is {0}", _currentLocation.Accuracy), logChannel);
+				PeggyUtils.DebugLog (String.Format ("Bearing is {0}", _currentLocation.Bearing), logChannel);
 
 				var geocoder = new Geocoder(Forms.Context);
 				IList<Address> addressList = geocoder.GetFromLocation(_currentLocation.Latitude, _currentLocation.Longitude, 10);
@@ -118,11 +118,11 @@ namespace PeggyPiston.Droid
 						deviceAddress.Append(address.GetAddressLine(i)).AppendLine(",");
 					}
 
-					MessagingCenter.Send<IGeoLocation, string> (this, "LocationService", deviceAddress.ToString());
+					MessagingCenter.Send<IGeoLocation, string> (this, PeggyConstants.channelLocationService, deviceAddress.ToString());
 				}
 				else
 				{
-					MessagingCenter.Send<IGeoLocation, string> (this, "LocationService", "Unable to determine the address.");
+					MessagingCenter.Send<IGeoLocation, string> (this, PeggyConstants.channelLocationService, "Unable to determine the address.");
 				}				
 
 

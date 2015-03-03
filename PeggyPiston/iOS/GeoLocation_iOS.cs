@@ -10,6 +10,8 @@ namespace PeggyPiston.iOS
 	public class GeoLocation_iOS : IGeoLocation
 	{
 
+		protected readonly string logChannel = "GeoLocation_iOS";
+
 		CLLocationManager iPhoneLocationManager = null;
 
 
@@ -85,8 +87,8 @@ namespace PeggyPiston.iOS
 			*/
 
 			string locationSummary = newLocation.Coordinate.Longitude.ToString () + ", " + newLocation.Coordinate.Latitude.ToString ();
-			System.Diagnostics.Debug.WriteLine ("ios location updated: " + locationSummary);
-			MessagingCenter.Send<IGeoLocation, string> (this, "TestingLocation", locationSummary);
+			PeggyUtils.DebugLog("ios location updated: " + locationSummary, logChannel);
+			MessagingCenter.Send<IGeoLocation, string> (this, PeggyConstants.channelLocationService, locationSummary);
 		}
 
 

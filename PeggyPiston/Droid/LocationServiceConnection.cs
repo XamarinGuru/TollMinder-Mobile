@@ -8,6 +8,7 @@ namespace PeggyPiston.Droid
 {
 	public class LocationServiceConnection : Java.Lang.Object, IServiceConnection
 	{
+		protected readonly string logChannel = "LocationServiceConnection";
 		public event EventHandler<ServiceConnectedEventArgs> ServiceConnected = delegate {};
 
 		public LocationServiceBinder Binder
@@ -34,7 +35,7 @@ namespace PeggyPiston.Droid
 			if (serviceBinder != null) {
 				this.binder = serviceBinder;
 				this.binder.IsBound = true;
-				Log.Debug ( "ServiceConnection", "OnServiceConnected Called" );
+				PeggyUtils.DebugLog("OnServiceConnected Called", logChannel);
 
 				// raise the service connected event
 				this.ServiceConnected(this, new ServiceConnectedEventArgs () { Binder = service } );
@@ -48,7 +49,7 @@ namespace PeggyPiston.Droid
 		public void OnServiceDisconnected (ComponentName name)
 		{
 			this.binder.IsBound = false;
-			Log.Debug ( "ServiceConnection", "Service unbound" );
+			PeggyUtils.DebugLog("Service unbound", logChannel);
 		}
 	}
 
