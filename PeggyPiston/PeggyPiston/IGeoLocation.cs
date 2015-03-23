@@ -4,7 +4,11 @@ namespace PeggyPiston
 {
 	public interface IGeoLocation
 	{
-		void SetLocation();
+		double GetCurrentLongitude();
+		double GetCurrentLattitude();
+		double GetCurrentSpeed();
+		double GetCurrentBearing();
+		double GetCurrentAccuracy();
 	}
 }
 

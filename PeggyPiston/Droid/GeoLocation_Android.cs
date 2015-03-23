@@ -33,13 +33,32 @@ namespace PeggyPiston.Droid
 		}
 
 		#region IGeoLocation implementation
-
-		public void SetLocation ()
+		public double GetCurrentLongitude()
 		{
-			PeggyUtils.DebugLog("Calling SetLocation", logChannel);
+			return _currentLocation.Longitude;
 		}
 
+		public double GetCurrentLattitude ()
+		{
+			return _currentLocation.Latitude;
+		}
+
+		public double GetCurrentSpeed ()
+		{
+			return _currentLocation.Speed;
+		}
+
+		public double GetCurrentBearing ()
+		{
+			return _currentLocation.Bearing;
+		}
+
+		public double GetCurrentAccuracy ()
+		{
+			return _currentLocation.Accuracy;
+		}
 		#endregion
+
 
 		public GeoLocation_Android()
 		{
@@ -66,6 +85,9 @@ namespace PeggyPiston.Droid
 					MessagingCenter.Send<IGeoLocation, string> (this, PeggyConstants.channelDebug, "Location service task successful.");
 
 					LocationService.LocationChanged += HandleLocationChanged;
+					LocationService.ProviderEnabled += HandleProviderEnabled;
+					LocationService.ProviderDisabled += HandleProviderDisabled;
+					LocationService.StatusChanged += HandleStatusChanged;
 
 				};
 
@@ -93,7 +115,7 @@ namespace PeggyPiston.Droid
 			if (_currentLocation == null)
 			{
 				PeggyUtils.DebugLog("location could not be determined", logChannel);
-				MessagingCenter.Send<IGeoLocation, string> (this, PeggyConstants.channelLocationUnavailable, "Unable to determine your location.");
+				MessagingCenter.Send<IGeoLocation, string> (this, PeggyConstants.channelLocationUnavailable, "We are unable to determine your location. We'll try again shortly.");
 			}
 			else
 			{
@@ -104,8 +126,11 @@ namespace PeggyPiston.Droid
 				PeggyUtils.DebugLog (String.Format ("Altitude is {0}", _currentLocation.Altitude), logChannel);
 				PeggyUtils.DebugLog (String.Format ("Speed is {0}", _currentLocation.Speed), logChannel);
 				PeggyUtils.DebugLog (String.Format ("Accuracy is {0}", _currentLocation.Accuracy), logChannel);
-				PeggyUtils.DebugLog (String.Format ("Bearing is {0}", _currentLocation.Bearing), logChannel);
+				PeggyUtils.DebugLog (String.Format ("Bearing is {0}", _currentLocation.Bearing), logChannel); // also in degrees.  0 is north.
 
+				MessagingCenter.Send<IGeoLocation, double> (this, PeggyConstants.channelLocationAccuracyReady, _currentLocation.Accuracy);
+
+/*
 				var geocoder = new Geocoder(Forms.Context);
 				IList<Address> addressList = geocoder.GetFromLocation(_currentLocation.Latitude, _currentLocation.Longitude, 10);
 
@@ -124,10 +149,24 @@ namespace PeggyPiston.Droid
 				{
 					MessagingCenter.Send<IGeoLocation, string> (this, PeggyConstants.channelLocationService, "Unable to determine the address.");
 				}				
-
+*/
 
 			}
+
 		}
+
+		public void HandleProviderEnabled(object sender, LocationChangedEventArgs e) {
+			PeggyUtils.DebugLog("HandleProviderEnabled", logChannel);
+		}
+
+		public void HandleProviderDisabled(object sender, LocationChangedEventArgs e) {
+			PeggyUtils.DebugLog("HandleProviderDisabled", logChannel);
+		}
+
+		public void HandleStatusChanged(object sender, LocationChangedEventArgs e) {
+			PeggyUtils.DebugLog("HandleStatusChanged", logChannel);
+		}
+
 	}
 }
 

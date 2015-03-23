@@ -20,6 +20,35 @@ namespace PeggyPiston.iOS
 			InitializeLocationManager();
 		}
 
+		#region IGeoLocation implementation
+
+		public double GetCurrentLongitude ()
+		{
+			throw new System.NotImplementedException ();
+		}
+
+		public double GetCurrentLattitude ()
+		{
+			throw new System.NotImplementedException ();
+		}
+
+		public double GetCurrentSpeed ()
+		{
+			throw new System.NotImplementedException ();
+		}
+
+		public double GetCurrentBearing ()
+		{
+			throw new System.NotImplementedException ();
+		}
+
+		public double GetCurrentAccuracy ()
+		{
+			throw new System.NotImplementedException ();
+		}
+
+		#endregion
+
 		private void InitializeLocationManager() {
 			// initialize our location manager and callback handler
 			iPhoneLocationManager = new CLLocationManager ();
@@ -79,11 +108,18 @@ namespace PeggyPiston.iOS
 			ms.LblAltitude.Text = newLocation.Altitude.ToString () + " meters";
 			ms.LblLongitude.Text = newLocation.Coordinate.Longitude.ToString () + "º";
 			ms.LblLatitude.Text = newLocation.Coordinate.Latitude.ToString () + "º";
-			ms.LblCourse.Text = newLocation.Course.ToString () + "º";
+			ms.LblCourse.Text = newLocation.Course.ToString () + "º"; // in degrees.  0 is north.
 			ms.LblSpeed.Text = newLocation.Speed.ToString () + " meters/s";
 
 			// get the distance from here to paris
 			ms.LblDistanceToParis.Text = (newLocation.DistanceFrom(new CLLocation(48.857, 2.351)) / 1000).ToString() + " km";
+
+
+			// just average the accuracy numbers.
+			// newLocation.horizontalAccuracy -- in meters
+			// newLocation.verticalAccuracy -- in meters
+
+
 			*/
 
 			string locationSummary = newLocation.Coordinate.Longitude.ToString () + ", " + newLocation.Coordinate.Latitude.ToString ();

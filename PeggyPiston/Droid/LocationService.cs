@@ -17,6 +17,7 @@ namespace PeggyPiston.Droid
 	[Service]
 	public class LocationService : Service, IGoogleApiClientConnectionCallbacks, IGoogleApiClientOnConnectionFailedListener, Android.Gms.Location.ILocationListener
 	{
+		protected readonly string logChannel = "LocationService";
 
 		private IGoogleApiClient _googleAPI;
 		public LocationRequest LocRequest
@@ -35,24 +36,12 @@ namespace PeggyPiston.Droid
 
 		public void StartLocationUpdates () 
 		{        
-
-			/*
-			 * old Android.locations version
-			 * 
-			var locationCriteria = new Criteria();                    
-			locationCriteria.Accuracy = Accuracy.NoRequirement;        
-			locationCriteria.PowerRequirement = Power.NoRequirement;                    
-			var locationProvider = LocMgr.GetBestProvider(locationCriteria, true);
-			LocMgr.RequestLocationUpdates(locationProvider, 2000, 0, this);
-			*/
-
-
 			LocRequest = new LocationRequest();
 			LocRequest.SetPriority(100);
 			LocRequest.SetFastestInterval(500);
 			LocRequest.SetInterval(1000);
 
-			Log.Debug("LocationService", "StartLocationUpdates successful");
+			PeggyUtils.DebugLog("StartLocationUpdates successful", logChannel);
 
 			initializeGoogleAPI();
 			connectGoogleAPI();
@@ -96,7 +85,8 @@ namespace PeggyPiston.Droid
 
 		public void OnConnected(Bundle connectionHint)
 		{
-			Log.Debug("LocationService", "logged OnConnected", connectionHint);
+			PeggyUtils.DebugLog("logged OnConnected", logChannel);
+
 			if (LocRequest == null)
 			{
 				throw new Exception("Unknown location request. Set this first by using property LocRequest or constructor.");
@@ -107,42 +97,40 @@ namespace PeggyPiston.Droid
 
 		public void OnConnectionSuspended(int cause)
 		{
-			Log.Debug("LocationService", "logged OnConnectionSuspended", cause);
-
+			PeggyUtils.DebugLog("logged OnConnectionSuspended", logChannel);
 		}
 
 		public void OnConnectionFailed(ConnectionResult result)
 		{
-			Log.Debug("LocationService", "logged OnConnectionFailed", result);
-
+			PeggyUtils.DebugLog("logged OnConnectionFailed", logChannel);
 		}
 
 		public event EventHandler<LocationChangedEventArgs> LocationChanged = delegate { };
 		public void OnLocationChanged (Location location)
 		{
 			LocationChanged (this, new LocationChangedEventArgs (location));
-			Log.Debug("LocationService", "logged OnLocationChanged");
+			PeggyUtils.DebugLog("logged OnLocationChanged", logChannel);
 		}
 
 		public event EventHandler<LocationChangedEventArgs> ProviderEnabled = delegate { };
 		public void OnProviderEnabled (Location location)
 		{
 			ProviderEnabled (this, new LocationChangedEventArgs (location));
-			Log.Debug("LocationService", "logged OnProviderEnabled");
+			PeggyUtils.DebugLog("logged OnProviderEnabled", logChannel);
 		}
 
 		public event EventHandler<LocationChangedEventArgs> ProviderDisabled = delegate { };
 		public void OnProviderDisabled (Location location)
 		{
 			ProviderDisabled (this, new LocationChangedEventArgs (location));
-			Log.Debug("LocationService", "logged OnProviderDisabled");
+			PeggyUtils.DebugLog("logged OnProviderDisabled", logChannel);
 		}
 
 		public event EventHandler<LocationChangedEventArgs> StatusChanged = delegate { };
 		public void OnStatusChanged (Location location)
 		{
 			StatusChanged (this, new LocationChangedEventArgs (location));
-			Log.Debug("LocationService", "logged OnStatusChanged");
+			PeggyUtils.DebugLog("logged OnStatusChanged", logChannel);
 		}
 
 
@@ -153,12 +141,12 @@ namespace PeggyPiston.Droid
 			if (queryResult == ConnectionResult.Success)
 			{
 				_googleAPI = new GoogleApiClientBuilder(Forms.Context).AddApi(LocationServices.Api).AddConnectionCallbacks(this).AddOnConnectionFailedListener(this).Build();
-				Log.Debug("LocationService", "google api client constructed.");
+				PeggyUtils.DebugLog("google api client constructed", logChannel);
 			}
 			else
 			{
 				var errorString = String.Format("There is a problem with Google Play Services on this device: {0} - {1}", queryResult, GooglePlayServicesUtil.GetErrorString(queryResult));
-				Log.Error("LocationService", errorString);
+				PeggyUtils.DebugLog(errorString, logChannel);
 				throw new Exception(errorString);
 			}
 		}
@@ -167,94 +155,3 @@ namespace PeggyPiston.Droid
 	}
 
 }
-
-/*
-using System;
-using Android.App;
-using Android.OS;
-using Android.Content;
-
-
-using Android.Gms.Common;
-using Android.Gms.Common.Apis
-using Android.Gms.Location;
-
-namespace PeggyPiston.Droid
-{
-	[Service]
-	public class LocationService : Service, IGooglePlayServicesClientConnectionCallbacks, IGooglePlayServicesClientOnConnectionFailedListener
-	{
-
-		private LocationClient locClient = new LocationClient (this, this, this);
-
-
-		IBinder binder;
-		public override IBinder OnBind (Intent intent)
-		{
-			binder = new LocationServiceBinder (this);
-			return binder;
-		}
-
-		public override StartCommandResult OnStartCommand (Intent intent, StartCommandFlags flags, int startId)
-		{
-			return StartCommandResult.Sticky;
-		}
-
-		public void StartLocationUpdates () 
-		{        
-
-			/*
-			 * old Android.locations version
-			 * 
-			var locationCriteria = new Criteria();                    
-			locationCriteria.Accuracy = Accuracy.NoRequirement;        
-			locationCriteria.PowerRequirement = Power.NoRequirement;                    
-			var locationProvider = LocMgr.GetBestProvider(locationCriteria, true);
-			LocMgr.RequestLocationUpdates(locationProvider, 2000, 0, this);
-			*/
-/*
-
-			mGoogleApiClient = new GoogleApiClient.Builder(this)
-				.addApi(LocationServices.API)
-				.addConnectionCallbacks(this)
-				.addOnConnectionFailedListener(this)
-				.build();
-
-
-			Android.Gms.Location.LocationRequest locRequest = new Android.Gms.Location.LocationRequest ();
-
-			locRequest.SetPriority(100);
-			locRequest.SetFastestInterval(500);
-			locRequest.SetInterval(1000);
-
-
-			locMgr.RequestLocationUpdates(locRequest);
-
-
-		}
-
-
-		public void OnLocationChanged (Location location)
-		{
-			System.Diagnostics.Debug.WriteLine ("Latitude: " + location.Latitude.ToString());
-			System.Diagnostics.Debug.WriteLine ("Longitude: " + location.Longitude.ToString());
-		}
-
-
-		public void OnConnected (Bundle p0)
-		{
-			throw new NotImplementedException ();
-		}
-		public void OnDisconnected ()
-		{
-			throw new NotImplementedException ();
-		}
-
-		public void OnConnectionFailed (ConnectionResult result)
-		{
-			throw new NotImplementedException ();
-		}
-	}
-}
-
-*/

@@ -1,4 +1,5 @@
 ﻿using System;
+using Xamarin.Forms;
 
 namespace PeggyPiston
 {
@@ -8,7 +9,13 @@ namespace PeggyPiston
 			if (channel == null) {
 				channel = "Default";
 			}
-			System.Diagnostics.Debug.WriteLine (string.Format("--> [{0}] {1}", channel, debugText));
+
+			if (channel == PeggyConstants.channelVoice) {
+				DependencyService.Get<ITextToSpeech> ().Speak (debugText);
+
+			} else {
+				System.Diagnostics.Debug.WriteLine (string.Format ("--> [{0}] {1}", channel, debugText));
+			}
 		}
 	}
 }

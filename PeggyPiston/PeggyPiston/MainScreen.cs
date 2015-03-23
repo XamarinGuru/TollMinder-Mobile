@@ -6,8 +6,10 @@ namespace PeggyPiston
 	public class MainScreen : ContentPage
 	{
 
+		protected readonly string logChannel = "MainScreen";
 		private IGeoLocation _locationProvider;
 		private string _currentLocation;
+		private double _currentAccuracy;
 
 		int count = 1;
 
@@ -15,11 +17,14 @@ namespace PeggyPiston
 		{
 
 			_locationProvider = DependencyService.Get<IGeoLocation>();
+
+			_currentAccuracy = 100000;
 			_currentLocation = "";
 
+			MessagingCenter.Subscribe<IGeoLocation,double>(this, PeggyConstants.channelLocationAccuracyReady, HandleLocationReady);
 			MessagingCenter.Subscribe<IGeoLocation,string>(this, PeggyConstants.channelLocationService, HandleLocationUpdate);
-			MessagingCenter.Subscribe<IGeoLocation,string>(this, PeggyConstants.channelDebug, HandleDebugVoice);
 			MessagingCenter.Subscribe<IGeoLocation,string>(this, PeggyConstants.channelLocationUnavailable, HandleLocationUnavailable);
+			MessagingCenter.Subscribe<IGeoLocation,string>(this, PeggyConstants.channelDebug, HandleDebugVoice);
 
 
 			var layout = new StackLayout
@@ -50,19 +55,26 @@ namespace PeggyPiston
 
 		}
 
+		public void HandleLocationReady(IGeoLocation service, double accuracy)
+		{
+			if (accuracy <= PeggyConstants.highAccuracyRequirement) {
+				PeggyUtils.DebugLog ("Location accuracy is " + accuracy, logChannel);
+				_currentAccuracy = accuracy;
+			}
+		}
+
 		public void HandleLocationUpdate(IGeoLocation service, string newLocation)
 		{
 			if (_currentLocation != newLocation) {
-				DependencyService.Get<ITextToSpeech> ().Speak ("your current address is " + newLocation);
+				PeggyUtils.DebugLog ("your current address is " + newLocation, PeggyConstants.channelVoice);
 				_currentLocation = newLocation;
 			}
 		}
 
 		public void HandleDebugVoice(IGeoLocation service, string debugText)
 		{
-			DependencyService.Get<ITextToSpeech> ().Speak (debugText);
+			PeggyUtils.DebugLog (debugText, PeggyConstants.channelVoice);
 		}
-
 		public void HandleLocationUnavailable(IGeoLocation service, string debugText)
 		{
 			PeggyUtils.DebugLog(debugText, PeggyConstants.channelLocationUnavailable);

@@ -6,6 +6,9 @@ namespace PeggyPiston
 {
 	public class App : Application
 	{
+
+		protected readonly string logChannel = "PeggyPiston";
+
 		public App ()
 		{
 			MainPage = new MainScreen();
@@ -19,13 +22,13 @@ namespace PeggyPiston
 		protected override void OnSleep ()
 		{
 			// Handle when your app sleeps
-			MessagingCenter.Send<App, string> (this, PeggyConstants.channelDebug, "Peggy Piston has gone to sleep.");
+			PeggyUtils.DebugLog ("Peggy Piston has gone to sleep.", PeggyConstants.channelVoice);
 		}
 
 		protected override void OnResume ()
 		{
 			// Handle when your app resumes
-			MessagingCenter.Send<App, string> (this, PeggyConstants.channelDebug, "Peggy Piston has woken up.");
+			PeggyUtils.DebugLog ("Peggy Piston has woken up.", PeggyConstants.channelVoice);
 		}
 	}
 }
