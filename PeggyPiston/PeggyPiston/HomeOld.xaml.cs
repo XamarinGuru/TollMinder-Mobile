@@ -11,7 +11,7 @@ namespace PeggyPiston
 		public HomeOld ()
 		{
 			// figure out why this is red someday...
-			InitializeComponent ();
+			//InitializeComponent ();
 
 			_locationProvider = DependencyService.Get<IGeoLocation>();
 			_currentLocation = "";
