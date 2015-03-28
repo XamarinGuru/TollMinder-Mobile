@@ -60,6 +60,13 @@ namespace PeggyPiston
 			if (accuracy <= PeggyConstants.highAccuracyRequirement) {
 				PeggyUtils.DebugLog ("Location accuracy is " + accuracy, logChannel);
 				_currentAccuracy = accuracy;
+
+				// query the service and figure out where we are.
+
+
+
+			} else {
+				PeggyUtils.DebugLog ("still determining location", PeggyConstants.channelVoice);
 			}
 		}
 

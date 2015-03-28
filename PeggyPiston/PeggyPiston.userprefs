@@ -1,24 +1,27 @@
 ﻿<Properties StartupItem="Droid/PeggyPiston.Droid.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.Nexus7" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="PeggyPiston/LocationWebServiceClient.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="PeggyPiston/MainScreen.cs">
     <Files>
-      <File FileName="Droid/LocationService.cs" Line="1" Column="1" />
-      <File FileName="Droid/GeoLocation_Android.cs" Line="1" Column="1" />
+      <File FileName="Droid/LocationService.cs" Line="111" Column="4" />
+      <File FileName="Droid/GeoLocation_Android.cs" Line="130" Column="5" />
       <File FileName="iOS/GeoLocation_iOS.cs" Line="1" Column="1" />
-      <File FileName="PeggyPiston/PeggyPiston.cs" Line="1" Column="1" />
+      <File FileName="PeggyPiston/PeggyPiston.cs" Line="13" Column="4" />
       <File FileName="PeggyPiston/PeggyUtils.cs" Line="1" Column="1" />
       <File FileName="PeggyPiston/IGeoLocation.cs" Line="1" Column="1" />
-      <File FileName="PeggyPiston/PeggyConstants.cs" Line="1" Column="1" />
-      <File FileName="PeggyPiston/MainScreen.cs" Line="9" Column="3" />
-      <File FileName="PeggyPiston/LocationWebServiceClient.cs" Line="18" Column="4" />
+      <File FileName="PeggyPiston/PeggyConstants.cs" Line="13" Column="55" />
+      <File FileName="PeggyPiston/MainScreen.cs" Line="21" Column="30" />
+      <File FileName="PeggyPiston/LocationWebServiceClient.cs" Line="41" Column="3" />
       <File FileName="PeggyPiston/ITextToSpeech.cs" Line="1" Column="1" />
-      <File FileName="PeggyPiston/HomeOld.xaml.cs" Line="14" Column="6" />
+      <File FileName="PeggyPiston/HomeOld.xaml.cs" Line="8" Column="1" />
+      <File FileName="Droid/LocationServiceBinder.cs" Line="1" Column="1" />
+      <File FileName="Droid/LocationServiceConnection.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="PeggyPiston" expanded="True" selected="True">
+          <Node name="PeggyPiston" expanded="True">
             <Node name="HomeOld.xaml" expanded="True" />
+            <Node name="MainScreen.cs" selected="True" />
           </Node>
           <Node name="PeggyPiston.Droid" expanded="True" />
         </State>
