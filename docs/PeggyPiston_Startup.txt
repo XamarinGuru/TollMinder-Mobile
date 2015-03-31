@@ -1,0 +1,38 @@
+title PeggyPiston Startup Sequence
+
+PeggyPiston App->Main Screen: initialize app
+note right of PeggyPiston App: 
+    Handling onStart, 
+    onSleep, onResume
+end note
+Main Screen->iGeolocation: Start location interface
+note right of iGeolocation: 
+    iGeolocation is the gateway into
+    the native location data
+end note
+Main Screen->MessagingCenter: Subscribe LocationReady
+Main Screen->MessagingCenter: Subscribe LocationUpdate
+Main Screen->MessagingCenter: Subscribe LocationUnavailable
+note right of Main Screen: UI is built in Main Screen
+Main Screen->Native LocationService: Start background location service
+note right of PeggyPiston App: 
+    the subscriptions should 
+    move to main app
+end note
+Native LocationService-->Native Location API: Async query for Lat/Long
+Native Location API-->Native LocationService: Returns current location data
+note right of Native LocationService:
+    Native LocationService always
+    stores current location values
+end note
+Native LocationService-->Main Screen: LocationReady with accuracy
+note right of Main Screen:
+    If the accuracy is within
+    the accepted range
+end note
+Main Screen->iGeolocation: Fetch current location data
+iGeolocation->Main Screen: Return location data
+note right of Main Screen:
+    Handle the newly
+    updated data
+end note

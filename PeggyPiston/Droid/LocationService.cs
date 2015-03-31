@@ -142,6 +142,13 @@ namespace PeggyPiston.Droid
 			{
 				_googleAPI = new GoogleApiClientBuilder(Forms.Context).AddApi(LocationServices.Api).AddConnectionCallbacks(this).AddOnConnectionFailedListener(this).Build();
 				PeggyUtils.DebugLog("google api client constructed", logChannel);
+
+
+				// here's where we add the activity recognition.
+				// https://developer.android.com/reference/com/google/android/gms/location/ActivityRecognitionApi.html
+				// create common interface for DRIVING, WALKING, STILL
+
+
 			}
 			else
 			{

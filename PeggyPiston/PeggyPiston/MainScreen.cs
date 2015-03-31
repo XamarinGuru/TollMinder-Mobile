@@ -10,6 +10,8 @@ namespace PeggyPiston
 		private IGeoLocation _locationProvider;
 		private string _currentLocation;
 		private double _currentAccuracy;
+		private double _currentLattitude;
+		private double _currentLongitude;
 
 		int count = 1;
 
@@ -20,6 +22,8 @@ namespace PeggyPiston
 
 			_currentAccuracy = 100000;
 			_currentLocation = "";
+			_currentLattitude = 0;
+			_currentLongitude = 0;
 
 			MessagingCenter.Subscribe<IGeoLocation,double>(this, PeggyConstants.channelLocationAccuracyReady, HandleLocationReady);
 			MessagingCenter.Subscribe<IGeoLocation,string>(this, PeggyConstants.channelLocationService, HandleLocationUpdate);
@@ -62,6 +66,26 @@ namespace PeggyPiston
 				_currentAccuracy = accuracy;
 
 				// query the service and figure out where we are.
+				bool hasChanged = false;
+				Double lat = _locationProvider.GetCurrentLattitude();
+				Double lon = _locationProvider.GetCurrentLongitude();
+
+				// 5 decimal places in lat/long is equal to 1.1 meter.
+				// so, a 20 meter requirement is really going to be 22.  meh.  whatever.
+				if (Math.Abs(Math.Floor (lat * 10000) - Math.Floor (_currentLattitude * 10000)) >= PeggyConstants.distanceRequirement) {
+					_currentLattitude = lat;
+					hasChanged = true;
+				}
+				if (Math.Abs(Math.Floor (lon * 10000) - Math.Floor (_currentLongitude * 10000)) >= PeggyConstants.distanceRequirement) {
+					_currentLongitude = lon;
+					hasChanged = true;
+				}
+
+				if (hasChanged) {
+					// lookup our new address!
+					var locHandle = LocationWebServiceClient.FetchCurrentAddress(_currentLattitude, _currentLongitude);
+					PeggyUtils.DebugLog ("LocationWebServiceClient locHandle: " + locHandle, logChannel);
+				}
 
 
 

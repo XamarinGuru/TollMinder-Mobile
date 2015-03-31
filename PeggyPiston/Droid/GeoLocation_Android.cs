@@ -20,6 +20,9 @@ namespace PeggyPiston.Droid
 		private Location _currentLocation;
 		protected LocationServiceConnection locationServiceConnection;
 
+		private const int TWO_MINUTES = 1000 * 60 * 2;
+
+
 		public LocationService LocationService
 		{
 			get {
@@ -108,51 +111,102 @@ namespace PeggyPiston.Droid
 
 		public void HandleLocationChanged(object sender, LocationChangedEventArgs e)
 		{
-			Android.Locations.Location location = e.Location;
+			Location location = e.Location;
 			PeggyUtils.DebugLog("Foreground updating", logChannel);
 
-			_currentLocation = location;
-			if (_currentLocation == null)
+			if (location == null)
 			{
 				PeggyUtils.DebugLog("location could not be determined", logChannel);
 				MessagingCenter.Send<IGeoLocation, string> (this, PeggyConstants.channelLocationUnavailable, "We are unable to determine your location. We'll try again shortly.");
 			}
 			else
 			{
-				PeggyUtils.DebugLog("location was changed", logChannel);
 
-				PeggyUtils.DebugLog (String.Format ("Latitude is {0}", _currentLocation.Latitude), logChannel);
-				PeggyUtils.DebugLog (String.Format ("Longitude is {0}", _currentLocation.Longitude), logChannel);
-				PeggyUtils.DebugLog (String.Format ("Altitude is {0}", _currentLocation.Altitude), logChannel);
-				PeggyUtils.DebugLog (String.Format ("Speed is {0}", _currentLocation.Speed), logChannel);
-				PeggyUtils.DebugLog (String.Format ("Accuracy is {0}", _currentLocation.Accuracy), logChannel);
-				PeggyUtils.DebugLog (String.Format ("Bearing is {0}", _currentLocation.Bearing), logChannel); // also in degrees.  0 is north.
+				if (isBetterLocation (location, _currentLocation)) {
+					_currentLocation = location;
 
-				MessagingCenter.Send<IGeoLocation, double> (this, PeggyConstants.channelLocationAccuracyReady, _currentLocation.Accuracy);
+					PeggyUtils.DebugLog ("location was changed", logChannel);
+
+					PeggyUtils.DebugLog (String.Format ("Latitude is {0}", _currentLocation.Latitude), logChannel);
+					PeggyUtils.DebugLog (String.Format ("Longitude is {0}", _currentLocation.Longitude), logChannel);
+					PeggyUtils.DebugLog (String.Format ("Altitude is {0}", _currentLocation.Altitude), logChannel);
+					PeggyUtils.DebugLog (String.Format ("Speed is {0}", _currentLocation.Speed), logChannel);
+					PeggyUtils.DebugLog (String.Format ("Accuracy is {0}", _currentLocation.Accuracy), logChannel);
+					PeggyUtils.DebugLog (String.Format ("Bearing is {0}", _currentLocation.Bearing), logChannel); // also in degrees.  0 is north.
+
+					MessagingCenter.Send<IGeoLocation, double> (this, PeggyConstants.channelLocationAccuracyReady, _currentLocation.Accuracy);
 
 /*
-				var geocoder = new Geocoder(Forms.Context);
-				IList<Address> addressList = geocoder.GetFromLocation(_currentLocation.Latitude, _currentLocation.Longitude, 10);
+					var geocoder = new Geocoder(Forms.Context);
+					IList<Address> addressList = geocoder.GetFromLocation(_currentLocation.Latitude, _currentLocation.Longitude, 10);
 
-				Address address = addressList.FirstOrDefault();
-				if (address != null)
-				{
-					var deviceAddress = new StringBuilder();
-					for (int i = 0; i < address.MaxAddressLineIndex; i++)
+					Address address = addressList.FirstOrDefault();
+					if (address != null)
 					{
-						deviceAddress.Append(address.GetAddressLine(i)).AppendLine(",");
-					}
+						var deviceAddress = new StringBuilder();
+						for (int i = 0; i < address.MaxAddressLineIndex; i++)
+						{
+							deviceAddress.Append(address.GetAddressLine(i)).AppendLine(",");
+						}
 
-					MessagingCenter.Send<IGeoLocation, string> (this, PeggyConstants.channelLocationService, deviceAddress.ToString());
-				}
-				else
-				{
-					MessagingCenter.Send<IGeoLocation, string> (this, PeggyConstants.channelLocationService, "Unable to determine the address.");
-				}				
+						MessagingCenter.Send<IGeoLocation, string> (this, PeggyConstants.channelLocationService, deviceAddress.ToString());
+					}
+					else
+					{
+						MessagingCenter.Send<IGeoLocation, string> (this, PeggyConstants.channelLocationService, "Unable to determine the address.");
+					}				
 */
+				}
 
 			}
 
+		}
+
+
+/** Determines whether one Location reading is better than the current Location fix
+  * @param location  The new Location that you want to evaluate
+  * @param currentBestLocation  The current Location fix, to which you want to compare the new one
+  * 
+  * got this from here:
+  * http://developer.android.com/guide/topics/location/strategies.html
+  * 
+  */
+		protected bool isBetterLocation(Location location, Location currentBestLocation) {
+			if (currentBestLocation == null) {
+				// A new location is always better than no location
+				return true;
+			}
+
+			// Check whether the new location fix is newer or older
+			long timeDelta = location.Time - currentBestLocation.Time;
+			bool isSignificantlyNewer = timeDelta > TWO_MINUTES;
+			bool isSignificantlyOlder = timeDelta <= -TWO_MINUTES;
+			bool isNewer = timeDelta > 0;
+
+			// If it's been more than two minutes since the current location, use the new location
+			// because the user has likely moved
+			if (isSignificantlyNewer) {
+				return true;
+				// If the new location is more than two minutes older, it must be worse
+			} else if (isSignificantlyOlder) {
+				return false;
+			}
+
+			// Check whether the new location fix is more or less accurate
+			int accuracyDelta = (int) (location.Accuracy - currentBestLocation.Accuracy);
+			bool isLessAccurate = accuracyDelta > 0;
+			bool isMoreAccurate = accuracyDelta < 0;
+			bool isSignificantlyLessAccurate = accuracyDelta > PeggyConstants.significantAccuracyRequirement;
+
+			// Determine location quality using a combination of timeliness and accuracy
+			if (isMoreAccurate) {
+				return true;
+			} else if (isNewer && !isLessAccurate) {
+				return true;
+			} else if (isNewer && !isSignificantlyLessAccurate) {
+				return true;
+			}
+			return false;
 		}
 
 		public void HandleProviderEnabled(object sender, LocationChangedEventArgs e) {
