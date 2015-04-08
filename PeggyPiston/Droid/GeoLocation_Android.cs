@@ -22,6 +22,13 @@ namespace PeggyPiston.Droid
 
 		private const int TWO_MINUTES = 1000 * 60 * 2;
 
+		private bool driving = false;
+		private int sinceLastTime = 0;
+		private int sinceLastDist = 0;
+		private int lastDistCount = 0;
+		private int lastDistTotal = 0;
+
+
 
 		public LocationService LocationService
 		{
@@ -59,6 +66,11 @@ namespace PeggyPiston.Droid
 		public double GetCurrentAccuracy ()
 		{
 			return _currentLocation.Accuracy;
+		}
+
+		public bool isDriving()
+		{
+			return driving;
 		}
 		#endregion
 
@@ -208,6 +220,15 @@ namespace PeggyPiston.Droid
 			}
 			return false;
 		}
+
+		public void IsDriving(object sender, ActivityRecognitionEventArgs e) {
+			if (e.isDriving) {
+				PeggyUtils.DebugLog ("We're driving.", logChannel);
+			} else {
+				PeggyUtils.DebugLog ("We're sitting still.", logChannel);
+			}
+		}
+
 
 		public void HandleProviderEnabled(object sender, LocationChangedEventArgs e) {
 			PeggyUtils.DebugLog("HandleProviderEnabled", logChannel);

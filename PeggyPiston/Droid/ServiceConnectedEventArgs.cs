@@ -8,4 +8,3 @@ namespace PeggyPiston.Droid
 		public IBinder Binder { get; set; }
 	}
 }
-

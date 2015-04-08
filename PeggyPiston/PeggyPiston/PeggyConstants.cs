@@ -15,6 +15,11 @@
 		public static readonly float highAccuracyRequirement = 20;
 		public static readonly float distanceRequirement = 20;
 
+
+		// activity types
+		public static readonly string inVehicle = "inVehicle";
+		public static readonly string onFoot = "onFoot";
+
 	}
 }
 

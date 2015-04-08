@@ -14,13 +14,13 @@ using Xamarin.Forms;
 
 namespace PeggyPiston.Droid
 {
+
 	[Service]
 	public class LocationService : Service, IGoogleApiClientConnectionCallbacks, IGoogleApiClientOnConnectionFailedListener, Android.Gms.Location.ILocationListener
 	{
 		protected readonly string logChannel = "LocationService";
 
 		private IGoogleApiClient _googleApiLocService;
-		private IGoogleApiClient _googleApiActivityService;
 		public LocationRequest LocRequest
 		{
 			get;
@@ -63,16 +63,6 @@ namespace PeggyPiston.Droid
 
 				PeggyUtils.DebugLog("google api client constructed", logChannel);
 
-
-				// here's where we add the activity recognition.
-				// https://developer.android.com/reference/com/google/android/gms/location/ActivityRecognitionApi.html
-				// create common interface for DRIVING, WALKING, STILL	
-				_googleApiActivityService = new GoogleApiClientBuilder(Forms.Context)
-					.AddApi (ActivityRecognition.Api)
-					.AddConnectionCallbacks(this)
-					.AddOnConnectionFailedListener(this)
-					.Build();
-
 			} else {
 				var errorString = String.Format("There is a problem with Google Play Services on this device: {0} - {1}", queryResult, GooglePlayServicesUtil.GetErrorString(queryResult));
 				PeggyUtils.DebugLog(errorString, logChannel);
@@ -83,15 +73,10 @@ namespace PeggyPiston.Droid
 		public void connectGoogleAPI()
 		{
 			System.Diagnostics.Debug.Assert(_googleApiLocService != null);
-			System.Diagnostics.Debug.Assert(_googleApiActivityService != null);
 
 			if (!_googleApiLocService.IsConnectionCallbacksRegistered(this)) _googleApiLocService.RegisterConnectionCallbacks(this);
 			if (!_googleApiLocService.IsConnectionFailedListenerRegistered(this)) _googleApiLocService.RegisterConnectionFailedListener(this);
 			if (!_googleApiLocService.IsConnected || !_googleApiLocService.IsConnecting) _googleApiLocService.Connect();
-
-			if (!_googleApiActivityService.IsConnectionCallbacksRegistered(this)) _googleApiActivityService.RegisterConnectionCallbacks(this);
-			if (!_googleApiActivityService.IsConnectionFailedListenerRegistered(this)) _googleApiActivityService.RegisterConnectionFailedListener(this);
-			if (!_googleApiActivityService.IsConnected || !_googleApiActivityService.IsConnecting) _googleApiActivityService.Connect();
 		}
 		public void disconnectGoogleAPI()
 		{
@@ -101,17 +86,12 @@ namespace PeggyPiston.Droid
 				_googleApiLocService.Disconnect();
 			}
 
-			if (_googleApiActivityService != null && _googleApiActivityService.IsConnected) {
-				if (_googleApiActivityService.IsConnectionCallbacksRegistered(this)) _googleApiActivityService.UnregisterConnectionCallbacks(this);
-				if (_googleApiActivityService.IsConnectionFailedListenerRegistered(this)) _googleApiActivityService.UnregisterConnectionFailedListener(this);
-				_googleApiActivityService.Disconnect();
-			}
 		}
 
 
 		public void OnConnected(Bundle connectionHint)
 		{
-			PeggyUtils.DebugLog("logged OnConnected", logChannel);
+			PeggyUtils.DebugLog("service connected", logChannel);
 
 			if (LocRequest == null)
 			{
@@ -121,26 +101,6 @@ namespace PeggyPiston.Droid
 			// location api.
 			LocationServices.FusedLocationApi.RequestLocationUpdates(_googleApiLocService, LocRequest, this);
 
-			// activity recognition api
-			var intent = new Intent(this, typeof(LocationService));
-			var activityRecognitionPendingIntent = PendingIntent.GetService(this, 0, intent, PendingIntentFlags.UpdateCurrent);
-			const int detectionInterval = 5000;
-			ActivityRecognition.ActivityRecognitionApi.RequestActivityUpdates(_googleApiActivityService, detectionInterval, activityRecognitionPendingIntent);
-
-		}
-
-		protected override void OnHandleIntent(Intent intent) {
-			if (ActivityRecognitionResult.HasResult(intent)) {
-				var result = ActivityRecognitionResult.ExtractResult(intent);
-				var mostProbableActivity = result.MostProbableActivity;
-				var confidence = mostProbableActivity.Confidence;
-				var activityType = mostProbableActivity.Type;
-				var name = GetActivityName(activityType);
-			}
-		}
-
-		protected string GetActivityName(int activityType) {
-			//switch (activityType) {}
 		}
 
 		public void OnConnectionSuspended(int cause)

@@ -85,6 +85,7 @@
     <Compile Include="LocationServiceBinder.cs" />
     <Compile Include="LocationService.cs" />
     <Compile Include="LocationServiceConnection.cs" />
+    <Compile Include="ActivityRecognitionEventArgs.cs" />
     <Compile Include="ServiceConnectedEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
