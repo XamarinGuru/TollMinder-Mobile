@@ -20,8 +20,6 @@ namespace PeggyPiston.Droid
 		private Location _currentLocation;
 		protected LocationServiceConnection locationServiceConnection;
 
-		private const int TWO_MINUTES = 1000 * 60 * 2;
-
 		private bool driving = false;
 		private int sinceLastTime = 0;
 		private int sinceLastDist = 0;
@@ -135,6 +133,9 @@ namespace PeggyPiston.Droid
 			{
 
 				if (isBetterLocation (location, _currentLocation)) {
+
+					determineActivity(location);
+
 					_currentLocation = location;
 
 					PeggyUtils.DebugLog ("location was changed", logChannel);
@@ -148,26 +149,6 @@ namespace PeggyPiston.Droid
 
 					MessagingCenter.Send<IGeoLocation, double> (this, PeggyConstants.channelLocationAccuracyReady, _currentLocation.Accuracy);
 
-/*
-					var geocoder = new Geocoder(Forms.Context);
-					IList<Address> addressList = geocoder.GetFromLocation(_currentLocation.Latitude, _currentLocation.Longitude, 10);
-
-					Address address = addressList.FirstOrDefault();
-					if (address != null)
-					{
-						var deviceAddress = new StringBuilder();
-						for (int i = 0; i < address.MaxAddressLineIndex; i++)
-						{
-							deviceAddress.Append(address.GetAddressLine(i)).AppendLine(",");
-						}
-
-						MessagingCenter.Send<IGeoLocation, string> (this, PeggyConstants.channelLocationService, deviceAddress.ToString());
-					}
-					else
-					{
-						MessagingCenter.Send<IGeoLocation, string> (this, PeggyConstants.channelLocationService, "Unable to determine the address.");
-					}				
-*/
 				}
 
 			}
@@ -191,8 +172,8 @@ namespace PeggyPiston.Droid
 
 			// Check whether the new location fix is newer or older
 			long timeDelta = location.Time - currentBestLocation.Time;
-			bool isSignificantlyNewer = timeDelta > TWO_MINUTES;
-			bool isSignificantlyOlder = timeDelta <= -TWO_MINUTES;
+			bool isSignificantlyNewer = timeDelta > PeggyConstants.highAccuracyInterval;
+			bool isSignificantlyOlder = timeDelta <= -PeggyConstants.highAccuracyInterval;
 			bool isNewer = timeDelta > 0;
 
 			// If it's been more than two minutes since the current location, use the new location
@@ -221,12 +202,14 @@ namespace PeggyPiston.Droid
 			return false;
 		}
 
-		public void IsDriving(object sender, ActivityRecognitionEventArgs e) {
-			if (e.isDriving) {
+		void determineActivity (Location location) {
+
+			if (driving) {
 				PeggyUtils.DebugLog ("We're driving.", logChannel);
 			} else {
 				PeggyUtils.DebugLog ("We're sitting still.", logChannel);
 			}
+
 		}
 
 

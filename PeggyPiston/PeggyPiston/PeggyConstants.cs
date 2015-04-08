@@ -9,6 +9,10 @@
 		public static readonly string channelLocationService = "LocationService";
 		public static readonly string channelLocationAccuracyReady = "LocationAccuracyReady";
 
+		// these are in miliseconds
+		public static readonly float highAccuracyInterval = 1000 * 60 * 2;
+		public static readonly float energySaverInterval = 1000 * 60 * 15;
+
 
 		// these are in meters.
 		public static readonly float significantAccuracyRequirement = 20;
