@@ -21,15 +21,21 @@ namespace PeggyPiston.Droid
 		protected LocationServiceConnection locationServiceConnection;
 
 		private bool driving = false;
-		private int sinceLastTime = 0;
-		private int sinceLastDist = 0;
 		private int lastDistCount = 0;
 		private int lastDistTotal = 0;
+		private long lastDistTime = 0;
+		private long lastDistTimeTotal = 0;
+		private double lastLat = 0;
+		private double lastLong = 0;
 
 
+		private static DateTime JanFirst1970 = new DateTime(1970, 1, 1);
+		public static long getTime() {
+			return (long)((DateTime.Now.ToUniversalTime() - JanFirst1970).TotalMilliseconds + 0.5);
+		}
 
-		public LocationService LocationService
-		{
+
+		public LocationService LocationService {
 			get {
 				if (locationServiceConnection.Binder == null) {
 					throw new Exception ("Service not bound yet");
@@ -204,6 +210,35 @@ namespace PeggyPiston.Droid
 
 		void determineActivity (Location location) {
 
+			// init
+			if (lastLat <= 0) {
+				lastLat = location.Latitude;
+				lastLong = location.Longitude;
+			}
+			lastDistCount++;
+
+			// gather data
+			double latDist = Math.Abs(lastLat - location.Latitude);
+			double longDist = Math.Abs(lastLong - location.Longitude);
+			lastDistTotal += Math.Sqrt(latDist*latDist + longDist*longDist);
+
+			lastDistTimeTotal += getTime() - lastDistTime;
+			lastDistTime = getTime();
+
+
+			// calculate average meters per second to determine activity.
+
+
+
+			// reset values
+			if (lastDistCount > 3) {
+				lastDistCount = 0;
+				lastDistTotal = 0;
+				lastDistTimeTotal = 0;
+				lastDistTime = getTime();
+			}
+
+			// send off the results.
 			if (driving) {
 				PeggyUtils.DebugLog ("We're driving.", logChannel);
 			} else {
