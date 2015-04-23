@@ -129,10 +129,17 @@ namespace PeggyPiston.Droid
 
 				if (isBetterLocation (location, _currentLocation)) {
 
-					if (PeggyLocationCalculations.determineActivity (location.Latitude, location.Longitude) == PeggyConstants.inVehicle) {
-						driving = true;
-					} else {
-						driving = false;
+					// we really only want to deal with stuff unless
+					// we're running a high accuracy location.
+					if (location.Accuracy <= PeggyConstants.highAccuracyRequirement) {
+						if (PeggyLocationCalculations.determineActivity (location.Latitude, location.Longitude) == PeggyConstants.inVehicle) {
+							if (!driving) LocationService.setLocationInterval (PeggyConstants.highAccuracyInterval);
+							driving = true;
+
+						} else {
+							if (driving) LocationService.setLocationInterval (PeggyConstants.energySaverInterval);
+							driving = false;
+						}
 					}
 
 					_currentLocation = location;

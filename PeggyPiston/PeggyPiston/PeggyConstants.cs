@@ -9,12 +9,12 @@
 		public static readonly string channelLocationService = "LocationService";
 		public static readonly string channelLocationAccuracyReady = "LocationAccuracyReady";
 
-
 		public static readonly int activityDetermineSegmentCount = 3;
 
 		// these are in miliseconds
-		public static readonly float highAccuracyInterval = 1000 * 60 * 1;
-		public static readonly float energySaverInterval = 1000 * 60 * 10;
+		public static readonly long startupInterval = 1000;
+		public static readonly long highAccuracyInterval = 1000 * 60 * 1;
+		public static readonly long energySaverInterval = 1000 * 60 * 10;
 		public static readonly long defaultTimeDenominator = 1000 * 60 * 10;
 
 		// these are in meters.
