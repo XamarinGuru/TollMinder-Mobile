@@ -4,6 +4,7 @@
 	{
 
 		public static readonly string channelDebug = "Debug";
+		public static readonly string channelScreen = "DebugScreen";
 		public static readonly string channelVoice = "DebugVoice";
 		public static readonly string channelLocationUnavailable = "LocationUnavailable";
 		public static readonly string channelLocationService = "LocationService";

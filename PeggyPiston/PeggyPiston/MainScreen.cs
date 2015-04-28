@@ -22,6 +22,7 @@ namespace PeggyPiston
 				RowSpacing = 50
 			};
 
+			/*
 			grid.Children.Add(new Label { Text = "This" }, 0, 0); // Left, First element
 			grid.Children.Add(new Label { Text = "text is" }, 1, 0); // Right, First element
 			grid.Children.Add(new Label { Text = "in a" }, 0, 1); // Left, Second element
@@ -34,6 +35,10 @@ namespace PeggyPiston
 				gridButton.Text = string.Format("Thanks! {0} clicks.", count++);
 			};
 			grid.Children.Add(gridButton, 0, 2); // Left, Third element
+			*/
+
+			PeggyUtils.logViewer.HeightRequest = 600;
+			grid.Children.Add (PeggyUtils.logViewer);
 
 			layout.Children.Add(grid);
 			Content = layout;
