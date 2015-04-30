@@ -47,7 +47,11 @@ namespace PeggyPiston
 
 			PeggyUtils.DebugLog ("Hitting the google book api", logChannel);
 
-			Task<string> contentsTask = httpClient.GetStringAsync("https://www.googleapis.com/books/v1/volumes?key=AIzaSyA0zkWIqwDeRibh-Ue9ko76kKL5T3ORwUI&maxResults=1&q=brandon%20sanderson%20legion"); // async method!
+			// google's demo: https://maps.googleapis.com/maps/api/place/search/json?location=-33.88471,151.218237&radius=100&sensor=true&key=AIzaSyBXEUF4f94N8y9gnhLQ8PmuznhySW080pU
+			// looking for car services: https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=AIzaSyBXEUF4f94N8y9gnhLQ8PmuznhySW080pU&rankby=distance&location=33.138953,-117.174768&types=convenience_store%7Ccar_repair%7Ccar_dealer%7Cgas_station
+			// looking for any establishment: https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=AIzaSyBXEUF4f94N8y9gnhLQ8PmuznhySW080pU&rankby=distance&location=33.138953,-117.174768&types=establishment
+
+			Task<string> contentsTask = httpClient.GetStringAsync("https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=AIzaSyBXEUF4f94N8y9gnhLQ8PmuznhySW080pU&location=" + lattitude.ToString() + "," + longitude.ToString() + "&rankby=distance&types=establishment"); // async method!
 			string contents = await contentsTask;
 			int exampleInt = contents.Length;
 
