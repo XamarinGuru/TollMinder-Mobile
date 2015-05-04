@@ -61,7 +61,7 @@ namespace PeggyPiston
 				}
 
 			} else {
-				PeggyUtils.DebugLog ("still determining location", PeggyConstants.channelVoice);
+				PeggyUtils.DebugLog ("still determining location", PeggyConstants.channelScreen);
 			}
 		}
 

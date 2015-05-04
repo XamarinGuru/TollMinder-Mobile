@@ -41,6 +41,10 @@ namespace PeggyPiston.Droid
 			LocRequest.SetPriority(LocationRequest.PriorityHighAccuracy);
 			setLocationInterval(PeggyConstants.startupInterval);
 
+			//LocRequest.SetPriority(100);
+			//LocRequest.SetFastestInterval(500);
+			//LocRequest.SetInterval(1000);
+
 			PeggyUtils.DebugLog("StartLocationUpdates successful", logChannel);
 
 			initializeGoogleAPI();
@@ -50,7 +54,7 @@ namespace PeggyPiston.Droid
 		public void setLocationInterval(long interval) {
 			if (LocRequest == null) return;
 			PeggyUtils.DebugLog("Updating location interval ms: " + interval, logChannel);
-			//LocRequest.SetInterval(interval);
+			LocRequest.SetInterval(interval);
 			LocRequest.SetFastestInterval(interval);
 		}
 
