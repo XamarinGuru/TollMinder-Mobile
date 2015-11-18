@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="PeggyPiston.HomeOld" Padding="20">
+	<ContentPage.Content>
+		<Grid VerticalOptions="End">
+		    <Grid.Children>
+		            <Button Text="Location" Grid.Row="0" Grid.Column="0" Clicked="OnButtonClicked" />
+		            <Button Text="Toll Roads" Grid.Row="0" Grid.Column="1" Clicked="OnButtonClicked" />
+		            <Button Text="Parking Tickets" Grid.Row="0" Grid.Column="2" Clicked="OnButtonClicked" />
+		            <Button Text="Maintenence" Grid.Row="1" Grid.Column="0" Clicked="OnButtonClicked" />
+		            <Button Text="Travel" Grid.Row="1" Grid.Column="1" Clicked="OnButtonClicked" />
+		            <Button Text="Traffic" Grid.Row="1" Grid.Column="2" Clicked="OnButtonClicked" />
+		    </Grid.Children>
+		</Grid>
+	</ContentPage.Content>
+</ContentPage>

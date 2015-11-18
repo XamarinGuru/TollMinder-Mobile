@@ -1,0 +1,4 @@
+Location.Droid.Services.LocationService;location.droid.services.LocationService
+Location.Droid.Services.LocationServiceBinder;location.droid.services.LocationServiceBinder
+Location.Droid.Services.LocationServiceConnection;location.droid.services.LocationServiceConnection
+Location.Droid.MainActivity;location.droid.MainActivity

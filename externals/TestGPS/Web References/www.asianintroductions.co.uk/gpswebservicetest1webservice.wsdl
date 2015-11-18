@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s0="http://tempuri.org/" xmlns:tns="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://tempuri.org/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xs:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="HelloWorld">
+        <xs:complexType />
+      </xs:element>
+      <xs:element name="HelloWorldResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="HelloWorldResult" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AddGpsInformation">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="pstrXML" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AddGpsInformationResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="AddGpsInformationResult" type="xs:boolean" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetGpsInformationPreviouslySent_Last1000Records">
+        <xs:complexType />
+      </xs:element>
+      <xs:element name="GetGpsInformationPreviouslySent_Last1000RecordsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetGpsInformationPreviouslySent_Last1000RecordsResult" type="tns:ArrayOfGPSListItem" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="ArrayOfGPSListItem">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="GPSListItem" nillable="true" type="tns:GPSListItem" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="GPSListItem">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" name="RecordID" type="xs:int" />
+          <xs:element minOccurs="0" maxOccurs="1" name="XMLContent" type="xs:string" />
+          <xs:element minOccurs="1" maxOccurs="1" name="RecordCreated" type="xs:dateTime" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetGpsInformationPreviouslySent_SpecificID">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="pintID" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetGpsInformationPreviouslySent_SpecificIDResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="GetGpsInformationPreviouslySent_SpecificIDResult" type="tns:GPSListItem" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+  </types>
+  <message name="HelloWorldSoapIn">
+    <part name="parameters" element="tns:HelloWorld" />
+  </message>
+  <message name="HelloWorldSoapOut">
+    <part name="parameters" element="tns:HelloWorldResponse" />
+  </message>
+  <message name="AddGpsInformationSoapIn">
+    <part name="parameters" element="tns:AddGpsInformation" />
+  </message>
+  <message name="AddGpsInformationSoapOut">
+    <part name="parameters" element="tns:AddGpsInformationResponse" />
+  </message>
+  <message name="GetGpsInformationPreviouslySent_Last1000RecordsSoapIn">
+    <part name="parameters" element="tns:GetGpsInformationPreviouslySent_Last1000Records" />
+  </message>
+  <message name="GetGpsInformationPreviouslySent_Last1000RecordsSoapOut">
+    <part name="parameters" element="tns:GetGpsInformationPreviouslySent_Last1000RecordsResponse" />
+  </message>
+  <message name="GetGpsInformationPreviouslySent_SpecificIDSoapIn">
+    <part name="parameters" element="tns:GetGpsInformationPreviouslySent_SpecificID" />
+  </message>
+  <message name="GetGpsInformationPreviouslySent_SpecificIDSoapOut">
+    <part name="parameters" element="tns:GetGpsInformationPreviouslySent_SpecificIDResponse" />
+  </message>
+  <portType name="GpsWebServiceTest1WebServiceSoap">
+    <operation name="HelloWorld">
+      <input message="tns:HelloWorldSoapIn" />
+      <output message="tns:HelloWorldSoapOut" />
+    </operation>
+    <operation name="AddGpsInformation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Adds gps information.  pstrXML should be specified as proper XML formed document containing all GPS related information obtainable.</wsdl:documentation>
+      <input message="tns:AddGpsInformationSoapIn" />
+      <output message="tns:AddGpsInformationSoapOut" />
+    </operation>
+    <operation name="GetGpsInformationPreviouslySent_Last1000Records">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the last 1000 entries that have been sent to the server previously</wsdl:documentation>
+      <input message="tns:GetGpsInformationPreviouslySent_Last1000RecordsSoapIn" />
+      <output message="tns:GetGpsInformationPreviouslySent_Last1000RecordsSoapOut" />
+    </operation>
+    <operation name="GetGpsInformationPreviouslySent_SpecificID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns xml information on a specific record previously stored.</wsdl:documentation>
+      <input message="tns:GetGpsInformationPreviouslySent_SpecificIDSoapIn" />
+      <output message="tns:GetGpsInformationPreviouslySent_SpecificIDSoapOut" />
+    </operation>
+  </portType>
+  <binding name="GpsWebServiceTest1WebServiceSoap" type="tns:GpsWebServiceTest1WebServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="HelloWorld">
+      <soap:operation soapAction="http://tempuri.org/HelloWorld" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="AddGpsInformation">
+      <soap:operation soapAction="http://tempuri.org/AddGpsInformation" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetGpsInformationPreviouslySent_Last1000Records">
+      <soap:operation soapAction="http://tempuri.org/GetGpsInformationPreviouslySent_Last1000Records" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetGpsInformationPreviouslySent_SpecificID">
+      <soap:operation soapAction="http://tempuri.org/GetGpsInformationPreviouslySent_SpecificID" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <binding name="GpsWebServiceTest1WebServiceSoap12" type="tns:GpsWebServiceTest1WebServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="HelloWorld">
+      <soap12:operation soapAction="http://tempuri.org/HelloWorld" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="AddGpsInformation">
+      <soap12:operation soapAction="http://tempuri.org/AddGpsInformation" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetGpsInformationPreviouslySent_Last1000Records">
+      <soap12:operation soapAction="http://tempuri.org/GetGpsInformationPreviouslySent_Last1000Records" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetGpsInformationPreviouslySent_SpecificID">
+      <soap12:operation soapAction="http://tempuri.org/GetGpsInformationPreviouslySent_SpecificID" style="document" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="GpsWebServiceTest1WebService">
+    <port name="GpsWebServiceTest1WebServiceSoap" binding="tns:GpsWebServiceTest1WebServiceSoap">
+      <soap:address location="http://www.asianintroductions.co.uk/gpswebservicetest1webservice.asmx" />
+    </port>
+    <port name="GpsWebServiceTest1WebServiceSoap12" binding="tns:GpsWebServiceTest1WebServiceSoap12">
+      <soap12:address location="http://www.asianintroductions.co.uk/gpswebservicetest1webservice.asmx" />
+    </port>
+  </service>
+</definitions>
