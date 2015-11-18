@@ -1,1 +1,0 @@
-com.xamarin.recipes.getlocation.Activity1;com.xamarin.recipes.getlocation.Activity1
