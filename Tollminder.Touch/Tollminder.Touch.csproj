@@ -119,6 +119,7 @@
     <Compile Include="DebugTrace.cs" />
     <Compile Include="LinkerPleaseInclude.cs" />
     <Compile Include="Views\HomeView.cs" />
+    <Compile Include="Services\TouchTextToSpeechService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -126,5 +127,8 @@
       <Project>{E6D05A1A-E03C-4D21-83F4-0D59E9429837}</Project>
       <Name>Tollminder.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
   </ItemGroup>
 </Project>

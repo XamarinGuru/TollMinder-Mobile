@@ -106,6 +106,7 @@
     <Compile Include="SplashScreen.cs" />
     <Compile Include="LinkerPleaseInclude.cs" />
     <Compile Include="Views\HomeView.cs" />
+    <Compile Include="Services\DroidTextToSpeechService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -128,6 +129,7 @@
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
     <Folder Include="Resources\layout\" />
+    <Folder Include="Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ItemGroup>
