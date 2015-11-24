@@ -1,4 +1,4 @@
-﻿<Properties StartupItem="Tollminder.Core/Tollminder.Core.csproj">
+﻿<Properties StartupItem="Tollminder.Touch/Tollminder.Touch.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Tollminder.Touch/AppDelegate.cs">
     <Files>
