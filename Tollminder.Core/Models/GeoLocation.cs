@@ -5,6 +5,17 @@ namespace Tollminder.Core.Models
 	// encapulates a geolocation and other information
 	public class GeoLocation : IEquatable<GeoLocation>
 	{
+		public GeoLocation ()
+		{
+			
+		}
+
+		public GeoLocation (double lat, double lng)
+		{
+			Latitude = lat;
+			Longitude = lng;
+		}
+
 		public const double DesiredAccuracy = 250;
 
 

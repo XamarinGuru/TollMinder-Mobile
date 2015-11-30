@@ -24,10 +24,12 @@ namespace Tollminder.Touch
         {
             _window = new UIWindow(UIScreen.MainScreen.Bounds);
 
-            var setup = new Setup(this, _window);
-            setup.Initialize();
+			// setup presenter
+			var presenter = new AppPresenter(this, _window);
+			var setup = new Setup(this, presenter);
+			setup.Initialize();
 
-            var startup = Mvx.Resolve<IMvxAppStart>();
+			var startup = Mvx.Resolve<IMvxAppStart>();
             startup.Start();
 
             _window.MakeKeyAndVisible();
