@@ -8,8 +8,10 @@ using Cirrious.MvvmCross.Binding.BindingContext;
 namespace Tollminder.Touch.Views
 {
 	public partial class HomeView : MvxViewController
-	{
+	{	
+		#pragma warning disable 108		
 		public HomeViewModel ViewModel { get { return base.ViewModel as HomeViewModel; } }
+		#pragma warning restore 108
 
 		public HomeView () : base ("HomeView", null)
 		{
@@ -18,7 +20,8 @@ namespace Tollminder.Touch.Views
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			ViewModel.UnSubscribeOnGeolocationUpdate ();
+			ViewModel.SubscribeOnGeolocationUpdate ();
+
 			var set = this.CreateBindingSet<HomeView, HomeViewModel>();
 			set.Bind (GeoLabelData).To (v => v.LocationString);
 			set.Apply ();
@@ -28,7 +31,7 @@ namespace Tollminder.Touch.Views
 		public override void ViewDidUnload ()
 		{
 			base.ViewDidUnload ();
-			ViewModel.SubscribeOnGeolocationUpdate ();
+			ViewModel.UnSubscribeOnGeolocationUpdate ();
 		}
 
 		public override void DidReceiveMemoryWarning ()

@@ -16,10 +16,11 @@ namespace Tollminder.Touch.Services
 		public TouchGeolocationWatcher ()
 		{
 			_locationManager = new CLLocationManager ();
+			_locationManager.RequestAlwaysAuthorization ();
+
 			if (EnvironmentInfo.IsForIOSNine) {
 				_locationManager.AllowsBackgroundLocationUpdates = true;				
 			}
-			_locationManager.RequestAlwaysAuthorization ();
 		}
 
 		#region IGeoLocationWatcher implementation
@@ -32,6 +33,7 @@ namespace Tollminder.Touch.Services
 			if (CLLocationManager.LocationServicesEnabled) {
 				_locationManager.DesiredAccuracy = 1;
 				_locationManager.LocationsUpdated += LocationUpdated;
+				_locationManager.StartUpdatingLocation ();
 			}
 		}
 

@@ -2,6 +2,7 @@ using Cirrious.MvvmCross.ViewModels;
 using Tollminder.Core.Services;
 using Tollminder.Core.Models;
 using Tollminder.Core.Helpers;
+using Cirrious.CrossCore;
 
 namespace Tollminder.Core.ViewModels
 {
