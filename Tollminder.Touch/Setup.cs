@@ -3,6 +3,9 @@ using Cirrious.MvvmCross.Touch.Views.Presenters;
 using Cirrious.MvvmCross.ViewModels;
 using Cirrious.MvvmCross.Touch.Platform;
 using UIKit;
+using Cirrious.CrossCore;
+using Tollminder.Touch.Services;
+using Tollminder.Core.Services;
 
 namespace Tollminder.Touch
 {
@@ -26,6 +29,12 @@ namespace Tollminder.Touch
 		protected override IMvxTrace CreateDebugTrace()
 		{
 			return new DebugTrace();
+		}
+
+		protected override void InitializePlatformServices ()
+		{
+			base.InitializePlatformServices ();
+			Mvx.LazyConstructAndRegisterSingleton<IGeoLocationWatcher,TouchGeolocationWatcher> ();
 		}
 	}
 }

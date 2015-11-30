@@ -1,35 +1,29 @@
-using Cirrious.MvvmCross.Binding.BindingContext;
-using Cirrious.MvvmCross.Touch.Views;
-using CoreGraphics;
-using Foundation;
-using ObjCRuntime;
+﻿using System;
+
 using UIKit;
+using Cirrious.MvvmCross.Touch.Views;
 
 namespace Tollminder.Touch.Views
 {
-    [Register("FirstView")]
-    public class HomeView : MvxViewController
-    {
-        public override void ViewDidLoad()
-        {
-            View = new UIView { BackgroundColor = UIColor.White };
-            base.ViewDidLoad();
+	public partial class HomeView : MvxViewController
+	{
+		public HomeView () : base ("HomeView", null)
+		{
+		}
 
-			// ios7 layout
-            if (RespondsToSelector(new Selector("edgesForExtendedLayout")))
-            {
-               EdgesForExtendedLayout = UIRectEdge.None;
-            }
-			   
-            var label = new UILabel(new CGRect(10, 10, 300, 40));
-            Add(label);
-            var textField = new UITextField(new CGRect(10, 50, 300, 40));
-            Add(textField);
+		public override void ViewDidLoad ()
+		{
+			base.ViewDidLoad ();
+			// Perform any additional setup after loading the view, typically from a nib.
 
-            var set = this.CreateBindingSet<HomeView, Core.ViewModels.HomeViewModel>();
-            set.Bind(label).To(vm => vm.Hello);
-            set.Bind(textField).To(vm => vm.Hello);
-            set.Apply();
-        }
-    }
+		}
+
+		public override void DidReceiveMemoryWarning ()
+		{
+			base.DidReceiveMemoryWarning ();
+			// Release any cached data, images, etc that aren't in use.
+		}
+	}
 }
+
+

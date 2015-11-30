@@ -106,6 +106,7 @@
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.xib" />
+    <InterfaceDefinition Include="Views\HomeView.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -118,8 +119,13 @@
     <Compile Include="Setup.cs" />
     <Compile Include="DebugTrace.cs" />
     <Compile Include="LinkerPleaseInclude.cs" />
-    <Compile Include="Views\HomeView.cs" />
     <Compile Include="Services\TouchTextToSpeechService.cs" />
+    <Compile Include="Views\HomeView.cs" />
+    <Compile Include="Views\HomeView.designer.cs">
+      <DependentUpon>HomeView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\TouchGeolocationWatcher.cs" />
+    <Compile Include="AppPresenter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -130,5 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
+    <Folder Include="Views\" />
+    <Folder Include="Helpers\" />
   </ItemGroup>
 </Project>

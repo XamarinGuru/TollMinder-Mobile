@@ -2,13 +2,15 @@
 using UIKit;
 using Cirrious.CrossCore;
 using Cirrious.MvvmCross.ViewModels;
+using System;
+using Cirrious.MvvmCross.Touch.Platform;
 
 namespace Tollminder.Touch
 {
     // The UIApplicationDelegate for the application. This class is responsible for launching the
     // User Interface of the application, as well as listening (and optionally responding) to application events from iOS.
     [Register("AppDelegate")]
-    public class AppDelegate : UIApplicationDelegate
+    public class AppDelegate : MvxApplicationDelegate
     {
         UIWindow _window;
 
@@ -43,14 +45,12 @@ namespace Tollminder.Touch
 
         public override void DidEnterBackground(UIApplication application)
         {
-            // Use this method to release shared resources, save user data, invalidate timers and store the application state.
-            // If your application supports background exection this method is called instead of WillTerminate when the user quits.
+			Console.WriteLine ("App entering background state.");
         }
 
         public override void WillEnterForeground(UIApplication application)
         {
-            // Called as part of the transiton from background to active state.
-            // Here you can undo many of the changes made on entering the background.
+			Console.WriteLine ("App will enter foreground");
         }
 
         public override void OnActivated(UIApplication application)

@@ -35,6 +35,8 @@
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="Services\IPlatform.cs" />
     <Compile Include="Services\ITextToSpeechService.cs" />
+    <Compile Include="Models\GeoLocation.cs" />
+    <Compile Include="Services\IGeoLocationWatcher.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
@@ -56,5 +58,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
+    <Folder Include="Models\" />
   </ItemGroup>
 </Project>

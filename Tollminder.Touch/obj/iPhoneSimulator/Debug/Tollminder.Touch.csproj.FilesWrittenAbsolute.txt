@@ -1,9 +1,0 @@
-/Users/maksymgrygoriev/Documents/GloriumTech/Tollminder/tollminder/Tollminder.Touch/obj/iPhoneSimulator/Debug/Xamarin.iOS,Version=v1.0.AssemblyAttribute.cs
-/Users/maksymgrygoriev/Documents/GloriumTech/Tollminder/tollminder/Tollminder.Touch/obj/iPhoneSimulator/Debug/ibtool/LaunchScreen.nib
-/Users/maksymgrygoriev/Documents/GloriumTech/Tollminder/tollminder/Tollminder.Touch/obj/iPhoneSimulator/Debug/actool/partial-info.plist
-/Users/maksymgrygoriev/Documents/GloriumTech/Tollminder/tollminder/Tollminder.Touch/obj/iPhoneSimulator/Debug/actool/asset-manifest.plist
-/Users/maksymgrygoriev/Documents/GloriumTech/Tollminder/tollminder/Tollminder.Touch/obj/iPhoneSimulator/Debug/optimized/
-/Users/maksymgrygoriev/Documents/GloriumTech/Tollminder/tollminder/Tollminder.Touch/bin/iPhoneSimulator/Debug/Tollminder.Touch.exe.mdb
-/Users/maksymgrygoriev/Documents/GloriumTech/Tollminder/tollminder/Tollminder.Touch/bin/iPhoneSimulator/Debug/Tollminder.Touch.exe
-/Users/maksymgrygoriev/Documents/GloriumTech/Tollminder/tollminder/Tollminder.Touch/obj/iPhoneSimulator/Debug/Tollminder.Touch.exe
-/Users/maksymgrygoriev/Documents/GloriumTech/Tollminder/tollminder/Tollminder.Touch/obj/iPhoneSimulator/Debug/Tollminder.Touch.exe.mdb
