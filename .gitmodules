@@ -1,6 +1,3 @@
 [submodule "MessengerHub"]
 	path = MessengerHub
 	url = https://github.com/Nickolas-/MessengerHub.git
-[submodule "MessengerHubPCL"]
-	path = MessengerHubPCL
-	url = https://github.com/Nickolas-/MessengerHubPCL.git
