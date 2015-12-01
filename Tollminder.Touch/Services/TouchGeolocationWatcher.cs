@@ -5,6 +5,10 @@ using CoreLocation;
 using UIKit;
 using Tollminder.Core.Helpers;
 using System.Linq;
+using Cirrious.CrossCore;
+using System.Runtime.CompilerServices;
+using System.Diagnostics;
+using System.Reflection;
 
 namespace Tollminder.Touch.Services
 {
@@ -33,7 +37,7 @@ namespace Tollminder.Touch.Services
 			if (CLLocationManager.LocationServicesEnabled) {
 				_locationManager.DesiredAccuracy = 1;
 				_locationManager.LocationsUpdated += LocationUpdated;
-				_locationManager.StartUpdatingLocation ();
+				_locationManager.StartMonitoringSignificantLocationChanges ();
 			}
 		}
 
@@ -42,6 +46,7 @@ namespace Tollminder.Touch.Services
 		void LocationUpdated (object sender, CLLocationsUpdatedEventArgs e)
 		{
 			var loc = e.Locations.Last ();
+
 			var geoLocation = new GeoLocation()
 			{
 				Longitude = loc.Coordinate.Longitude,
@@ -51,6 +56,10 @@ namespace Tollminder.Touch.Services
 				AltitudeAccuracy = loc.VerticalAccuracy
 			};
 			LocationUpdatedEvent (this, new LocationUpdatedEventArgs (geoLocation));
+
+			#if DEBUG
+			Mvx.Trace(Cirrious.CrossCore.Platform.MvxTraceLevel.Diagnostic,geoLocation.ToString(), string.Empty);
+			#endif
 		}
 	}
 }

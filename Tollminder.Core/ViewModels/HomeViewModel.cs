@@ -10,10 +10,12 @@ namespace Tollminder.Core.ViewModels
 		: MvxViewModel
     {
 		IGeoLocationWatcher _geoLocation;
+		IMotionActivity _motionalActivity;
 
-		public HomeViewModel (IGeoLocationWatcher geoLocation)
+		public HomeViewModel (IGeoLocationWatcher geoLocation, IMotionActivity motionalActivity)
 		{
 			this._geoLocation = geoLocation;			
+			this._motionalActivity = motionalActivity;
 		}
 
 		public override void Start ()
@@ -36,6 +38,10 @@ namespace Tollminder.Core.ViewModels
 
 		public string LocationString {
 			get { return _Location.ToString(); } 
+		}
+
+		public string MotionTypeString {
+			get { return _motionalActivity.MotionType.ToString(); }
 		}
 
 		public void SubscribeOnGeolocationUpdate()

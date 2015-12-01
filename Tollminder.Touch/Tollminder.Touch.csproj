@@ -127,6 +127,7 @@
     <Compile Include="Services\TouchGeolocationWatcher.cs" />
     <Compile Include="AppPresenter.cs" />
     <Compile Include="Helpers\EnvironmentInfo.cs" />
+    <Compile Include="Services\TouchMotionActivity.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>

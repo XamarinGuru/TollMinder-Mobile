@@ -38,6 +38,8 @@
     <Compile Include="Models\GeoLocation.cs" />
     <Compile Include="Services\IGeoLocationWatcher.cs" />
     <Compile Include="Helpers\LocationUpdatedEventArgs.cs" />
+    <Compile Include="Models\MotionType.cs" />
+    <Compile Include="Services\IMotionActivity.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
