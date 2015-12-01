@@ -23,12 +23,12 @@ namespace Tollminder.Touch.Services
 		MotionType _motionType;
 		public MotionType MotionType { get; }
 
-		public void StartDetection()
+		public void StopDetection()
 		{
 			
 		}
 
-		public void StopDetection()
+		public void StartDetection()
 		{
 //			[[SOLocationManager sharedInstance] start];
 

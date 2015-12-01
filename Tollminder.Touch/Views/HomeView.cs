@@ -24,6 +24,7 @@ namespace Tollminder.Touch.Views
 
 			var set = this.CreateBindingSet<HomeView, HomeViewModel>();
 			set.Bind (GeoLabelData).To (v => v.LocationString);
+			set.Bind (ActivityLabel).To (v => v.MotionTypeString);
 			set.Apply ();
 			// Perform any additional setup after loading the view, typically from a nib.
 		}

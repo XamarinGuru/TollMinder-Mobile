@@ -6,6 +6,8 @@ namespace Tollminder.Core.Services
 	public interface IMotionActivity
 	{
 		MotionType MotionType { get; }
+		void StartDetection ();
+		void StopDetection ();
 	}
 }
 

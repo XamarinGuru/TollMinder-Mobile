@@ -16,6 +16,10 @@ namespace Tollminder.Touch.Views
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel ActivityLabel { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel GeoLabel { get; set; }
 
 		[Outlet]
@@ -24,6 +28,10 @@ namespace Tollminder.Touch.Views
 
 		void ReleaseDesignerOutlets ()
 		{
+			if (ActivityLabel != null) {
+				ActivityLabel.Dispose ();
+				ActivityLabel = null;
+			}
 			if (GeoLabel != null) {
 				GeoLabel.Dispose ();
 				GeoLabel = null;

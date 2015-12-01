@@ -26,7 +26,7 @@ namespace Tollminder.Core.ViewModels
 			base.Start ();
 			Location = _geoLocation.Location;
 			_geoLocation.StartGeolocationWatcher ();
-
+			_motionalActivity.StartDetection ();
 			WeakSubscribe<MotionTypeChangedMessage> ((s)=> RaisePropertyChanged(()=> MotionTypeString));
 		}
 
