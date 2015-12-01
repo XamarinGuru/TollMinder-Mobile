@@ -64,4 +64,10 @@
     <Folder Include="Models\" />
     <Folder Include="Helpers\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MessengerHubPCL\MessengerHubPCL\MessengerHubPCL.csproj">
+      <Project>{0AC36EE3-BE31-4E7F-B9C3-3854FA1A1844}</Project>
+      <Name>MessengerHubPCL</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
