@@ -1,0 +1,3 @@
+[submodule "MessengerHub"]
+	path = MessengerHub
+	url = https://github.com/Nickolas-/MessengerHub.git
