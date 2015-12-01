@@ -3,17 +3,20 @@ using Tollminder.Core.Services;
 using Tollminder.Core.Models;
 using Tollminder.Core.Helpers;
 using Cirrious.CrossCore;
+using MessengerHub;
 
 namespace Tollminder.Core.ViewModels
 {
     public class HomeViewModel 
-		: MvxViewModel
+		: ViewModelBase
     {
 		IGeoLocationWatcher _geoLocation;
 		IMotionActivity _motionalActivity;
+		IMessengerHub _messengerHub;
 
-		public HomeViewModel (IGeoLocationWatcher geoLocation, IMotionActivity motionalActivity)
+		public HomeViewModel (IGeoLocationWatcher geoLocation, IMotionActivity motionalActivity,IMessengerHub messengerHub)
 		{
+			this._messengerHub = messengerHub;
 			this._geoLocation = geoLocation;			
 			this._motionalActivity = motionalActivity;
 		}
@@ -24,6 +27,7 @@ namespace Tollminder.Core.ViewModels
 			Location = _geoLocation.Location;
 			_geoLocation.StartGeolocationWatcher ();
 
+			WeakSubscribe<MotionTypeChangedMessage> ((s)=> RaisePropertyChanged(()=> MotionTypeString));
 		}
 
 		private GeoLocation _Location;

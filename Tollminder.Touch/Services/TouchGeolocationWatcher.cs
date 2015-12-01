@@ -37,7 +37,7 @@ namespace Tollminder.Touch.Services
 			if (CLLocationManager.LocationServicesEnabled) {
 				_locationManager.DesiredAccuracy = 1;
 				_locationManager.LocationsUpdated += LocationUpdated;
-				_locationManager.StartMonitoringSignificantLocationChanges ();
+				_locationManager.StartUpdatingLocation ();
 			}
 		}
 

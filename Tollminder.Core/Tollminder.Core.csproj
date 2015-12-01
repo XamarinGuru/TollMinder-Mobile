@@ -40,6 +40,10 @@
     <Compile Include="Helpers\LocationUpdatedEventArgs.cs" />
     <Compile Include="Models\MotionType.cs" />
     <Compile Include="Services\IMotionActivity.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="AllocationTracker.cs" />
+    <Compile Include="Models\Messages.cs" />
+    <Compile Include="Models\Enums.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
