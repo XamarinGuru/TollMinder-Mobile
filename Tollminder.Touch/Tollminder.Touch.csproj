@@ -135,10 +135,6 @@
       <Project>{E6D05A1A-E03C-4D21-83F4-0D59E9429837}</Project>
       <Name>Tollminder.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MessengerHubPCL\MessengerHubPCL\MessengerHubPCL.csproj">
-      <Project>{0AC36EE3-BE31-4E7F-B9C3-3854FA1A1844}</Project>
-      <Name>MessengerHubPCL</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
