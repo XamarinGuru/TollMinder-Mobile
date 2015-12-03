@@ -4,6 +4,7 @@ using Tollminder.Core.Models;
 using Tollminder.Core.Helpers;
 using Cirrious.CrossCore;
 using MessengerHub;
+using System.Threading.Tasks;
 
 namespace Tollminder.Core.ViewModels
 {
@@ -21,12 +22,12 @@ namespace Tollminder.Core.ViewModels
 			this._motionalActivity = motionalActivity;
 		}
 
-		public override void Start ()
+		public override async void Start ()
 		{
 			base.Start ();
 			Location = _geoLocation.Location;
 			_geoLocation.StartGeolocationWatcher ();
-			_motionalActivity.StartDetection ();
+			await Task.Delay (500);	_motionalActivity.StartDetection ();
 			WeakSubscribe<MotionTypeChangedMessage> ((s)=> RaisePropertyChanged(()=> MotionTypeString));
 		}
 

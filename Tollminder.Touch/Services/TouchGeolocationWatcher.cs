@@ -9,6 +9,7 @@ using Cirrious.CrossCore;
 using System.Runtime.CompilerServices;
 using System.Diagnostics;
 using System.Reflection;
+using MessengerHub;
 
 namespace Tollminder.Touch.Services
 {
@@ -39,24 +40,31 @@ namespace Tollminder.Touch.Services
 				_locationManager.LocationsUpdated += LocationUpdated;
 				_locationManager.StartUpdatingLocation ();
 			}
+
+
 		}
 
 		#endregion
-
+		bool Started = false;
 		void LocationUpdated (object sender, CLLocationsUpdatedEventArgs e)
 		{
 			var loc = e.Locations.Last ();
-
+			if (!Started) {
+				Mvx.Resolve<IMotionActivity> ().StartDetection ();
+				Started = true;
+			}
 			var geoLocation = new GeoLocation()
 			{
+				Speed = loc.Speed,
 				Longitude = loc.Coordinate.Longitude,
 				Latitude = loc.Coordinate.Latitude,
 				Accuracy = loc.HorizontalAccuracy,
 				Altitude = loc.Altitude,
 				AltitudeAccuracy = loc.VerticalAccuracy
 			};
+			Location = geoLocation;
 			LocationUpdatedEvent (this, new LocationUpdatedEventArgs (geoLocation));
-
+			Mvx.Resolve<IMessengerHub> ().Publish (new LocationUpdatedMessage (this, geoLocation));
 			#if DEBUG
 			Mvx.Trace(Cirrious.CrossCore.Platform.MvxTraceLevel.Diagnostic,geoLocation.ToString(), string.Empty);
 			#endif

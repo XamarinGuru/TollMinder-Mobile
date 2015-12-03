@@ -18,7 +18,7 @@ namespace Tollminder.Core.Models
 
 		public const double DesiredAccuracy = 250;
 
-
+		public double Speed { get; set; }
 		public double Latitude { get; set; }
 		public double Longitude { get; set; }
 		public double Accuracy { get; set; }

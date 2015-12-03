@@ -8,7 +8,17 @@ namespace Tollminder.Core.Models
 		public MotionTypeChangedMessage (object sender, MotionType motionType)
 			: base (sender, motionType)
 		{			
-		}	
+		}
+
+	}
+
+	public class LocationUpdatedMessage : GenericMessageBase<GeoLocation>
+	{
+		public LocationUpdatedMessage (object sender, GeoLocation motionType)
+			: base (sender, motionType)
+		{			
+		}
+
 	}
 }
 
