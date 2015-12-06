@@ -14,7 +14,6 @@ namespace Tollminder.Droid
 	public class LocationService : Service, IGeoLocationWatcher
 	{
 		public static string BROADCAST_ACTION = "Hello World";
-		public static int TWO_MINUTES = 1000 * 60 * 2;
 		public LocationManager _locationManager;
 		public GeoLocationListener _listener;
 
@@ -41,13 +40,6 @@ namespace Tollminder.Droid
 			return null;
 		}
 
-		/** Checks whether two providers are the same */
-		private bool IsSameProvider(String provider1, String provider2) {
-			if (provider1 == null) {
-				return provider2 == null;
-			}
-			return provider1.Equals(provider2);
-		}
 
 		#region IGeoLocationWatcher implementation
 		public event EventHandler<LocationUpdatedEventArgs> LocationUpdatedEvent;
@@ -67,8 +59,17 @@ namespace Tollminder.Droid
 
 	public class GeoLocationListener : Java.Lang.Object, Android.Locations.ILocationListener
 	{
+		public static int TWO_MINUTES = 1000 * 60 * 2;
 		public Location _previousBestLocation = null;
 		
+		/** Checks whether two providers are the same */
+		private bool IsSameProvider(String provider1, String provider2) {
+			if (provider1 == null) {
+				return provider2 == null;
+			}
+			return provider1.Equals(provider2);
+		}
+
 		private bool IsBetterLocation(Location location, Location currentBestLocation) {
 			if (currentBestLocation == null) {
 				// A new location is always better than no location
