@@ -2,6 +2,9 @@ using Android.Content;
 using Cirrious.CrossCore.Platform;
 using Cirrious.MvvmCross.Droid.Platform;
 using Cirrious.MvvmCross.ViewModels;
+using Cirrious.CrossCore;
+using Tollminder.Core.Services;
+using Tollminder.Droid.Services;
 
 namespace Tollminder.Droid
 {
@@ -20,5 +23,12 @@ namespace Tollminder.Droid
         {
             return new DebugTrace();
         }
+
+		protected override void InitializePlatformServices ()
+		{
+			base.InitializePlatformServices ();
+			Mvx.LazyConstructAndRegisterSingleton<IGeoLocationWatcher,DroidGeolocationWatcher> ();
+			Mvx.LazyConstructAndRegisterSingleton<IMotionActivity,DroidMotionActivity> ();
+		}
     }
 }

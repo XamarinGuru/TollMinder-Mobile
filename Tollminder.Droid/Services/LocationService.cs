@@ -5,7 +5,6 @@ using Tollminder.Core.Helpers;
 using Android.App;
 using Android.Locations;
 using Android.Content;
-using Android.Gms.Location;
 using Android.Widget;
 using Android.OS;
 
@@ -14,9 +13,9 @@ namespace Tollminder.Droid
 	public class LocationService : Service 
 	{
 		public static string BROADCAST_ACTION = "Hello World";
-		private static int TWO_MINUTES = 1000 * 60 * 2;
+		public static int TWO_MINUTES = 1000 * 60 * 2;
 		public LocationManager _locationManager;
-		public GeoLocationListener listener;
+		public GeoLocationListener _listener;
 		public Location previousBestLocation = null;
 
 		Intent _intent;
@@ -33,9 +32,9 @@ namespace Tollminder.Droid
 		public override void OnStart(Intent intent, int startId) 
 		{      
 			_locationManager = (LocationManager) GetSystemService(Context.LocationService);
-			listener = new GeoLocationListener();        
-			_locationManager.RequestLocationUpdates(LocationManager.NetworkProvider, 4000, 0, listener);
-			_locationManager.RequestLocationUpdates(LocationManager.GpsProvider, 4000, 0, listener);
+			_listener = new GeoLocationListener();        
+			_locationManager.RequestLocationUpdates(LocationManager.NetworkProvider, 4000, 0, _listener);
+			_locationManager.RequestLocationUpdates(LocationManager.GpsProvider, 4000, 0, _listener);
 		}
 
 		public override Android.OS.IBinder OnBind (Intent intent)
@@ -95,20 +94,17 @@ namespace Tollminder.Droid
 			return provider1.Equals(provider2);
 		}
 
-
-
 	
 		public override void OnDestroy() {       
 			// handler.removeCallbacks(sendUpdatesToUI);     
 			base.OnDestroy();
-			_locationManager.RemoveUpdates(listener);        
+			_locationManager.RemoveUpdates(_listener);        
 		}  
 
 
-		public class GeoLocationListener : LocationListener
+		public class GeoLocationListener : Java.Lang.Object, Android.Locations.ILocationListener
 		{
-
-			public void onLocationChanged(Location loc)
+			public void OnLocationChanged(Location loc)
 			{
 //				Log.i("**************************************", "Location changed");
 //				if(isBetterLocation(loc, previousBestLocation)) {
@@ -122,19 +118,19 @@ namespace Tollminder.Droid
 //				}                               
 			}
 
-			public void onProviderDisabled(String provider)
+			public void OnProviderDisabled(String provider)
 			{
 //				Toast.MakeText( GetAppl(), "Gps Disabled", Toast. ).show();
 			}
 
 
-			public void onProviderEnabled(String provider)
+			public void OnProviderEnabled(String provider)
 			{
 //				Toast.MakeText(, "Gps Enabled", Toast.LENGTH_SHORT).show();
 			}
 
 
-			public void onStatusChanged(String provider, int status, Bundle extras)
+			public void OnStatusChanged(string provider, Availability status, Bundle extras)
 			{
 
 			}

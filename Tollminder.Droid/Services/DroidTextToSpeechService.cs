@@ -8,7 +8,7 @@ using Android.App;
 
 namespace Tollminder.Droid.Services
 {
-    public class DroidTextToSpeechService : ITextToSpeechService
+	public class DroidTextToSpeechService : Java.Lang.Object, ITextToSpeechService , TextToSpeech.IOnInitListener
     {
         TextToSpeech speaker;
         string toSpeak;
@@ -31,7 +31,17 @@ namespace Tollminder.Droid.Services
             }
         }
 
-        #endregion
+		#endregion
+
+		#region IOnInitListener implementation
+
+		public void OnInit (OperationResult status)
+		{
+			throw new NotImplementedException ();
+		}
+
+		#endregion
+	
     }
 }
 

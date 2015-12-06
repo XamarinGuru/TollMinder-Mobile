@@ -10,7 +10,7 @@ namespace Tollminder.Droid.Views
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            SetContentView(Resource.Layout.homeView);
+			SetContentView(Resource.Layout.homeView);
         }
     }
 }

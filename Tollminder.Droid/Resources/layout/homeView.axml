@@ -10,13 +10,15 @@
         android:layout_height="50dp">
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:textSize="25dp"
-            local:MvxBind="Text Hello" />
+            local:MvxBind="Text Hello"
+            android:layout_weight="1" />
         <TextView
             android:text="Text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView1" />
+            android:layout_height="50dp"
+            android:id="@+id/textView1"
+            android:layout_weight="1" />
     </LinearLayout>
 </LinearLayout>
