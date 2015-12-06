@@ -11,7 +11,7 @@ using Cirrious.CrossCore;
 
 namespace Tollminder.Droid
 {
-	public class LocationService : Service, IGeoLocationWatcher
+	public class DroidGeolocationWatcher : Service, IGeoLocationWatcher
 	{
 		public static string BROADCAST_ACTION = "Hello World";
 		public LocationManager _locationManager;

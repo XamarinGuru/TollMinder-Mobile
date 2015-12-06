@@ -97,9 +97,8 @@
     <Compile Include="LinkerPleaseInclude.cs" />
     <Compile Include="Views\HomeView.cs" />
     <Compile Include="Services\DroidTextToSpeechService.cs" />
-    <Compile Include="Services\LocationService.cs" />
-    <Compile Include="Services\DroidGeolocationWatcher.cs" />
     <Compile Include="Services\DroidMotionActivity.cs" />
+    <Compile Include="Services\DroidGeolocationWatcher.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
