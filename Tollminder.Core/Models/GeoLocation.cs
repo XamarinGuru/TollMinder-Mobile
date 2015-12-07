@@ -5,6 +5,8 @@ namespace Tollminder.Core.Models
 	// encapulates a geolocation and other information
 	public class GeoLocation : IEquatable<GeoLocation>
 	{
+		const double Epsilon = 0.0000001;
+
 		public GeoLocation ()
 		{
 			
@@ -29,6 +31,11 @@ namespace Tollminder.Core.Models
 		public bool IsDesiredAccuracy
 		{
 			get { return Accuracy < DesiredAccuracy; }
+		}
+
+		public bool IsUnknownGeoLocation
+		{
+			get { return Math.Abs (Latitude) < Epsilon && Math.Abs (Longitude) < Epsilon; }
 		}
 
 		// does this equal another location?

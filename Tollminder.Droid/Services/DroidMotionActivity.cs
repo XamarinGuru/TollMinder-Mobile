@@ -9,7 +9,7 @@ namespace Tollminder.Droid.Services
 
 		public void StartDetection ()
 		{
-			throw new NotImplementedException ();
+			
 		}
 
 		public void StopDetection ()

@@ -1,6 +1,8 @@
 using Android.App;
 using Android.OS;
 using Cirrious.MvvmCross.Droid.Views;
+using Android.Content;
+using Tollminder.Droid.Services;
 
 namespace Tollminder.Droid.Views
 {
@@ -11,6 +13,7 @@ namespace Tollminder.Droid.Views
         {
             base.OnCreate(bundle);
 			SetContentView(Resource.Layout.homeView);
+			StartService (new Intent (this, typeof(DroidGeolocationWatcher)));
         }
     }
 }

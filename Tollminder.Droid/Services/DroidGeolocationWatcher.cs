@@ -8,151 +8,207 @@ using Android.Content;
 using Android.Widget;
 using Android.OS;
 using Cirrious.CrossCore;
+using Android.Gms.Location;
+using Android.Gms.Common;
+using Android.Gms.Common.Apis;
+using Tollminder.Droid.Services;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace Tollminder.Droid
+namespace Tollminder.Droid.Services
 {
-	public class DroidGeolocationWatcher : Service, IGeoLocationWatcher
+	[Service]
+	public class DroidGeolocationWatcher : Service,
+	Android.Gms.Common.Apis.GoogleApiClient.IConnectionCallbacks,
+	Android.Gms.Common.Apis.GoogleApiClient.IOnConnectionFailedListener,
+	Android.Gms.Location.ILocationListener,
+	IResultCallback,
+	IGeoLocationWatcher 
 	{
-		public static string BROADCAST_ACTION = "Hello World";
-		public LocationManager _locationManager;
-		public GeoLocationListener _listener;
+		#region private fields
 
-		Intent _intent;
-		int counter = 0;
+		private const int GeoFenceRadius = 40;
 
-		public override void OnCreate() 
+		public static readonly string GeoFenceRegionKey = "geoCurrentRegionPoint";
+
+		const int NumberOfUpdates = 1;
+
+		// Milliseconds per second
+		private static readonly int MillescondPerSecond = 1000;
+		// Update frequency in seconds
+		private static readonly int UpdateIntervalInSeconds = 3;
+		// Update frequency in milliseconds
+		public static readonly long UpdateInterval = MillescondPerSecond * UpdateIntervalInSeconds;
+		// The fastest update frequency, in seconds
+		private static readonly int FastestIntervalInSeconds = 3;
+		// A fast frequency ceiling in milliseconds
+		public static readonly long FastestInterval = MillescondPerSecond * FastestIntervalInSeconds;
+
+		private GoogleApiClient _locationClient;
+		private LocationRequest _locationRequest;
+		private IGeofence _geoFence;
+		private GeofencingRequest _geoFenceRequest;
+		private PendingIntent _geofencePendingIntent;
+
+		// Flag that indicates if a request is underway.
+		private bool _inProgress;
+
+		private bool _servicesAvailable = false;
+
+		#endregion
+
+
+
+		public override void OnCreate ()
 		{
-			base.OnCreate();
-			_intent = new Intent(BROADCAST_ACTION);      
+			base.OnCreate ();
+			_locationRequest = new LocationRequest ();
+			_locationRequest.SetPriority (LocationRequest.PriorityHighAccuracy);	
+			_locationRequest.SetNumUpdates (NumberOfUpdates);
+//			_locationRequest.SetInterval (UpdateInterval);
+//			_locationRequest.SetFastestInterval (FastestInterval);
+
+			_locationClient = new GoogleApiClient.Builder (this).AddApi (LocationServices.API).AddConnectionCallbacks (this).AddOnConnectionFailedListener (this).Build ();
+			_locationClient.Connect ();
+
 		}
 
-
-		public override void OnStart(Intent intent, int startId) 
-		{      
-			_locationManager = (LocationManager) GetSystemService(Context.LocationService);
-			_listener = new GeoLocationListener();        
-			_locationManager.RequestLocationUpdates(LocationManager.NetworkProvider, 4000, 0, _listener);
-			_locationManager.RequestLocationUpdates(LocationManager.GpsProvider, 4000, 0, _listener);
+		public override void OnDestroy ()
+		{
+			base.OnDestroy ();
+			_locationClient.Disconnect ();
+			_locationClient.UnregisterConnectionCallbacks (this);
+			_locationClient.UnregisterConnectionFailedListener (this);
+			_locationClient = null;
 		}
 
-		public override Android.OS.IBinder OnBind (Intent intent)
+		#region implemented abstract members of Service
+
+
+		public override IBinder OnBind (Intent intent)
 		{
 			return null;
 		}
 
 
+		#endregion
+
+
+		public void OnResult (Java.Lang.Object result)
+		{
+			var asd = "somes ";
+		}
+
+
+		private bool ServicesConnected() {
+
+			// Check that Google Play services is available
+			int resultCode = GoogleApiAvailability.Instance.IsGooglePlayServicesAvailable(this);
+
+			// If Google Play services is available
+			if (ConnectionResult.Success == resultCode) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		public void OnConnected (Bundle connectionHint)
+		{
+			if (LocationServices.FusedLocationApi.GetLocationAvailability (_locationClient).IsLocationAvailable) {
+				Location = GetGeoLocationFromAndroidLocation (LocationServices.FusedLocationApi.GetLastLocation (_locationClient));				
+				SetupGeofence ();
+			} else {
+				LocationServices.FusedLocationApi.RequestLocationUpdates (_locationClient, _locationRequest, this);
+			}
+
+		}
+
+		void SetupGeofence ()
+		{
+			if (!Location.IsUnknownGeoLocation) {
+				AddGeofencePoint (Location.Latitude, Location.Longitude);
+				BuildGeofenceRequest ();
+				LocationServices.GeofencingApi.AddGeofences (_locationClient, _geoFenceRequest, GetGeofencePendingIntent ()).SetResultCallback (this);
+			}
+		}
+
+		public void OnConnectionSuspended (int cause)
+		{
+			
+		}
+
+		public void OnConnectionFailed (Android.Gms.Common.ConnectionResult result)
+		{
+			
+		}
+
+		public void OnLocationChanged (Android.Locations.Location location)
+		{
+			Location = GetGeoLocationFromAndroidLocation (location);
+			SetupGeofence ();
+		}
+
+		public void OnProviderDisabled (string provider)
+		{
+			
+		}
+
+		public void OnProviderEnabled (string provider)
+		{
+			
+		}
+
+		public void OnStatusChanged (string provider, Availability status, Bundle extras)
+		{
+			
+		}
+
 		#region IGeoLocationWatcher implementation
 		public event EventHandler<LocationUpdatedEventArgs> LocationUpdatedEvent;
 		public void StartGeolocationWatcher ()
 		{
-			this.StartService ();
+			
 		}
 		public GeoLocation Location { get; set; }
 		#endregion
-	
-		public override void OnDestroy() {       
-			// handler.removeCallbacks(sendUpdatesToUI);     
-			base.OnDestroy();
-			_locationManager.RemoveUpdates(_listener);        
-		}  
-	}
 
-	public class GeoLocationListener : Java.Lang.Object, Android.Locations.ILocationListener
-	{
-		public static int TWO_MINUTES = 1000 * 60 * 2;
-		public Location _previousBestLocation = null;
-		
-		/** Checks whether two providers are the same */
-		private bool IsSameProvider(String provider1, String provider2) {
-			if (provider1 == null) {
-				return provider2 == null;
-			}
-			return provider1.Equals(provider2);
+		#region Helpers
+
+		private GeoLocation GetGeoLocationFromAndroidLocation (Location loc)
+		{
+			var geoLocation = new GeoLocation () {
+				Accuracy = loc.Accuracy,
+				Altitude = loc.Altitude,
+				Longitude = loc.Longitude,
+				Latitude = loc.Latitude,
+				Speed = loc.Speed
+			};
+			Toast.MakeText (this, geoLocation.ToString(), ToastLength.Short).Show();
+			return geoLocation;
 		}
 
-		private bool IsBetterLocation(Location location, Location currentBestLocation) {
-			if (currentBestLocation == null) {
-				// A new location is always better than no location
-				return true;
-			}
-			
-			// Check whether the new location fix is newer or older
-			long timeDelta = location.Time - currentBestLocation.Time;
-			bool isSignificantlyNewer = timeDelta > TWO_MINUTES;
-			bool isSignificantlyOlder = timeDelta < -TWO_MINUTES;
-			bool isNewer = timeDelta > 0;
-			
-			// If it's been more than two minutes since the current location, use the new location
-			// because the user has likely moved
-			if (isSignificantlyNewer) {
-				return true;
-				// If the new location is more than two minutes older, it must be worse
-			} else if (isSignificantlyOlder) {
-				return false;
-			}
-			
-			// Check whether the new location fix is more or less accurate
-			int accuracyDelta = (int) (location.Accuracy - currentBestLocation.Accuracy);
-			bool isLessAccurate = accuracyDelta > 0;
-			bool isMoreAccurate = accuracyDelta < 0;
-			bool isSignificantlyLessAccurate = accuracyDelta > 200;
-			
-			// Check if the old and new location are from the same provider
-			bool isFromSameProvider = IsSameProvider (location.Provider,
-				currentBestLocation.Provider);
-			
-			// Determine location quality using a combination of timeliness and accuracy
-			if (isMoreAccurate) {
-				return true;
-			} else if (isNewer && !isLessAccurate) {
-				return true;
-			} else if (isNewer && !isSignificantlyLessAccurate && isFromSameProvider) {
-				return true;
-			}
-			return false;
-		}
-		
-		public void OnLocationChanged(Location loc)
+
+		private void AddGeofencePoint (double lat, double lon)
 		{
-			if (IsBetterLocation(loc, _previousBestLocation)) {
-				var location = new GeoLocation ();
-				location.Latitude = loc.Latitude;
-				location.Longitude = loc.Longitude;
-				location.Altitude = loc.Altitude;
-				location.Accuracy = loc.Accuracy;
-				location.Speed = loc.Speed;
+			_geoFence = new GeofenceBuilder ().SetRequestId (GeoFenceRegionKey).SetExpirationDuration(long.MaxValue).SetCircularRegion (lat, lon, GeoFenceRadius).SetTransitionTypes (Geofence.GeofenceTransitionExit | Geofence.GeofenceTransitionEnter).Build ();
+		}
+
+		private void BuildGeofenceRequest ()
+		{
+			_geoFenceRequest = new GeofencingRequest.Builder ().AddGeofence (_geoFence).SetInitialTrigger (GeofencingRequest.InitialTriggerExit).Build ();
+		}
+
+		private PendingIntent GetGeofencePendingIntent ()
+		{
+			if (_geofencePendingIntent != null) {
+				return _geofencePendingIntent;
 			}
-			//				#if DEBUG
-			//				Mvx.Trace(Cirrious.CrossCore.Platform.MvxTraceLevel.Diagnostic,geoLocation.ToString(), string.Empty);
-			//				#endif
-			//				Log.i("**************************************", "Location changed");
-			//				if(isBetterLocation(loc, previousBestLocation)) {
-			//					loc.getLatitude();
-			//					loc.getLongitude();             
-			//					intent.putExtra("Latitude", loc.getLatitude());
-			//					intent.putExtra("Longitude", loc.getLongitude());     
-			//					intent.putExtra("Provider", loc.getProvider());                 
-			//					SendBroadcast(intent);          
-			//
-			//				}                               
+			Intent intent = new Intent (this, typeof(GeofenceTransitionsIntentService));
+			_geofencePendingIntent = PendingIntent.GetService (this, GeofenceTransitionsIntentService.GeofenceTransitionsIntentServiceCode, intent, PendingIntentFlags.UpdateCurrent);
+			return _geofencePendingIntent;
 		}
-		
-		public void OnProviderDisabled(String provider)
-		{
-			//				Toast.MakeText( GetAppl(), "Gps Disabled", Toast. ).show();
-		}
-		
-		
-		public void OnProviderEnabled(String provider)
-		{
-			//				Toast.MakeText(, "Gps Enabled", Toast.LENGTH_SHORT).show();
-		}
-		
-		
-		public void OnStatusChanged(string provider, Availability status, Bundle extras)
-		{
-			
-		}
+		#endregion
 		
 	}
 }
