@@ -5,7 +5,7 @@ using Android.Widget;
 
 namespace Tollminder.Droid.Services
 {
-	[Service(Name = "tollminder.droid.services.ReceiveTransitionsIntentService",
+	[Service(Name = "tollminder.droid.services.GeofenceTransitionsIntentService",
 		Label = "GeofenceTransitionsIntentService",
 		Exported = false )]
 	public class GeofenceTransitionsIntentService : IntentService

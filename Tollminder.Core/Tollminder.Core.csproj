@@ -44,6 +44,7 @@
     <Compile Include="AllocationTracker.cs" />
     <Compile Include="Models\Messages.cs" />
     <Compile Include="Models\Enums.cs" />
+    <Compile Include="Models\GeofenceException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>

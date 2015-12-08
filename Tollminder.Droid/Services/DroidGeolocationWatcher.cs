@@ -19,15 +19,15 @@ namespace Tollminder.Droid.Services
 {
 	[Service]
 	public class DroidGeolocationWatcher : Service,
-	Android.Gms.Common.Apis.GoogleApiClient.IConnectionCallbacks,
-	Android.Gms.Common.Apis.GoogleApiClient.IOnConnectionFailedListener,
-	Android.Gms.Location.ILocationListener,
-	IResultCallback,
-	IGeoLocationWatcher 
+										Android.Gms.Common.Apis.GoogleApiClient.IConnectionCallbacks,
+										Android.Gms.Common.Apis.GoogleApiClient.IOnConnectionFailedListener,
+										Android.Gms.Location.ILocationListener,
+										IResultCallback,
+										IGeoLocationWatcher 
 	{
 		#region private fields
 
-		private const int GeoFenceRadius = 40;
+		private const int GeoFenceRadius = 100;
 
 		public static readonly string GeoFenceRegionKey = "geoCurrentRegionPoint";
 
@@ -53,33 +53,19 @@ namespace Tollminder.Droid.Services
 		// Flag that indicates if a request is underway.
 		private bool _inProgress;
 
-		private bool _servicesAvailable = false;
-
 		#endregion
-
-
 
 		public override void OnCreate ()
 		{
 			base.OnCreate ();
-			_locationRequest = new LocationRequest ();
-			_locationRequest.SetPriority (LocationRequest.PriorityHighAccuracy);	
-			_locationRequest.SetNumUpdates (NumberOfUpdates);
-//			_locationRequest.SetInterval (UpdateInterval);
-//			_locationRequest.SetFastestInterval (FastestInterval);
-
-			_locationClient = new GoogleApiClient.Builder (this).AddApi (LocationServices.API).AddConnectionCallbacks (this).AddOnConnectionFailedListener (this).Build ();
-			_locationClient.Connect ();
+			SetupLocationService ();
 
 		}
 
 		public override void OnDestroy ()
 		{
 			base.OnDestroy ();
-			_locationClient.Disconnect ();
-			_locationClient.UnregisterConnectionCallbacks (this);
-			_locationClient.UnregisterConnectionFailedListener (this);
-			_locationClient = null;
+			DestroyLocationService ();
 		}
 
 		#region implemented abstract members of Service
@@ -99,48 +85,27 @@ namespace Tollminder.Droid.Services
 			var asd = "somes ";
 		}
 
-
-		private bool ServicesConnected() {
-
-			// Check that Google Play services is available
-			int resultCode = GoogleApiAvailability.Instance.IsGooglePlayServicesAvailable(this);
-
-			// If Google Play services is available
-			if (ConnectionResult.Success == resultCode) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-
 		public void OnConnected (Bundle connectionHint)
 		{
+			if (!_locationClient.IsConnected) {
+				_locationClient.Connect ();
+				return;
+			}
+			_inProgress = true;
 			if (LocationServices.FusedLocationApi.GetLocationAvailability (_locationClient).IsLocationAvailable) {
 				Location = GetGeoLocationFromAndroidLocation (LocationServices.FusedLocationApi.GetLastLocation (_locationClient));				
 				SetupGeofence ();
 			} else {
 				LocationServices.FusedLocationApi.RequestLocationUpdates (_locationClient, _locationRequest, this);
 			}
-
-		}
-
-		void SetupGeofence ()
-		{
-			if (!Location.IsUnknownGeoLocation) {
-				AddGeofencePoint (Location.Latitude, Location.Longitude);
-				BuildGeofenceRequest ();
-				LocationServices.GeofencingApi.AddGeofences (_locationClient, _geoFenceRequest, GetGeofencePendingIntent ()).SetResultCallback (this);
-			}
 		}
 
 		public void OnConnectionSuspended (int cause)
-		{
-			
+		{			
 		}
 
 		public void OnConnectionFailed (Android.Gms.Common.ConnectionResult result)
 		{
-			
 		}
 
 		public void OnLocationChanged (Android.Locations.Location location)
@@ -150,18 +115,15 @@ namespace Tollminder.Droid.Services
 		}
 
 		public void OnProviderDisabled (string provider)
-		{
-			
+		{			
 		}
 
 		public void OnProviderEnabled (string provider)
-		{
-			
+		{			
 		}
 
 		public void OnStatusChanged (string provider, Availability status, Bundle extras)
-		{
-			
+		{			
 		}
 
 		#region IGeoLocationWatcher implementation
@@ -175,28 +137,129 @@ namespace Tollminder.Droid.Services
 
 		#region Helpers
 
+		private void SetupGeofence ()
+		{
+			if (!Location.IsUnknownGeoLocation) {
+				try {
+					AddGeofencePoint (Location.Latitude, Location.Longitude);
+					BuildGeofenceRequest ();
+					LocationServices.GeofencingApi.AddGeofences (_locationClient, _geoFenceRequest, GetGeofencePendingIntent ()).SetResultCallback (this);					
+				} catch (GeofenceException ex) {
+					switch (ex.Status) {
+					case GeofenceStatus.OnAddGeofencePoint:
+						AddGeofencePoint (Location.Latitude, Location.Longitude);
+						break;
+					case GeofenceStatus.OnBuildGeoFenceRequest:
+						BuildGeofenceRequest ();
+						break;
+					case GeofenceStatus.OnAddGeofence:
+						LocationServices.GeofencingApi.AddGeofences (_locationClient, _geoFenceRequest, GetGeofencePendingIntent ()).SetResultCallback (this);					
+						break;
+					case GeofenceStatus.None:						
+					default:
+						break;
+					}
+				}
+			} else {
+				_locationClient.Connect ();
+			}
+		}
+
+		private bool ServicesConnected()
+		{
+			// Check that Google Play services is available
+			int resultCode = GoogleApiAvailability.Instance.IsGooglePlayServicesAvailable(this);
+			// If Google Play services is available
+			if (ConnectionResult.Success == resultCode) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
 		private GeoLocation GetGeoLocationFromAndroidLocation (Location loc)
 		{
-			var geoLocation = new GeoLocation () {
-				Accuracy = loc.Accuracy,
-				Altitude = loc.Altitude,
-				Longitude = loc.Longitude,
-				Latitude = loc.Latitude,
-				Speed = loc.Speed
-			};
-			Toast.MakeText (this, geoLocation.ToString(), ToastLength.Short).Show();
+			var geoLocation = new GeoLocation (); 
+			try {
+				geoLocation.Accuracy = loc.Accuracy;
+				geoLocation.Altitude = loc.Altitude;
+				geoLocation.Longitude = loc.Longitude;
+				geoLocation.Latitude = loc.Latitude;
+				geoLocation.Speed = loc.Speed;
+				#if DEBUG
+				Toast.MakeText (this, geoLocation.ToString(), ToastLength.Short).Show();
+				#endif								
+			} catch (NullReferenceException ex) {
+				_locationClient.Connect ();
+			} catch (Exception exc) {
+				
+			}
 			return geoLocation;
 		}
 
 
 		private void AddGeofencePoint (double lat, double lon)
 		{
-			_geoFence = new GeofenceBuilder ().SetRequestId (GeoFenceRegionKey).SetExpirationDuration(long.MaxValue).SetCircularRegion (lat, lon, GeoFenceRadius).SetTransitionTypes (Geofence.GeofenceTransitionExit | Geofence.GeofenceTransitionEnter).Build ();
+			try {
+				_geoFence = new GeofenceBuilder ()
+					.SetRequestId (GeoFenceRegionKey)
+					.SetExpirationDuration (long.MaxValue)
+					.SetCircularRegion (lat, lon, GeoFenceRadius)
+					.SetTransitionTypes (Geofence.GeofenceTransitionExit | Geofence.GeofenceTransitionEnter)
+					.Build ();				
+			} catch (Exception ex) {
+				#if DEBUG
+				Mvx.Trace (ex.Message, string.Empty);
+				#endif
+				throw new GeofenceException (ex.Message, GeofenceStatus.OnAddGeofencePoint);
+			} 							
+		}
+
+		private void SetupLocationService ()
+		{
+			if (_locationRequest == null) {
+				_locationRequest = new LocationRequest ();
+				_locationRequest.SetPriority (LocationRequest.PriorityHighAccuracy);
+				_locationRequest.SetNumUpdates (NumberOfUpdates);				
+			}
+			if (_locationClient == null) {
+				_locationClient = new GoogleApiClient.Builder (this).AddApi (LocationServices.API).AddConnectionCallbacks (this).AddOnConnectionFailedListener (this).Build ();
+			}
+			_locationClient.Connect ();				
+		}
+
+		private void DestroyLocationService ()
+		{
+			if (_locationClient != null) {				
+				_locationClient.Disconnect ();
+				_locationClient.UnregisterConnectionCallbacks (this);
+				_locationClient.UnregisterConnectionFailedListener (this);
+				_locationClient = null;
+			}
+		}
+
+		private void RemoveGeofence ()
+		{
+			try {
+				LocationServices.GeofencingApi.RemoveGeofences (_locationClient, GetGeofencePendingIntent ()).SetResultCallback(this);				
+			} catch (Exception ex) {
+				#if DEBUG
+				Mvx.Trace (ex.Message, string.Empty);
+				#endif
+				throw new GeofenceException (ex.Message, GeofenceStatus.OnRemoveGeofence);
+			}
 		}
 
 		private void BuildGeofenceRequest ()
 		{
-			_geoFenceRequest = new GeofencingRequest.Builder ().AddGeofence (_geoFence).SetInitialTrigger (GeofencingRequest.InitialTriggerExit).Build ();
+			try {
+				_geoFenceRequest = new GeofencingRequest.Builder ().AddGeofence (_geoFence).SetInitialTrigger (GeofencingRequest.InitialTriggerExit).Build ();				
+			} catch (Exception ex) {
+				#if DEBUG
+				Mvx.Trace (ex.Message, string.Empty);
+				#endif
+				throw new GeofenceException (ex.Message, GeofenceStatus.OnBuildGeoFenceRequest);
+			}
 		}
 
 		private PendingIntent GetGeofencePendingIntent ()
@@ -204,12 +267,10 @@ namespace Tollminder.Droid.Services
 			if (_geofencePendingIntent != null) {
 				return _geofencePendingIntent;
 			}
-			Intent intent = new Intent (this, typeof(GeofenceTransitionsIntentService));
-			_geofencePendingIntent = PendingIntent.GetService (this, GeofenceTransitionsIntentService.GeofenceTransitionsIntentServiceCode, intent, PendingIntentFlags.UpdateCurrent);
-			return _geofencePendingIntent;
+			Intent intent = new Intent (this, typeof(GeofenceTransitionsIntentService));			 
+			return PendingIntent.GetService (this, GeofenceTransitionsIntentService.GeofenceTransitionsIntentServiceCode, intent, PendingIntentFlags.UpdateCurrent);
+
 		}
-		#endregion
-		
+		#endregion		
 	}
 }
-

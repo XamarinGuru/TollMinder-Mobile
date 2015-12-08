@@ -9,4 +9,13 @@ namespace Tollminder.Core.Models
 		Success,
 		Info
 	}
+
+	public enum GeofenceStatus
+	{
+		OnRemoveGeofence,
+		OnAddGeofencePoint,
+		OnBuildGeoFenceRequest,
+		OnAddGeofence,
+		None
+	}
 }
