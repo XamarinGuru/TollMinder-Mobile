@@ -112,6 +112,7 @@
     <Compile Include="Services\DroidMotionActivity.cs" />
     <Compile Include="Services\DroidGeolocationWatcher.cs" />
     <Compile Include="Services\GeofenceTransitionsIntentService.cs" />
+    <Compile Include="Etensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

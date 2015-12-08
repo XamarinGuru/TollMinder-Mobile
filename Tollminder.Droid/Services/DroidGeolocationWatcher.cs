@@ -21,13 +21,12 @@ namespace Tollminder.Droid.Services
 	public class DroidGeolocationWatcher : Service,
 										Android.Gms.Common.Apis.GoogleApiClient.IConnectionCallbacks,
 										Android.Gms.Common.Apis.GoogleApiClient.IOnConnectionFailedListener,
-										Android.Gms.Location.ILocationListener,
-										IResultCallback,
+										Android.Gms.Location.ILocationListener,										
 										IGeoLocationWatcher 
 	{
 		#region private fields
 
-		private const int GeoFenceRadius = 100;
+		private const int GeoFenceRadius = 1000;
 
 		public static readonly string GeoFenceRegionKey = "geoCurrentRegionPoint";
 
@@ -50,9 +49,6 @@ namespace Tollminder.Droid.Services
 		private GeofencingRequest _geoFenceRequest;
 		private PendingIntent _geofencePendingIntent;
 
-		// Flag that indicates if a request is underway.
-		private bool _inProgress;
-
 		#endregion
 
 		public override void OnCreate ()
@@ -66,6 +62,7 @@ namespace Tollminder.Droid.Services
 		{
 			base.OnDestroy ();
 			DestroyLocationService ();
+			RemoveGeofence ();
 		}
 
 		#region implemented abstract members of Service
@@ -79,22 +76,14 @@ namespace Tollminder.Droid.Services
 
 		#endregion
 
-
-		public void OnResult (Java.Lang.Object result)
-		{
-			var asd = "somes ";
-		}
-
 		public void OnConnected (Bundle connectionHint)
 		{
 			if (!_locationClient.IsConnected) {
 				_locationClient.Connect ();
 				return;
 			}
-			_inProgress = true;
 			if (LocationServices.FusedLocationApi.GetLocationAvailability (_locationClient).IsLocationAvailable) {
-				Location = GetGeoLocationFromAndroidLocation (LocationServices.FusedLocationApi.GetLastLocation (_locationClient));				
-				SetupGeofence ();
+				Location = GetGeoLocationFromAndroidLocation (LocationServices.FusedLocationApi.GetLastLocation (_locationClient));
 			} else {
 				LocationServices.FusedLocationApi.RequestLocationUpdates (_locationClient, _locationRequest, this);
 			}
@@ -111,7 +100,6 @@ namespace Tollminder.Droid.Services
 		public void OnLocationChanged (Android.Locations.Location location)
 		{
 			Location = GetGeoLocationFromAndroidLocation (location);
-			SetupGeofence ();
 		}
 
 		public void OnProviderDisabled (string provider)
@@ -132,28 +120,38 @@ namespace Tollminder.Droid.Services
 		{
 			
 		}
-		public GeoLocation Location { get; set; }
+		private GeoLocation _geoLocation;
+		public GeoLocation Location {
+			get { return _geoLocation; } 
+			set { 
+				_geoLocation = value;
+				SetUpGeofenicng (Location);
+			}
+		}
 		#endregion
 
 		#region Helpers
 
-		private void SetupGeofence ()
+		public async void SetUpGeofenicng (GeoLocation location)
 		{
 			if (!Location.IsUnknownGeoLocation) {
 				try {
-					AddGeofencePoint (Location.Latitude, Location.Longitude);
+					if (_geoFence != null) {
+						RemoveGeofence();
+					}
+					AddGeofencePoint (location.Latitude, location.Longitude);
 					BuildGeofenceRequest ();
-					LocationServices.GeofencingApi.AddGeofences (_locationClient, _geoFenceRequest, GetGeofencePendingIntent ()).SetResultCallback (this);					
+					await LocationServices.GeofencingApi.AddGeofences (_locationClient, _geoFenceRequest, GetGeofencePendingIntent ());
 				} catch (GeofenceException ex) {
 					switch (ex.Status) {
 					case GeofenceStatus.OnAddGeofencePoint:
-						AddGeofencePoint (Location.Latitude, Location.Longitude);
+						AddGeofencePoint (location.Latitude, location.Longitude);
 						break;
 					case GeofenceStatus.OnBuildGeoFenceRequest:
 						BuildGeofenceRequest ();
 						break;
 					case GeofenceStatus.OnAddGeofence:
-						LocationServices.GeofencingApi.AddGeofences (_locationClient, _geoFenceRequest, GetGeofencePendingIntent ()).SetResultCallback (this);					
+						await LocationServices.GeofencingApi.AddGeofencesAsync (_locationClient, _geoFenceRequest, GetGeofencePendingIntent ());
 						break;
 					case GeofenceStatus.None:						
 					default:
@@ -189,10 +187,10 @@ namespace Tollminder.Droid.Services
 				#if DEBUG
 				Toast.MakeText (this, geoLocation.ToString(), ToastLength.Short).Show();
 				#endif								
-			} catch (NullReferenceException ex) {
+			} catch (NullReferenceException) {
 				_locationClient.Connect ();
-			} catch (Exception exc) {
-				
+			} catch (Exception) {
+
 			}
 			return geoLocation;
 		}
@@ -203,7 +201,7 @@ namespace Tollminder.Droid.Services
 			try {
 				_geoFence = new GeofenceBuilder ()
 					.SetRequestId (GeoFenceRegionKey)
-					.SetExpirationDuration (long.MaxValue)
+					.SetExpirationDuration (Geofence.NeverExpire)
 					.SetCircularRegion (lat, lon, GeoFenceRadius)
 					.SetTransitionTypes (Geofence.GeofenceTransitionExit | Geofence.GeofenceTransitionEnter)
 					.Build ();				
@@ -215,7 +213,7 @@ namespace Tollminder.Droid.Services
 			} 							
 		}
 
-		private void SetupLocationService ()
+		public void SetupLocationService ()
 		{
 			if (_locationRequest == null) {
 				_locationRequest = new LocationRequest ();
@@ -228,7 +226,7 @@ namespace Tollminder.Droid.Services
 			_locationClient.Connect ();				
 		}
 
-		private void DestroyLocationService ()
+		public void DestroyLocationService ()
 		{
 			if (_locationClient != null) {				
 				_locationClient.Disconnect ();
@@ -238,10 +236,10 @@ namespace Tollminder.Droid.Services
 			}
 		}
 
-		private void RemoveGeofence ()
+		public async void RemoveGeofence ()
 		{
 			try {
-				LocationServices.GeofencingApi.RemoveGeofences (_locationClient, GetGeofencePendingIntent ()).SetResultCallback(this);				
+				await LocationServices.GeofencingApi.RemoveGeofences (_locationClient, GetGeofencePendingIntent ());
 			} catch (Exception ex) {
 				#if DEBUG
 				Mvx.Trace (ex.Message, string.Empty);
@@ -267,10 +265,9 @@ namespace Tollminder.Droid.Services
 			if (_geofencePendingIntent != null) {
 				return _geofencePendingIntent;
 			}
-			Intent intent = new Intent (this, typeof(GeofenceTransitionsIntentService));			 
-			return PendingIntent.GetService (this, GeofenceTransitionsIntentService.GeofenceTransitionsIntentServiceCode, intent, PendingIntentFlags.UpdateCurrent);
-
+			Intent intent = new Intent (this, typeof(GeofenceTransitionsIntentService));
+			return PendingIntent.GetService (this, 0, intent, PendingIntentFlags.UpdateCurrent);
 		}
-		#endregion		
+		#endregion
 	}
 }
