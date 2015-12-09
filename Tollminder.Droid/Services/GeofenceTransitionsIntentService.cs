@@ -26,6 +26,7 @@ namespace Tollminder.Droid.Services
 		{
 			base.OnCreate ();
 
+
 		}
 
 		public static readonly int GeofenceTransitionsIntentServiceCode = 101;
