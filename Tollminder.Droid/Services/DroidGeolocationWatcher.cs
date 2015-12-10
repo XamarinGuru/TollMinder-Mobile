@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using Android.Support.V4.App;
 using Android.Graphics;
 using Tollminder.Droid.Views;
+using MessengerHub;
 
 namespace Tollminder.Droid.Services
 {
@@ -27,6 +28,13 @@ namespace Tollminder.Droid.Services
 										Android.Gms.Location.ILocationListener,										
 										IGeoLocationWatcher 
 	{
+		IMessengerHub _messengerHub;
+
+		public DroidGeolocationWatcher ()
+		{
+			this._messengerHub = Mvx.Resolve<IMessengerHub> ();
+			
+		}
 		#region private fields
 
 		private const int GeoFenceRadius = 1000;
@@ -75,24 +83,6 @@ namespace Tollminder.Droid.Services
 			return base.OnStartCommand (intent, flags, startId);
 		}
 
-//		protected override void OnHandleIntent (Intent intent)
-//		{
-//			var geofencingEvent = GeofencingEvent.FromIntent (intent);
-//			if (geofencingEvent.HasError) {
-//				return;
-//			}
-//			int geofenceTransition = geofencingEvent.GeofenceTransition;
-//
-//			if (geofenceTransition == Geofence.GeofenceTransitionExit) {
-//
-//				string geofenceTransitionDetails = GetGeofenceTransitionDetails (this, geofenceTransition, geofencingEvent.TriggeringGeofences);
-//
-//				SendNotification (geofenceTransitionDetails);
-//
-//				//				Mvx.Resolve<IGeoLocationWatcher> ().Location = geofencingEvent.TriggeringLocation.GetGeolocationFromAndroidLocation ();
-//			}
-//		}
-
 		string GetGeofenceTransitionDetails (Context context, int geofenceTransition, IList<IGeofence> triggeringGeofences)
 		{
 			string geofenceTransitionString = GetTransitionString (geofenceTransition);
@@ -108,26 +98,7 @@ namespace Tollminder.Droid.Services
 
 		void SendNotification (string notificationDetails)
 		{
-			var notificationIntent = new Intent (ApplicationContext, typeof(HomeView));
-
-			var stackBuilder = Android.Support.V4.App.TaskStackBuilder.Create (this);
-			stackBuilder.AddParentStack (Java.Lang.Class.FromType (typeof(HomeView)));
-			stackBuilder.AddNextIntent (notificationIntent);
-
-			var notificationPendingIntent =	stackBuilder.GetPendingIntent (0, (int)PendingIntentFlags.UpdateCurrent);
-
-			var builder = new NotificationCompat.Builder (this);
-			builder.SetSmallIcon (Resource.Mipmap.Icon)
-				.SetLargeIcon (BitmapFactory.DecodeResource (Resources, Resource.Mipmap.Icon))
-				.SetColor (Color.Red)
-				.SetContentTitle (notificationDetails)
-				.SetContentText ("Notification")
-				.SetContentIntent (notificationPendingIntent);
-
-			builder.SetAutoCancel (true);
-
-			var mNotificationManager = (NotificationManager)GetSystemService (Context.NotificationService);
-			mNotificationManager.Notify (0, builder.Build ());
+			Mvx.Resolve<INotificationSender> ().SendLocalNotification ("EXIT", notificationDetails);
 		}
 
 		string GetTransitionString (int transitionType)
@@ -160,35 +131,26 @@ namespace Tollminder.Droid.Services
 
 		#region implemented abstract members of Service
 
-
-
 		public override IBinder OnBind (Intent intent)
 		{
 			return null;
 		}
 
-
 		#endregion
 
 		public void OnConnected (Bundle connectionHint)
 		{
-			if (!_locationClient.IsConnected) {
-				_locationClient.Connect ();
-				return;
-			}
-			if (LocationServices.FusedLocationApi.GetLocationAvailability (_locationClient).IsLocationAvailable) {
-				Location = GetGeoLocationFromAndroidLocation (LocationServices.FusedLocationApi.GetLastLocation (_locationClient));
-			} else {
-				LocationServices.FusedLocationApi.RequestLocationUpdates (_locationClient, _locationRequest, this);
-			}
+			GetLocation ();
 		}
 
 		public void OnConnectionSuspended (int cause)
 		{			
+			Log.LogMessage (cause.ToString());
 		}
 
 		public void OnConnectionFailed (Android.Gms.Common.ConnectionResult result)
 		{
+			Log.LogMessage (result.ErrorMessage);
 		}
 
 		public void OnLocationChanged (Android.Locations.Location location)
@@ -198,17 +160,19 @@ namespace Tollminder.Droid.Services
 
 		public void OnProviderDisabled (string provider)
 		{			
+			Log.LogMessage (provider);
 		}
 
 		public void OnProviderEnabled (string provider)
 		{			
+			Log.LogMessage (provider);
 		}
 
 		public void OnStatusChanged (string provider, Availability status, Bundle extras)
-		{			
+		{		
+			Log.LogMessage (provider);	
 		}
 
-		#region IGeoLocationWatcher implementation
 		public event EventHandler<LocationUpdatedEventArgs> LocationUpdatedEvent;
 		public void StartGeolocationWatcher ()
 		{
@@ -219,12 +183,26 @@ namespace Tollminder.Droid.Services
 			get { return _geoLocation; } 
 			set { 
 				_geoLocation = value;
+				_messengerHub.Publish (new LocationUpdatedMessage (this, _geoLocation));
 				SetUpGeofenicng (Location);
 			}
 		}
-		#endregion
 
 		#region Helpers
+
+		private void GetLocation ()
+		{
+			if (!_locationClient.IsConnected) {
+				_locationClient.Connect ();
+				return;
+			}
+			if (LocationServices.FusedLocationApi.GetLocationAvailability (_locationClient).IsLocationAvailable) {
+				Location = GetGeoLocationFromAndroidLocation (LocationServices.FusedLocationApi.GetLastLocation (_locationClient));
+			}
+			else {
+				LocationServices.FusedLocationApi.RequestLocationUpdates (_locationClient, _locationRequest, this);
+			}
+		}
 
 		public async void SetUpGeofenicng (GeoLocation location)
 		{
@@ -253,7 +231,7 @@ namespace Tollminder.Droid.Services
 					}
 				} catch (Exception ex) {
 					#if DEBUG
-					Mvx.Trace(ex.Message, string.Empty);
+					Log.LogMessage(ex.Message);
 					#endif
 				}
 			} else {
@@ -277,18 +255,16 @@ namespace Tollminder.Droid.Services
 		{
 			var geoLocation = new GeoLocation (); 
 			try {
-				geoLocation.Accuracy = loc.Accuracy;
-				geoLocation.Altitude = loc.Altitude;
-				geoLocation.Longitude = loc.Longitude;
-				geoLocation.Latitude = loc.Latitude;
-				geoLocation.Speed = loc.Speed;
+				geoLocation = loc.GetGeolocationFromAndroidLocation();
 				#if DEBUG
-				Toast.MakeText (this, geoLocation.ToString(), ToastLength.Short).Show();
-				#endif								
+				Log.LogMessage(geoLocation.ToString());
+				#endif							
 			} catch (NullReferenceException) {
 				_locationClient.Connect ();
-			} catch (Exception) {
-
+			} catch (Exception ex) {
+				#if DEBUG
+				Log.LogMessage(ex.Message);
+				#endif
 			}
 			return geoLocation;
 		}
@@ -305,13 +281,13 @@ namespace Tollminder.Droid.Services
 					.Build ();				
 			} catch (Exception ex) {
 				#if DEBUG
-				Mvx.Trace (ex.Message, string.Empty);
+				Log.LogMessage (ex.Message);
 				#endif
 				throw new GeofenceException (ex.Message, GeofenceStatus.OnAddGeofencePoint);
 			} 							
 		}
 
-		void SetUpLocationRequest ()
+		private void SetUpLocationRequest ()
 		{
 			if (_locationRequest == null) {
 				_locationRequest = new LocationRequest ();
@@ -320,7 +296,7 @@ namespace Tollminder.Droid.Services
 			}
 		}
 
-		void SetUpLocationClient ()
+		private void SetUpLocationClient ()
 		{
 			if (_locationClient == null) {
 				_locationClient = new GoogleApiClient.Builder (this).AddApi (LocationServices.API).AddConnectionCallbacks (this).AddOnConnectionFailedListener (this).Build ();
@@ -362,7 +338,7 @@ namespace Tollminder.Droid.Services
 				_geoFenceRequest = new GeofencingRequest.Builder ().AddGeofence (_geoFence).SetInitialTrigger (GeofencingRequest.InitialTriggerExit).Build ();				
 			} catch (Exception ex) {
 				#if DEBUG
-				Mvx.Trace (ex.Message, string.Empty);
+				Log.LogMessage(ex.Message);
 				#endif
 				throw new GeofenceException (ex.Message, GeofenceStatus.OnBuildGeoFenceRequest);
 			}

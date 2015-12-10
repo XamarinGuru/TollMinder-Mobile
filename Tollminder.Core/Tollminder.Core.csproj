@@ -45,6 +45,8 @@
     <Compile Include="Models\Messages.cs" />
     <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\GeofenceException.cs" />
+    <Compile Include="Helpers\Log.cs" />
+    <Compile Include="Services\INotificationSender.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>

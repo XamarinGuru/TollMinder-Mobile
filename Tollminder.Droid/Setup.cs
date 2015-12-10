@@ -29,6 +29,7 @@ namespace Tollminder.Droid
 			base.InitializePlatformServices ();
 			Mvx.LazyConstructAndRegisterSingleton<IGeoLocationWatcher,DroidGeolocationWatcher> ();
 			Mvx.LazyConstructAndRegisterSingleton<IMotionActivity,DroidMotionActivity> ();
+			Mvx.LazyConstructAndRegisterSingleton<INotificationSender,DroidNotificationSender> ();
 		}
     }
 }
