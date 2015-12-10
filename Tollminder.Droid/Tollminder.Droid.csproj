@@ -110,10 +110,14 @@
     <Compile Include="Views\HomeView.cs" />
     <Compile Include="Services\DroidTextToSpeechService.cs" />
     <Compile Include="Services\DroidMotionActivity.cs" />
-    <Compile Include="Services\DroidGeolocationWatcher.cs" />
-    <Compile Include="Etensions.cs" />
     <Compile Include="Services\DroidNotificationSender.cs" />
-    <Compile Include="Services\GeolocationBroadcastReciever.cs" />
+    <Compile Include="Services\DroidGeolocationTracker.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Helpers\GeolocationServiceConnection.cs" />
+    <Compile Include="Services\DroidGeolocationWatcher.cs" />
+    <Compile Include="Helpers\ServiceConstants.cs" />
+    <Compile Include="Helpers\GeolocationServiceHandler.cs" />
+    <Compile Include="Helpers\GeolocationClientHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -137,6 +141,7 @@
     <Folder Include="Resources\drawable\" />
     <Folder Include="Resources\layout\" />
     <Folder Include="Services\" />
+    <Folder Include="Helpers\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ItemGroup>

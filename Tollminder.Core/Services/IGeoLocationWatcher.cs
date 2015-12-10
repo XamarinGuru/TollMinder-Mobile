@@ -7,12 +7,8 @@ namespace Tollminder.Core.Services
 	public interface IGeoLocationWatcher
 	{
 		event EventHandler<LocationUpdatedEventArgs> LocationUpdatedEvent;
-		GeoLocation Location { get; set; }
-		void SetUpGeofenicng (GeoLocation location);
-		void RemoveGeofence ();
-		void SetupLocationService ();
-		void DestroyLocationService ();
+		GeoLocation Location { get; set; }	
+		void StopGeolocationWatcher ();
 		void StartGeolocationWatcher();
 	}
 }
-
