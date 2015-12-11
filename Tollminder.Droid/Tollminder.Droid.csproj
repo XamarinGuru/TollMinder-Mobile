@@ -118,6 +118,8 @@
     <Compile Include="Helpers\ServiceConstants.cs" />
     <Compile Include="Helpers\GeolocationServiceHandler.cs" />
     <Compile Include="Helpers\GeolocationClientHandler.cs" />
+    <Compile Include="Services\DroidPlatform.cs" />
+    <Compile Include="Helpers\DroidMessanging.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

@@ -42,7 +42,7 @@ namespace Tollminder.Droid.Services
 		private Messenger _messanger;
 		private GeolocationServiceHandler _handler;
 
-		private const int GeoFenceRadius = 1000;
+		private const int GeoFenceRadius = 10;
 
 		public static readonly string GeoFenceRegionKey = "geoCurrentRegionPoint";
 
@@ -160,10 +160,7 @@ namespace Tollminder.Droid.Services
 		private void SendMessage ()
 		{
 			if (MessengerClient != null) {
-				Message msg = new Message ();
-				msg.Data = Location.GetGeolocationFromAndroidLocation ();
-				msg.What = ServiceConstants.ServicePushLocations;
-				MessengerClient.Send (msg);
+				DroidMessanging.SendMessage (ServiceConstants.ServicePushLocations, MessengerClient, null, Location.GetGeolocationFromAndroidLocation ());
 			}
 		}
 
@@ -339,7 +336,8 @@ namespace Tollminder.Droid.Services
 				return _geofencePendingIntent;
 			}
 			Intent intent = new Intent (this, typeof(DroidGeolocationTracker));
-			return PendingIntent.GetService (this, 0, intent, PendingIntentFlags.UpdateCurrent);
+			_geofencePendingIntent = PendingIntent.GetService (this, 0, intent, PendingIntentFlags.UpdateCurrent);
+			return _geofencePendingIntent;
 		}
 		#endregion
 	}

@@ -22,9 +22,7 @@ namespace Tollminder.Droid.Helpers
 				_geoWatcher.MessengerService = new Messenger (service);
 				_geoWatcher.IsBound = true;
 				try {
-					Message msg = Message.Obtain(null,ServiceConstants.RegisterClient);
-					msg.ReplyTo = _geoWatcher.Messenger;
-					_geoWatcher.MessengerService.Send(msg);
+					DroidMessanging.SendMessage(ServiceConstants.RegisterClient, _geoWatcher.MessengerService, _geoWatcher.Messenger);
 				} catch (Exception ex) {
 					#if DEBUG
 					Log.LogMessage (ex.Message);
@@ -37,7 +35,6 @@ namespace Tollminder.Droid.Helpers
 		{
 			_geoWatcher.MessengerService.Dispose ();
 			_geoWatcher.MessengerService = null;
-//			_geoWatcher.IsBound = false;
 			_geoWatcher = null;
 		}
 		

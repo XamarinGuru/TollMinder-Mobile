@@ -14,8 +14,8 @@ namespace Tollminder.Core.Models
 
 	public class LocationUpdatedMessage : GenericMessageBase<GeoLocation>
 	{
-		public LocationUpdatedMessage (object sender, GeoLocation motionType)
-			: base (sender, motionType)
+		public LocationUpdatedMessage (object sender, GeoLocation geoLocation)
+			: base (sender, geoLocation)
 		{			
 		}
 
