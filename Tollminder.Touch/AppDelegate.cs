@@ -35,8 +35,21 @@ namespace Tollminder.Touch
 
             _window.MakeKeyAndVisible();
 
+			if (UIDevice.CurrentDevice.CheckSystemVersion (8,0)) {
+				var notificationSettings = UIUserNotificationSettings.GetSettingsForTypes (
+					UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound, null
+				);
+				application.CancelAllLocalNotifications ();
+				application.RegisterUserNotificationSettings (notificationSettings);
+			} 
+
             return true;
         }
+
+		public override void ReceivedLocalNotification (UIApplication application, UILocalNotification notification)
+		{
+			
+		}
 
         public override void OnResignActivation(UIApplication application)
         {

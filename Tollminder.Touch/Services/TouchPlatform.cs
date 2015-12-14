@@ -1,5 +1,6 @@
 ﻿using System;
 using Tollminder.Core.Services;
+using UIKit;
 
 namespace Tollminder.Touch.Services
 {
@@ -9,7 +10,7 @@ namespace Tollminder.Touch.Services
 
 		public bool IsAppInForeground {
 			get {
-				throw new NotImplementedException ();
+				return UIApplication.SharedApplication.ApplicationState == UIApplicationState.Active;
 			}
 		}
 

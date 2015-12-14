@@ -67,7 +67,7 @@ namespace Tollminder.Touch.Services
 			}
 		}
 
-		private async void LocationIsUpdated (object sender, CLLocationsUpdatedEventArgs e)
+		private void LocationIsUpdated (object sender, CLLocationsUpdatedEventArgs e)
 		{
 			var loc = e.Locations.Last ();
 			if (loc != null) {				

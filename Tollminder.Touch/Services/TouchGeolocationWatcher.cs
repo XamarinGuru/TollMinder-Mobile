@@ -22,7 +22,11 @@ namespace Tollminder.Touch.Services
 			get { return _location;	}
 			set {
 				_location = value;
-				Mvx.Resolve<IMessengerHub> ().Publish (new LocationUpdatedMessage (this, _location));
+				if (Mvx.Resolve<IPlatform> ().IsAppInForeground) {
+					Mvx.Resolve<IMessengerHub> ().Publish (new LocationUpdatedMessage (this, _location));					
+				} else {
+					Mvx.Resolve<INotificationSender> ().SendLocalNotification ("LOCATION UPDATED", _location.ToString ()); 
+				}
 			}
 		}
 

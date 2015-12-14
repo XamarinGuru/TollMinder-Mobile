@@ -36,6 +36,8 @@ namespace Tollminder.Touch
 			base.InitializePlatformServices ();
 			Mvx.LazyConstructAndRegisterSingleton<IGeoLocationWatcher,TouchGeolocationWatcher> ();
 			Mvx.LazyConstructAndRegisterSingleton<IMotionActivity,TouchMotionActivity> ();
+			Mvx.LazyConstructAndRegisterSingleton<IPlatform,TouchPlatform> ();
+			Mvx.LazyConstructAndRegisterSingleton<INotificationSender,TouchNotificationSender> ();
 		}
 	}
 }
