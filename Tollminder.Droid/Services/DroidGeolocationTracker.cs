@@ -42,7 +42,7 @@ namespace Tollminder.Droid.Services
 		private Messenger _messanger;
 		private GeolocationServiceHandler _handler;
 
-		private const int GeoFenceRadius = 10;
+		private const int GeoFenceRadius = 100;
 
 		public static readonly string GeoFenceRegionKey = "geoCurrentRegionPoint";
 
@@ -309,7 +309,10 @@ namespace Tollminder.Droid.Services
 		public async void RemoveGeofence ()
 		{
 			try {
-				await LocationServices.GeofencingApi.RemoveGeofences (_locationClient, GetGeofencePendingIntent ());
+				var result = await LocationServices.GeofencingApi.RemoveGeofences (_locationClient, GetGeofencePendingIntent ());
+				#if DEBUG
+				Log.LogMessage(result.Status.IsSuccess.ToString());
+				#endif
 			} catch (Exception ex) {
 				#if DEBUG
 				Mvx.Trace (ex.Message, string.Empty);

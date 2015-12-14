@@ -25,9 +25,7 @@ namespace Tollminder.Core.ViewModels
 		public override async void Start ()
 		{
 			base.Start ();
-			Location = _geoLocation.Location;
 			_geoLocation.StartGeolocationWatcher ();
-			await Task.Delay (500);	_motionalActivity.StartDetection ();
 			WeakSubscribe<MotionTypeChangedMessage> ((s)=> RaisePropertyChanged(()=> MotionTypeString));
 			WeakSubscribe<LocationUpdatedMessage> ((s)=> {
 				Location = s.Content;
@@ -51,21 +49,5 @@ namespace Tollminder.Core.ViewModels
 		public string MotionTypeString {
 			get { return _motionalActivity.MotionType.ToString(); }
 		}
-
-		public void SubscribeOnGeolocationUpdate()
-		{
-			_geoLocation.LocationUpdatedEvent += UpdateUILocation;
-		}
-
-		public void UnSubscribeOnGeolocationUpdate()
-		{
-			_geoLocation.LocationUpdatedEvent -= UpdateUILocation;
-		}
-
-		void UpdateUILocation (object sender, LocationUpdatedEventArgs e)
-		{
-			Location = e.Location;
-		}
-
-    }
+	}
 }

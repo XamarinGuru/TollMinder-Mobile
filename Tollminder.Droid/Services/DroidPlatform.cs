@@ -3,6 +3,7 @@ using Tollminder.Core.Services;
 using Android.Content;
 using Android.App;
 using System.Collections.Generic;
+using Tollminder.Core.Helpers;
 
 namespace Tollminder.Droid.Services
 {
@@ -21,7 +22,10 @@ namespace Tollminder.Droid.Services
 				string packageName = context.PackageName;
 				foreach (Android.App.ActivityManager.RunningAppProcessInfo appProcess in appProcesses)
 				{
-					if (appProcess.Importance == Importance.Background && appProcess.ProcessName == packageName)
+					#if DEBUG
+					Log.LogMessage(appProcess.ProcessName);
+					#endif
+					if (appProcess.Importance == Importance.Foreground && appProcess.ProcessName.ToLowerInvariant() == packageName.ToLowerInvariant())
 					{
 						return true;
 					}

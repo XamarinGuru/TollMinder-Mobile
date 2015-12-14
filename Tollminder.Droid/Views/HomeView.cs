@@ -16,7 +16,6 @@ namespace Tollminder.Droid.Views
             base.OnCreate(bundle);
 			SetContentView(Resource.Layout.homeView);
 			Mvx.Resolve<IGeoLocationWatcher> ().StartGeolocationWatcher ();
-			var asd = Mvx.Resolve<IPlatform> ().IsAppInForeground;
         }
     }
 }

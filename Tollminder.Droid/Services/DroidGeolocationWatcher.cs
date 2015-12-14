@@ -48,6 +48,9 @@ namespace Tollminder.Droid.Services
 			}
 			set {
 				_location = value;
+				#if DEBUG
+				Log.LogMessage (value.ToString ());
+				#endif
 				if (_platform.IsAppInForeground) {
 					_messengerHub.Publish (new LocationUpdatedMessage (this, _location));
 				} else {

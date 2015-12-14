@@ -20,7 +20,7 @@ namespace Tollminder.Touch.Views
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			ViewModel.SubscribeOnGeolocationUpdate ();
+
 
 			var set = this.CreateBindingSet<HomeView, HomeViewModel>();
 			set.Bind (GeoLabelData).To (v => v.LocationString);
@@ -32,7 +32,7 @@ namespace Tollminder.Touch.Views
 		public override void ViewDidUnload ()
 		{
 			base.ViewDidUnload ();
-			ViewModel.UnSubscribeOnGeolocationUpdate ();
+
 		}
 
 		public override void DidReceiveMemoryWarning ()

@@ -37,6 +37,8 @@
 	<key>CFBundleName</key>
 	<string>Toll Minder</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>We need your location</string>
+	<string>We need your location in background</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We need your location in foreground</string>
 </dict>
 </plist>

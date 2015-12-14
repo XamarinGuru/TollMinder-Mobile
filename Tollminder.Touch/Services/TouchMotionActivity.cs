@@ -52,9 +52,7 @@ namespace Tollminder.Touch.Services
 
 		public void StartDetection()
 		{	
-			Mvx.Resolve<IGeoLocationWatcher> ().LocationUpdatedEvent += async (sender, e) => {
-				 LocationChangedNotification();
-			};
+			
 			_timer = NSTimer.CreateRepeatingTimer (0.01d, (timer) => DetectShaking());
 		
 			_motionManager.StartAccelerometerUpdates (Foundation.NSOperationQueue.MainQueue, async (data, error) => {
