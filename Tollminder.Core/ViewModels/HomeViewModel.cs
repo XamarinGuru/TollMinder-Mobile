@@ -11,18 +11,16 @@ namespace Tollminder.Core.ViewModels
     public class HomeViewModel 
 		: ViewModelBase
     {
-		IGeoLocationWatcher _geoLocation;
-		IMotionActivity _motionalActivity;
-		IMessengerHub _messengerHub;
+		private readonly IGeoLocationWatcher _geoLocation;
+		private readonly IMotionActivity _motionalActivity;
 
-		public HomeViewModel (IGeoLocationWatcher geoLocation, IMotionActivity motionalActivity,IMessengerHub messengerHub)
+		public HomeViewModel (IGeoLocationWatcher geoLocation, IMotionActivity motionalActivity)
 		{
-			this._messengerHub = messengerHub;
 			this._geoLocation = geoLocation;			
 			this._motionalActivity = motionalActivity;
 		}
 
-		public override async void Start ()
+		public override void Start ()
 		{
 			base.Start ();
 			_geoLocation.StartGeolocationWatcher ();
