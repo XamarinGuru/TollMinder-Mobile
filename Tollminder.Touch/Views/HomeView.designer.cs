@@ -16,22 +16,22 @@ namespace Tollminder.Touch.Views
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel ActivityLabel { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel GeoLabel { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel GeoLabelData { get; set; }
 
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton StartButton { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton StopButton { get; set; }
+
 		void ReleaseDesignerOutlets ()
 		{
-			if (ActivityLabel != null) {
-				ActivityLabel.Dispose ();
-				ActivityLabel = null;
-			}
 			if (GeoLabel != null) {
 				GeoLabel.Dispose ();
 				GeoLabel = null;
@@ -39,6 +39,14 @@ namespace Tollminder.Touch.Views
 			if (GeoLabelData != null) {
 				GeoLabelData.Dispose ();
 				GeoLabelData = null;
+			}
+			if (StartButton != null) {
+				StartButton.Dispose ();
+				StartButton = null;
+			}
+			if (StopButton != null) {
+				StopButton.Dispose ();
+				StopButton = null;
 			}
 		}
 	}

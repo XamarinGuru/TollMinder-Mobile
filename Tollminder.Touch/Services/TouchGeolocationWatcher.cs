@@ -22,11 +22,8 @@ namespace Tollminder.Touch.Services
 			get { return _location;	}
 			set {
 				_location = value;
-				if (Mvx.Resolve<IPlatform> ().IsAppInForeground) {
-					Mvx.Resolve<IMessengerHub> ().Publish (new LocationUpdatedMessage (this, _location));					
-				} else {
-					Mvx.Resolve<INotificationSender> ().SendLocalNotification ("LOCATION UPDATED", _location.ToString ()); 
-				}
+				Mvx.Resolve<ITextToSpeechService> ().Speak (string.Format ("Location Update at {0:t}", DateTime.Now));
+				LocationUpdatedMessage ();
 			}
 		}
 
@@ -48,6 +45,13 @@ namespace Tollminder.Touch.Services
 		}
 
 		#endregion
-	
+
+		private void LocationUpdatedMessage ()
+		{
+			Mvx.Resolve<IMessengerHub> ().Publish (new LocationUpdatedMessage (this, _location));
+			if (!Mvx.Resolve<IPlatform> ().IsAppInForeground) {
+				Mvx.Resolve<INotificationSender> ().SendLocalNotification ("LOCATION UPDATED", _location.ToString ());
+			}
+		}	
 	}
 }

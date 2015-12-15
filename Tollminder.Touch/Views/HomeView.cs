@@ -21,12 +21,24 @@ namespace Tollminder.Touch.Views
 		{
 			base.ViewDidLoad ();
 
+			NavigationController.NavigationBar.Translucent = false;
+
+			AutomaticallyAdjustsScrollViewInsets = true;
+
 
 			var set = this.CreateBindingSet<HomeView, HomeViewModel>();
 			set.Bind (GeoLabelData).To (v => v.LocationString);
-			set.Bind (ActivityLabel).To (v => v.MotionTypeString);
+			set.Bind (StartButton).To (v => v.StartCommand);
+			set.Bind (StopButton).To (v => v.StopCommand);
 			set.Apply ();
+
 			// Perform any additional setup after loading the view, typically from a nib.
+		}
+
+		public override void ViewWillAppear (bool animated)
+		{
+			base.ViewWillAppear (animated);
+			GeoLabelData.Text = ViewModel.Location?.ToString ();
 		}
 
 		public override void ViewDidUnload ()

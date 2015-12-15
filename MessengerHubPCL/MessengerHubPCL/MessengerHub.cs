@@ -21,9 +21,9 @@ namespace MessengerHub
 			_Intercepts = new List<Action<Type, object>>();
 
 			// don't notify intercepts (view models) if the app goes into the background
-			this.Subscribe<AppInForegroundMessage>(message => {
-				_NotifyIntercepts = message.Content;
-			});
+//			this.Subscribe<AppInForegroundMessage>(message => {
+//				_NotifyIntercepts = message.Content;
+//			});
 		}
 
 		// subscribe to all messages

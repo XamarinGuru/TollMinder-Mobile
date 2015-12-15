@@ -21,7 +21,7 @@ namespace Tollminder.Touch.Services
 		#region Constructors
 		public TouchGeoFence () : base ()
 		{
-			SetupGeofenceService ();	
+//			SetupGeofenceService ();	
 		}
 		#endregion
 
@@ -69,6 +69,7 @@ namespace Tollminder.Touch.Services
 		public void StartGeofenceService() 
 		{
 			StartLocationUpdates ();
+			SetupGeofenceService ();
 		}
 
 		public void StopGeofenceService ()

@@ -5,6 +5,8 @@ using Tollminder.Core.Helpers;
 using Cirrious.CrossCore;
 using MessengerHub;
 using System.Threading.Tasks;
+using System;
+using System.Windows.Input;
 
 namespace Tollminder.Core.ViewModels
 {
@@ -23,29 +25,42 @@ namespace Tollminder.Core.ViewModels
 		public override void Start ()
 		{
 			base.Start ();
-			_geoLocation.StartGeolocationWatcher ();
 			WeakSubscribe<MotionTypeChangedMessage> ((s)=> RaisePropertyChanged(()=> MotionTypeString));
 			WeakSubscribe<LocationUpdatedMessage> ((s)=> {
 				Location = s.Content;
 			});
 		}
 
-		private GeoLocation _Location;
+		private GeoLocation _location;
 		public GeoLocation Location {
-			get { return _Location; } 
+			get { return _location; } 
 			set {
-				_Location = value; 
+				_location = value;
 				RaisePropertyChanged (() => Location);
 				RaisePropertyChanged (() => LocationString);
 			}
 		}
 
 		public string LocationString {
-			get { return _Location.ToString(); } 
+			get { return _location.ToString(); } 
 		}
 
 		public string MotionTypeString {
 			get { return _motionalActivity.MotionType.ToString(); }
+		}
+
+		private MvxCommand _startCommand;
+		public ICommand StartCommand {
+			get {
+				return _startCommand ?? (_startCommand = new MvxCommand (_geoLocation.StartGeolocationWatcher));
+			}  
+		}
+
+		private MvxCommand _stopCommand;
+		public ICommand StopCommand {
+			get {
+				return _stopCommand ?? (_stopCommand = new MvxCommand (_geoLocation.StopGeolocationWatcher));
+			}  
 		}
 	}
 }
