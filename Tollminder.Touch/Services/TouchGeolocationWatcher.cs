@@ -16,13 +16,14 @@ namespace Tollminder.Touch.Services
 	public class TouchGeolocationWatcher : IGeoLocationWatcher
 	{
 		private readonly TouchGeoFence _geofence;
+		public bool IsBound { get; private set; } = false;
 
 		GeoLocation _location;
 		public GeoLocation Location {
 			get { return _location;	}
 			set {
 				_location = value;
-				Mvx.Resolve<ITextToSpeechService> ().Speak (string.Format ("Location Update at {0:t}", DateTime.Now));
+				SpeakTextIfNeeded ();
 				LocationUpdatedMessage ();
 			}
 		}
@@ -35,16 +36,27 @@ namespace Tollminder.Touch.Services
 		#region IGeoLocationWatcher implementation
 
 		public void StartGeolocationWatcher()
-		{	
-			_geofence.StartGeofenceService ();
+		{
+			if (!IsBound) {
+				_geofence.StartGeofenceService ();
+				IsBound = true;				
+			}	
 		}
 
 		public void StopGeolocationWatcher ()
 		{
-			_geofence.StopGeofenceService ();
+			if (IsBound) {
+				_geofence.StopGeofenceService ();
+				IsBound = false;				
+			}
 		}
 
 		#endregion
+
+		public void SpeakTextIfNeeded ()
+		{
+			Mvx.Resolve<ITextToSpeechService> ().Speak (string.Format ("Location Update at {0:t}", DateTime.Now));
+		}
 
 		private void LocationUpdatedMessage ()
 		{

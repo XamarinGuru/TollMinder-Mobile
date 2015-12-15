@@ -9,5 +9,6 @@ namespace Tollminder.Core.Services
 		GeoLocation Location { get; set; }	
 		void StopGeolocationWatcher ();
 		void StartGeolocationWatcher();
+		bool IsBound { get; }
 	}
 }

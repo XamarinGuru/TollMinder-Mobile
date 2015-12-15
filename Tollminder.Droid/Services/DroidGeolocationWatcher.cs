@@ -21,8 +21,8 @@ namespace Tollminder.Droid.Services
 		private readonly IPlatform _platform;
 		private readonly INotificationSender _notficantioSender;
 
-		public bool IsBound { get; set; }
-		public Messenger Messenger { get; set; }
+		public bool IsBound { get; private set; } = false;
+		public Messenger Messenger { get; set; } 
 		public Messenger MessengerService { get; set; }
 
 		public DroidGeolocationWatcher ()
@@ -33,14 +33,10 @@ namespace Tollminder.Droid.Services
 			_messengerHub = Mvx.Resolve<IMessengerHub> ();
 			_platform = Mvx.Resolve<IPlatform> ();
 			_notficantioSender = Mvx.Resolve<INotificationSender> ();
-
-			Messenger = new Messenger (_clientHandler);
+			_serviceConnecton = new GeolocationServiceConnection (this);
 		}	
 
 		#region IGeoLocationWatcher implementation
-		#pragma warning disable 67
-		public event EventHandler<LocationUpdatedEventArgs> LocationUpdatedEvent;
-		#pragma warning restore 67
 		GeoLocation _location;
 		public GeoLocation Location {
 			get {
@@ -51,19 +47,17 @@ namespace Tollminder.Droid.Services
 				#if DEBUG
 				Log.LogMessage (value.ToString ());
 				#endif
-				if (_platform.IsAppInForeground) {
-					_messengerHub.Publish (new LocationUpdatedMessage (this, _location));
-				} else {
-					_notficantioSender.SendLocalNotification ("Exit from geofence", _location.ToString ());
-				}
+				LocationUpdatedMessage ();
 			}
 		}
 
 		public void StartGeolocationWatcher ()
-		{
-			_serviceConnecton = new GeolocationServiceConnection (this);
-			_applicationContext.BindService (_serviceIntent, _serviceConnecton, Bind.AutoCreate);
-
+		{	
+			if (!IsBound) {
+				Messenger = new Messenger (_clientHandler);
+				_applicationContext.BindService (_serviceIntent, _serviceConnecton, Bind.AutoCreate);
+				IsBound = true;				
+			}
 		}
 
 		public void StopGeolocationWatcher ()
@@ -78,9 +72,16 @@ namespace Tollminder.Droid.Services
 				}				
 				_applicationContext.UnbindService (_serviceConnecton);
 				IsBound = false;
-				_clientHandler.Dispose ();
 			}
 		}
 		#endregion
+
+		void LocationUpdatedMessage ()
+		{
+			Mvx.Resolve<IMessengerHub> ().Publish (new LocationUpdatedMessage (this, _location));
+			if (!Mvx.Resolve<IPlatform> ().IsAppInForeground) {
+				Mvx.Resolve<INotificationSender> ().SendLocalNotification ("LOCATION UPDATED", _location.ToString ());
+			}
+		}
 	}
 }

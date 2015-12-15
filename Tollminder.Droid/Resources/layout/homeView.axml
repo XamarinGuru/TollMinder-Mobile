@@ -8,12 +8,38 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="50dp">
-        <TextView
+        <Button
+            android:id="@+id/button"
             android:layout_width="match_parent"
-            android:text="@string/app_name"
-            android:layout_height="50dp"
-            android:textSize="25dp"
-            local:MvxBind="Text LocationString"
+            android:layout_height="match_parent"
+            android:text="START"
+            android:layout_weight="1"
+            local:MvxBind="Click StartCommand" />
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="STOP"
+            android:layout_weight="1"
+            local:MvxBind="Click StopCommand" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Geolocation"
             android:layout_weight="1" />
+        <TextView
+            android:id="@+id/text2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text=""
+            android:textSize="10sp"
+            android:layout_weight="1"
+            local:MvxBind="Text LocationString" />
     </LinearLayout>
 </LinearLayout>
