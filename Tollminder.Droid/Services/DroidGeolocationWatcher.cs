@@ -17,10 +17,6 @@ namespace Tollminder.Droid.Services
 		private readonly Intent _serviceIntent;
 		private GeolocationServiceConnection _serviceConnecton;
 		private readonly GeolocationClientHandler _clientHandler;
-		private readonly IMessengerHub _messengerHub;
-		private readonly IPlatform _platform;
-		private readonly INotificationSender _notficantioSender;
-
 		public bool IsBound { get; private set; } = false;
 		public Messenger Messenger { get; set; } 
 		public Messenger MessengerService { get; set; }
@@ -30,9 +26,6 @@ namespace Tollminder.Droid.Services
 			_applicationContext = Mvx.Resolve<IMvxAndroidCurrentTopActivity> ().Activity.ApplicationContext;
 			_serviceIntent = new Intent (_applicationContext, typeof(DroidGeolocationTracker));
 			_clientHandler = new GeolocationClientHandler (this);
-			_messengerHub = Mvx.Resolve<IMessengerHub> ();
-			_platform = Mvx.Resolve<IPlatform> ();
-			_notficantioSender = Mvx.Resolve<INotificationSender> ();
 			_serviceConnecton = new GeolocationServiceConnection (this);
 		}	
 
@@ -47,6 +40,7 @@ namespace Tollminder.Droid.Services
 				#if DEBUG
 				Log.LogMessage (value.ToString ());
 				#endif
+				SpeakTextIfNeeded ();
 				LocationUpdatedMessage ();
 			}
 		}
@@ -82,6 +76,11 @@ namespace Tollminder.Droid.Services
 			if (!Mvx.Resolve<IPlatform> ().IsAppInForeground) {
 				Mvx.Resolve<INotificationSender> ().SendLocalNotification ("LOCATION UPDATED", _location.ToString ());
 			}
+		}
+
+		public void SpeakTextIfNeeded ()
+		{
+			Mvx.Resolve<ITextToSpeechService> ().Speak (string.Format ("Location Update at {0:t}", DateTime.Now));
 		}
 	}
 }
