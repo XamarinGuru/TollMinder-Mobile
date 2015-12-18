@@ -25,11 +25,13 @@ namespace Tollminder.Touch.Views
 
 			AutomaticallyAdjustsScrollViewInsets = true;
 
+			ViewModel.StartActivityDetection ();
 
 			var set = this.CreateBindingSet<HomeView, HomeViewModel>();
 			set.Bind (GeoLabelData).To (v => v.LocationString);
 			set.Bind (StartButton).To (v => v.StartCommand);
 			set.Bind (StopButton).To (v => v.StopCommand);
+			set.Bind (ActivityLabel).To (v => v.MotionTypeString);
 			set.Apply ();
 
 			// Perform any additional setup after loading the view, typically from a nib.

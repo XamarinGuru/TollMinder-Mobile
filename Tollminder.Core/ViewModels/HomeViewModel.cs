@@ -29,6 +29,9 @@ namespace Tollminder.Core.ViewModels
 			WeakSubscribe<LocationUpdatedMessage> ((s)=> {
 				Location = s.Content;
 			});
+			WeakSubscribe<MotionTypeChangedMessage> ((s)=> {
+				MotionType = s.Content;
+			});
 		}
 
 		private GeoLocation _location;
@@ -45,8 +48,18 @@ namespace Tollminder.Core.ViewModels
 			get { return _location.ToString(); } 
 		}
 
+		private MotionType _motionType;
+		public MotionType MotionType {
+			get { return _motionType; } 
+			set {
+				_motionType = value;
+				RaisePropertyChanged (() => MotionType);
+				RaisePropertyChanged (() => MotionTypeString);
+			}
+		}
+
 		public string MotionTypeString {
-			get { return _motionalActivity.MotionType.ToString(); }
+			get { return _motionType.ToString(); }
 		}
 
 		private MvxCommand _startCommand;
@@ -61,6 +74,11 @@ namespace Tollminder.Core.ViewModels
 			get {
 				return _stopCommand ?? (_stopCommand = new MvxCommand (_geoLocation.StopGeolocationWatcher));
 			}  
+		}
+
+		public void StartActivityDetection()
+		{
+			Mvx.Resolve<IMotionActivity> ().StartDetection ();
 		}
 	}
 }

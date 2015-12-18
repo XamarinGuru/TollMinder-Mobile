@@ -9,6 +9,7 @@ using Foundation;
 using System.Threading.Tasks;
 using Cirrious.CrossCore;
 using MessengerHub;
+using Tollminder.Core.Helpers;
 
 namespace Tollminder.Touch.Services
 {	
@@ -36,9 +37,15 @@ namespace Tollminder.Touch.Services
 		CMMotionActivityManager _motionActivityManager;
 		NSTimer _timer;
 
-		public bool UseM7IfAvailable { get; set; }
-		MotionType _motionType;
-		public MotionType MotionType { get { return _motionType; } }
+
+		private MotionType _motionType;
+		public MotionType MotionType { 
+			get { return _motionType; } 
+			private set { 
+				_motionType = value;
+				Mvx.Resolve<IMessengerHub> ().Publish (new MotionTypeChangedMessage (this, value));
+			}
+		} 
 		public CMAcceleration Acceleration { get; set; }
 
 		public void StopDetection()
@@ -51,31 +58,23 @@ namespace Tollminder.Touch.Services
 		}
 
 		public void StartDetection()
-		{	
-			
-			_timer = NSTimer.CreateRepeatingTimer (0.01d, (timer) => DetectShaking());
-		
-			_motionManager.StartAccelerometerUpdates (Foundation.NSOperationQueue.MainQueue, async (data, error) => {
-				DetectShaking();
-				Acceleration = data.Acceleration;
-				await CalculateMotionType();
-			});
-
-			if (UseM7IfAvailable && CMMotionActivityManager.IsActivityAvailable) {
+		{			
+			if (CMMotionActivityManager.IsActivityAvailable) {
 				if (_motionActivityManager == null) {		
 					_motionActivityManager = new CMMotionActivityManager (); 
 				}
 
-				_motionActivityManager.StartActivityUpdates (Foundation.NSOperationQueue.MainQueue, (activity) => {
+				_motionActivityManager.StartActivityUpdates (NSOperationQueue.MainQueue, (activity) => {					
 					if (activity.Walking) {
-						_motionType = MotionType.Walking;
+						MotionType = MotionType.Walking;
 					} else if (activity.Running) {
-						_motionType = MotionType.Running;
+						MotionType = MotionType.Running;
 					} else if (activity.Automotive) {
-						_motionType = MotionType.Automotive;
+						MotionType = MotionType.Automotive;
 					} else if (activity.Stationary || activity.Unknown) {
-						_motionType = MotionType.Still;
-					}					
+						MotionType = MotionType.Still;
+					}
+					Log.LogMessage(_motionType.ToString());
 				});
 			}
 		}
@@ -98,7 +97,7 @@ namespace Tollminder.Touch.Services
 		Task CalculateMotionType ()
 		{
 			return Task.Factory.StartNew (() => {
-				if (UseM7IfAvailable && CMMotionActivityManager.IsActivityAvailable) {
+				if (CMMotionActivityManager.IsActivityAvailable) {
 					return;
 				}
 
@@ -154,11 +153,9 @@ namespace Tollminder.Touch.Services
 			}
 
 			#if DEBUG
-//			Mvx.Trace (Cirrious.CrossCore.Platform.MvxTraceLevel.Diagnostic, _isShaking.ToString (), string.Empty);
 			#endif
 
 		
 		}
 	}
 }
-
