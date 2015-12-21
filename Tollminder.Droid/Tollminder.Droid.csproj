@@ -99,6 +99,9 @@
     <Reference Include="Xamarin.GooglePlayServices.Location">
       <HintPath>..\packages\Xamarin.GooglePlayServices.Location.27.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Location.dll</HintPath>
     </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Fitness">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Fitness.27.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Fitness.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
@@ -109,17 +112,23 @@
     <Compile Include="LinkerPleaseInclude.cs" />
     <Compile Include="Views\HomeView.cs" />
     <Compile Include="Services\DroidTextToSpeechService.cs" />
-    <Compile Include="Services\DroidMotionActivity.cs" />
     <Compile Include="Services\DroidNotificationSender.cs" />
-    <Compile Include="Services\DroidGeolocationTracker.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Helpers\GeolocationServiceConnection.cs" />
     <Compile Include="Services\DroidGeolocationWatcher.cs" />
     <Compile Include="Helpers\ServiceConstants.cs" />
-    <Compile Include="Helpers\GeolocationServiceHandler.cs" />
-    <Compile Include="Helpers\GeolocationClientHandler.cs" />
     <Compile Include="Services\DroidPlatform.cs" />
-    <Compile Include="Helpers\DroidMessanging.cs" />
+    <Compile Include="Helpers\Messanging.cs" />
+    <Compile Include="AndroidServices\GoogleApiService.cs" />
+    <Compile Include="AndroidServices\MessengerGoogleApiService.cs" />
+    <Compile Include="AndroidServices\MotionActivityService.cs" />
+    <Compile Include="AndroidServices\GeofenceService.cs" />
+    <Compile Include="AndroidServices\GeolocationService.cs" />
+    <Compile Include="Handlers\BaseHandler.cs" />
+    <Compile Include="Handlers\GeolocationClientHandler.cs" />
+    <Compile Include="Handlers\GeolocationServiceHandler.cs" />
+    <Compile Include="Handlers\MotionServiceHanlder.cs" />
+    <Compile Include="Services\DroidMotionActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -144,6 +153,8 @@
     <Folder Include="Resources\layout\" />
     <Folder Include="Services\" />
     <Folder Include="Helpers\" />
+    <Folder Include="AndroidServices\" />
+    <Folder Include="Handlers\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ItemGroup>

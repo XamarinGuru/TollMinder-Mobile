@@ -21,10 +21,10 @@ namespace Tollminder.Touch.Services
 		public TouchMotionActivity (IGeoLocationWatcher geoWatcher)
 		{
 			this._geoWatcher = geoWatcher;
-			_motionManager = new CMMotionManager ();			
+//			_motionManager = new CMMotionManager ();			
 		}
 
-		const double _minimumSpeed        = 0.3f;
+		const double _minimumSpeed = 0.3f;
 		const double _maximumWalkingSpeed = 1.9f;
 		const double _maximumRunningSpeed = 7.5f;
 		const double _minimumRunningAcceleration = 3.5f;
@@ -33,16 +33,15 @@ namespace Tollminder.Touch.Services
 			
 		MotionType _previousMotionType;
 
-		CMMotionManager _motionManager;
+//		CMMotionManager _motionManager;
 		CMMotionActivityManager _motionActivityManager;
-		NSTimer _timer;
-
 
 		private MotionType _motionType;
 		public MotionType MotionType { 
 			get { return _motionType; } 
 			private set { 
 				_motionType = value;
+				Mvx.Resolve<ITextToSpeechService> ().Speak (value.ToString ());
 				Mvx.Resolve<IMessengerHub> ().Publish (new MotionTypeChangedMessage (this, value));
 			}
 		} 
@@ -50,10 +49,6 @@ namespace Tollminder.Touch.Services
 
 		public void StopDetection()
 		{
-			_timer.Invalidate ();
-			_timer = null;
-
-			_motionManager.StopAccelerometerUpdates ();
 			_motionActivityManager.StopActivityUpdates ();
 		}
 
@@ -64,19 +59,29 @@ namespace Tollminder.Touch.Services
 					_motionActivityManager = new CMMotionActivityManager (); 
 				}
 
-				_motionActivityManager.StartActivityUpdates (NSOperationQueue.MainQueue, (activity) => {					
-					if (activity.Walking) {
-						MotionType = MotionType.Walking;
-					} else if (activity.Running) {
-						MotionType = MotionType.Running;
-					} else if (activity.Automotive) {
-						MotionType = MotionType.Automotive;
-					} else if (activity.Stationary || activity.Unknown) {
-						MotionType = MotionType.Still;
-					}
-					Log.LogMessage(_motionType.ToString());
-				});
+				_motionActivityManager.StartActivityUpdates (NSOperationQueue.CurrentQueue, async (activity) => await GetMotionActivity (activity));
 			}
+		}
+
+		Task GetMotionActivity (CMMotionActivity activity)
+		{
+			return Task.Run (() => {
+				if (activity.Walking) {
+					MotionType = MotionType.Walking;
+				}
+				else if (activity.Running) {
+					MotionType = MotionType.Running;
+				}
+				else if (activity.Automotive) {
+					MotionType = MotionType.Automotive;
+				}
+				else if (activity.Stationary || activity.Unknown) {
+					MotionType = MotionType.Still;
+				}
+				#if DEBUG
+				Log.LogMessage (_motionType.ToString ());
+				#endif
+			});
 		}
 
 		public async void LocationChangedNotification ()
@@ -150,12 +155,7 @@ namespace Tollminder.Touch.Services
 
 				shakeDataForOneSecond.Clear ();
 				currentFiringTimeInterval = 0.0f;
-			}
-
-			#if DEBUG
-			#endif
-
-		
+			}		
 		}
 	}
 }

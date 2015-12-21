@@ -8,6 +8,8 @@ using Tollminder.Droid.Helpers;
 using Android.OS;
 using Tollminder.Core.Helpers;
 using MessengerHub;
+using Tollminder.Droid.AndroidServices;
+using Tollminder.Droid.Handlers;
 
 namespace Tollminder.Droid.Services
 {
@@ -24,7 +26,7 @@ namespace Tollminder.Droid.Services
 		public DroidGeolocationWatcher ()
 		{
 			_applicationContext = Mvx.Resolve<IMvxAndroidCurrentTopActivity> ().Activity.ApplicationContext;
-			_serviceIntent = new Intent (_applicationContext, typeof(DroidGeolocationTracker));
+			_serviceIntent = new Intent (_applicationContext, typeof(GeolocationService));
 			_clientHandler = new GeolocationClientHandler (this);
 			_serviceConnecton = new GeolocationServiceConnection (this);
 		}	
