@@ -38,4 +38,3 @@ namespace Tollminder.Droid.Services
 		}
 	}
 }
-
