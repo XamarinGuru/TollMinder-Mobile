@@ -10,26 +10,13 @@ using Tollminder.Core.Helpers;
 using MessengerHub;
 using Tollminder.Droid.AndroidServices;
 using Tollminder.Droid.Handlers;
+using Tollminder.Droid.ServicesConnections;
 
 namespace Tollminder.Droid.Services
 {
-	public class DroidGeolocationWatcher : Java.Lang.Object, IGeoLocationWatcher
+	public class DroidGeolocationWatcher :  AndroidServiceWithServiceConnection<GeofenceService,GeolocationClientHandler,BaseServiceConnection>, IGeoLocationWatcher
 	{	
-		private readonly Context _applicationContext;
-		private readonly Intent _serviceIntent;
-		private GeolocationServiceConnection _serviceConnecton;
-		private readonly GeolocationClientHandler _clientHandler;
 		public bool IsBound { get; private set; } = false;
-		public Messenger Messenger { get; set; } 
-		public Messenger MessengerService { get; set; }
-
-		public DroidGeolocationWatcher ()
-		{
-			_applicationContext = Mvx.Resolve<IMvxAndroidCurrentTopActivity> ().Activity.ApplicationContext;
-			_serviceIntent = new Intent (_applicationContext, typeof(GeolocationService));
-			_clientHandler = new GeolocationClientHandler (this);
-			_serviceConnecton = new GeolocationServiceConnection (this);
-		}	
 
 		#region IGeoLocationWatcher implementation
 		GeoLocation _location;
@@ -50,8 +37,7 @@ namespace Tollminder.Droid.Services
 		public void StartGeolocationWatcher ()
 		{	
 			if (!IsBound) {
-				Messenger = new Messenger (_clientHandler);
-				_applicationContext.BindService (_serviceIntent, _serviceConnecton, Bind.AutoCreate);
+				Start ();
 				IsBound = true;				
 			}
 		}
@@ -59,14 +45,7 @@ namespace Tollminder.Droid.Services
 		public void StopGeolocationWatcher ()
 		{
 			if (IsBound & MessengerService != null) {
-				try {
-					DroidMessanging.SendMessage(ServiceConstants.UnregisterClient,MessengerService,Messenger);
-				} catch (Exception ex) {
-					#if DEBUG
-					Log.LogMessage(ex.Message);
-					#endif
-				}				
-				_applicationContext.UnbindService (_serviceConnecton);
+				Stop ();
 				IsBound = false;
 			}
 		}

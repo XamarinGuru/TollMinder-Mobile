@@ -15,25 +15,14 @@ namespace Tollminder.Touch.Services
 {	
 	public class TouchMotionActivity : IMotionActivity
 	{
+		public bool AuthInProgress { get; set; } = false;
 		IGeoLocationWatcher _geoWatcher;
 		double _currentSpeed;
 
 		public TouchMotionActivity (IGeoLocationWatcher geoWatcher)
 		{
-			this._geoWatcher = geoWatcher;
-//			_motionManager = new CMMotionManager ();			
+			this._geoWatcher = geoWatcher;			
 		}
-
-		const double _minimumSpeed = 0.3f;
-		const double _maximumWalkingSpeed = 1.9f;
-		const double _maximumRunningSpeed = 7.5f;
-		const double _minimumRunningAcceleration = 3.5f;
-
-		bool _isShaking;
-			
-		MotionType _previousMotionType;
-
-//		CMMotionManager _motionManager;
 		CMMotionActivityManager _motionActivityManager;
 
 		private MotionType _motionType;
@@ -82,80 +71,6 @@ namespace Tollminder.Touch.Services
 				Log.LogMessage (_motionType.ToString ());
 				#endif
 			});
-		}
-
-		public async void LocationChangedNotification ()
-		{
-			if (_geoWatcher.Location == null) {
-				return;
-			}
-			_currentSpeed = _geoWatcher.Location.Speed;
-			if (_currentSpeed < 0) {
-				_currentSpeed = 0;
-			}
-			await CalculateMotionType ();
-			#if DEBUG
-			Mvx.Trace (Cirrious.CrossCore.Platform.MvxTraceLevel.Diagnostic, _currentSpeed.ToString(), string.Empty);
-			#endif
-		}
-
-		Task CalculateMotionType ()
-		{
-			return Task.Factory.StartNew (() => {
-				if (CMMotionActivityManager.IsActivityAvailable) {
-					return;
-				}
-
-				if (_currentSpeed < _minimumSpeed) {
-					_motionType = MotionType.Still;
-				} else if (_currentSpeed <= _maximumWalkingSpeed) {
-					_motionType = _isShaking ? MotionType.Running : MotionType.Walking;
-				} else if (_currentSpeed <= _maximumRunningSpeed) {
-					_motionType = _isShaking ? MotionType.Running : MotionType.Automotive;
-				} else {
-					_motionType = MotionType.Automotive;
-				}
-
-				// If type was changed, then call delegate method
-				if (_motionType != _previousMotionType) {
-					_previousMotionType = _motionType;
-				}
-			});
-		}
-
-		List<CMAcceleration> shakeDataForOneSecond = null;
-		float currentFiringTimeInterval = 0.0f;
-
-		void DetectShaking ()
-		{
-			currentFiringTimeInterval += 0.01f;
-
-			if (currentFiringTimeInterval < 1.0f) {// if one second time intervall not completed yet
-				
-				// Add current acceleration to array
-				if (shakeDataForOneSecond == null) {
-					shakeDataForOneSecond = new List<CMAcceleration> ();
-				}
-				shakeDataForOneSecond.Add (Acceleration);
-			} else {
-				int shakeCount = 0;
-				foreach (CMAcceleration item in shakeDataForOneSecond) {
-					double accX_2 = Math.Pow (item.X, 2);
-					double accY_2 = Math.Pow (item.Y, 2);
-					double accZ_2 = Math.Pow (item.Z, 2);
-
-					double vectorSum = Math.Sqrt (accX_2 + accY_2 + accZ_2);
-
-					if (vectorSum >= _minimumRunningAcceleration) {
-						shakeCount++;
-					}
-
-				}
-				_isShaking = shakeCount > 0;
-
-				shakeDataForOneSecond.Clear ();
-				currentFiringTimeInterval = 0.0f;
-			}		
 		}
 	}
 }

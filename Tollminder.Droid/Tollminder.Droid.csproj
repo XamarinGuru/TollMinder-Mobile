@@ -114,7 +114,6 @@
     <Compile Include="Services\DroidTextToSpeechService.cs" />
     <Compile Include="Services\DroidNotificationSender.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="Helpers\GeolocationServiceConnection.cs" />
     <Compile Include="Services\DroidGeolocationWatcher.cs" />
     <Compile Include="Helpers\ServiceConstants.cs" />
     <Compile Include="Services\DroidPlatform.cs" />
@@ -129,6 +128,15 @@
     <Compile Include="Handlers\GeolocationServiceHandler.cs" />
     <Compile Include="Handlers\MotionServiceHanlder.cs" />
     <Compile Include="Services\DroidMotionActivity.cs" />
+    <Compile Include="ServicesConnections\MotionServiceConnection.cs" />
+    <Compile Include="ServicesConnections\GeolocationServiceConnection.cs" />
+    <Compile Include="Handlers\MotionClientHanlder.cs" />
+    <Compile Include="Services\BaseAndroidService.cs" />
+    <Compile Include="Services\AndroidServiceWithServiceConnection.cs" />
+    <Compile Include="Inerfaces\IDroidMessenger.cs" />
+    <Compile Include="Services\MessengerAndroidService.cs" />
+    <Compile Include="ServicesConnections\BaseServiceConnection.cs" />
+    <Compile Include="Helpers\MotionConstants.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -155,6 +163,8 @@
     <Folder Include="Helpers\" />
     <Folder Include="AndroidServices\" />
     <Folder Include="Handlers\" />
+    <Folder Include="ServicesConnections\" />
+    <Folder Include="Inerfaces\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ItemGroup>

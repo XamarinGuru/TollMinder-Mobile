@@ -1,10 +1,11 @@
 ﻿using Android.OS;
 using Tollminder.Droid.Handlers;
 using System;
+using Android.App;
 
 namespace Tollminder.Droid.AndroidServices
 {	
-	public abstract class MessengerGoogleApiService<T> : GoogleApiService where T : BaseHandler
+	public abstract class MessengerGoogleApiService<T> : Service where T : BaseHandler
 	{
 		public Messenger MessengerClient { get; set; }
 

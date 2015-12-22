@@ -8,6 +8,7 @@ using Tollminder.Core.Models;
 
 namespace Tollminder.Droid.AndroidServices
 {
+	[Service]
 	public class GeofenceService : GeolocationService
 	{
 		public static readonly string GeoFenceRegionKey = "geoCurrentRegionPoint";

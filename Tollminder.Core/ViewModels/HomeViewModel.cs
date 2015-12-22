@@ -32,7 +32,7 @@ namespace Tollminder.Core.ViewModels
 			WeakSubscribe<MotionTypeChangedMessage> ((s)=> {
 				MotionType = s.Content;
 			});
-//			StartActivityDetection ();
+			StartActivityDetection ();
 		}
 
 		private GeoLocation _location;

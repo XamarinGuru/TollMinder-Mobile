@@ -15,7 +15,7 @@ using Tollminder.Droid.Handlers;
 namespace Tollminder.Droid.AndroidServices
 {
 	[Service]
-	public class GeolocationService : MessengerGoogleApiService<GeolocationServiceHandler>,
+	public class GeolocationService : GoogleApiService<GeolocationServiceHandler>,
 										Android.Gms.Location.ILocationListener									
 										 
 	{
