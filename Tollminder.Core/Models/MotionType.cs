@@ -2,12 +2,13 @@
 
 namespace Tollminder.Core.Models
 {
-	public enum MotionType
+	public enum MotionType 
 	{
 		Still,
 		Walking,
 		Running,
-		Automotive
+		Automotive,
+		Unknown
 	}
 }
 

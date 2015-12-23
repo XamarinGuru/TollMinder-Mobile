@@ -8,6 +8,9 @@ using Android.Gms.Common.Apis;
 using Android.Gms.Common;
 using Android.App;
 using Android.OS;
+using Java.Util.Concurrent;
+using Tollminder.Core.Helpers;
+using Tollminder.Core.Models;
 
 namespace Tollminder.Droid.AndroidServices
 {
@@ -47,16 +50,26 @@ namespace Tollminder.Droid.AndroidServices
 			}
 		}
 
-		private async void GetFitnessSensor()
+		protected virtual async void GetFitnessSensor()
 		{
 			var dataSourceResult = await FitnessClass.SensorsApi.AddAsync (GoogleApiClient, new SensorRequest.Builder ()
 				.SetDataType (DataType.TypeActivitySample)
+				.SetSamplingRate(15, TimeUnit.Seconds)
+				.SetAccuracyMode(SensorRequest.AccuracyModeHigh)
+				.SetFastestRate(15,TimeUnit.Seconds)
 				.Build (), this);
+			#if DEBUG
+			Log.LogMessage(dataSourceResult.ToString());
+			#endif
 		}
 
-		public void OnDataPoint (DataPoint dataPoint)
+		public virtual void OnDataPoint (DataPoint dataPoint)
 		{
-			var asd = dataPoint;
+			try {
+				DroidMessanging.SendMessage (MotionConstants.GetMotion, MessengerClient, null, dataPoint.GetMotionType().PutMotionType());				
+			} catch (Exception ex) {
+				Log.LogMessage (ex.Message);
+			}
 		}
 	}
 }

@@ -3,6 +3,7 @@ using Tollminder.Core.Models;
 using Android.Locations;
 using Android.Widget;
 using Android.OS;
+using Android.Gms.Fitness.Data;
 
 namespace Tollminder.Droid
 {
@@ -12,7 +13,8 @@ namespace Tollminder.Droid
 		public const string Altitude = "Altitude";
 		public const string Longitude = "Longitude";
 		public const string Latitude = "Latitude";
-		public const string Speed = "Speed";
+		public const string SpeedKey = "Speed";
+		public const string MotionTypeKey = "MotionType";
 
 		public static GeoLocation GetGeolocationFromAndroidLocation (this Location loc)
 		{
@@ -32,7 +34,7 @@ namespace Tollminder.Droid
 			geoLocation.Altitude = bundle.GetDouble (Altitude);
 			geoLocation.Longitude = bundle.GetDouble (Longitude);
 			geoLocation.Latitude = bundle.GetDouble (Latitude);
-			geoLocation.Speed = bundle.GetDouble (Speed);
+			geoLocation.Speed = bundle.GetDouble (SpeedKey);
 			return geoLocation;
 
 		}
@@ -44,8 +46,52 @@ namespace Tollminder.Droid
 			bundle.PutDouble (Altitude, loc.Altitude);
 			bundle.PutDouble (Longitude, loc.Longitude);
 			bundle.PutDouble (Latitude, loc.Latitude);
-			bundle.PutDouble (Speed, loc.Speed);
+			bundle.PutDouble (SpeedKey, loc.Speed);
 			return bundle;	
+		}
+
+		public static MotionType GetMotionType (this DataPoint datapoint)
+		{
+			const string activity = "activity";
+			foreach (var field in datapoint.DataType.Fields) {
+				Value val = datapoint.GetValue (field);
+				if (field.Name == activity) {
+					switch (val.AsInt ()) {
+					case 3:
+						return MotionType.Still;
+					case 7:
+						return MotionType.Walking;
+					case 8:
+						return MotionType.Running;
+					default:
+						return MotionType.Automotive;
+					}
+				}
+			}
+			return MotionType.Unknown;
+		}
+
+		public static Bundle PutMotionType (this MotionType mType)
+		{
+			var bundle = new Bundle ();
+			bundle.PutInt (MotionTypeKey, (int)mType);
+			return bundle;	
+		}
+
+		public static MotionType GetMotionType (this Bundle mType)
+		{			
+			switch (mType.GetInt(MotionTypeKey)) {
+			case (int)MotionType.Still:
+				return MotionType.Still;
+			case (int)MotionType.Walking:
+				return MotionType.Walking;
+			case (int)MotionType.Running:
+				return MotionType.Running;
+			case (int)MotionType.Automotive:
+				return MotionType.Automotive;
+			default:
+				return MotionType.Unknown;
+			}
 		}
 	}
 }

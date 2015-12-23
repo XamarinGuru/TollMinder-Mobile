@@ -5,6 +5,8 @@ using Android.Content;
 using Tollminder.Droid.AndroidServices;
 using Tollminder.Droid.Handlers;
 using Tollminder.Droid.ServicesConnections;
+using Cirrious.CrossCore;
+using MessengerHub;
 
 namespace Tollminder.Droid.Services
 {
@@ -23,9 +25,12 @@ namespace Tollminder.Droid.Services
 			Stop ();
 		}
 
-		public MotionType MotionType {
-			get {
-				return MotionType.Still;
+		private MotionType _motionType;
+		public virtual MotionType MotionType {
+			get { return _motionType; }
+			set {
+				_motionType = value;
+				Mvx.Resolve<IMessengerHub> ().Publish (new MotionTypeChangedMessage (this, value));
 			}
 		}
 

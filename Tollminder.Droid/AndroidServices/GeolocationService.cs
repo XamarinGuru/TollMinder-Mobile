@@ -36,8 +36,7 @@ namespace Tollminder.Droid.AndroidServices
 		{
 			base.OnCreate ();
 			CreateGoogleApiClient (LocationServices.API);
-			GoogleApiClient.Connect ();
-
+			Connect ();
 		}
 
 		public override void OnConnected (Bundle connectionHint)

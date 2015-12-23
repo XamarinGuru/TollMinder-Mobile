@@ -28,6 +28,9 @@ namespace Tollminder.Droid.Handlers
 				ConnectionResult result = msg.Data.GetParcelable (MotionActivityService.ResultBundleKey) as ConnectionResult;
 				result.StartResolutionForResult (Service.Activity, MotionActivityService.ResolutionRequest);
 				return;
+			case MotionConstants.GetMotion:
+				Service.MotionType = msg.Data.GetMotionType ();
+				return;
 			default:
 				break;
 			}
