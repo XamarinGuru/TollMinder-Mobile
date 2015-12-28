@@ -59,7 +59,7 @@ Target "android-package" (fun () ->
         })
     |> AndroidSignAndAlign (fun defaults ->
         {defaults with
-            KeystorePath = "Toll\ Minder.keystore"
+            KeystorePath = "Toll Minder.keystore"
             KeystorePassword = getBuildParamOrDefault "pass" ""
             KeystoreAlias = "TollMinder"
         })
