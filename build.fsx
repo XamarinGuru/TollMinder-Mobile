@@ -1,4 +1,4 @@
-#r @"packages/FAKE.3.5.4/tools/FakeLib.dll"
+#r @"packages/FAKE.4.4.2/tools/FakeLib.dll"
 #load "build-helpers.fsx"
 open Fake
 open System
@@ -7,14 +7,15 @@ open System.Linq
 open BuildHelpers
 open Fake.XamarinHelper
 
+Target "clean" (fun _ ->
+    let dirs = !! "./**/bin/"
+                  ++ "./**/obj/"
+    CleanDirs dirs
+
+
 Target "core-build" (fun () ->
     RestorePackages "TollMinder.sln"
     MSBuild "TollMinder.Core/bin/Debug" "Build" [ ("Configuration", "Debug"); ("Platform", "Any CPU") ] [ "TollMinder.Core/TollMinder.Core.csproj" ] |> ignore
-)
-
-Target "core-tests" (fun () ->
-    MSBuild "Tests/TollMinder.Tests/bin/Debug" "Build" [ ("Configuration", "Debug"); ("Platform", "Any CPU") ] [ "Tests/TollMinder.Tests/TollMinder.Tests.csproj" ] |> ignore
-    RunNUnitTests "Tests/TollMinder.Tests/bin/Debug/TollMinder.Tests.dll" "Tests/TollMinder.Tests/bin/Debug/testresults.xml"
 )
 
 Target "ios-build" (fun () ->
@@ -43,12 +44,6 @@ Target "ios-adhoc" (fun () ->
     TeamCityHelper.PublishArtifact appPath
 )
 
-Target "ios-uitests" (fun () ->
-    let appPath = Directory.EnumerateDirectories(Path.Combine("TollMinder.Touch", "bin", "iPhoneSimulator", "Debug"), "*.app").First()
-
-    RunUITests appPath
-)
-
 Target "android-build" (fun () ->
     RestorePackages "TollMinder.sln"
     MSBuild "TollMinder.Droid/bin/Release" "Build" [ ("Configuration", "Release") ] [ "TollMinder.Droid/TollMinder.Droid.csproj" ] |> ignore
@@ -64,34 +59,34 @@ Target "android-package" (fun () ->
     |> AndroidSignAndAlign (fun defaults ->
         {defaults with
             KeystorePath = "TollMinder.keystore"
-            KeystorePassword = "goclientpass" // TODO: don't store this in the build script for a real app!
+            KeystorePassword = "Palladium5" // TODO: don't store this in the build script for a real app!
             KeystoreAlias = "TollMinder"
         })
     |> fun file -> TeamCityHelper.PublishArtifact file.FullName
 )
 
-Target "android-uitests" (fun () ->
-    AndroidPackage (fun defaults ->
-        {defaults with
-            ProjectPath = "TollMinder.Droid/TollMinder.Droid.csproj"
-            Configuration = "Release"
-            OutputPath = "TollMinder.Droid/bin/Release"
-        }) |> ignore
+//Target "android-uitests" (fun () ->
+//    AndroidPackage (fun defaults ->
+//        {defaults with
+//            ProjectPath = "TollMinder.Droid/TollMinder.Droid.csproj"
+//            Configuration = "Release"
+//            OutputPath = "TollMinder.Droid/bin/Release"
+//        }) |> ignore
+//
+//    let appPath = Directory.EnumerateFiles(Path.Combine("TollMinder.Droid", "bin", "Release"), "*.apk", SearchOption.AllDirectories).First()
+//
+//    RunUITests appPath
+//)
 
-    let appPath = Directory.EnumerateFiles(Path.Combine("TollMinder.Droid", "bin", "Release"), "*.apk", SearchOption.AllDirectories).First()
+//Target "android-package-testfairy" (fun () ->
+//    let appPath = Directory.EnumerateFiles(Path.Combine("TollMinder.Droid", "bin", "Release"), "*Aligned.apk", SearchOption.AllDirectories).First()
+//    Exec "testfairy-upload.sh" appPath
+//)
 
-    RunUITests appPath
-)
-
-Target "android-package-testfairy" (fun () ->
-    let appPath = Directory.EnumerateFiles(Path.Combine("TollMinder.Droid", "bin", "Release"), "*Aligned.apk", SearchOption.AllDirectories).First()
-    Exec "testfairy-upload.sh" appPath
-)
-
-Target "android-package-hockeyapp" (fun () ->
-    let appPath = Directory.EnumerateFiles(Path.Combine("TollMinder.Droid", "bin", "Release"), "*Aligned.apk", SearchOption.AllDirectories).First()
-    Exec "hockeyapp-upload.sh" appPath
-)
+//Target "android-package-hockeyapp" (fun () ->
+//    let appPath = Directory.EnumerateFiles(Path.Combine("TollMinder.Droid", "bin", "Release"), "*Aligned.apk", SearchOption.AllDirectories).First()
+//    Exec "hockeyapp-upload.sh" appPath
+//)
 
 "core-build"
     ==> "android-build"
@@ -102,14 +97,14 @@ Target "android-package-hockeyapp" (fun () ->
 "android-build"
     ==> "android-package"
 
-"android-package"
-    ==> "android-package-testfairy"
+//"android-package"
+//    ==> "android-package-testfairy"
 
-"android-package"
-    ==> "android-package-hockeyapp"
+//"android-package"
+//    ==> "android-package-hockeyapp"
 
-"ios-build"
-    ==> "ios-uitests"
+//"ios-build"
+//    ==> "ios-uitests"
 
 
 
