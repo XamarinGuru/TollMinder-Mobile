@@ -16,7 +16,7 @@ Target "clean" (fun _ ->
 
 Target "core-build" (fun () ->
     RestorePackages "TollMinder.sln"
-    MSBuild "TollMinder.Core/bin/Debug" "Build" [ ("Configuration", "Debug"); ("Platform", "Any CPU") ] [ "TollMinder.Core/TollMinder.Core.csproj" ] |> ignore
+    MSBuild "TollMinder.Core/bin/Release" "Build" [ ("Configuration", "Release"); ("Platform", "Any CPU") ] [ "TollMinder.Core/TollMinder.Core.csproj" ] |> ignore
 )
 
 Target "ios-build" (fun () ->
@@ -60,7 +60,7 @@ Target "android-package" (fun () ->
     |> AndroidSignAndAlign (fun defaults ->
         {defaults with
             KeystorePath = "Toll\ Minder.keystore"
-            KeystorePassword = "Palladium5" // TODO: don't store this in the build script for a real app!
+            KeystorePassword = getBuildParamOrDefault "pass" ""
             KeystoreAlias = "TollMinder"
         })
     |> fun file -> TeamCityHelper.PublishArtifact file.FullName
@@ -89,7 +89,13 @@ Target "android-package-hockeyapp" (fun () ->
     Exec "hockeyapp-upload.sh" appPath
 )
 
-"core-build"
+//"clean"
+//    ==> "core-build"
+//    ==> "android-build"
+//    ==> "ios-build"
+//    ==> "android-package" 
+
+"core-build"    
     ==> "android-build"
 
 "core-build"
@@ -103,8 +109,5 @@ Target "android-package-hockeyapp" (fun () ->
 
 //"android-package"
 //   ==> "android-package-hockeyapp"
-
-//"ios-build"
-//    ==> "ios-uitests"
 
 RunTarget()
