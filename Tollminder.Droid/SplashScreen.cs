@@ -1,6 +1,7 @@
 using Android.App;
 using Android.Content.PM;
 using Cirrious.MvvmCross.Droid.Views;
+using Android.OS;
 
 namespace Tollminder.Droid
 {
@@ -13,7 +14,7 @@ namespace Tollminder.Droid
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
-			Xamarin.Insights.Initialize (global::Tollminder.Droid.XamarinInsights.ApiKey, this);
+//			Xamarin.Insights.Initialize (global::Tollminder.Droid.XamarinInsights.ApiKey, this);
 			base.OnCreate (savedInstanceState);
 		}
 	}

@@ -11,6 +11,7 @@ Target "clean" (fun _ ->
     let dirs = !! "./**/bin/"
                   ++ "./**/obj/"
     CleanDirs dirs
+)
 
 
 Target "core-build" (fun () ->
@@ -58,35 +59,35 @@ Target "android-package" (fun () ->
         })
     |> AndroidSignAndAlign (fun defaults ->
         {defaults with
-            KeystorePath = "TollMinder.keystore"
+            KeystorePath = "Toll\ Minder.keystore"
             KeystorePassword = "Palladium5" // TODO: don't store this in the build script for a real app!
             KeystoreAlias = "TollMinder"
         })
     |> fun file -> TeamCityHelper.PublishArtifact file.FullName
 )
 
-//Target "android-uitests" (fun () ->
-//    AndroidPackage (fun defaults ->
-//        {defaults with
-//            ProjectPath = "TollMinder.Droid/TollMinder.Droid.csproj"
-//            Configuration = "Release"
-//            OutputPath = "TollMinder.Droid/bin/Release"
-//        }) |> ignore
-//
-//    let appPath = Directory.EnumerateFiles(Path.Combine("TollMinder.Droid", "bin", "Release"), "*.apk", SearchOption.AllDirectories).First()
-//
-//    RunUITests appPath
-//)
+Target "android-uitests" (fun () ->
+    AndroidPackage (fun defaults ->
+        {defaults with
+            ProjectPath = "TollMinder.Droid/TollMinder.Droid.csproj"
+            Configuration = "Release"
+            OutputPath = "TollMinder.Droid/bin/Release"
+        }) |> ignore
 
-//Target "android-package-testfairy" (fun () ->
-//    let appPath = Directory.EnumerateFiles(Path.Combine("TollMinder.Droid", "bin", "Release"), "*Aligned.apk", SearchOption.AllDirectories).First()
-//    Exec "testfairy-upload.sh" appPath
-//)
+    let appPath = Directory.EnumerateFiles(Path.Combine("TollMinder.Droid", "bin", "Release"), "*.apk", SearchOption.AllDirectories).First()
 
-//Target "android-package-hockeyapp" (fun () ->
-//    let appPath = Directory.EnumerateFiles(Path.Combine("TollMinder.Droid", "bin", "Release"), "*Aligned.apk", SearchOption.AllDirectories).First()
-//    Exec "hockeyapp-upload.sh" appPath
-//)
+    RunUITests appPath
+)
+
+Target "android-package-testfairy" (fun () ->
+    let appPath = Directory.EnumerateFiles(Path.Combine("TollMinder.Droid", "bin", "Release"), "*Aligned.apk", SearchOption.AllDirectories).First()
+    Exec "testfairy-upload.sh" appPath
+)
+
+Target "android-package-hockeyapp" (fun () ->
+    let appPath = Directory.EnumerateFiles(Path.Combine("TollMinder.Droid", "bin", "Release"), "*Aligned.apk", SearchOption.AllDirectories).First()
+    Exec "hockeyapp-upload.sh" appPath
+)
 
 "core-build"
     ==> "android-build"
@@ -101,11 +102,9 @@ Target "android-package" (fun () ->
 //    ==> "android-package-testfairy"
 
 //"android-package"
-//    ==> "android-package-hockeyapp"
+//   ==> "android-package-hockeyapp"
 
 //"ios-build"
 //    ==> "ios-uitests"
-
-
 
 RunTarget()
