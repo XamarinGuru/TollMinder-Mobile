@@ -59,9 +59,9 @@ Target "android-package" (fun () ->
         })
     |> AndroidSignAndAlign (fun defaults ->
         {defaults with
-            KeystorePath = "Toll Minder.keystore"
+            KeystorePath = "Tollminder.keystore"
             KeystorePassword = getBuildParamOrDefault "pass" ""
-            KeystoreAlias = "TollMinder"
+            KeystoreAlias = "tollminder"
         })
     |> fun file -> TeamCityHelper.PublishArtifact file.FullName
 )
