@@ -20,27 +20,24 @@ Target "core-build" (fun () ->
 )
 
 Target "ios-build" (fun () ->
-    RestorePackages "TollMinder_iOS.sln"
-
-    iOSBuild (fun defaults ->
-        {defaults with
-            ProjectPath = "TollMinder_iOS.sln"
-            Configuration = "Debug|iPhoneSimulator"
-            Target = "Build"
-        })
+    RestorePackages "TollMinder.sln"
+    MSBuild "TollMinder.Touch/bin/Release" "Build" [ ("Configuration", "Release"); ("Platform", "iPhoneSimulator") ] [ "TollMinder.Touch/TollMinder.Touch.csproj" ] |> ignore
 )
 
 Target "ios-adhoc" (fun () ->
-    RestorePackages "TollMinder_iOS.sln"
+    RestorePackages "TollMinder.sln"
 
     iOSBuild (fun defaults ->
         {defaults with
-            ProjectPath = "TollMinder_iOS.sln"
-            Configuration = "Ad-Hoc|iPhone"
+            ProjectPath = "TollMinder.Touch/TollMinder.Touch.csproj"
+            OutputPath = "TollMinder.Touch/bin/iPhone/Ad-hoc/"
             Target = "Build"
-        })
+            Configuration = "Release"
+            Platform = "iPhone"
+            BuildIpa = true
+        }) 
 
-    let appPath = Directory.EnumerateFiles(Path.Combine("TollMinder.Touch", "bin", "iPhone", "Ad-Hoc"), "*.ipa").First()
+    let appPath = Directory.EnumerateFiles(Path.Combine("TollMinder.Touch", "bin", "iPhone"), "*.ipa").First()
 
     TeamCityHelper.PublishArtifact appPath
 )
@@ -101,6 +98,9 @@ Target "android-package-hockeyapp" (fun () ->
 
 "core-build"
     ==> "ios-build"
+
+"core-build"
+    ==> "ios-adhoc"
 
 "android-build"
     ==> "android-package"
