@@ -60,7 +60,7 @@ Target "android-package" (fun () ->
     |> AndroidSignAndAlign (fun defaults ->
         {defaults with
             KeystorePath = "Tollminder.keystore"
-            KeystorePassword = "Palladium5"
+            KeystorePassword = getBuildParamOrDefault "pass" ""
             KeystoreAlias = "tollminder"
             ZipalignPath = "/Users/nickolasshpotenko/Library/Developer/Xamarin/android-sdk-macosx/build-tools/23.0.2/zipalign"
         })
