@@ -62,7 +62,7 @@ Target "android-package" (fun () ->
             KeystorePath = "Tollminder.keystore"
             KeystorePassword = "Palladium5"
             KeystoreAlias = "tollminder"
-            ZipalignPath = "/Users/nickolasshpotenko/Library/Developer/Xamarin/android-sdk-macosx/build-tools/23.0.2"
+            ZipalignPath = "/Users/nickolasshpotenko/Library/Developer/Xamarin/android-sdk-macosx/build-tools/23.0.2/zipalign"
         })
     |> fun file -> TeamCityHelper.PublishArtifact file.FullName
 )
