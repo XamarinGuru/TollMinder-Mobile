@@ -82,7 +82,7 @@
     <CodesignKey>iPhone Distribution: Dmitry Stepanov (W6C5Q44UVB)</CodesignKey>
     <CodesignProvision>2f9a7eec-76c3-414f-96e3-0cc740413863</CodesignProvision>
     <MtouchUseLlvm>true</MtouchUseLlvm>
-    <MtouchArch>ARMv7</MtouchArch>
+    <MtouchArch>ARMv7, ARMv7s, ARM64</MtouchArch>
     <IpaPackageName>
     </IpaPackageName>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>

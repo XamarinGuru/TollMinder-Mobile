@@ -6,6 +6,11 @@ open System.IO
 open System.Linq
 open BuildHelpers
 open Fake.XamarinHelper
+open HockeyAppHelper
+
+//Environment variables
+let version = environVarOrDefault "VERSION" "1"
+let build = environVarOrDefault "BUILD_NUMBER" "1"
 
 Target "clean" (fun _ ->
     let dirs = !! "./**/bin/"
@@ -30,7 +35,7 @@ Target "ios-adhoc" (fun () ->
     iOSBuild (fun defaults ->
         {defaults with
             ProjectPath = "TollMinder.Touch/TollMinder.Touch.csproj"
-            OutputPath = "TollMinder.Touch/bin/iPhone/Ad-hoc/"
+            OutputPath = "TollMinder.Touch/bin/iPhone/Adhoc/"
             Target = "Build"
             Configuration = "Release"
             Platform = "iPhone"
@@ -38,7 +43,6 @@ Target "ios-adhoc" (fun () ->
         }) 
 
     let appPath = Directory.EnumerateFiles(Path.Combine("TollMinder.Touch", "bin", "iPhone"), "*.ipa").First()
-
     TeamCityHelper.PublishArtifact appPath
 )
 
@@ -64,51 +68,54 @@ Target "android-package" (fun () ->
     |> fun file -> TeamCityHelper.PublishArtifact file.FullName
 )
 
-Target "android-uitests" (fun () ->
-    AndroidPackage (fun defaults ->
-        {defaults with
-            ProjectPath = "TollMinder.Droid/TollMinder.Droid.csproj"
-            Configuration = "Release"
-            OutputPath = "TollMinder.Droid/bin/Release"
-        }) |> ignore
-
-    let appPath = Directory.EnumerateFiles(Path.Combine("TollMinder.Droid", "bin", "Release"), "*.apk", SearchOption.AllDirectories).First()
-
-    RunUITests appPath
+Target "ios-hockey" (fun () ->
+    HockeyApp(fun parametrs ->
+        {parametrs with
+            ApiToken = getBuildParam "hkey"
+            File = Directory.EnumerateFiles(Path.Combine("TollMinder.Touch", "bin", "iPhone"), "*.ipa").First()
+         }) |> ignore    
 )
 
-Target "android-package-testfairy" (fun () ->
-    let appPath = Directory.EnumerateFiles(Path.Combine("TollMinder.Droid", "bin", "Release"), "*Aligned.apk", SearchOption.AllDirectories).First()
-    Exec "testfairy-upload.sh" appPath
+Target "android-hockey" (fun () ->
+    HockeyApp(fun parametrs ->
+        {parametrs with
+            ApiToken = getBuildParam "hkey"
+            File = Directory.EnumerateFiles(Path.Combine("TollMinder.Droid", "bin", "Release"), "*Aligned.apk").First()
+         }) |> ignore   
 )
 
-Target "android-package-hockeyapp" (fun () ->
-    let appPath = Directory.EnumerateFiles(Path.Combine("TollMinder.Droid", "bin", "Release"), "*Aligned.apk", SearchOption.AllDirectories).First()
-    Exec "hockeyapp-upload.sh" appPath
+
+Target "android-version"(fun () -> 
+    let path = Directory.EnumerateFiles(Path.Combine("TollMinder.Droid", "Properties"), "AndroidManifest.xml").First()
+    let ns = Seq.singleton(("android", "http://schemas.android.com/apk/res/android"))
+    XmlPokeNS path ns "manifest/@android:versionName" (version + "." + build)
+    XmlPokeNS path ns "manifest/@android:versionCode" build
 )
 
-//"clean"
-//    ==> "core-build"
-//    ==> "android-build"
-//    ==> "ios-build"
-//    ==> "android-package" 
+Target "ios-version"(fun () -> 
+    let path = Directory.EnumerateFiles(Path.Combine("TollMinder.Touch"), "Info.plist").First()
+    let file = fileInfo path
+    log ("Path to project: " + file.FullName + " Version number: " + version + "." + build)
+    Exec "/usr/libexec/PlistBuddy" ("-c 'Set :CFBundleShortVersionString " + version + "' " + file.FullName)
+    Exec "/usr/libexec/PlistBuddy" ("-c 'Set :CFBundleVersion " + build + "' " + file.FullName)
+)
 
-"core-build"    
-    ==> "android-build"
-
-"core-build"
-    ==> "ios-build"
-
-"core-build"
-    ==> "ios-adhoc"
-
-"android-build"
+"core-build"      
     ==> "android-package"
 
-//"android-package"
-//    ==> "android-package-testfairy"
+"core-build"   
+    ==> "ios-adhoc"
 
-//"android-package"
-//   ==> "android-package-hockeyapp"
+"android-version"
+    ==> "android-package"
 
-RunTarget()
+"android-package"
+    ==> "android-hockey"
+
+"ios-adhoc"
+    ==> "ios-hockey"
+
+"ios-version"
+    ==> "ios-adhoc"
+     
+RunTargetOrListTargets()

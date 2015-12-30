@@ -4,14 +4,24 @@
 <dict>
 	<key>CFBundleIdentifier</key>
 	<string>com.tollminder</string>
+	<key>CFBundleName</key>
+	<string>Toll Minder</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>2</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>
 	<string>8.0</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>We need your location in background</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We need your location in foreground</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+	</array>
 	<key>UIDeviceFamily</key>
 	<array>
 		<integer>1</integer>
@@ -30,15 +40,5 @@
 	</array>
 	<key>XSAppIconAssets</key>
 	<string>Resources/Images.xcassets/AppIcons.appiconset</string>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>location</string>
-	</array>
-	<key>CFBundleName</key>
-	<string>Toll Minder</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>We need your location in background</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need your location in foreground</string>
 </dict>
 </plist>
