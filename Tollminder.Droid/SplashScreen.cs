@@ -14,7 +14,8 @@ namespace Tollminder.Droid
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
-//			Xamarin.Insights.Initialize (global::Tollminder.Droid.XamarinInsights.ApiKey, this);
+			Xamarin.Insights.Initialize (global::Tollminder.Core.XamarinInsightsHelper.ApiKey, this);
+
 			base.OnCreate (savedInstanceState);
 		}
 	}
