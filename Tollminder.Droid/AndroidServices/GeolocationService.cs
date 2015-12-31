@@ -79,6 +79,7 @@ namespace Tollminder.Droid.AndroidServices
 				Location = LocationServices.FusedLocationApi.GetLastLocation (GoogleApiClient).GetGeolocationFromAndroidLocation();
 			}
 			else {
+				SetUpLocationRequest ();
 				LocationServices.FusedLocationApi.RequestLocationUpdates (GoogleApiClient, _locationRequest, this);
 			}
 		}
