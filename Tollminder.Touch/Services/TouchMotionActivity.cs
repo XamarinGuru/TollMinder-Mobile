@@ -16,40 +16,41 @@ namespace Tollminder.Touch.Services
 	public class TouchMotionActivity : IMotionActivity
 	{
 		public bool AuthInProgress { get; set; } = false;
-		IGeoLocationWatcher _geoWatcher;
-		double _currentSpeed;
-
-		public TouchMotionActivity (IGeoLocationWatcher geoWatcher)
-		{
-			this._geoWatcher = geoWatcher;			
-		}
 		CMMotionActivityManager _motionActivityManager;
+
+		public TouchMotionActivity ()
+		{
+			_motionActivityManager = new CMMotionActivityManager (); 
+		}
 
 		private MotionType _motionType;
 		public MotionType MotionType { 
 			get { return _motionType; } 
 			private set { 
-				_motionType = value;
-				Mvx.Resolve<ITextToSpeechService> ().Speak (value.ToString ());
+				if (_motionType == value)
+					return;
+				else
+					_motionType = value;
 				Mvx.Resolve<IMessengerHub> ().Publish (new MotionTypeChangedMessage (this, value));
 			}
 		} 
-		public CMAcceleration Acceleration { get; set; }
 
 		public void StopDetection()
 		{
-			_motionActivityManager.StopActivityUpdates ();
+			if (CMMotionActivityManager.IsActivityAvailable)
+				_motionActivityManager?.StopActivityUpdates ();
+
 		}
 
 		public void StartDetection()
 		{			
-			if (CMMotionActivityManager.IsActivityAvailable) {
-				if (_motionActivityManager == null) {		
-					_motionActivityManager = new CMMotionActivityManager (); 
-				}
+			if (CMMotionActivityManager.IsActivityAvailable)
+				_motionActivityManager?.StartActivityUpdates (NSOperationQueue.CurrentQueue, async (activity) => await GetMotionActivity (activity));
+		}
 
-				_motionActivityManager.StartActivityUpdates (NSOperationQueue.CurrentQueue, async (activity) => await GetMotionActivity (activity));
-			}
+		bool CheckCurrentMotion (MotionType value)
+		{
+			return 
 		}
 
 		Task GetMotionActivity (CMMotionActivity activity)
