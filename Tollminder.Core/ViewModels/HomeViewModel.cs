@@ -70,6 +70,24 @@ namespace Tollminder.Core.ViewModels
 			}  
 		}
 
+		private MvxCommand _fakeCommand;
+		public ICommand FakeCommand {
+			get {
+				return _fakeCommand ?? (_fakeCommand = new MvxCommand (() => {
+					TestForLocations test = new TestForLocations();
+					var location = new GeoLocation(50.4021698,30.3922658);
+					int asd = 0;
+					DateTime time = DateTime.UtcNow;
+					foreach (var item in location.GetLocationsFromRadius(test.Locations)) {
+						asd++;
+//						Log.LogMessage (asd.ToString());
+//						Log.LogMessage (item.ToString());
+					}
+					Log.LogMessage((DateTime.UtcNow - time).Milliseconds.ToString());
+				}));
+			}  
+		}
+
 		private MvxCommand _stopCommand;
 		public ICommand StopCommand {
 			get {

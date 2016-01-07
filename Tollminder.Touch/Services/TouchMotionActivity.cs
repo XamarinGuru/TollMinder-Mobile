@@ -48,11 +48,6 @@ namespace Tollminder.Touch.Services
 				_motionActivityManager?.StartActivityUpdates (NSOperationQueue.CurrentQueue, async (activity) => await GetMotionActivity (activity));
 		}
 
-		bool CheckCurrentMotion (MotionType value)
-		{
-			return 
-		}
-
 		Task GetMotionActivity (CMMotionActivity activity)
 		{
 			return Task.Run (() => {
