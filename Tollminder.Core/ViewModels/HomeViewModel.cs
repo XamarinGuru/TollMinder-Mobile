@@ -84,6 +84,7 @@ namespace Tollminder.Core.ViewModels
 		public ICommand AddNewLocation {
 			get {
 				return _addNewLocation ?? (_addNewLocation = new MvxCommand (async () => {
+//					await _geoData.
 					await _geoData.InsertAsync(new GeoLocation(50.4021698,30.3922658));
 					_locations = await _geoData.CountAsync;
 					RaisePropertyChanged(() => CountOfLocations);

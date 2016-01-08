@@ -16,13 +16,14 @@ namespace Tollminder.Core.Services.Implementation
 
 		public GeoDataServiceAsync (IMvxSqliteConnectionFactory factory)
 		{
-			this.connection = factory.GetAsyncConnection("TollMinder.sql");
+			this.connection = factory.GetAsyncConnection("tollminder.db");
+			connection.CreateTableAsync<GeoLocation> ();
 		}
 
-		public Task InitializeOrRetriveGeoTable()
-		{
-			return connection.CreateTableAsync<GeoLocation> ();
-		}
+//		public Task InitializeOrRetriveGeoTable()
+//		{
+//			return connection.CreateTableAsync<GeoLocation> ();
+//		}
 	
 		#region IGeoDataService implementation
 
