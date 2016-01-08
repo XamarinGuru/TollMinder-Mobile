@@ -24,7 +24,8 @@ namespace Tollminder.Core.Helpers
 		//  where φА, φB are latitudes and λА, λB are longitudes
 		// Distance = d * R
 		public static double DistanceBetweenGeoLocations (GeoLocation center, GeoLocation otherPoint)
-		{			
+		{
+			
 			double R = 6371 / 5; // 200 metres
 
 			double sLat1 = Math.Sin(center.Latitude.ToRadians());
@@ -43,9 +44,16 @@ namespace Tollminder.Core.Helpers
 
 		}
 
-		public static ParallelQuery<GeoLocation> GetLocationsFromRadius (this GeoLocation center, IList<GeoLocation> points)
+		public static IEnumerable<GeoLocation> GetLocationsFromRadius (this GeoLocation center, IList<GeoLocation> points)
 		{
-			return  points.AsParallel ().Where (x => DistanceBetweenGeoLocations (center, x) <= 200);
+			return points.AsParallel().WithMergeOptions(ParallelMergeOptions.AutoBuffered).Where (x => DistanceBetweenGeoLocations (center, x) <= 200);
+		}
+
+		public static Task<ParallelQuery<GeoLocation>> GetLocationsFromRadiusAsync (this GeoLocation center, IList<GeoLocation> points)
+		{
+			return Task.Run(() => {
+				return points.AsParallel().WithMergeOptions(ParallelMergeOptions.AutoBuffered).Where (x => DistanceBetweenGeoLocations (center, x) <= 200);
+			});
 		}
 	}
 }
