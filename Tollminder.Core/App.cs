@@ -3,6 +3,8 @@ using Cirrious.CrossCore;
 using System.Threading.Tasks;
 using MessengerHub;
 using Tollminder.Core.ViewModels;
+using Tollminder.Core.Services;
+using Tollminder.Core.Services.Implementation;
 
 namespace Tollminder.Core
 {
@@ -42,6 +44,7 @@ namespace Tollminder.Core
             RegisterAppStart<ViewModels.HomeViewModel>();
 
 			Mvx.LazyConstructAndRegisterSingleton<IMessengerHub, MessengerHub.MessengerHub>();
+			Mvx.LazyConstructAndRegisterSingleton<IGeoDataServiceAsync, GeoDataServiceAsync>();
 
 			// start any background services
 			//InitializeSignificantLocationMonitoring();

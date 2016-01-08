@@ -15,11 +15,14 @@ namespace Tollminder.Core.ViewModels
     {
 		private readonly IGeoLocationWatcher _geoLocation;
 		private readonly IMotionActivity _motionalActivity;
+		private readonly IGeoDataServiceAsync _geoData;
 
-		public HomeViewModel (IGeoLocationWatcher geoLocation, IMotionActivity motionalActivity)
+		public HomeViewModel (IGeoLocationWatcher geoLocation, IMotionActivity motionalActivity,IGeoDataServiceAsync geoData)
 		{
+			this._geoData = geoData;
 			this._geoLocation = geoLocation;			
 			this._motionalActivity = motionalActivity;
+
 		}
 
 		public override void Start ()
@@ -70,24 +73,6 @@ namespace Tollminder.Core.ViewModels
 			}  
 		}
 
-		private MvxCommand _fakeCommand;
-		public ICommand FakeCommand {
-			get {
-				return _fakeCommand ?? (_fakeCommand = new MvxCommand (() => {
-					TestForLocations test = new TestForLocations();
-					var location = new GeoLocation(50.4021698,30.3922658);
-					int asd = 0;
-					DateTime time = DateTime.UtcNow;
-					foreach (var item in location.GetLocationsFromRadius(test.Locations)) {
-						asd++;
-//						Log.LogMessage (asd.ToString());
-//						Log.LogMessage (item.ToString());
-					}
-					Log.LogMessage((DateTime.UtcNow - time).Milliseconds.ToString());
-				}));
-			}  
-		}
-
 		private MvxCommand _stopCommand;
 		public ICommand StopCommand {
 			get {
@@ -95,9 +80,25 @@ namespace Tollminder.Core.ViewModels
 			}  
 		}
 
+		private MvxCommand _addNewLocation;
+		public ICommand AddNewLocation {
+			get {
+				return _addNewLocation ?? (_addNewLocation = new MvxCommand (async () => {
+					await _geoData.InsertAsync(new GeoLocation(50.4021698,30.3922658));
+					_locations = await _geoData.CountAsync;
+					RaisePropertyChanged(() => CountOfLocations);
+				}));
+			}  
+		}
+
+		int _locations;
+		public int CountOfLocations {
+			get { return _locations; }
+		}
+
 		public void StartActivityDetection()
 		{
-			Mvx.Resolve<IMotionActivity> ().StartDetection ();
+			_motionalActivity.StartDetection ();
 		}
 	}
 }

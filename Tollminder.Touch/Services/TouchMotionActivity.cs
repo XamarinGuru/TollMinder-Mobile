@@ -64,7 +64,7 @@ namespace Tollminder.Touch.Services
 					MotionType = MotionType.Still;
 				}
 				#if DEBUG
-				Log.LogMessage (_motionType.ToString ());
+//				Log.LogMessage (_motionType.ToString ());
 				#endif
 			});
 		}

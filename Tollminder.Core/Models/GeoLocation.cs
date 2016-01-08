@@ -1,4 +1,5 @@
 ﻿using System;
+using SQLite.Net.Attributes;
 
 namespace Tollminder.Core.Models
 {
@@ -7,7 +8,7 @@ namespace Tollminder.Core.Models
 	{
 		const double Epsilon = 0.0000001;
 
-		public GeoLocation ()
+		public GeoLocation () 
 		{
 			
 		}
@@ -18,8 +19,10 @@ namespace Tollminder.Core.Models
 			Longitude = lng;
 		}
 
-		public const double DesiredAccuracy = 250;
+		public const double DesiredAccuracy = 100;
 
+		[PrimaryKey,AutoIncrement]
+		public long Id { get; set; }
 		public double Speed { get; set; }
 		public double Latitude { get; set; }
 		public double Longitude { get; set; }
