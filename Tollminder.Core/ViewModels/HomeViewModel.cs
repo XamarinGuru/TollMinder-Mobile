@@ -28,7 +28,7 @@ namespace Tollminder.Core.ViewModels
 		public override void Start ()
 		{
 			base.Start ();
-			WeakSubscribe<MotionTypeChangedMessage> ((s)=> RaisePropertyChanged(()=> MotionTypeString));
+			WeakSubscribe<MotionTypeChangedMessage> ((s)=>  RaisePropertyChanged(()=> MotionTypeString));
 			WeakSubscribe<LocationUpdatedMessage> ((s)=> {
 				Location = s.Content;
 			});

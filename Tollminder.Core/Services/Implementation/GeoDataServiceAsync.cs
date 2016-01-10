@@ -19,11 +19,6 @@ namespace Tollminder.Core.Services.Implementation
 			this.connection = factory.GetAsyncConnection("tollminder.db");
 			connection.CreateTableAsync<GeoLocation> ();
 		}
-
-//		public Task InitializeOrRetriveGeoTable()
-//		{
-//			return connection.CreateTableAsync<GeoLocation> ();
-//		}
 	
 		#region IGeoDataService implementation
 
