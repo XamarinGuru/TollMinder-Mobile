@@ -13,24 +13,17 @@ using MessengerHub;
 
 namespace Tollminder.Touch.Services
 {
-	public class TouchGeolocationWatcher : IGeoLocationWatcher
-	{
-		private readonly TouchGeoFence _geofence;
+	public class TouchGeolocationWatcher : TouchGeoFence, IGeoLocationWatcher
+	{		
 		public bool IsBound { get; private set; } = false;
 
-		GeoLocation _location;
-		public GeoLocation Location {
-			get { return _location;	}
+		public override GeoLocation Location {
+			get { return base.Location;	}
 			set {
-				_location = value;
+				base.Location = value;
 				SpeakTextIfNeeded ();
 				LocationUpdatedMessage ();
 			}
-		}
-
-		public TouchGeolocationWatcher ()
-		{
-			_geofence = new TouchGeoFence ();
 		}
 
 		#region IGeoLocationWatcher implementation
@@ -38,7 +31,7 @@ namespace Tollminder.Touch.Services
 		public void StartGeolocationWatcher()
 		{
 			if (!IsBound) {
-				_geofence.StartGeofenceService ();
+				StartGeofenceService ();
 				IsBound = true;				
 			}	
 		}
@@ -46,7 +39,7 @@ namespace Tollminder.Touch.Services
 		public void StopGeolocationWatcher ()
 		{
 			if (IsBound) {
-				_geofence.StopGeofenceService ();
+				StopGeofenceService ();
 				IsBound = false;				
 			}
 		}

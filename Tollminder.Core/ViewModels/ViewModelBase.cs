@@ -41,7 +41,7 @@ namespace Tollminder.Core.ViewModels
 		}
 
 		// track allocations
-		public ViewModelBase()
+		protected ViewModelBase()
 		{
 			AllocationTracker.Track(this);
 		}
