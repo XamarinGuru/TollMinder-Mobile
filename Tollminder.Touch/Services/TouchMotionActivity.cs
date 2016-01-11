@@ -31,7 +31,7 @@ namespace Tollminder.Touch.Services
 					return;
 				else
 					_motionType = value;
-				Mvx.Resolve<IMvxMessenger> ().Publish (new GenericMessage<MotionType> (this, value));
+				Mvx.Resolve<IMvxMessenger> ().Publish (new MotionMessage (this, value));
 			}
 		} 
 

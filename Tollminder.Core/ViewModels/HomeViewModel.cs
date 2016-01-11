@@ -33,8 +33,8 @@ namespace Tollminder.Core.ViewModels
 		public override void Start ()
 		{
 			base.Start ();
-			_tokens.Add (_messenger.SubscribeOnMainThread<GenericMessage<GeoLocation>> (x => Location = x.Data));
-			_tokens.Add (_messenger.SubscribeOnMainThread<GenericMessage<MotionType>> (x => MotionType = x.Data));
+			_tokens.Add (_messenger.SubscribeOnMainThread<LocationMessage> (x => Location = x.Data));
+			_tokens.Add (_messenger.SubscribeOnMainThread<MotionMessage> (x => MotionType = x.Data));
 
 			StartActivityDetection ();
 		}

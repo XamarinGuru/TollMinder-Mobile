@@ -6,7 +6,7 @@ using Tollminder.Droid.AndroidServices;
 using Tollminder.Droid.Handlers;
 using Tollminder.Droid.ServicesConnections;
 using Cirrious.CrossCore;
-using MessengerHub;
+using MvvmCross.Plugins.Messenger;
 
 namespace Tollminder.Droid.Services
 {
@@ -30,7 +30,7 @@ namespace Tollminder.Droid.Services
 			get { return _motionType; }
 			set {
 				_motionType = value;
-				Mvx.Resolve<IMessengerHub> ().Publish (new MotionTypeChangedMessage (this, value));
+				Mvx.Resolve<IMvxMessenger> ().Publish (new MotionMessage (this, value));
 			}
 		}
 

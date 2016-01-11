@@ -53,7 +53,7 @@ namespace Tollminder.Touch.Services
 
 		private void LocationUpdatedMessage ()
 		{
-			Mvx.Resolve<IMvxMessenger> ().Publish (new GenericMessage<GeoLocation> (this, Location));
+			Mvx.Resolve<IMvxMessenger> ().Publish (new LocationMessage (this, Location));
 			if (!Mvx.Resolve<IPlatform> ().IsAppInForeground) {
 				Mvx.Resolve<INotificationSender> ().SendLocalNotification ("LOCATION UPDATED", Location.ToString ());
 			}

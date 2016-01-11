@@ -13,4 +13,36 @@ namespace Tollminder.Core.Models
 			Data = obj;	
 		}
 	}
+
+	public class LocationMessage : GenericMessage<GeoLocation>
+	{
+		public LocationMessage (object sender, GeoLocation geo)
+			: base (sender, geo)
+		{				
+		}
+	}
+
+	public class MotionMessage : GenericMessage<MotionType>
+	{
+		public MotionMessage (object sender, MotionType motion)
+			: base (sender, motion)
+		{				
+		}
+	}
+
+	public class GeoFenceExitMessage : MvxMessage
+	{
+		public GeoFenceExitMessage (object sender, MotionType motion)
+			: base (sender)
+		{				
+		}
+	}
+
+	public class GeoFenceEnterceMessage : MvxMessage
+	{
+		public GeoFenceEnterceMessage (object sender)
+			: base (sender)
+		{				
+		}
+	}
 }

@@ -52,6 +52,8 @@
     <Compile Include="Services\IGeoDataServiceAsync.cs" />
     <Compile Include="Services\Implementation\GeoDataServiceAsync.cs" />
     <Compile Include="ServicesHelpers\TrackFacade.cs" />
+    <Compile Include="Utils\Timer.cs" />
+    <Compile Include="Models\TollRoad.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
@@ -89,5 +91,6 @@
     <Folder Include="Helpers\" />
     <Folder Include="Services\Implementation\" />
     <Folder Include="ServicesHelpers\" />
+    <Folder Include="Utils\" />
   </ItemGroup>
 </Project>

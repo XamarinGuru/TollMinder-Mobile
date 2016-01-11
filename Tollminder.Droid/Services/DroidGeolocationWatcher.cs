@@ -11,6 +11,7 @@ using MessengerHub;
 using Tollminder.Droid.AndroidServices;
 using Tollminder.Droid.Handlers;
 using Tollminder.Droid.ServicesConnections;
+using MvvmCross.Plugins.Messenger;
 
 namespace Tollminder.Droid.Services
 {
@@ -53,7 +54,7 @@ namespace Tollminder.Droid.Services
 
 		void LocationUpdatedMessage ()
 		{
-			Mvx.Resolve<IMessengerHub> ().Publish (new LocationUpdatedMessage (this, _location));
+			Mvx.Resolve<IMvxMessenger> ().Publish (new LocationMessage (this, Location));
 			if (!Mvx.Resolve<IPlatform> ().IsAppInForeground) {
 				Mvx.Resolve<INotificationSender> ().SendLocalNotification ("LOCATION UPDATED", _location.ToString ());
 			}

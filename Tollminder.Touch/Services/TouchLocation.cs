@@ -25,7 +25,6 @@ namespace Tollminder.Touch.Services
 			get { return _location;	}
 			set {
 				_location = value;
-				Mvx.Resolve<IGeoLocationWatcher> ().Location = _location;
 				StoptLocationUpdates ();
 			}
 		}
