@@ -9,7 +9,7 @@ using Cirrious.CrossCore;
 using System.Runtime.CompilerServices;
 using System.Diagnostics;
 using System.Reflection;
-using MessengerHub;
+using MvvmCross.Plugins.Messenger;
 
 namespace Tollminder.Touch.Services
 {
@@ -53,7 +53,7 @@ namespace Tollminder.Touch.Services
 
 		private void LocationUpdatedMessage ()
 		{
-			Mvx.Resolve<IMessengerHub> ().Publish (new LocationUpdatedMessage (this, Location));
+			Mvx.Resolve<IMvxMessenger> ().Publish (new GenericMessage<GeoLocation> (this, Location));
 			if (!Mvx.Resolve<IPlatform> ().IsAppInForeground) {
 				Mvx.Resolve<INotificationSender> ().SendLocalNotification ("LOCATION UPDATED", Location.ToString ());
 			}

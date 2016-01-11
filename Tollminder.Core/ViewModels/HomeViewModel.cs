@@ -3,10 +3,11 @@ using Tollminder.Core.Services;
 using Tollminder.Core.Models;
 using Tollminder.Core.Helpers;
 using Cirrious.CrossCore;
-using MessengerHub;
 using System.Threading.Tasks;
 using System;
 using System.Windows.Input;
+using MvvmCross.Plugins.Messenger;
+using System.Collections.Generic;
 
 namespace Tollminder.Core.ViewModels
 {
@@ -16,26 +17,34 @@ namespace Tollminder.Core.ViewModels
 		private readonly IGeoLocationWatcher _geoLocation;
 		private readonly IMotionActivity _motionalActivity;
 		private readonly IGeoDataServiceAsync _geoData;
+		private readonly IMvxMessenger _messenger;
 
-		public HomeViewModel (IGeoLocationWatcher geoLocation, IMotionActivity motionalActivity,IGeoDataServiceAsync geoData)
+		private IList<MvxSubscriptionToken> _tokens;
+
+		public HomeViewModel (IGeoLocationWatcher geoLocation, IMotionActivity motionalActivity,IGeoDataServiceAsync geoData, IMvxMessenger messenger)
 		{
+			this._messenger = messenger;
 			this._geoData = geoData;
 			this._geoLocation = geoLocation;			
 			this._motionalActivity = motionalActivity;
-
+			this._tokens = new List<MvxSubscriptionToken> ();
 		}
 
 		public override void Start ()
 		{
 			base.Start ();
-			WeakSubscribe<MotionTypeChangedMessage> ((s)=>  RaisePropertyChanged(()=> MotionTypeString));
-			WeakSubscribe<LocationUpdatedMessage> ((s)=> {
-				Location = s.Content;
-			});
-			WeakSubscribe<MotionTypeChangedMessage> ((s)=> {
-				MotionType = s.Content;
-			});
+			_tokens.Add (_messenger.SubscribeOnMainThread<GenericMessage<GeoLocation>> (x => Location = x.Data));
+			_tokens.Add (_messenger.SubscribeOnMainThread<GenericMessage<MotionType>> (x => MotionType = x.Data));
+
 			StartActivityDetection ();
+		}
+
+		protected override void OnDestroy ()
+		{
+			base.OnDestroy ();
+			foreach (var item in _tokens) {
+				item.Dispose ();
+			}
 		}
 
 		private GeoLocation _location;

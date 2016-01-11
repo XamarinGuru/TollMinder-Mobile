@@ -8,8 +8,8 @@ using System.Collections.Generic;
 using Foundation;
 using System.Threading.Tasks;
 using Cirrious.CrossCore;
-using MessengerHub;
 using Tollminder.Core.Helpers;
+using MvvmCross.Plugins.Messenger;
 
 namespace Tollminder.Touch.Services
 {	
@@ -31,7 +31,7 @@ namespace Tollminder.Touch.Services
 					return;
 				else
 					_motionType = value;
-				Mvx.Resolve<IMessengerHub> ().Publish (new MotionTypeChangedMessage (this, value));
+				Mvx.Resolve<IMvxMessenger> ().Publish (new GenericMessage<MotionType> (this, value));
 			}
 		} 
 

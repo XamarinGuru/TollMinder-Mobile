@@ -137,6 +137,9 @@
     <Reference Include="SQLite.Net.Platform.XamarinIOS">
       <HintPath>..\packages\SQLite.Net-PCL.3.1.1\lib\monotouch\SQLite.Net.Platform.XamarinIOS.dll</HintPath>
     </Reference>
+    <Reference Include="MvvmCross.Plugins.Messenger">
+      <HintPath>..\packages\MvvmCross.HotTuna.Plugin.Messenger.4.0.0-beta7\lib\Xamarin.iOS10\MvvmCross.Plugins.Messenger.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
@@ -171,6 +174,7 @@
     <Compile Include="Services\TouchPlatform.cs" />
     <Compile Include="Services\TouchNotificationSender.cs" />
     <Compile Include="Bootstrap\SqlitePluginBootstrap.cs" />
+    <Compile Include="Bootstrap\MessengerPluginBootstrap.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.11.3\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.11.3\build\Xamarin.iOS10\Xamarin.Insights.targets')" />
@@ -178,10 +182,6 @@
     <ProjectReference Include="..\Tollminder.Core\Tollminder.Core.csproj">
       <Project>{E6D05A1A-E03C-4D21-83F4-0D59E9429837}</Project>
       <Name>Tollminder.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MessengerHubPCL\MessengerHubPCL\MessengerHubPCL.csproj">
-      <Project>{0AC36EE3-BE31-4E7F-B9C3-3854FA1A1844}</Project>
-      <Name>MessengerHubPCL</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

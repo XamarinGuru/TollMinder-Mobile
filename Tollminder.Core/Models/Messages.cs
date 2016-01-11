@@ -1,24 +1,16 @@
 ﻿using System;
-using MessengerHub;
+using MvvmCross.Plugins.Messenger;
 
 namespace Tollminder.Core.Models
 {
-	public class MotionTypeChangedMessage : GenericMessageBase<MotionType>
+	public class GenericMessage<T> : MvxMessage 
 	{
-		public MotionTypeChangedMessage (object sender, MotionType motionType)
-			: base (sender, motionType)
-		{			
+		public T Data { get; private set; }
+
+		public GenericMessage (object sender, T obj)
+			: base (sender)
+		{		
+			Data = obj;	
 		}
-
-	}
-
-	public class LocationUpdatedMessage : GenericMessageBase<GeoLocation>
-	{
-		public LocationUpdatedMessage (object sender, GeoLocation geoLocation)
-			: base (sender, geoLocation)
-		{			
-		}
-
 	}
 }
-

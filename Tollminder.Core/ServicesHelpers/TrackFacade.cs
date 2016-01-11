@@ -1,10 +1,11 @@
 ﻿using System;
 using Tollminder.Core.Services;
 using Cirrious.CrossCore;
+using Cirrious.MvvmCross.ViewModels;
 
 namespace Tollminder.Core.ServicesHelpers
 {
-	public class TrackFacade
+	public class TrackFacade : MvxNotifyPropertyChanged
 	{
 		#region Services
 		private readonly IGeoDataServiceAsync _geoData;

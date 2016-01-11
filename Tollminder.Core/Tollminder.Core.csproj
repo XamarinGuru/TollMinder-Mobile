@@ -76,6 +76,9 @@
     <Reference Include="MvvmCross.Plugins.Sqlite">
       <HintPath>..\packages\MvvmCross.HotTuna.Plugin.SQLitePCL.4.0.0-beta7\lib\portable-win+net45+wp8+win8+wpa81+win81+dotnet\MvvmCross.Plugins.Sqlite.dll</HintPath>
     </Reference>
+    <Reference Include="MvvmCross.Plugins.Messenger">
+      <HintPath>..\packages\MvvmCross.HotTuna.Plugin.Messenger.4.0.0-beta7\lib\portable-win+net45+wp8+win8+wpa81\MvvmCross.Plugins.Messenger.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -86,11 +89,5 @@
     <Folder Include="Helpers\" />
     <Folder Include="Services\Implementation\" />
     <Folder Include="ServicesHelpers\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MessengerHubPCL\MessengerHubPCL\MessengerHubPCL.csproj">
-      <Project>{0AC36EE3-BE31-4E7F-B9C3-3854FA1A1844}</Project>
-      <Name>MessengerHubPCL</Name>
-    </ProjectReference>
   </ItemGroup>
 </Project>

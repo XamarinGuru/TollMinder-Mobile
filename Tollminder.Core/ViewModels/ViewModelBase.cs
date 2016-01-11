@@ -2,7 +2,6 @@
 using Cirrious.MvvmCross.ViewModels;
 using Cirrious.CrossCore;
 using System.Collections.Generic;
-using MessengerHub;
 using Tollminder.Core.Models;
 
 namespace Tollminder.Core.ViewModels
@@ -11,34 +10,9 @@ namespace Tollminder.Core.ViewModels
 	public abstract class ViewModelBase : MvxViewModel 
 	{
 		#region Localization
-//
-//		public string OkText { get { return GetLocalizedString ("Common.OK"); } }
-//		public string CancelText { get { return GetLocalizedString ("Common.Cancel"); } }
+
 
 		#endregion
-
-
-		// publish a message to all registered view models (avoid locking and threads)
-		public static void Publish(Type type, object message)
-		{
-			foreach (var viewModel in AllocationTracker.GetTrackedObjectsAssignableTo<ViewModelBase>())
-			{
-				foreach (var subscription in viewModel._Subscriptions)
-				{
-					try
-					{
-						if (subscription.Type == type && subscription.Filter(message))
-						{
-							subscription.Process(message);
-						}
-					}
-					catch (Exception ex)
-					{
-						Mvx.Resolve<IMessengerHub>().LogException(ex);
-					}
-				}
-			}
-		}
 
 		// track allocations
 		protected ViewModelBase()
@@ -53,24 +27,8 @@ namespace Tollminder.Core.ViewModels
 
 		}
 
-		// subscriptions to events
-		private IList<ViewModelSubscription> _Subscriptions = new List<ViewModelSubscription>();
-
-		// subscriptions to events
-		protected void WeakSubscribe<T>(Action<T> process, Func<T, bool> filter) where T : MessageBase
+		protected virtual void OnDestroy ()
 		{
-			_Subscriptions.Add(new ViewModelSubscription()
-				{
-					Type = typeof(T),
-					Process = ((object x) => process((T)x)),
-					Filter = ((object x) => filter((T)x))
-				});
-		}
-
-		// subscribe with tiny filter
-		protected void WeakSubscribe<T>(Action<T> process) where T : MessageBase
-		{
-			WeakSubscribe<T>(process, x => true);
 		}
 
 		public virtual string Title
@@ -172,13 +130,6 @@ namespace Tollminder.Core.ViewModels
 
 		#endregion
 
-		// encapsulates a subscription
-		private class ViewModelSubscription
-		{
-			public Type Type { get; set; }
-			public Action<object> Process { get; set; }
-			public Func<object, bool> Filter { get; set; }
-		}
 	}
 }
 

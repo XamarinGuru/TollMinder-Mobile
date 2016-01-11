@@ -4,7 +4,6 @@ using Cirrious.CrossCore;
 using Cirrious.MvvmCross.ViewModels;
 using System;
 using Cirrious.MvvmCross.Touch.Platform;
-using MessengerHub;
 
 namespace Tollminder.Touch
 {
@@ -62,13 +61,11 @@ namespace Tollminder.Touch
         public override void DidEnterBackground(UIApplication application)
         {
 			Console.WriteLine ("App entering background state.");
-			Mvx.Resolve<IMessengerHub>().Publish(new AppInForegroundMessage(this, false));
         }
 
         public override void WillEnterForeground(UIApplication application)
         {
 			Console.WriteLine ("App will enter foreground");
-			Mvx.Resolve<IMessengerHub>().Publish(new AppInForegroundMessage(this, true));
         }
 
         public override void OnActivated(UIApplication application)

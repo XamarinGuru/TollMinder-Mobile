@@ -6,7 +6,6 @@ using Cirrious.CrossCore;
 using Tollminder.Core.Services;
 using Tollminder.Touch.Helpers;
 using Tollminder.Core.Models;
-using MessengerHub;
 
 namespace Tollminder.Touch.Services
 {	
