@@ -19,6 +19,7 @@ namespace Tollminder.Core
             RegisterAppStart<HomeViewModel>();
 
 			Mvx.LazyConstructAndRegisterSingleton<IGeoDataServiceAsync, GeoDataServiceAsync>();
+			Mvx.LazyConstructAndRegisterSingleton<IHttpService, HttpService>();
         }
     }
 }

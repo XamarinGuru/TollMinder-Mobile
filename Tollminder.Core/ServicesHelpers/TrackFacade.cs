@@ -34,7 +34,17 @@ namespace Tollminder.Core.ServicesHelpers
 		}
 
 		public GeoLocation Location { get; private set; }
-		public MotionType MotionType { get; private set; }
+		MotionType _motionType;
+		public MotionType MotionType {
+			get { return _motionType; }
+			private set {
+				if (value != MotionType && CheckIsMovingByTheCar(value)) {
+					_textToSpeech.Speak ("You start moving on the car");
+				}
+				_motionType = value;
+
+			}
+		}
 
 		public void StartServices () 
 		{				
@@ -78,8 +88,7 @@ namespace Tollminder.Core.ServicesHelpers
 		}
 
 		protected virtual bool CheckIsMovingByTheCar (MotionType motionType)
-		{
-			MotionType = motionType;
+		{				
 			return MotionType.Automotive == motionType;
 		}
 	}

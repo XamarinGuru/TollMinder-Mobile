@@ -42,7 +42,7 @@ namespace Tollminder.Droid.AndroidServices
 			if (geofenceTransition == Geofence.GeofenceTransitionExit) {
 				Location = geofencingEvent.TriggeringLocation.GetGeolocationFromAndroidLocation ();
 			}
-			return base.OnStartCommand (intent, flags, startId);
+			return StartCommandResult.Sticky;
 		}
 
 		#region Helpers

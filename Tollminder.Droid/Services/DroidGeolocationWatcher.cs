@@ -7,7 +7,6 @@ using Android.Content;
 using Tollminder.Droid.Helpers;
 using Android.OS;
 using Tollminder.Core.Helpers;
-using MessengerHub;
 using Tollminder.Droid.AndroidServices;
 using Tollminder.Droid.Handlers;
 using Tollminder.Droid.ServicesConnections;
@@ -30,7 +29,6 @@ namespace Tollminder.Droid.Services
 				#if DEBUG
 				Log.LogMessage (value.ToString ());
 				#endif
-				SpeakTextIfNeeded ();
 				LocationUpdatedMessage ();
 			}
 		}
@@ -45,7 +43,7 @@ namespace Tollminder.Droid.Services
 
 		public void StopGeolocationWatcher ()
 		{
-			if (IsBound & MessengerService != null) {
+			if (IsBound & MessengerService != null) {				
 				Stop ();
 				IsBound = false;
 			}

@@ -99,6 +99,7 @@ namespace Tollminder.Touch.Services
 		private void RegionLeftHandler (object sender, CLRegionEventArgs e)
 		{
 			Log.LogMessage (string.Format ("{0} {1} --- LEFT", e.Region.Center.Latitude , e.Region.Center.Longitude));
+
 			StartLocationUpdates ();
 		}
 		#endregion

@@ -28,8 +28,8 @@ namespace Tollminder.Touch.Views
 			ViewModel.StartActivityDetection ();
 
 			var set = this.CreateBindingSet<HomeView, HomeViewModel>();
-			set.Bind (GeoLabelData).To (v => v.LocationString);
-			set.Bind (StartButton).To (v => v.StartCommand);
+			set.Bind (GeoLabelData).To (v => v.Percent);
+			set.Bind (StartButton).To (v => v.StoppCommand);
 			set.Bind (StopButton).To (v => v.StopCommand);
 			set.Bind (ActivityLabel).To (v => v.MotionTypeString);
 			set.Apply ();
