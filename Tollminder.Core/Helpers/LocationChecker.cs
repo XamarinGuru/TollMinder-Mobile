@@ -44,7 +44,7 @@ namespace Tollminder.Core.Helpers
 
 		}
 
-		public static IEnumerable<GeoLocation> GetLocationsFromRadius (this GeoLocation center, IList<GeoLocation> points)
+		public static ParallelQuery<GeoLocation> GetLocationsFromRadius (this GeoLocation center, IList<GeoLocation> points)
 		{
 			return points.AsParallel().WithMergeOptions(ParallelMergeOptions.AutoBuffered).Where (x => DistanceBetweenGeoLocations (center, x) <= 200);
 		}
@@ -55,6 +55,19 @@ namespace Tollminder.Core.Helpers
 				return points.AsParallel().WithMergeOptions(ParallelMergeOptions.AutoBuffered).Where (x => DistanceBetweenGeoLocations (center, x) <= 200);
 			});
 		}
+
+		public static GeoLocation GetLocationFromRadius (this GeoLocation center, IList<GeoLocation> points)
+		{
+			return points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).FirstOrDefault (x => DistanceBetweenGeoLocations (center, x) <= 200);
+		}
+
+		public static Task<GeoLocation> GetLocationFromRadiusAsync (this GeoLocation center, IList<GeoLocation> points)
+		{
+			return Task.Run(() => {
+				return points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).FirstOrDefault (x => DistanceBetweenGeoLocations (center, x) <= 200);
+			});
+		}
+
 	}
 }
 

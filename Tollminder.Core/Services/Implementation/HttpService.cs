@@ -15,7 +15,7 @@ namespace Tollminder.Core.Services.Implementation
 		}
 
 
-		public static readonly int BufferSize = 1024;
+		public static readonly int BufferSize = 4096;
 
 		public HttpService ()
 		{
@@ -54,7 +54,6 @@ namespace Tollminder.Core.Services.Implementation
 					}
 				}
 			});
-
 		}
 		#endregion
 	}

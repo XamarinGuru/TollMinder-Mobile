@@ -9,6 +9,7 @@ namespace Tollminder.Core.Services
 	public interface IGeoDataServiceAsync
 	{
 		Task<ParallelQuery<GeoLocation>> FindNearGeoLocationsAsync (GeoLocation center);
+		Task<GeoLocation> FindNearGeoLocationAsync (GeoLocation center);
 		Task UpdateAsync (GeoLocation geoLocation);
 		Task InsertAsync (GeoLocation geoLocation);
 		Task DeleteAsync (GeoLocation geoLocation);

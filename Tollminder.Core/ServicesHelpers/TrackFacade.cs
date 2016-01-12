@@ -8,11 +8,14 @@ using Tollminder.Core.Models;
 using System.Threading.Tasks;
 using System.Linq;
 using Tollminder.Core.Utils;
+using Tollminder.Core.Helpers;
 
 namespace Tollminder.Core.ServicesHelpers
 {
 	public class TrackFacade 
 	{
+		public const int WaypointDistanceRequired = 10;
+
 		#region Services
 		private readonly IGeoDataServiceAsync _geoData;
 		private readonly IGeoLocationWatcher _geoWatcher;
@@ -33,16 +36,43 @@ namespace Tollminder.Core.ServicesHelpers
 			this._messenger = Mvx.Resolve<IMvxMessenger> ();
 		}
 
-		public GeoLocation Location { get; private set; }
+		GeoLocation _carLocation;
+		public GeoLocation CarLocation {
+			get { return _carLocation; }
+			private set {
+				_carLocation = value;
+			}
+		}
+		public GeoLocation TollRoadWaypoint { get; private set; }
+		public double DistaceBetweenCarAndWaypoint { get; private set; }
+
 		MotionType _motionType;
 		public MotionType MotionType {
 			get { return _motionType; }
 			private set {
-				if (value != MotionType && CheckIsMovingByTheCar(value)) {
-					_textToSpeech.Speak ("You start moving on the car");
-				}
+				SpeakIfStartMoving (value);
 				_motionType = value;
 
+			}
+		}
+
+		TollGeolocationStatus _trackStatus = TollGeolocationStatus.NotOnTollRoad;
+		public TollGeolocationStatus TrackStatus {
+			get { return _trackStatus;	}
+			private set {
+				_trackStatus = value;
+				switch (value) {
+				case TollGeolocationStatus.NotOnTollRoad:
+					break;
+				case TollGeolocationStatus.NearTollRoadEnterce:
+					break;
+				case TollGeolocationStatus.NearTollRoadExit:
+					break;
+				case TollGeolocationStatus.OnTollRoad:
+					break;
+				default:
+					throw new ArgumentOutOfRangeException ();
+				}
 			}
 		}
 
@@ -50,8 +80,11 @@ namespace Tollminder.Core.ServicesHelpers
 		{				
 			_geoWatcher.StartGeolocationWatcher ();
 			_activity.StartDetection ();
-			_tokens.Add (_messenger.SubscribeOnMainThread<LocationMessage> (async x => await CheckForTollRoadsAsync (x.Data)));
-			_tokens.Add (_messenger.SubscribeOnMainThread<MotionMessage> (x => CheckIsMovingByTheCar(x.Data)));
+			_tokens.Add (_messenger.SubscribeOnMainThread<LocationMessage> (async x => {
+				CarLocation = x.Data;
+				await CheckTrackStatus();
+			}));
+			_tokens.Add (_messenger.SubscribeOnMainThread<MotionMessage> (x => MotionType = x.Data));
 		}
 
 		public void StopServices () 
@@ -69,27 +102,100 @@ namespace Tollminder.Core.ServicesHelpers
 			}
 		}
 
-		protected virtual async Task CheckForTollRoadsAsync(GeoLocation loc)
+		protected virtual Task<GeoLocation> CheckNearLocationForTollRoadAsync(GeoLocation location)
 		{
-			Location = loc;
-			if (CheckIsMovingByTheCar(MotionType)) {
-				var result = await CheckNearLocationsForTollRoadAsync (Location);
-				if (result?.Count() != 0) {
-					foreach (var item in result) {
-						_textToSpeech.Speak (string.Format ("you are potentially going to enter one of our {0} wayponts.", item));
-					}
-				}
-			}
-		}
-
-		protected virtual Task<ParallelQuery<GeoLocation>> CheckNearLocationsForTollRoadAsync(GeoLocation location)
-		{
-			return _geoData.FindNearGeoLocationsAsync (location);
+			return _geoData.FindNearGeoLocationAsync (location);
 		}
 
 		protected virtual bool CheckIsMovingByTheCar (MotionType motionType)
 		{				
 			return MotionType.Automotive == motionType;
+		}
+
+		protected virtual async Task CheckTrackStatus()
+		{
+			switch (TrackStatus) {
+			case TollGeolocationStatus.NotOnTollRoad:
+				LookingForTollEnterce ();
+				break;
+			case TollGeolocationStatus.OnTollRoad:
+				LookingForTollExit ();
+				break;
+			case TollGeolocationStatus.NearTollRoadEnterce:
+				CheckEnteredToTollRoad ();
+				break;
+			case TollGeolocationStatus.NearTollRoadExit:
+				CheckExitFromTollRoad ();
+				break;
+			}
+		}
+
+		void SpeakIfStartMoving (MotionType value)
+		{
+			if (value != MotionType && CheckIsMovingByTheCar (value)) {
+				_textToSpeech.Speak ("You start moving on the car");
+			}
+		}
+
+		private Task LookingForTollEnterce ()
+		{
+			return Task.Run(async () => {
+				if (CheckIsMovingByTheCar (MotionType)) {
+					var waypoint = await CheckNearLocationForTollRoadAsync (CarLocation);
+					if (waypoint == TollRoadWaypoint)
+						return;
+					TollRoadWaypoint =  waypoint;
+					if (TollRoadWaypoint != null) {
+						TrackStatus = TollGeolocationStatus.NearTollRoadEnterce;
+						DistaceBetweenCarAndWaypoint = LocationChecker.DistanceBetweenGeoLocations (CarLocation, TollRoadWaypoint);
+						_textToSpeech.Speak (string.Format ("you are potentially going to enter one of our {0} wayponts.", TollRoadWaypoint));
+					}
+				}
+			});
+		}
+
+		private Task LookingForTollExit ()
+		{
+			return Task.Run (async () => {
+				if (CheckIsMovingByTheCar (MotionType)) {
+					var waypoint = await CheckNearLocationForTollRoadAsync (CarLocation);
+					if (waypoint == TollRoadWaypoint)
+						return;
+					TollRoadWaypoint = waypoint;
+					if (TollRoadWaypoint != null) {
+						TrackStatus = TollGeolocationStatus.NearTollRoadExit;
+						DistaceBetweenCarAndWaypoint = LocationChecker.DistanceBetweenGeoLocations (CarLocation, TollRoadWaypoint);
+						_textToSpeech.Speak (string.Format ("you are potentially going to exit one of our {0} wayponts.", TollRoadWaypoint));
+					}
+				}
+			});
+		}
+
+		private void CheckEnteredToTollRoad ()
+		{
+			if (IsCloserToWaypoint ()) {
+				if (DistaceBetweenCarAndWaypoint < WaypointDistanceRequired) {
+					TrackStatus = TollGeolocationStatus.OnTollRoad;
+				}
+			} else {
+				TrackStatus = TollGeolocationStatus.NotOnTollRoad;
+			}
+		}
+
+		private void CheckExitFromTollRoad ()
+		{
+			if (IsCloserToWaypoint ()) {
+				if (DistaceBetweenCarAndWaypoint < WaypointDistanceRequired) {
+					TrackStatus = TollGeolocationStatus.NotOnTollRoad;
+				}
+			} else {
+				TrackStatus = TollGeolocationStatus.OnTollRoad;
+			}
+		}
+
+		private bool IsCloserToWaypoint ()
+		{
+			return CheckIsMovingByTheCar (MotionType) && LocationChecker.DistanceBetweenGeoLocations (CarLocation, TollRoadWaypoint) < DistaceBetweenCarAndWaypoint;
 		}
 	}
 }

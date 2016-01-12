@@ -29,6 +29,13 @@ namespace Tollminder.Core.Services.Implementation
 			return nearLocations;
 		}
 
+		public async Task<GeoLocation> FindNearGeoLocationAsync (GeoLocation center)
+		{
+			var lcations = await connection.Table<GeoLocation> ().ToListAsync ();
+			var nearLocations = await center.GetLocationFromRadiusAsync (lcations);
+			return nearLocations;
+		}
+
 		public Task UpdateAsync (GeoLocation geoLocation)
 		{
 			return connection.UpdateAsync (geoLocation);

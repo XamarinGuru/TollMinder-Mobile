@@ -57,6 +57,7 @@
     <Compile Include="Services\IHttpService.cs" />
     <Compile Include="Services\Implementation\HttpService.cs" />
     <Compile Include="Models\DownloadBytesProgress.cs" />
+    <Compile Include="Models\TollGeolocationStatus.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
