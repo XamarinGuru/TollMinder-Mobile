@@ -30,7 +30,13 @@ namespace Tollminder.Droid.Handlers
 				return;		
 			case ServiceConstants.GeoFenceEnabled:
 				(Service as GeofenceService).GeofenceEnabled = msg.Data.GetIsEnabled ();
-				return;					
+				return;
+			case ServiceConstants.StartLocation:
+				Service.StartLocationUpdate ();
+				return;	
+			case ServiceConstants.StopLocation:
+				Service.StopLocationUpdate ();
+				return;		
 			}
 		}
 		protected override void Dispose (bool disposing)

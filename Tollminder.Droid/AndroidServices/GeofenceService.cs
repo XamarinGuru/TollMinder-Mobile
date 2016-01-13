@@ -22,7 +22,7 @@ namespace Tollminder.Droid.AndroidServices
 		#endregion
 
 
-		public bool GeofenceEnabled { get; set; } = false;
+		public bool GeofenceEnabled { get; set; } = true;
 
 		public override GeoLocation Location {
 			get {

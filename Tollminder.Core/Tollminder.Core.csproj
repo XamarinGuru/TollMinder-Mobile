@@ -51,13 +51,14 @@
     <Compile Include="Helpers\LocationChecker.cs" />
     <Compile Include="Services\IGeoDataServiceAsync.cs" />
     <Compile Include="Services\Implementation\GeoDataServiceAsync.cs" />
-    <Compile Include="ServicesHelpers\TrackFacade.cs" />
     <Compile Include="Utils\Timer.cs" />
     <Compile Include="Models\TollRoad.cs" />
     <Compile Include="Services\IHttpService.cs" />
     <Compile Include="Services\Implementation\HttpService.cs" />
     <Compile Include="Models\DownloadBytesProgress.cs" />
     <Compile Include="Models\TollGeolocationStatus.cs" />
+    <Compile Include="ServicesHelpers\ITrackFacade.cs" />
+    <Compile Include="ServicesHelpers\Implementation\TrackFacade.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
@@ -99,5 +100,6 @@
     <Folder Include="Services\Implementation\" />
     <Folder Include="ServicesHelpers\" />
     <Folder Include="Utils\" />
+    <Folder Include="ServicesHelpers\Implementation\" />
   </ItemGroup>
 </Project>

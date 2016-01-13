@@ -64,6 +64,16 @@ namespace Tollminder.Droid.Services
 			}
 		}
 
+		public virtual void StartUpdatingHighAccuracyLocation()
+		{			
+			DroidMessanging.SendMessage (ServiceConstants.StartLocation, MessengerService, null);
+		}
+
+		public virtual void StopUpdatingHighAccuracyLocation()
+		{			
+			DroidMessanging.SendMessage (ServiceConstants.StopLocation, MessengerService, null);
+		}
+
 		public virtual void EnabledGeofenceService(bool isEnabled)
 		{			
 			DroidMessanging.SendMessage (ServiceConstants.GeoFenceEnabled, MessengerService, null , isEnabled.GetBundle());

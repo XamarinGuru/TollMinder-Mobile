@@ -10,6 +10,8 @@ namespace Tollminder.Core.Services
 		bool GeofenceEnabled { get; set; }
 		void StopGeolocationWatcher ();
 		void StartGeolocationWatcher();
+		void StartUpdatingHighAccuracyLocation ();
+		void StopUpdatingHighAccuracyLocation ();
 		bool IsBound { get; }
 	}
 }

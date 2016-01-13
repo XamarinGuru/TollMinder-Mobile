@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Tollminder.Core.ViewModels;
 using Tollminder.Core.Services;
 using Tollminder.Core.Services.Implementation;
+using Tollminder.Core.ServicesHelpers;
+using Tollminder.Core.ServicesHelpers.Implementation;
 
 namespace Tollminder.Core
 {
@@ -15,11 +17,12 @@ namespace Tollminder.Core
                 .EndingWith("Service")
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
-				
+
             RegisterAppStart<HomeViewModel>();
 
 			Mvx.LazyConstructAndRegisterSingleton<IGeoDataServiceAsync, GeoDataServiceAsync>();
 			Mvx.LazyConstructAndRegisterSingleton<IHttpService, HttpService>();
+			Mvx.LazyConstructAndRegisterSingleton<ITrackFacade, TrackFacade>();
         }
     }
 }

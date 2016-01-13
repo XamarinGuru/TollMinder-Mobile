@@ -15,14 +15,18 @@ namespace Tollminder.Droid.Services
 
         #region ITextToSpeechService implementation
 
+		public bool IsEnabled { get; set; }
+
         public void Speak(string text)
-        {           
-            if (speaker == null) {
-                var context = Application.Context;
-                speaker = new TextToSpeech (context, this);
-            } else {
-				speaker.Speak (text, QueueMode.Flush, null, null);
-            }
+        {      
+			if (IsEnabled) {
+				if (speaker == null) {
+					var context = Application.Context;
+					speaker = new TextToSpeech (context, this);
+				} else {
+					speaker.Speak (text, QueueMode.Flush, null, null);
+				}				
+			}
         }
 
 		#endregion
