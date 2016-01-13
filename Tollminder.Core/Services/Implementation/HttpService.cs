@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Tollminder.Core.Models;
 using System.Collections.Generic;
 using Tollminder.Core.Helpers;
+using System.Threading;
+using System.Linq;
 
 namespace Tollminder.Core.Services.Implementation
 {
@@ -27,32 +29,95 @@ namespace Tollminder.Core.Services.Implementation
 		{
 			return FetchAsync (url, null);
 		}
-		public Task<byte[]> FetchAsync (string url, IProgress<DownloadBytesProgress> progressReporter)
+
+		public Task<byte[]> FetchAsync (string url, CancellationToken token)
 		{
-			return Task.Run (async () => {
-				int receivedBytes = 0;
-				int totalBytes = 0;
-				List<byte> data = new List<byte> ();
-				using (var httpResponse = await Client.GetAsync (url)) {
-					using (var stream = await httpResponse.Content.ReadAsStreamAsync ()) {
-					totalBytes = (int)stream.Length;
-					byte[] buffer = new byte[BufferSize];
-					while (true) {
-						int bytesRead = await stream.ReadAsync (buffer, 0, buffer.Length);
-						if (bytesRead == 0) {			
-							await Task.Yield ();
-							break;
-						}
-						data.AddRange (buffer);
-						receivedBytes += bytesRead;
-						if (progressReporter != null) {
-							DownloadBytesProgress args = new DownloadBytesProgress (url, receivedBytes, totalBytes);
-							progressReporter.Report (args);
-						}
-					}
-						return data.ToArray ();
-					}
+			return FetchAsync (url, null, token);
+		}
+
+		public Task<byte[]> FetchAsync(string url, IProgress<DownloadBytesProgress> progress)
+		{
+			return Task.Run(async () => {
+				List<byte> data = new List<byte>();
+				var response = await Client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
+
+				if (!response.IsSuccessStatusCode)
+				{
+					throw new Exception(string.Format("The request returned with HTTP status code {0}", response.StatusCode));
 				}
+
+				var total = response.Content.Headers.ContentLength.HasValue ? response.Content.Headers.ContentLength.Value : -1L;
+				var canReportProgress = total != -1 && progress != null;
+
+				using (var stream = await response.Content.ReadAsStreamAsync())
+				{
+					var totalRead = 0L;
+					var buffer = new byte[BufferSize];
+					var isMoreToRead = true;
+
+					do
+					{
+						var read = await stream.ReadAsync(buffer, 0, buffer.Length);
+						if (read == 0)
+						{
+							isMoreToRead = false;
+						}
+						else
+						{
+							data.AddRange(buffer);
+							totalRead += read;
+							if (canReportProgress)
+							{
+								progress.Report(new DownloadBytesProgress(url, totalRead, total));
+							}
+						}
+					} while (isMoreToRead);
+				}
+				return data.ToArray();
+			});
+		}
+
+		public Task<byte[]> FetchAsync(string url, IProgress<DownloadBytesProgress> progress, CancellationToken token)
+		{
+			return Task.Run(async () => {
+				List<byte> data = new List<byte>();
+				var response = await Client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, token);
+
+				if (!response.IsSuccessStatusCode)
+				{
+					throw new Exception(string.Format("The request returned with HTTP status code {0}", response.StatusCode));
+				}
+
+				var total = response.Content.Headers.ContentLength.HasValue ? response.Content.Headers.ContentLength.Value : -1L;
+				var canReportProgress = total != -1 && progress != null;
+
+				using (var stream = await response.Content.ReadAsStreamAsync())
+				{
+					var totalRead = 0L;
+					var buffer = new byte[BufferSize];
+					var isMoreToRead = true;
+
+					do
+					{
+						token.ThrowIfCancellationRequested();
+
+						var read = await stream.ReadAsync(buffer, 0, buffer.Length, token);
+						if (read == 0)
+						{
+							isMoreToRead = false;
+						}
+						else
+						{
+							data.AddRange(buffer);
+							totalRead += read;
+							if (canReportProgress)
+							{
+								progress.Report(new DownloadBytesProgress(url, totalRead, total));
+							}
+						}
+					} while (isMoreToRead);
+				}
+				return data.ToArray();
 			});
 		}
 		#endregion
