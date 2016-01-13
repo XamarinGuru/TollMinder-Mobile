@@ -116,10 +116,10 @@ namespace Tollminder.Core.ServicesHelpers
 		{
 			switch (TrackStatus) {
 			case TollGeolocationStatus.NotOnTollRoad:
-				LookingForTollEnterce ();
+				await LookingForTollEnterce ();
 				break;
 			case TollGeolocationStatus.OnTollRoad:
-				LookingForTollExit ();
+				await LookingForTollExit ();
 				break;
 			case TollGeolocationStatus.NearTollRoadEnterce:
 				CheckEnteredToTollRoad ();

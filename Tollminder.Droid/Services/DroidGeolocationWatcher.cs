@@ -16,24 +16,39 @@ namespace Tollminder.Droid.Services
 {
 	public class DroidGeolocationWatcher :  AndroidServiceWithServiceConnection<GeofenceService,GeolocationClientHandler,BaseServiceConnection>, IGeoLocationWatcher
 	{	
-		public bool IsBound { get; private set; } = false;
 
 		#region IGeoLocationWatcher implementation
+
+		public bool IsBound { get; private set; } = false;
+		bool _geofenceEnabled = true;
+		/// <summary>
+		/// Gets or sets a value indicating whether geofence enabled.
+		/// Default true.
+		/// </summary>
+		/// <value><c>true</c> if geofence enabled; otherwise, <c>false</c>.</value>
+		public virtual bool GeofenceEnabled {
+			get { return _geofenceEnabled;	}
+			set {
+				_geofenceEnabled = value;
+				EnabledGeofenceService (value);
+			}
+		} 
+
 		GeoLocation _location;
-		public GeoLocation Location {
+		public virtual GeoLocation Location {
 			get {
 				return _location;
 			}
 			set {
 				_location = value;
+				Mvx.Resolve<IMvxMessenger> ().Publish (new LocationMessage (this, Location));
 				#if DEBUG
 				Log.LogMessage (value.ToString ());
 				#endif
-				LocationUpdatedMessage ();
 			}
 		}
 
-		public void StartGeolocationWatcher ()
+		public virtual void StartGeolocationWatcher ()
 		{	
 			if (!IsBound) {
 				Start ();
@@ -41,26 +56,18 @@ namespace Tollminder.Droid.Services
 			}
 		}
 
-		public void StopGeolocationWatcher ()
+		public virtual void StopGeolocationWatcher ()
 		{
 			if (IsBound & MessengerService != null) {				
 				Stop ();
 				IsBound = false;
 			}
 		}
+
+		public virtual void EnabledGeofenceService(bool isEnabled)
+		{			
+			DroidMessanging.SendMessage (ServiceConstants.GeoFenceEnabled, MessengerService, null , isEnabled.GetBundle());
+		}
 		#endregion
-
-		void LocationUpdatedMessage ()
-		{
-			Mvx.Resolve<IMvxMessenger> ().Publish (new LocationMessage (this, Location));
-			if (!Mvx.Resolve<IPlatform> ().IsAppInForeground) {
-				Mvx.Resolve<INotificationSender> ().SendLocalNotification ("LOCATION UPDATED", _location.ToString ());
-			}
-		}
-
-		public void SpeakTextIfNeeded ()
-		{
-			Mvx.Resolve<ITextToSpeechService> ().Speak (string.Format ("Location Update at {0:t}", DateTime.Now));
-		}
 	}
 }

@@ -36,7 +36,7 @@ namespace Tollminder.Core.ViewModels
 			_tokens.Add (_messenger.SubscribeOnMainThread<LocationMessage> (x => Location = x.Data));
 			_tokens.Add (_messenger.SubscribeOnMainThread<MotionMessage> (x => MotionType = x.Data));
 
-			StartActivityDetection ();
+//			StartActivityDetection ();
 		}
 
 		protected override void OnDestroy ()

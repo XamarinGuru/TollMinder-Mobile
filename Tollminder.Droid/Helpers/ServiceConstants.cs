@@ -7,6 +7,7 @@ namespace Tollminder.Droid.Helpers
 		public const int RegisterClient = 0;
 		public const int UnregisterClient = 1;
 		public const int ServicePushLocations = 2;
+		public const int GeoFenceEnabled = 3;
 	}
 }
 

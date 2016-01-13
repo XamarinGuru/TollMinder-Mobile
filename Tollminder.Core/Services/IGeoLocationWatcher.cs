@@ -6,7 +6,8 @@ namespace Tollminder.Core.Services
 {
 	public interface IGeoLocationWatcher
 	{		
-		GeoLocation Location { get; set; }	
+		GeoLocation Location { get; set; }
+		bool GeofenceEnabled { get; set; }
 		void StopGeolocationWatcher ();
 		void StartGeolocationWatcher();
 		bool IsBound { get; }

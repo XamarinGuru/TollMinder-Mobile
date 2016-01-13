@@ -13,13 +13,11 @@ using Tollminder.Droid.Helpers;
 using Tollminder.Droid.Handlers;
 
 namespace Tollminder.Droid.AndroidServices
-{
-	[Service]
+{	
 	public class GeolocationService : GoogleApiService<GeolocationServiceHandler>,
 										Android.Gms.Location.ILocationListener									
 										 
 	{
-		const int NumberOfUpdates = 1;
 		private LocationRequest _locationRequest;
 
 		private GeoLocation _geoLocation;
@@ -39,10 +37,30 @@ namespace Tollminder.Droid.AndroidServices
 			Connect ();
 		}
 
+
+
+		public virtual void StopLocationUpdate ()
+		{
+			if (GoogleApiClient != null && GoogleApiClient.IsConnected) {
+				LocationServices.FusedLocationApi.RemoveLocationUpdates (GoogleApiClient, this);				
+			}
+		}
+
+		public virtual void StartLocationUpdate ()
+		{
+			if (!GoogleApiClient.IsConnected) {
+				Connect ();
+				return;
+			}
+			StopLocationUpdate ();
+			SetUpLocationRequest ();
+			LocationServices.FusedLocationApi.RequestLocationUpdates (GoogleApiClient, _locationRequest, this);
+		}
+
 		public override void OnConnected (Bundle connectionHint)
 		{
 			base.OnConnected (connectionHint);
-			GetLocation ();
+			StartLocationUpdate ();
 			#if DEBUG
 			Log.LogMessage("GoogleApiClient connected");
 			#endif
@@ -57,8 +75,9 @@ namespace Tollminder.Droid.AndroidServices
 		{
 			if (_locationRequest == null) {
 				_locationRequest = new LocationRequest ();
-				_locationRequest.SetPriority (LocationRequest.PriorityHighAccuracy);
-				_locationRequest.SetNumUpdates (NumberOfUpdates);
+				_locationRequest.SetPriority (LocationRequest.PriorityLowPower);
+				_locationRequest.SetInterval(10000);
+				_locationRequest.SetFastestInterval(10000);
 			}
 		}
 
@@ -66,21 +85,6 @@ namespace Tollminder.Droid.AndroidServices
 		{
 			if (MessengerClient != null) {
 				DroidMessanging.SendMessage (ServiceConstants.ServicePushLocations, MessengerClient, null, Location.GetGeolocationFromAndroidLocation ());
-			}
-		}
-
-		private void GetLocation ()
-		{
-			if (!GoogleApiClient.IsConnected) {
-				GoogleApiClient.Connect ();
-				return;
-			}
-			if (LocationServices.FusedLocationApi.GetLocationAvailability (GoogleApiClient).IsLocationAvailable) {
-				Location = LocationServices.FusedLocationApi.GetLastLocation (GoogleApiClient).GetGeolocationFromAndroidLocation();
-			}
-			else {
-				SetUpLocationRequest ();
-				LocationServices.FusedLocationApi.RequestLocationUpdates (GoogleApiClient, _locationRequest, this);
 			}
 		}
 	}	

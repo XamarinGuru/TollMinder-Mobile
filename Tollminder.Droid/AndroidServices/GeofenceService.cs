@@ -13,7 +13,7 @@ namespace Tollminder.Droid.AndroidServices
 	{
 		public static readonly string GeoFenceRegionKey = "geoCurrentRegionPoint";
 
-		private const int GeoFenceRadius = 100;
+		private const int GeoFenceRadius = 200;
 
 		#region Private Fields
 		private GeofencingRequest _geoFenceRequest;
@@ -21,13 +21,19 @@ namespace Tollminder.Droid.AndroidServices
 		private PendingIntent _geofencePendingIntent;
 		#endregion
 
+
+		public bool GeofenceEnabled { get; set; } = false;
+
 		public override GeoLocation Location {
 			get {
 				return base.Location;
 			}
 			protected set {
 				base.Location = value;
-				SetUpGeofenicng (value);
+				if (GeofenceEnabled) {
+					StopLocationUpdate ();
+					SetUpGeofenicng (value);
+				}
 			}
 		}
 
@@ -46,7 +52,7 @@ namespace Tollminder.Droid.AndroidServices
 		}
 
 		#region Helpers
-		public async void SetUpGeofenicng (GeoLocation location)
+		protected virtual async void SetUpGeofenicng (GeoLocation location)
 		{
 			if (!Location.IsUnknownGeoLocation) {
 				try {
@@ -80,7 +86,7 @@ namespace Tollminder.Droid.AndroidServices
 					#endif
 				}
 			} else {
-				GoogleApiClient.Connect ();
+				StartLocationUpdate ();
 			}
 		}
 
@@ -122,7 +128,7 @@ namespace Tollminder.Droid.AndroidServices
 		private void BuildGeofenceRequest ()
 		{
 			try {
-				_geoFenceRequest = new GeofencingRequest.Builder ().AddGeofence (_geoFence).SetInitialTrigger (GeofencingRequest.InitialTriggerExit).Build ();
+				_geoFenceRequest = new GeofencingRequest.Builder ().AddGeofence (_geoFence).SetInitialTrigger (GeofencingRequest.InitialTriggerExit|GeofencingRequest.InitialTriggerEnter).Build ();
 				#if DEBUG
 				Log.LogMessage("New request was builded");
 				#endif
@@ -139,7 +145,7 @@ namespace Tollminder.Droid.AndroidServices
 			if (_geofencePendingIntent != null) {
 				return _geofencePendingIntent;
 			}
-			Intent intent = new Intent (this, typeof(GeolocationService));
+			Intent intent = new Intent (this, typeof(GeofenceService));
 			_geofencePendingIntent = PendingIntent.GetService (this, 0, intent, PendingIntentFlags.UpdateCurrent);
 			return _geofencePendingIntent;
 		}

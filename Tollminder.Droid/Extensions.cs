@@ -15,6 +15,7 @@ namespace Tollminder.Droid
 		public const string Latitude = "Latitude";
 		public const string SpeedKey = "Speed";
 		public const string MotionTypeKey = "MotionType";
+		public const string IsEnabled = "IsEnabled";
 
 		public static GeoLocation GetGeolocationFromAndroidLocation (this Location loc)
 		{
@@ -92,6 +93,18 @@ namespace Tollminder.Droid
 			default:
 				return MotionType.Unknown;
 			}
+		}
+
+		public static Bundle GetBundle (this bool mType) 
+		{
+			var bundle = new Bundle ();
+			bundle.PutBoolean (IsEnabled, mType);
+			return bundle;	
+		}
+
+		public static bool GetIsEnabled (this Bundle mType) 
+		{			
+			return mType.GetBoolean(IsEnabled);	
 		}
 	}
 }

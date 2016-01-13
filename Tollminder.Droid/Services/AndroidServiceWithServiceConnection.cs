@@ -3,6 +3,7 @@ using Android.Content;
 using Tollminder.Droid.Inerfaces;
 using Tollminder.Droid.ServicesConnections;
 using Tollminder.Droid.Handlers;
+using Tollminder.Droid.Helpers;
 
 namespace Tollminder.Droid.Services
 {
@@ -19,7 +20,7 @@ namespace Tollminder.Droid.Services
 
 		public AndroidServiceWithServiceConnection ()
 		{
-			ServiceIntent = new Intent (ApplicationContext, typeof(T));
+ 			ServiceIntent = new Intent (ApplicationContext, typeof(T));
 			ServiceConnection = new Z ();
 		}
 

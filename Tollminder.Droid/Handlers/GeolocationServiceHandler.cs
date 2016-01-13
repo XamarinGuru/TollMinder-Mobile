@@ -27,7 +27,10 @@ namespace Tollminder.Droid.Handlers
 				if (Service.MessengerClient != null) {					
 					Service.MessengerClient.Dispose ();
 				}
-				return;										
+				return;		
+			case ServiceConstants.GeoFenceEnabled:
+				(Service as GeofenceService).GeofenceEnabled = msg.Data.GetIsEnabled ();
+				return;					
 			}
 		}
 		protected override void Dispose (bool disposing)
