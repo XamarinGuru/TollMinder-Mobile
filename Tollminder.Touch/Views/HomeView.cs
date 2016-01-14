@@ -10,7 +10,7 @@ namespace Tollminder.Touch.Views
 	public partial class HomeView : MvxViewController
 	{	
 		#pragma warning disable 108		
-		public HomeViewModel ViewModel { get { return base.ViewModel as HomeViewModel; } }
+		public new HomeViewModel ViewModel { get { return base.ViewModel as HomeViewModel; } }
 		#pragma warning restore 108
 
 		public HomeView () : base ("HomeView", null)
@@ -25,11 +25,9 @@ namespace Tollminder.Touch.Views
 
 			AutomaticallyAdjustsScrollViewInsets = true;
 
-			ViewModel.StartActivityDetection ();
-
 			var set = this.CreateBindingSet<HomeView, HomeViewModel>();
-			set.Bind (GeoLabelData).To (v => v.Percent);
-			set.Bind (StartButton).To (v => v.StoppCommand);
+			set.Bind (GeoLabelData).To (v => v.LocationString);
+			set.Bind (StartButton).To (v => v.StartCommand);
 			set.Bind (StopButton).To (v => v.StopCommand);
 			set.Bind (ActivityLabel).To (v => v.MotionTypeString);
 			set.Apply ();

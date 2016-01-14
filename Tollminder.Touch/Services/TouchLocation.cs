@@ -13,7 +13,6 @@ namespace Tollminder.Touch.Services
 	{
 		#region Private Fields
 		private readonly CLLocationManager _locationManager;
-		private GeoLocation _location;
 		#endregion
 
 		#region Properties
@@ -21,13 +20,7 @@ namespace Tollminder.Touch.Services
 			get { return _locationManager; }
 		}
 
-		public virtual GeoLocation Location {
-			get { return _location;	}
-			set {
-				_location = value;
-				StoptLocationUpdates ();
-			}
-		}
+		public virtual GeoLocation Location { get; set; }
 		#endregion
 
 		#region Constructors
@@ -39,33 +32,33 @@ namespace Tollminder.Touch.Services
 		#endregion
 
 		#region Helper Methods
-		private void SetupLocationService()
+		protected void SetupLocationService()
 		{
-			_locationManager.RequestAlwaysAuthorization ();
-			_locationManager.RequestWhenInUseAuthorization ();
+			LocationManager.RequestAlwaysAuthorization ();
+			LocationManager.RequestWhenInUseAuthorization ();
+			LocationManager.DesiredAccuracy = 5;
 			if (EnvironmentInfo.IsForIOSNine) {
-				_locationManager.AllowsBackgroundLocationUpdates = true;				
+				LocationManager.AllowsBackgroundLocationUpdates = true;			
 			}
 		}
 
 		public virtual void StartLocationUpdates() 
 		{
 			if (CLLocationManager.LocationServicesEnabled) {
-				_locationManager.DesiredAccuracy = 5;
-				_locationManager.LocationsUpdated += LocationIsUpdated;
-				_locationManager.StartUpdatingLocation ();
+				LocationManager.LocationsUpdated += LocationIsUpdated;
+				LocationManager.StartUpdatingLocation ();
 			}
 		}
 
 		public virtual void StoptLocationUpdates() 
 		{
 			if (CLLocationManager.LocationServicesEnabled) {
-				_locationManager.LocationsUpdated -= LocationIsUpdated;
-				_locationManager.StopUpdatingLocation ();
+				LocationManager.LocationsUpdated -= LocationIsUpdated;
+				LocationManager.StopUpdatingLocation ();
 			}
 		}
 
-		private void LocationIsUpdated (object sender, CLLocationsUpdatedEventArgs e)
+		protected virtual void LocationIsUpdated (object sender, CLLocationsUpdatedEventArgs e)
 		{
 			var loc = e.Locations.Last ();
 			if (loc != null) {				

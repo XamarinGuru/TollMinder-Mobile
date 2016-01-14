@@ -21,14 +21,16 @@ namespace Tollminder.Touch.Services
 			get { return base.Location;	}
 			set {
 				base.Location = value;
-				SpeakTextIfNeeded ();
-				LocationUpdatedMessage ();
+				Mvx.Resolve<IMvxMessenger> ().Publish (new LocationMessage (this, Location));
+				#if DEBUG
+				Log.LogMessage (value.ToString ());
+				#endif
 			}
 		}
 
 		#region IGeoLocationWatcher implementation
 
-		public void StartGeolocationWatcher()
+		public virtual void StartGeolocationWatcher()
 		{
 			if (!IsBound) {
 				StartGeofenceService ();
@@ -36,7 +38,7 @@ namespace Tollminder.Touch.Services
 			}	
 		}
 
-		public void StopGeolocationWatcher ()
+		public virtual void StopGeolocationWatcher ()
 		{
 			if (IsBound) {
 				StopGeofenceService ();
@@ -44,19 +46,16 @@ namespace Tollminder.Touch.Services
 			}
 		}
 
-		#endregion
 
-		public void SpeakTextIfNeeded ()
+		public virtual void StartUpdatingHighAccuracyLocation ()
 		{
-			Mvx.Resolve<ITextToSpeechService> ().Speak (string.Format ("Location Update at {0:t}", DateTime.Now));
+			StartLocationUpdates ();	
 		}
 
-		private void LocationUpdatedMessage ()
+		public virtual void StopUpdatingHighAccuracyLocation ()
 		{
-			Mvx.Resolve<IMvxMessenger> ().Publish (new LocationMessage (this, Location));
-			if (!Mvx.Resolve<IPlatform> ().IsAppInForeground) {
-				Mvx.Resolve<INotificationSender> ().SendLocalNotification ("LOCATION UPDATED", Location.ToString ());
-			}
-		}	
+			StoptLocationUpdates ();
+		}
+		#endregion
 	}
 }

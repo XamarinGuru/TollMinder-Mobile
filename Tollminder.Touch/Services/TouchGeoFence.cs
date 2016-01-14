@@ -14,47 +14,41 @@ namespace Tollminder.Touch.Services
 		public const string TollMinder = "TollMinder";
 		#endregion
 
-		#region Private Fields
-
-		#endregion
-
-		#region Constructors
-		public TouchGeoFence () : base ()
-		{
-//			SetupGeofenceService ();	
-		}
-		#endregion
-
 		#region Properties
+		public virtual bool GeofenceEnabled { get; set; } = true;
+
 		public override GeoLocation Location {
 			get {
 				return base.Location;
 			}
 			set {
 				base.Location = value;
-				UpdateGeofenceRegion (Location);
+				if (GeofenceEnabled) {
+					StoptLocationUpdates ();
+					StartMonitoringRegion ();					
+				}
 			}
 		}
 		#endregion
 
 		#region Methods
-		public void UpdateGeofenceRegion(GeoLocation location)
+		public virtual void StartMonitoringRegion()
 		{
-			RemoveAllRegions ();
-			CLCircularRegion region = new CLCircularRegion (new CLLocationCoordinate2D (location.Latitude, location.Longitude), GeoFenceRadius, TollMinder);
+			StopMonitoringRegion ();
+			CLCircularRegion region = new CLCircularRegion (new CLLocationCoordinate2D (Location.Latitude, Location.Longitude), GeoFenceRadius, TollMinder);
 			region.NotifyOnEntry = true;
 			region.NotifyOnExit = true;
 			LocationManager.StartMonitoring (region);
 		}
 
-		public void RemoveAllRegions ()
+		public virtual void StopMonitoringRegion ()
 		{
 			foreach (CLRegion item in LocationManager.MonitoredRegions) {
 				LocationManager.StopMonitoring (item);
 			}
 		}
 
-		private void SetupGeofenceService ()
+		protected virtual void SetupGeofenceService ()
 		{
 			if (CLLocationManager.IsMonitoringAvailable (typeof(CLCircularRegion))) {
 				LocationManager.DidStartMonitoringForRegion += StartedMonitorRegionHandler;
@@ -66,17 +60,10 @@ namespace Tollminder.Touch.Services
 			}
 		}
 
-		public void StartGeofenceService() 
+		protected virtual void DestroyGeofenceService ()
 		{
-			StartLocationUpdates ();
-			SetupGeofenceService ();
-		}
-
-		public void StopGeofenceService ()
-		{
-			StoptLocationUpdates ();
 			if (CLLocationManager.IsMonitoringAvailable (typeof(CLCircularRegion))) {
-				RemoveAllRegions ();
+				StopMonitoringRegion ();
 				LocationManager.DidStartMonitoringForRegion -= StartedMonitorRegionHandler;
 				LocationManager.RegionEntered -= RegionEnteredHandler;
 				LocationManager.RegionLeft -= RegionLeftHandler;
@@ -86,20 +73,37 @@ namespace Tollminder.Touch.Services
 			}
 		}
 
-		private void StartedMonitorRegionHandler (object sender, CLRegionEventArgs e)
+		public virtual void StartGeofenceService() 
 		{
+			SetupGeofenceService ();	
+			StartLocationUpdates ();
+		}
+
+		public virtual void StopGeofenceService ()
+		{			
+			DestroyGeofenceService ();
+			StoptLocationUpdates ();
+		}
+
+		protected virtual void StartedMonitorRegionHandler (object sender, CLRegionEventArgs e)
+		{
+			#if DEBUG
 			Log.LogMessage (string.Format ("{0} {1} START MONITORING", e.Region.Center.Latitude , e.Region.Center.Longitude));
+			#endif
 		}
 
-		private void RegionEnteredHandler (object sender, CLRegionEventArgs e)
-		{
+		protected virtual void RegionEnteredHandler (object sender, CLRegionEventArgs e)
+		{   
+			#if DEBUG
 			Log.LogMessage (string.Format ("{0} {1} --- ENTERED", e.Region.Center.Latitude , e.Region.Center.Longitude));
+			#endif
 		}
 
-		private void RegionLeftHandler (object sender, CLRegionEventArgs e)
+		protected virtual void RegionLeftHandler (object sender, CLRegionEventArgs e)
 		{
+			#if DEBUG
 			Log.LogMessage (string.Format ("{0} {1} --- LEFT", e.Region.Center.Latitude , e.Region.Center.Longitude));
-
+			#endif
 			StartLocationUpdates ();
 		}
 		#endregion

@@ -15,7 +15,9 @@ namespace Tollminder.Core.Models
 
 		public long BytesReceived { get; private set; }
 
-		public float PercentComplete { get { return ((float)BytesReceived / TotalBytes) * 100; } }
+		public int PercentComplete { get { return (int)(((float)BytesReceived / TotalBytes) * 100); } }
+
+		public float PercentCompleteInFloat { get { return (float)BytesReceived / TotalBytes * 100; } }
 
 		public string Filename { get; private set; }
 
