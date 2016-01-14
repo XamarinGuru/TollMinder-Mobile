@@ -4,6 +4,7 @@
 #OS junk files
 [Tt]humbs.db
 *.DS_Store
+*.fake/
 
 #build
 [Oo]bj/
