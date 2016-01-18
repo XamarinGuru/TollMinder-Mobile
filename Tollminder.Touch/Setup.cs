@@ -1,22 +1,22 @@
-using Cirrious.CrossCore.Platform;
-using Cirrious.MvvmCross.Touch.Views.Presenters;
-using Cirrious.MvvmCross.ViewModels;
-using Cirrious.MvvmCross.Touch.Platform;
 using UIKit;
-using Cirrious.CrossCore;
 using Tollminder.Touch.Services;
 using Tollminder.Core.Services;
+using MvvmCross.iOS.Platform;
+using MvvmCross.iOS.Views.Presenters;
+using MvvmCross.Core.ViewModels;
+using MvvmCross.Platform.Platform;
+using MvvmCross.Platform;
 
 namespace Tollminder.Touch
 {
-	public class Setup : MvxTouchSetup
+	public class Setup : MvxIosSetup
 	{
 		public Setup(MvxApplicationDelegate applicationDelegate, UIWindow window)
 			: base(applicationDelegate, window)
 		{
 		}
 		
-		public Setup(MvxApplicationDelegate applicationDelegate, IMvxTouchViewPresenter presenter)
+		public Setup(MvxApplicationDelegate applicationDelegate, IMvxIosViewPresenter presenter)
 			: base(applicationDelegate, presenter)
 		{
 		}

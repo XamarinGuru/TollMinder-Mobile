@@ -1,6 +1,4 @@
-﻿using System;
-using Cirrious.CrossCore;
-using System.Reflection;
+﻿using MvvmCross.Platform;
 
 namespace Tollminder.Core.Helpers
 {
@@ -8,7 +6,7 @@ namespace Tollminder.Core.Helpers
 	{
 		public static void LogMessage(string message)
 		{			
-			Mvx.Trace (Cirrious.CrossCore.Platform.MvxTraceLevel.Diagnostic, message, string.Empty);
+			Mvx.Trace (MvvmCross.Platform.Platform.MvxTraceLevel.Diagnostic, message, string.Empty);
 		}
 	}
 }

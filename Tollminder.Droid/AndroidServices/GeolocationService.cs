@@ -1,12 +1,6 @@
-﻿using System;
-using Android.App;
-using Android.Content;
-using Android.Gms.Common;
-using Android.Gms.Common.Apis;
+﻿using Android.App;
 using Android.Gms.Location;
-using Android.Locations;
 using Android.OS;
-using Cirrious.CrossCore;
 using Tollminder.Core.Helpers;
 using Tollminder.Core.Models;
 using Tollminder.Droid.Helpers;

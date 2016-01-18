@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Cirrious.CrossCore;
 using System.Linq;
+using MvvmCross.Platform;
 
 namespace Tollminder.Core
 {

@@ -1,11 +1,10 @@
 ﻿using System;
-using Tollminder.Core.Services;
-using Android.Support.V7.App;
-using Android.Graphics;
 using Android.App;
 using Android.Content;
+using Android.Graphics;
+using Tollminder.Core.Services;
 using Tollminder.Droid.Views;
-using Android.Content.Res;
+using Android.Support.V7.App;
 
 namespace Tollminder.Droid.Services
 {

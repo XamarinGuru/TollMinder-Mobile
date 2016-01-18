@@ -1,9 +1,9 @@
 ﻿using Foundation;
 using UIKit;
-using Cirrious.CrossCore;
-using Cirrious.MvvmCross.ViewModels;
 using System;
-using Cirrious.MvvmCross.Touch.Platform;
+using MvvmCross.iOS.Platform;
+using MvvmCross.Platform;
+using MvvmCross.Core.ViewModels;
 
 namespace Tollminder.Touch
 {

@@ -1,8 +1,6 @@
 ﻿using System;
-using Cirrious.MvvmCross.ViewModels;
-using Cirrious.CrossCore;
-using System.Collections.Generic;
 using Tollminder.Core.Models;
+using MvvmCross.Core.ViewModels;
 
 namespace Tollminder.Core.ViewModels
 {

@@ -1,11 +1,6 @@
-﻿using System;
-using Tollminder.Core.Services;
+﻿using Android.App;
 using Android.Speech.Tts;
-using System.Collections.Generic;
-using Cirrious.CrossCore;
-using Cirrious.CrossCore.Droid.Platform;
-using Android.App;
-using System.Linq;
+using Tollminder.Core.Services;
 
 namespace Tollminder.Droid.Services
 {

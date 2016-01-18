@@ -1,14 +1,10 @@
-﻿using System;
-using Tollminder.Core.Services;
-using Cirrious.CrossCore;
-using Cirrious.MvvmCross.ViewModels;
-using System.Collections.Generic;
-using MvvmCross.Plugins.Messenger;
-using Tollminder.Core.Models;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Linq;
-using Tollminder.Core.Utils;
+using MvvmCross.Platform;
+using MvvmCross.Plugins.Messenger;
 using Tollminder.Core.Helpers;
+using Tollminder.Core.Models;
+using Tollminder.Core.Services;
 
 namespace Tollminder.Core.ServicesHelpers.Implementation 
 {

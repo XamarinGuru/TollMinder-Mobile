@@ -1,10 +1,7 @@
-﻿using System;
+﻿using Android.App;
 using Android.Content;
-using Cirrious.CrossCore;
-using Android.OS;
-using Tollminder.Droid.Handlers;
-using Cirrious.CrossCore.Droid.Platform;
-using Android.App;
+using MvvmCross.Platform;
+using MvvmCross.Platform.Droid.Platform;
 
 namespace Tollminder.Droid.Services
 {

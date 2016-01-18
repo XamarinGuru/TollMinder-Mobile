@@ -1,15 +1,10 @@
-﻿using System;
+﻿using System.Threading.Tasks;
 using CoreMotion;
-using CoreLocation;
+using Foundation;
+using MvvmCross.Platform;
+using MvvmCross.Plugins.Messenger;
 using Tollminder.Core.Models;
 using Tollminder.Core.Services;
-using System.Collections;
-using System.Collections.Generic;
-using Foundation;
-using System.Threading.Tasks;
-using Cirrious.CrossCore;
-using Tollminder.Core.Helpers;
-using MvvmCross.Plugins.Messenger;
 
 namespace Tollminder.Touch.Services
 {	

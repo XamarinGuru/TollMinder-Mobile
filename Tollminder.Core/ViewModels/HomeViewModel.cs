@@ -1,14 +1,13 @@
-using Cirrious.MvvmCross.ViewModels;
-using Tollminder.Core.Services;
-using Tollminder.Core.Models;
-using Tollminder.Core.Helpers;
-using Cirrious.CrossCore;
-using System.Threading.Tasks;
 using System;
-using System.Windows.Input;
-using MvvmCross.Plugins.Messenger;
 using System.Collections.Generic;
+using System.Windows.Input;
+using MvvmCross.Core.ViewModels;
+using MvvmCross.Platform;
+using MvvmCross.Plugins.Messenger;
+using Tollminder.Core.Models;
+using Tollminder.Core.Services;
 using Tollminder.Core.ServicesHelpers;
+using Chance.MvvmCross.Plugins.UserInteraction;
 
 namespace Tollminder.Core.ViewModels
 {
@@ -98,6 +97,13 @@ namespace Tollminder.Core.ViewModels
 			get {
 				return _stoppCommand ?? (_stoppCommand = new MvxCommand (TaskDo));
 			}  
+		}
+
+		private async void TaskINeedToDoto()
+		{
+//			if (await Mvx.Resolve<IUserInteraction>().ConfirmAsync("Are you sure?")) {
+//				var asd = "string";
+//			}
 		}
 
 		private async void TaskDo()

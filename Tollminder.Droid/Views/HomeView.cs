@@ -1,16 +1,16 @@
 using Android.App;
-using Android.OS;
-using Cirrious.MvvmCross.Droid.Views;
 using Android.Content;
-using Tollminder.Droid.Services;
-using Cirrious.CrossCore;
+using Android.OS;
+using MvvmCross.Droid.Views;
+using MvvmCross.Platform;
 using Tollminder.Core.Services;
 using Tollminder.Droid.AndroidServices;
+using Tollminder.Core.ViewModels;
 
 namespace Tollminder.Droid.Views
 {
     [Activity(Label = "Home")]
-    public class HomeView : MvxActivity
+	public class HomeView : MvxActivity<HomeViewModel>
     {
 		protected override void OnCreate(Bundle bundle)
         {

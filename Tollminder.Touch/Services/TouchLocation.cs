@@ -1,11 +1,7 @@
-﻿using System;
-using Foundation;
+﻿using System.Linq;
 using CoreLocation;
-using System.Linq;
-using Cirrious.CrossCore;
-using Tollminder.Core.Services;
-using Tollminder.Touch.Helpers;
 using Tollminder.Core.Models;
+using Tollminder.Touch.Helpers;
 
 namespace Tollminder.Touch.Services
 {	

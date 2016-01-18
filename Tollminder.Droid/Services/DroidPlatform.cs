@@ -1,9 +1,8 @@
-﻿using System;
-using Tollminder.Core.Services;
-using Android.Content;
+﻿using System.Collections.Generic;
 using Android.App;
-using System.Collections.Generic;
+using Android.Content;
 using Tollminder.Core.Helpers;
+using Tollminder.Core.Services;
 
 namespace Tollminder.Droid.Services
 {

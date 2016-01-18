@@ -1,9 +1,6 @@
-﻿using System;
-
-using UIKit;
-using Cirrious.MvvmCross.Touch.Views;
+﻿using MvvmCross.Binding.BindingContext;
+using MvvmCross.iOS.Views;
 using Tollminder.Core.ViewModels;
-using Cirrious.MvvmCross.Binding.BindingContext;
 
 namespace Tollminder.Touch.Views
 {

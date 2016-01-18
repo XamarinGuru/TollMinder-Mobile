@@ -2,9 +2,9 @@
 using Android.App;
 using Android.Content;
 using Android.Gms.Location;
-using Cirrious.CrossCore;
 using Tollminder.Core.Helpers;
 using Tollminder.Core.Models;
+using MvvmCross.Platform;
 
 namespace Tollminder.Droid.AndroidServices
 {
