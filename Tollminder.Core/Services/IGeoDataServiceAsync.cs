@@ -8,11 +8,11 @@ namespace Tollminder.Core.Services
 {
 	public interface IGeoDataServiceAsync
 	{
-		Task<ParallelQuery<GeoLocation>> FindNearGeoLocationsAsync (GeoLocation center);
-		Task<GeoLocation> FindNearGeoLocationAsync (GeoLocation center);
-		Task UpdateAsync (GeoLocation geoLocation);
-		Task InsertAsync (GeoLocation geoLocation);
-		Task DeleteAsync (GeoLocation geoLocation);
+		Task<ParallelQuery<TollRoadWaypoint>> FindNearGeoLocationsAsync (GeoLocation center);
+		Task<TollRoadWaypoint> FindNearGeoLocationAsync (GeoLocation center);
+		Task UpdateAsync (TollRoadWaypoint geoLocation);
+		Task InsertAsync (TollRoadWaypoint geoLocation);
+		Task DeleteAsync (TollRoadWaypoint geoLocation);
 		Task<int> CountAsync { get; }
 	}
 }

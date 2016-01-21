@@ -44,27 +44,27 @@ namespace Tollminder.Core.Helpers
 
 		}
 
-		public static ParallelQuery<GeoLocation> GetLocationsFromRadius (this GeoLocation center, IList<GeoLocation> points)
+		public static ParallelQuery<TollRoadWaypoint> GetLocationsFromRadius (this GeoLocation center, IList<TollRoadWaypoint> points)
 		{
-			return points.AsParallel().WithMergeOptions(ParallelMergeOptions.AutoBuffered).Where (x => DistanceBetweenGeoLocations (center, x) <= 200);
+			return points.AsParallel().WithMergeOptions(ParallelMergeOptions.AutoBuffered).Where (x => DistanceBetweenGeoLocations (center, x.Location) <= 200);
 		}
 
-		public static Task<ParallelQuery<GeoLocation>> GetLocationsFromRadiusAsync (this GeoLocation center, IList<GeoLocation> points)
+		public static Task<ParallelQuery<TollRoadWaypoint>> GetLocationsFromRadiusAsync (this GeoLocation center, IList<TollRoadWaypoint> points)
 		{
 			return Task.Run(() => {
-				return points.AsParallel().WithMergeOptions(ParallelMergeOptions.AutoBuffered).Where (x => DistanceBetweenGeoLocations (center, x) <= 200);
+				return points.AsParallel().WithMergeOptions(ParallelMergeOptions.AutoBuffered).Where (x => DistanceBetweenGeoLocations (center, x.Location) <= 200);
 			});
 		}
 
-		public static GeoLocation GetLocationFromRadius (this GeoLocation center, IList<GeoLocation> points)
+		public static TollRoadWaypoint GetLocationFromRadius (this GeoLocation center, IList<TollRoadWaypoint> points)
 		{
-			return points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).FirstOrDefault (x => DistanceBetweenGeoLocations (center, x) <= 200);
+			return points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).FirstOrDefault (x => DistanceBetweenGeoLocations (center, x.Location) <= 200);
 		}
 
-		public static Task<GeoLocation> GetLocationFromRadiusAsync (this GeoLocation center, IList<GeoLocation> points)
+		public static Task<TollRoadWaypoint> GetLocationFromRadiusAsync (this GeoLocation center, IList<TollRoadWaypoint> points)
 		{
 			return Task.Run(() => {
-				return points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).FirstOrDefault (x => DistanceBetweenGeoLocations (center, x) <= 200);
+				return points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).FirstOrDefault (x => DistanceBetweenGeoLocations (center, x.Location) <= 200);
 			});
 		}
 

@@ -82,37 +82,5 @@ namespace Tollminder.Core.ViewModels
 				return _stopCommand ?? (_stopCommand = new MvxCommand (_track.StopServices));
 			}  
 		}
-
-		private float _Percent;
-		public float Percent {
-		    get { return _Percent; } 
-		    set {
-		     _Percent = value; 
-		     RaisePropertyChanged(() => Percent);
-		    }
-		}
-
-		private MvxCommand _stoppCommand;
-		public ICommand StoppCommand {
-			get {
-				return _stoppCommand ?? (_stoppCommand = new MvxCommand (TaskDo));
-			}  
-		}
-
-		private async void TaskINeedToDoto()
-		{
-//			if (await Mvx.Resolve<IUserInteraction>().ConfirmAsync("Are you sure?")) {
-//				var asd = "string";
-//			}
-		}
-
-		private async void TaskDo()
-		{
-			Progress<DownloadBytesProgress> dataProg = new Progress<DownloadBytesProgress> ();
-			dataProg.ProgressChanged += (object sender, DownloadBytesProgress e) => {
-				Percent = e.PercentComplete;
-			};
-			var data = await Mvx.Resolve<IHttpService> ().FetchAsync (@"http://eoimages.gsfc.nasa.gov/images/imagerecords/74000/74393/world.topo.200407.3x5400x2700.jpg", dataProg);
-		}
 	}
 }

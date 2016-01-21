@@ -14,7 +14,7 @@
             android:layout_height="match_parent"
             android:text="START"
             android:layout_weight="1"
-            local:MvxBind="Click StoppCommand" />
+            local:MvxBind="Click StartCommand" />
         <Button
             android:id="@+id/button1"
             android:layout_width="match_parent"
@@ -40,7 +40,7 @@
             android:text=""
             android:textSize="10sp"
             android:layout_weight="1"
-            local:MvxBind="Text Percent" />
+            local:MvxBind="Text LocationString" />
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"

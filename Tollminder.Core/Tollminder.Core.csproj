@@ -52,13 +52,15 @@
     <Compile Include="Services\IGeoDataServiceAsync.cs" />
     <Compile Include="Services\Implementation\GeoDataServiceAsync.cs" />
     <Compile Include="Utils\Timer.cs" />
-    <Compile Include="Models\TollRoad.cs" />
     <Compile Include="Services\IHttpService.cs" />
     <Compile Include="Services\Implementation\HttpService.cs" />
     <Compile Include="Models\DownloadBytesProgress.cs" />
     <Compile Include="Models\TollGeolocationStatus.cs" />
     <Compile Include="ServicesHelpers\ITrackFacade.cs" />
     <Compile Include="ServicesHelpers\Implementation\TrackFacade.cs" />
+    <Compile Include="Models\TollRoadWaypoint.cs" />
+    <Compile Include="Services\Implementation\DummyDataSerivceAsync.cs" />
+    <Compile Include="Models\WaypointAction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>

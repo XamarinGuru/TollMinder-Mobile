@@ -40,7 +40,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
 		#region Properties
 		public GeoLocation CarLocation { get; private set; }
-		public GeoLocation TollRoadWaypoint { get; private set; }
+		public TollRoadWaypoint TollRoadWaypoint { get; private set; }
 		public double DistaceBetweenCarAndWaypoint { get; private set; }
 
 		MotionType _motionType;
@@ -103,9 +103,9 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 					TollRoadWaypoint =  waypoint;
 					if (TollRoadWaypoint != null) {
 						TrackStatus = TollGeolocationStatus.NearTollRoadEnterce;
-						DistaceBetweenCarAndWaypoint = LocationChecker.DistanceBetweenGeoLocations (CarLocation, TollRoadWaypoint);
+						DistaceBetweenCarAndWaypoint = LocationChecker.DistanceBetweenGeoLocations (CarLocation, TollRoadWaypoint.Location);
 						EnabledHighAccuracy();
-						NotifyUser (string.Format ("you are potentially going to enter one of our {0} wayponts.", TollRoadWaypoint));
+						NotifyUser (string.Format ("you are potentially going to enter {0} waypoints.", TollRoadWaypoint.Name));
 					}
 				}
 			});
@@ -113,10 +113,10 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
 		protected virtual void NotifyUser (string data)
 		{
-			if (!_platform.IsAppInForeground) {
-				_textToSpeech.Speak (data);
+			if (!_platform.IsAppInForeground) {				
 				_notficationSender.SendLocalNotification ("Toll Minder", data);
 			}
+			_textToSpeech.Speak (data);
 		}
 
 		protected virtual  Task LookingForTollExit ()
@@ -129,9 +129,9 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 					TollRoadWaypoint = waypoint;
 					if (TollRoadWaypoint != null) {
 						TrackStatus = TollGeolocationStatus.NearTollRoadExit;
-						DistaceBetweenCarAndWaypoint = LocationChecker.DistanceBetweenGeoLocations (CarLocation, TollRoadWaypoint);
+						DistaceBetweenCarAndWaypoint = LocationChecker.DistanceBetweenGeoLocations (CarLocation, TollRoadWaypoint.Location);
 						EnabledHighAccuracy();
-						NotifyUser (string.Format ("you are potentially going to exit one of our {0} wayponts.", TollRoadWaypoint));
+						NotifyUser (string.Format ("you are potentially going to exit {0} waypoints.", TollRoadWaypoint.Name));
 					}
 				}
 			});
@@ -165,25 +165,25 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 		#endregion
 
 		#region Helpers
-		protected virtual  void SpeakIfStartMoving (MotionType value)
+		protected virtual void SpeakIfStartMoving (MotionType value)
 		{
 			if (value != MotionType && CheckIsMovingByTheCar (value)) {
 				_textToSpeech.Speak ("You start moving on the car");
 			}
 		}
 
-		protected virtual  bool IsCloserToWaypoint ()
+		protected virtual bool IsCloserToWaypoint ()
 		{
-			return CheckIsMovingByTheCar (MotionType) && LocationChecker.DistanceBetweenGeoLocations (CarLocation, TollRoadWaypoint) < DistaceBetweenCarAndWaypoint;
+			return CheckIsMovingByTheCar (MotionType) && LocationChecker.DistanceBetweenGeoLocations (CarLocation, TollRoadWaypoint.Location) < DistaceBetweenCarAndWaypoint;
 		}
 
-		protected virtual  void EnabledHighAccuracy ()
+		protected virtual void EnabledHighAccuracy ()
 		{
 			_geoWatcher.GeofenceEnabled = true;
 			_geoWatcher.StopUpdatingHighAccuracyLocation ();
 		}
 		
-		protected virtual  void DisabledHighAccuracy ()
+		protected virtual void DisabledHighAccuracy ()
 		{
 			_geoWatcher.GeofenceEnabled = true;
 			_geoWatcher.StopUpdatingHighAccuracyLocation ();
@@ -196,7 +196,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 			}
 		}
 
-		protected virtual Task<GeoLocation> CheckNearLocationForTollRoadAsync(GeoLocation location)
+		protected virtual Task<TollRoadWaypoint> CheckNearLocationForTollRoadAsync(GeoLocation location)
 		{
 			return _geoData.FindNearGeoLocationAsync (location);
 		}
