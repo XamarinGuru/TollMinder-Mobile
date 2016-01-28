@@ -10,6 +10,7 @@ namespace Tollminder.Core.Services
 	{
 		Task<ParallelQuery<TollRoadWaypoint>> FindNearGeoLocationsAsync (GeoLocation center);
 		Task<TollRoadWaypoint> FindNearGeoLocationAsync (GeoLocation center);
+		Task<TollRoadWaypoint> FindNearGeoLocationAsync (GeoLocation center, WaypointAction status);
 		Task UpdateAsync (TollRoadWaypoint geoLocation);
 		Task InsertAsync (TollRoadWaypoint geoLocation);
 		Task DeleteAsync (TollRoadWaypoint geoLocation);

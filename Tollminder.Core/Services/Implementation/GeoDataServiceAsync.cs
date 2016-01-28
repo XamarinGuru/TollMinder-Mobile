@@ -36,6 +36,13 @@ namespace Tollminder.Core.Services.Implementation
 			return nearLocations;
 		}
 
+		public async Task<TollRoadWaypoint> FindNearGeoLocationAsync (GeoLocation center, WaypointAction actionStatus)
+		{
+			var lcations = await connection.Table<TollRoadWaypoint> ().Where(x=>x.WaypointAction == actionStatus).ToListAsync ();
+			var nearLocations = await center.GetLocationFromRadiusAsync (lcations);
+			return nearLocations;
+		}
+
 		public Task UpdateAsync (TollRoadWaypoint geoLocation)
 		{
 			return connection.UpdateAsync (geoLocation);

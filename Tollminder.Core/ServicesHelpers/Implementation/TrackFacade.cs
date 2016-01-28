@@ -97,7 +97,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 		{
 			return Task.Run(async () => {
 				if (CheckIsMovingByTheCar (MotionType)) {
-					var waypoint = await CheckNearLocationForTollRoadAsync (CarLocation);
+					var waypoint = await CheckNearLocationForTollRoadAsync (CarLocation, WaypointAction.Enterce);
 					if (waypoint == TollRoadWaypoint)
 						return;
 					TollRoadWaypoint =  waypoint;
@@ -123,7 +123,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 		{
 			return Task.Run (async () => {
 				if (CheckIsMovingByTheCar (MotionType)) {
-					var waypoint = await CheckNearLocationForTollRoadAsync (CarLocation);
+					var waypoint = await CheckNearLocationForTollRoadAsync (CarLocation, WaypointAction.Exit);
 					if (waypoint == TollRoadWaypoint)
 						return;
 					TollRoadWaypoint = waypoint;
@@ -199,6 +199,11 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 		protected virtual Task<TollRoadWaypoint> CheckNearLocationForTollRoadAsync(GeoLocation location)
 		{
 			return _geoData.FindNearGeoLocationAsync (location);
+		}
+
+		protected virtual Task<TollRoadWaypoint> CheckNearLocationForTollRoadAsync(GeoLocation location, WaypointAction actionStatus)
+		{
+			return _geoData.FindNearGeoLocationAsync (location, actionStatus);
 		}
 
 		protected virtual bool CheckIsMovingByTheCar (MotionType motionType)

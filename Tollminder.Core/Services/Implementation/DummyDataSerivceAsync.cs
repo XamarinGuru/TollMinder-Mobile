@@ -89,6 +89,12 @@ namespace Tollminder.Core.Services.Implementation
 			});
 		}
 
+		public async Task<TollRoadWaypoint> FindNearGeoLocationAsync (GeoLocation center, WaypointAction actionStatus)
+		{			
+			var nearLocations = await center.GetLocationFromRadiusAsync (_dummyWaypoints.Where(x=>x.WaypointAction == actionStatus).ToList());
+			return nearLocations;
+		}
+
 		public Task<TollRoadWaypoint> FindNearGeoLocationAsync (GeoLocation center)
 		{
 			return Task.Run (() => {
