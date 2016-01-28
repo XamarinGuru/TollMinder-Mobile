@@ -57,7 +57,8 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 		#endregion
 
 		public virtual void StartServices () 
-		{				
+		{
+			_textToSpeech.IsEnabled = true;
 			_geoWatcher.StartGeolocationWatcher ();
 			_activity.StartDetection ();
 			_tokens.Add (_messenger.SubscribeOnMainThread<LocationMessage> (async x => {
