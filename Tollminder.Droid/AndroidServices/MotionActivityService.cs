@@ -54,9 +54,9 @@ namespace Tollminder.Droid.AndroidServices
 		{
 			var dataSourceResult = await FitnessClass.SensorsApi.AddAsync (GoogleApiClient, new SensorRequest.Builder ()
 				.SetDataType (DataType.TypeActivitySample)
-				.SetSamplingRate(15, TimeUnit.Seconds)
+				.SetSamplingRate(5, TimeUnit.Seconds)
 				.SetAccuracyMode(SensorRequest.AccuracyModeHigh)
-				.SetFastestRate(15,TimeUnit.Seconds)
+				.SetFastestRate(5,TimeUnit.Seconds)
 				.Build (), this);
 			#if DEBUG
 			Log.LogMessage(dataSourceResult.ToString());
