@@ -11,11 +11,13 @@ using Android.OS;
 using Java.Util.Concurrent;
 using Tollminder.Core.Helpers;
 using Tollminder.Core.Models;
+using Android.Gms.Location;
+using Android.Content;
 
 namespace Tollminder.Droid.AndroidServices
 {
 	[Service]
-	public class MotionActivityService : GoogleApiService<MotionServiceHanlder> , IOnDataPointListener
+	public class MotionActivityService : GoogleApiService<MotionServiceHanlder> 
 	{
 		
 		public static readonly int ResolutionRequest = 101;
@@ -24,51 +26,67 @@ namespace Tollminder.Droid.AndroidServices
 		public override void OnCreate ()
 		{
 			base.OnCreate ();
-			GoogleApiClient = new GoogleApiClient.Builder (this)
-				.AddApi (FitnessClass.SENSORS_API)
-				.AddScope (new Scope (Scopes.FitnessActivityRead))
-				.AddScope (new Scope (Scopes.FitnessLocationRead))
-				.AddConnectionCallbacks (this)
-				.AddOnConnectionFailedListener (this)
-				.Build ();
-			GoogleApiClient.Connect ();
+			CreateGoogleApiClient (ActivityRecognition.API);
+			Connect ();
 		}
 		public override void OnConnected (Android.OS.Bundle connectionHint)
 		{
 			base.OnConnected (connectionHint);
-			GetFitnessSensor ();
+			StartMotionService ();
 		}
 
-		public override void OnConnectionFailed (ConnectionResult result)
+		public virtual async void StartMotionService()
 		{
-			base.OnConnectionFailed (result);
-			if (ConnectionResult.SignInRequired == result.ErrorCode) {
-				Bundle resultBundle = new Bundle ();
-				resultBundle.PutParcelable (ResultBundleKey, result);
-				DroidMessanging.SendMessage (MotionConstants.StartResolutuon, MessengerClient, null, resultBundle);
+			if (!GoogleApiClient.IsConnected) {
+				Connect ();
 				return;
 			}
-		}
-
-		protected virtual async void GetFitnessSensor()
-		{
-			var dataSourceResult = await FitnessClass.SensorsApi.AddAsync (GoogleApiClient, new SensorRequest.Builder ()
-				.SetDataType (DataType.TypeActivitySample)
-				.SetSamplingRate(5, TimeUnit.Seconds)
-				.SetAccuracyMode(SensorRequest.AccuracyModeHigh)
-				.SetFastestRate(5,TimeUnit.Seconds)
-				.Build (), this);
+			StopMotionSerivce ();
+			var status = await ActivityRecognition.ActivityRecognitionApi.RequestActivityUpdatesAsync (GoogleApiClient, 1000, GetActivityPendingIntent);
 			#if DEBUG
-			Log.LogMessage(dataSourceResult.ToString());
+			Log.LogMessage(string.Format ("GoogleApiClient connected : {0}", status));
 			#endif
 		}
 
-		public virtual void OnDataPoint (DataPoint dataPoint)
+		public virtual async void StopMotionSerivce ()
 		{
-			try {
-				DroidMessanging.SendMessage (MotionConstants.GetMotion, MessengerClient, null, dataPoint.GetMotionType().PutMotionType());				
-			} catch (Exception ex) {
-				Log.LogMessage (ex.Message);
+			if (GoogleApiClient != null && GoogleApiClient.IsConnected) {
+				var status = await ActivityRecognition.ActivityRecognitionApi.RemoveActivityUpdatesAsync (GoogleApiClient, GetActivityPendingIntent);
+				#if DEBUG
+				Log.LogMessage(string.Format ("GoogleApiClient connected : {0}", status));
+				#endif				
+			}
+		}
+
+		public override StartCommandResult OnStartCommand (Android.Content.Intent intent, StartCommandFlags flags, int startId)
+		{
+			ActivityRecognitionResult result = ActivityRecognitionResult.ExtractResult (intent);
+			SendMessage (result.MostProbableActivity.GetMotionType ().PutMotionType ());
+			#if DEBUG
+			Log.LogMessage(string.Format ("Most probable reuslt - {0}", result.MostProbableActivity.GetMotionType ()));
+			#endif
+			return base.OnStartCommand (intent, flags, startId);
+
+
+		}
+
+		protected virtual void SendMessage (Bundle bundle)
+		{
+			if (MessengerClient != null) {
+				DroidMessanging.SendMessage (MotionConstants.GetMotion, MessengerClient, null, bundle);
+			}
+		}
+
+		private PendingIntent _motionActivityPendingIntent;
+		private PendingIntent GetActivityPendingIntent 
+		{
+			get {
+				if (_motionActivityPendingIntent != null) {
+					return _motionActivityPendingIntent;
+				}
+				Intent intent = new Intent (this, typeof(MotionActivityService));
+				_motionActivityPendingIntent = PendingIntent.GetService (this, 0, intent, PendingIntentFlags.UpdateCurrent);
+				return _motionActivityPendingIntent;
 			}
 		}
 	}

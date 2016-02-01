@@ -40,28 +40,27 @@ namespace Tollminder.Touch.Services
 		public void StartDetection()
 		{			
 			if (CMMotionActivityManager.IsActivityAvailable)
-				_motionActivityManager?.StartActivityUpdates (NSOperationQueue.CurrentQueue, async (activity) => await GetMotionActivity (activity));
+				_motionActivityManager?.StartActivityUpdates (NSOperationQueue.MainQueue, (activity) => GetMotionActivity (activity));
 		}
 
-		Task GetMotionActivity (CMMotionActivity activity)
-		{
-			return Task.Run (() => {
-				if (activity.Walking) {
-					MotionType = MotionType.Walking;
-				}
-				else if (activity.Running) {
-					MotionType = MotionType.Running;
-				}
-				else if (activity.Automotive) {
-					MotionType = MotionType.Automotive;
-				}
-				else if (activity.Stationary || activity.Unknown) {
-					MotionType = MotionType.Still;
-				}
-				#if DEBUG
-//				Log.LogMessage (_motionType.ToString ());
-				#endif
-			});
+		void GetMotionActivity (CMMotionActivity activity)
+		{			
+			if (activity.Walking) {
+				MotionType = MotionType.Walking;
+			}
+			else if (activity.Running) {
+				MotionType = MotionType.Running;
+			}
+			else if (activity.Automotive) {
+				MotionType = MotionType.Automotive;
+			}
+			else if (activity.Stationary || activity.Unknown) {
+				MotionType = MotionType.Still;
+			}
+			#if DEBUG
+			Tollminder.Core.Helpers.Log.LogMessage (_motionType.ToString ());
+			#endif
+
 		}
 	}
 }

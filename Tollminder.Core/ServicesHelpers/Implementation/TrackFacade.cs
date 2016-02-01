@@ -47,10 +47,13 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 		public MotionType MotionType {
 			get { return _motionType; }
 			private set {
-				SpeakIfStartMoving (value);
+				SpeakMotion (value);	
 				_motionType = value;
 			}
 		}
+
+
+
 
 		public TollGeolocationStatus TrackStatus { get; private set; } = TollGeolocationStatus.NotOnTollRoad;
 
@@ -65,7 +68,10 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 				CarLocation = x.Data;
 				await CheckTrackStatus();
 			}));
-			_tokens.Add (_messenger.SubscribeOnMainThread<MotionMessage> (x => MotionType = x.Data));
+			_tokens.Add (_messenger.SubscribeOnMainThread<MotionMessage> (x => { 
+				MotionType = x.Data;					
+			}));
+				
 		}
 
 		public virtual void StopServices () 
@@ -166,10 +172,14 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 		#endregion
 
 		#region Helpers
-		protected virtual void SpeakIfStartMoving (MotionType value)
+		protected virtual void SpeakMotion (MotionType value)
 		{
-			if (value != MotionType && CheckIsMovingByTheCar (value)) {
-				_textToSpeech.Speak ("You start moving on the car");
+			if (value != MotionType) {
+				if (CheckIsMovingByTheCar (value)) {
+					_textToSpeech.Speak ("You start moving on the car");					
+				} else {
+					NotifyUser (value.ToString ());
+				}
 			}
 		}
 

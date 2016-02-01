@@ -28,8 +28,11 @@ namespace Tollminder.Droid.Handlers
 					Service.MessengerClient.Dispose ();
 				}
 				return;
-			case MotionConstants.ConnectToGoogleFit:
-				Service.Connect ();
+			case MotionConstants.StartService:
+				Service.StartMotionService ();
+				return;
+			case MotionConstants.StopService:
+				Service.StopMotionSerivce ();
 				return;
 			}
 		}

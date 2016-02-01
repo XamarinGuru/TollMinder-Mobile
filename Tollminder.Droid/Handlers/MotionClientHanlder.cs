@@ -23,11 +23,6 @@ namespace Tollminder.Droid.Handlers
 		public override void HandleMessage (Message msg)
 		{			
 			switch (msg.What) {
-			case MotionConstants.StartResolutuon:
-				Service.AuthInProgress = true;
-				ConnectionResult result = msg.Data.GetParcelable (MotionActivityService.ResultBundleKey) as ConnectionResult;
-				result.StartResolutionForResult (Service.Activity, MotionActivityService.ResolutionRequest);
-				return;
 			case MotionConstants.GetMotion:
 				Service.MotionType = msg.Data.GetMotionType ();
 				return;

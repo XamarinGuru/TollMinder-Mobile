@@ -24,7 +24,7 @@ namespace Tollminder.Droid.AndroidServices
 
 		public virtual void OnConnectionFailed (Android.Gms.Common.ConnectionResult result)
 		{
-			
+			Connect ();
 		}
 
 		public virtual void OnConnected (Bundle connectionHint)
@@ -34,7 +34,7 @@ namespace Tollminder.Droid.AndroidServices
 
 		public virtual void OnConnectionSuspended (int cause)
 		{
-			
+			Connect ();
 		}
 
 		protected virtual void DestroyGoogleApiClient ()

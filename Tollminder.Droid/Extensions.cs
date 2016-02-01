@@ -4,6 +4,7 @@ using Android.Locations;
 using Android.Widget;
 using Android.OS;
 using Android.Gms.Fitness.Data;
+using Android.Gms.Location;
 
 namespace Tollminder.Droid
 {
@@ -51,23 +52,19 @@ namespace Tollminder.Droid
 			return bundle;	
 		}
 
-		public static MotionType GetMotionType (this DataPoint datapoint)
+		public static MotionType GetMotionType (this DetectedActivity detectedAcitvity)
 		{
-			const string activity = "activity";
-			foreach (var field in datapoint.DataType.Fields) {
-				Value val = datapoint.GetValue (field);
-				if (field.Name == activity) {
-					switch (val.AsInt ()) {
-					case 3:
-						return MotionType.Still;
-					case 7:
-						return MotionType.Walking;
-					case 8:
-						return MotionType.Running;
-					default:
-						return MotionType.Automotive;
-					}
-				}
+			switch (detectedAcitvity.Type) {
+			case 3:
+				return MotionType.Still;
+			case 7:
+				return MotionType.Walking;
+			case 8:
+				return MotionType.Running;
+			case 0:
+				return MotionType.Automotive;
+			case 4: 
+				return MotionType.Unknown;
 			}
 			return MotionType.Unknown;
 		}

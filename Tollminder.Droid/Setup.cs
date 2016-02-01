@@ -31,7 +31,7 @@ namespace Tollminder.Droid
 			Mvx.LazyConstructAndRegisterSingleton<IMotionActivity,DroidMotionActivity> ();
 			Mvx.LazyConstructAndRegisterSingleton<INotificationSender,DroidNotificationSender> ();
 			Mvx.LazyConstructAndRegisterSingleton<IPlatform, DroidPlatform> ();
-			Mvx.LazyConstructAndRegisterSingleton<ITextToSpeechService, DroidTextToSpeechService> ();
+			Mvx.ConstructAndRegisterSingleton<ITextToSpeechService, DroidTextToSpeechService> ();
 		}
     }
 }

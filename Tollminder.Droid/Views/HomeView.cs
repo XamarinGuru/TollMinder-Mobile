@@ -18,17 +18,5 @@ namespace Tollminder.Droid.Views
 			SetContentView(Resource.Layout.homeView);
 
         }
-
-		protected override void OnActivityResult (int requestCode, Result resultCode, Intent data)
-		{
-			base.OnActivityResult (requestCode, resultCode, data);
-			if (requestCode == MotionActivityService.ResolutionRequest) {
-				Mvx.Resolve<IMotionActivity> ().AuthInProgress = false;
-				if (resultCode == Result.Ok) {
-					Mvx.Resolve<IMotionActivity> ().StartDetection ();
-				}
-
-			}
-		}
     }
 }

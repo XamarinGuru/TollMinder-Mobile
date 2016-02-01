@@ -26,6 +26,7 @@ namespace Tollminder.Touch.Services
 					Volume = 0.5f,
 					PitchMultiplier = 1.0f
 				};
+
 	            _speechSynthesizer.SpeakUtterance (speechUtterance);
 			}
         }
