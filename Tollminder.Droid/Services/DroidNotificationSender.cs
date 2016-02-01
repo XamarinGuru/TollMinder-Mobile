@@ -5,6 +5,7 @@ using Android.Graphics;
 using Tollminder.Core.Services;
 using Tollminder.Droid.Views;
 using Android.Support.V7.App;
+using Android.Media;
 
 namespace Tollminder.Droid.Services
 {
@@ -27,6 +28,7 @@ namespace Tollminder.Droid.Services
 				.SetColor (Color.Red)
 				.SetContentTitle (title)
 				.SetContentText (message)
+				.SetSound (RingtoneManager.GetDefaultUri (RingtoneType.Notification))
 				.SetContentIntent (notificationPendingIntent);
 
 			builder.SetAutoCancel (true);
