@@ -79,6 +79,8 @@ Target "ios-hockey" (fun () ->
 Target "android-hockey" (fun () ->
     HockeyApp(fun parametrs ->
         {parametrs with
+            Notify = NotifyOption.CanInstallApp
+            DownloadStatus = DownloadStatusOption.Downloadable
             ApiToken = getBuildParam "hkey"
             File = Directory.EnumerateFiles(Path.Combine("TollMinder.Droid", "bin", "Release"), "*Aligned.apk").First()
          }) |> ignore   
