@@ -59,7 +59,9 @@ namespace Tollminder.Droid
 
         public void Include(INotifyCollectionChanged changed)
         {
+			#pragma warning disable 219
             changed.CollectionChanged += (s,e) => { var test = $"{e.Action}{e.NewItems}{e.NewStartingIndex}{e.OldItems}{e.OldStartingIndex}"; };
+			#pragma warning restore 219
         }
 
         public void Include(ICommand command)

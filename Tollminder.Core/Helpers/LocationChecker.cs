@@ -26,7 +26,7 @@ namespace Tollminder.Core.Helpers
 		public static double DistanceBetweenGeoLocations (GeoLocation center, GeoLocation otherPoint)
 		{
 			
-			double R = 6371 / 5; // 200 metres
+			double R = 6371 / 4; // 250 metres
 
 			double sLat1 = Math.Sin(center.Latitude.ToRadians());
 			double sLat2 = Math.Sin(otherPoint.Latitude.ToRadians());
@@ -64,7 +64,8 @@ namespace Tollminder.Core.Helpers
 		public static Task<TollRoadWaypoint> GetLocationFromRadiusAsync (this GeoLocation center, IList<TollRoadWaypoint> points)
 		{
 			return Task.Run(() => {
-				return points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).FirstOrDefault (x => DistanceBetweenGeoLocations (center, x.Location) <= 200);
+				var point = points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).FirstOrDefault (x => DistanceBetweenGeoLocations (center, x.Location) <= 200);
+				return point;
 			});
 		}
 

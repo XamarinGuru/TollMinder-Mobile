@@ -8,7 +8,7 @@ using Tollminder.Droid.Handlers;
 
 namespace Tollminder.Droid.AndroidServices
 {	
-	[Service]
+	
 	public class GeolocationService : GoogleApiService<GeolocationServiceHandler>,
 										Android.Gms.Location.ILocationListener									
 										 
@@ -71,8 +71,8 @@ namespace Tollminder.Droid.AndroidServices
 			if (_locationRequest == null) {
 				_locationRequest = new LocationRequest ();
 				_locationRequest.SetPriority (LocationRequest.PriorityLowPower);
-				_locationRequest.SetInterval(10000);
-				_locationRequest.SetFastestInterval(10000);
+				_locationRequest.SetInterval(1000);
+				_locationRequest.SetFastestInterval(1000);
 			}
 		}
 

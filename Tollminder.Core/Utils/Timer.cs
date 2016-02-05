@@ -18,7 +18,9 @@ namespace Tollminder.Core.Utils
 					{
 						if (IsCancellationRequested)
 							break;
+						#pragma warning disable 4014
 						Task.Run(() => tuple.Item1(tuple.Item2));
+						#pragma warning restore 4014
 						await Task.Delay(period);
 					}
 

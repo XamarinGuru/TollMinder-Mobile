@@ -14,6 +14,14 @@ namespace Tollminder.Core.Services.Implementation
 		{
 			_dummyWaypoints = new List<TollRoadWaypoint> () {
 				new TollRoadWaypoint {
+					Name = "Home",
+					Location = new GeoLocation { 
+						Latitude = 50.4014337,
+						Longitude = 30.5309801
+					},
+					WaypointAction = WaypointAction.Enterce
+				},
+				new TollRoadWaypoint {
 					Name = "15s",
 					Location = new GeoLocation { 
 						Latitude = 33.429156,
