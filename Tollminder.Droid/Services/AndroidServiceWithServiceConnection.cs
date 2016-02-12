@@ -16,11 +16,11 @@ namespace Tollminder.Droid.Services
 	public class AndroidServiceWithServiceConnection<T,Y,Z> : MessengerAndroidService<Y> where T : Service where Y : BaseHandler where Z : BaseServiceConnection , new () 
 	{
 		private readonly Intent ServiceIntent;
-		protected virtual BaseServiceConnection ServiceConnection { get; private set; }
+		protected virtual Z ServiceConnection { get; private set; }
 
 		public AndroidServiceWithServiceConnection ()
 		{
- 			ServiceIntent = new Intent (ApplicationContext, typeof(T));
+			ServiceIntent = new Intent (ApplicationContext, typeof(T));
 			ServiceConnection = new Z ();
 		}
 
@@ -34,8 +34,9 @@ namespace Tollminder.Droid.Services
 		public override void Stop ()
 		{
 			base.Stop ();
-			ApplicationContext.UnbindService (ServiceConnection);
 			ServiceConnection.Messenger = null;
+			ApplicationContext.UnbindService (ServiceConnection);
+			ApplicationContext.StopService (ServiceIntent);
 		}
 	}
 }

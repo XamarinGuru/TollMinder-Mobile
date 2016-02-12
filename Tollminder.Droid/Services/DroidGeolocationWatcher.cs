@@ -10,7 +10,7 @@ using Tollminder.Droid.ServicesConnections;
 
 namespace Tollminder.Droid.Services
 {
-	public class DroidGeolocationWatcher :  AndroidServiceWithServiceConnection<GeofenceService,GeolocationClientHandler,BaseServiceConnection>, IGeoLocationWatcher
+	public class DroidGeolocationWatcher :  AndroidServiceWithServiceConnection<GeofenceService,GeolocationClientHandler, GeolocationServiceConnection>, IGeoLocationWatcher
 	{	
 
 		#region IGeoLocationWatcher implementation

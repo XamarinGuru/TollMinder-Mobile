@@ -5,6 +5,7 @@ using Android.Gms.Location;
 using Tollminder.Core.Helpers;
 using Tollminder.Core.Models;
 using MvvmCross.Platform;
+using System.Threading.Tasks;
 
 namespace Tollminder.Droid.AndroidServices
 {
@@ -37,6 +38,12 @@ namespace Tollminder.Droid.AndroidServices
 			}
 		}
 
+		public override async void OnDestroy ()
+		{
+			await RemoveGeofence ();
+			base.OnDestroy ();
+		}
+
 		public override StartCommandResult OnStartCommand (Intent intent, StartCommandFlags flags, int startId)
 		{
 			var geofencingEvent = GeofencingEvent.FromIntent (intent);
@@ -57,7 +64,7 @@ namespace Tollminder.Droid.AndroidServices
 			if (!Location.IsUnknownGeoLocation) {
 				try {
 					if (_geoFence != null) {
-						RemoveGeofence();
+						await RemoveGeofence();
 					}
 					AddGeofencePoint (location.Latitude, location.Longitude);
 					BuildGeofenceRequest ();				
@@ -110,7 +117,7 @@ namespace Tollminder.Droid.AndroidServices
 			} 							
 		}
 
-		public async void RemoveGeofence ()
+		public async Task RemoveGeofence ()
 		{
 			try {
 				var result = await LocationServices.GeofencingApi.RemoveGeofencesAsync (GoogleApiClient, GetGeofencePendingIntent ());

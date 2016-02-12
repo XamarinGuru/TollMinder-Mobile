@@ -21,15 +21,18 @@ namespace Tollminder.Droid.Handlers
 		{
 			switch (msg.What) {
 			case ServiceConstants.ServicePushLocations:
-				Service.Location = msg.Data.GetGeolocationFromAndroidLocation ();
-				break;	
+				if (Service != null) 
+					Service.Location = msg.Data.GetGeolocationFromAndroidLocation ();
+					break;	
 			}
 		}
 
 		protected override void Dispose (bool disposing)
 		{
+			if (disposing) {				
+				Service = null;
+			}
 			base.Dispose (disposing);
-			Service = null;
 		}
 	}
 }

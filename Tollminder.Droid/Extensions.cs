@@ -3,7 +3,6 @@ using Tollminder.Core.Models;
 using Android.Locations;
 using Android.Widget;
 using Android.OS;
-using Android.Gms.Fitness.Data;
 using Android.Gms.Location;
 
 namespace Tollminder.Droid

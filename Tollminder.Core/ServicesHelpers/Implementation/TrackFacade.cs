@@ -53,29 +53,34 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 			}
 		}
 		public TollGeolocationStatus TrackStatus { get; private set; } = TollGeolocationStatus.NotOnTollRoad;
-
+		private bool _isBound;
 		#endregion
 
 		public virtual void StartServices () 
 		{
-			_textToSpeech.IsEnabled = true;
-			_geoWatcher.StartGeolocationWatcher ();
-			_activity.StartDetection ();
-			_tokens.Add (_messenger.SubscribeOnMainThread<LocationMessage> (async x => {
-				CarLocation = x.Data;
-				await CheckTrackStatus();
-			}));
-			_tokens.Add (_messenger.SubscribeOnMainThread<MotionMessage> (x => { 
-				MotionType = x.Data;					
-			}));
-				
+			if (!_isBound) {				
+				_textToSpeech.IsEnabled = true;
+				_geoWatcher.StartGeolocationWatcher ();
+				_activity.StartDetection ();
+				_tokens.Add (_messenger.SubscribeOnMainThread<LocationMessage> (async x => {
+					CarLocation = x.Data;
+					await CheckTrackStatus();
+				}));
+				_tokens.Add (_messenger.SubscribeOnMainThread<MotionMessage> (x => { 
+					MotionType = x.Data;					
+				}));
+				_isBound = true;
+			}				
 		}
 
 		public virtual void StopServices () 
-		{			
-			_geoWatcher.StopGeolocationWatcher ();
-			_activity.StopDetection ();
-			DestoyTokens ();
+		{	
+			if (_isBound) {
+				_geoWatcher.StopGeolocationWatcher ();
+				_activity.StopDetection ();
+				DestoyTokens ();
+				_isBound = false;
+			}
 		}
 
 		protected virtual async Task CheckTrackStatus()
@@ -190,7 +195,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
 		protected virtual bool IsCloserToWaypoint ()
 		{
-			return Math.Round(LocationChecker.DistanceBetweenGeoLocations (CarLocation, LastTollRoadWaypoint.Location)) < DistaceBetweenCarAndWaypoint;
+			return Math.Abs(Math.Round(LocationChecker.DistanceBetweenGeoLocations (CarLocation, LastTollRoadWaypoint.Location)) - DistaceBetweenCarAndWaypoint) > 0.001;
 		}
 
 		protected virtual void EnabledHighAccuracy ()

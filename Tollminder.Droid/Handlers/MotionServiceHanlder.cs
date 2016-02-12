@@ -23,7 +23,7 @@ namespace Tollminder.Droid.Handlers
 			case MotionConstants.RegisterMessenger:
 				Service.MessengerClient = msg.ReplyTo;
 				return;
-			case MotionConstants.UnRegisterMessenger:
+			case ServiceConstants.UnregisterClient:
 				if (Service.MessengerClient != null) {					
 					Service.MessengerClient.Dispose ();
 				}
@@ -39,8 +39,10 @@ namespace Tollminder.Droid.Handlers
 
 		protected override void Dispose (bool disposing)
 		{
+			if (disposing) {				
+				Service = null;
+			}
 			base.Dispose (disposing);
-			Service = null;
 		}
 	}
 }

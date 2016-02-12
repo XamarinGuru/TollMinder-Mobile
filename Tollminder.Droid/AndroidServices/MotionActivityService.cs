@@ -1,9 +1,6 @@
 ﻿using System;
 using Tollminder.Droid.Helpers;
 using Tollminder.Droid.Handlers;
-using Android.Gms.Fitness;
-using Android.Gms.Fitness.Request;
-using Android.Gms.Fitness.Data;
 using Android.Gms.Common.Apis;
 using Android.Gms.Common;
 using Android.App;

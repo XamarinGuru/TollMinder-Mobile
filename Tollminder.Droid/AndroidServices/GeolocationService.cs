@@ -32,12 +32,15 @@ namespace Tollminder.Droid.AndroidServices
 			Connect ();
 		}
 
-
+		public override void OnDestroy ()
+		{
+			base.OnDestroy ();
+		}
 
 		public virtual void StopLocationUpdate ()
 		{
 			if (GoogleApiClient != null && GoogleApiClient.IsConnected) {
-				LocationServices.FusedLocationApi.RemoveLocationUpdates (GoogleApiClient, this);				
+				LocationServices.FusedLocationApi.RemoveLocationUpdates (GoogleApiClient, this);
 			}
 		}
 

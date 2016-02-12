@@ -39,10 +39,13 @@ namespace Tollminder.Droid.Handlers
 				return;		
 			}
 		}
+
 		protected override void Dispose (bool disposing)
 		{
+			if (disposing) {
+				Service = null;
+			}
 			base.Dispose (disposing);
-			Service = null;
 		}
 	}
 }

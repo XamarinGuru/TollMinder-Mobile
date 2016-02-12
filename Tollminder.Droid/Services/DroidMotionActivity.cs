@@ -10,17 +10,23 @@ namespace Tollminder.Droid.Services
 {
 	public class DroidMotionActivity : AndroidServiceWithServiceConnection<MotionActivityService,MotionClientHanlder, MotionServiceConnection> , IMotionActivity
 	{
-		public bool AuthInProgress { get; set; } = false;
+		public bool IsBound { get; private set; } = false;
 		#region IMotionActivity implementation
 
 		public void StartDetection ()
 		{
-			Start ();	
+			if (!IsBound) {
+				Start ();
+				IsBound = true;				
+			}	
 		}
 
 		public void StopDetection ()
 		{
-			Stop ();
+			if (IsBound & MessengerService != null) {				
+				Stop ();
+				IsBound = false;
+			}
 		}
 
 		private MotionType _motionType;

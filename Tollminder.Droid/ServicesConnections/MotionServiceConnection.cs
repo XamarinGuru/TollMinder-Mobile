@@ -19,5 +19,10 @@ namespace Tollminder.Droid.ServicesConnections
 				#endif
 			}	
 		}
+
+		public override void OnServiceDisconnected (ComponentName name)
+		{			
+			base.OnServiceDisconnected (name);
+		}
 	}
 }

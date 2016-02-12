@@ -23,8 +23,9 @@ namespace Tollminder.Droid.Handlers
 		public override void HandleMessage (Message msg)
 		{			
 			switch (msg.What) {
-			case MotionConstants.GetMotion:
-				Service.MotionType = msg.Data.GetMotionType ();
+			case MotionConstants.GetMotion:	
+				if (Service != null) 
+					Service.MotionType = msg.Data.GetMotionType ();		
 				return;
 			default:
 				break;
@@ -33,8 +34,10 @@ namespace Tollminder.Droid.Handlers
 
 		protected override void Dispose (bool disposing)
 		{
+			if (disposing) {
+				Service = null;				
+			}
 			base.Dispose (disposing);
-			Service = null;
 		}
 	}
 }

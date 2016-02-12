@@ -6,7 +6,7 @@ using Tollminder.Droid.Helpers;
 
 namespace Tollminder.Droid.Services
 {
-	public class MessengerAndroidService<T> : BaseAndroidService, IDroidMessenger where T : BaseHandler
+	public class MessengerAndroidService<T> : BaseAndroidService, IDroidMessenger where T : BaseHandler , IDisposable
 	{
 		public virtual Messenger Messenger { get; set; } 
 		public virtual Messenger MessengerService { get; set; }
@@ -23,8 +23,8 @@ namespace Tollminder.Droid.Services
 		{
 			base.Stop ();
 			DroidMessanging.SendMessage(ServiceConstants.UnregisterClient,MessengerService,Messenger);
-			ClientHandler.Service = null;
-			Messenger = null;
+			ClientHandler.Dispose ();
+			Messenger.Dispose ();
 		}
 	}
 }
