@@ -158,7 +158,6 @@
     <Compile Include="ServicesConnections\BaseServiceConnection.cs" />
     <Compile Include="Helpers\MotionConstants.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
-    <Compile Include="Views\FirstView.cs" />
     <Compile Include="DebugTrace.cs" />
     <Compile Include="Bootstrap\SqlitePluginBootstrap.cs" />
     <Compile Include="Bootstrap\MessengerPluginBootstrap.cs" />
@@ -169,7 +168,6 @@
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="packages.config" />
-    <None Include="ToDo-MvvmCross\_ Droid UI.txt" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />

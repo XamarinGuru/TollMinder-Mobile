@@ -102,6 +102,9 @@ Target "ios-version"(fun () ->
     Exec "/usr/libexec/PlistBuddy" ("-c 'Set :CFBundleVersion " + build + "' " + file.FullName)
 )
 
+"clean"
+    ==> "core-build"
+
 "core-build"      
     ==> "android-package"
 
