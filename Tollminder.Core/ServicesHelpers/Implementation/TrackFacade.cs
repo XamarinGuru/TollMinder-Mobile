@@ -152,7 +152,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 			Log.LogMessage(string.Format ("Is Closer to waypoint : {0}", IsCloserToWaypoint ()));
 			#endif
 			if (IsCloserToWaypoint ()) {
-				if (DistaceBetweenCarAndWaypoint < WaypointDistanceRequired) {
+				if (IsAtWaypoint ()) {
 					TrackStatus = TollGeolocationStatus.OnTollRoad;
 					NotifyUser (string.Format ("You are entered to {0}", LastTollRoadWaypoint.Name));
 					DisabledHighAccuracy ();
@@ -169,7 +169,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 			Log.LogMessage(string.Format ("Is Closer to exit : {0}", IsCloserToWaypoint ()));
 			#endif
 			if (IsCloserToWaypoint ()) {
-				if (DistaceBetweenCarAndWaypoint < WaypointDistanceRequired) {
+				if (IsAtWaypoint()) {
 					TrackStatus = TollGeolocationStatus.NotOnTollRoad;
 					NotifyUser (string.Format ("You are exit from {0}", LastTollRoadWaypoint.Name));
 					DisabledHighAccuracy ();
@@ -179,6 +179,12 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 				DisabledHighAccuracy ();
 			}
 		}
+
+		private bool IsAtWaypoint ()
+		{
+			return Math.Abs (DistaceBetweenCarAndWaypoint - WaypointDistanceRequired) >= 0.0001;
+		}
+
 		#endregion
 
 		#region Helpers
@@ -186,7 +192,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 		{
 			if (value != MotionType) {
 				if (CheckIsMovingByTheCar (value)) {
-					_textToSpeech.Speak ("You start moving on the car");					
+					NotifyUser ("You start moving on the car");					
 				} else {
 					NotifyUser (value.ToString ());
 				}
