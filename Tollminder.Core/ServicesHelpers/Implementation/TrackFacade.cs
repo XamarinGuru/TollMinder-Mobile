@@ -180,14 +180,16 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 			}
 		}
 
+
+		#endregion
+
+		#region Helpers
+
 		private bool IsAtWaypoint ()
 		{
 			return Math.Abs (DistaceBetweenCarAndWaypoint - WaypointDistanceRequired) >= 0.0001;
 		}
 
-		#endregion
-
-		#region Helpers
 		protected virtual void SpeakMotion (MotionType value)
 		{
 			if (value != MotionType) {

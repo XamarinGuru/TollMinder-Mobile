@@ -13,4 +13,3 @@ namespace Tollminder.Droid.Handlers
 		}
 	}
 }
-
