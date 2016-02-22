@@ -9,10 +9,14 @@ using System.Linq;
 namespace Tollminder.Core.Helpers
 {
 	public static class LocationChecker
-	{		
+	{
+		const double DistanceToWaypoint = 0.6;
+
+		const double Epsilon = 0.6;
+		
 		public static double ToRadians(this double val)
 		{
-			return (180 / Math.PI) * val;
+			return (Math.PI / 180) * val;
 		}
 
 		public static double ToDegrees (this double val)
@@ -24,9 +28,8 @@ namespace Tollminder.Core.Helpers
 		//  where φА, φB are latitudes and λА, λB are longitudes
 		// Distance = d * R
 		public static double DistanceBetweenGeoLocations (GeoLocation center, GeoLocation otherPoint)
-		{
-			
-			double R = 6371 / 4; // 250 metres
+		{			
+			const double R = 6371;
 
 			double sLat1 = Math.Sin(center.Latitude.ToRadians());
 			double sLat2 = Math.Sin(otherPoint.Latitude.ToRadians());
@@ -46,25 +49,31 @@ namespace Tollminder.Core.Helpers
 
 		public static ParallelQuery<TollRoadWaypoint> GetLocationsFromRadius (this GeoLocation center, IList<TollRoadWaypoint> points)
 		{
-			return points.AsParallel().WithMergeOptions(ParallelMergeOptions.AutoBuffered).Where (x => DistanceBetweenGeoLocations (center, x.Location) <= 200);
+			return points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).Where (x => (DistanceBetweenGeoLocations (center, x.Location) - DistanceToWaypoint) < Epsilon);
 		}
 
 		public static Task<ParallelQuery<TollRoadWaypoint>> GetLocationsFromRadiusAsync (this GeoLocation center, IList<TollRoadWaypoint> points)
 		{
 			return Task.Run(() => {
-				return points.AsParallel().WithMergeOptions(ParallelMergeOptions.AutoBuffered).Where (x => DistanceBetweenGeoLocations (center, x.Location) <= 200);
+				return points.AsParallel().WithMergeOptions(ParallelMergeOptions.AutoBuffered).Where (x => (DistanceBetweenGeoLocations (center, x.Location) - DistanceToWaypoint) < Epsilon);
 			});
 		}
 
 		public static TollRoadWaypoint GetLocationFromRadius (this GeoLocation center, IList<TollRoadWaypoint> points)
 		{
-			return points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).FirstOrDefault (x => DistanceBetweenGeoLocations (center, x.Location) <= 200);
+			return points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).FirstOrDefault (x => (DistanceBetweenGeoLocations (center, x.Location) - DistanceToWaypoint) < Epsilon);
 		}
 
 		public static Task<TollRoadWaypoint> GetLocationFromRadiusAsync (this GeoLocation center, IList<TollRoadWaypoint> points)
 		{
-			return Task.Run(() => {
-				var point = points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).FirstOrDefault (x => DistanceBetweenGeoLocations (center, x.Location) <= 200);
+			return Task.Run (() => {
+				var point = points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).FirstOrDefault (x => 
+					{
+						#if DEBUG 
+						Log.LogMessage (string.Format ("{0} - {1} = {2}", DistanceBetweenGeoLocations (center, x.Location), DistanceToWaypoint,  DistanceBetweenGeoLocations (center, x.Location) - DistanceToWaypoint));
+						#endif
+						return DistanceBetweenGeoLocations (center, x.Location) - DistanceToWaypoint < Epsilon;
+					});
 				return point;
 			});
 		}

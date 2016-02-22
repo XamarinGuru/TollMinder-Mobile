@@ -18,6 +18,14 @@ namespace Tollminder.Core.Models
 			return Name == other.Name;
 		}
 		#endregion
+
+		public override string ToString ()
+		{
+			if (Name == null) {
+				return string.Empty;
+			}
+			return string.Format ("[TollRoadWaypoint: Id={0}, Name={1}, Location={2}, WaypointAction={3}]", Id, Name, Location, WaypointAction);
+		}
 	}
 }
 

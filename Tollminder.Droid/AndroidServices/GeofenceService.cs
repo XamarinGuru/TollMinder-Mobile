@@ -63,8 +63,8 @@ namespace Tollminder.Droid.AndroidServices
 		{
 			if (!Location.IsUnknownGeoLocation) {
 				try {
-					if (_geoFence != null) {
-						await RemoveGeofence();
+					if (_geoFence != null) {						
+						await RemoveGeofence().ConfigureAwait(false);
 					}
 					AddGeofencePoint (location.Latitude, location.Longitude);
 					BuildGeofenceRequest ();				

@@ -10,7 +10,7 @@ namespace Tollminder.Touch.Services
 {	
 	public class TouchMotionActivity : IMotionActivity
 	{
-		public bool AuthInProgress { get; set; } = false;
+		public bool IsBound { get; private set; } = false;
 		CMMotionActivityManager _motionActivityManager;
 
 		public TouchMotionActivity ()
@@ -31,16 +31,19 @@ namespace Tollminder.Touch.Services
 		} 
 
 		public void StopDetection()
-		{
-			if (CMMotionActivityManager.IsActivityAvailable)
+		{			
+			if (CMMotionActivityManager.IsActivityAvailable && IsBound) {
 				_motionActivityManager?.StopActivityUpdates ();
-
+				IsBound = false;
+			}
 		}
 
 		public void StartDetection()
 		{			
-			if (CMMotionActivityManager.IsActivityAvailable)
+			if (CMMotionActivityManager.IsActivityAvailable && !IsBound) {
 				_motionActivityManager?.StartActivityUpdates (NSOperationQueue.MainQueue, (activity) => GetMotionActivity (activity));
+				IsBound = true;
+			}
 		}
 
 		void GetMotionActivity (CMMotionActivity activity)

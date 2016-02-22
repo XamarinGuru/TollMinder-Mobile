@@ -61,7 +61,18 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
 		public TollRoadWaypoint LastTollRoadWaypoint { get; private set; }
 
-		public double DistaceBetweenCarAndWaypoint { get; private set; }
+		double distaceBetweenCarAndWaypoint;
+		public double DistaceBetweenCarAndWaypoint {
+			get {
+				return distaceBetweenCarAndWaypoint;
+			}
+			private set {
+				#if DEBUG 
+				Log.LogMessage (string.Format ("THE DISTANCE HAS BEEN CHANGED : {1} {0}",distaceBetweenCarAndWaypoint, value));
+				#endif
+				distaceBetweenCarAndWaypoint = value;
+			}
+		}
 
 		MotionType _motionType;
 
@@ -99,11 +110,11 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 				_textToSpeech.IsEnabled = true;
 				_geoWatcher.StartGeolocationWatcher ();
 				_activity.StartDetection ();
-				_tokens.Add (_messenger.SubscribeOnMainThread<LocationMessage> (async x => {
+				_tokens.Add (_messenger.Subscribe<LocationMessage> (async x => {
 					CarLocation = x.Data;
-					await CheckTrackStatus ();
+					await CheckTrackStatus ().ConfigureAwait(false);
 				}));
-				_tokens.Add (_messenger.SubscribeOnMainThread<MotionMessage> (x => { 
+				_tokens.Add (_messenger.Subscribe<MotionMessage> (x => { 
 					MotionType = x.Data;					
 				}));
 				_isBound = true;
@@ -125,76 +136,74 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 			}
 		}
 
-		object lockObject = new object ();
+
 
 		protected virtual async Task CheckTrackStatus ()
 		{
-			lock (lockObject) {
-				#if DEBUG 
-				Log.LogMessage (string.Format ("TRY TO CHECK STATUS : {0}", TrackStatus));
-				#endif
-				switch (TrackStatus) {
-				case TollGeolocationStatus.NotOnTollRoad:
+			#if DEBUG 
+			Log.LogMessage (string.Format ("TRY TO CHECK STATUS : {0}", TrackStatus));
+			#endif
+			switch (TrackStatus) {
+			case TollGeolocationStatus.NotOnTollRoad:
 					#if DEBUG 
-					Log.LogMessage (string.Format ("LookingForTollEnterce"));
+				Log.LogMessage (string.Format ("LookingForTollEnterce"));
 					#endif
-					await LookingForTollEnterce ();
-					break;
-				case TollGeolocationStatus.OnTollRoad:
+				await LookingForTollEnterce ().ConfigureAwait (false);
+				break;
+			case TollGeolocationStatus.OnTollRoad:
 					#if DEBUG 
-					Log.LogMessage (string.Format ("LookingForTollExit"));
+				Log.LogMessage (string.Format ("LookingForTollExit"));
 					#endif
-					await LookingForTollExit ();
-					break;
-				case TollGeolocationStatus.NearTollRoadEnterce:
+				await LookingForTollExit ().ConfigureAwait (false);
+				;
+				break;
+			case TollGeolocationStatus.NearTollRoadEnterce:
 					#if DEBUG 
-					Log.LogMessage (string.Format ("NearTollRoadEnterce"));
+				Log.LogMessage (string.Format ("NearTollRoadEnterce"));
 					#endif
-					CheckEnteredToTollRoad ();
-					break;
-				case TollGeolocationStatus.NearTollRoadExit:
+				CheckEnteredToTollRoad ();
+				break;
+			case TollGeolocationStatus.NearTollRoadExit:
 					#if DEBUG 
-					Log.LogMessage (string.Format ("NearTollRoadExit"));
+				Log.LogMessage (string.Format ("NearTollRoadExit"));
 					#endif
-					CheckExitFromTollRoad ();
-					break;
-				}				
+				CheckExitFromTollRoad ();
+				break;
 			}
 		}
 
 		#region Status Methods
 
-		object lockEntrce = new object ();
-
-		protected virtual Task LookingForTollEnterce ()
-		{
-			return Task.Run (async () => {	
+		protected virtual async Task LookingForTollEnterce ()
+		{			
+			#if DEBUG 
+			Log.LogMessage (string.Format ("CHECKING IS MOVING ON THE CAR {0}", CheckIsMovingByTheCar (MotionType)));
+			#endif
+			if (CheckIsMovingByTheCar (MotionType)) {
 				#if DEBUG 
-				Log.LogMessage (string.Format ("CHECKING IS MOVING ON THE CAR {0}", CheckIsMovingByTheCar (MotionType)));
+				Log.LogMessage (string.Format ("TRY TO FIND WAYPOINT ENTERCE FROM 200 m"));
 				#endif
-				if (CheckIsMovingByTheCar (MotionType)) {
-					#if DEBUG 
-					Log.LogMessage (string.Format ("TRY TO FIND WAYPOINT ENTERCE FROM 200 m"));
-					#endif
-					var waypoint = await CheckNearLocationForTollRoadAsync (CarLocation, WaypointAction.Enterce);
-					if (waypoint == LastTollRoadWaypoint && waypoint == null)
-						return;
-					#if DEBUG 
-					Log.LogMessage (string.Format ("FOUNDED WAYPOINT ENTERCE : {0} AND WAYPOINT ACTION {1}", waypoint.Name, waypoint.WaypointAction));
-					#endif
-					LastTollRoadWaypoint = waypoint;						
-					TrackStatus = TollGeolocationStatus.NearTollRoadEnterce;
-					DistaceBetweenCarAndWaypoint = Math.Round (LocationChecker.DistanceBetweenGeoLocations (CarLocation, LastTollRoadWaypoint.Location));
-					#if DEBUG 
-					Log.LogMessage (string.Format ("DISTANCE CAR TO WAYPOINT : {0}", DistaceBetweenCarAndWaypoint));
-					#endif
-					EnabledHighAccuracy ();
-					#if DEBUG 
-					Log.LogMessage (string.Format ("ENABLED HIGH ACCURACY"));
-					#endif
-					NotifyUser (string.Format ("you are potentially going to enter {0} waypoints.", LastTollRoadWaypoint.Name));						
-				}				
-			});
+				var waypoint = await CheckNearLocationForTollRoadAsync (CarLocation, WaypointAction.Enterce).ConfigureAwait(false);
+				#if DEBUG 
+				Log.LogMessage (string.Format ("CAR LOCATION {0} , WAYPOINT LOCATION {1}", CarLocation, waypoint));
+				#endif
+				if (waypoint == LastTollRoadWaypoint && waypoint == null)
+					return;
+				#if DEBUG 
+				Log.LogMessage (string.Format ("FOUNDED WAYPOINT ENTERCE : {0} AND WAYPOINT ACTION {1}", waypoint.Name, waypoint.WaypointAction));
+				#endif
+				LastTollRoadWaypoint = waypoint;						
+				TrackStatus = TollGeolocationStatus.NearTollRoadEnterce;
+				DistaceBetweenCarAndWaypoint = LocationChecker.DistanceBetweenGeoLocations (CarLocation, LastTollRoadWaypoint.Location);
+				#if DEBUG 
+				Log.LogMessage (string.Format ("DISTANCE CAR TO WAYPOINT : {0}", DistaceBetweenCarAndWaypoint));
+				#endif
+				EnabledHighAccuracy ();
+				#if DEBUG 
+				Log.LogMessage (string.Format ("ENABLED HIGH ACCURACY"));
+				#endif
+				NotifyUser (string.Format ("you are potentially going to enter {0} waypoints.", LastTollRoadWaypoint.Name));						
+			}		
 		}
 
 		protected virtual void NotifyUser (string data)
@@ -205,37 +214,35 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 			_textToSpeech.Speak (data);
 		}
 
-		protected virtual Task LookingForTollExit ()
-		{
-			return Task.Run (async () => {
+		protected virtual async Task LookingForTollExit ()
+		{	
+			#if DEBUG 
+			Log.LogMessage (string.Format ("CHECKING IS MOVING ON THE CAR {0}", CheckIsMovingByTheCar (MotionType)));
+			#endif
+			if (CheckIsMovingByTheCar (MotionType)) {
 				#if DEBUG 
-				Log.LogMessage (string.Format ("CHECKING IS MOVING ON THE CAR {0}", CheckIsMovingByTheCar (MotionType)));
+				Log.LogMessage (string.Format ("TRY TO FIND WAYPOINT EXIT FROM 200 m"));
 				#endif
-				if (CheckIsMovingByTheCar (MotionType)) {
-					#if DEBUG 
-					Log.LogMessage (string.Format ("TRY TO FIND WAYPOINT EXIT FROM 200 m"));
-					#endif
-					var waypoint = await CheckNearLocationForTollRoadAsync (CarLocation, WaypointAction.Exit);
-					if (waypoint == LastTollRoadWaypoint && waypoint == null)
-						return;
-					#if DEBUG 
-					Log.LogMessage (string.Format ("FOUNDED WAYPOINT EXIT : {0} AND WAYPOINT ACTION {1}", waypoint.Name, waypoint.WaypointAction));
-					#endif
-					LastTollRoadWaypoint = waypoint;
+				var waypoint = await CheckNearLocationForTollRoadAsync (CarLocation, WaypointAction.Exit).ConfigureAwait (false);
+				;
+				if (waypoint == LastTollRoadWaypoint && waypoint == null)
+					return;
+				#if DEBUG 
+				Log.LogMessage (string.Format ("FOUNDED WAYPOINT EXIT : {0} AND WAYPOINT ACTION {1}", waypoint.Name, waypoint.WaypointAction));
+				#endif
+				LastTollRoadWaypoint = waypoint;
 
-					TrackStatus = TollGeolocationStatus.NearTollRoadExit;
-					DistaceBetweenCarAndWaypoint = Math.Round (LocationChecker.DistanceBetweenGeoLocations (CarLocation, LastTollRoadWaypoint.Location));
-					#if DEBUG 
-					Log.LogMessage (string.Format ("DISTANCE CAR TO WAYPOINT : {0}", DistaceBetweenCarAndWaypoint));
-					#endif
-					EnabledHighAccuracy ();
-					#if DEBUG 
-					Log.LogMessage (string.Format ("ENABLED HIGH ACCURACY"));
-					#endif
-					NotifyUser (string.Format ("you are potentially going to exit {0} waypoints.", LastTollRoadWaypoint.Name));
-
-				}
-			});
+				TrackStatus = TollGeolocationStatus.NearTollRoadExit;
+				DistaceBetweenCarAndWaypoint = LocationChecker.DistanceBetweenGeoLocations (CarLocation, LastTollRoadWaypoint.Location);
+				#if DEBUG 
+				Log.LogMessage (string.Format ("DISTANCE CAR TO WAYPOINT : {0}", DistaceBetweenCarAndWaypoint));
+				#endif
+				EnabledHighAccuracy ();
+				#if DEBUG 
+				Log.LogMessage (string.Format ("ENABLED HIGH ACCURACY"));
+				#endif
+				NotifyUser (string.Format ("you are potentially going to exit {0} waypoints.", LastTollRoadWaypoint.Name));
+			}
 		}
 
 		protected virtual void CheckEnteredToTollRoad ()
@@ -247,7 +254,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 				#if DEBUG 
 				Log.LogMessage (string.Format ("DISTANCE CAR TO WAYPOINT IS CLOSER"));
 				#endif
-				DistaceBetweenCarAndWaypoint = Math.Round (LocationChecker.DistanceBetweenGeoLocations (CarLocation, LastTollRoadWaypoint.Location));
+				DistaceBetweenCarAndWaypoint = LocationChecker.DistanceBetweenGeoLocations (CarLocation, LastTollRoadWaypoint.Location);
 				if (IsAtWaypoint ()) {
 					#if DEBUG 
 					Log.LogMessage (string.Format ("CROSS WAYPOINT BY THE CAR"));
@@ -280,7 +287,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 				#if DEBUG 
 				Log.LogMessage (string.Format ("DISTANCE CAR TO WAYPOINT EXIT IS CLOSER"));
 				#endif
-				DistaceBetweenCarAndWaypoint = Math.Round (LocationChecker.DistanceBetweenGeoLocations (CarLocation, LastTollRoadWaypoint.Location));
+				DistaceBetweenCarAndWaypoint = LocationChecker.DistanceBetweenGeoLocations (CarLocation, LastTollRoadWaypoint.Location);
 				if (IsAtWaypoint ()) {
 					#if DEBUG 
 					Log.LogMessage (string.Format ("CROSS WAYPOINT BY THE CAR"));
@@ -311,7 +318,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
 		private bool IsAtWaypoint ()
 		{
-			return Math.Abs (DistaceBetweenCarAndWaypoint - WaypointDistanceRequired) >= 0.0001;
+			return (DistaceBetweenCarAndWaypoint - WaypointDistanceRequired) < 0.0000000000000001;
 		}
 
 		protected virtual void SpeakMotion (MotionType value)
@@ -326,8 +333,11 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 		}
 
 		protected virtual bool IsCloserToWaypoint ()
-		{
-			return Math.Abs (Math.Round (LocationChecker.DistanceBetweenGeoLocations (CarLocation, LastTollRoadWaypoint.Location)) - DistaceBetweenCarAndWaypoint) > 0.00001;
+		{			
+			#if DEBUG 
+			Log.LogMessage (string.Format ("DISTANCE {0} {1}", LocationChecker.DistanceBetweenGeoLocations (CarLocation, LastTollRoadWaypoint.Location), DistaceBetweenCarAndWaypoint));
+			#endif
+			return Math.Abs (LocationChecker.DistanceBetweenGeoLocations (CarLocation, LastTollRoadWaypoint.Location) - DistaceBetweenCarAndWaypoint) > 0.00001;
 		}
 
 		protected virtual void EnabledHighAccuracy ()

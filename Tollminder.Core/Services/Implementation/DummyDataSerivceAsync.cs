@@ -19,6 +19,60 @@ namespace Tollminder.Core.Services.Implementation
 						Latitude = 50.4014337,
 						Longitude = 30.5309801
 					},
+
+					WaypointAction = WaypointAction.Enterce
+				},
+				new TollRoadWaypoint {
+					Name = " Harkovske Enterce",
+					Location = new GeoLocation { 
+						Latitude = 50.414541,
+						Longitude =  30.66253
+					},
+
+					WaypointAction = WaypointAction.Enterce
+				},
+				new TollRoadWaypoint {
+					Name = " Brovarksy Enterce",
+					Location = new GeoLocation { 
+						Latitude = 50.464335,
+						Longitude =  30.642740
+					},
+
+					WaypointAction = WaypointAction.Enterce
+				},
+				new TollRoadWaypoint {
+					Name = " Leningradka Enterce",
+					Location = new GeoLocation { 
+						Latitude = 50.443157,
+						Longitude =  30.626168
+					},
+
+					WaypointAction = WaypointAction.Enterce
+				},
+				new TollRoadWaypoint {
+					Name = " Osokorki Enterce",
+					Location = new GeoLocation { 
+						Latitude = 50.398396,
+						Longitude = 30.567202
+					},
+
+					WaypointAction = WaypointAction.Enterce
+				},
+				new TollRoadWaypoint {
+					Name = " Osokorki Exit",
+					Location = new GeoLocation { 
+						Latitude = 50.394682,
+						Longitude = 30.596464
+					},
+
+					WaypointAction = WaypointAction.Enterce
+				},
+				new TollRoadWaypoint {
+					Name = "Home",
+					Location = new GeoLocation { 
+						Latitude = 50.431920,
+						Longitude = 30.515982
+					},
 					WaypointAction = WaypointAction.Enterce
 				},
 				new TollRoadWaypoint {
@@ -97,9 +151,15 @@ namespace Tollminder.Core.Services.Implementation
 			});
 		}
 
-		public async Task<TollRoadWaypoint> FindNearGeoLocationAsync (GeoLocation center, WaypointAction actionStatus)
+		public Task<TollRoadWaypoint> FindNearGeoLocationAsync (GeoLocation center, WaypointAction actionStatus)
 		{			
-			var nearLocations = await center.GetLocationFromRadiusAsync (_dummyWaypoints.Where(x=>x.WaypointAction == actionStatus).ToList());
+			var nearLocations = center.GetLocationFromRadiusAsync (_dummyWaypoints.Where (x => x.WaypointAction == actionStatus).ToList ()); 
+			return nearLocations;
+		}
+
+		public TollRoadWaypoint FindNearGeoLocation (GeoLocation center, WaypointAction actionStatus)
+		{			
+			var nearLocations = center.GetLocationFromRadius (_dummyWaypoints.Where(x=>x.WaypointAction == actionStatus).ToList());
 			return nearLocations;
 		}
 

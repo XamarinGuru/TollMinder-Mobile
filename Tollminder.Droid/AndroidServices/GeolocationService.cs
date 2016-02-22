@@ -5,6 +5,7 @@ using Tollminder.Core.Helpers;
 using Tollminder.Core.Models;
 using Tollminder.Droid.Helpers;
 using Tollminder.Droid.Handlers;
+using Android.Locations;
 
 namespace Tollminder.Droid.AndroidServices
 {	
@@ -73,7 +74,8 @@ namespace Tollminder.Droid.AndroidServices
 		{
 			if (_locationRequest == null) {
 				_locationRequest = new LocationRequest ();
-				_locationRequest.SetPriority (LocationRequest.PriorityLowPower);
+				var criteria = new Criteria {Accuracy = Accuracy.High};
+				_locationRequest.SetPriority (LocationRequest.PriorityHighAccuracy);
 				_locationRequest.SetInterval(1000);
 				_locationRequest.SetFastestInterval(1000);
 			}

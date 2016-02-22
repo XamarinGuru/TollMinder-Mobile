@@ -56,9 +56,12 @@ namespace Tollminder.Droid.AndroidServices
 		}
 
 		public override StartCommandResult OnStartCommand (Android.Content.Intent intent, StartCommandFlags flags, int startId)
-		{
+		{			
 			ActivityRecognitionResult result = ActivityRecognitionResult.ExtractResult (intent);
-			SendMessage (result.MostProbableActivity.GetMotionType ().PutMotionType ());
+			#if DEBUG
+			Log.LogMessage(string.Format ("Most probable reuslt - {0}", result));
+			#endif
+			SendMessage (result?.MostProbableActivity.GetMotionType ().PutMotionType ());
 			#if DEBUG
 			Log.LogMessage(string.Format ("Most probable reuslt - {0}", result.MostProbableActivity.GetMotionType ()));
 			#endif
