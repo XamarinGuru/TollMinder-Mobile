@@ -12,7 +12,7 @@ namespace Tollminder.Core.Helpers
 	{
 		const double DistanceToWaypoint = 0.6;
 
-		const double Epsilon = 0.6;
+		const double Epsilon = 0;
 		
 		public static double ToRadians(this double val)
 		{
@@ -72,7 +72,7 @@ namespace Tollminder.Core.Helpers
 						#if DEBUG 
 						Log.LogMessage (string.Format ("{0} - {1} = {2}", DistanceBetweenGeoLocations (center, x.Location), DistanceToWaypoint,  DistanceBetweenGeoLocations (center, x.Location) - DistanceToWaypoint));
 						#endif
-						return DistanceBetweenGeoLocations (center, x.Location) - DistanceToWaypoint < Epsilon;
+						return DistanceBetweenGeoLocations (center, x.Location) - DistanceToWaypoint <= Epsilon;
 					});
 				return point;
 			});

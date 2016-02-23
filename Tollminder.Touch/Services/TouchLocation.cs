@@ -16,6 +16,8 @@ namespace Tollminder.Touch.Services
 			get { return _locationManager; }
 		}
 
+		private	bool IsBound { get; set; }
+
 		public virtual GeoLocation Location { get; set; }
 		#endregion
 
@@ -40,17 +42,23 @@ namespace Tollminder.Touch.Services
 
 		public virtual void StartLocationUpdates() 
 		{
-			if (CLLocationManager.LocationServicesEnabled) {
-				LocationManager.LocationsUpdated += LocationIsUpdated;
-				LocationManager.StartUpdatingLocation ();
+			if (!IsBound) {
+				if (CLLocationManager.LocationServicesEnabled) {
+					LocationManager.LocationsUpdated += LocationIsUpdated;
+					LocationManager.StartUpdatingLocation ();
+				}
+				IsBound = true;
 			}
 		}
 
 		public virtual void StoptLocationUpdates() 
 		{
-			if (CLLocationManager.LocationServicesEnabled) {
-				LocationManager.LocationsUpdated -= LocationIsUpdated;
-				LocationManager.StopUpdatingLocation ();
+			if (IsBound) {
+				if (CLLocationManager.LocationServicesEnabled) {
+					LocationManager.LocationsUpdated -= LocationIsUpdated;
+					LocationManager.StopUpdatingLocation ();
+				}
+				IsBound = false;
 			}
 		}
 

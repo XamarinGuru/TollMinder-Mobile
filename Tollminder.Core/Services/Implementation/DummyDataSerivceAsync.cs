@@ -13,6 +13,52 @@ namespace Tollminder.Core.Services.Implementation
 		public DummyDataSerivceAsync ()
 		{
 			_dummyWaypoints = new List<TollRoadWaypoint> () {
+				
+				new TollRoadWaypoint {
+					Name = "Harkovkse metro enterce",
+					Location = new GeoLocation { 
+						Latitude = 50.401130,
+						Longitude =  30.652835
+					},
+
+					WaypointAction = WaypointAction.Enterce
+				},
+				new TollRoadWaypoint {
+					Name = "Kolektorna enterce",
+					Location = new GeoLocation { 
+						Latitude = 50.397919, 
+						Longitude = 30.676943
+					},
+
+					WaypointAction = WaypointAction.Enterce
+				},
+				new TollRoadWaypoint {
+					Name = "Dnipro enterce",
+					Location = new GeoLocation { 
+						Latitude = 50.488499,
+						Longitude = 30.475373
+					},
+
+					WaypointAction = WaypointAction.Enterce
+				},
+				new TollRoadWaypoint {
+					Name = "Dnipro enterce",
+					Location = new GeoLocation { 
+						Latitude = 50.441272,
+						Longitude = 30.559514
+					},
+
+					WaypointAction = WaypointAction.Enterce
+				},
+				new TollRoadWaypoint {
+					Name = "Dryjba enterce",
+					Location = new GeoLocation { 
+						Latitude = 50.418160,
+						Longitude = 30.544867
+					},
+
+					WaypointAction = WaypointAction.Enterce
+				},
 				new TollRoadWaypoint {
 					Name = "Home",
 					Location = new GeoLocation { 
@@ -56,7 +102,7 @@ namespace Tollminder.Core.Services.Implementation
 						Longitude = 30.567202
 					},
 
-					WaypointAction = WaypointAction.Enterce
+					WaypointAction = WaypointAction.Exit
 				},
 				new TollRoadWaypoint {
 					Name = " Osokorki Exit",

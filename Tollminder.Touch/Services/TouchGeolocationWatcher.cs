@@ -14,6 +14,9 @@ namespace Tollminder.Touch.Services
 			get { return base.Location;	}
 			set {
 				base.Location = value;
+				#if DEBUG
+				Log.LogMessage ("MESSAGE WITH LOCATION PUBLISH");
+				#endif
 				Mvx.Resolve<IMvxMessenger> ().Publish (new LocationMessage (this, Location));
 				#if DEBUG
 				Log.LogMessage (value.ToString ());
@@ -47,7 +50,7 @@ namespace Tollminder.Touch.Services
 
 		public virtual void StopUpdatingHighAccuracyLocation ()
 		{
-			StoptLocationUpdates ();
+//			StoptLocationUpdates ();
 		}
 		#endregion
 	}

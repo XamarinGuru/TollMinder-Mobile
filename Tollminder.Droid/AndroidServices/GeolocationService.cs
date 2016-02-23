@@ -74,10 +74,9 @@ namespace Tollminder.Droid.AndroidServices
 		{
 			if (_locationRequest == null) {
 				_locationRequest = new LocationRequest ();
-				var criteria = new Criteria {Accuracy = Accuracy.High};
 				_locationRequest.SetPriority (LocationRequest.PriorityHighAccuracy);
-				_locationRequest.SetInterval(1000);
-				_locationRequest.SetFastestInterval(1000);
+				_locationRequest.SetInterval(2000);
+				_locationRequest.SetFastestInterval(2000);
 			}
 		}
 

@@ -23,7 +23,18 @@ namespace Tollminder.Droid.AndroidServices
 		#endregion
 
 
-		public bool GeofenceEnabled { get; set; } = true;
+		bool _geofenceEnabled = true;
+		public bool GeofenceEnabled {
+			get {
+				return _geofenceEnabled;
+			}
+			set {
+				_geofenceEnabled = value;
+				if (!_geofenceEnabled) {
+					RemoveGeofence ();					
+				}
+			}
+		} 
 
 		public override GeoLocation Location {
 			get {
@@ -40,7 +51,7 @@ namespace Tollminder.Droid.AndroidServices
 
 		public override async void OnDestroy ()
 		{
-			await RemoveGeofence ();
+			await RemoveGeofence ().ConfigureAwait (false);
 			base.OnDestroy ();
 		}
 
@@ -71,22 +82,7 @@ namespace Tollminder.Droid.AndroidServices
 					var status = await LocationServices.GeofencingApi.AddGeofencesAsync (GoogleApiClient, _geoFenceRequest, GetGeofencePendingIntent ());
 					#if DEBUG
 					Log.LogMessage(string.Format ("Added to location Services --- {0}", status.Status.IsSuccess));
-					#endif
-				} catch (GeofenceException ex) {
-					switch (ex.Status) {
-					case GeofenceStatus.OnAddGeofencePoint:
-						AddGeofencePoint (location.Latitude, location.Longitude);
-						break;
-					case GeofenceStatus.OnBuildGeoFenceRequest:
-						BuildGeofenceRequest ();
-						break;
-					case GeofenceStatus.OnAddGeofence:
-						await LocationServices.GeofencingApi.AddGeofencesAsync (GoogleApiClient, _geoFenceRequest, GetGeofencePendingIntent ());
-						break;
-					case GeofenceStatus.None:						
-					default:
-						break;
-					}
+					#endif				
 				} catch (Exception ex) {
 					#if DEBUG
 					Log.LogMessage(ex.Message);
@@ -113,7 +109,6 @@ namespace Tollminder.Droid.AndroidServices
 				#if DEBUG
 				Log.LogMessage (ex.Message);
 				#endif
-				throw new GeofenceException (ex.Message, GeofenceStatus.OnAddGeofencePoint);
 			} 							
 		}
 
@@ -128,7 +123,6 @@ namespace Tollminder.Droid.AndroidServices
 				#if DEBUG
 				Mvx.Trace (ex.Message, string.Empty);
 				#endif
-				throw new GeofenceException (ex.Message, GeofenceStatus.OnRemoveGeofence);
 			}
 		}
 
@@ -143,7 +137,6 @@ namespace Tollminder.Droid.AndroidServices
 				#if DEBUG
 				Log.LogMessage(ex.Message);
 				#endif
-				throw new GeofenceException (ex.Message, GeofenceStatus.OnBuildGeoFenceRequest);
 			}
 		}
 

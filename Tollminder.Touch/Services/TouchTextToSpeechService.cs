@@ -24,7 +24,8 @@ namespace Tollminder.Touch.Services
 					Rate = AVSpeechUtterance.MaximumSpeechRate / 2,
 					Voice = AVSpeechSynthesisVoice.FromLanguage ("en-US"),
 					Volume = 0.5f,
-					PitchMultiplier = 1.0f
+					PitchMultiplier = 1.0f,
+					PreUtteranceDelay = 0.1
 				};
 
 	            _speechSynthesizer.SpeakUtterance (speechUtterance);

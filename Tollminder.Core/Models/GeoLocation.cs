@@ -44,15 +44,20 @@ namespace Tollminder.Core.Models
 		// does this equal another location?
 		public bool Equals(GeoLocation other)
 		{
-			return ((Latitude == other.Latitude)
-				&& (Longitude == other.Longitude)
-				&& (Altitude == other.Altitude));
+			return ((Math.Abs (Latitude - other.Latitude) < Epsilon)
+				&& (Math.Abs (Longitude - other.Longitude) < Epsilon)
+				&& (Math.Abs (Altitude - other.Altitude) < Epsilon));
 		}
 
 		public override string ToString()
 		{
 			return string.Format("{0},{1}", Latitude, Longitude);
 		}
+
+//		public override int GetHashCode ()
+//		{
+//			return Latitude.GetHashCode () + Longitude.GetHashCode ();
+//		}
 	}
 }
 

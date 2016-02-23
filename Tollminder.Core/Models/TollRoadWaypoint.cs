@@ -15,17 +15,41 @@ namespace Tollminder.Core.Models
 		#region IEquatable implementation
 		public bool Equals (TollRoadWaypoint other)
 		{			
-			return Name == other.Name;
+			return Name == other.Name && Location == other.Location;
 		}
 		#endregion
 
 		public override string ToString ()
-		{
-			if (Name == null) {
-				return string.Empty;
-			}
+		{			
 			return string.Format ("[TollRoadWaypoint: Id={0}, Name={1}, Location={2}, WaypointAction={3}]", Id, Name, Location, WaypointAction);
 		}
+
+//		public override int GetHashCode ()
+//		{
+//			return Name.GetHashCode () + Location.GetHashCode ();
+//		}
+
+//		public static bool operator == (TollRoadWaypoint t1, TollRoadWaypoint t2)
+//		{
+//			if (t1 == null) {
+//				return false;
+//			}
+//			if (t2 == null) {
+//				return false;
+//			}
+//			return t1.Equals (t2);
+//		}
+//
+//		public static bool operator != (TollRoadWaypoint t1, TollRoadWaypoint t2)
+//		{
+//			if (t1 == null) {
+//				return false;
+//			}
+//			if (t2 == null) {
+//				return false;
+//			}
+//			return !t1.Equals (t2);
+//		}
 	}
 }
 

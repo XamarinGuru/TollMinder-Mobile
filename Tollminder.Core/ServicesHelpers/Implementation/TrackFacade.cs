@@ -11,7 +11,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 {
 	public class TrackFacade : ITrackFacade
 	{
-		public const int WaypointDistanceRequired = 10;
+		public const double WaypointDistanceRequired = 0.01;
 
 		#region Services
 
@@ -187,7 +187,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 				#if DEBUG 
 				Log.LogMessage (string.Format ("CAR LOCATION {0} , WAYPOINT LOCATION {1}", CarLocation, waypoint));
 				#endif
-				if (waypoint == LastTollRoadWaypoint && waypoint == null)
+				if (waypoint == null || waypoint == LastTollRoadWaypoint)
 					return;
 				#if DEBUG 
 				Log.LogMessage (string.Format ("FOUNDED WAYPOINT ENTERCE : {0} AND WAYPOINT ACTION {1}", waypoint.Name, waypoint.WaypointAction));
@@ -224,8 +224,8 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 				Log.LogMessage (string.Format ("TRY TO FIND WAYPOINT EXIT FROM 200 m"));
 				#endif
 				var waypoint = await CheckNearLocationForTollRoadAsync (CarLocation, WaypointAction.Exit).ConfigureAwait (false);
-				;
-				if (waypoint == LastTollRoadWaypoint && waypoint == null)
+
+				if (waypoint == null || waypoint == LastTollRoadWaypoint)
 					return;
 				#if DEBUG 
 				Log.LogMessage (string.Format ("FOUNDED WAYPOINT EXIT : {0} AND WAYPOINT ACTION {1}", waypoint.Name, waypoint.WaypointAction));
@@ -318,7 +318,10 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
 		private bool IsAtWaypoint ()
 		{
-			return (DistaceBetweenCarAndWaypoint - WaypointDistanceRequired) < 0.0000000000000001;
+			#if DEBUG 
+			Log.LogMessage (string.Format ("DIS : {0}, DIST 2 {1} = {2}",DistaceBetweenCarAndWaypoint, WaypointDistanceRequired , DistaceBetweenCarAndWaypoint - WaypointDistanceRequired));
+			#endif			
+			return (DistaceBetweenCarAndWaypoint - WaypointDistanceRequired) < 0;
 		}
 
 		protected virtual void SpeakMotion (MotionType value)
@@ -337,12 +340,12 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 			#if DEBUG 
 			Log.LogMessage (string.Format ("DISTANCE {0} {1}", LocationChecker.DistanceBetweenGeoLocations (CarLocation, LastTollRoadWaypoint.Location), DistaceBetweenCarAndWaypoint));
 			#endif
-			return Math.Abs (LocationChecker.DistanceBetweenGeoLocations (CarLocation, LastTollRoadWaypoint.Location) - DistaceBetweenCarAndWaypoint) > 0.00001;
+			return DistaceBetweenCarAndWaypoint - LocationChecker.DistanceBetweenGeoLocations (CarLocation, LastTollRoadWaypoint.Location) >= 0;
 		}
 
 		protected virtual void EnabledHighAccuracy ()
 		{
-			_geoWatcher.GeofenceEnabled = true;
+			_geoWatcher.GeofenceEnabled = false;
 			_geoWatcher.StartUpdatingHighAccuracyLocation ();
 		}
 

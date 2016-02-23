@@ -15,14 +15,23 @@ namespace Tollminder.Touch.Services
 		#endregion
 
 		#region Properties
-		public virtual bool GeofenceEnabled { get; set; } = true;
-
+		bool _geofenceEnabled = true;
+		public bool GeofenceEnabled {
+			get {
+				return _geofenceEnabled;
+			}
+			set {
+				_geofenceEnabled = value;
+				EnableGeofence ();
+			}
+		}
 		public override GeoLocation Location {
 			get {
 				return base.Location;
 			}
 			set {
 				base.Location = value;
+				Log.LogMessage ("NEW LOCATION");
 				if (GeofenceEnabled) {
 					StoptLocationUpdates ();
 					StartMonitoringRegion ();					
@@ -43,6 +52,7 @@ namespace Tollminder.Touch.Services
 
 		public virtual void StopMonitoringRegion ()
 		{
+			Log.LogMessage ("STOP MONITORING ALL REGIONS");
 			foreach (CLRegion item in LocationManager.MonitoredRegions) {
 				LocationManager.StopMonitoring (item);
 			}
@@ -105,6 +115,12 @@ namespace Tollminder.Touch.Services
 			Log.LogMessage (string.Format ("{0} {1} --- LEFT", e.Region.Center.Latitude , e.Region.Center.Longitude));
 			#endif
 			StartLocationUpdates ();
+		}
+
+		private void EnableGeofence ()
+		{
+			if (!_geofenceEnabled)
+				StopMonitoringRegion ();				
 		}
 		#endregion
 	}
