@@ -47,11 +47,8 @@ namespace Tollminder.Droid.AndroidServices
 
 		public virtual void StartLocationUpdate ()
 		{
-			if (!GoogleApiClient.IsConnected) {
-				Connect ();
-				return;
-			}
-			StopLocationUpdate ();
+			Connect ();
+//			StopLocationUpdate ();
 			SetUpLocationRequest ();
 			LocationServices.FusedLocationApi.RequestLocationUpdates (GoogleApiClient, _locationRequest, this);
 		}
@@ -75,8 +72,8 @@ namespace Tollminder.Droid.AndroidServices
 			if (_locationRequest == null) {
 				_locationRequest = new LocationRequest ();
 				_locationRequest.SetPriority (LocationRequest.PriorityHighAccuracy);
-				_locationRequest.SetInterval(2000);
-				_locationRequest.SetFastestInterval(2000);
+				_locationRequest.SetInterval(0);
+				_locationRequest.SetFastestInterval(0);
 			}
 		}
 

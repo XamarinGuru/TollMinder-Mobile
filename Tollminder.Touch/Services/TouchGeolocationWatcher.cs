@@ -48,10 +48,10 @@ namespace Tollminder.Touch.Services
 			StartLocationUpdates ();	
 		}
 
-		public virtual void StopUpdatingHighAccuracyLocation ()
-		{
+//		public virtual void StopUpdatingHighAccuracyLocation ()
+//		{
 //			StoptLocationUpdates ();
-		}
+//		}
 		#endregion
 	}
 }

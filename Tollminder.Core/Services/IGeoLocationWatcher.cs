@@ -11,7 +11,6 @@ namespace Tollminder.Core.Services
 		void StopGeolocationWatcher ();
 		void StartGeolocationWatcher();
 		void StartUpdatingHighAccuracyLocation ();
-		void StopUpdatingHighAccuracyLocation ();
 		bool IsBound { get; }
 	}
 }

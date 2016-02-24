@@ -74,6 +74,7 @@
     <MtouchProfiling>true</MtouchProfiling>
     <IpaPackageName>
     </IpaPackageName>
+    <CodesignProvision>1b94dd84-58c9-4249-8c39-9f1595789894</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-hoc|iPhone' ">
     <Optimize>true</Optimize>

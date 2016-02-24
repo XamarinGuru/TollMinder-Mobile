@@ -65,10 +65,10 @@ namespace Tollminder.Droid.Services
 			DroidMessanging.SendMessage (ServiceConstants.StartLocation, MessengerService, null);
 		}
 
-		public virtual void StopUpdatingHighAccuracyLocation()
-		{			
-			DroidMessanging.SendMessage (ServiceConstants.StopLocation, MessengerService, null);
-		}
+//		public virtual void StopUpdatingHighAccuracyLocation()
+//		{			
+//			DroidMessanging.SendMessage (ServiceConstants.StopLocation, MessengerService, null);
+//		}
 
 		public virtual void EnabledGeofenceService(bool isEnabled)
 		{			

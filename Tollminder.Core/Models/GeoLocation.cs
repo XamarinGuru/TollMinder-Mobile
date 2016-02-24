@@ -53,11 +53,6 @@ namespace Tollminder.Core.Models
 		{
 			return string.Format("{0},{1}", Latitude, Longitude);
 		}
-
-//		public override int GetHashCode ()
-//		{
-//			return Latitude.GetHashCode () + Longitude.GetHashCode ();
-//		}
 	}
 }
 

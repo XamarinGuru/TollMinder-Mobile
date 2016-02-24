@@ -30,9 +30,8 @@ namespace Tollminder.Droid.AndroidServices
 			}
 			set {
 				_geofenceEnabled = value;
-				if (!_geofenceEnabled) {
-					RemoveGeofence ();					
-				}
+				if (!_geofenceEnabled) 
+					RemoveGeofence ();
 			}
 		} 
 
@@ -63,8 +62,9 @@ namespace Tollminder.Droid.AndroidServices
 			}
 			int geofenceTransition = geofencingEvent.GeofenceTransition;
 
-			if (geofenceTransition == Geofence.GeofenceTransitionExit) {
-				Location = geofencingEvent.TriggeringLocation.GetGeolocationFromAndroidLocation ();
+			if (geofenceTransition == Geofence.GeofenceTransitionExit) {				
+//				Location = geofencingEvent.TriggeringLocation.GetGeolocationFromAndroidLocation ();
+				StartLocationUpdate ();
 			}
 			return StartCommandResult.Sticky;
 		}
@@ -81,7 +81,7 @@ namespace Tollminder.Droid.AndroidServices
 					BuildGeofenceRequest ();				
 					var status = await LocationServices.GeofencingApi.AddGeofencesAsync (GoogleApiClient, _geoFenceRequest, GetGeofencePendingIntent ());
 					#if DEBUG
-					Log.LogMessage(string.Format ("Added to location Services --- {0}", status.Status.IsSuccess));
+					Log.LogMessage(string.Format ("ADDED TO GEOFENCE NEW LOCATION --- {0}", status.Status.IsSuccess));
 					#endif				
 				} catch (Exception ex) {
 					#if DEBUG
@@ -99,11 +99,12 @@ namespace Tollminder.Droid.AndroidServices
 				_geoFence = new GeofenceBuilder ()
 					.SetRequestId (GeoFenceRegionKey)
 					.SetExpirationDuration (Geofence.NeverExpire)
+					.SetNotificationResponsiveness(1000)
 					.SetCircularRegion (lat, lon, GeoFenceRadius)
-					.SetTransitionTypes (Geofence.GeofenceTransitionExit | Geofence.GeofenceTransitionEnter)
+					.SetTransitionTypes (Geofence.GeofenceTransitionExit)
 					.Build ();
 				#if DEBUG
-				Log.LogMessage("Geolocation added");
+				Log.LogMessage("CREATE NEW GEOFENCE POINT");
 				#endif
 			} catch (Exception ex) {
 				#if DEBUG
@@ -117,7 +118,7 @@ namespace Tollminder.Droid.AndroidServices
 			try {
 				var result = await LocationServices.GeofencingApi.RemoveGeofencesAsync (GoogleApiClient, GetGeofencePendingIntent ());
 				#if DEBUG
-				Log.LogMessage(string.Format ("Geofence removed --- {0}", result.Status.IsSuccess));
+				Log.LogMessage(string.Format ("GEOFENCE REMOVED --- {0}", result.Status.IsSuccess));
 				#endif
 			} catch (Exception ex) {
 				#if DEBUG
@@ -131,7 +132,7 @@ namespace Tollminder.Droid.AndroidServices
 			try {
 				_geoFenceRequest = new GeofencingRequest.Builder ().AddGeofence (_geoFence).SetInitialTrigger (GeofencingRequest.InitialTriggerExit|GeofencingRequest.InitialTriggerEnter).Build ();
 				#if DEBUG
-				Log.LogMessage("New request was builded");
+				Log.LogMessage("NEW REQUEST WAS BUILDED");
 				#endif
 			} catch (Exception ex) {
 				#if DEBUG

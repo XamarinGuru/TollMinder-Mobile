@@ -352,7 +352,6 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 		protected virtual void DisabledHighAccuracy ()
 		{
 			_geoWatcher.GeofenceEnabled = true;
-			_geoWatcher.StopUpdatingHighAccuracyLocation ();
 		}
 
 		protected virtual void DestoyTokens ()

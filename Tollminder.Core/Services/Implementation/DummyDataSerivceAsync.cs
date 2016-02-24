@@ -101,7 +101,6 @@ namespace Tollminder.Core.Services.Implementation
 						Latitude = 50.398396,
 						Longitude = 30.567202
 					},
-
 					WaypointAction = WaypointAction.Exit
 				},
 				new TollRoadWaypoint {
