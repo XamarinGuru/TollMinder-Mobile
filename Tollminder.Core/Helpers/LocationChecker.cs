@@ -1,19 +1,10 @@
 ﻿using System;
 using Tollminder.Core.Models;
-using System.Collections;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Linq;
-
 
 namespace Tollminder.Core.Helpers
 {
 	public static class LocationChecker
-	{
-		const double DistanceToWaypoint = 0.6;
-
-		const double Epsilon = 0;
-		
+	{		
 		public static double ToRadians(this double val)
 		{
 			return (Math.PI / 180) * val;
@@ -44,40 +35,6 @@ namespace Tollminder.Core.Helpers
 			double dist = R * d;
 
 			return dist;
-
 		}
-
-		public static ParallelQuery<TollRoadWaypoint> GetLocationsFromRadius (this GeoLocation center, IList<TollRoadWaypoint> points)
-		{
-			return points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).Where (x => (DistanceBetweenGeoLocations (center, x.Location) - DistanceToWaypoint) < Epsilon);
-		}
-
-		public static Task<ParallelQuery<TollRoadWaypoint>> GetLocationsFromRadiusAsync (this GeoLocation center, IList<TollRoadWaypoint> points)
-		{
-			return Task.Run(() => {
-				return points.AsParallel().WithMergeOptions(ParallelMergeOptions.AutoBuffered).Where (x => (DistanceBetweenGeoLocations (center, x.Location) - DistanceToWaypoint) < Epsilon);
-			});
-		}
-
-		public static TollRoadWaypoint GetLocationFromRadius (this GeoLocation center, IList<TollRoadWaypoint> points)
-		{
-			return points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).FirstOrDefault (x => (DistanceBetweenGeoLocations (center, x.Location) - DistanceToWaypoint) < Epsilon);
-		}
-
-		public static Task<TollRoadWaypoint> GetLocationFromRadiusAsync (this GeoLocation center, IList<TollRoadWaypoint> points)
-		{
-			return Task.Run (() => {
-				var point = points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).FirstOrDefault (x => 
-					{
-						#if DEBUG 
-						Log.LogMessage (string.Format ("{0} - {1} = {2}", DistanceBetweenGeoLocations (center, x.Location), DistanceToWaypoint,  DistanceBetweenGeoLocations (center, x.Location) - DistanceToWaypoint));
-						#endif
-						return DistanceBetweenGeoLocations (center, x.Location) - DistanceToWaypoint <= Epsilon;
-					});
-				return point;
-			});
-		}
-
 	}
 }
-

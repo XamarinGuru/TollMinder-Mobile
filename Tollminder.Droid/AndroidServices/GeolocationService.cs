@@ -9,14 +9,15 @@ using Android.Locations;
 
 namespace Tollminder.Droid.AndroidServices
 {	
-	
+	[Service(Enabled = true, IsolatedProcess = true, Exported = false)]
 	public class GeolocationService : GoogleApiService<GeolocationServiceHandler>,
 										Android.Gms.Location.ILocationListener									
 										 
 	{
-		private LocationRequest _locationRequest;
-
+		private LocationRequest _fastRequest;
+		private LocationRequest _slowRequest;
 		private GeoLocation _geoLocation;
+
 		public virtual GeoLocation Location {
 			get { return _geoLocation; } 
 			protected set { 
@@ -36,6 +37,7 @@ namespace Tollminder.Droid.AndroidServices
 		public override void OnDestroy ()
 		{
 			base.OnDestroy ();
+			StopLocationUpdate ();
 		}
 
 		public virtual void StopLocationUpdate ()
@@ -45,12 +47,10 @@ namespace Tollminder.Droid.AndroidServices
 			}
 		}
 
-		public virtual void StartLocationUpdate ()
+		public virtual void StartLocationUpdate (bool fastUpdates = false)
 		{
-			Connect ();
-//			StopLocationUpdate ();
-			SetUpLocationRequest ();
-			LocationServices.FusedLocationApi.RequestLocationUpdates (GoogleApiClient, _locationRequest, this);
+			Log.LogMessage ("START LOCATION UPDATES " + fastUpdates);				
+			LocationServices.FusedLocationApi.RequestLocationUpdates (GoogleApiClient, FastLocationUpdate , this);
 		}
 
 		public override void OnConnected (Bundle connectionHint)
@@ -62,25 +62,55 @@ namespace Tollminder.Droid.AndroidServices
 			#endif
 		}
 
-		public void OnLocationChanged (Android.Locations.Location location)
+		public override void OnConnectionFailed (Android.Gms.Common.ConnectionResult result)
+		{
+			base.OnConnectionFailed (result);
+		}
+
+		public override void OnConnectionSuspended (int cause)
+		{
+			base.OnConnectionSuspended (cause);
+		}
+
+		public void OnLocationChanged (Location location)
 		{
 			Location = location.GetGeolocationFromAndroidLocation();
 		}
 
-		private void SetUpLocationRequest ()
-		{
-			if (_locationRequest == null) {
-				_locationRequest = new LocationRequest ();
-				_locationRequest.SetPriority (LocationRequest.PriorityHighAccuracy);
-				_locationRequest.SetInterval(0);
-				_locationRequest.SetFastestInterval(0);
+		protected virtual LocationRequest FastLocationUpdate
+		{	
+			get {
+				if (_fastRequest != null) {
+					return _fastRequest;
+				}
+				Log.LogMessage ("FAST REQUEST WAS BUILD");
+				_fastRequest = new LocationRequest ();
+				_fastRequest.SetPriority (LocationRequest.PriorityHighAccuracy);
+				_fastRequest.SetInterval (1000);
+				_fastRequest.SetFastestInterval (1000);
+				return _fastRequest;
+			}
+		}
+
+		protected virtual LocationRequest SlowLocationRequest 
+		{			
+			get {
+				if (_slowRequest != null) {
+					return _slowRequest;
+				}
+				Log.LogMessage ("SLOW REQUEST WAS BUILD");
+				_slowRequest = new LocationRequest ();
+				_slowRequest.SetPriority (LocationRequest.PriorityHighAccuracy);
+				_slowRequest.SetInterval (60000);
+				_slowRequest.SetFastestInterval (60000);
+				return _slowRequest;
 			}
 		}
 
 		private void SendMessage ()
 		{
 			if (MessengerClient != null) {
-				DroidMessanging.SendMessage (ServiceConstants.ServicePushLocations, MessengerClient, null, Location.GetGeolocationFromAndroidLocation ());
+				DroidMessanging.SendMessage (ServiceConstants.ServicePushLocations, MessengerClient, null, Location.GetBundleFromLocation ());
 			}
 		}
 	}	

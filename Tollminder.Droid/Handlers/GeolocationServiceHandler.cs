@@ -32,7 +32,7 @@ namespace Tollminder.Droid.Handlers
 				(Service as GeofenceService).GeofenceEnabled = msg.Data.GetIsEnabled ();
 				return;
 			case ServiceConstants.StartLocation:
-				Service.StartLocationUpdate ();
+				Service.StartLocationUpdate (msg.Data.GetIsEnabled ());
 				return;	
 			case ServiceConstants.StopLocation:
 				Service.StopLocationUpdate ();

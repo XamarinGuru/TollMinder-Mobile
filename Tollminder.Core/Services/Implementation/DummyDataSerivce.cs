@@ -7,11 +7,14 @@ using Tollminder.Core.Models;
 
 namespace Tollminder.Core.Services.Implementation
 {
-	public class DummyDataSerivceAsync : IGeoDataServiceAsync
+	public class DummyDataSerivce : IGeoDataService
 	{
 		List<TollRoadWaypoint> _dummyWaypoints;
-		public DummyDataSerivceAsync ()
+		IDistanceChecker _distanceChecker;
+
+		public DummyDataSerivce (IDistanceChecker distanceChecker)
 		{
+			this._distanceChecker = distanceChecker;
 			_dummyWaypoints = new List<TollRoadWaypoint> () {
 				
 				new TollRoadWaypoint {
@@ -187,52 +190,43 @@ namespace Tollminder.Core.Services.Implementation
 			};
 		}
 
-		#region IGeoDataServiceAsync implementation
+		#region IGeoDataService implementation
 
-		public Task<ParallelQuery<TollRoadWaypoint>> FindNearGeoLocationsAsync (GeoLocation center)
+		public ParallelQuery<TollRoadWaypoint> FindNearGeoLocations (GeoLocation center)
 		{
-			return Task.Run (() => {
-				return center.GetLocationsFromRadius(_dummyWaypoints);
-			});
-		}
-
-		public Task<TollRoadWaypoint> FindNearGeoLocationAsync (GeoLocation center, WaypointAction actionStatus)
-		{			
-			var nearLocations = center.GetLocationFromRadiusAsync (_dummyWaypoints.Where (x => x.WaypointAction == actionStatus).ToList ()); 
-			return nearLocations;
+			return _distanceChecker.GetLocationsFromRadius (center, _dummyWaypoints);
 		}
 
 		public TollRoadWaypoint FindNearGeoLocation (GeoLocation center, WaypointAction actionStatus)
 		{			
-			var nearLocations = center.GetLocationFromRadius (_dummyWaypoints.Where(x=>x.WaypointAction == actionStatus).ToList());
+			var nearLocations = _distanceChecker.GetLocationFromRadius (center, _dummyWaypoints.Where (x => x.WaypointAction == actionStatus).ToList ()); 
 			return nearLocations;
 		}
 
-		public Task<TollRoadWaypoint> FindNearGeoLocationAsync (GeoLocation center)
-		{
-			return Task.Run (() => {
-				return center.GetLocationFromRadius(_dummyWaypoints);
-			});
+
+		public TollRoadWaypoint FindNearGeoLocation (GeoLocation center)
+		{			
+			return _distanceChecker.GetLocationFromRadius(center, _dummyWaypoints);
 		}
 
-		public Task UpdateAsync (TollRoadWaypoint geoLocation)
-		{
-			throw new NotImplementedException ();
-		}
-
-		public Task InsertAsync (TollRoadWaypoint geoLocation)
+		public void Update (TollRoadWaypoint geoLocation)
 		{
 			throw new NotImplementedException ();
 		}
 
-		public Task DeleteAsync (TollRoadWaypoint geoLocation)
+		public void Insert (TollRoadWaypoint geoLocation)
 		{
 			throw new NotImplementedException ();
 		}
 
-		public Task<int> CountAsync {
+		public void Delete (TollRoadWaypoint geoLocation)
+		{
+			throw new NotImplementedException ();
+		}
+
+		public int Count {
 			get {
-				return Task.Run(() => _dummyWaypoints.Count );
+				return _dummyWaypoints.Count;
 			}
 		}
 

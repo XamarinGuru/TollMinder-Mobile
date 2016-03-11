@@ -38,6 +38,7 @@ namespace Tollminder.Droid.Services
 			}
 		}
 
+		public bool IsAutomove { get { return _motionType == MotionType.Automotive; } }
 		#endregion
 	}
 }

@@ -59,8 +59,22 @@
     <Compile Include="ServicesHelpers\ITrackFacade.cs" />
     <Compile Include="ServicesHelpers\Implementation\TrackFacade.cs" />
     <Compile Include="Models\TollRoadWaypoint.cs" />
-    <Compile Include="Services\Implementation\DummyDataSerivceAsync.cs" />
     <Compile Include="Models\WaypointAction.cs" />
+    <Compile Include="Services\Implementation\PersmissionsService.cs" />
+    <Compile Include="Services\IPermissionsService.cs" />
+    <Compile Include="Models\Statuses\NotOnTollRoadStatus.cs" />
+    <Compile Include="Models\Statuses\BaseStatus.cs" />
+    <Compile Include="Services\IGeoDataService.cs" />
+    <Compile Include="Services\IWaypoint.cs" />
+    <Compile Include="Services\IDistanceChecker.cs" />
+    <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="Services\Implementation\DistanceChecker.cs" />
+    <Compile Include="Services\Implementation\DummyDataSerivce.cs" />
+    <Compile Include="Services\Implementation\WaypointChecker.cs" />
+    <Compile Include="Models\Statuses\NearTollRoadStatus.cs" />
+    <Compile Include="Models\Statuses\OnTollRoadStatus.cs" />
+    <Compile Include="Models\Statuses\NearTollRoadExitStatus.cs" />
+    <Compile Include="Models\Statuses\StatusesFactory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
@@ -74,6 +88,8 @@
     <Folder Include="ServicesHelpers\" />
     <Folder Include="Utils\" />
     <Folder Include="ServicesHelpers\Implementation\" />
+    <Folder Include="Models\Statuses\" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MvvmCross.Platform">
@@ -105,6 +121,12 @@
     </Reference>
     <Reference Include="ModernHttpClient">
       <HintPath>..\packages\modernhttpclient.2.4.2\lib\Portable-Net45+WinRT45+WP8+WPA81\ModernHttpClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Permissions">
+      <HintPath>..\packages\Plugin.Permissions.1.1.7\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10+UAP10\Plugin.Permissions.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Permissions.Abstractions">
+      <HintPath>..\packages\Plugin.Permissions.1.1.7\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10+UAP10\Plugin.Permissions.Abstractions.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>

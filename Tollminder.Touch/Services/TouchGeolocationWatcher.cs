@@ -45,13 +45,14 @@ namespace Tollminder.Touch.Services
 
 		public virtual void StartUpdatingHighAccuracyLocation ()
 		{
+			GeofenceEnabled = false;
 			StartLocationUpdates ();	
 		}
 
-//		public virtual void StopUpdatingHighAccuracyLocation ()
-//		{
-//			StoptLocationUpdates ();
-//		}
+		public virtual void StopUpdatingHighAccuracyLocation ()
+		{
+			GeofenceEnabled = true;
+		}
 		#endregion
 	}
 }

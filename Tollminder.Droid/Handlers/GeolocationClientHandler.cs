@@ -22,7 +22,7 @@ namespace Tollminder.Droid.Handlers
 			switch (msg.What) {
 			case ServiceConstants.ServicePushLocations:
 				if (Service != null) 
-					Service.Location = msg.Data.GetGeolocationFromAndroidLocation ();
+					Service.Location = msg.Data.GetBundleFromLocation ();
 					break;	
 			}
 		}

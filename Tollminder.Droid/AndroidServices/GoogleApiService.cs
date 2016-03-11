@@ -2,6 +2,7 @@
 using Android.Gms.Common.Apis;
 using Android.OS;
 using Tollminder.Droid.Handlers;
+using Tollminder.Core.Helpers;
 
 namespace Tollminder.Droid.AndroidServices
 {
@@ -39,6 +40,7 @@ namespace Tollminder.Droid.AndroidServices
 
 		protected virtual void DestroyGoogleApiClient ()
 		{
+			Log.LogMessage ("API CLIENT DESTYOED");
 			GoogleApiClient?.UnregisterConnectionCallbacks (this);
 			GoogleApiClient?.UnregisterConnectionFailedListener (this);
 			GoogleApiClient?.Disconnect ();

@@ -21,7 +21,7 @@ namespace Tollminder.Core
 
             RegisterAppStart<HomeViewModel>();
 
-			Mvx.LazyConstructAndRegisterSingleton<IGeoDataServiceAsync, DummyDataSerivceAsync>();
+			Mvx.LazyConstructAndRegisterSingleton<IGeoDataService, DummyDataSerivce>();
 			Mvx.LazyConstructAndRegisterSingleton<IHttpService, HttpService>();
 			Mvx.LazyConstructAndRegisterSingleton<ITrackFacade, TrackFacade>();
         }

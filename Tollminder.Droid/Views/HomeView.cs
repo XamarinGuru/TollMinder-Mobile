@@ -6,6 +6,8 @@ using MvvmCross.Platform;
 using Tollminder.Core.Services;
 using Tollminder.Droid.AndroidServices;
 using Tollminder.Core.ViewModels;
+using Plugin.Permissions;
+using Android.Content.PM;
 
 namespace Tollminder.Droid.Views
 {
@@ -18,5 +20,10 @@ namespace Tollminder.Droid.Views
 			SetContentView(Resource.Layout.homeView);
 
         }
+
+		public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+		{
+			PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+		}
     }
 }

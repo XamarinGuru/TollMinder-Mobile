@@ -7,6 +7,7 @@ using Tollminder.Droid.AndroidServices;
 using Tollminder.Droid.Handlers;
 using Tollminder.Droid.Helpers;
 using Tollminder.Droid.ServicesConnections;
+using Android.Gms.Common;
 
 namespace Tollminder.Droid.Services
 {
@@ -30,6 +31,24 @@ namespace Tollminder.Droid.Services
 			}
 		} 
 
+		bool IsGooglePlayServicesInstalled
+		{
+			get {
+				int queryResult = GoogleApiAvailability.Instance.IsGooglePlayServicesAvailable (ApplicationContext);
+				if (queryResult == ConnectionResult.Success) {					
+					return true;
+				}
+
+				if (GoogleApiAvailability.Instance.IsUserResolvableError (queryResult)) {
+					string errorString = GoogleApiAvailability.Instance.GetErrorString (queryResult);
+					#if DEBUG
+					Log.LogMessage(string.Format("There is a problem with Google Play Services on this device: {0} - {1}", queryResult, errorString));
+					#endif
+				}
+				return false;
+			}
+		}
+
 		GeoLocation _location;
 		public virtual GeoLocation Location {
 			get {
@@ -46,7 +65,7 @@ namespace Tollminder.Droid.Services
 
 		public virtual void StartGeolocationWatcher ()
 		{	
-			if (!IsBound) {
+			if (!IsBound & IsGooglePlayServicesInstalled) {
 				Start ();
 				IsBound = true;				
 			}
@@ -72,7 +91,9 @@ namespace Tollminder.Droid.Services
 
 		public virtual void EnabledGeofenceService(bool isEnabled)
 		{			
+			Log.LogMessage (string.Format (" - --- - - -  {0}    --- - - - - - -", isEnabled));
 			DroidMessanging.SendMessage (ServiceConstants.GeoFenceEnabled, MessengerService, null , isEnabled.GetBundle());
+			DroidMessanging.SendMessage (ServiceConstants.StartLocation, MessengerService, null, (!isEnabled).GetBundle());
 		}
 		#endregion
 	}

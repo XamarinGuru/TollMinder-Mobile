@@ -4,6 +4,7 @@ using Android.Locations;
 using Android.Widget;
 using Android.OS;
 using Android.Gms.Location;
+using Tollminder.Core.Helpers;
 
 namespace Tollminder.Droid
 {
@@ -20,6 +21,7 @@ namespace Tollminder.Droid
 		public static GeoLocation GetGeolocationFromAndroidLocation (this Location loc)
 		{
 			var geoLocation = new GeoLocation (); 
+			Log.LogMessage (string.Format ("ACCURACY IS {0}", loc.Accuracy));
 			geoLocation.Accuracy = loc.Accuracy;
 			geoLocation.Altitude = loc.Altitude;
 			geoLocation.Longitude = loc.Longitude;
@@ -40,7 +42,7 @@ namespace Tollminder.Droid
 
 		}
 
-		public static Bundle GetGeolocationFromAndroidLocation (this GeoLocation loc)
+		public static Bundle GetBundleFromLocation (this GeoLocation loc)
 		{
 			var bundle = new Bundle ();
 			bundle.PutDouble (Accuracy, loc.Accuracy);

@@ -6,28 +6,26 @@ using Tollminder.Core.Helpers;
 using Tollminder.Core.Models;
 using MvvmCross.Platform;
 using System.Threading.Tasks;
+using Android.Gms.Common;
+using System.Linq;
 
 namespace Tollminder.Droid.AndroidServices
 {
-	[Service]
+	[Service(Enabled = true, IsolatedProcess = true, Exported = false)]
 	public class GeofenceService : GeolocationService
 	{
 		public static readonly string GeoFenceRegionKey = "geoCurrentRegionPoint";
 
-		private const int GeoFenceRadius = 200;
 
 		#region Private Fields
-		private GeofencingRequest _geoFenceRequest;
-		private IGeofence _geoFence;
+		private const int GeoFenceRadius = 500;
 		private PendingIntent _geofencePendingIntent;
+		bool _geofenceEnabled = true;
 		#endregion
 
 
-		bool _geofenceEnabled = true;
 		public bool GeofenceEnabled {
-			get {
-				return _geofenceEnabled;
-			}
+			get { return _geofenceEnabled; }
 			set {
 				_geofenceEnabled = value;
 				if (!_geofenceEnabled) 
@@ -36,90 +34,52 @@ namespace Tollminder.Droid.AndroidServices
 		} 
 
 		public override GeoLocation Location {
-			get {
-				return base.Location;
-			}
+			get { return base.Location;	}
 			protected set {
 				base.Location = value;
-				if (GeofenceEnabled) {
-					StopLocationUpdate ();
-					SetUpGeofenicng (value);
+				if (GeofenceEnabled) {					
+					SetUpGeofenicng ();
 				}
 			}
 		}
 
-		public override async void OnDestroy ()
+		public override void OnDestroy ()
 		{
-			await RemoveGeofence ().ConfigureAwait (false);
+			RemoveGeofence ();
 			base.OnDestroy ();
 		}
 
 		public override StartCommandResult OnStartCommand (Intent intent, StartCommandFlags flags, int startId)
 		{
+			Log.LogMessage ("GEOFENCE TRIGGERED GEOFENCE TRIGGERED GEOFENCE TRIGGERED GEOFENCE TRIGGERED GEOFENCE TRIGGERED");
 			var geofencingEvent = GeofencingEvent.FromIntent (intent);
+			if (geofencingEvent.TriggeringGeofences.All (x => x.RequestId != GeoFenceRegionKey)) {
+				Log.LogMessage ("THERE IS NO OURS TRIGGERING REGIONS");
+				return StartCommandResult.Sticky;
+			}
 			if (geofencingEvent.HasError) {
+				Log.LogMessage ("GEOFENCE HAS A ERROR");
 				return StartCommandResult.Sticky;
 			}
 			int geofenceTransition = geofencingEvent.GeofenceTransition;
 
-			if (geofenceTransition == Geofence.GeofenceTransitionExit) {				
-//				Location = geofencingEvent.TriggeringLocation.GetGeolocationFromAndroidLocation ();
-				StartLocationUpdate ();
+			if (geofenceTransition == Geofence.GeofenceTransitionExit) {	
+				Log.LogMessage ("TRANSITION EXIT");
+				Location = geofencingEvent.TriggeringLocation.GetGeolocationFromAndroidLocation ();
 			}
 			return StartCommandResult.Sticky;
 		}
 
 		#region Helpers
-		protected virtual async void SetUpGeofenicng (GeoLocation location)
-		{
-			if (!Location.IsUnknownGeoLocation) {
-				try {
-					if (_geoFence != null) {						
-						await RemoveGeofence().ConfigureAwait(false);
-					}
-					AddGeofencePoint (location.Latitude, location.Longitude);
-					BuildGeofenceRequest ();				
-					var status = await LocationServices.GeofencingApi.AddGeofencesAsync (GoogleApiClient, _geoFenceRequest, GetGeofencePendingIntent ());
-					#if DEBUG
-					Log.LogMessage(string.Format ("ADDED TO GEOFENCE NEW LOCATION --- {0}", status.Status.IsSuccess));
-					#endif				
-				} catch (Exception ex) {
-					#if DEBUG
-					Log.LogMessage(ex.Message);
-					#endif
-				}
-			} else {
-				StartLocationUpdate ();
-			}
+		protected virtual void SetUpGeofenicng ()
+		{								
+			LocationServices.GeofencingApi.AddGeofencesAsync (GoogleApiClient, BuildGeofenceRequest, GetGeofencePendingIntent);	
 		}
 
-		private void AddGeofencePoint (double lat, double lon)
+		public void RemoveGeofence ()
 		{
 			try {
-				_geoFence = new GeofenceBuilder ()
-					.SetRequestId (GeoFenceRegionKey)
-					.SetExpirationDuration (Geofence.NeverExpire)
-					.SetNotificationResponsiveness(1000)
-					.SetCircularRegion (lat, lon, GeoFenceRadius)
-					.SetTransitionTypes (Geofence.GeofenceTransitionExit)
-					.Build ();
-				#if DEBUG
-				Log.LogMessage("CREATE NEW GEOFENCE POINT");
-				#endif
-			} catch (Exception ex) {
-				#if DEBUG
-				Log.LogMessage (ex.Message);
-				#endif
-			} 							
-		}
-
-		public async Task RemoveGeofence ()
-		{
-			try {
-				var result = await LocationServices.GeofencingApi.RemoveGeofencesAsync (GoogleApiClient, GetGeofencePendingIntent ());
-				#if DEBUG
-				Log.LogMessage(string.Format ("GEOFENCE REMOVED --- {0}", result.Status.IsSuccess));
-				#endif
+				LocationServices.GeofencingApi.RemoveGeofences (GoogleApiClient, GetGeofencePendingIntent);
 			} catch (Exception ex) {
 				#if DEBUG
 				Mvx.Trace (ex.Message, string.Empty);
@@ -127,28 +87,42 @@ namespace Tollminder.Droid.AndroidServices
 			}
 		}
 
-		private void BuildGeofenceRequest ()
+		protected GeofencingRequest BuildGeofenceRequest
 		{
-			try {
-				_geoFenceRequest = new GeofencingRequest.Builder ().AddGeofence (_geoFence).SetInitialTrigger (GeofencingRequest.InitialTriggerExit|GeofencingRequest.InitialTriggerEnter).Build ();
+			get{
 				#if DEBUG
-				Log.LogMessage("NEW REQUEST WAS BUILDED");
+				Log.LogMessage ("NEW REQUEST WAS BUILDED");
 				#endif
-			} catch (Exception ex) {
-				#if DEBUG
-				Log.LogMessage(ex.Message);
-				#endif
+				return new GeofencingRequest.Builder ().AddGeofence (GeofencePoint).SetInitialTrigger (GeofencingRequest.InitialTriggerExit).Build ();
 			}
 		}
 
-		private PendingIntent GetGeofencePendingIntent ()
+		protected PendingIntent GetGeofencePendingIntent 
 		{
-			if (_geofencePendingIntent != null) {
+			get {
+				if (_geofencePendingIntent != null) {
+					return _geofencePendingIntent;
+				}
+				Intent intent = new Intent (this, typeof(GeofenceService));
+				_geofencePendingIntent = PendingIntent.GetService (this, 101, intent, PendingIntentFlags.UpdateCurrent);
 				return _geofencePendingIntent;
 			}
-			Intent intent = new Intent (this, typeof(GeofenceService));
-			_geofencePendingIntent = PendingIntent.GetService (this, 0, intent, PendingIntentFlags.UpdateCurrent);
-			return _geofencePendingIntent;
+		}
+
+		protected IGeofence GeofencePoint 
+		{
+			get {
+				#if DEBUG
+				Log.LogMessage ("CREATE NEW GEOFENCE POINT");
+				#endif				
+				return new GeofenceBuilder ()
+					.SetRequestId (GeoFenceRegionKey)
+					.SetExpirationDuration (Geofence.NeverExpire)
+					.SetNotificationResponsiveness (3000)
+					.SetCircularRegion (Location.Latitude, Location.Longitude, GeoFenceRadius)
+					.SetTransitionTypes (Geofence.GeofenceTransitionExit)
+					.Build ();
+			}
 		}
 		#endregion
 	}
