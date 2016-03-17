@@ -22,6 +22,9 @@ namespace Tollminder.Touch.Views
 		UIKit.UILabel GeoLabelData { get; set; }
 
 		[Outlet]
+		UIKit.UITextView LogArea { get; set; }
+
+		[Outlet]
 		UIKit.UIButton StartButton { get; set; }
 
 		[Outlet]
@@ -29,6 +32,11 @@ namespace Tollminder.Touch.Views
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (ActivityLabel != null) {
+				ActivityLabel.Dispose ();
+				ActivityLabel = null;
+			}
+
 			if (GeoLabel != null) {
 				GeoLabel.Dispose ();
 				GeoLabel = null;
@@ -49,9 +57,9 @@ namespace Tollminder.Touch.Views
 				StopButton = null;
 			}
 
-			if (ActivityLabel != null) {
-				ActivityLabel.Dispose ();
-				ActivityLabel = null;
+			if (LogArea != null) {
+				LogArea.Dispose ();
+				LogArea = null;
 			}
 		}
 	}

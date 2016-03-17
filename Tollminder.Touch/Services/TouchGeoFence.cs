@@ -10,7 +10,7 @@ namespace Tollminder.Touch.Services
 	public class TouchGeoFence : TouchLocation
 	{
 		#region Constants
-		public const double GeoFenceRadius = 200d;
+		public const double GeoFenceRadius = 150d;
 		public const string TollMinder = "TollMinder";
 		#endregion
 
@@ -33,8 +33,8 @@ namespace Tollminder.Touch.Services
 				base.Location = value;
 				Log.LogMessage ("NEW LOCATION");
 				if (GeofenceEnabled) {
+					StartMonitoringRegion ();
 					StoptLocationUpdates ();
-					StartMonitoringRegion ();					
 				}
 			}
 		}
@@ -47,7 +47,7 @@ namespace Tollminder.Touch.Services
 			CLCircularRegion region = new CLCircularRegion (new CLLocationCoordinate2D (Location.Latitude, Location.Longitude), GeoFenceRadius, TollMinder);
 			region.NotifyOnEntry = true;
 			region.NotifyOnExit = true;
-			LocationManager.StartMonitoring (region);
+			LocationManager.StartMonitoring (region, 1);
 		}
 
 		public virtual void StopMonitoringRegion ()
@@ -97,21 +97,21 @@ namespace Tollminder.Touch.Services
 
 		protected virtual void StartedMonitorRegionHandler (object sender, CLRegionEventArgs e)
 		{
-			#if DEBUG
+			#if RELEASE
 			Log.LogMessage (string.Format ("{0} {1} START MONITORING", e.Region.Center.Latitude , e.Region.Center.Longitude));
 			#endif
 		}
 
 		protected virtual void RegionEnteredHandler (object sender, CLRegionEventArgs e)
 		{   
-			#if DEBUG
+			#if RELEASE
 			Log.LogMessage (string.Format ("{0} {1} --- ENTERED", e.Region.Center.Latitude , e.Region.Center.Longitude));
 			#endif
 		}
 
 		protected virtual void RegionLeftHandler (object sender, CLRegionEventArgs e)
 		{
-			#if DEBUG
+			#if RELEASE
 			Log.LogMessage (string.Format ("{0} {1} --- LEFT", e.Region.Center.Latitude , e.Region.Center.Longitude));
 			#endif
 			StartLocationUpdates ();
@@ -119,8 +119,12 @@ namespace Tollminder.Touch.Services
 
 		private void EnableGeofence ()
 		{
-			if (!_geofenceEnabled)
-				StopMonitoringRegion ();				
+			if (!_geofenceEnabled) {
+				StopMonitoringRegion ();
+				StartLocationUpdates ();
+			} else {
+				StartMonitoringRegion ();
+			}
 		}
 		#endregion
 	}

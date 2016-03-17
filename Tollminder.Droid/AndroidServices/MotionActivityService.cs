@@ -13,7 +13,7 @@ using Android.Content;
 
 namespace Tollminder.Droid.AndroidServices
 {
-	[Service]
+	[Service(Enabled = true, Exported = false)]
 	public class MotionActivityService : GoogleApiService<MotionServiceHanlder> 
 	{
 		

@@ -25,11 +25,8 @@ namespace Tollminder.Core.Models.Statuses
 				#endif
 				WaypointChecker.Waypoint = waypoint;
 				GeoWatcher.StartUpdatingHighAccuracyLocation ();
-				return TollGeolocationStatus.NearTollRoadEnterce;
-				//#if DEBUG 
-				//Log.LogMessage (string.Format ("ENABLED HIGH ACCURACY"));
-				//#endif
-				//NotifyUser (string.Format ("you are potentially going to enter {0} waypoints.", LastTollRoadWaypoint.Name));						
+				NotifyService.Notify (string.Format ("you are potentially going to enter {0} waypoints.", WaypointChecker.Waypoint.Name));
+				return TollGeolocationStatus.NearTollRoadEnterce;				
 			}
 			return TollGeolocationStatus.NotOnTollRoad;
 		}

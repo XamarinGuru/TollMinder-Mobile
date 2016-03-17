@@ -23,14 +23,11 @@ namespace Tollminder.Core.Models.Statuses
 					Log.LogMessage (string.Format ("DISABLED HIGH ACCURACY"));
 					#endif
 					GeoWatcher.StopUpdatingHighAccuracyLocation ();
+					NotifyService.Notify (string.Format ("You are entered to {0}", WaypointChecker.Waypoint.Name));
 					return TollGeolocationStatus.OnTollRoad;
-					//NotifyUser (string.Format ("You are entered to {0}", LastTollRoadWaypoint.Name));
 				}
 				return TollGeolocationStatus.NearTollRoadEnterce;
 			} else {
-				//#if DEBUG
-				//Log.LogMessage (string.Format ("AVOID THIS WAYPOINT"));
-				//#endif
 				#if DEBUG
 				Log.LogMessage (string.Format ("DISABLED HIGH ACCURACY"));
 				#endif

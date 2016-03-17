@@ -8,6 +8,7 @@ using Tollminder.Core.Models;
 using Tollminder.Core.Services;
 using Tollminder.Core.ServicesHelpers;
 using Chance.MvvmCross.Plugins.UserInteraction;
+using Tollminder.Core.Helpers;
 
 namespace Tollminder.Core.ViewModels
 {
@@ -29,8 +30,8 @@ namespace Tollminder.Core.ViewModels
 		public override void Start ()
 		{
 			base.Start ();
-			_tokens.Add (_messenger.SubscribeOnMainThread<LocationMessage> (x => Location = x.Data));
-			_tokens.Add (_messenger.SubscribeOnMainThread<MotionMessage> (x => MotionType = x.Data));
+			//_tokens.Add (_messenger.SubscribeOnMainThread<LocationMessage> (x => Location = x.Data));
+			_tokens.Add (_messenger.SubscribeOnMainThread<LogUpdated> ((s) => LogText = Log._messageLog.ToString()));
 		}
 
 		protected override void OnDestroy ()
@@ -48,6 +49,15 @@ namespace Tollminder.Core.ViewModels
 				_location = value;
 				RaisePropertyChanged (() => Location);
 				RaisePropertyChanged (() => LocationString);
+			}
+		}
+
+		private string _logText;
+		public string LogText {
+			get { return _logText; }
+			set {
+				_logText = value;
+				RaisePropertyChanged (() => LogText);
 			}
 		}
 

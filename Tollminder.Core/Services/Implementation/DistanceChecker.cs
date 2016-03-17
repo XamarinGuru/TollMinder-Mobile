@@ -19,8 +19,8 @@ namespace Tollminder.Core.Services.Implementation
 
 		public DistanceChecker (IGeoLocationWatcher geoWatcher, IWaypointChecker waypointChecker)
 		{
-			this._waypointChecker = waypointChecker;
 			this._geoWatcher = geoWatcher;
+			this._waypointChecker = waypointChecker;
 		}
 
 		public double Distance { get; set; }
@@ -35,19 +35,13 @@ namespace Tollminder.Core.Services.Implementation
 			}
 		}
 
-		private bool IsAtWaypoint 
+		public bool IsAtWaypoint 
 		{
 			get {
 				#if DEBUG
 				Log.LogMessage (string.Format ("DIS : {0}, DIST 2 {1} = {2}", Distance, WaypointDistanceRequired, Distance - WaypointDistanceRequired));
 				#endif
 				return (Distance - WaypointDistanceRequired) < 0;
-			}
-		}
-
-		bool IDistanceChecker.IsAtWaypoint {
-			get {
-				throw new NotImplementedException ();
 			}
 		}
 

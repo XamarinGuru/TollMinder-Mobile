@@ -10,12 +10,12 @@ using Android.Locations;
 namespace Tollminder.Droid.AndroidServices
 {	
 	[Service(Enabled = true, IsolatedProcess = true, Exported = false)]
+	[IntentFilter (new string [] { "com.tollminder.GeolocationService" })]
 	public class GeolocationService : GoogleApiService<GeolocationServiceHandler>,
 										Android.Gms.Location.ILocationListener									
 										 
 	{
-		private LocationRequest _fastRequest;
-		private LocationRequest _slowRequest;
+		private LocationRequest _request;
 		private GeoLocation _geoLocation;
 
 		public virtual GeoLocation Location {
@@ -25,7 +25,6 @@ namespace Tollminder.Droid.AndroidServices
 				SendMessage ();
 			}
 		}
-
 
 		public override void OnCreate ()
 		{
@@ -50,7 +49,7 @@ namespace Tollminder.Droid.AndroidServices
 		public virtual void StartLocationUpdate (bool fastUpdates = false)
 		{
 			Log.LogMessage ("START LOCATION UPDATES " + fastUpdates);				
-			LocationServices.FusedLocationApi.RequestLocationUpdates (GoogleApiClient, FastLocationUpdate , this);
+			LocationServices.FusedLocationApi.RequestLocationUpdates (GoogleApiClient, LocationRequest , this);
 		}
 
 		public override void OnConnected (Bundle connectionHint)
@@ -77,33 +76,17 @@ namespace Tollminder.Droid.AndroidServices
 			Location = location.GetGeolocationFromAndroidLocation();
 		}
 
-		protected virtual LocationRequest FastLocationUpdate
+		protected virtual LocationRequest LocationRequest
 		{	
 			get {
-				if (_fastRequest != null) {
-					return _fastRequest;
+				if (_request != null) {
+					return _request;
 				}
-				Log.LogMessage ("FAST REQUEST WAS BUILD");
-				_fastRequest = new LocationRequest ();
-				_fastRequest.SetPriority (LocationRequest.PriorityHighAccuracy);
-				_fastRequest.SetInterval (1000);
-				_fastRequest.SetFastestInterval (1000);
-				return _fastRequest;
-			}
-		}
-
-		protected virtual LocationRequest SlowLocationRequest 
-		{			
-			get {
-				if (_slowRequest != null) {
-					return _slowRequest;
-				}
-				Log.LogMessage ("SLOW REQUEST WAS BUILD");
-				_slowRequest = new LocationRequest ();
-				_slowRequest.SetPriority (LocationRequest.PriorityHighAccuracy);
-				_slowRequest.SetInterval (60000);
-				_slowRequest.SetFastestInterval (60000);
-				return _slowRequest;
+				_request = new LocationRequest ();
+				_request.SetPriority (LocationRequest.PriorityHighAccuracy);
+				_request.SetInterval (1000);
+				_request.SetFastestInterval (1000);
+				return _request;
 			}
 		}
 

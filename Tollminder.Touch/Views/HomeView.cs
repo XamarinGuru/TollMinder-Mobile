@@ -19,7 +19,7 @@ namespace Tollminder.Touch.Views
 			base.ViewDidLoad ();
 
 			NavigationController.NavigationBar.Translucent = false;
-
+			LogArea.Font = UIKit.UIFont.FromName ("Helvetica", 12f);
 			AutomaticallyAdjustsScrollViewInsets = true;
 
 			var set = this.CreateBindingSet<HomeView, HomeViewModel>();
@@ -27,6 +27,7 @@ namespace Tollminder.Touch.Views
 			set.Bind (StartButton).To (v => v.StartCommand);
 			set.Bind (StopButton).To (v => v.StopCommand);
 			set.Bind (ActivityLabel).To (v => v.MotionTypeString);
+			set.Bind (LogArea).To (v => v.LogText);
 			set.Apply ();
 
 			// Perform any additional setup after loading the view, typically from a nib.

@@ -20,7 +20,6 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 		private readonly IMotionActivity _activity;
 		private readonly ITextToSpeechService _textToSpeech;
 		private readonly IMvxMessenger _messenger;
-		private readonly INotificationSender _notficationSender;
 		private readonly IList<MvxSubscriptionToken> _tokens;
 
 		#endregion
@@ -38,8 +37,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
 		#endregion
 
-		#region Properties	
-	
+		#region Properties
 
 		private bool _isBound;
 
@@ -53,10 +51,10 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 				Log.LogMessage (string.Format ("THE SEVICES HAS STARTED AT {0}", DateTime.Now));
 				#endif
 				_textToSpeech.IsEnabled = true;
-				_geoWatcher.StartGeolocationWatcher ();
+				//_geoWatcher.StartGeolocationWatcher ();
 				_activity.StartDetection ();
-				_tokens.Add (_messenger.Subscribe<LocationMessage> (x => CheckTrackStatus ()));
-				_isBound = true;
+				//_tokens.Add (_messenger.Subscribe<LocationMessage> (x => CheckTrackStatus ()));
+				//_isBound = true;
 			}	
 
 		}
@@ -82,27 +80,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 			TollStatus = statusObject.CheckStatus ();
 		}
 
-
-		//protected virtual void NotifyUser (string data)
-		//{			
-		//	if (!_platform.IsAppInForeground) {				
-		//		_notficationSender.SendLocalNotification ("Toll Minder", data);
-		//	}
-		//	_textToSpeech.Speak (data);
-		//}
-
 		#region Helpers
-
-		//protected virtual void SpeakMotion (MotionType value)
-		//{
-		//	if (value != MotionType) {
-		//		if (CheckIsMovingByTheCar (value)) {
-		//			NotifyUser ("You start moving on the car");					
-		//		} else {
-		//			NotifyUser (value.ToString ());
-		//		}
-		//	}
-		//}
 
 		protected virtual void DestoyTokens ()
 		{

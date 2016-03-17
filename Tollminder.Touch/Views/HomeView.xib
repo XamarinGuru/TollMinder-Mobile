@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
@@ -11,6 +11,7 @@
                 <outlet property="ActivityLabel" destination="SLq-rm-Ovw" id="uoS-9Q-JzO"/>
                 <outlet property="GeoLabel" destination="5" id="name-outlet-5"/>
                 <outlet property="GeoLabelData" destination="7" id="name-outlet-7"/>
+                <outlet property="LogArea" destination="FGq-je-7EJ" id="y40-NT-tvC"/>
                 <outlet property="StartButton" destination="13" id="name-outlet-13"/>
                 <outlet property="StopButton" destination="14" id="name-outlet-14"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
@@ -73,19 +74,29 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="FGq-je-7EJ">
+                    <rect key="frame" x="85" y="232" width="430" height="348"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="13" firstAttribute="width" secondItem="14" secondAttribute="width" id="18"/>
                 <constraint firstItem="13" firstAttribute="centerY" secondItem="14" secondAttribute="centerY" id="20"/>
                 <constraint firstItem="14" firstAttribute="centerX" secondItem="13" secondAttribute="centerX" id="13g-iI-2cT"/>
+                <constraint firstAttribute="bottom" secondItem="FGq-je-7EJ" secondAttribute="bottom" constant="20" id="4Ga-cZ-nqU"/>
                 <constraint firstItem="7" firstAttribute="trailing" secondItem="14" secondAttribute="trailing" id="86A-SK-pJW"/>
                 <constraint firstItem="5" firstAttribute="centerY" secondItem="7" secondAttribute="centerY" id="8OV-pQ-E3c"/>
                 <constraint firstItem="SLq-rm-Ovw" firstAttribute="centerY" secondItem="SBB-yu-2Qf" secondAttribute="centerY" id="H32-Hk-mLt"/>
                 <constraint firstItem="SLq-rm-Ovw" firstAttribute="leading" secondItem="7" secondAttribute="leading" id="I1e-hl-Pil"/>
                 <constraint firstItem="14" firstAttribute="leading" secondItem="13" secondAttribute="trailing" constant="50" id="JTY-kx-q4O"/>
                 <constraint firstItem="SLq-rm-Ovw" firstAttribute="trailing" secondItem="14" secondAttribute="trailing" id="Jex-aQ-b5U"/>
+                <constraint firstItem="FGq-je-7EJ" firstAttribute="trailing" secondItem="SLq-rm-Ovw" secondAttribute="trailing" id="K1U-CM-xVS"/>
                 <constraint firstItem="5" firstAttribute="top" secondItem="13" secondAttribute="top" constant="-50" id="LZr-px-efM"/>
+                <constraint firstItem="FGq-je-7EJ" firstAttribute="leading" secondItem="SBB-yu-2Qf" secondAttribute="leading" id="MT6-JJ-MmD"/>
                 <constraint firstItem="7" firstAttribute="leading" secondItem="5" secondAttribute="trailing" constant="30" id="OXs-M9-6dQ"/>
                 <constraint firstItem="14" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" multiplier="1.5" id="Peq-DT-UHZ"/>
                 <constraint firstItem="SLq-rm-Ovw" firstAttribute="leading" secondItem="SBB-yu-2Qf" secondAttribute="trailing" constant="30" id="RFb-UC-OcS"/>
@@ -99,6 +110,7 @@
                 <constraint firstItem="13" firstAttribute="top" secondItem="2" secondAttribute="top" constant="50" id="jMD-dk-oDX"/>
                 <constraint firstItem="14" firstAttribute="centerY" secondItem="2" secondAttribute="centerY" id="kwG-8H-lLG"/>
                 <constraint firstItem="SBB-yu-2Qf" firstAttribute="height" secondItem="5" secondAttribute="height" id="mYX-kN-BKi"/>
+                <constraint firstItem="FGq-je-7EJ" firstAttribute="top" secondItem="SLq-rm-Ovw" secondAttribute="bottom" constant="20" id="mi9-Cw-Um0"/>
                 <constraint firstItem="5" firstAttribute="leading" secondItem="13" secondAttribute="leading" id="qAD-F2-1ZJ"/>
                 <constraint firstItem="SLq-rm-Ovw" firstAttribute="top" secondItem="7" secondAttribute="bottom" constant="50.5" id="rnN-Lh-0ga"/>
                 <constraint firstItem="13" firstAttribute="top" secondItem="5" secondAttribute="bottom" constant="-70" id="tpJ-gh-wkf"/>

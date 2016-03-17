@@ -8,12 +8,12 @@ using Tollminder.Droid.Handlers;
 using Tollminder.Droid.Helpers;
 using Tollminder.Droid.ServicesConnections;
 using Android.Gms.Common;
+using System;
 
 namespace Tollminder.Droid.Services
 {
 	public class DroidGeolocationWatcher :  AndroidServiceWithServiceConnection<GeofenceService,GeolocationClientHandler, GeolocationServiceConnection>, IGeoLocationWatcher
 	{	
-
 		#region IGeoLocationWatcher implementation
 
 		public bool IsBound { get; private set; } = false;
@@ -94,6 +94,11 @@ namespace Tollminder.Droid.Services
 			Log.LogMessage (string.Format (" - --- - - -  {0}    --- - - - - - -", isEnabled));
 			DroidMessanging.SendMessage (ServiceConstants.GeoFenceEnabled, MessengerService, null , isEnabled.GetBundle());
 			DroidMessanging.SendMessage (ServiceConstants.StartLocation, MessengerService, null, (!isEnabled).GetBundle());
+		}
+
+		public void StopUpdatingHighAccuracyLocation ()
+		{
+			throw new NotImplementedException ();
 		}
 		#endregion
 	}

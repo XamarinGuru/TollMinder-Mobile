@@ -30,9 +30,9 @@ namespace Tollminder.Core.Models
 		}
 	}
 
-	public class GeoFenceExitMessage : MvxMessage
+	public class LogUpdated : MvxMessage
 	{
-		public GeoFenceExitMessage (object sender, MotionType motion)
+		public LogUpdated (object sender)
 			: base (sender)
 		{				
 		}

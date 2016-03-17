@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using CoreMotion;
 using Foundation;
 using MvvmCross.Platform;
@@ -28,7 +29,13 @@ namespace Tollminder.Touch.Services
 					_motionType = value;
 				Mvx.Resolve<IMvxMessenger> ().Publish (new MotionMessage (this, value));
 			}
-		} 
+		}
+
+		public bool IsAutomove {
+			get {
+				return MotionType == MotionType.Automotive;
+			}
+		}
 
 		public void StopDetection()
 		{			
@@ -60,7 +67,7 @@ namespace Tollminder.Touch.Services
 			else if (activity.Stationary || activity.Unknown) {
 				MotionType = MotionType.Still;
 			}
-			#if DEBUG
+			#if RELEASE
 			Tollminder.Core.Helpers.Log.LogMessage (_motionType.ToString ());
 			#endif
 
