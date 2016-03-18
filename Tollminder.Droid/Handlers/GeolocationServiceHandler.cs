@@ -29,10 +29,10 @@ namespace Tollminder.Droid.Handlers
 				}
 				return;		
 			case ServiceConstants.GeoFenceEnabled:
-				(Service as GeofenceService).GeofenceEnabled = msg.Data.GetIsEnabled ();
+				//(Service as GeofenceService).GeofenceEnabled = msg.Data.GetIsEnabled ();
 				return;
 			case ServiceConstants.StartLocation:
-				Service.StartLocationUpdate (msg.Data.GetIsEnabled ());
+				Service.StartLocationUpdate ();
 				return;	
 			case ServiceConstants.StopLocation:
 				Service.StopLocationUpdate ();

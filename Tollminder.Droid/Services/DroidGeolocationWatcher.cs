@@ -12,7 +12,7 @@ using System;
 
 namespace Tollminder.Droid.Services
 {
-	public class DroidGeolocationWatcher :  AndroidServiceWithServiceConnection<GeofenceService,GeolocationClientHandler, GeolocationServiceConnection>, IGeoLocationWatcher
+	public class DroidGeolocationWatcher :  AndroidServiceWithServiceConnection<GeolocationService,GeolocationClientHandler, GeolocationServiceConnection>, IGeoLocationWatcher
 	{	
 		#region IGeoLocationWatcher implementation
 

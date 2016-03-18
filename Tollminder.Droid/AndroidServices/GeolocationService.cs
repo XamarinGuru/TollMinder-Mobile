@@ -9,8 +9,8 @@ using Android.Locations;
 
 namespace Tollminder.Droid.AndroidServices
 {	
-	[Service(Enabled = true, IsolatedProcess = true, Exported = false)]
-	[IntentFilter (new string [] { "com.tollminder.GeolocationService" })]
+	[Service(Enabled = true, Exported = false)]
+	//[IntentFilter (new string [] { "com.tollminder.GeolocationService" })]
 	public class GeolocationService : GoogleApiService<GeolocationServiceHandler>,
 										Android.Gms.Location.ILocationListener									
 										 
@@ -46,9 +46,9 @@ namespace Tollminder.Droid.AndroidServices
 			}
 		}
 
-		public virtual void StartLocationUpdate (bool fastUpdates = false)
+		public virtual void StartLocationUpdate ()
 		{
-			Log.LogMessage ("START LOCATION UPDATES " + fastUpdates);				
+			Log.LogMessage ("START LOCATION UPDATES ");				
 			LocationServices.FusedLocationApi.RequestLocationUpdates (GoogleApiClient, LocationRequest , this);
 		}
 

@@ -75,7 +75,7 @@ namespace Tollminder.Touch.Services
 		public virtual void StartUpdatingHighAccuracyLocation ()
 		{
 			DestoyIntervalUpdate ();
-			_pollUpdates = Observable.Interval (TimeSpan.FromSeconds (1));
+			_pollUpdates = Observable.Interval (TimeSpan.FromSeconds (4));
 		}
 
 		public virtual void StopUpdatingHighAccuracyLocation ()

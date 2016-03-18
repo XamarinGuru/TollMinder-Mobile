@@ -53,8 +53,8 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 				_textToSpeech.IsEnabled = true;
 				_geoWatcher.StartGeolocationWatcher ();
 				_activity.StartDetection ();
-				//_tokens.Add (_messenger.Subscribe<LocationMessage> (x => CheckTrackStatus ()));
-				//_isBound = true;
+				_tokens.Add (_messenger.Subscribe<LocationMessage> (x => CheckTrackStatus ()));
+				_isBound = true;
 			}	
 
 		}
