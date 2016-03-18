@@ -3,18 +3,28 @@ using Tollminder.Core.Models;
 using Tollminder.Core.Helpers;
 using MvvmCross.Plugins.Messenger;
 using MvvmCross.Platform;
+using System;
+using System.Reactive.Linq;
 
 namespace Tollminder.Touch.Services
 {
-	public class TouchGeolocationWatcher : TouchGeoFence, IGeoLocationWatcher
-	{		
+	public class TouchGeolocationWatcher : TouchLocation, IGeoLocationWatcher
+	{	
+		private IObservable<long> _pollUpdates;
+		private IDisposable _subscription;
+	
+		public TouchGeolocationWatcher ()
+		{
+			_pollUpdates = Observable.Interval (TimeSpan.FromSeconds (20));
+		}
+
 		public bool IsBound { get; private set; } = false;
 
 		public override GeoLocation Location {
 			get { return base.Location;	}
 			set {
 				base.Location = value;
-				#if RELEASE
+				#if DEBUG
 				Log.LogMessage ("MESSAGE WITH LOCATION PUBLISH");
 				#endif
 				Mvx.Resolve<IMvxMessenger> ().Publish (new LocationMessage (this, Location));
@@ -29,7 +39,8 @@ namespace Tollminder.Touch.Services
 		public virtual void StartGeolocationWatcher()
 		{
 			if (!IsBound) {
-				StartGeofenceService ();
+				StartLocationUpdates ();
+				CreateIntervalUpdate ();
 				IsBound = true;				
 			}	
 		}
@@ -37,20 +48,40 @@ namespace Tollminder.Touch.Services
 		public virtual void StopGeolocationWatcher ()
 		{
 			if (IsBound) {
-				StopGeofenceService ();
-				IsBound = false;				
+				StoptLocationUpdates ();
+				DestoyIntervalUpdate ();
+				IsBound = false;
 			}
 		}
 
+		protected override void LocationIsUpdated (object sender, CoreLocation.CLLocationsUpdatedEventArgs e)
+		{
+			base.LocationIsUpdated (sender, e);
+			StoptLocationUpdates ();
+		}
+
+		protected virtual void DestoyIntervalUpdate ()
+		{
+			_subscription?.Dispose ();
+		}
+
+		protected virtual void CreateIntervalUpdate ()
+		{
+			_subscription = _pollUpdates.Subscribe ((_) => {
+				StartLocationUpdates ();
+			});
+		}
 
 		public virtual void StartUpdatingHighAccuracyLocation ()
 		{
-			GeofenceEnabled = false;
+			DestoyIntervalUpdate ();
+			_pollUpdates = Observable.Interval (TimeSpan.FromSeconds (1));
 		}
 
 		public virtual void StopUpdatingHighAccuracyLocation ()
 		{
-			GeofenceEnabled = true;
+			DestoyIntervalUpdate ();
+			_pollUpdates = Observable.Interval (TimeSpan.FromSeconds (20));
 		}
 		#endregion
 	}

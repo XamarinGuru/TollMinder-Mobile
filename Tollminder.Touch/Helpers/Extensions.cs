@@ -13,9 +13,7 @@ namespace Tollminder.Touch.Helpers
 				Speed = loc.Speed,
 				Longitude = loc.Coordinate.Longitude,
 				Latitude = loc.Coordinate.Latitude,
-				Accuracy = loc.HorizontalAccuracy,
-				Altitude = loc.Altitude,
-				AltitudeAccuracy = loc.VerticalAccuracy
+				Altitude = loc.Altitude
 			};
 			return geoLocation;
 		}

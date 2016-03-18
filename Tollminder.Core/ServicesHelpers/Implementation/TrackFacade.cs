@@ -51,7 +51,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 				Log.LogMessage (string.Format ("THE SEVICES HAS STARTED AT {0}", DateTime.Now));
 				#endif
 				_textToSpeech.IsEnabled = true;
-				//_geoWatcher.StartGeolocationWatcher ();
+				_geoWatcher.StartGeolocationWatcher ();
 				_activity.StartDetection ();
 				//_tokens.Add (_messenger.Subscribe<LocationMessage> (x => CheckTrackStatus ()));
 				//_isBound = true;
