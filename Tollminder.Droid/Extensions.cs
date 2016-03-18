@@ -5,6 +5,8 @@ using Android.Widget;
 using Android.OS;
 using Android.Gms.Location;
 using Tollminder.Core.Helpers;
+using Android.Content;
+using Android.Gms.Common;
 
 namespace Tollminder.Droid
 {
@@ -103,6 +105,19 @@ namespace Tollminder.Droid
 		public static bool GetIsEnabled (this Bundle mType) 
 		{			
 			return mType.GetBoolean(IsEnabled);	
+		}
+
+		public static bool IsGooglePlayServicesInstalled (this Context context)
+		{
+			int queryResult = GoogleApiAvailability.Instance.IsGooglePlayServicesAvailable (context);
+			if (queryResult == ConnectionResult.Success) {
+				return true;
+			}
+
+			if (GoogleApiAvailability.Instance.IsUserResolvableError (queryResult)) {
+				string errorString = GoogleApiAvailability.Instance.GetErrorString (queryResult);
+			}
+			return false;
 		}
 	}
 }

@@ -1,12 +1,11 @@
 ﻿using Android.App;
 using Android.Gms.Common.Apis;
 using Android.OS;
-using Tollminder.Droid.Handlers;
 using Tollminder.Core.Helpers;
 
 namespace Tollminder.Droid.AndroidServices
 {
-	public abstract class GoogleApiService<T> : MessengerGoogleApiService<T>, GoogleApiClient.IConnectionCallbacks, GoogleApiClient.IOnConnectionFailedListener where T : BaseHandler
+	public abstract class GoogleApiService : Service , GoogleApiClient.IConnectionCallbacks, GoogleApiClient.IOnConnectionFailedListener
 	{		
 		protected GoogleApiClient GoogleApiClient { get; set; }
 

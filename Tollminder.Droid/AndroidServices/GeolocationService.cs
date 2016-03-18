@@ -1,30 +1,17 @@
 ﻿using Android.App;
+using Android.Content;
 using Android.Gms.Location;
 using Android.OS;
 using Tollminder.Core.Helpers;
 using Tollminder.Core.Models;
-using Tollminder.Droid.Helpers;
-using Tollminder.Droid.Handlers;
-using Android.Locations;
 
 namespace Tollminder.Droid.AndroidServices
-{	
+{
 	[Service(Enabled = true, Exported = false)]
-	//[IntentFilter (new string [] { "com.tollminder.GeolocationService" })]
-	public class GeolocationService : GoogleApiService<GeolocationServiceHandler>,
-										Android.Gms.Location.ILocationListener									
-										 
+	public class GeolocationService : GoogleApiService
 	{
 		private LocationRequest _request;
-		private GeoLocation _geoLocation;
-
-		public virtual GeoLocation Location {
-			get { return _geoLocation; } 
-			protected set { 
-				_geoLocation = value;
-				SendMessage ();
-			}
-		}
+		private PendingIntent _geolocationPendingIntent;
 
 		public override void OnCreate ()
 		{
@@ -37,19 +24,20 @@ namespace Tollminder.Droid.AndroidServices
 		{
 			base.OnDestroy ();
 			StopLocationUpdate ();
+			GeolocationPendingIntent.Cancel ();
 		}
 
 		public virtual void StopLocationUpdate ()
 		{
 			if (GoogleApiClient != null && GoogleApiClient.IsConnected) {
-				LocationServices.FusedLocationApi.RemoveLocationUpdates (GoogleApiClient, this);
+				LocationServices.FusedLocationApi.RemoveLocationUpdates (GoogleApiClient, GeolocationPendingIntent);
 			}
 		}
 
 		public virtual void StartLocationUpdate ()
 		{
 			Log.LogMessage ("START LOCATION UPDATES ");				
-			LocationServices.FusedLocationApi.RequestLocationUpdates (GoogleApiClient, LocationRequest , this);
+			LocationServices.FusedLocationApi.RequestLocationUpdates (GoogleApiClient, LocationRequest , GeolocationPendingIntent);
 		}
 
 		public override void OnConnected (Bundle connectionHint)
@@ -71,9 +59,16 @@ namespace Tollminder.Droid.AndroidServices
 			base.OnConnectionSuspended (cause);
 		}
 
-		public void OnLocationChanged (Location location)
-		{
-			Location = location.GetGeolocationFromAndroidLocation();
+		protected PendingIntent GeolocationPendingIntent {
+			get {
+				if (_geolocationPendingIntent != null) {
+					return _geolocationPendingIntent;
+				}
+				Intent intent = new Intent ("com.tollminder.GeolocationReciever");
+				intent.SetPackage ("com.tollminder");
+				_geolocationPendingIntent = PendingIntent.GetBroadcast (this, 0, intent, PendingIntentFlags.UpdateCurrent);
+				return _geolocationPendingIntent;
+			}
 		}
 
 		protected virtual LocationRequest LocationRequest
@@ -90,11 +85,9 @@ namespace Tollminder.Droid.AndroidServices
 			}
 		}
 
-		private void SendMessage ()
+		public override IBinder OnBind (Intent intent)
 		{
-			if (MessengerClient != null) {
-				DroidMessanging.SendMessage (ServiceConstants.ServicePushLocations, MessengerClient, null, Location.GetBundleFromLocation ());
-			}
+			return null;
 		}
 	}	
 }
