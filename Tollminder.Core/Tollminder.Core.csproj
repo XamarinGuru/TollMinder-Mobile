@@ -78,6 +78,7 @@
     <Compile Include="Models\Statuses\StatusesFactory.cs" />
     <Compile Include="Services\INotifyService.cs" />
     <Compile Include="Services\Implementation\NotifyService.cs" />
+    <Compile Include="ServicesHelpers\Implementation\AutomoveActivity.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>

@@ -31,9 +31,17 @@ namespace Tollminder.Touch.Services
 			}
 		}
 
-		public bool IsAutomove {
-			get {
-				return MotionType == MotionType.Automotive;
+		//public bool IsAutomove {
+		//	get {
+		//		return MotionType == MotionType.Automotive;
+		//	}
+		//}
+
+		public void StartDetection()
+		{			
+			if (CMMotionActivityManager.IsActivityAvailable && !IsBound) {
+				_motionActivityManager?.StartActivityUpdates (NSOperationQueue.MainQueue, (activity) => GetMotionActivity (activity));
+				IsBound = true;
 			}
 		}
 
@@ -42,14 +50,6 @@ namespace Tollminder.Touch.Services
 			if (CMMotionActivityManager.IsActivityAvailable && IsBound) {
 				_motionActivityManager?.StopActivityUpdates ();
 				IsBound = false;
-			}
-		}
-
-		public void StartDetection()
-		{			
-			if (CMMotionActivityManager.IsActivityAvailable && !IsBound) {
-				_motionActivityManager?.StartActivityUpdates (NSOperationQueue.MainQueue, (activity) => GetMotionActivity (activity));
-				IsBound = true;
 			}
 		}
 
@@ -70,7 +70,6 @@ namespace Tollminder.Touch.Services
 			#if RELEASE
 			Tollminder.Core.Helpers.Log.LogMessage (_motionType.ToString ());
 			#endif
-
 		}
 	}
 }

@@ -55,12 +55,20 @@ namespace Tollminder.Droid.Services
 
 		public virtual void StartUpdatingHighAccuracyLocation()
 		{			
-			
+			if (IsBound) {
+				Stop ();
+				ServiceIntent.PutExtra ("interval", 4000);
+				Start ();
+			}
 		}
 
 		public virtual void StopUpdatingHighAccuracyLocation()
 		{			
-			
+			if (IsBound) {
+				Stop ();
+				ServiceIntent.PutExtra ("interval", 20000);
+				Start ();
+			}
 		}
 
 		public override void OnReceive (Context context, Intent intent)

@@ -10,14 +10,22 @@ namespace Tollminder.Droid.AndroidServices
 	[Service(Enabled = true, Exported = false)]
 	public class GeolocationService : GoogleApiService
 	{
+		private const string IntervalString = "interval";
 		private LocationRequest _request;
 		private PendingIntent _geolocationPendingIntent;
+		public virtual int Interval { get; set; }
 
 		public override void OnCreate ()
 		{
 			base.OnCreate ();
 			CreateGoogleApiClient (LocationServices.API);
 			Connect ();
+		}
+
+		public override StartCommandResult OnStartCommand (Intent intent, StartCommandFlags flags, int startId)
+		{
+			Interval = intent.GetIntExtra (IntervalString, 20000);
+			return StartCommandResult.RedeliverIntent;
 		}
 
 		public override void OnDestroy ()

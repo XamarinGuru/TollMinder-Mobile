@@ -8,27 +8,21 @@ namespace Tollminder.Core.Models.Statuses
 		public override TollGeolocationStatus CheckStatus ()
 		{
 			#if DEBUG 
-			Log.LogMessage (string.Format ("CHECKING IS MOVING ON THE CAR {0}", MotionActivity.IsAutomove));
+			Log.LogMessage (string.Format ("TRY TO FIND WAYPOINT ENTERCE FROM 200 m"));
 			#endif
-			if (MotionActivity.IsAutomove) {
-				#if DEBUG 
-				Log.LogMessage (string.Format ("TRY TO FIND WAYPOINT ENTERCE FROM 200 m"));
-				#endif
-				var waypoint = DataService.FindNearGeoLocation(GeoWatcher.Location, WaypointAction.Enterce);
-				#if DEBUG 
-				Log.LogMessage (string.Format ("CAR LOCATION {0} , WAYPOINT LOCATION {1}", GeoWatcher.Location, WaypointChecker.Waypoint));
-				#endif
-				if (waypoint == null || waypoint == WaypointChecker.Waypoint)
-					return TollGeolocationStatus.NotOnTollRoad;
-				#if DEBUG 
-				Log.LogMessage (string.Format ("FOUNDED WAYPOINT ENTERCE : {0} AND WAYPOINT ACTION {1}", waypoint.Name, waypoint.WaypointAction));
-				#endif
-				WaypointChecker.Waypoint = waypoint;
-				GeoWatcher.StartUpdatingHighAccuracyLocation ();
-				NotifyService.Notify (string.Format ("you are potentially going to enter {0} waypoints.", WaypointChecker.Waypoint.Name));
-				return TollGeolocationStatus.NearTollRoadEnterce;				
-			}
-			return TollGeolocationStatus.NotOnTollRoad;
+			var waypoint = DataService.FindNearGeoLocation(GeoWatcher.Location, WaypointAction.Enterce);
+			#if DEBUG 
+			Log.LogMessage (string.Format ("CAR LOCATION {0} , WAYPOINT LOCATION {1}", GeoWatcher.Location, WaypointChecker.Waypoint));
+			#endif
+			if (waypoint == null || waypoint == WaypointChecker.Waypoint)
+				return TollGeolocationStatus.NotOnTollRoad;
+			#if DEBUG 
+			Log.LogMessage (string.Format ("FOUNDED WAYPOINT ENTERCE : {0} AND WAYPOINT ACTION {1}", waypoint.Name, waypoint.WaypointAction));
+			#endif
+			WaypointChecker.Waypoint = waypoint;
+			GeoWatcher.StartUpdatingHighAccuracyLocation ();
+			NotifyService.Notify (string.Format ("you are potentially going to enter {0} waypoints.", WaypointChecker.Waypoint.Name));
+			return TollGeolocationStatus.NearTollRoadEnterce;				
 		}
 		#endregion
 		

@@ -20,7 +20,9 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 		private readonly IMotionActivity _activity;
 		private readonly ITextToSpeechService _textToSpeech;
 		private readonly IMvxMessenger _messenger;
-		private readonly IList<MvxSubscriptionToken> _tokens;
+		private readonly AutomoveActivity _automove;
+
+		private MvxSubscriptionToken _token;
 
 		#endregion
 
@@ -30,9 +32,9 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 		{
 			this._textToSpeech = Mvx.Resolve<ITextToSpeechService> ();
 			this._messenger = Mvx.Resolve<IMvxMessenger> ();
-			this._tokens = new List<MvxSubscriptionToken> ();
 			this._geoWatcher = Mvx.Resolve<IGeoLocationWatcher> ();
 			this._activity = Mvx.Resolve<IMotionActivity> ();
+			_automove = new AutomoveActivity ();
 		}
 
 		#endregion
@@ -51,13 +53,15 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 				Log.LogMessage (string.Format ("THE SEVICES HAS STARTED AT {0}", DateTime.Now));
 				#endif
 				_textToSpeech.IsEnabled = true;
-				_geoWatcher.StartGeolocationWatcher ();
+				//_geoWatcher.StartGeolocationWatcher ();
 				_activity.StartDetection ();
-				_tokens.Add (_messenger.Subscribe<LocationMessage> (x => CheckTrackStatus ()));
+				_automove.Automoved += IsStartedMoveOnTheCar;
+			
 				_isBound = true;
 			}	
 
 		}
+
 
 		public virtual void StopServices ()
 		{	
@@ -65,10 +69,21 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 				#if DEBUG 
 				Log.LogMessage (string.Format ("THE SEVICES HAS STOPPED AT {0}", DateTime.Now));
 				#endif
-				_geoWatcher.StopGeolocationWatcher ();
+				//_geoWatcher.StopGeolocationWatcher ();
 				_activity.StopDetection ();
-				DestoyTokens ();
+				_automove.Automoved -= IsStartedMoveOnTheCar;
 				_isBound = false;
+			}
+		}
+
+		private void IsStartedMoveOnTheCar (object sender, bool e)
+		{
+			if (e) {
+				_geoWatcher.StartGeolocationWatcher ();
+				_token = _messenger.Subscribe<LocationMessage> (x => CheckTrackStatus ());
+			} else {
+				_token?.Dispose ();
+				_geoWatcher.StopGeolocationWatcher ();
 			}
 		}
 
@@ -79,16 +94,5 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 			BaseStatus statusObject = StatusesFactory.GetStatus (TollStatus);
 			TollStatus = statusObject.CheckStatus ();
 		}
-
-		#region Helpers
-
-		protected virtual void DestoyTokens ()
-		{
-			foreach (var item in _tokens) {
-				item.Dispose ();
-			}
-		}
-
-		#endregion
 	}
 }

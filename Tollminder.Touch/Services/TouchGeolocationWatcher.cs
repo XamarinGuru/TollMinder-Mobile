@@ -48,8 +48,8 @@ namespace Tollminder.Touch.Services
 		public virtual void StopGeolocationWatcher ()
 		{
 			if (IsBound) {
-				StoptLocationUpdates ();
 				DestoyIntervalUpdate ();
+				StoptLocationUpdates ();
 				IsBound = false;
 			}
 		}
