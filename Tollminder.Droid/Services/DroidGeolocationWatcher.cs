@@ -57,7 +57,7 @@ namespace Tollminder.Droid.Services
 		{			
 			if (IsBound) {
 				Stop ();
-				ServiceIntent.PutExtra ("interval", 4000);
+				ServiceIntent.PutExtra ("interval", 30);
 				Start ();
 			}
 		}
@@ -66,7 +66,7 @@ namespace Tollminder.Droid.Services
 		{			
 			if (IsBound) {
 				Stop ();
-				ServiceIntent.PutExtra ("interval", 20000);
+				ServiceIntent.PutExtra ("interval", 400);
 				Start ();
 			}
 		}

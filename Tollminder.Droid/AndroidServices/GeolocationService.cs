@@ -24,7 +24,7 @@ namespace Tollminder.Droid.AndroidServices
 
 		public override StartCommandResult OnStartCommand (Intent intent, StartCommandFlags flags, int startId)
 		{
-			Interval = intent.GetIntExtra (IntervalString, 20000);
+			Interval = intent.GetIntExtra (IntervalString, 400);
 			return StartCommandResult.RedeliverIntent;
 		}
 
@@ -87,9 +87,7 @@ namespace Tollminder.Droid.AndroidServices
 				}
 				_request = new LocationRequest ();
 				_request.SetPriority (LocationRequest.PriorityHighAccuracy);
-				_request.SetInterval (1000);
-				_request.SetFastestInterval (1000);
-				_request.se
+				_request.SetSmallestDisplacement (Interval);
 				return _request;
 			}
 		}

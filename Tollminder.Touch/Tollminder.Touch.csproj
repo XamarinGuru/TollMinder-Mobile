@@ -39,11 +39,16 @@
     <ConsolePause>false</ConsolePause>
     <MtouchArch>ARMv7, ARMv7s, ARM64</MtouchArch>
     <MtouchUseSGen>true</MtouchUseSGen>
-    <CodesignKey>iPhone Distribution</CodesignKey>
+    <CodesignKey>iPhone Distribution: Dmitry Stepanov (W6C5Q44UVB)</CodesignKey>
     <MtouchUseRefCounting>true</MtouchUseRefCounting>
-    <MtouchUseLlvm>true</MtouchUseLlvm>
+    <MtouchUseLlvm>false</MtouchUseLlvm>
     <IpaPackageName>TollMinder</IpaPackageName>
     <MtouchExtraArgs></MtouchExtraArgs>
+    <CodesignProvision>2f9a7eec-76c3-414f-96e3-0cc740413863</CodesignProvision>
+    <BuildIpa>true</BuildIpa>
+    <IpaMetadata>Info.plist</IpaMetadata>
+    <MtouchFloat32>true</MtouchFloat32>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <Optimize>true</Optimize>
@@ -77,17 +82,6 @@
     <MtouchProfiling>true</MtouchProfiling>
     <IpaPackageName></IpaPackageName>
     <CodesignProvision>1b94dd84-58c9-4249-8c39-9f1595789894</CodesignProvision>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-hoc|iPhone' ">
-    <Optimize>true</Optimize>
-    <OutputPath>bin\iPhone\Ad-hoc</OutputPath>
-    <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Distribution: Dmitry Stepanov (W6C5Q44UVB)</CodesignKey>
-    <CodesignProvision>2f9a7eec-76c3-414f-96e3-0cc740413863</CodesignProvision>
-    <MtouchUseLlvm>true</MtouchUseLlvm>
-    <MtouchArch>ARMv7, ARMv7s, ARM64</MtouchArch>
-    <IpaPackageName></IpaPackageName>
-    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

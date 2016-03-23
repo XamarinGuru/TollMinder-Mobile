@@ -1,4 +1,4 @@
-#r @"packages/FAKE.4.12.0/tools/FakeLib.dll"
+#r @"packages/FAKE.4.22.6/tools/FakeLib.dll"
 #load "build-helpers.fsx"
 open Fake
 open System
@@ -42,7 +42,7 @@ Target "ios-adhoc" (fun () ->
             BuildIpa = true
         }) 
 
-    let appPath = Directory.EnumerateFiles(Path.Combine("TollMinder.Touch", "bin", "iPhone"), "*.ipa").First()
+    let appPath = Directory.EnumerateFiles(Path.Combine("TollMinder.Touch", "bin", "iPhone"), "*.ipa", SearchOption.AllDirectories).First()
     TeamCityHelper.PublishArtifact appPath
 )
 
@@ -72,7 +72,7 @@ Target "ios-hockey" (fun () ->
     HockeyApp(fun parametrs ->
         {parametrs with
             ApiToken = getBuildParam "hkey"
-            File = Directory.EnumerateFiles(Path.Combine("TollMinder.Touch", "bin", "iPhone"), "*.ipa").First()
+            File = Directory.EnumerateFiles(Path.Combine("TollMinder.Touch", "bin", "iPhone"), "*.ipa", SearchOption.AllDirectories).First()
          }) |> ignore    
 )
 
