@@ -34,7 +34,9 @@ namespace Tollminder.Touch.Services
 		{
 			LocationManager.RequestAlwaysAuthorization ();
 			LocationManager.RequestWhenInUseAuthorization ();
+			LocationManager.PausesLocationUpdatesAutomatically = false;
 			LocationManager.DesiredAccuracy = CLLocation.AccuracyBest;
+			LocationManager.DistanceFilter = 400;
 			if (EnvironmentInfo.IsForIOSNine) {
 				LocationManager.AllowsBackgroundLocationUpdates = true;			
 			}

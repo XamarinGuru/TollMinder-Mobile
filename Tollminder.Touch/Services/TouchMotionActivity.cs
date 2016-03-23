@@ -23,10 +23,7 @@ namespace Tollminder.Touch.Services
 		public MotionType MotionType { 
 			get { return _motionType; } 
 			private set { 
-				if (_motionType == value)
-					return;
-				else
-					_motionType = value;
+				_motionType = value;
 				Mvx.Resolve<IMvxMessenger> ().Publish (new MotionMessage (this, value));
 			}
 		}
@@ -40,7 +37,7 @@ namespace Tollminder.Touch.Services
 		public void StartDetection()
 		{			
 			if (CMMotionActivityManager.IsActivityAvailable && !IsBound) {
-				_motionActivityManager?.StartActivityUpdates (NSOperationQueue.MainQueue, (activity) => GetMotionActivity (activity));
+				_motionActivityManager?.StartActivityUpdates (NSOperationQueue.CurrentQueue, (activity) => GetMotionActivity (activity));
 				IsBound = true;
 			}
 		}
@@ -67,7 +64,7 @@ namespace Tollminder.Touch.Services
 			else if (activity.Stationary || activity.Unknown) {
 				MotionType = MotionType.Still;
 			}
-			#if RELEASE
+			#if DEBUG
 			Tollminder.Core.Helpers.Log.LogMessage (_motionType.ToString ());
 			#endif
 		}

@@ -16,7 +16,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 		private readonly IMvxMessenger _messenger;
 		private readonly IMotionActivity _activity;
 		private const int Percentage = 50;
-		public event EventHandler<bool> Automoved;
+		public event EventHandler<bool> AutomovedChandged;
 
 		private readonly IDisposable _intervalToken;
 		private readonly MvxSubscriptionToken _messengerToken;
@@ -24,21 +24,28 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
 		public AutomoveActivity ()
 		{
-			_intervalUpdates = Observable.Interval (TimeSpan.FromSeconds (10));
+			_intervalUpdates = Observable.Interval (TimeSpan.FromSeconds (60));
 			_activity = Mvx.Resolve<IMotionActivity> ();
 			_messenger = Mvx.Resolve<IMvxMessenger> ();
 			_activities = new List<MotionType> ();
 			_intervalToken = _intervalUpdates.Subscribe (x => GetMostProbableResult ());
-			_messengerToken = _messenger.Subscribe<MotionMessage> (x => _activities.Add (_activity.MotionType));
+			_messengerToken = _messenger.SubscribeOnThreadPoolThread<MotionMessage> (x => {
+				_activities.Add (_activity.MotionType);
+			});
 		}
 
 		protected virtual void GetMostProbableResult ()
 		{
 			int automovePercentage = 0;
 			try {
-				automovePercentage = _activities.Count / _activities.Where (x => x == MotionType.Automotive).Count () * 100;
-			} catch (DivideByZeroException) {}
-			Automoved?.Invoke (this, automovePercentage > Percentage);
+				automovePercentage = _activities.Count / _activities.Count (x => x == MotionType.Automotive) * 100;
+			} catch (DivideByZeroException) {
+			}
+			if (_activity.MotionType == MotionType.Automotive) {
+				AutomovedChandged?.Invoke (this, true);
+			} else {
+				AutomovedChandged?.Invoke (this, automovePercentage > Percentage);
+			}
 			_activities.Clear ();
 		}
 

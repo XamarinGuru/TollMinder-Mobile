@@ -14,6 +14,14 @@ namespace Tollminder.Core.Models
 		}
 	}
 
+	public class AppInBackgroundMessage : MvxMessage
+	{
+		public AppInBackgroundMessage (object sender)
+			: base (sender)
+		{
+		}
+	}
+
 	public class LocationMessage : GenericMessage<GeoLocation>
 	{
 		public LocationMessage (object sender, GeoLocation geo)

@@ -5,19 +5,12 @@ using MvvmCross.Plugins.Messenger;
 using MvvmCross.Platform;
 using System;
 using System.Reactive.Linq;
+using UIKit;
 
 namespace Tollminder.Touch.Services
 {
 	public class TouchGeolocationWatcher : TouchLocation, IGeoLocationWatcher
 	{	
-		private IObservable<long> _pollUpdates;
-		private IDisposable _subscription;
-	
-		public TouchGeolocationWatcher ()
-		{
-			_pollUpdates = Observable.Interval (TimeSpan.FromSeconds (20));
-		}
-
 		public bool IsBound { get; private set; } = false;
 
 		public override GeoLocation Location {
@@ -28,7 +21,7 @@ namespace Tollminder.Touch.Services
 				Log.LogMessage ("MESSAGE WITH LOCATION PUBLISH");
 				#endif
 				Mvx.Resolve<IMvxMessenger> ().Publish (new LocationMessage (this, Location));
-				#if RELEASE
+				#if DEBUG
 				Log.LogMessage (value.ToString ());
 				#endif
 			}
@@ -40,7 +33,6 @@ namespace Tollminder.Touch.Services
 		{
 			if (!IsBound) {
 				StartLocationUpdates ();
-				CreateIntervalUpdate ();
 				IsBound = true;				
 			}	
 		}
@@ -48,40 +40,23 @@ namespace Tollminder.Touch.Services
 		public virtual void StopGeolocationWatcher ()
 		{
 			if (IsBound) {
-				DestoyIntervalUpdate ();
 				StoptLocationUpdates ();
 				IsBound = false;
 			}
 		}
 
-		protected override void LocationIsUpdated (object sender, CoreLocation.CLLocationsUpdatedEventArgs e)
-		{
-			base.LocationIsUpdated (sender, e);
-			StoptLocationUpdates ();
-		}
-
-		protected virtual void DestoyIntervalUpdate ()
-		{
-			_subscription?.Dispose ();
-		}
-
-		protected virtual void CreateIntervalUpdate ()
-		{
-			_subscription = _pollUpdates.Subscribe ((_) => {
-				StartLocationUpdates ();
-			});
-		}
-
 		public virtual void StartUpdatingHighAccuracyLocation ()
 		{
-			DestoyIntervalUpdate ();
-			_pollUpdates = Observable.Interval (TimeSpan.FromSeconds (4));
+			StoptLocationUpdates ();
+			LocationManager.DistanceFilter = 10;
+			StartLocationUpdates ();
 		}
 
 		public virtual void StopUpdatingHighAccuracyLocation ()
 		{
-			DestoyIntervalUpdate ();
-			_pollUpdates = Observable.Interval (TimeSpan.FromSeconds (20));
+			StoptLocationUpdates ();
+			LocationManager.DistanceFilter = 400;
+			StartLocationUpdates ();
 		}
 		#endregion
 	}

@@ -2,6 +2,8 @@
 using System.Linq;
 using CoreLocation;
 using Foundation;
+using MvvmCross.Platform;
+using MvvmCross.Plugins.Messenger;
 using Tollminder.Core.Models;
 using Tollminder.Touch.Helpers;
 
@@ -27,6 +29,17 @@ namespace Tollminder.Touch.Services
 		public TouchDeferedLocation ()
 		{
 			_locationManager = new CLLocationManager ();
+			Mvx.Resolve<IMvxMessenger> ().SubscribeOnThreadPoolThread<AppInBackgroundMessage> ((obj) => {
+				if (!Mvx.Resolve<TouchPlatform> ().IsAppInForeground) {
+					LocationManager.DesiredAccuracy = CLLocation.AccuracyBest;
+					LocationManager.DistanceFilter = 200;
+				} else {
+					LocationManager.DesiredAccuracy = CLLocation.AccuracyBest;
+					LocationManager.DistanceFilter = CLLocationDistance.FilterNone; 
+				}
+				LocationManager.StartUpdatingLocation ();
+				LocationManager.StopUpdatingLocation ();
+			});
 			SetupLocationService ();
 		}
 		#endregion
@@ -38,6 +51,7 @@ namespace Tollminder.Touch.Services
 			LocationManager.RequestWhenInUseAuthorization ();
 			LocationManager.DesiredAccuracy = CLLocation.AccuracyBest;
 			LocationManager.DistanceFilter = CLLocationDistance.FilterNone;
+			LocationManager.PausesLocationUpdatesAutomatically = false;
 			LocationManager.Delegate = this;
 			if (EnvironmentInfo.IsForIOSNine) {
 				LocationManager.AllowsBackgroundLocationUpdates = true;
@@ -54,8 +68,8 @@ namespace Tollminder.Touch.Services
 			if (!IsBound) {
 				if (CLLocationManager.LocationServicesEnabled) {
 					LocationManager.DeferredUpdatesFinished += DeferredUpdatesFinished;
-					LocationManager.AllowDeferredLocationUpdatesUntil (CLLocation.AccuracyThreeKilometers, 20);
-					LocationManager.LocationsUpdated -= LocationIsUpdated;
+					LocationManager.LocationsUpdated += LocationIsUpdated;
+					LocationManager.StartUpdatingLocation ();
 				}
 				IsBound = true;
 			}
@@ -67,14 +81,18 @@ namespace Tollminder.Touch.Services
 			if (IsBound) {
 				if (CLLocationManager.LocationServicesEnabled) {
 					LocationManager.LocationsUpdated -= LocationIsUpdated;
+					LocationManager.DeferredUpdatesFinished -= DeferredUpdatesFinished;
+					LocationManager.StopUpdatingLocation ();
 				}
 				IsBound = false;
 			}
 		}
 
+		private bool _defferedUpdates = true;
+
 		protected virtual void DeferredUpdatesFinished (object sender, NSErrorEventArgs e)
 		{
-			
+			_defferedUpdates = false;
 		}
 
 		protected virtual void LocationIsUpdated (object sender, CLLocationsUpdatedEventArgs e)
@@ -82,6 +100,10 @@ namespace Tollminder.Touch.Services
 			var loc = e.Locations.Last ();
 			if (loc != null) {
 				Location = loc.GetGeoLocationFromCLLocation ();
+				if (!_defferedUpdates && !Mvx.Resolve<TouchPlatform> ().IsAppInForeground) {
+					_defferedUpdates = true;
+					LocationManager.AllowDeferredLocationUpdatesUntil (400, 20);
+				}
 			}
 		}
 		#endregion

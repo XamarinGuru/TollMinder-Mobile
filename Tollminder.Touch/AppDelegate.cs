@@ -4,6 +4,8 @@ using System;
 using MvvmCross.iOS.Platform;
 using MvvmCross.Platform;
 using MvvmCross.Core.ViewModels;
+using MvvmCross.Plugins.Messenger;
+using Tollminder.Core.Models;
 
 namespace Tollminder.Touch
 {
@@ -66,6 +68,7 @@ namespace Tollminder.Touch
         public override void DidEnterBackground(UIApplication application)
         {
 			Console.WriteLine ("App entering background state.");
+			Mvx.Resolve<IMvxMessenger> ().Publish (new AppInBackgroundMessage (this));
         }
 
         public override void WillEnterForeground(UIApplication application)
