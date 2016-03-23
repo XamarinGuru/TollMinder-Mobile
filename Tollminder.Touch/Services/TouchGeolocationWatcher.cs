@@ -3,9 +3,6 @@ using Tollminder.Core.Models;
 using Tollminder.Core.Helpers;
 using MvvmCross.Plugins.Messenger;
 using MvvmCross.Platform;
-using System;
-using System.Reactive.Linq;
-using UIKit;
 
 namespace Tollminder.Touch.Services
 {
@@ -17,9 +14,6 @@ namespace Tollminder.Touch.Services
 			get { return base.Location;	}
 			set {
 				base.Location = value;
-				#if DEBUG
-				Log.LogMessage ("MESSAGE WITH LOCATION PUBLISH");
-				#endif
 				Mvx.Resolve<IMvxMessenger> ().Publish (new LocationMessage (this, Location));
 				#if DEBUG
 				Log.LogMessage (value.ToString ());
@@ -48,7 +42,7 @@ namespace Tollminder.Touch.Services
 		public virtual void StartUpdatingHighAccuracyLocation ()
 		{
 			StoptLocationUpdates ();
-			LocationManager.DistanceFilter = 10;
+			LocationManager.DistanceFilter = 30;
 			StartLocationUpdates ();
 		}
 

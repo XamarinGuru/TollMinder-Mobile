@@ -89,6 +89,7 @@ namespace Tollminder.Droid.AndroidServices
 				_request.SetPriority (LocationRequest.PriorityHighAccuracy);
 				_request.SetInterval (1000);
 				_request.SetFastestInterval (1000);
+				_request.se
 				return _request;
 			}
 		}

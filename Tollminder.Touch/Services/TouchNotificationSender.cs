@@ -14,7 +14,8 @@ namespace Tollminder.Touch.Services
 				var notification = new UILocalNotification ();
 				notification.AlertTitle = title;
 				notification.AlertBody = message;
-				notification.SoundName = "Default";
+				notification.SoundName = UILocalNotification.DefaultSoundName;
+				//notification.AlertAction = UILocalNotification.
 				UIApplication.SharedApplication.PresentLocalNotificationNow (notification);
 			});
 		}

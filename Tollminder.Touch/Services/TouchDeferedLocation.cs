@@ -30,15 +30,15 @@ namespace Tollminder.Touch.Services
 		{
 			_locationManager = new CLLocationManager ();
 			Mvx.Resolve<IMvxMessenger> ().SubscribeOnThreadPoolThread<AppInBackgroundMessage> ((obj) => {
+				LocationManager.StopUpdatingLocation ();
 				if (!Mvx.Resolve<TouchPlatform> ().IsAppInForeground) {
-					LocationManager.DesiredAccuracy = CLLocation.AccuracyBest;
-					LocationManager.DistanceFilter = 200;
+					//LocationManager.DesiredAccuracy = CLLocation.AccuracyBest;
+					LocationManager.DistanceFilter = 400;
 				} else {
-					LocationManager.DesiredAccuracy = CLLocation.AccuracyBest;
+					//LocationManager.DesiredAccuracy = CLLocation.AccuracyBest;
 					LocationManager.DistanceFilter = CLLocationDistance.FilterNone; 
 				}
 				LocationManager.StartUpdatingLocation ();
-				LocationManager.StopUpdatingLocation ();
 			});
 			SetupLocationService ();
 		}
