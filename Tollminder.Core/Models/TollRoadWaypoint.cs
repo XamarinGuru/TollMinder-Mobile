@@ -24,5 +24,17 @@ namespace Tollminder.Core.Models
 			return string.Format ("[TollRoadWaypoint: Id={0}, Name={1}, Location={2}, WaypointAction={3}]", Id, Name, Location, WaypointAction);
 		}
 	}
+
+	public class TollRoadWaypointWithDistance : TollRoadWaypoint
+	{
+		public readonly TollRoadWaypoint _waypoint;
+
+		public TollRoadWaypointWithDistance (TollRoadWaypoint waypoint)
+		{
+			this._waypoint = waypoint;
+		}
+
+		public double Distance { get; set; }
+	}
 }
 

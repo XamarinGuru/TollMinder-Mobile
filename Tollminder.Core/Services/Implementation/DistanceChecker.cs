@@ -50,6 +50,18 @@ namespace Tollminder.Core.Services.Implementation
 			Distance = DistanceBetweenGeoLocations (_geoWatcher.Location, _waypointChecker.Waypoint.Location);
 		}
 
+		public virtual TollRoadWaypointWithDistance GetMostClosestWaypoint (GeoLocation center, IList<TollRoadWaypoint> points)
+		{
+			return points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).Select (x => new TollRoadWaypointWithDistance () 
+			{ 
+				Distance = DistanceBetweenGeoLocations (center, x.Location),
+				Name = x.Name,
+				Id = x.Id,
+				Location = x.Location,
+				WaypointAction = x.WaypointAction 
+			}).OrderBy (x => x.Distance).FirstOrDefault ();
+		}
+
 		public virtual ParallelQuery<TollRoadWaypoint> GetLocationsFromRadius (GeoLocation center, IList<TollRoadWaypoint> points)
 		{
 			return points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).Where (x => (DistanceBetweenGeoLocations (center, x.Location) - DistanceToWaypoint) < Epsilon);

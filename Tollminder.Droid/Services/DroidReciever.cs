@@ -9,7 +9,7 @@ using Tollminder.Core.Helpers;
 
 namespace Tollminder.Droid.Services
 {
-	public class DroidGeolocationReciever : BroadcastReceiver
+	public class DroidReciever : BroadcastReceiver
 	{
 		public override void OnReceive (Context context, Intent intent)
 		{
