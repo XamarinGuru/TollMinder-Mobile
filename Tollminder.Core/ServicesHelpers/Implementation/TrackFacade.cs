@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System;
 using MvvmCross.Platform;
 using MvvmCross.Plugins.Messenger;
 using Tollminder.Core.Helpers;
 using Tollminder.Core.Models;
-using Tollminder.Core.Services;
-using System;
 using Tollminder.Core.Models.Statuses;
+using Tollminder.Core.Services;
 
 namespace Tollminder.Core.ServicesHelpers.Implementation
 {
@@ -20,9 +18,10 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 		private readonly IMotionActivity _activity;
 		private readonly ITextToSpeechService _textToSpeech;
 		private readonly IMvxMessenger _messenger;
-		private readonly AutomoveActivity _automove;
 
 		private MvxSubscriptionToken _token;
+
+		private object lockOebject = new object ();
 
 		#endregion
 
@@ -34,7 +33,6 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 			this._messenger = Mvx.Resolve<IMvxMessenger> ();
 			this._geoWatcher = Mvx.Resolve<IGeoLocationWatcher> ();
 			this._activity = Mvx.Resolve<IMotionActivity> ();
-			_automove = new AutomoveActivity ();
 		}
 
 		#endregion
@@ -55,9 +53,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 				_textToSpeech.IsEnabled = true;
 				_geoWatcher.StartGeolocationWatcher ();
 				_token = _messenger.SubscribeOnThreadPoolThread<LocationMessage> (x => CheckTrackStatus ());
-				_activity.StartDetection ();
-				//_automove.AutomovedChandged += IsStartedMoveOnTheCar;
-			
+				_activity.StartDetection ();			
 				_isBound = true;
 			}	
 
@@ -73,29 +69,21 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 				_geoWatcher.StopGeolocationWatcher ();
 				_token?.Dispose ();
 				_activity.StopDetection ();
-				//_automove.AutomovedChandged -= IsStartedMoveOnTheCar;
 				_isBound = false;
 			}
 		}
 
-		//private void IsStartedMoveOnTheCar (object sender, bool e)
-		//{
-		//	if (e) {
-		//		_geoWatcher.StartGeolocationWatcher ();
-		//		_token = _messenger.SubscribeOnThreadPoolThread<LocationMessage> (x => CheckTrackStatus ());
-		//	} else {
-		//		_token?.Dispose ();
-		//		_geoWatcher.StopGeolocationWatcher ();
-		//	}
-		//}
 
 		public TollGeolocationStatus TollStatus { get; set; } = TollGeolocationStatus.NotOnTollRoad;
 
 		protected virtual void CheckTrackStatus ()
 		{
-			BaseStatus statusObject = StatusesFactory.GetStatus (TollStatus);
-			Log.LogMessage (TollStatus.ToString());
-			TollStatus = statusObject.CheckStatus ();
+			lock(lockOebject)
+			{
+				BaseStatus statusObject = StatusesFactory.GetStatus (TollStatus);
+				Log.LogMessage (TollStatus.ToString ());
+				TollStatus = statusObject.CheckStatus ();
+			}
 		}
 	}
 }

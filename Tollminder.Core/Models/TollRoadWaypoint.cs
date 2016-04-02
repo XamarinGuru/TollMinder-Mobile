@@ -27,13 +27,6 @@ namespace Tollminder.Core.Models
 
 	public class TollRoadWaypointWithDistance : TollRoadWaypoint
 	{
-		public readonly TollRoadWaypoint _waypoint;
-
-		public TollRoadWaypointWithDistance (TollRoadWaypoint waypoint)
-		{
-			this._waypoint = waypoint;
-		}
-
 		public double Distance { get; set; }
 	}
 }

@@ -40,6 +40,11 @@
     <ConsolePause>false</ConsolePause>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <DefineConstants>RELEASE;</DefineConstants>
+    <AndroidSupportedAbis>armeabi-v7a;armeabi;x86;arm64-v8a;x86_64</AndroidSupportedAbis>
+    <AotAssemblies>true</AotAssemblies>
+    <EnableLLVM>true</EnableLLVM>
+    <EnableProguard>true</EnableProguard>
+    <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

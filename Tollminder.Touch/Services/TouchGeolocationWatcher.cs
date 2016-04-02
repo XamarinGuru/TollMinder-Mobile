@@ -42,7 +42,7 @@ namespace Tollminder.Touch.Services
 		public virtual void StartUpdatingHighAccuracyLocation ()
 		{
 			StoptLocationUpdates ();
-			LocationManager.DistanceFilter = 30;
+			LocationManager.DistanceFilter = 20;
 			StartLocationUpdates ();
 		}
 

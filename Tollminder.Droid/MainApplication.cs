@@ -8,8 +8,13 @@ using Plugin.CurrentActivity;
 namespace Tollminder.Droid
 {
 	//You can specify additional application information in this attribute
-    [Application]
-    public class MainApplication : Application, Application.IActivityLifecycleCallbacks
+
+#if RELEASE
+	[Application(Debuggable=false)] 
+#else
+	[Application(Debuggable=true)]
+#endif
+	public class MainApplication : Application, Application.IActivityLifecycleCallbacks
     {
         public MainApplication(IntPtr handle, JniHandleOwnership transer)
           :base(handle, transer)

@@ -2,8 +2,11 @@
 using Android.Content;
 using Android.Gms.Location;
 using Android.OS;
+using MvvmCross.Platform;
 using Tollminder.Core.Helpers;
 using Tollminder.Core.Models;
+using Tollminder.Core.Services;
+using Tollminder.Droid.Services;
 
 namespace Tollminder.Droid.AndroidServices
 {
@@ -18,6 +21,10 @@ namespace Tollminder.Droid.AndroidServices
 		public override void OnCreate ()
 		{
 			base.OnCreate ();
+			var intentFilter = new IntentFilter ();
+			intentFilter.AddAction ("com.tollminder.GeolocationReciever");
+			var asdf = Mvx.Resolve<IGeoLocationWatcher> () as DroidGeolocationWatcher;
+			RegisterReceiver (asdf, intentFilter);
 			CreateGoogleApiClient (LocationServices.API);
 			Connect ();
 		}
@@ -31,6 +38,7 @@ namespace Tollminder.Droid.AndroidServices
 		public override void OnDestroy ()
 		{
 			base.OnDestroy ();
+			//UnregisterReceiver (Mvx.Resolve<IGeoLocationWatcher> () as DroidGeolocationWatcher);
 			StopLocationUpdate ();
 			GeolocationPendingIntent.Cancel ();
 		}
@@ -87,6 +95,7 @@ namespace Tollminder.Droid.AndroidServices
 				}
 				_request = new LocationRequest ();
 				_request.SetPriority (LocationRequest.PriorityHighAccuracy);
+				_request.SetInterval (2000);
 				_request.SetSmallestDisplacement (Interval);
 				return _request;
 			}

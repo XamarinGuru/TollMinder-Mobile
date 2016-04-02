@@ -37,18 +37,21 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <MtouchArch>ARMv7, ARMv7s, ARM64</MtouchArch>
+    <MtouchArch>ARMv7s, ARM64</MtouchArch>
     <MtouchUseSGen>true</MtouchUseSGen>
     <CodesignKey>iPhone Distribution: Dmitry Stepanov (W6C5Q44UVB)</CodesignKey>
     <MtouchUseRefCounting>true</MtouchUseRefCounting>
-    <MtouchUseLlvm>false</MtouchUseLlvm>
+    <MtouchUseLlvm>true</MtouchUseLlvm>
     <IpaPackageName>TollMinder</IpaPackageName>
     <MtouchExtraArgs></MtouchExtraArgs>
     <CodesignProvision>2f9a7eec-76c3-414f-96e3-0cc740413863</CodesignProvision>
     <BuildIpa>true</BuildIpa>
     <IpaMetadata>Info.plist</IpaMetadata>
-    <MtouchFloat32>true</MtouchFloat32>
+    <MtouchFloat32>false</MtouchFloat32>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+    <MtouchUseThumb>true</MtouchUseThumb>
+    <MtouchLink>Full</MtouchLink>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <Optimize>true</Optimize>
@@ -71,7 +74,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <MtouchArch>ARMv7, ARMv7s, ARM64</MtouchArch>
+    <MtouchArch>ARMv7s, ARM64</MtouchArch>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchFloat32>true</MtouchFloat32>
     <CodesignKey>iPhone Developer</CodesignKey>
@@ -82,6 +85,7 @@
     <MtouchProfiling>true</MtouchProfiling>
     <IpaPackageName></IpaPackageName>
     <CodesignProvision>1b94dd84-58c9-4249-8c39-9f1595789894</CodesignProvision>
+    <MtouchLink>Full</MtouchLink>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

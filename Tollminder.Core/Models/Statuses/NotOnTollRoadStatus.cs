@@ -7,7 +7,6 @@ namespace Tollminder.Core.Models.Statuses
 		#region IStatus implementation
 		public override TollGeolocationStatus CheckStatus ()
 		{
-			var asd = DistanceChecker.GetMostClosestWaypoint (GeoWatcher.Location, Services.Implementation.DummyDataSerivce._dummyWaypoints); 
 			#if DEBUG 
 			Log.LogMessage (string.Format ("TRY TO FIND WAYPOINT ENTERCE FROM 200 m"));
 			#endif

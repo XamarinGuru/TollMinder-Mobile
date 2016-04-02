@@ -11,6 +11,7 @@ namespace Tollminder.Core.Services
 		Task<byte[]> FetchAsync (string url, CancellationToken token);
 		Task<byte[]> FetchAsync (string url, IProgress<DownloadBytesProgress> progressReporter);
 		Task<byte[]> FetchAsync (string url, IProgress<DownloadBytesProgress> progressReporter, CancellationToken token);
+		Task<TResponse> GetAsync<TResponse> (string url, CancellationToken token, IProgress<DownloadBytesProgress> progress = null) where TResponse : class;
 	}
 }
 

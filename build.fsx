@@ -1,4 +1,4 @@
-#r @"packages/FAKE.4.22.6/tools/FakeLib.dll"
+#r @"packages/FAKE.4.22.9/tools/FakeLib.dll"
 #load "build-helpers.fsx"
 open Fake
 open System
@@ -65,13 +65,15 @@ Target "android-package" (fun () ->
             KeystoreAlias = "tollminder"
             ZipalignPath = "/Users/nickolasshpotenko/Library/Developer/Xamarin/android-sdk-macosx/build-tools/23.0.2/zipalign"
         })
-    |> fun file -> TeamCityHelper.PublishArtifact file.FullName
+    |> ignore
 )
 
 Target "ios-hockey" (fun () ->
     HockeyApp(fun parametrs ->
-        {parametrs with
+        {parametrs with 
             ApiToken = getBuildParam "hkey"
+            Notify = NotifyOption.CanInstallApp
+            DownloadStatus = DownloadStatusOption.Downloadable
             File = Directory.EnumerateFiles(Path.Combine("TollMinder.Touch", "bin", "iPhone"), "*.ipa", SearchOption.AllDirectories).First()
          }) |> ignore    
 )
@@ -83,7 +85,7 @@ Target "android-hockey" (fun () ->
             DownloadStatus = DownloadStatusOption.Downloadable
             ApiToken = getBuildParam "hkey"
             File = Directory.EnumerateFiles(Path.Combine("TollMinder.Droid", "bin", "Release"), "*Aligned.apk").First()
-         }) |> ignore   
+         }) |> ignore  
 )
 
 

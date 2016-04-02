@@ -11,7 +11,7 @@ using Android.Content.PM;
 
 namespace Tollminder.Droid.Views
 {
-    [Activity(Label = "Home")]
+	[Activity(Label = "Home", LaunchMode = LaunchMode.SingleTask)]
 	public class HomeView : MvxActivity<HomeViewModel>
     {
 		protected override void OnCreate(Bundle bundle)

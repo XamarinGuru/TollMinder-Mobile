@@ -24,7 +24,7 @@ namespace Tollminder.Droid.Services
 		public virtual MotionType MotionType {
 			get { return _motionType; }
 			set {
-				SpeakMotion (value);
+				//SpeakMotion (value);
 				_motionType = value;
 				Mvx.Resolve<IMvxMessenger> ().Publish (new MotionMessage (this, value));
 			}
