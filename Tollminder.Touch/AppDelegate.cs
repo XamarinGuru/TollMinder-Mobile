@@ -52,11 +52,6 @@ namespace Tollminder.Touch
 			
 		}
 
-		public override void PerformFetch (UIApplication application, Action<UIBackgroundFetchResult> completionHandler)
-		{
-			completionHandler (UIBackgroundFetchResult.NewData);
-		}
-
         public override void OnResignActivation(UIApplication application)
         {
             // Invoked when the application is about to move from active to inactive state.

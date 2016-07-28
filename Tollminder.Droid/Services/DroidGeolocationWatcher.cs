@@ -18,18 +18,15 @@ namespace Tollminder.Droid.Services
 	[IntentFilter (new [] { "com.tollminder.GeolocationReciever" }, Priority = (int)IntentFilterPriority.HighPriority)]
 	public class DroidGeolocationWatcher : DroidServiceStarter, IGeoLocationWatcher
 	{
-		static int asdfasdf = 0;
-
 		#region IGeoLocationWatcher implementation
 		public DroidGeolocationWatcher () 
 		{
-			asdfasdf++;
 			ServiceIntent = new Intent (ApplicationContext, typeof (GeolocationService));
 		}
 
 		public bool IsBound { get; private set; } = false;
 
-		private static GeoLocation _location;
+		private GeoLocation _location;
 		public virtual GeoLocation Location {
 			get {
 				return _location;

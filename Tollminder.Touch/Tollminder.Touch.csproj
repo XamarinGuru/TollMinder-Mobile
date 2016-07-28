@@ -77,15 +77,15 @@
     <MtouchArch>ARMv7s, ARM64</MtouchArch>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchFloat32>true</MtouchFloat32>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Developer: Dmitry Stepanov (C2BVG7CP4Y)</CodesignKey>
     <DeviceSpecificBuild>true</DeviceSpecificBuild>
     <MtouchDebug>true</MtouchDebug>
     <MtouchUseSGen>true</MtouchUseSGen>
     <MtouchUseRefCounting>true</MtouchUseRefCounting>
     <MtouchProfiling>true</MtouchProfiling>
     <IpaPackageName></IpaPackageName>
-    <CodesignProvision>1b94dd84-58c9-4249-8c39-9f1595789894</CodesignProvision>
-    <MtouchLink>Full</MtouchLink>
+    <CodesignProvision>4f163cc2-09f4-4820-8e94-a35d4f660bb6</CodesignProvision>
+    <MtouchLink>None</MtouchLink>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
