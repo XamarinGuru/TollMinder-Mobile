@@ -25,10 +25,8 @@ namespace Tollminder.Droid.BroadcastReceivers
 				LocationResult locationResult = LocationResult.ExtractResult (intent);
 				Location location = locationResult.LastLocation;
 				if (location != null) {
-					if (!Mvx.CanResolve<IGeoLocationWatcher> ()) {
-						var setup = MvxAndroidSetupSingleton.EnsureSingletonAvailable (context);
-						setup.EnsureInitialized ();
-					} 
+					var setup = MvxAndroidSetupSingleton.EnsureSingletonAvailable (context);
+					setup.EnsureInitialized ();
 					Mvx.Resolve<IGeoLocationWatcher> ().Location = location.GetGeolocationFromAndroidLocation ();
 				}
 			}

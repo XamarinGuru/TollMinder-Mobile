@@ -26,7 +26,12 @@ namespace Tollminder.Droid
             base.OnCreate();
             RegisterActivityLifecycleCallbacks(this);
 			//A great place to initialize Xamarin.Insights and Dependency Services!
-			Xamarin.Insights.Initialize ("60c11eb0abc64aac0ec93fe827b92385f7094cab", this);
+			Xamarin.Insights.HasPendingCrashReport += (sender, isStartupCrash) => {
+				if (isStartupCrash) {
+					Xamarin.Insights.PurgePendingCrashReports ().Wait ();
+				}
+			};
+			Xamarin.Insights.Initialize ("60c11eb0abc64aac0ec93fe827b92385f7094cab", Application.Context);
         }
 
         public override void OnTerminate()
