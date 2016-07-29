@@ -30,7 +30,7 @@ namespace Tollminder.Core.ViewModels
 		public override void Start ()
 		{
 			base.Start ();
-			//_tokens.Add (_messenger.SubscribeOnMainThread<LocationMessage> (x => Location = x.Data));
+			_tokens.Add (_messenger.SubscribeOnThreadPoolThread<LocationMessage> (x => Location = x.Data, MvxReference.Strong));
 			//_tokens.Add (_messenger.SubscribeOnMainThread<LogUpdated> ((s) => LogText = Log._messageLog.ToString()));
 		}
 
