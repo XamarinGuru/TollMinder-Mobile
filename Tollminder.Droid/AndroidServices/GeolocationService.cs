@@ -2,29 +2,36 @@
 using Android.Content;
 using Android.Gms.Location;
 using Android.OS;
-using MvvmCross.Platform;
 using Tollminder.Core.Helpers;
-using Tollminder.Core.Models;
-using Tollminder.Core.Services;
+using Tollminder.Droid.BroadcastReceivers;
 using Tollminder.Droid.Services;
 
 namespace Tollminder.Droid.AndroidServices
 {
-	[Service(Enabled = true, Exported = false)]
+	[Service (Enabled = true, Exported = false)]
 	public class GeolocationService : GoogleApiService
 	{
 		private const string IntervalString = "interval";
 		private LocationRequest _request;
 		private PendingIntent _geolocationPendingIntent;
+		private GeolocationReceiver _reciever;
+
 		public virtual int Interval { get; set; }
+		public GeolocationReceiver Reciever {
+			get {
+				if (_reciever == null) {
+					_reciever = new GeolocationReceiver ();
+				}
+				return _reciever;
+			}
+		}
 
 		public override void OnCreate ()
 		{
 			base.OnCreate ();
 			var intentFilter = new IntentFilter ();
 			intentFilter.AddAction ("com.tollminder.GeolocationReciever");
-			var asdf = Mvx.Resolve<IGeoLocationWatcher> () as DroidGeolocationWatcher;
-			RegisterReceiver (asdf, intentFilter);
+			RegisterReceiver (Reciever, intentFilter);
 			CreateGoogleApiClient (LocationServices.API);
 			Connect ();
 		}
@@ -38,7 +45,7 @@ namespace Tollminder.Droid.AndroidServices
 		public override void OnDestroy ()
 		{
 			base.OnDestroy ();
-			//UnregisterReceiver (Mvx.Resolve<IGeoLocationWatcher> () as DroidGeolocationWatcher);
+			UnregisterReceiver (Reciever);
 			StopLocationUpdate ();
 			GeolocationPendingIntent.Cancel ();
 		}
@@ -52,17 +59,17 @@ namespace Tollminder.Droid.AndroidServices
 
 		public virtual void StartLocationUpdate ()
 		{
-			Log.LogMessage ("START LOCATION UPDATES ");				
-			LocationServices.FusedLocationApi.RequestLocationUpdates (GoogleApiClient, LocationRequest , GeolocationPendingIntent);
+			Log.LogMessage ("START LOCATION UPDATES ");
+			LocationServices.FusedLocationApi.RequestLocationUpdates (GoogleApiClient, LocationRequest, GeolocationPendingIntent);
 		}
 
 		public override void OnConnected (Bundle connectionHint)
 		{
 			base.OnConnected (connectionHint);
 			StartLocationUpdate ();
-			#if DEBUG
-			Log.LogMessage("GoogleApiClient connected");
-			#endif
+#if DEBUG
+			Log.LogMessage ("GoogleApiClient connected");
+#endif
 		}
 
 		public override void OnConnectionFailed (Android.Gms.Common.ConnectionResult result)
@@ -87,8 +94,7 @@ namespace Tollminder.Droid.AndroidServices
 			}
 		}
 
-		protected virtual LocationRequest LocationRequest
-		{	
+		protected virtual LocationRequest LocationRequest {
 			get {
 				if (_request != null) {
 					return _request;
@@ -105,5 +111,5 @@ namespace Tollminder.Droid.AndroidServices
 		{
 			return null;
 		}
-	}	
+	}
 }

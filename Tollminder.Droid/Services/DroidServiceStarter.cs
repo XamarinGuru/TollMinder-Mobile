@@ -3,7 +3,7 @@ using System;
 
 namespace Tollminder.Droid.Services
 {
-	public class DroidServiceStarter : DroidReciever
+	public abstract class DroidServiceStarter : DroidReciever
 	{
 		protected virtual Intent ServiceIntent { get; set; }
 

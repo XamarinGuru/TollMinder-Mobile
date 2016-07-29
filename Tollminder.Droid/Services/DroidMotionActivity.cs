@@ -9,8 +9,6 @@ using Android.App;
 
 namespace Tollminder.Droid.Services
 {
-	[BroadcastReceiver (Enabled = true, Exported = false)]
-	[IntentFilter (new [] { "com.tollminder.MotionReciever" })]
 	public class DroidMotionActivity : DroidServiceStarter , IMotionActivity
 	{
 		readonly INotifyService _notifyService;
@@ -65,14 +63,6 @@ namespace Tollminder.Droid.Services
 
 		public virtual bool IsStartMovingOnTheCar (MotionType value) => value == MotionType.Automotive;
 
-		public override void OnReceive (Context context, Intent intent)
-		{
-			base.OnReceive (context, intent);
-			if (ActivityRecognitionResult.HasResult(intent)) {
-				ActivityRecognitionResult result = ActivityRecognitionResult.ExtractResult (intent);
-				MotionType = result.MostProbableActivity.GetMotionType ();
-			}
-		}
 		#endregion
 	}
 }

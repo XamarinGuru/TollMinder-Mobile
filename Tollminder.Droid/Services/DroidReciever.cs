@@ -9,13 +9,8 @@ using Tollminder.Core.Helpers;
 
 namespace Tollminder.Droid.Services
 {
-	public class DroidReciever : BroadcastReceiver
+	public abstract class DroidReciever 
 	{
-		public override void OnReceive (Context context, Intent intent)
-		{
-			ApplicationContext = context;
-		}
-
 		private Context _context;
 		public virtual Context ApplicationContext {
 			get {
@@ -24,7 +19,6 @@ namespace Tollminder.Droid.Services
 				}
 				return _context;
 			} 
-			set { _context = value; }
 		}
 	}
 }

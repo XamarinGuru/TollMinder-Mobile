@@ -1,10 +1,6 @@
-﻿using Android.App;
+﻿using System;
 using Android.Content;
-using Android.Gms.Location;
-using Android.Locations;
-using Android.Runtime;
 using MvvmCross.Platform;
-using MvvmCross.Platform.Droid.Platform;
 using MvvmCross.Plugins.Messenger;
 using Tollminder.Core.Helpers;
 using Tollminder.Core.Models;
@@ -13,13 +9,10 @@ using Tollminder.Droid.AndroidServices;
 
 namespace Tollminder.Droid.Services
 {
-	[RegisterAttribute("tollminder.droid.services.DroidGeolocationWatcher")]
-	[BroadcastReceiver (Enabled = true, Exported = false)]
-	[IntentFilter (new [] { "com.tollminder.GeolocationReciever" }, Priority = (int)IntentFilterPriority.HighPriority)]
 	public class DroidGeolocationWatcher : DroidServiceStarter, IGeoLocationWatcher
 	{
 		#region IGeoLocationWatcher implementation
-		public DroidGeolocationWatcher () 
+		public DroidGeolocationWatcher ()
 		{
 			ServiceIntent = new Intent (ApplicationContext, typeof (GeolocationService));
 		}
@@ -34,55 +27,43 @@ namespace Tollminder.Droid.Services
 			set {
 				_location = value;
 				Mvx.Resolve<IMvxMessenger> ().Publish (new LocationMessage (this, value));
-				#if DEBUG
+#if DEBUG
 				Log.LogMessage (value.ToString ());
-				#endif
+#endif
 			}
 		}
 
 		public virtual void StartGeolocationWatcher ()
 		{
-			if (!IsBound && ApplicationContext.IsGooglePlayServicesInstalled()) {
+			if (!IsBound && ApplicationContext.IsGooglePlayServicesInstalled ()) {
 				Start ();
-				IsBound = true;				
+				IsBound = true;
 			}
 		}
 
 		public virtual void StopGeolocationWatcher ()
 		{
-			if (IsBound ) {				
+			if (IsBound) {
 				Stop ();
 				IsBound = false;
 			}
 		}
 
-		public virtual void StartUpdatingHighAccuracyLocation()
-		{			
+		public virtual void StartUpdatingHighAccuracyLocation ()
+		{
 			if (IsBound) {
-				Stop ();				
+				Stop ();
 				ServiceIntent.PutExtra ("interval", 20);
 				Start ();
 			}
 		}
 
-		public virtual void StopUpdatingHighAccuracyLocation()
-		{			
+		public virtual void StopUpdatingHighAccuracyLocation ()
+		{
 			if (IsBound) {
 				Stop ();
 				ServiceIntent.PutExtra ("interval", 400);
 				Start ();
-			}
-		}
-
-		public override void OnReceive (Context context, Intent intent)
-		{
-			base.OnReceive (context, intent);
-			if (LocationResult.HasResult (intent)) {
-				LocationResult locationResult = LocationResult.ExtractResult (intent);
-				Location location = locationResult.LastLocation;
-				if (location != null) {
-					Location = location.GetGeolocationFromAndroidLocation ();
-				}
 			}
 		}
 		#endregion
