@@ -21,8 +21,8 @@ namespace Tollminder.Droid.BroadcastReceivers
 				if (!Mvx.CanResolve<IMotionActivity> ()) {
 					var setup = MvxAndroidSetupSingleton.EnsureSingletonAvailable (context);
 					setup.EnsureInitialized ();
-				}
-				Mvx.Resolve<IMotionActivity> ().MotionType = result.MostProbableActivity.GetMotionType ();
+                    Mvx.Resolve<IMotionActivity> ().MotionType = result.MostProbableActivity.GetMotionType ();
+                }
 			}
 		}
 	}

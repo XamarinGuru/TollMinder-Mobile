@@ -44,14 +44,14 @@
     <MtouchUseLlvm>true</MtouchUseLlvm>
     <IpaPackageName>TollMinder</IpaPackageName>
     <MtouchExtraArgs></MtouchExtraArgs>
-    <CodesignProvision>2f9a7eec-76c3-414f-96e3-0cc740413863</CodesignProvision>
+    <CodesignProvision>ea6f61da-679b-4581-bd25-473d636f3748</CodesignProvision>
     <BuildIpa>true</BuildIpa>
     <IpaMetadata>Info.plist</IpaMetadata>
     <MtouchFloat32>false</MtouchFloat32>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <MtouchUseThumb>true</MtouchUseThumb>
-    <MtouchLink>Full</MtouchLink>
+    <MtouchLink>SdkOnly</MtouchLink>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <Optimize>true</Optimize>

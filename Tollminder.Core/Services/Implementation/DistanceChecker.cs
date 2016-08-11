@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Tollminder.Core.Models;
-using System.Collections.Generic;
+using System.Collections.Generic; 
 using Tollminder.Core.Helpers;
 using System.Threading.Tasks;
 using static Tollminder.Core.Helpers.LocationChecker;

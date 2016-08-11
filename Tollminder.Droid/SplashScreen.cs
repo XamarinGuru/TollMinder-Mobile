@@ -5,7 +5,7 @@ using MvvmCross.Droid.Views;
 namespace Tollminder.Droid
 {
     [Activity(
-        Label = "Tollminder.Droid"
+        Label = "TollMinder"
         , MainLauncher = true
         , Icon = "@mipmap/icon"
         , Theme = "@style/Theme.Splash"

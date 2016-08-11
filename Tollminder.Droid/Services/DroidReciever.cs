@@ -14,10 +14,12 @@ namespace Tollminder.Droid.Services
 		private Context _context;
 		public virtual Context ApplicationContext {
 			get {
-				if (_context == null && Mvx.CanResolve<IMvxAndroidCurrentTopActivity> ()) {
-					_context = Mvx.Resolve<IMvxAndroidCurrentTopActivity> ().Activity.ApplicationContext;
-				}
-				return _context;
+                return Application.Context;
+
+				//if (_context == null && Mvx.CanResolve<IMvxAndroidCurrentTopActivity> ()) {
+				//	_context = Mvx.Resolve<IMvxAndroidCurrentTopActivity> ().Activity.ApplicationContext;
+				//}
+				//return _context;
 			} 
 		}
 	}

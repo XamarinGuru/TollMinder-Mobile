@@ -18,6 +18,7 @@
 	<AndroidSdkBuildToolsVersion>23.0.2</AndroidSdkBuildToolsVersion>
     <TargetFrameworkVersion>v6.0</TargetFrameworkVersion>
     <XamarinInsightsApiKey>2b455f0ac1fe12ddfc5b5ffae045c69e33a79c33</XamarinInsightsApiKey>
+    <AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -27,7 +28,6 @@
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AndroidLinkMode>None</AndroidLinkMode>
     <ConsolePause>false</ConsolePause>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <AndroidSupportedAbis>armeabi;armeabi-v7a;x86;arm64-v8a;x86_64</AndroidSupportedAbis>
@@ -41,7 +41,14 @@
     <ConsolePause>false</ConsolePause>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <DefineConstants>RELEASE;</DefineConstants>
-    <AndroidSupportedAbis>armeabi-v7a;armeabi;x86;arm64-v8a;x86_64</AndroidSupportedAbis>
+    <AndroidSupportedAbis>armeabi-v7a;x86;armeabi;arm64-v8a</AndroidSupportedAbis>
+    <JavaMaximumHeapSize>2G</JavaMaximumHeapSize>
+    <AndroidLinkSkip>MvvmCross.Droid.Support.V7.Fragging</AndroidLinkSkip>
+    <AndroidKeyStore>True</AndroidKeyStore>
+    <AndroidSigningKeyStore>/Users/maksymgrygoriev/Documents/GloriumTech/Tollminder/tollminder/TollMinder.keystore</AndroidSigningKeyStore>
+    <AndroidSigningStorePass>Palladium5</AndroidSigningStorePass>
+    <AndroidSigningKeyAlias>tollminder</AndroidSigningKeyAlias>
+    <AndroidSigningKeyPass>Palladium5</AndroidSigningKeyPass>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
