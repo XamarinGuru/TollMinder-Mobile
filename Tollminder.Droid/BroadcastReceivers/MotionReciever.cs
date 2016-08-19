@@ -18,11 +18,11 @@ namespace Tollminder.Droid.BroadcastReceivers
 		{
 			if (ActivityRecognitionResult.HasResult (intent)) {
 				ActivityRecognitionResult result = ActivityRecognitionResult.ExtractResult (intent);
-				if (!Mvx.CanResolve<IMotionActivity> ()) {
+				if (result != null) {
 					var setup = MvxAndroidSetupSingleton.EnsureSingletonAvailable (context);
 					setup.EnsureInitialized ();
-                    Mvx.Resolve<IMotionActivity> ().MotionType = result.MostProbableActivity.GetMotionType ();
-                }
+					Mvx.Resolve<IMotionActivity> ().MotionType = result.MostProbableActivity.GetMotionType ();
+				}                
 			}
 		}
 	}

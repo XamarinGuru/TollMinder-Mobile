@@ -41,14 +41,15 @@
     <ConsolePause>false</ConsolePause>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <DefineConstants>RELEASE;</DefineConstants>
-    <AndroidSupportedAbis>armeabi-v7a;x86;armeabi;arm64-v8a</AndroidSupportedAbis>
-    <JavaMaximumHeapSize>2G</JavaMaximumHeapSize>
-    <AndroidLinkSkip>MvvmCross.Droid.Support.V7.Fragging</AndroidLinkSkip>
+    <AndroidSupportedAbis>armeabi-v7a;x86;armeabi;arm64-v8a;x86_64</AndroidSupportedAbis>
+    <JavaMaximumHeapSize></JavaMaximumHeapSize>
+    <AndroidLinkSkip></AndroidLinkSkip>
     <AndroidKeyStore>True</AndroidKeyStore>
-    <AndroidSigningKeyStore>/Users/maksymgrygoriev/Documents/GloriumTech/Tollminder/tollminder/TollMinder.keystore</AndroidSigningKeyStore>
+    <AndroidSigningKeyStore>/Users/nickolasshpotenko/Documents/Projects/TollMinder/TollMinder.keystore</AndroidSigningKeyStore>
     <AndroidSigningStorePass>Palladium5</AndroidSigningStorePass>
     <AndroidSigningKeyAlias>tollminder</AndroidSigningKeyAlias>
     <AndroidSigningKeyPass>Palladium5</AndroidSigningKeyPass>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -125,9 +126,6 @@
     <Reference Include="MvvmCross.Droid.Support.V4">
       <HintPath>..\packages\MvvmCross.Droid.Support.V4.4.2.2\lib\MonoAndroid403\MvvmCross.Droid.Support.V4.dll</HintPath>
     </Reference>
-    <Reference Include="MvvmCross.Droid.Support.V7.Fragging">
-      <HintPath>..\packages\MvvmCross.Droid.Support.V7.Fragging.4.1.1\lib\MonoAndroid403\MvvmCross.Droid.Support.V7.Fragging.dll</HintPath>
-    </Reference>
     <Reference Include="Xamarin.Android.Support.Vector.Drawable">
       <HintPath>..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\lib\MonoAndroid403\Xamarin.Android.Support.Vector.Drawable.dll</HintPath>
     </Reference>
@@ -188,7 +186,6 @@
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="packages.config" />
-    <None Include="proguard.cfg" />
     <None Include="ToDo-MvvmCross\_ Droid UI.txt" />
   </ItemGroup>
   <ItemGroup>
