@@ -44,7 +44,7 @@
     <MtouchUseLlvm>true</MtouchUseLlvm>
     <IpaPackageName>TollMinder</IpaPackageName>
     <MtouchExtraArgs></MtouchExtraArgs>
-    <CodesignProvision>ea6f61da-679b-4581-bd25-473d636f3748</CodesignProvision>
+    <CodesignProvision>27901335-a135-4d3a-9ae5-4c35f71bd3fa</CodesignProvision>
     <BuildIpa>true</BuildIpa>
     <IpaMetadata>Info.plist</IpaMetadata>
     <MtouchFloat32>false</MtouchFloat32>

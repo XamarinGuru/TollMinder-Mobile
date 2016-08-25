@@ -6,6 +6,7 @@ using MvvmCross.Platform;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Plugins.Messenger;
 using Tollminder.Core.Models;
+using AVFoundation;
 
 namespace Tollminder.Touch
 {
@@ -42,7 +43,12 @@ namespace Tollminder.Touch
 				);
 				application.CancelAllLocalNotifications ();
 				application.RegisterUserNotificationSettings (notificationSettings);
-			} 
+			}
+
+            var session = AVAudioSession.SharedInstance ();
+            NSError categoryError;
+            session.SetCategory (AVAudioSessionCategory.Playback);
+            session.SetActive (true, out categoryError);
 
             return true;
         }

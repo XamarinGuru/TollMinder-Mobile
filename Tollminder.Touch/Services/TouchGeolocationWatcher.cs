@@ -15,6 +15,7 @@ namespace Tollminder.Touch.Services
 			set {
 				base.Location = value;
 				Mvx.Resolve<IMvxMessenger> ().Publish (new LocationMessage (this, Location));
+                Mvx.Resolve<INotifyService> ().Notify ("New location ");
 				#if DEBUG
 				Log.LogMessage (value.ToString ());
 				#endif
