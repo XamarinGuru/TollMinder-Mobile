@@ -101,6 +101,7 @@ namespace Tollminder.Droid.AndroidServices
 				}
 				_request = new LocationRequest ();
 				_request.SetPriority (LocationRequest.PriorityHighAccuracy);
+				//TODO: Remove interval and need to be tested.
 				_request.SetInterval (2000);
 				_request.SetSmallestDisplacement (Interval);
 				return _request;

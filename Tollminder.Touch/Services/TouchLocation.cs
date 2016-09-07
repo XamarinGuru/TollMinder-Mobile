@@ -37,6 +37,8 @@ namespace Tollminder.Touch.Services
 			LocationManager.PausesLocationUpdatesAutomatically = false;
 			LocationManager.DesiredAccuracy = CLLocation.AccuracyBest;
 			LocationManager.DistanceFilter = 400;
+			//TODO: Need to be tested.
+			//LocationManager.ActivityType = CLActivityType.AutomotiveNavigation;
 			if (EnvironmentInfo.IsForIOSNine) {
 				LocationManager.AllowsBackgroundLocationUpdates = true;			
 			}
