@@ -18,6 +18,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 		private readonly IMotionActivity _activity;
 		private readonly ITextToSpeechService _textToSpeech;
 		private readonly IMvxMessenger _messenger;
+		private readonly IBatteryDrainService _batteryDrainService;
 
 		private MvxSubscriptionToken _token;
 
@@ -33,6 +34,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 			this._messenger = Mvx.Resolve<IMvxMessenger> ();
 			this._geoWatcher = Mvx.Resolve<IGeoLocationWatcher> ();
 			this._activity = Mvx.Resolve<IMotionActivity> ();
+			this._batteryDrainService = Mvx.Resolve<IBatteryDrainService>();
 		}
 
 		#endregion
@@ -81,8 +83,13 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 			lock(lockOebject)
 			{
 				BaseStatus statusObject = StatusesFactory.GetStatus (TollStatus);
+
+				if (TollStatus == TollGeolocationStatus.NotOnTollRoad)
+					_batteryDrainService.NeedStopGpsTracking();
+
 				Log.LogMessage (TollStatus.ToString ());
 				TollStatus = statusObject.CheckStatus ();
+
 			}
 		}
 	}

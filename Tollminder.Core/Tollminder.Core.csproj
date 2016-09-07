@@ -81,6 +81,8 @@
     <Compile Include="ServicesHelpers\Implementation\AutomoveActivity.cs" />
     <Compile Include="Services\IServerApiService.cs" />
     <Compile Include="Services\Implementation\ServerApiService.cs" />
+    <Compile Include="Services\IBatteryDrainService.cs" />
+    <Compile Include="Services\Implementation\BatteryDrainService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
