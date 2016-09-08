@@ -3,11 +3,17 @@ using Tollminder.Core.Models;
 using Tollminder.Core.Helpers;
 using MvvmCross.Plugins.Messenger;
 using MvvmCross.Platform;
+using System;
+using System.Timers;
 
 namespace Tollminder.Touch.Services
 {
 	public class TouchGeolocationWatcher : TouchLocation, IGeoLocationWatcher
 	{	
+		public static int _distanceIntervalDefault = 400;
+
+		Timer _timer;
+
 		public bool IsBound { get; private set; } = false;
 
 		public override GeoLocation Location {
@@ -42,17 +48,24 @@ namespace Tollminder.Touch.Services
 
 		public virtual void StartUpdatingHighAccuracyLocation ()
 		{
-			StoptLocationUpdates ();
-			LocationManager.DistanceFilter = 20;
-			StartLocationUpdates ();
+			UpdateAccuracyLocation(20);
 		}
 
 		public virtual void StopUpdatingHighAccuracyLocation ()
 		{
-			StoptLocationUpdates ();
-			LocationManager.DistanceFilter = 400;
-			StartLocationUpdates ();
+			UpdateAccuracyLocation(_distanceIntervalDefault);
 		}
+
+		void UpdateAccuracyLocation(int distanceInterval)
+		{
+			if (IsBound)
+			{
+				StoptLocationUpdates();
+				LocationManager.DistanceFilter = distanceInterval;
+				StartLocationUpdates();
+			}
+		}
+
 		#endregion
 	}
 }

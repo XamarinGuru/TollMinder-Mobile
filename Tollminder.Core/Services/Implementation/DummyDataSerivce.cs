@@ -203,6 +203,10 @@ namespace Tollminder.Core.Services.Implementation
 			return nearLocations;
 		}
 
+		public List<TollRoadWaypoint> GetWaypoints ()
+		{
+			return _dummyWaypoints;
+		}
 
 		public TollRoadWaypoint FindNearGeoLocation (GeoLocation center)
 		{			

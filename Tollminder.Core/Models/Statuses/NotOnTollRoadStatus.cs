@@ -10,9 +10,10 @@ namespace Tollminder.Core.Models.Statuses
 			#if DEBUG 
 			Log.LogMessage (string.Format ("TRY TO FIND WAYPOINT ENTERCE FROM 200 m"));
 			#endif
-			var waypoint = DataService.FindNearGeoLocation(GeoWatcher.Location, WaypointAction.Enterce);
+			var location = GeoWatcher.Location;
+			var waypoint = DataService.FindNearGeoLocation(location, WaypointAction.Enterce);
 			#if DEBUG 
-			Log.LogMessage (string.Format ("CAR LOCATION {0} , WAYPOINT LOCATION {1}", GeoWatcher.Location, WaypointChecker.Waypoint));
+			Log.LogMessage (string.Format ("CAR LOCATION {0} , WAYPOINT LOCATION {1}", location, WaypointChecker.Waypoint));
 			#endif
 			if (waypoint == null || waypoint == WaypointChecker.Waypoint)
 				return TollGeolocationStatus.NotOnTollRoad;

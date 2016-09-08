@@ -4,19 +4,21 @@ using Android.Gms.Location;
 using Android.OS;
 using Tollminder.Core.Helpers;
 using Tollminder.Droid.BroadcastReceivers;
-using Tollminder.Droid.Services;
 
 namespace Tollminder.Droid.AndroidServices
 {
 	[Service (Enabled = true, Exported = false)]
 	public class GeolocationService : GoogleApiService
 	{
-		private const string IntervalString = "interval";
-		private LocationRequest _request;
-		private PendingIntent _geolocationPendingIntent;
-		private GeolocationReceiver _reciever;
+		public static string _distanceIntervalString = "distance_interval";
+		public static int _distanceIntervalDefault = 400;
 
-		public virtual int Interval { get; set; }
+		LocationRequest _request;
+		PendingIntent _geolocationPendingIntent;
+		GeolocationReceiver _reciever;
+
+		public virtual int DistanceInterval { get; set; }
+
 		public GeolocationReceiver Reciever {
 			get {
 				if (_reciever == null) {
@@ -38,7 +40,7 @@ namespace Tollminder.Droid.AndroidServices
 
 		public override StartCommandResult OnStartCommand (Intent intent, StartCommandFlags flags, int startId)
 		{
-			Interval = intent.GetIntExtra (IntervalString, 400);
+			DistanceInterval = intent.GetIntExtra (_distanceIntervalString, _distanceIntervalDefault);
 			return StartCommandResult.RedeliverIntent;
 		}
 
@@ -101,9 +103,7 @@ namespace Tollminder.Droid.AndroidServices
 				}
 				_request = new LocationRequest ();
 				_request.SetPriority (LocationRequest.PriorityHighAccuracy);
-				//TODO: Remove interval and need to be tested.
-				_request.SetInterval (2000);
-				_request.SetSmallestDisplacement (Interval);
+				_request.SetSmallestDisplacement (DistanceInterval);
 				return _request;
 			}
 		}

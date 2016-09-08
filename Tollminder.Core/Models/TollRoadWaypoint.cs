@@ -28,6 +28,18 @@ namespace Tollminder.Core.Models
 	public class TollRoadWaypointWithDistance : TollRoadWaypoint
 	{
 		public double Distance { get; set; }
+
+		public TollRoadWaypointWithDistance()
+		{
+		}
+
+		public  TollRoadWaypointWithDistance(TollRoadWaypoint tollRoadWaypoint)
+		{
+			Name = tollRoadWaypoint.Name;
+			Id = tollRoadWaypoint.Id;
+			Location = tollRoadWaypoint.Location;
+			WaypointAction = tollRoadWaypoint.WaypointAction;
+		}
 	}
 }
 

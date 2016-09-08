@@ -5,7 +5,7 @@ namespace Tollminder.Core.Services
 {
 	public interface IBatteryDrainService
 	{
-		Task NeedStopGpsTracking();
+		void CheckGpsTrackingSleepTime();
 	}
 }
 

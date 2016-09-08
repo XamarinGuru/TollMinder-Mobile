@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using MvvmCross.Platform;
 using MvvmCross.Plugins.Messenger;
 using Tollminder.Core.Helpers;
@@ -84,12 +85,11 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 			{
 				BaseStatus statusObject = StatusesFactory.GetStatus (TollStatus);
 
-				if (TollStatus == TollGeolocationStatus.NotOnTollRoad)
-					_batteryDrainService.NeedStopGpsTracking();
-
 				Log.LogMessage (TollStatus.ToString ());
 				TollStatus = statusObject.CheckStatus ();
 
+				if (TollStatus == TollGeolocationStatus.NotOnTollRoad)
+					_batteryDrainService.CheckGpsTrackingSleepTime();
 			}
 		}
 	}

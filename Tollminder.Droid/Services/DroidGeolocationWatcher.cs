@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Timers;
 using Android.Content;
 using MvvmCross.Platform;
 using MvvmCross.Plugins.Messenger;
@@ -11,6 +12,8 @@ namespace Tollminder.Droid.Services
 {
 	public class DroidGeolocationWatcher : DroidServiceStarter, IGeoLocationWatcher
 	{
+		Timer _timer;
+
 		#region IGeoLocationWatcher implementation
 		public DroidGeolocationWatcher ()
 		{
@@ -51,21 +54,26 @@ namespace Tollminder.Droid.Services
 
 		public virtual void StartUpdatingHighAccuracyLocation ()
 		{
-			if (IsBound) {
-				Stop ();
-				ServiceIntent.PutExtra ("interval", 20);
-				Start ();
-			}
+			UpdateAccuracyLocation(20);
 		}
 
 		public virtual void StopUpdatingHighAccuracyLocation ()
 		{
-			if (IsBound) {
-				Stop ();
-				ServiceIntent.PutExtra ("interval", 400);
-				Start ();
+			UpdateAccuracyLocation(GeolocationService._distanceIntervalDefault);
+		}
+
+		void UpdateAccuracyLocation(int distanceInterval)
+		{
+			if (IsBound)
+			{
+				Stop();
+				ServiceIntent.PutExtra(GeolocationService._distanceIntervalString, distanceInterval);
+				Start();
 			}
 		}
+
 		#endregion
+
+
 	}
 }
