@@ -4,6 +4,7 @@ using Android.Content;
 using Android.Gms.Location;
 using Android.Locations;
 using Android.OS;
+using MvvmCross.Droid.Platform;
 using MvvmCross.Platform;
 using Tollminder.Core.Helpers;
 using Tollminder.Core.Services;
@@ -84,14 +85,14 @@ namespace Tollminder.Droid.AndroidServices
 		public virtual void StopLocationUpdate ()
 		{
 			if (GoogleApiClient != null && GoogleApiClient.IsConnected) {
-				LocationServices.FusedLocationApi.RemoveLocationUpdates (GoogleApiClient, this);
+				LocationServices.FusedLocationApi.RemoveLocationUpdates (GoogleApiClient, GeolocationPendingIntent);
 			}
 		}
 
 		public virtual void StartLocationUpdate ()
 		{
 			Log.LogMessage ("START LOCATION UPDATES ");
-			LocationServices.FusedLocationApi.RequestLocationUpdates (GoogleApiClient, LocationRequest, this);
+			LocationServices.FusedLocationApi.RequestLocationUpdates (GoogleApiClient, LocationRequest, GeolocationPendingIntent);
 		}
 
 		public override void OnConnected (Bundle connectionHint)
@@ -120,6 +121,9 @@ namespace Tollminder.Droid.AndroidServices
 
 		public void OnLocationChanged(Location location)
 		{
+			var setup = MvxAndroidSetupSingleton.EnsureSingletonAvailable(Application.Context);
+			setup.EnsureInitialized();
+
 			Mvx.Resolve<IGeoLocationWatcher>().Location = location.GetGeolocationFromAndroidLocation();
 		}
 	}

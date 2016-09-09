@@ -70,4 +70,10 @@
         android:textSize="10sp"
         android:inputType="textMultiLine"
         local:MvxBind="Text LogText" />
+    <Button
+        android:id="@+id/btnVoice"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Voice"
+        android:layout_weight="1" />
 </LinearLayout>

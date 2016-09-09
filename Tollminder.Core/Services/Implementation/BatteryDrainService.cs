@@ -23,7 +23,7 @@ namespace Tollminder.Core.Services.Implementation
 			{ x => x >= 31 && x < 96 , 15 },
 			{ x => x >= 96 && x < 131 , 45 },
 			{ x => x >= 131 && x < 193 , 90 },
-			{ x => x >= 193, 120 } 
+			{ x => x >= 193, 1 } 
 		};
 	
 		public BatteryDrainService()

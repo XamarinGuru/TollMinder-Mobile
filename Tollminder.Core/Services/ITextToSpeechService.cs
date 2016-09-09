@@ -6,5 +6,6 @@ namespace Tollminder.Core.Services
     {
         void Speak(string text);
 		bool IsEnabled { get; set; }
+		event EventHandler<string> FinishedSpeaking;
     }
 }
