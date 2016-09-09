@@ -15,7 +15,6 @@ namespace Tollminder.Droid.Services
 		}
 
 		public event EventHandler<string> FinishedSpeaking;
-
 		public bool IsEnabled { get; set; } = true;
 
 		TextToSpeech _speaker;
@@ -34,7 +33,8 @@ namespace Tollminder.Droid.Services
 			_speaker.SetLanguage(new Java.Util.Locale("en-US"));
 			_speaker.SetOnUtteranceProgressListener(this);
 			AudioManager am = (AudioManager)context.GetSystemService(Context.AudioService);
-			am.SetStreamVolume(Stream.Music, am.GetStreamMaxVolume(Stream.Music), 0);				
+			//am.SetStreamVolume(Stream.Music, am.GetStreamMaxVolume(Stream.Music), 0);		
+			am.SetStreamVolume(Stream.Music, 5, 0);
 		}
 
 		#region ITextToSpeechService implementation
@@ -42,7 +42,7 @@ namespace Tollminder.Droid.Services
 		public void Speak(string text)
         {      
 			if (IsEnabled) {
-				Speaker.Speak (text, QueueMode.Flush, null, null);
+				Speaker.Speak (text, QueueMode.Flush, null, text);
 			}
         }
 
@@ -52,12 +52,10 @@ namespace Tollminder.Droid.Services
 
 		public void OnInit (OperationResult status)
 		{
-			
 		}
 
 		public override void OnStart(string utteranceId)
 		{
-			
 		}
 
 		public override void OnDone(string utteranceId)
