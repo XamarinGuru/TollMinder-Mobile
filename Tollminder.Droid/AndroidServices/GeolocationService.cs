@@ -1,41 +1,71 @@
-﻿using Android.App;
+﻿using System;
+using Android.App;
 using Android.Content;
 using Android.Gms.Location;
+using Android.Locations;
 using Android.OS;
+using MvvmCross.Platform;
 using Tollminder.Core.Helpers;
+using Tollminder.Core.Services;
 using Tollminder.Droid.BroadcastReceivers;
 
 namespace Tollminder.Droid.AndroidServices
 {
 	[Service (Enabled = true, Exported = false)]
-	public class GeolocationService : GoogleApiService
+	public class GeolocationService : GoogleApiService, Android.Gms.Location.ILocationListener
 	{
 		public static string _distanceIntervalString = "distance_interval";
 		public static int _distanceIntervalDefault = 400;
 
 		LocationRequest _request;
-		PendingIntent _geolocationPendingIntent;
-		GeolocationReceiver _reciever;
 
 		public virtual int DistanceInterval { get; set; }
 
-		public GeolocationReceiver Reciever {
-			get {
-				if (_reciever == null) {
-					_reciever = new GeolocationReceiver ();
-				}
-				return _reciever;
+		GeolocationReceiver _reciever;
+		public GeolocationReceiver Reciever 
+		{
+			get 
+			{
+				return _reciever ?? (_reciever = new GeolocationReceiver());
+			}
+		}
+
+		PendingIntent _geolocationPendingIntent;
+		protected PendingIntent GeolocationPendingIntent
+		{
+			get
+			{
+				return _geolocationPendingIntent ?? (_geolocationPendingIntent = PendingIntent.GetBroadcast(this, 0, new Intent("com.tollminder.GeolocationReciever").SetPackage("com.tollminder"), PendingIntentFlags.UpdateCurrent));
+			}
+		}
+
+		protected virtual LocationRequest LocationRequest
+		{
+			get
+			{
+				return _request ?? (_request = new LocationRequest().SetPriority(LocationRequest.PriorityHighAccuracy).SetSmallestDisplacement(DistanceInterval));
 			}
 		}
 
 		public override void OnCreate ()
 		{
 			base.OnCreate ();
-			var intentFilter = new IntentFilter ();
-			intentFilter.AddAction ("com.tollminder.GeolocationReciever");
-			RegisterReceiver (Reciever, intentFilter);
+			RegisterGeolocationBroadcastReceiver();
 			CreateGoogleApiClient (LocationServices.API);
 			Connect ();
+		}
+
+		void RegisterGeolocationBroadcastReceiver()
+		{
+			var intentFilter = new IntentFilter();
+			intentFilter.AddAction("com.tollminder.GeolocationReciever");
+			RegisterReceiver(Reciever, intentFilter);
+		}
+
+		void UnRegisterGeolocationBroadcastReceiver()
+		{
+			UnregisterReceiver(Reciever);
+			GeolocationPendingIntent.Cancel();
 		}
 
 		public override StartCommandResult OnStartCommand (Intent intent, StartCommandFlags flags, int startId)
@@ -47,22 +77,21 @@ namespace Tollminder.Droid.AndroidServices
 		public override void OnDestroy ()
 		{
 			base.OnDestroy ();
-			UnregisterReceiver (Reciever);
 			StopLocationUpdate ();
-			GeolocationPendingIntent.Cancel ();
+			UnRegisterGeolocationBroadcastReceiver();
 		}
 
 		public virtual void StopLocationUpdate ()
 		{
 			if (GoogleApiClient != null && GoogleApiClient.IsConnected) {
-				LocationServices.FusedLocationApi.RemoveLocationUpdates (GoogleApiClient, GeolocationPendingIntent);
+				LocationServices.FusedLocationApi.RemoveLocationUpdates (GoogleApiClient, this);
 			}
 		}
 
 		public virtual void StartLocationUpdate ()
 		{
 			Log.LogMessage ("START LOCATION UPDATES ");
-			LocationServices.FusedLocationApi.RequestLocationUpdates (GoogleApiClient, LocationRequest, GeolocationPendingIntent);
+			LocationServices.FusedLocationApi.RequestLocationUpdates (GoogleApiClient, LocationRequest, this);
 		}
 
 		public override void OnConnected (Bundle connectionHint)
@@ -84,33 +113,14 @@ namespace Tollminder.Droid.AndroidServices
 			base.OnConnectionSuspended (cause);
 		}
 
-		protected PendingIntent GeolocationPendingIntent {
-			get {
-				if (_geolocationPendingIntent != null) {
-					return _geolocationPendingIntent;
-				}
-				Intent intent = new Intent ("com.tollminder.GeolocationReciever");
-				intent.SetPackage ("com.tollminder");
-				_geolocationPendingIntent = PendingIntent.GetBroadcast (this, 0, intent, PendingIntentFlags.UpdateCurrent);
-				return _geolocationPendingIntent;
-			}
-		}
-
-		protected virtual LocationRequest LocationRequest {
-			get {
-				if (_request != null) {
-					return _request;
-				}
-				_request = new LocationRequest ();
-				_request.SetPriority (LocationRequest.PriorityHighAccuracy);
-				_request.SetSmallestDisplacement (DistanceInterval);
-				return _request;
-			}
-		}
-
 		public override IBinder OnBind (Intent intent)
 		{
 			return null;
+		}
+
+		public void OnLocationChanged(Location location)
+		{
+			Mvx.Resolve<IGeoLocationWatcher>().Location = location.GetGeolocationFromAndroidLocation();
 		}
 	}
 }
