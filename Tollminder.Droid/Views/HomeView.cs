@@ -12,6 +12,7 @@ using Android.Speech;
 using Android.Widget;
 using System.Linq;
 using System.Collections.Generic;
+using Tollminder.Core.Helpers;
 
 namespace Tollminder.Droid.Views
 {
@@ -19,34 +20,49 @@ namespace Tollminder.Droid.Views
 	public class HomeView : MvxActivity<HomeViewModel>
     {
 		int VOICE = 911;
-		string text = "Are you entered the tollroad?";
+		bool _speechRecognitionIsRunning;
 
 		ITextToSpeechService TextToSpeech = Mvx.Resolve<ITextToSpeechService>();
 
 		protected override void OnCreate(Bundle bundle)
-        {
-            base.OnCreate(bundle);
+		{
+			base.OnCreate(bundle);
 			SetContentView(Resource.Layout.homeView);
 
-			var voiceBtn = FindViewById<Button>(Resource.Id.btnVoice);
-			voiceBtn.Text = text;
-			voiceBtn.Click += (sender, e) => StartSpeechRecognition();
-        }
+			this.AddLinqBinding(ViewModel, vm => vm.Question, (value) =>
+			{
+				if (!string.IsNullOrEmpty(value) && !_speechRecognitionIsRunning)
+					StartSpeechRecognition(value);
+			});
+		}
 
-		void StartSpeechRecognition()
+		void StartSpeechRecognition(string question)
 		{
-			
-			TextToSpeech.Speak(text);
+			_speechRecognitionIsRunning = true;
+			TextToSpeech.Speak(question);
 			TextToSpeech.FinishedSpeaking += FinishedSpeaking;
+		}
+
+		void ProcessSpecchRecognition(IList<string> matches)
+		{
+			var answer = Mvx.Resolve<ITextFromSpeechMappingService>().DetectAnswer(matches);
+
+			if (answer != Core.Models.AnswerType.Unknown)
+			{
+				TextToSpeech.Speak($"Your answer is {answer.ToString()}");
+				_speechRecognitionIsRunning = false;
+			}
+			else
+				StartSpeechRecognition(ViewModel.Question);
 		}
 
 		void FinishedSpeaking(object sender, string e)
 		{
-			if (e == text)
+			if (e == ViewModel.Question)
 			{
 				var voiceIntent = new Intent(RecognizerIntent.ActionRecognizeSpeech);
 				voiceIntent.PutExtra(RecognizerIntent.ExtraLanguageModel, RecognizerIntent.LanguageModelFreeForm);
-				voiceIntent.PutExtra(RecognizerIntent.ExtraPrompt, text);
+				voiceIntent.PutExtra(RecognizerIntent.ExtraPrompt, ViewModel.Question);
 				voiceIntent.PutExtra(RecognizerIntent.ExtraSpeechInputCompleteSilenceLengthMillis, 1500);
 				voiceIntent.PutExtra(RecognizerIntent.ExtraSpeechInputPossiblyCompleteSilenceLengthMillis, 1500);
 				voiceIntent.PutExtra(RecognizerIntent.ExtraSpeechInputMinimumLengthMillis, 15000);
@@ -63,31 +79,10 @@ namespace Tollminder.Droid.Views
 			PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 		}
 
-		string DetectAnswer(IList<string> matches)
-		{
-			if (matches == null)
-				return null;
-
-			if (matches.FirstOrDefault(x => x.Contains("yea") || x.Contains("yep") || x.Contains("yes")) != null)
-				return "yes";	
-
-			if (matches.FirstOrDefault(x => x.Contains("nope") || x.Contains("no")) != null)
-				return "no";
-
-			return null;
-		}
-
 		protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
 		{
 			if (requestCode == VOICE)
-			{
-				var answer = DetectAnswer(data?.GetStringArrayListExtra(RecognizerIntent.ExtraResults));
-
-				if (answer != null)
-					Mvx.Resolve<INotifyService>().Notify($"Your answer is {answer}");
-				else
-					StartSpeechRecognition();
-			}
+				ProcessSpecchRecognition(data?.GetStringArrayListExtra(RecognizerIntent.ExtraResults));
 
 			base.OnActivityResult(requestCode, resultCode, data);
 		}

@@ -25,6 +25,9 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
 		private object lockOebject = new object ();
 
+		bool EnterTollRoadApproved;
+		bool ExitTollRoadApproved;
+
 		#endregion
 
 		#region Constructor
@@ -88,8 +91,20 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 				Log.LogMessage (TollStatus.ToString ());
 				TollStatus = statusObject.CheckStatus ();
 
-				if (TollStatus == TollGeolocationStatus.NotOnTollRoad)
-					_batteryDrainService.CheckGpsTrackingSleepTime();
+				switch(TollStatus)
+				{
+					case TollGeolocationStatus.NotOnTollRoad:
+						_batteryDrainService.CheckGpsTrackingSleepTime();
+						break;
+					case TollGeolocationStatus.NearTollRoadEnterce:
+						if (!EnterTollRoadApproved)
+							_messenger.Publish(new QuestionMessage(this, "Are you entering the tollroad?"));
+						break;
+					case TollGeolocationStatus.NearTollRoadExit:
+						if (!ExitTollRoadApproved)
+							_messenger.Publish(new QuestionMessage(this, "Are you exiting from the tollroad?"));
+						break;
+				}
 			}
 		}
 	}

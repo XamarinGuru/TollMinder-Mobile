@@ -30,6 +30,14 @@ namespace Tollminder.Core.Models
 		}
 	}
 
+	public class QuestionMessage : GenericMessage<string>
+	{
+		public QuestionMessage(object sender, string question)
+			: base(sender, question)
+		{
+		}
+	}
+
 	public class MotionMessage : GenericMessage<MotionType>
 	{
 		public MotionMessage (object sender, MotionType motion)

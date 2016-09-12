@@ -31,6 +31,7 @@ namespace Tollminder.Core.ViewModels
 		{
 			base.Start ();
 			_tokens.Add (_messenger.SubscribeOnThreadPoolThread<LocationMessage> (x => Location = x.Data, MvxReference.Strong));
+			_tokens.Add(_messenger.SubscribeOnThreadPoolThread<QuestionMessage>(x => Question = x.Data, MvxReference.Strong));
 			//_tokens.Add (_messenger.SubscribeOnMainThread<LogUpdated> ((s) => LogText = Log._messageLog.ToString()));
 		}
 
@@ -49,6 +50,17 @@ namespace Tollminder.Core.ViewModels
 				_location = value;
 				RaisePropertyChanged (() => Location);
 				RaisePropertyChanged (() => LocationString);
+			}
+		}
+
+		string _question;
+		public string Question
+		{
+			get { return _question; }
+			set
+			{
+				_question = value;
+				RaisePropertyChanged(() => Question);
 			}
 		}
 
