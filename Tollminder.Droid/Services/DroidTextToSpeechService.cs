@@ -4,17 +4,12 @@ using Tollminder.Core.Services;
 using Android.Media;
 using Android.Content;
 using System;
+using System.Threading.Tasks;
 
 namespace Tollminder.Droid.Services
 {
 	public class DroidTextToSpeechService : UtteranceProgressListener, ITextToSpeechService , TextToSpeech.IOnInitListener
     {
-		public class TetxToSpeechEventArgs : EventArgs
-		{
-			public string Text { get; set; }
-		}
-
-		public event EventHandler<string> FinishedSpeaking;
 		public bool IsEnabled { get; set; } = true;
 
 		TextToSpeech _speaker;
@@ -38,12 +33,15 @@ namespace Tollminder.Droid.Services
 		}
 
 		#region ITextToSpeechService implementation
-
-		public void Speak(string text)
-        {      
+		TaskCompletionSource<bool> _speakTask;
+		public Task Speak(string text)
+        {
+			_speakTask = new TaskCompletionSource<bool>();
 			if (IsEnabled) {
+				
 				Speaker.Speak (text, QueueMode.Flush, null, text);
 			}
+			return _speakTask.Task;
         }
 
 		#endregion
@@ -60,17 +58,12 @@ namespace Tollminder.Droid.Services
 
 		public override void OnDone(string utteranceId)
 		{
-			OnFinishedSpeaking(utteranceId);
+			_speakTask.TrySetResult(true);
 		}
 
 		public override void OnError(string utteranceId)
 		{
-			OnFinishedSpeaking(utteranceId);
-		}
-
-		void OnFinishedSpeaking(string text)
-		{
-			FinishedSpeaking?.Invoke(this, text);
+			_speakTask.TrySetException(new Exception("Text to speech not working"));
 		}
 
 		#endregion

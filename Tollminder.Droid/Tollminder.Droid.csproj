@@ -180,6 +180,7 @@
     <Compile Include="Services\DroidServiceStarter.cs" />
     <Compile Include="Services\DroidReciever.cs" />
     <Compile Include="BroadcastReceivers\MotionReciever.cs" />
+    <Compile Include="Services\DroidSpeechToTextService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

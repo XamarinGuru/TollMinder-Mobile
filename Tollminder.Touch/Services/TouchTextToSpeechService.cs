@@ -1,6 +1,7 @@
 ﻿using System;
 using Tollminder.Core.Services;
 using AVFoundation;
+using System.Threading.Tasks;
 
 namespace Tollminder.Touch.Services
 {
@@ -10,6 +11,8 @@ namespace Tollminder.Touch.Services
 
 		public bool IsEnabled { get; set; }
 
+		TaskCompletionSource<bool> _speakTask;
+
         public TouchTextToSpeechService()
         {
 			_speechSynthesizer = new AVSpeechSynthesizer ();			
@@ -17,8 +20,9 @@ namespace Tollminder.Touch.Services
 
         #region ITextToSpeechService implementation
 
-        public void Speak(string text)
+        public Task Speak(string text)
         {
+			_speakTask = new TaskCompletionSource<bool>();
 			if (IsEnabled) {
 				var speechUtterance = new AVSpeechUtterance (text) {
 					Rate = AVSpeechUtterance.MaximumSpeechRate / 2,
@@ -30,6 +34,7 @@ namespace Tollminder.Touch.Services
 
 	            _speechSynthesizer.SpeakUtterance (speechUtterance);
 			}
+			return _speakTask.Task;
         }
 
         #endregion

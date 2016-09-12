@@ -15,18 +15,16 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
 		#region Services
 
-		private readonly IGeoLocationWatcher _geoWatcher;
-		private readonly IMotionActivity _activity;
-		private readonly ITextToSpeechService _textToSpeech;
-		private readonly IMvxMessenger _messenger;
-		private readonly IBatteryDrainService _batteryDrainService;
+	 	readonly IGeoLocationWatcher _geoWatcher;
+		readonly IMotionActivity _activity;
+		readonly ITextToSpeechService _textToSpeech;
+		readonly IMvxMessenger _messenger;
+		readonly IBatteryDrainService _batteryDrainService;
+		readonly ISpeechToTextService _speechToTextService;
 
-		private MvxSubscriptionToken _token;
+		MvxSubscriptionToken _token;
 
-		private object lockOebject = new object ();
-
-		bool EnterTollRoadApproved;
-		bool ExitTollRoadApproved;
+		object lockOebject = new object ();
 
 		#endregion
 
@@ -34,11 +32,12 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
 		public TrackFacade ()
 		{
-			this._textToSpeech = Mvx.Resolve<ITextToSpeechService> ();
-			this._messenger = Mvx.Resolve<IMvxMessenger> ();
-			this._geoWatcher = Mvx.Resolve<IGeoLocationWatcher> ();
-			this._activity = Mvx.Resolve<IMotionActivity> ();
-			this._batteryDrainService = Mvx.Resolve<IBatteryDrainService>();
+			_textToSpeech = Mvx.Resolve<ITextToSpeechService> ();
+			_messenger = Mvx.Resolve<IMvxMessenger> ();
+			_geoWatcher = Mvx.Resolve<IGeoLocationWatcher> ();
+			_activity = Mvx.Resolve<IMotionActivity> ();
+			_batteryDrainService = Mvx.Resolve<IBatteryDrainService>();
+			_speechToTextService = Mvx.Resolve<ISpeechToTextService>();
 		}
 
 		#endregion
@@ -97,12 +96,10 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 						_batteryDrainService.CheckGpsTrackingSleepTime();
 						break;
 					case TollGeolocationStatus.NearTollRoadEnterce:
-						if (!EnterTollRoadApproved)
-							_messenger.Publish(new QuestionMessage(this, "Are you entering the tollroad?"));
+						_speechToTextService.AskQuestion("Are you entering the tollroad?");
 						break;
 					case TollGeolocationStatus.NearTollRoadExit:
-						if (!ExitTollRoadApproved)
-							_messenger.Publish(new QuestionMessage(this, "Are you exiting from the tollroad?"));
+						_speechToTextService.AskQuestion("Are you exiting from the tollroad?");
 						break;
 				}
 			}

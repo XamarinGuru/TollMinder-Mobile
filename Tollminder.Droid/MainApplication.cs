@@ -53,6 +53,7 @@ namespace Tollminder.Droid
         {
         }
 
+
         public void OnActivityResumed(Activity activity)
         {
             CrossCurrentActivity.Current.Activity = activity;
