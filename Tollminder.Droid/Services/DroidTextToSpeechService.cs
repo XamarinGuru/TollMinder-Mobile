@@ -28,8 +28,12 @@ namespace Tollminder.Droid.Services
 			_speaker.SetLanguage(new Java.Util.Locale("en-US"));
 			_speaker.SetOnUtteranceProgressListener(this);
 			AudioManager am = (AudioManager)context.GetSystemService(Context.AudioService);
-			//am.SetStreamVolume(Stream.Music, am.GetStreamMaxVolume(Stream.Music), 0);		
+#if RELEASE
+			am.SetStreamVolume(Stream.Music, am.GetStreamMaxVolume(Stream.Music), 0);
+#endif
+#if DEBUG
 			am.SetStreamVolume(Stream.Music, 5, 0);
+#endif
 		}
 
 		#region ITextToSpeechService implementation

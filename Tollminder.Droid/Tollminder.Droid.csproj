@@ -44,8 +44,8 @@
     <AndroidSupportedAbis>armeabi-v7a;x86;armeabi;arm64-v8a;x86_64</AndroidSupportedAbis>
     <JavaMaximumHeapSize></JavaMaximumHeapSize>
     <AndroidLinkSkip></AndroidLinkSkip>
-    <AndroidKeyStore>True</AndroidKeyStore>
-    <AndroidSigningKeyStore>/Users/nickolasshpotenko/Documents/Projects/TollMinder/TollMinder.keystore</AndroidSigningKeyStore>
+    <AndroidKeyStore></AndroidKeyStore>
+    <AndroidSigningKeyStore>/Users/gloriumtech/Documents/Repository/tollminder/TollMinder.keystore</AndroidSigningKeyStore>
     <AndroidSigningStorePass>Palladium5</AndroidSigningStorePass>
     <AndroidSigningKeyAlias>tollminder</AndroidSigningKeyAlias>
     <AndroidSigningKeyPass>Palladium5</AndroidSigningKeyPass>
