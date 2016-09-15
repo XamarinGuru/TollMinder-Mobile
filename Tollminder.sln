@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tollminder.Touch", "Tollmin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tollminder.Droid", "Tollminder.Droid\Tollminder.Droid.csproj", "{59A33FEB-A8EE-4426-9907-28C5E62A7FF3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ios Binding", "Ios Binding", "{F8B305CD-E637-4A5E-8CC2-FA62AC0674AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenEars", "Ios Binding\OpenEars\OpenEars.csproj", "{724479A5-0430-40C2-B8D9-C5EE3293B919}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,11 +57,26 @@ Global
 		{E6D05A1A-E03C-4D21-83F4-0D59E9429837}.Release|iPhone.Build.0 = Release|Any CPU
 		{E6D05A1A-E03C-4D21-83F4-0D59E9429837}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{E6D05A1A-E03C-4D21-83F4-0D59E9429837}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{724479A5-0430-40C2-B8D9-C5EE3293B919}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{724479A5-0430-40C2-B8D9-C5EE3293B919}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{724479A5-0430-40C2-B8D9-C5EE3293B919}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{724479A5-0430-40C2-B8D9-C5EE3293B919}.Release|Any CPU.Build.0 = Release|Any CPU
+		{724479A5-0430-40C2-B8D9-C5EE3293B919}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{724479A5-0430-40C2-B8D9-C5EE3293B919}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{724479A5-0430-40C2-B8D9-C5EE3293B919}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{724479A5-0430-40C2-B8D9-C5EE3293B919}.Release|iPhone.Build.0 = Release|Any CPU
+		{724479A5-0430-40C2-B8D9-C5EE3293B919}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{724479A5-0430-40C2-B8D9-C5EE3293B919}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{724479A5-0430-40C2-B8D9-C5EE3293B919}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{724479A5-0430-40C2-B8D9-C5EE3293B919}.Debug|iPhone.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0
 		$0.DotNetNamingPolicy = $1
 		$1.DirectoryNamespaceAssociation = PrefixedHierarchical
 		$1.ResourceNamePolicy = FileFormatDefault
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{724479A5-0430-40C2-B8D9-C5EE3293B919} = {F8B305CD-E637-4A5E-8CC2-FA62AC0674AA}
 	EndGlobalSection
 EndGlobal
