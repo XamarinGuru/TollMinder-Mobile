@@ -32,6 +32,16 @@ namespace Tollminder.Touch.Services
 					//PreUtteranceDelay = 0.1
 				};
 
+				_speechSynthesizer.DidFinishSpeechUtterance += (sender, e) => 
+				{
+					_speakTask.TrySetResult(true);
+				};
+
+				if (_speechSynthesizer.Speaking)
+				{
+					_speechSynthesizer.StopSpeaking(AVSpeechBoundary.Immediate);
+				}
+
 	            _speechSynthesizer.SpeakUtterance (speechUtterance);
 			}
 			return _speakTask.Task;
