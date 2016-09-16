@@ -7,19 +7,34 @@ namespace Tollminder.Touch.Services
 {	
 	public class TouchLocation
 	{
-		#region Private Fields
-		private readonly CLLocationManager _locationManager;
-		#endregion
+		readonly CLLocationManager _locationManager;
 
-		#region Properties
-		public CLLocationManager LocationManager {
+		public CLLocationManager LocationManager 
+		{
 			get { return _locationManager; }
 		}
 
-		private	bool IsBound { get; set; }
+		bool IsBound { get; set; }
+		bool CanGetLocation { get; set; }
+
+		bool _canGetNewLocation = true;
+		private bool CanGetNewLocation 
+		{ 
+			get 
+			{
+				return _canGetNewLocation;
+			}
+			set
+			{
+				_canGetNewLocation = value;
+				if (value)
+					StartLocationUpdates();
+				else
+					StoptLocationUpdates();
+			}
+		}
 
 		public virtual GeoLocation Location { get; set; }
-		#endregion
 
 		#region Constructors
 		public TouchLocation ()
@@ -48,6 +63,7 @@ namespace Tollminder.Touch.Services
 		{
 			if (!IsBound) {
 				if (CLLocationManager.LocationServicesEnabled) {
+					CanGetLocation = true;
 					LocationManager.LocationsUpdated += LocationIsUpdated;
 					LocationManager.StartUpdatingLocation ();
 				}
@@ -59,6 +75,7 @@ namespace Tollminder.Touch.Services
 		{
 			if (IsBound) {
 				if (CLLocationManager.LocationServicesEnabled) {
+					CanGetLocation = false;
 					LocationManager.LocationsUpdated -= LocationIsUpdated;
 					LocationManager.StopUpdatingLocation ();
 				}
@@ -69,8 +86,9 @@ namespace Tollminder.Touch.Services
 		protected virtual void LocationIsUpdated (object sender, CLLocationsUpdatedEventArgs e)
 		{
 			var loc = e.Locations.Last ();
-			if (loc != null) {				
+			if (loc != null && CanGetLocation) {				
 				Location = loc.GetGeoLocationFromCLLocation ();
+				StoptLocationUpdates();
 			}
 		}
 		#endregion

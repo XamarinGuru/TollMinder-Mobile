@@ -11,20 +11,17 @@ namespace Tollminder.Touch.Services
 	public class TouchGeolocationWatcher : TouchLocation, IGeoLocationWatcher
 	{	
 		public static int _distanceIntervalDefault = 400;
-
-		Timer _timer;
-
 		public bool IsBound { get; private set; } = false;
 
 		public override GeoLocation Location {
 			get { return base.Location;	}
 			set {
 				base.Location = value;
+				Mvx.Resolve<INotificationSender>().SendLocalNotification("New location", $"Lat: {value.Latitude}, Lon: {value.Longitude}");
 				Mvx.Resolve<IMvxMessenger> ().Publish (new LocationMessage (this, Location));
-                Mvx.Resolve<INotifyService> ().Notify ("New location ");
-				#if DEBUG
-				Log.LogMessage (value.ToString ());
-				#endif
+
+				Log.LogMessage ($"New LOCATION {value.ToString ()}");
+
 			}
 		}
 

@@ -38,9 +38,7 @@ namespace Tollminder.Core.Services.Implementation
 			double distance = _distanceChecker.GetMostClosestWaypoint(_geoWatcher.Location, (_geoDataService.GetWaypoints()))?.Distance ?? 0;
 			var minutesOffset = conditionsDictionary.First(x => x.Key((int)distance)).Value;
 
-			#if DEBUG
 			Log.LogMessage($"CheckGpsTrackingSleepTime : DIST = {distance}, MINUTESOFFSET {minutesOffset}");
-#endif
 
 			if (minutesOffset > 0)
 			{

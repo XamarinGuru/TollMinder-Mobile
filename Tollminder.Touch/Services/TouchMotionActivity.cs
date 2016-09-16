@@ -64,9 +64,8 @@ namespace Tollminder.Touch.Services
 			else if (activity.Stationary || activity.Unknown) {
 				MotionType = MotionType.Still;
 			}
-			#if DEBUG
-			Tollminder.Core.Helpers.Log.LogMessage (_motionType.ToString ());
-			#endif
+
+			Core.Helpers.Log.LogMessage (_motionType.ToString ());
 		}
 	}
 }

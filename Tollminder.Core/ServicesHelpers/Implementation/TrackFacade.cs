@@ -52,9 +52,9 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 		{			
 			bool isGranted = await Mvx.Resolve<IPermissionsService> ().CheckPermissionsAccesGrantedAsync ();
 			if (!_isBound & isGranted) {
-				#if DEBUG 
+
 				Log.LogMessage (string.Format ("THE SEVICES HAS STARTED AT {0}", DateTime.Now));
-				#endif
+
 				_textToSpeech.IsEnabled = true;
 				_geoWatcher.StartGeolocationWatcher ();
 				_token = _messenger.SubscribeOnThreadPoolThread<LocationMessage> (x => CheckTrackStatus ());
@@ -68,9 +68,9 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 		public virtual void StopServices ()
 		{	
 			if (_isBound) {
-				#if DEBUG 
+
 				Log.LogMessage (string.Format ("THE SEVICES HAS STOPPED AT {0}", DateTime.Now));
-				#endif
+
 				_geoWatcher.StopGeolocationWatcher ();
 				_token?.Dispose ();
 				_activity.StopDetection ();
@@ -102,6 +102,8 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 						_speechToTextService.AskQuestion("Are you exiting from the tollroad?");
 						break;
 				}
+
+				_geoWatcher.StartGeolocationWatcher();
 			}
 		}
 	}

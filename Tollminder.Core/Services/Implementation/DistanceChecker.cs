@@ -28,9 +28,7 @@ namespace Tollminder.Core.Services.Implementation
 		public virtual bool IsCloserToWaypoint 
 		{
 			get {
-				#if DEBUG
 				Log.LogMessage (string.Format ("DISTANCE {0} {1}", DistanceBetweenGeoLocations (_geoWatcher.Location, _waypointChecker.Waypoint.Location), Distance));
-				#endif
 				return Distance - DistanceBetweenGeoLocations (_geoWatcher.Location, _waypointChecker.Waypoint.Location) >= 0;
 			}
 		}
@@ -38,9 +36,7 @@ namespace Tollminder.Core.Services.Implementation
 		public bool IsAtWaypoint 
 		{
 			get {
-				#if DEBUG
 				Log.LogMessage (string.Format ("DIS : {0}, DIST 2 {1} = {2}", Distance, WaypointDistanceRequired, Distance - WaypointDistanceRequired));
-				#endif
 				return (Distance - WaypointDistanceRequired) < 0;
 			}
 		}
@@ -86,9 +82,8 @@ namespace Tollminder.Core.Services.Implementation
 			return Task.Run (() => {
 				var point = points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).FirstOrDefault (x => 
 					{
-						#if DEBUG 
 						Log.LogMessage (string.Format ("{0} - {1} = {2}", DistanceBetweenGeoLocations (center, x.Location), DistanceToWaypoint,  DistanceBetweenGeoLocations (center, x.Location) - DistanceToWaypoint));
-						#endif
+
 						return DistanceBetweenGeoLocations (center, x.Location) - DistanceToWaypoint <= Epsilon;
 					});
 				return point;

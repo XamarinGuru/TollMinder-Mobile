@@ -85,7 +85,6 @@
     <Compile Include="Services\Implementation\BatteryDrainService.cs" />
     <Compile Include="Services\ITextFromSpeechMAppingService.cs" />
     <Compile Include="Services\Implementation\TextFromSpeechMappingService.cs" />
-    <Compile Include="Helpers\MvxBindingContextOwnerExtensions.cs" />
     <Compile Include="Services\ISpeechToTextService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

@@ -5,7 +5,7 @@ namespace Tollminder.Core.Models.Statuses
 {
 	public static class StatusesFactory
 	{
-		private static readonly Dictionary<TollGeolocationStatus, BaseStatus> _pool;
+		static readonly Dictionary<TollGeolocationStatus, BaseStatus> _pool;
 
 		static StatusesFactory ()
 		{

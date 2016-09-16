@@ -12,8 +12,6 @@ namespace Tollminder.Droid.Services
 {
 	public class DroidGeolocationWatcher : DroidServiceStarter, IGeoLocationWatcher
 	{
-		Timer _timer;
-
 		#region IGeoLocationWatcher implementation
 		public DroidGeolocationWatcher ()
 		{
@@ -29,10 +27,10 @@ namespace Tollminder.Droid.Services
 			}
 			set {
 				_location = value;
+				Mvx.Resolve<INotificationSender>().SendLocalNotification("New location", $"Lat: {value.Latitude}, Lon: {value.Longitude}");
 				Mvx.Resolve<IMvxMessenger> ().Publish (new LocationMessage (this, value));
-#if DEBUG
+
 				Log.LogMessage (value.ToString ());
-#endif
 			}
 		}
 

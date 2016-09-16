@@ -99,9 +99,7 @@ namespace Tollminder.Droid.AndroidServices
 		{
 			base.OnConnected (connectionHint);
 			StartLocationUpdate ();
-#if DEBUG
 			Log.LogMessage ("GoogleApiClient connected");
-#endif
 		}
 
 		public override void OnConnectionFailed (Android.Gms.Common.ConnectionResult result)
