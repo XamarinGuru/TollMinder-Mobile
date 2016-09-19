@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using AudioToolbox;
 using Foundation;
 using MvvmCross.Platform;
 using OpenEars;
 using Tollminder.Core.Models;
 using Tollminder.Core.Services;
 using Tollminder.Touch.Views;
+using UIKit;
 
 namespace Tollminder.Touch.Services
 {
@@ -15,13 +18,15 @@ namespace Tollminder.Touch.Services
 		OEPocketsphinxController pocketSphinxController;
 		OEFliteController fliteController;
 
+		TaskCompletionSource<bool> _recognitionTask;
+
+		UIAlertView _error;
+
 		String pathToLanguageModel;
 		String pathToDictionary;
 		String pathToAcousticModel;
 		String firstVoiceToUse;
 		String secondVoiceToUse;
-
-		bool _speechRecognitionIsRunning;
 
 		ITextFromSpeechMappingService _mappingService;
 		ITextFromSpeechMappingService MappingService
@@ -162,24 +167,38 @@ namespace Tollminder.Touch.Services
 
 		}
 
-		public void AskQuestion(string question)
+		public Task<bool> AskQuestion(string question)
 		{
-			if (!_speechRecognitionIsRunning)
+			_recognitionTask = new TaskCompletionSource<bool>();
+
+			UIApplication.SharedApplication.InvokeOnMainThread(() =>
 			{
-				_speechRecognitionIsRunning = true;
-				Mvx.Resolve<ITextToSpeechService>().Speak(question);
-				Question = question;
-				StartListening();
-			}
+				_error = new UIAlertView(question, "", null, null, null);
+				_error.Show();
+			});
+
+			Mvx.Resolve<ITextToSpeechService>().Speak(question).Wait();
+
+			//SystemSound notificationSound = SystemSound.FromFile(@"/System/Library/Audio/UISounds/New/jbl_begin.caf");
+			//notificationSound.AddSystemSoundCompletion(SystemSound.Vibrate.PlaySystemSound);
+			//notificationSound.PlaySystemSound();
+
+			Question = question;
+			StartListening();
+
+			return _recognitionTask.Task;
 		}
 
 		public void CheckResult(IList<string> matches)
 		{
 			var answer = MappingService.DetectAnswer(matches);
 
+			_error.DismissWithClickedButtonIndex(0, true);
+
 			if (answer != AnswerType.Unknown)
 			{
 				Mvx.Resolve<ITextToSpeechService>().Speak($"Your answer is {answer.ToString()}");
+				_recognitionTask.TrySetResult(true);
 			}
 			else
 				AskQuestion(Question);
@@ -198,7 +217,6 @@ namespace Tollminder.Touch.Services
 		public void StopListening()
 		{
 			pocketSphinxController.StopListening();
-			_speechRecognitionIsRunning = false;
 		}
 
 		public void SuspendRecognition()

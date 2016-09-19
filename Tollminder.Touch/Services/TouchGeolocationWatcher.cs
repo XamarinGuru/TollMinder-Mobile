@@ -16,12 +16,13 @@ namespace Tollminder.Touch.Services
 		public override GeoLocation Location {
 			get { return base.Location;	}
 			set {
-				base.Location = value;
-
-				Mvx.Resolve<IMvxMessenger> ().Publish (new LocationMessage (this, Location));
-
-				Log.LogMessage ($"New LOCATION {value.ToString ()}");
-
+				if (IsBound && (!base.Location?.Equals(value) ?? true))
+				{
+					base.Location = value;
+					Mvx.Resolve<IMvxMessenger>().Publish(new LocationMessage(this, value));
+					StopGeolocationWatcher();
+					Log.LogMessage(value.ToString());
+				}
 			}
 		}
 

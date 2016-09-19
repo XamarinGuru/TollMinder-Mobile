@@ -30,7 +30,7 @@ namespace Tollminder.Droid.Services
 				{
 					_location = value;
 					Mvx.Resolve<IMvxMessenger>().Publish(new LocationMessage(this, value));
-					StopGeolocationWatcher();
+					//StopGeolocationWatcher();
 					Log.LogMessage(value.ToString());
 				}
 			}

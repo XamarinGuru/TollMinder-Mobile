@@ -221,6 +221,7 @@
     <Folder Include="Services\" />
     <Folder Include="Views\" />
     <Folder Include="Helpers\" />
+    <Folder Include="Sounds\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\OpenEars1.dic" />
@@ -234,5 +235,6 @@
     <BundleResource Include="Resources\AcousticModelEnglish.bundle\sendump" />
     <BundleResource Include="Resources\AcousticModelEnglish.bundle\transition_matrices" />
     <BundleResource Include="Resources\AcousticModelEnglish.bundle\variances" />
+    <BundleResource Include="Sounds\tap.aif" />
   </ItemGroup>
 </Project>
