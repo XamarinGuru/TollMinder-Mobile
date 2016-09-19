@@ -45,10 +45,10 @@
     <JavaMaximumHeapSize></JavaMaximumHeapSize>
     <AndroidLinkSkip></AndroidLinkSkip>
     <AndroidKeyStore></AndroidKeyStore>
-    <AndroidSigningKeyStore>/Users/gloriumtech/Documents/Repository/tollminder/TollMinder.keystore</AndroidSigningKeyStore>
-    <AndroidSigningStorePass>Palladium5</AndroidSigningStorePass>
-    <AndroidSigningKeyAlias>tollminder</AndroidSigningKeyAlias>
-    <AndroidSigningKeyPass>Palladium5</AndroidSigningKeyPass>
+    <AndroidSigningKeyStore></AndroidSigningKeyStore>
+    <AndroidSigningStorePass></AndroidSigningStorePass>
+    <AndroidSigningKeyAlias></AndroidSigningKeyAlias>
+    <AndroidSigningKeyPass></AndroidSigningKeyPass>
     <AndroidLinkMode>SdkOnly</AndroidLinkMode>
   </PropertyGroup>
   <ItemGroup>
