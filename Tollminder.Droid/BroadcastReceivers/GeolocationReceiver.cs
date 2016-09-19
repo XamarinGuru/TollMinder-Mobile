@@ -1,4 +1,5 @@
-﻿using Android.App;
+﻿using System;
+using Android.App;
 using Android.Content;
 using Android.Gms.Location;
 using Android.Locations;
@@ -25,8 +26,17 @@ namespace Tollminder.Droid.BroadcastReceivers
 				LocationResult locationResult = LocationResult.ExtractResult (intent);
 				Location location = locationResult.LastLocation;
 				if (location != null) {
-					var setup = MvxAndroidSetupSingleton.EnsureSingletonAvailable (context);
-					setup.EnsureInitialized ();
+					try
+					{
+						var setup = MvxAndroidSetupSingleton.EnsureSingletonAvailable(Application.Context ?? context);
+						setup.EnsureInitialized();
+					}
+					catch(Exception e)
+					{
+						//TODO: some mvvmcross initialization issies while deleting and starting app on thirt time
+						//Cannot start primary - as state already InitializingSecondary
+						Mvx.Trace(e.Message + e.StackTrace);
+					}
 					Mvx.Resolve<IGeoLocationWatcher> ().Location = location.GetGeolocationFromAndroidLocation ();
 				}
 			}

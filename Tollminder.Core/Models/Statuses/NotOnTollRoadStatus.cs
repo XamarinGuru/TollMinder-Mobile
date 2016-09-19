@@ -4,7 +4,6 @@ namespace Tollminder.Core.Models.Statuses
 {
 	public class NotOnTollRoadStatus : BaseStatus 
 	{
-		#region IStatus implementation
 		public override TollGeolocationStatus CheckStatus ()
 		{
 			Log.LogMessage (string.Format ("TRY TO FIND WAYPOINT ENTERCE FROM 200 m"));
@@ -22,9 +21,13 @@ namespace Tollminder.Core.Models.Statuses
 			WaypointChecker.Waypoint = waypoint;
 			GeoWatcher.StartUpdatingHighAccuracyLocation ();
 			NotifyService.Notify (string.Format ("you are potentially going to enter {0} waypoints.", WaypointChecker.Waypoint.Name));
-			return TollGeolocationStatus.NearTollRoadEnterce;				
+			return TollGeolocationStatus.NearTollRoadEntrance;				
 		}
-		#endregion
+
+		public override void MakeActionForStatus()
+		{
+			BatteryDrainService.CheckGpsTrackingSleepTime();
+		}
 		
 	}
 }

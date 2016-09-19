@@ -17,7 +17,7 @@ namespace Tollminder.Touch.Services
 			get { return base.Location;	}
 			set {
 				base.Location = value;
-				Mvx.Resolve<INotificationSender>().SendLocalNotification("New location", $"Lat: {value.Latitude}, Lon: {value.Longitude}");
+
 				Mvx.Resolve<IMvxMessenger> ().Publish (new LocationMessage (this, Location));
 
 				Log.LogMessage ($"New LOCATION {value.ToString ()}");

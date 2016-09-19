@@ -5,7 +5,7 @@ namespace Tollminder.Core.Models
 	public enum TollGeolocationStatus
 	{
 		NotOnTollRoad,
-		NearTollRoadEnterce,
+		NearTollRoadEntrance,
 		NearTollRoadExit,
 		OnTollRoad,
 	}

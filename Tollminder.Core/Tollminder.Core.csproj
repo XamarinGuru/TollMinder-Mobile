@@ -72,7 +72,7 @@
     <Compile Include="Services\Implementation\DistanceChecker.cs" />
     <Compile Include="Services\Implementation\DummyDataSerivce.cs" />
     <Compile Include="Services\Implementation\WaypointChecker.cs" />
-    <Compile Include="Models\Statuses\NearTollRoadStatus.cs" />
+    <Compile Include="Models\Statuses\NearTollRoadEntranceStatus.cs" />
     <Compile Include="Models\Statuses\OnTollRoadStatus.cs" />
     <Compile Include="Models\Statuses\NearTollRoadExitStatus.cs" />
     <Compile Include="Models\Statuses\StatusesFactory.cs" />

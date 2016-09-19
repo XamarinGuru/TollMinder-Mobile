@@ -5,6 +5,9 @@ using MvvmCross.Platform;
 using MvvmCross.Droid.Platform;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform.Platform;
+using MvvmCross.Platform.Converters;
+using MvvmCross.Platform.IoC;
+using System;
 
 namespace Tollminder.Droid
 {
@@ -33,6 +36,12 @@ namespace Tollminder.Droid
 			Mvx.LazyConstructAndRegisterSingleton<IPlatform, DroidPlatform> ();
 			Mvx.ConstructAndRegisterSingleton<ITextToSpeechService, DroidTextToSpeechService> ();
 			Mvx.ConstructAndRegisterSingleton<ISpeechToTextService, DroidSpeechToTextService>();
+		}
+
+		protected override void FillValueConverters(IMvxValueConverterRegistry registry)
+		{
+			foreach (var item in CreatableTypes().EndingWith("Converter"))
+				registry.AddOrOverwrite(item.Name, (IMvxValueConverter)Activator.CreateInstance(item));
 		}
     }
 }

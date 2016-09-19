@@ -1,11 +1,14 @@
 ﻿using System;
+using MvvmCross.Platform.Converters;
+
 namespace Tollminder.Droid.Converters
 {
-	public class InverseBoolConverter
+	public class InverseBoolConverter : MvxValueConverter<bool, bool>
 	{
-		public InverseBoolConverter()
+		protected override bool Convert(bool value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-		}
+			return !value;
+		} 
 	}
 }
 

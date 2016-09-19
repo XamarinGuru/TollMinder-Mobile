@@ -90,18 +90,10 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 				Log.LogMessage (TollStatus.ToString ());
 				TollStatus = statusObject.CheckStatus ();
 
-				switch(TollStatus)
-				{
-					case TollGeolocationStatus.NotOnTollRoad:
-						_batteryDrainService.CheckGpsTrackingSleepTime();
-						break;
-					case TollGeolocationStatus.NearTollRoadEnterce:
-						_speechToTextService.AskQuestion("Are you entering the tollroad?");
-						break;
-					case TollGeolocationStatus.NearTollRoadExit:
-						_speechToTextService.AskQuestion("Are you exiting from the tollroad?");
-						break;
-				}
+				statusObject = StatusesFactory.GetStatus(TollStatus);
+				statusObject.MakeActionForStatus();
+
+				Mvx.Resolve<INotificationSender>().SendLocalNotification($"Status: {TollStatus.ToString()}", $"Lat: {_geoWatcher.Location?.Latitude}, Long: {_geoWatcher.Location?.Longitude}");
 
 				_geoWatcher.StartGeolocationWatcher();
 			}

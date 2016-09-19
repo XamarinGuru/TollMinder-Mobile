@@ -15,16 +15,18 @@ namespace Tollminder.Core.ViewModels
     public class HomeViewModel 
 		: ViewModelBase
     {		
-		private readonly IMvxMessenger _messenger;
-		private readonly ITrackFacade _track;
+		readonly IMvxMessenger _messenger;
+		readonly ITrackFacade _track;
+		readonly IGeoLocationWatcher _geoWatcher;
 
 		private IList<MvxSubscriptionToken> _tokens;
 
-		public HomeViewModel (IMvxMessenger messenger, ITrackFacade track)
+		public HomeViewModel (IMvxMessenger messenger, ITrackFacade track, IGeoLocationWatcher geoWatcher)
 		{
-			this._track = track;
-			this._messenger = messenger;
-			this._tokens = new List<MvxSubscriptionToken> ();
+			_track = track;
+			_messenger = messenger;
+			_geoWatcher = geoWatcher;
+			_tokens = new List<MvxSubscriptionToken> ();
 		}
 
 		public override void Start ()
@@ -33,6 +35,11 @@ namespace Tollminder.Core.ViewModels
 			_tokens.Add (_messenger.SubscribeOnThreadPoolThread<LocationMessage> (x => Location = x.Data, MvxReference.Strong));
 			_tokens.Add(_messenger.SubscribeOnThreadPoolThread<QuestionMessage>(x => Question = x.Data, MvxReference.Strong));
 			//_tokens.Add (_messenger.SubscribeOnMainThread<LogUpdated> ((s) => LogText = Log._messageLog.ToString()));
+
+
+			IsBound = _geoWatcher.IsBound;
+			if (_geoWatcher.Location != null)
+				Location = _geoWatcher.Location;
 		}
 
 		protected override void OnDestroy ()
@@ -40,6 +47,17 @@ namespace Tollminder.Core.ViewModels
 			base.OnDestroy ();
 			foreach (var item in _tokens) {
 				item.Dispose ();
+			}
+		}
+
+		bool _isBound;
+		public bool IsBound
+		{
+			get { return _isBound; }
+			set
+			{
+				_isBound = value;
+				RaisePropertyChanged(() => IsBound);
 			}
 		}
 
@@ -94,14 +112,22 @@ namespace Tollminder.Core.ViewModels
 		private MvxCommand _startCommand;
 		public ICommand StartCommand {
 			get {
-				return _startCommand ?? (_startCommand = new MvxCommand (_track.StartServices));
+				return _startCommand ?? (_startCommand = new MvxCommand (() =>
+				{
+					_track.StartServices();
+					IsBound = _geoWatcher.IsBound;
+				}));
 			}  
 		}
 
 		private MvxCommand _stopCommand;
 		public ICommand StopCommand {
 			get {
-				return _stopCommand ?? (_stopCommand = new MvxCommand (_track.StopServices));
+				return _stopCommand ?? (_stopCommand = new MvxCommand (() =>
+				{ 
+					_track.StopServices(); 
+					IsBound = _geoWatcher.IsBound;
+				}));
 			}  
 		}
 	}

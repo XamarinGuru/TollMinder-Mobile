@@ -7,7 +7,6 @@ namespace Tollminder.Core.Models.Statuses
 	{
 		public override TollGeolocationStatus CheckStatus ()
 		{
-
 			Log.LogMessage (string.Format ("TRY TO FIND WAYPOINT EXIT FROM 200 m"));
 
 			var waypoint = DataService.FindNearGeoLocation (GeoWatcher.Location, WaypointAction.Exit);
@@ -21,6 +20,11 @@ namespace Tollminder.Core.Models.Statuses
 			GeoWatcher.StartUpdatingHighAccuracyLocation ();
 			NotifyService.Notify (string.Format ("you are potentially going to exit {0} waypoints.", WaypointChecker.Waypoint.Name));
 			return TollGeolocationStatus.NearTollRoadExit;
+		}
+
+		public override void MakeActionForStatus()
+		{
+			
 		}
 	}
 }

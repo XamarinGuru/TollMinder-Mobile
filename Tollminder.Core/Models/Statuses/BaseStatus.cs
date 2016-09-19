@@ -7,32 +7,29 @@ namespace Tollminder.Core.Models.Statuses
 	public abstract class BaseStatus 
 	{
 		IGeoLocationWatcher _geoWatcher;
-		protected IGeoLocationWatcher GeoWatcher {
-			get {
-				if (_geoWatcher == null) {
-					_geoWatcher = Mvx.Resolve<IGeoLocationWatcher> ();
-				}
-				return _geoWatcher;
+		protected IGeoLocationWatcher GeoWatcher 
+		{
+			get 
+			{
+				return _geoWatcher ?? (_geoWatcher = Mvx.Resolve<IGeoLocationWatcher>());
 			}
 		}
 
 		IMotionActivity _motionActivity;
-		protected IMotionActivity MotionActivity {
-			get {
-				if (_motionActivity == null) {
-					_motionActivity = Mvx.Resolve<IMotionActivity> ();
-				}
-				return _motionActivity;
+		protected IMotionActivity MotionActivity 
+		{
+			get 
+			{
+				return _motionActivity ?? (_motionActivity = Mvx.Resolve<IMotionActivity>());
 			}
 		}
 
 		IDistanceChecker _distanceChecker;
-		protected IDistanceChecker DistanceChecker {
-			get {
-				if (_distanceChecker == null) {
-					_distanceChecker = Mvx.Resolve<IDistanceChecker> ();
-				}
-				return _distanceChecker;
+		protected IDistanceChecker DistanceChecker 
+		{
+			get 
+			{
+				return _distanceChecker ?? (_distanceChecker = Mvx.Resolve<IDistanceChecker>());
 			}
 		}
 
@@ -47,26 +44,43 @@ namespace Tollminder.Core.Models.Statuses
 		}
 
 		IGeoDataService _dataService;
-		protected IGeoDataService DataService {
-			get {
-				if (_dataService == null) {
-					_dataService = Mvx.Resolve<IGeoDataService> ();
-				}
-				return _dataService;
+		protected IGeoDataService DataService 
+		{
+			get 
+			{
+				return _dataService ?? (_dataService = Mvx.Resolve<IGeoDataService>());
 			}
 		}
 
 		INotifyService _notifyService;
-		protected INotifyService NotifyService {
-			get {
-				if (_notifyService == null) {
-					_notifyService = Mvx.Resolve<INotifyService> ();
-				}
-				return _notifyService;
+		protected INotifyService NotifyService 
+		{
+			get 
+			{
+				return _notifyService ?? (_notifyService = Mvx.Resolve<INotifyService>());
+			}
+		}
+
+		ISpeechToTextService _speechToTextService;
+		protected ISpeechToTextService SpeechToTextService
+		{
+			get
+			{
+				return _speechToTextService ?? (_speechToTextService = Mvx.Resolve<ISpeechToTextService>());
+			}
+		}
+
+		IBatteryDrainService _batteryDrainService;
+		protected IBatteryDrainService BatteryDrainService
+		{
+			get
+			{
+				return _batteryDrainService ?? (_batteryDrainService = Mvx.Resolve<IBatteryDrainService>());
 			}
 		}
 
 		public abstract TollGeolocationStatus CheckStatus ();
+		public abstract void MakeActionForStatus();
 	}
 }
 

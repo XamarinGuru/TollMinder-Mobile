@@ -3,7 +3,7 @@ using Tollminder.Core.Helpers;
 
 namespace Tollminder.Core.Models.Statuses
 {
-	public class NearTollRoadStatus : BaseStatus
+	public class NearTollRoadEntranceStatus : BaseStatus
 	{
 		public override TollGeolocationStatus CheckStatus ()
 		{
@@ -23,7 +23,7 @@ namespace Tollminder.Core.Models.Statuses
 					NotifyService.Notify (string.Format ("You are entered to {0}", WaypointChecker.Waypoint.Name));
 					return TollGeolocationStatus.OnTollRoad;
 				}
-				return TollGeolocationStatus.NearTollRoadEnterce;
+				return TollGeolocationStatus.NearTollRoadEntrance;
 			} else {
 
 				Log.LogMessage (string.Format ("DISABLED HIGH ACCURACY"));
@@ -35,7 +35,7 @@ namespace Tollminder.Core.Models.Statuses
 
 		public override void MakeActionForStatus()
 		{
-
+			SpeechToTextService.AskQuestion("Are you entering the tollroad?").Wait();
 		}
 	}
 }

@@ -42,18 +42,14 @@ namespace Tollminder.Droid.AndroidServices
 			}
 			StopMotionSerivce ();
 			var status = await ActivityRecognition.ActivityRecognitionApi.RequestActivityUpdatesAsync (GoogleApiClient, 1000, ActivityPendingIntent);
-			#if DEBUG
 			Log.LogMessage(string.Format ("GoogleApiClient connected : {0}", status));
-			#endif
 		}
 
 		public virtual async void StopMotionSerivce ()
 		{
 			if (GoogleApiClient != null && GoogleApiClient.IsConnected) {
 				var status = await ActivityRecognition.ActivityRecognitionApi.RemoveActivityUpdatesAsync (GoogleApiClient, ActivityPendingIntent);
-				#if DEBUG
 				Log.LogMessage(string.Format ("GoogleApiClient connected : {0}", status));
-				#endif				
 			}
 		}
 

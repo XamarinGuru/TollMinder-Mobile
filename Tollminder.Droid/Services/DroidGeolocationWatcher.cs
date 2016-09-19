@@ -26,11 +26,13 @@ namespace Tollminder.Droid.Services
 				return _location;
 			}
 			set {
-				_location = value;
-				Mvx.Resolve<INotificationSender>().SendLocalNotification("New location", $"Lat: {value.Latitude}, Lon: {value.Longitude}");
-				Mvx.Resolve<IMvxMessenger> ().Publish (new LocationMessage (this, value));
-
-				Log.LogMessage (value.ToString ());
+				if (IsBound && (!_location?.Equals(value) ?? true))
+				{
+					_location = value;
+					Mvx.Resolve<IMvxMessenger>().Publish(new LocationMessage(this, value));
+					StopGeolocationWatcher();
+					Log.LogMessage(value.ToString());
+				}
 			}
 		}
 

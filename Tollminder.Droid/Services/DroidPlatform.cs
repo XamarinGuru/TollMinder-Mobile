@@ -21,9 +21,8 @@ namespace Tollminder.Droid.Services
 				string packageName = context.PackageName;
 				foreach (Android.App.ActivityManager.RunningAppProcessInfo appProcess in appProcesses)
 				{
-					#if DEBUG
 					Log.LogMessage(appProcess.ProcessName);
-					#endif
+
 					if (appProcess.Importance == Importance.Foreground && appProcess.ProcessName.ToLowerInvariant() == packageName.ToLowerInvariant())
 					{
 						return true;
