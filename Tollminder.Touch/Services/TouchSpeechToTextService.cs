@@ -179,9 +179,12 @@ namespace Tollminder.Touch.Services
 
 			Mvx.Resolve<ITextToSpeechService>().Speak(question).Wait();
 
-			//SystemSound notificationSound = SystemSound.FromFile(@"/System/Library/Audio/UISounds/New/jbl_begin.caf");
-			//notificationSound.AddSystemSoundCompletion(SystemSound.Vibrate.PlaySystemSound);
-			//notificationSound.PlaySystemSound();
+			UIApplication.SharedApplication.InvokeOnMainThread(() =>
+			{
+				SystemSound notificationSound = SystemSound.FromFile(@"/System/Library/Audio/UISounds/jbl_begin.caf");
+				notificationSound.AddSystemSoundCompletion(SystemSound.Vibrate.PlaySystemSound);
+				notificationSound.PlaySystemSound();
+			});
 
 			Question = question;
 			StartListening();
