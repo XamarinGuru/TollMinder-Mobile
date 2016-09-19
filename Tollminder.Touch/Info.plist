@@ -6,6 +6,10 @@
 	<string>com.tollminder</string>
 	<key>CFBundleName</key>
 	<string>Toll Minder</string>
+	<key>CFBundleShortVersionString</key>
+	<string>2</string>
+	<key>CFBundleVersion</key>
+	<string>0</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>
@@ -42,9 +46,5 @@
 	</array>
 	<key>XSAppIconAssets</key>
 	<string>Resources/Images.xcassets/AppIcons.appiconset</string>
-	<key>CFBundleShortVersionString</key>
-	<string>28</string>
-	<key>CFBundleVersion</key>
-	<string>28</string>
 </dict>
 </plist>
