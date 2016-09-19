@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Gms.Location;
@@ -37,6 +38,9 @@ namespace Tollminder.Droid.BroadcastReceivers
 						//Cannot start primary - as state already InitializingSecondary
 						Mvx.Trace(e.Message + e.StackTrace);
 					}
+
+					Task.Delay(2000).Wait();
+
 					Mvx.Resolve<IGeoLocationWatcher> ().Location = location.GetGeolocationFromAndroidLocation ();
 				}
 			}

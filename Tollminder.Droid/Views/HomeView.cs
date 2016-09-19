@@ -14,6 +14,8 @@ using System.Linq;
 using System.Collections.Generic;
 using Tollminder.Core.Helpers;
 using Tollminder.Droid.Services;
+using MvvmCross.Plugins.Messenger;
+using Tollminder.Core.Models;
 
 namespace Tollminder.Droid.Views
 {
@@ -29,6 +31,13 @@ namespace Tollminder.Droid.Views
 		public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
 		{
 			PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+		}
+
+		protected override void OnResume()
+		{
+			base.OnResume();
+
+			Mvx.Resolve<IMvxMessenger>().Publish(new SpechRecognitionActivityLoadedMessage(this));
 		}
 
 		protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)

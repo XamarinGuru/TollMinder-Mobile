@@ -29,6 +29,7 @@ namespace Tollminder.Droid.Services
 				if (IsBound && (!_location?.Equals(value) ?? true))
 				{
 					_location = value;
+
 					Mvx.Resolve<IMvxMessenger>().Publish(new LocationMessage(this, value));
 					//StopGeolocationWatcher();
 					Log.LogMessage(value.ToString());

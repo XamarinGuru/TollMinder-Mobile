@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Android.App;
 using Android.Content;
 using Android.Speech;
 using MvvmCross.Platform;
 using MvvmCross.Platform.Droid.Platform;
+using MvvmCross.Plugins.Messenger;
 using Tollminder.Core.Models;
 using Tollminder.Core.Services;
+using Tollminder.Droid.Views;
 
 namespace Tollminder.Droid.Services
 {
@@ -40,6 +43,16 @@ namespace Tollminder.Droid.Services
 		public Task<bool> AskQuestion(string question)
 		{
 			_recognitionTask = new TaskCompletionSource<bool>();
+
+			if (Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity == null)
+			{
+				var otherActivity = new Intent(Application.Context, typeof(HomeView));
+				otherActivity.AddFlags(ActivityFlags.NewTask);
+				Application.Context.StartActivity(otherActivity);
+
+				EnsureActivityLoaded().Wait();
+			}
+
 			Mvx.Resolve<ITextToSpeechService>().Speak(question).Wait();
 
 			Question = question;
@@ -54,7 +67,15 @@ namespace Tollminder.Droid.Services
 			voiceIntent.PutExtra(RecognizerIntent.ExtraLanguage, "en-US");
 
 			Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity.StartActivityForResult(voiceIntent, VoiceConstId);
+
 			return _recognitionTask.Task;
+		}
+
+		Task<bool> EnsureActivityLoaded()
+		{
+			var _ensureTask = new TaskCompletionSource<bool>();
+			Mvx.Resolve<IMvxMessenger>().SubscribeOnThreadPoolThread<SpechRecognitionActivityLoadedMessage>(x => _ensureTask.SetResult(true));
+			return _ensureTask.Task;
 		}
 
 		void ISpeechToTextService.CheckResult(IList<string> matches)

@@ -30,6 +30,14 @@ namespace Tollminder.Core.Models
 		}
 	}
 
+	public class SpechRecognitionActivityLoadedMessage : MvxMessage
+	{
+		public SpechRecognitionActivityLoadedMessage(object sender)
+			: base(sender)
+		{
+		}
+	}
+
 	public class QuestionMessage : GenericMessage<string>
 	{
 		public QuestionMessage(object sender, string question)

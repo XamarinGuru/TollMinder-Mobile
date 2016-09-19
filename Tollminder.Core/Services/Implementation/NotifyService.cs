@@ -18,9 +18,9 @@ namespace Tollminder.Core.Services.Implementation
 		{
 			if (!_platform.IsAppInForeground) {
 				_notificationSender.SendLocalNotification ("Toll Minder", message);
-                _textToSpeech.Speak (message);
+				_textToSpeech.Speak (message).Wait();
 			}
-			_textToSpeech.Speak (message);		
+			_textToSpeech.Speak (message).Wait();		
 		}
 	}
 }
