@@ -6,7 +6,7 @@ namespace Tollminder.Core.Models
 	// encapulates a geolocation and other information
 	public class GeoLocation : IEquatable<GeoLocation>
 	{
-		const double Epsilon = 0.0000001;
+		const double Epsilon = 0.0001;
 
 		public GeoLocation () 
 		{
