@@ -6,23 +6,42 @@ namespace Tollminder.Core.Services.Implementation
 {
 	public class WaypointChecker : IWaypointChecker
 	{
-		private TollRoadWaypoint _waypoint;
-		private IDistanceChecker _distanceChecker;
-
-		public IDistanceChecker DistanceChecker {
-			get {
-				if (_distanceChecker == null) {
-					_distanceChecker = Mvx.Resolve<IDistanceChecker> ();
-				}
-				return _distanceChecker;
+		TollRoadWaypoint _currentWaypoint;
+		public TollRoadWaypoint CurrentWaypoint 
+		{
+			get 
+			{
+				return _currentWaypoint; 
+			}
+			set 
+			{
+				_currentWaypoint = value;
+			}
+		}
+	
+		TollRoadWaypoint _entrance;
+		public TollRoadWaypoint Entrance
+		{
+			get
+			{
+				return _entrance;
+			}
+			set
+			{
+				_entrance = value;
 			}
 		}
 
-		public virtual TollRoadWaypoint Waypoint {
-			get { return _waypoint; }
-			set {
-				_waypoint = value;
-				DistanceChecker.UpdateDistance ();
+		TollRoadWaypoint _exit;
+		public TollRoadWaypoint Exit
+		{
+			get
+			{
+				return _exit;
+			}
+			set
+			{
+				_exit = value;
 			}
 		}
 	}

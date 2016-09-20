@@ -182,6 +182,7 @@
     <Compile Include="BroadcastReceivers\MotionReciever.cs" />
     <Compile Include="Services\DroidSpeechToTextService.cs" />
     <Compile Include="Converters\InverseBoolConverter.cs" />
+    <Compile Include="Services\DroidStoredSettingsBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

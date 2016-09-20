@@ -30,6 +30,14 @@ namespace Tollminder.Core.Models
 		}
 	}
 
+	public class StatusMessage : GenericMessage<TollGeolocationStatus>
+	{
+		public StatusMessage(object sender, TollGeolocationStatus status)
+			: base(sender, status)
+		{
+		}
+	}
+
 	public class SpechRecognitionActivityLoadedMessage : MvxMessage
 	{
 		public SpechRecognitionActivityLoadedMessage(object sender)

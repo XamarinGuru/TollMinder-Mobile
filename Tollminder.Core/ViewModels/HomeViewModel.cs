@@ -33,13 +33,14 @@ namespace Tollminder.Core.ViewModels
 		{
 			base.Start ();
 			_tokens.Add (_messenger.SubscribeOnThreadPoolThread<LocationMessage> (x => Location = x.Data, MvxReference.Strong));
-			_tokens.Add(_messenger.SubscribeOnThreadPoolThread<QuestionMessage>(x => Question = x.Data, MvxReference.Strong));
+			_tokens.Add(_messenger.SubscribeOnThreadPoolThread<StatusMessage>(x => StatusString = x.Data.ToString(), MvxReference.Strong));
 			//_tokens.Add (_messenger.SubscribeOnMainThread<LogUpdated> ((s) => LogText = Log._messageLog.ToString()));
-
 
 			IsBound = _geoWatcher.IsBound;
 			if (_geoWatcher.Location != null)
 				Location = _geoWatcher.Location;
+
+			StatusString = _track.TollStatus.ToString();
 		}
 
 		protected override void OnDestroy ()
@@ -71,17 +72,6 @@ namespace Tollminder.Core.ViewModels
 			}
 		}
 
-		string _question;
-		public string Question
-		{
-			get { return _question; }
-			set
-			{
-				_question = value;
-				RaisePropertyChanged(() => Question);
-			}
-		}
-
 		private string _logText;
 		public string LogText {
 			get { return _logText; }
@@ -93,6 +83,17 @@ namespace Tollminder.Core.ViewModels
 
 		public string LocationString {
 			get { return _location.ToString(); } 
+		}
+
+		string _statusString;
+		public string StatusString
+		{
+			get { return _statusString; }
+			set 
+			{ 
+				_statusString = value;
+				RaisePropertyChanged(() => StatusString);
+			}
 		}
 
 		private MotionType _motionType;

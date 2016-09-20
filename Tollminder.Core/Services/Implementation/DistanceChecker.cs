@@ -23,29 +23,6 @@ namespace Tollminder.Core.Services.Implementation
 			this._waypointChecker = waypointChecker;
 		}
 
-		public double Distance { get; set; }
-
-		public virtual bool IsCloserToWaypoint 
-		{
-			get {
-				Log.LogMessage (string.Format ("DISTANCE {0} {1}", DistanceBetweenGeoLocations (_geoWatcher.Location, _waypointChecker.Waypoint.Location), Distance));
-				return Distance - DistanceBetweenGeoLocations (_geoWatcher.Location, _waypointChecker.Waypoint.Location) >= 0;
-			}
-		}
-
-		public bool IsAtWaypoint 
-		{
-			get {
-				Log.LogMessage (string.Format ("DIS : {0}, DIST 2 {1} = {2}", Distance, WaypointDistanceRequired, Distance - WaypointDistanceRequired));
-				return (Distance - WaypointDistanceRequired) < 0;
-			}
-		}
-
-		public virtual void UpdateDistance ()
-		{
-			Distance = DistanceBetweenGeoLocations (_geoWatcher.Location, _waypointChecker.Waypoint.Location);
-		}
-
 		public virtual TollRoadWaypointWithDistance GetMostClosestWaypoint (GeoLocation center, IList<TollRoadWaypoint> points)
 		{
 			var point = points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).OrderBy (x => DistanceBetweenGeoLocations(center, x.Location)).FirstOrDefault ();

@@ -26,7 +26,8 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="wrap_content"
+        android:padding="10dp">
         <TextView
             android:id="@+id/text1"
             android:layout_width="match_parent"
@@ -45,22 +46,40 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_margin="50dp">
+        android:layout_height="wrap_content"
+        android:padding="10dp">
         <TextView
-            android:id="@+id/text3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Motion Type"
+            android:text="Status"
             android:layout_weight="1" />
         <TextView
-            android:id="@+id/text4"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text=""
             android:textSize="10sp"
             android:layout_weight="1"
-            local:MvxBind="Text MotionTypeString" />
+            local:MvxBind="Text StatusString" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+        <TextView
+            android:id="@+id/text3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Motion Type"
+            android:layout_weight="1" />
+        <TextView
+            android:id="@+id/text4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="10sp"
+            local:MvxBind="Text MotionTypeString"
+            android:layout_weight="1" />
     </LinearLayout>
     <TextView
         android:id="@+id/text4"
@@ -69,5 +88,6 @@
         android:text="Init Text"
         android:textSize="10sp"
         android:inputType="textMultiLine"
-        local:MvxBind="Text LogText" />
+        local:MvxBind="Text LogText"
+        android:padding="10dp" />
 </LinearLayout>

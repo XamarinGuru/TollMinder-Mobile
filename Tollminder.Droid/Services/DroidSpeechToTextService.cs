@@ -89,7 +89,7 @@ namespace Tollminder.Droid.Services
 			if (answer != AnswerType.Unknown)
 			{
 				Mvx.Resolve<ITextToSpeechService>().Speak($"Your answer is {answer.ToString()}");
-				_recognitionTask.TrySetResult(true);
+				_recognitionTask.TrySetResult(answer == AnswerType.Positive);
 			}
 			else
 				AskQuestion(Question);

@@ -24,8 +24,6 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
 		MvxSubscriptionToken _token;
 
-		object lockOebject = new object ();
-
 		#endregion
 
 		#region Constructor
@@ -38,6 +36,8 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 			_activity = Mvx.Resolve<IMotionActivity> ();
 			_batteryDrainService = Mvx.Resolve<IBatteryDrainService>();
 			_speechToTextService = Mvx.Resolve<ISpeechToTextService>();
+
+			TollStatus = TollGeolocationStatus.NotOnTollRoad;
 		}
 
 		#endregion
@@ -77,23 +77,30 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 			}
 		}
 
-
-		public TollGeolocationStatus TollStatus { get; set; } = TollGeolocationStatus.NotOnTollRoad;
-
-		protected virtual void CheckTrackStatus ()
+		TollGeolocationStatus _tollStatus;
+		public TollGeolocationStatus TollStatus 
 		{
-			lock(lockOebject)
+			get
 			{
-				BaseStatus statusObject = StatusesFactory.GetStatus (TollStatus);
-
-				Log.LogMessage (TollStatus.ToString ());
-				TollStatus = statusObject.CheckStatus ();
-
-				statusObject = StatusesFactory.GetStatus(TollStatus);
-				statusObject.MakeActionForStatus();
-
-				Mvx.Resolve<INotificationSender>().SendLocalNotification($"Status: {TollStatus.ToString()}", $"Lat: {_geoWatcher.Location?.Latitude}, Long: {_geoWatcher.Location?.Longitude}");
+				return _tollStatus;
 			}
+			set
+			{
+				_tollStatus = value;
+				_messenger.Publish(new StatusMessage(this, value));
+			}
+		} 
+
+		protected virtual async void CheckTrackStatus ()
+		{
+			BaseStatus statusObject = StatusesFactory.GetStatus (TollStatus);
+
+			Log.LogMessage (TollStatus.ToString ());
+			TollStatus = await statusObject.CheckStatus ();
+
+			statusObject = StatusesFactory.GetStatus(TollStatus);
+
+			Mvx.Resolve<INotificationSender>().SendLocalNotification($"Status: {TollStatus.ToString()}", $"Lat: {_geoWatcher.Location?.Latitude}, Long: {_geoWatcher.Location?.Longitude}");
 		}
 	}
 }

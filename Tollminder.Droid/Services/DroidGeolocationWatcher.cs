@@ -12,13 +12,28 @@ namespace Tollminder.Droid.Services
 {
 	public class DroidGeolocationWatcher : DroidServiceStarter, IGeoLocationWatcher
 	{
+		readonly IStoredSettingsService _storedSettingsService;
+
 		#region IGeoLocationWatcher implementation
-		public DroidGeolocationWatcher ()
+		public DroidGeolocationWatcher (IStoredSettingsService storedSettingsService)
 		{
+			_storedSettingsService = storedSettingsService;
+
 			ServiceIntent = new Intent (ApplicationContext, typeof (GeolocationService));
+			IsBound = Mvx.Resolve<IStoredSettingsService>().GeoWatcherIsRunning;
 		}
 
-		public bool IsBound { get; private set; } = false;
+		public bool IsBound 
+		{ 
+			get
+			{
+				return _storedSettingsService.GeoWatcherIsRunning;
+			}
+			set
+			{
+				_storedSettingsService.GeoWatcherIsRunning = value;
+			}
+		}
 
 		private GeoLocation _location;
 		public virtual GeoLocation Location {
@@ -40,8 +55,8 @@ namespace Tollminder.Droid.Services
 		{
 			if (!IsBound && ApplicationContext.IsGooglePlayServicesInstalled ()) {
 				Start ();
+				IsBound = true;
 			}
-			IsBound = true;
 		}
 
 		public virtual void StopGeolocationWatcher ()

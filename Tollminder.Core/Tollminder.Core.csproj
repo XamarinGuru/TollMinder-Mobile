@@ -66,7 +66,7 @@
     <Compile Include="Models\Statuses\NotOnTollRoadStatus.cs" />
     <Compile Include="Models\Statuses\BaseStatus.cs" />
     <Compile Include="Services\IGeoDataService.cs" />
-    <Compile Include="Services\IWaypoint.cs" />
+    <Compile Include="Services\IWaypointChecker.cs" />
     <Compile Include="Services\IDistanceChecker.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Services\Implementation\DistanceChecker.cs" />
@@ -86,6 +86,9 @@
     <Compile Include="Services\ITextFromSpeechMAppingService.cs" />
     <Compile Include="Services\Implementation\TextFromSpeechMappingService.cs" />
     <Compile Include="Services\ISpeechToTextService.cs" />
+    <Compile Include="Services\IStoredSettingsBase.cs" />
+    <Compile Include="Services\IStoredSettingsService.cs" />
+    <Compile Include="Services\Implementation\StoredSettingsService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>

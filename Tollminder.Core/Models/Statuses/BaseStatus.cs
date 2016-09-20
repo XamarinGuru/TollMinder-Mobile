@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using MvvmCross.Platform;
 using Tollminder.Core.Services;
 
@@ -79,8 +80,7 @@ namespace Tollminder.Core.Models.Statuses
 			}
 		}
 
-		public abstract TollGeolocationStatus CheckStatus ();
-		public abstract void MakeActionForStatus();
+		public abstract Task<TollGeolocationStatus> CheckStatus ();
 	}
 }
 
