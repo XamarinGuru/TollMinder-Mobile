@@ -31,7 +31,6 @@ namespace Tollminder.Droid.Services
 					_location = value;
 
 					Mvx.Resolve<IMvxMessenger>().Publish(new LocationMessage(this, value));
-					StopGeolocationWatcher();
 					Log.LogMessage(value.ToString());
 				}
 			}
@@ -41,8 +40,8 @@ namespace Tollminder.Droid.Services
 		{
 			if (!IsBound && ApplicationContext.IsGooglePlayServicesInstalled ()) {
 				Start ();
-				IsBound = true;
 			}
+			IsBound = true;
 		}
 
 		public virtual void StopGeolocationWatcher ()

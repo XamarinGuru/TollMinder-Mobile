@@ -64,7 +64,6 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
 		}
 
-
 		public virtual void StopServices ()
 		{	
 			if (_isBound) {
@@ -94,8 +93,6 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 				statusObject.MakeActionForStatus();
 
 				Mvx.Resolve<INotificationSender>().SendLocalNotification($"Status: {TollStatus.ToString()}", $"Lat: {_geoWatcher.Location?.Latitude}, Long: {_geoWatcher.Location?.Longitude}");
-
-				_geoWatcher.StartGeolocationWatcher();
 			}
 		}
 	}
