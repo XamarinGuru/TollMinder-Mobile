@@ -16,6 +16,7 @@ using Tollminder.Core.Helpers;
 using Tollminder.Droid.Services;
 using MvvmCross.Plugins.Messenger;
 using Tollminder.Core.Models;
+using System;
 
 namespace Tollminder.Droid.Views
 {
@@ -36,7 +37,7 @@ namespace Tollminder.Droid.Views
 		protected override void OnResume()
 		{
 			base.OnResume();
-
+			Console.WriteLine("OnResume HomeView");
 			Mvx.Resolve<IMvxMessenger>().Publish(new SpechRecognitionActivityLoadedMessage(this));
 		}
 

@@ -74,7 +74,11 @@ namespace Tollminder.Droid.Services
 		Task<bool> EnsureActivityLoaded()
 		{
 			var _ensureTask = new TaskCompletionSource<bool>();
-			Mvx.Resolve<IMvxMessenger>().SubscribeOnThreadPoolThread<SpechRecognitionActivityLoadedMessage>(x => _ensureTask.SetResult(true));
+			Mvx.Resolve<IMvxMessenger>().SubscribeOnThreadPoolThread<SpechRecognitionActivityLoadedMessage>(x =>
+			{
+				Console.WriteLine("Received SpechRecognitionActivityLoadedMessage");
+				_ensureTask.SetResult(true);
+			});
 			return _ensureTask.Task;
 		}
 
