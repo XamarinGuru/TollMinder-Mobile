@@ -22,6 +22,9 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 		readonly IBatteryDrainService _batteryDrainService;
 		readonly ISpeechToTextService _speechToTextService;
 
+		object _locker = new object();
+		bool _locationProcessing;
+
 		MvxSubscriptionToken _token;
 
 		#endregion
@@ -38,44 +41,53 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 			_speechToTextService = Mvx.Resolve<ISpeechToTextService>();
 
 			TollStatus = TollGeolocationStatus.NotOnTollRoad;
-			_isBound = Mvx.Resolve<IStoredSettingsService>().GeoWatcherIsRunning;
 		}
 
 		#endregion
 
 		#region Properties
 
-		private bool _isBound;
+		bool IsBound
+		{
+			get
+			{
+				return _geoWatcher.IsBound;
+			}
+		}
 
 		#endregion
 
-		public virtual async void StartServices ()
+		public virtual async Task<bool> StartServices ()
 		{			
 			bool isGranted = await Mvx.Resolve<IPermissionsService> ().CheckPermissionsAccesGrantedAsync ();
-			if (!_isBound & isGranted) {
+			if (!IsBound & isGranted) {
 
 				Log.LogMessage (string.Format ("THE SEVICES HAS STARTED AT {0}", DateTime.Now));
 
 				_textToSpeech.IsEnabled = true;
 				_geoWatcher.StartGeolocationWatcher ();
 				_token = _messenger.SubscribeOnThreadPoolThread<LocationMessage> (x => CheckTrackStatus ());
-				_activity.StartDetection ();			
-				_isBound = true;
-			}	
+				_activity.StartDetection ();
+				return true;
+			}
 
+			return false;
 		}
 
-		public virtual void StopServices ()
+		public virtual bool StopServices ()
 		{	
-			if (_isBound) {
+			if (IsBound) {
 
 				Log.LogMessage (string.Format ("THE SEVICES HAS STOPPED AT {0}", DateTime.Now));
 
 				_geoWatcher.StopGeolocationWatcher ();
 				_token?.Dispose ();
 				_activity.StopDetection ();
-				_isBound = false;
+
+				return true;
 			}
+
+			return false;
 		}
 
 		TollGeolocationStatus _tollStatus;
@@ -92,16 +104,29 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 			}
 		} 
 
-		protected virtual async void CheckTrackStatus ()
+		protected virtual void CheckTrackStatus ()
 		{
-			BaseStatus statusObject = StatusesFactory.GetStatus (TollStatus);
+			lock (_locker)
+			{
+				if (_locationProcessing)
+					return;
 
-			Log.LogMessage (TollStatus.ToString ());
-			TollStatus = await statusObject.CheckStatus ();
+				_locationProcessing = true;
 
-			statusObject = StatusesFactory.GetStatus(TollStatus);
+				if (_batteryDrainService.CheckGpsTrackingSleepTime(TollStatus))
+					return;
 
-			Mvx.Resolve<INotificationSender>().SendLocalNotification($"Status: {TollStatus.ToString()}", $"Lat: {_geoWatcher.Location?.Latitude}, Long: {_geoWatcher.Location?.Longitude}");
+				BaseStatus statusObject = StatusesFactory.GetStatus(TollStatus);
+
+				Log.LogMessage(TollStatus.ToString());
+				TollStatus = statusObject.CheckStatus().Result;
+
+				statusObject = StatusesFactory.GetStatus(TollStatus);
+
+				Mvx.Resolve<INotificationSender>().SendLocalNotification($"Status: {TollStatus.ToString()}", $"Lat: {_geoWatcher.Location?.Latitude}, Long: {_geoWatcher.Location?.Longitude}");
+
+				_locationProcessing = false;
+			}
 		}
 	}
 }

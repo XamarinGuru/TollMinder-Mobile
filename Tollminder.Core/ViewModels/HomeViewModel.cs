@@ -113,10 +113,10 @@ namespace Tollminder.Core.ViewModels
 		private MvxCommand _startCommand;
 		public ICommand StartCommand {
 			get {
-				return _startCommand ?? (_startCommand = new MvxCommand (() =>
+				return _startCommand ?? (_startCommand = new MvxCommand (async () =>
 				{
-					_track.StartServices();
-					IsBound = _geoWatcher.IsBound;
+					if (await _track.StartServices())
+						IsBound = _geoWatcher.IsBound;
 				}));
 			}  
 		}
@@ -126,8 +126,8 @@ namespace Tollminder.Core.ViewModels
 			get {
 				return _stopCommand ?? (_stopCommand = new MvxCommand (() =>
 				{ 
-					_track.StopServices(); 
-					IsBound = _geoWatcher.IsBound;
+					if (_track.StopServices())
+						IsBound = _geoWatcher.IsBound;
 				}));
 			}  
 		}

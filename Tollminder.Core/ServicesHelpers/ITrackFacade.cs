@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Tollminder.Core.Models;
 
 namespace Tollminder.Core.ServicesHelpers
@@ -7,7 +8,7 @@ namespace Tollminder.Core.ServicesHelpers
 	{
 		TollGeolocationStatus TollStatus { get; }
 
-		void StartServices();
-		void StopServices();
+		Task<bool> StartServices();
+		bool StopServices();
 	}
 }

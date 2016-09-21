@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MvvmCross.Platform;
 using Tollminder.Core.Helpers;
+using Tollminder.Core.Models;
 using Tollminder.Core.Utils;
 
 namespace Tollminder.Core.Services.Implementation
@@ -33,9 +34,11 @@ namespace Tollminder.Core.Services.Implementation
 			_geoDataService = Mvx.Resolve<IGeoDataService>();
 		}
 
-		public void CheckGpsTrackingSleepTime()
-		{ 
-			double distance = _distanceChecker.GetMostClosestWaypoint(_geoWatcher.Location, (_geoDataService.GetWaypoints()))?.Distance ?? 0;
+		public bool CheckGpsTrackingSleepTime(TollGeolocationStatus status)
+		{
+			WaypointAction action = (status == TollGeolocationStatus.NotOnTollRoad) ? WaypointAction.Enterce : WaypointAction.Exit;
+
+			double distance = _distanceChecker.GetMostClosestWaypoint(_geoWatcher.Location, (_geoDataService.GetWaypoints().Where(x => x.WaypointAction == action).ToList()))?.Distance ?? 0;
 			var minutesOffset = conditionsDictionary.First(x => x.Key((int)distance)).Value;
 
 			Log.LogMessage($"CheckGpsTrackingSleepTime : DIST = {distance}, MINUTESOFFSET {minutesOffset}");
@@ -44,7 +47,10 @@ namespace Tollminder.Core.Services.Implementation
 			{
 				Mvx.Resolve<INotifyService>().Notify($"{(int)distance} km to nearest WayPoint. Stop GPS detecting for {minutesOffset} minutes");
 				SetGpsTrackingSleepTime(minutesOffset);
+				return true;
 			}
+
+			return false;
 		}
 
 		void TimerElapsed(object state = null)
