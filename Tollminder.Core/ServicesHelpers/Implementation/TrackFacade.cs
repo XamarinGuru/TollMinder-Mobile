@@ -38,6 +38,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 			_speechToTextService = Mvx.Resolve<ISpeechToTextService>();
 
 			TollStatus = TollGeolocationStatus.NotOnTollRoad;
+			_isBound = Mvx.Resolve<IStoredSettingsService>().GeoWatcherIsRunning;
 		}
 
 		#endregion

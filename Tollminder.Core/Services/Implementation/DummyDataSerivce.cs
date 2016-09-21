@@ -27,10 +27,62 @@ namespace Tollminder.Core.Services.Implementation
 					WaypointAction = WaypointAction.Enterce
 				},
 				new TollRoadWaypoint {
+					Name = "Harkovkse metro exit",
+					Location = new GeoLocation {
+						Latitude = 50.403219, 
+						Longitude =  30.667185
+					},
+
+					WaypointAction = WaypointAction.Exit
+				},
+				new TollRoadWaypoint {
 					Name = "Kolektorna enterce",
 					Location = new GeoLocation { 
-						Latitude = 50.397919, 
+						Latitude = 50.401042, 
+						Longitude = 30.681115
+					},
+
+					WaypointAction = WaypointAction.Enterce
+				},
+				new TollRoadWaypoint {
+					Name = "Kolektorna exit",
+					Location = new GeoLocation {
+						Latitude = 50.397919,
 						Longitude = 30.676943
+					},
+
+					WaypointAction = WaypointAction.Enterce
+				},
+				new TollRoadWaypoint {
+					Name = "Poznaki Enterce",
+					Location = new GeoLocation {
+						Latitude = 50.399954,
+						Longitude =  30.644416
+					},
+					WaypointAction = WaypointAction.Enterce
+				},
+				new TollRoadWaypoint {
+					Name = "Poznaki Exit",
+					Location = new GeoLocation {
+						Latitude = 50.398490,
+						Longitude = 30.634127
+					},
+
+					WaypointAction = WaypointAction.Exit
+				},
+				new TollRoadWaypoint {
+					Name = "Osokorki Enterce",
+					Location = new GeoLocation {
+						Latitude = 50.395579,
+						Longitude = 30.616243
+					},
+					WaypointAction = WaypointAction.Exit
+				},
+				new TollRoadWaypoint {
+					Name = "Osokorki Exit",
+					Location = new GeoLocation {
+						Latitude = 50.397062,
+						Longitude = 30.626107
 					},
 
 					WaypointAction = WaypointAction.Enterce
@@ -94,23 +146,6 @@ namespace Tollminder.Core.Services.Implementation
 					Location = new GeoLocation { 
 						Latitude = 50.443157,
 						Longitude =  30.626168
-					},
-
-					WaypointAction = WaypointAction.Enterce
-				},
-				new TollRoadWaypoint {
-					Name = " Osokorki Enterce",
-					Location = new GeoLocation { 
-						Latitude = 50.398396,
-						Longitude = 30.567202
-					},
-					WaypointAction = WaypointAction.Exit
-				},
-				new TollRoadWaypoint {
-					Name = " Osokorki Exit",
-					Location = new GeoLocation { 
-						Latitude = 50.394682,
-						Longitude = 30.596464
 					},
 
 					WaypointAction = WaypointAction.Enterce
