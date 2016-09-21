@@ -8,7 +8,7 @@ namespace Tollminder.Core.Models.Statuses
 	{
 		public override async Task<TollGeolocationStatus> CheckStatus ()
 		{
-			Log.LogMessage (string.Format ("TRY TO FIND WAYPOINT EXIT FROM 200 m"));
+			Log.LogMessage (string.Format ("TRY TO FIND WAYPOINT EXIT FROM 400 m"));
 
 			var waypoint = DataService.FindNearGeoLocation (GeoWatcher.Location, WaypointAction.Exit);
 
@@ -16,7 +16,10 @@ namespace Tollminder.Core.Models.Statuses
 				return TollGeolocationStatus.OnTollRoad;
 
 			Log.LogMessage (string.Format ("FOUNDED WAYPOINT EXIT : {0} AND WAYPOINT ACTION {1}", waypoint.Name, waypoint.WaypointAction));
-
+			if (WaypointChecker.CurrentWaypoint?.Equals(waypoint) ?? false)
+			{
+				return TollGeolocationStatus.OnTollRoad; 
+			}
 			WaypointChecker.CurrentWaypoint = waypoint;
 
 			NotifyService.Notify (string.Format ("you are potentially going to exit {0} waypoints.", waypoint.Name));

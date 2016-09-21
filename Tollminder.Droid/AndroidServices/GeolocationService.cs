@@ -44,7 +44,7 @@ namespace Tollminder.Droid.AndroidServices
 		{
 			get
 			{
-				return _request ?? (_request = new LocationRequest().SetPriority(LocationRequest.PriorityHighAccuracy).SetSmallestDisplacement(DistanceInterval));
+				return _request ?? (_request = new LocationRequest().SetPriority(LocationRequest.PriorityHighAccuracy).SetSmallestDisplacement(DistanceInterval).SetInterval(15000));
 			}
 		}
 

@@ -88,7 +88,6 @@ namespace Tollminder.Touch.Services
 			var loc = e.Locations.Last ();
 			if (loc != null && CanGetLocation) {				
 				Location = loc.GetGeoLocationFromCLLocation ();
-				StoptLocationUpdates();
 			}
 		}
 		#endregion

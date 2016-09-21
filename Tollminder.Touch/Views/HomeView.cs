@@ -28,6 +28,7 @@ namespace Tollminder.Touch.Views
 			set.Bind (StopButton).To (v => v.StopCommand);
 			set.Bind (ActivityLabel).To (v => v.MotionTypeString);
 			set.Bind (LogArea).To (v => v.LogText);
+			set.Bind(StatusLabel).To(v => v.StatusString);
 			set.Apply ();
 
 			// Perform any additional setup after loading the view, typically from a nib.

@@ -25,7 +25,12 @@ namespace Tollminder.Core.Services.Implementation
 
 		public virtual TollRoadWaypointWithDistance GetMostClosestWaypoint (GeoLocation center, IList<TollRoadWaypoint> points)
 		{
-			var point = points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).OrderBy (x => DistanceBetweenGeoLocations(center, x.Location)).FirstOrDefault ();
+			var point = points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).OrderBy (x =>
+			{
+				var a = DistanceBetweenGeoLocations(center, x.Location);
+				System.Diagnostics.Debug.WriteLine($"{a:0.##} {x.Name} {x.Location}");
+				return a;
+			}).FirstOrDefault ();
 
 			if (point != null)
 			{

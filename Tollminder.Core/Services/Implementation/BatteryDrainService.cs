@@ -19,7 +19,7 @@ namespace Tollminder.Core.Services.Implementation
 		Dictionary<Func<int, bool>, int> conditionsDictionary = new Dictionary<Func<int, bool>, int>()
 		{
 			{ x => x < 17,  0 },
-			{ x => x >=17 && x < 31, 1 },
+			{ x => x >=17 && x < 31, 10 },
 			{ x => x >= 31 && x < 96 , 15 },
 			{ x => x >= 96 && x < 131 , 45 },
 			{ x => x >= 131 && x < 193 , 90 },
