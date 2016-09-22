@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using Android.Media;
+using Android.OS;
+using Android.Runtime;
 using Android.Speech;
 using MvvmCross.Platform;
 using MvvmCross.Platform.Droid.Platform;
@@ -13,10 +16,14 @@ using Tollminder.Droid.Views;
 
 namespace Tollminder.Droid.Services
 {
-	public class DroidSpeechToTextService : ISpeechToTextService
+	public class DroidSpeechToTextService : Java.Lang.Object, ISpeechToTextService, IRecognitionListener
 	{
 		public static int VoiceConstId = 911;
 		TaskCompletionSource<bool> _recognitionTask;
+
+		SpeechRecognizer _speechRecognizer;
+		Handler _handler;
+		AlertDialog _dialog;
 
 		ITextFromSpeechMappingService _mappingService;
 		ITextFromSpeechMappingService MappingService
@@ -44,6 +51,9 @@ namespace Tollminder.Droid.Services
 		{
 			_recognitionTask = new TaskCompletionSource<bool>();
 
+			if (_handler == null)
+				_handler = new Handler(Application.Context.MainLooper);
+
 			if (Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity == null)
 			{
 				var otherActivity = new Intent(Application.Context, typeof(HomeView));
@@ -56,9 +66,49 @@ namespace Tollminder.Droid.Services
 			Mvx.Resolve<ITextToSpeechService>().Speak(question).Wait();
 
 			Question = question;
+
+			StartSpeechRecognition();
+
+			return _recognitionTask.Task;
+		}
+
+		void StartSpeechRecognition()
+		{
+			if (_dialog == null)
+			{
+				_handler.Post(() =>
+				{
+					try
+					{ 
+						_dialog = new AlertDialog.Builder(Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity)
+								.SetTitle(Question)
+								.SetMessage("Please, answer after the signal")
+						        .SetCancelable(false)
+								.Show();
+					}
+					catch (Exception e)
+					{
+						Mvx.Trace(e.Message + e.StackTrace);
+					}
+				});
+			}
+
+			Mvx.Resolve<ITextToSpeechService>().Speak("Please, answer after the signal").Wait();
+
+			try
+			{
+				var notification = RingtoneManager.GetDefaultUri(RingtoneType.Notification);
+				Ringtone r = RingtoneManager.GetRingtone(Application.Context, notification);
+				r.Play();
+			}
+			catch (Exception e)
+			{
+				Mvx.Trace(e.Message + e.StackTrace);
+			}
+
 			var voiceIntent = new Intent(RecognizerIntent.ActionRecognizeSpeech);
 			voiceIntent.PutExtra(RecognizerIntent.ExtraLanguageModel, RecognizerIntent.LanguageModelFreeForm);
-			voiceIntent.PutExtra(RecognizerIntent.ExtraPrompt, question);
+			voiceIntent.PutExtra(RecognizerIntent.ExtraCallingPackage, "com.tollminder");
 			voiceIntent.PutExtra(RecognizerIntent.ExtraSpeechInputCompleteSilenceLengthMillis, 1500);
 			voiceIntent.PutExtra(RecognizerIntent.ExtraSpeechInputPossiblyCompleteSilenceLengthMillis, 1500);
 			voiceIntent.PutExtra(RecognizerIntent.ExtraSpeechInputMinimumLengthMillis, 15000);
@@ -66,9 +116,19 @@ namespace Tollminder.Droid.Services
 
 			voiceIntent.PutExtra(RecognizerIntent.ExtraLanguage, "en-US");
 
-			Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity.StartActivityForResult(voiceIntent, VoiceConstId);
+			//Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity.StartActivityForResult(voiceIntent, VoiceConstId);
+			//Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity.RunOnUiThread(() =>
 
-			return _recognitionTask.Task;
+			_handler.Post(() =>
+		   {
+				if (_speechRecognizer == null)
+			   {
+				   _speechRecognizer = SpeechRecognizer.CreateSpeechRecognizer(Application.Context);
+				   _speechRecognizer.SetRecognitionListener(this);
+			   }
+
+			   _speechRecognizer.StartListening(voiceIntent);
+		   });
 		}
 
 		Task<bool> EnsureActivityLoaded()
@@ -82,9 +142,64 @@ namespace Tollminder.Droid.Services
 			return _ensureTask.Task;
 		}
 
-		void ISpeechToTextService.CheckResult(IList<string> matches)
+		//void ISpeechToTextService.CheckResult(IList<string> matches)
+		//{
+		//	var answer = MappingService.DetectAnswer(matches);
+
+		//	if (answer != AnswerType.Unknown)
+		//	{
+		//		Mvx.Resolve<ITextToSpeechService>().Speak($"Your answer is {answer.ToString()}");
+		//		_recognitionTask.TrySetResult(answer == AnswerType.Positive);
+		//	}
+		//	else
+		//		AskQuestion(Question);
+		//}
+
+		public void OnBeginningOfSpeech()
 		{
-			var answer = MappingService.DetectAnswer(matches);
+			Console.WriteLine("OnBeginningOfSpeech");
+		}
+
+		public void OnBufferReceived(byte[] buffer)
+		{
+			Console.WriteLine("OnBufferReceived");
+		}
+
+		public void OnEndOfSpeech()
+		{
+			Console.WriteLine("OnEndOfSpeech");
+		}
+
+		public void OnError([GeneratedEnum] SpeechRecognizerError error)
+		{
+			Console.WriteLine("OnError" + error);
+
+			if (error == SpeechRecognizerError.NoMatch)
+				StartSpeechRecognition();
+		}
+
+		public void OnEvent(int eventType, Bundle @params)
+		{
+			Console.WriteLine("OnEvent");
+		}
+
+		public void OnPartialResults(Bundle partialResults)
+		{
+			Console.WriteLine("OnPartialResults");
+		}
+
+		public void OnReadyForSpeech(Bundle @params)
+		{
+			Console.WriteLine("OnReadyForSpeech");
+		}
+
+		public void OnResults(Bundle results)
+		{
+			Console.WriteLine("OnResults");
+
+			var answer = MappingService.DetectAnswer(results.GetStringArrayList(SpeechRecognizer.ResultsRecognition));
+
+			_handler.Post(() => _dialog?.Cancel());
 
 			if (answer != AnswerType.Unknown)
 			{
@@ -92,7 +207,15 @@ namespace Tollminder.Droid.Services
 				_recognitionTask.TrySetResult(answer == AnswerType.Positive);
 			}
 			else
+			{
+				_speechRecognizer.StopListening();
 				AskQuestion(Question);
+			}
+		}
+
+		public void OnRmsChanged(float rmsdB)
+		{
+			Console.WriteLine("OnRmsChanged");
 		}
 	}
 }

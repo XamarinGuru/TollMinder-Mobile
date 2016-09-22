@@ -173,11 +173,13 @@ namespace Tollminder.Touch.Services
 
 			UIApplication.SharedApplication.InvokeOnMainThread(() =>
 			{
-				_error = new UIAlertView(question, "", null, null, null);
+				_error = new UIAlertView(question, "Please, answer after the signal", null, null, null);
 				_error.Show();
 			});
 
 			Mvx.Resolve<ITextToSpeechService>().Speak(question).Wait();
+
+			Mvx.Resolve<ITextToSpeechService>().Speak("Please, answer after the signal").Wait();
 
 			UIApplication.SharedApplication.InvokeOnMainThread(() =>
 			{

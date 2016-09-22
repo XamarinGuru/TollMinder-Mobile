@@ -119,7 +119,18 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 				BaseStatus statusObject = StatusesFactory.GetStatus(TollStatus);
 
 				Log.LogMessage(TollStatus.ToString());
-				TollStatus = statusObject.CheckStatus().Result;
+
+				var task = statusObject.CheckStatus();
+
+				Task.WaitAny(task);
+
+				if (task.IsFaulted)
+				{
+					Mvx.Trace(task.Exception.Message + task.Exception.StackTrace + task.Exception.InnerException?.Message + task.Exception.InnerException?.StackTrace);
+					return;
+				}
+
+				TollStatus = task.Result;
 
 				statusObject = StatusesFactory.GetStatus(TollStatus);
 
