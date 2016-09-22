@@ -10,7 +10,7 @@ namespace Tollminder.Core.Services.Implementation
 {
 	public class DistanceChecker : IDistanceChecker
 	{
-		public double DistanceToWaypoint { get; } = 0.6;
+		public static double DistanceToWaypoint { get; } = 0.6;
 		public double Epsilon { get; } = 0;
 		public double WaypointDistanceRequired { get; } = 0.02;
 

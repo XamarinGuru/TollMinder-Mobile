@@ -5,9 +5,12 @@ namespace Tollminder.Core.Services
 {
 	public interface IWaypointChecker
 	{
-		TollRoadWaypoint CurrentWaypoint { get; set; }
-		TollRoadWaypoint Entrance { get; set;}
-		TollRoadWaypoint Exit { get; set;}
+		TollRoadWaypoint CurrentWaypoint { get; }
+		TollRoadWaypoint Entrance { get; }
+		TollRoadWaypoint Exit { get; }
+		void SetCurrentWaypoint(TollRoadWaypoint point);
+		void SetEntrance(TollRoadWaypoint point);
+		void SetExit(TollRoadWaypoint point);
 	}
 }
 

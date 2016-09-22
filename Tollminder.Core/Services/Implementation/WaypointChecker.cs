@@ -1,6 +1,4 @@
-﻿using System;
-using MvvmCross.Platform;
-using Tollminder.Core.Models;
+﻿using Tollminder.Core.Models;
 
 namespace Tollminder.Core.Services.Implementation
 {
@@ -13,7 +11,7 @@ namespace Tollminder.Core.Services.Implementation
 			{
 				return _currentWaypoint; 
 			}
-			set 
+			private set 
 			{
 				_currentWaypoint = value;
 			}
@@ -26,7 +24,7 @@ namespace Tollminder.Core.Services.Implementation
 			{
 				return _entrance;
 			}
-			set
+			private set
 			{
 				_entrance = value;
 			}
@@ -39,10 +37,25 @@ namespace Tollminder.Core.Services.Implementation
 			{
 				return _exit;
 			}
-			set
+			private set
 			{
 				_exit = value;
 			}
+		}
+
+		public void SetCurrentWaypoint(TollRoadWaypoint point)
+		{
+			CurrentWaypoint = point;
+		}
+
+		public void SetEntrance(TollRoadWaypoint point)
+		{
+			Entrance = point;
+		}
+
+		public void SetExit(TollRoadWaypoint point)
+		{
+			Exit = point;
 		}
 	}
 }

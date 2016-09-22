@@ -7,7 +7,7 @@ namespace Tollminder.Core.Models.Statuses
 	{
 		public override async Task<TollGeolocationStatus> CheckStatus ()
 		{
-			Log.LogMessage (string.Format ("TRY TO FIND WAYPOINT ENTERCE FROM 400 m"));
+			Log.LogMessage (string.Format ($"TRY TO FIND WAYPOINT ENTERCE FROM {Services.Implementation.DistanceChecker.DistanceToWaypoint * 10} m"));
 
 			var location = GeoWatcher.Location;
 			var waypoint = DataService.FindNearGeoLocation(location, WaypointAction.Enterce);
@@ -16,6 +16,7 @@ namespace Tollminder.Core.Models.Statuses
 
 			if (waypoint == null)
 			{
+				WaypointChecker.SetCurrentWaypoint(null);
 				return TollGeolocationStatus.NotOnTollRoad;
 			}
 			Log.LogMessage (string.Format ("FOUNDED WAYPOINT ENTERCE : {0} AND WAYPOINT ACTION {1}", waypoint.Name, waypoint.WaypointAction));
@@ -24,11 +25,12 @@ namespace Tollminder.Core.Models.Statuses
 				return TollGeolocationStatus.NotOnTollRoad;
 			}
 
-			WaypointChecker.CurrentWaypoint = waypoint;
+			WaypointChecker.SetCurrentWaypoint(waypoint);
+
 			NotifyService.Notify (string.Format ("You are potentially going to enter {0} waypoints.",waypoint.Name));
 			if (await SpeechToTextService.AskQuestion($"Are you entering {WaypointChecker.CurrentWaypoint.Name} tollroad?"))
 			{
-				WaypointChecker.Entrance = WaypointChecker.CurrentWaypoint;
+				WaypointChecker.SetExit(WaypointChecker.CurrentWaypoint);
 				return TollGeolocationStatus.OnTollRoad;
 			}
 
