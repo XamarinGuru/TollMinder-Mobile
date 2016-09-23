@@ -25,6 +25,15 @@ namespace Tollminder.Droid.Services
 		Handler _handler;
 		AlertDialog _dialog;
 
+		IPlatform _platform;
+		IPlatform Platform
+		{
+			get
+			{
+				return _platform ?? (_platform = Mvx.Resolve<IPlatform>());
+			}
+		}
+
 		ITextFromSpeechMappingService _mappingService;
 		ITextFromSpeechMappingService MappingService
 		{
@@ -49,6 +58,7 @@ namespace Tollminder.Droid.Services
 
 		public Task<bool> AskQuestion(string question)
 		{
+			Platform.PauseMusic();
 			_recognitionTask = new TaskCompletionSource<bool>();
 
 			if (_handler == null)
@@ -63,7 +73,7 @@ namespace Tollminder.Droid.Services
 				EnsureActivityLoaded().Wait();
 			}
 
-			Mvx.Resolve<ITextToSpeechService>().Speak(question).Wait();
+			Mvx.Resolve<ITextToSpeechService>().Speak(question, false).Wait();
 
 			Question = question;
 
@@ -92,8 +102,12 @@ namespace Tollminder.Droid.Services
 					}
 				});
 			}
+			else
+			{
+				_dialog.Show();
+			}
 
-			Mvx.Resolve<ITextToSpeechService>().Speak("Please, answer after the signal").Wait();
+			Mvx.Resolve<ITextToSpeechService>().Speak("Please, answer after the signal", false).Wait();
 
 			try
 			{
@@ -127,6 +141,7 @@ namespace Tollminder.Droid.Services
 				   _speechRecognizer.SetRecognitionListener(this);
 			   }
 
+				//Platform.MuteAudio();
 			   _speechRecognizer.StartListening(voiceIntent);
 		   });
 		}
@@ -174,7 +189,7 @@ namespace Tollminder.Droid.Services
 		{
 			Console.WriteLine("OnError" + error);
 
-			if (error == SpeechRecognizerError.NoMatch)
+			if (error == SpeechRecognizerError.NoMatch || error == SpeechRecognizerError.SpeechTimeout)
 				StartSpeechRecognition();
 		}
 
@@ -203,7 +218,8 @@ namespace Tollminder.Droid.Services
 
 			if (answer != AnswerType.Unknown)
 			{
-				Mvx.Resolve<ITextToSpeechService>().Speak($"Your answer is {answer.ToString()}");
+				Mvx.Resolve<ITextToSpeechService>().Speak($"Your answer is {answer.ToString()}", false);
+				Platform.PlayMusic();
 				_recognitionTask.TrySetResult(answer == AnswerType.Positive);
 			}
 			else

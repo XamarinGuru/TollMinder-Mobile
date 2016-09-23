@@ -19,6 +19,16 @@ namespace Tollminder.Touch.Services
 			}
 		}
 
+		public void PauseMusic()
+		{
+			
+		}
+
+		public void PlayMusic()
+		{
+			
+		}
+
 		#endregion
 
 

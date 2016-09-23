@@ -5,12 +5,22 @@ using Android.Media;
 using Android.Content;
 using System;
 using System.Threading.Tasks;
+using MvvmCross.Platform;
 
 namespace Tollminder.Droid.Services
 {
 	public class DroidTextToSpeechService : UtteranceProgressListener, ITextToSpeechService , TextToSpeech.IOnInitListener
     {
 		public bool IsEnabled { get; set; } = true;
+
+		IPlatform _platform;
+		IPlatform Platform
+		{
+			get
+			{
+				return _platform ?? (_platform = Mvx.Resolve<IPlatform>());
+			}
+		}
 
 		TextToSpeech _speaker;
 		public TextToSpeech Speaker
@@ -20,6 +30,8 @@ namespace Tollminder.Droid.Services
 				return _speaker;
 			}
 		}
+
+		bool DisableMusic { get; set; }
 
 		public DroidTextToSpeechService ()
 		{
@@ -38,11 +50,13 @@ namespace Tollminder.Droid.Services
 
 		#region ITextToSpeechService implementation
 		TaskCompletionSource<bool> _speakTask;
-		public Task Speak(string text)
+		public Task Speak(string text, bool disableMusic = true)
         {
+			DisableMusic = disableMusic;
+			if (DisableMusic)
+				Platform.PauseMusic();
 			_speakTask = new TaskCompletionSource<bool>();
 			if (IsEnabled) {
-				
 				Speaker.Speak (text, QueueMode.Flush, null, text);
 			}
 			return _speakTask.Task;
@@ -62,11 +76,14 @@ namespace Tollminder.Droid.Services
 
 		public override void OnDone(string utteranceId)
 		{
+			if (DisableMusic)
+				Platform.PlayMusic();
 			_speakTask.TrySetResult(true);
 		}
 
 		public override void OnError(string utteranceId)
 		{
+			Platform.PlayMusic();
 			_speakTask.TrySetException(new Exception("Text to speech not working"));
 		}
 

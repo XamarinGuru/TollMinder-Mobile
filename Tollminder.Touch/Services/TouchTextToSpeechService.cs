@@ -20,7 +20,7 @@ namespace Tollminder.Touch.Services
 
         #region ITextToSpeechService implementation
 
-        public Task Speak(string text)
+        public Task Speak(string text, bool disableMusic = true)
         {
 			_speakTask = new TaskCompletionSource<bool>();
 			if (IsEnabled) {
