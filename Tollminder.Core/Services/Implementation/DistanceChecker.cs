@@ -10,7 +10,7 @@ namespace Tollminder.Core.Services.Implementation
 {
 	public class DistanceChecker : IDistanceChecker
 	{
-		public static double DistanceToWaypoint { get; } = 0.6;
+		public static double DistanceToWaypointRadius { get; } = 0.6;
 		public double Epsilon { get; } = 0;
 		public double WaypointDistanceRequired { get; } = 0.02;
 
@@ -44,19 +44,19 @@ namespace Tollminder.Core.Services.Implementation
 
 		public virtual ParallelQuery<TollRoadWaypoint> GetLocationsFromRadius (GeoLocation center, IList<TollRoadWaypoint> points)
 		{
-			return points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).Where (x => (DistanceBetweenGeoLocations (center, x.Location) - DistanceToWaypoint) < Epsilon);
+			return points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).Where (x => (DistanceBetweenGeoLocations (center, x.Location) - DistanceToWaypointRadius) < Epsilon);
 		}
 
 		public virtual Task<ParallelQuery<TollRoadWaypoint>> GetLocationsFromRadiusAsync (GeoLocation center, IList<TollRoadWaypoint> points)
 		{
 			return Task.Run(() => {
-				return points.AsParallel().WithMergeOptions(ParallelMergeOptions.AutoBuffered).Where (x => (DistanceBetweenGeoLocations (center, x.Location) - DistanceToWaypoint) < Epsilon);
+				return points.AsParallel().WithMergeOptions(ParallelMergeOptions.AutoBuffered).Where (x => (DistanceBetweenGeoLocations (center, x.Location) - DistanceToWaypointRadius) < Epsilon);
 			});
 		}
 
 		public virtual TollRoadWaypoint GetLocationFromRadius (GeoLocation center, IList<TollRoadWaypoint> points)
 		{
-			return points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).FirstOrDefault (x => (DistanceBetweenGeoLocations (center, x.Location) - DistanceToWaypoint) < Epsilon);
+			return points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).FirstOrDefault (x => (DistanceBetweenGeoLocations (center, x.Location) - DistanceToWaypointRadius) < Epsilon);
 		}
 
 		public virtual Task<TollRoadWaypoint> GetLocationFromRadiusAsync (GeoLocation center, IList<TollRoadWaypoint> points)
@@ -64,9 +64,9 @@ namespace Tollminder.Core.Services.Implementation
 			return Task.Run (() => {
 				var point = points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).FirstOrDefault (x => 
 					{
-						Log.LogMessage (string.Format ("{0} - {1} = {2}", DistanceBetweenGeoLocations (center, x.Location), DistanceToWaypoint,  DistanceBetweenGeoLocations (center, x.Location) - DistanceToWaypoint));
+						Log.LogMessage (string.Format ("{0} - {1} = {2}", DistanceBetweenGeoLocations (center, x.Location), DistanceToWaypointRadius,  DistanceBetweenGeoLocations (center, x.Location) - DistanceToWaypointRadius));
 
-						return DistanceBetweenGeoLocations (center, x.Location) - DistanceToWaypoint <= Epsilon;
+						return DistanceBetweenGeoLocations (center, x.Location) - DistanceToWaypointRadius <= Epsilon;
 					});
 				return point;
 			});

@@ -18,7 +18,7 @@ namespace Tollminder.Droid.Services
 {
 	public class DroidSpeechToTextService : Java.Lang.Object, ISpeechToTextService, IRecognitionListener
 	{
-		public static int VoiceConstId = 911;
+		//public static int VoiceConstId = 911;
 		TaskCompletionSource<bool> _recognitionTask;
 
 		SpeechRecognizer _speechRecognizer;
@@ -92,7 +92,7 @@ namespace Tollminder.Droid.Services
 					{ 
 						_dialog = new AlertDialog.Builder(Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity)
 								.SetTitle(Question)
-								.SetMessage("Please, answer after the signal")
+								.SetMessage("Please, answer yes or no after the tone")
 						        .SetCancelable(false)
 								.Show();
 					}
@@ -107,7 +107,7 @@ namespace Tollminder.Droid.Services
 				_dialog.Show();
 			}
 
-			Mvx.Resolve<ITextToSpeechService>().Speak("Please, answer after the signal", false).Wait();
+			Mvx.Resolve<ITextToSpeechService>().Speak("Please, answer yes or no after the tone", false).Wait();
 
 			try
 			{

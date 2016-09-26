@@ -81,13 +81,22 @@
             local:MvxBind="Text MotionTypeString"
             android:layout_weight="1" />
     </LinearLayout>
-    <TextView
-        android:id="@+id/text4"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:text="Init Text"
-        android:textSize="10sp"
-        android:inputType="textMultiLine"
-        local:MvxBind="Text LogText"
-        android:padding="10dp" />
+    <ScrollView
+        android:id="@+id/sv"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <TextView
+            android:id="@+id/text4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Init Text"
+            android:textSize="10sp"
+            android:scrollbars="vertical"
+            android:inputType="textMultiLine"
+            local:MvxBind="Text LogText"
+            android:enabled="false"
+            android:gravity="bottom"
+            android:padding="10dp" />
+    </ScrollView>
 </LinearLayout>

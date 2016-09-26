@@ -87,6 +87,7 @@
     <Compile Include="Services\IStoredSettingsBase.cs" />
     <Compile Include="Services\IStoredSettingsService.cs" />
     <Compile Include="Services\Implementation\StoredSettingsService.cs" />
+    <Compile Include="Helpers\MvxBindingContextOwnerExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>

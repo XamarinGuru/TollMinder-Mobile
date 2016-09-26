@@ -18,15 +18,25 @@ using MvvmCross.Plugins.Messenger;
 using Tollminder.Core.Models;
 using System;
 
+
 namespace Tollminder.Droid.Views
 {
 	[Activity(Label = "Home", LaunchMode = LaunchMode.SingleTask, ScreenOrientation = ScreenOrientation.Portrait)]
 	public class HomeView : MvxActivity<HomeViewModel>
     {
+ 		ScrollView _sv;
+
 		protected override void OnCreate(Bundle bundle)
 		{
 			base.OnCreate(bundle);
 			SetContentView(Resource.Layout.homeView);
+
+			_sv = FindViewById<ScrollView>(Resource.Id.sv);
+
+			this.AddLinqBinding(ViewModel, vm => vm.LogText, (value) =>
+			{
+				_sv.FullScroll(Android.Views.FocusSearchDirection.Down);;
+			});
 		}
 
 		public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)

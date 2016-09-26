@@ -8,7 +8,7 @@ namespace Tollminder.Core.Models.Statuses
 	{
 		public override async Task<TollGeolocationStatus> CheckStatus ()
 		{
-			Log.LogMessage(string.Format($"TRY TO FIND WAYPOINT ENTERCE FROM {Services.Implementation.DistanceChecker.DistanceToWaypoint * 10} m"));
+			Log.LogMessage(string.Format($"TRY TO FIND WAYPOINT ENTERCE FROM {Services.Implementation.DistanceChecker.DistanceToWaypointRadius * 10} m"));
 
 			var waypoint = DataService.FindNearGeoLocation (GeoWatcher.Location, WaypointAction.Exit);
 
