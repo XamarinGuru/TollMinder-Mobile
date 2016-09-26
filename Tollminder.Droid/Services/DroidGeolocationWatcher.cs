@@ -35,18 +35,18 @@ namespace Tollminder.Droid.Services
 			}
 		}
 
-		private GeoLocation _location;
 		public virtual GeoLocation Location {
 			get {
-				return _location;
+				return _storedSettingsService.Location;
 			}
 			set {
-				if (IsBound && (!_location?.Equals(value) ?? true))
+				if (IsBound && (!_storedSettingsService.Location?.Equals(value) ?? true))
 				{
-					_location = value;
+					_storedSettingsService.Location = value;
 
 					Mvx.Resolve<IMvxMessenger>().Publish(new LocationMessage(this, value));
-					Log.LogMessage(value.ToString());
+					Log.LogMessage($"New location {value}");
+					_storedSettingsService.Location = value;
 				}
 			}
 		}
