@@ -21,6 +21,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 		readonly IMvxMessenger _messenger;
 		readonly IBatteryDrainService _batteryDrainService;
 		readonly ISpeechToTextService _speechToTextService;
+		readonly IStoredSettingsService _storedSettingsService;
 
 		object _locker = new object();
 		bool _locationProcessing;
@@ -39,8 +40,12 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 			_activity = Mvx.Resolve<IMotionActivity> ();
 			_batteryDrainService = Mvx.Resolve<IBatteryDrainService>();
 			_speechToTextService = Mvx.Resolve<ISpeechToTextService>();
+			_storedSettingsService = Mvx.Resolve<IStoredSettingsService>();
 
-			TollStatus = TollGeolocationStatus.NotOnTollRoad;
+			if (_storedSettingsService.GeoWatcherIsRunning)
+			{
+				StartServices();
+			}
 		}
 
 		#endregion
@@ -90,16 +95,15 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 			return false;
 		}
 
-		TollGeolocationStatus _tollStatus;
 		public TollGeolocationStatus TollStatus 
 		{
 			get
 			{
-				return _tollStatus;
+				return _storedSettingsService.Status;
 			}
 			set
 			{
-				_tollStatus = value;
+				_storedSettingsService.Status = value;
 				_messenger.Publish(new StatusMessage(this, value));
 			}
 		} 
@@ -118,7 +122,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
 				BaseStatus statusObject = StatusesFactory.GetStatus(TollStatus);
 
-				Log.LogMessage(TollStatus.ToString());
+				Log.LogMessage($"Current status before check= {TollStatus}");
 
 				var task = statusObject.CheckStatus();
 
@@ -134,6 +138,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
 				statusObject = StatusesFactory.GetStatus(TollStatus);
 
+				Log.LogMessage($"Current status after check = {TollStatus}");
 				Mvx.Resolve<INotificationSender>().SendLocalNotification($"Status: {TollStatus.ToString()}", $"Lat: {_geoWatcher.Location?.Latitude}, Long: {_geoWatcher.Location?.Longitude}");
 
 				_locationProcessing = false;
