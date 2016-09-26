@@ -20,7 +20,7 @@ namespace Tollminder.Touch.Services
 				{
 					base.Location = value;
 					Mvx.Resolve<IMvxMessenger>().Publish(new LocationMessage(this, value));
-					Log.LogMessage(value.ToString());
+					Log.LogMessage($"New location {value}");
 				}
 			}
 		}

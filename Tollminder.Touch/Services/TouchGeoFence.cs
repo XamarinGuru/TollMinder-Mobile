@@ -31,7 +31,7 @@ namespace Tollminder.Touch.Services
 			}
 			set {
 				base.Location = value;
-				Log.LogMessage ("NEW LOCATION");
+
 				if (GeofenceEnabled) {
 					StartMonitoringRegion ();
 					StoptLocationUpdates ();
