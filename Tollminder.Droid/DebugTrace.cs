@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using Android.Util;
 using MvvmCross.Platform.Platform;
 
 namespace Tollminder.Droid
@@ -8,19 +9,22 @@ namespace Tollminder.Droid
     {
         public void Trace(MvxTraceLevel level, string tag, Func<string> message)
         {
-            Debug.WriteLine(tag + ":" + level + ":" + message());
+			Log.Error(tag, message());
+            //Debug.WriteLine(tag + ":" + level + ":" + message());
         }
 
         public void Trace(MvxTraceLevel level, string tag, string message)
         {
-            Debug.WriteLine(tag + ":" + level + ":" + message);
+			Log.Error(tag, message);
+            //Debug.WriteLine(tag + ":" + level + ":" + message);
         }
 
         public void Trace(MvxTraceLevel level, string tag, string message, params object[] args)
         {
             try
             {
-                Debug.WriteLine(tag + ":" + level + ":" + message, args);
+				Log.Error(tag, message);
+                //Debug.WriteLine(tag + ":" + level + ":" + message, args);
             }
             catch (FormatException)
             {
