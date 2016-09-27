@@ -32,16 +32,18 @@ namespace Tollminder.Core.ViewModels
 		public override void Start ()
 		{
 			base.Start ();
+
 			_tokens.Add (_messenger.SubscribeOnThreadPoolThread<LocationMessage> (x => Location = x.Data, MvxReference.Strong));
 			_tokens.Add(_messenger.SubscribeOnThreadPoolThread<StatusMessage>(x => StatusString = x.Data.ToString(), MvxReference.Strong));
 
 			_tokens.Add (_messenger.SubscribeOnMainThread<LogUpdated> ((s) => LogText = Log._messageLog.ToString()));
-
+			_tokens.Add(_messenger.SubscribeOnMainThread<GeoWatcherStatusMessage>((s) => IsBound = s.Data));
 			IsBound = _geoWatcher.IsBound;
 			if (_geoWatcher.Location != null)
 				Location = _geoWatcher.Location;
 
 			StatusString = _track.TollStatus.ToString();
+			RaisePropertyChanged(LogText);
 		}
 
 		protected override void OnDestroy ()

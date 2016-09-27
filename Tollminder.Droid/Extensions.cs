@@ -22,6 +22,7 @@ namespace Tollminder.Droid
 
 		public static GeoLocation GetGeolocationFromAndroidLocation (this Location loc)
 		{
+			Log.LogMessage($"Recieved new location from broadcast receiver {loc}");
 			var geoLocation = new GeoLocation (); 
 			Log.LogMessage (string.Format ("ACCURACY IS {0}", loc.Accuracy));
 			geoLocation.Accuracy = loc.Accuracy;

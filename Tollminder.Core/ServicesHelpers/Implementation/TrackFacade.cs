@@ -44,7 +44,11 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
 			if (_storedSettingsService.GeoWatcherIsRunning)
 			{
-				StartServices();
+				Task.Run(async () =>
+				{
+					StopServices();
+					await StartServices();
+				});
 			}
 		}
 
@@ -65,7 +69,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 		public virtual async Task<bool> StartServices ()
 		{			
 			bool isGranted = await Mvx.Resolve<IPermissionsService> ().CheckPermissionsAccesGrantedAsync ();
-			if (!IsBound & isGranted) {
+			if (!IsBound && isGranted) {
 
 				Log.LogMessage (string.Format ("THE SEVICES HAS STARTED AT {0}", DateTime.Now));
 
@@ -73,6 +77,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 				_geoWatcher.StartGeolocationWatcher ();
 				_token = _messenger.SubscribeOnThreadPoolThread<LocationMessage> (x => CheckTrackStatus ());
 				_activity.StartDetection ();
+				Log.LogMessage("Start location detection and subscride on LocationMessage");
 				return true;
 			}
 
@@ -80,19 +85,17 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 		}
 
 		public virtual bool StopServices ()
-		{	
-			if (IsBound) {
+		{
+			if (!IsBound)
+				return false;
 
-				Log.LogMessage (string.Format ("THE SEVICES HAS STOPPED AT {0}", DateTime.Now));
+			Log.LogMessage (string.Format ("THE SEVICES HAS STOPPED AT {0}", DateTime.Now));
 
-				_geoWatcher.StopGeolocationWatcher ();
-				_token?.Dispose ();
-				_activity.StopDetection ();
+			_geoWatcher.StopGeolocationWatcher ();
+			_token?.Dispose ();
+			_activity.StopDetection ();
 
-				return true;
-			}
-
-			return false;
+			return true;
 		}
 
 		public TollGeolocationStatus TollStatus 

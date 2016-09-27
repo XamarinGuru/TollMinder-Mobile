@@ -1,6 +1,9 @@
 ﻿using MvvmCross.Binding.BindingContext;
 using MvvmCross.iOS.Views;
 using Tollminder.Core.ViewModels;
+using Tollminder.Touch.Converters;
+using Tollminder.Core.Helpers;
+using Foundation;
 
 namespace Tollminder.Touch.Views
 {
@@ -27,9 +30,17 @@ namespace Tollminder.Touch.Views
 			set.Bind (StartButton).To (v => v.StartCommand);
 			set.Bind (StopButton).To (v => v.StopCommand);
 			set.Bind (ActivityLabel).To (v => v.MotionTypeString);
+			set.Bind(StartButton).For(x => x.Enabled).To(x => x.IsBound).WithConversion(new InverseBoolConverter());
+			set.Bind(StopButton).For(x => x.Enabled).To(x => x.IsBound);
 			set.Bind (LogArea).To (v => v.LogText);
 			set.Bind(StatusLabel).To(v => v.StatusString);
 			set.Apply ();
+
+			this.AddLinqBinding(ViewModel, vm => vm.LogText, (value) =>
+			{
+				NSRange bottom = new NSRange(0, value?.Length ?? 0);
+				LogArea.ScrollRangeToVisible(bottom);
+			});
 
 			// Perform any additional setup after loading the view, typically from a nib.
 		}

@@ -11,7 +11,22 @@ namespace Tollminder.Touch.Services
 	public class TouchGeolocationWatcher : TouchLocation, IGeoLocationWatcher
 	{	
 		public static int _distanceIntervalDefault = 400;
-		public bool IsBound { get; private set; } = false;
+
+		readonly IStoredSettingsService _storedSettingsService;
+		readonly IMvxMessenger _messenger;
+
+		public bool IsBound
+		{
+			get
+			{
+				return _storedSettingsService.GeoWatcherIsRunning;
+			}
+			set
+			{
+				_storedSettingsService.GeoWatcherIsRunning = value;
+				_messenger.Publish(new GeoWatcherStatusMessage(this, value));
+			}
+		}
 
 		public override GeoLocation Location {
 			get { return base.Location;	}
@@ -23,6 +38,12 @@ namespace Tollminder.Touch.Services
 					Log.LogMessage($"New location {value}");
 				}
 			}
+		}
+
+		public TouchGeolocationWatcher(IStoredSettingsService storedSettingsService, IMvxMessenger messenger)
+		{
+			_storedSettingsService = storedSettingsService;
+			_messenger = messenger;
 		}
 
 		#region IGeoLocationWatcher implementation

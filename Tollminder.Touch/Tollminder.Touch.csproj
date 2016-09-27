@@ -212,6 +212,7 @@
     <Compile Include="Bootstrap\MessengerPluginBootstrap.cs" />
     <Compile Include="Services\TouchSpeechToTextService.cs" />
     <Compile Include="Services\TouchStoredSettingsBase.cs" />
+    <Compile Include="Converters\InverseBoolConverter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.11.4\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.11.4\build\Xamarin.iOS10\Xamarin.Insights.targets')" />
@@ -230,6 +231,7 @@
     <Folder Include="Views\" />
     <Folder Include="Helpers\" />
     <Folder Include="Sounds\" />
+    <Folder Include="Converters\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\OpenEars1.dic" />

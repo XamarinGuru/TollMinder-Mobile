@@ -46,10 +46,10 @@ namespace Tollminder.Core.Models
 		}
 	}
 
-	public class QuestionMessage : GenericMessage<string>
+	public class GeoWatcherStatusMessage : GenericMessage<bool>
 	{
-		public QuestionMessage(object sender, string question)
-			: base(sender, question)
+		public GeoWatcherStatusMessage(object sender, bool status)
+			: base(sender, status)
 		{
 		}
 	}

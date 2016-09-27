@@ -39,7 +39,7 @@ namespace Tollminder.Droid.BroadcastReceivers
 						Mvx.Trace(e.Message + e.StackTrace);
 					}
 
-					Mvx.Resolve<IGeoLocationWatcher> ().Location = location.GetGeolocationFromAndroidLocation ();
+					Mvx.Resolve<IGeoLocationWatcher>().Location = location.GetGeolocationFromAndroidLocation();
 				}
 			}
 		}
