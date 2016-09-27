@@ -34,7 +34,7 @@ namespace Tollminder.Touch.Services
 
 				if (GeofenceEnabled) {
 					StartMonitoringRegion ();
-					StoptLocationUpdates ();
+					StopLocationUpdates ();
 				}
 			}
 		}
@@ -92,7 +92,7 @@ namespace Tollminder.Touch.Services
 		public virtual void StopGeofenceService ()
 		{			
 			DestroyGeofenceService ();
-			StoptLocationUpdates ();
+			StopLocationUpdates ();
 		}
 
 		protected virtual void StartedMonitorRegionHandler (object sender, CLRegionEventArgs e)

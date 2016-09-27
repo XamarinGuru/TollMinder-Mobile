@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using CoreLocation;
+using Tollminder.Core.Helpers;
 using Tollminder.Core.Models;
 using Tollminder.Touch.Helpers;
 
@@ -30,7 +31,7 @@ namespace Tollminder.Touch.Services
 				if (value)
 					StartLocationUpdates();
 				else
-					StoptLocationUpdates();
+					StopLocationUpdates();
 			}
 		}
 
@@ -68,10 +69,11 @@ namespace Tollminder.Touch.Services
 					LocationManager.StartUpdatingLocation ();
 				}
 				IsBound = true;
+				Log.LogMessage("StartLocationUpdates");
 			}
 		}
 
-		public virtual void StoptLocationUpdates() 
+		public virtual void StopLocationUpdates() 
 		{
 			if (IsBound) {
 				if (CLLocationManager.LocationServicesEnabled) {
@@ -80,6 +82,7 @@ namespace Tollminder.Touch.Services
 					LocationManager.StopUpdatingLocation ();
 				}
 				IsBound = false;
+				Log.LogMessage("StopLocationUpdates");
 			}
 		}
 

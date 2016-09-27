@@ -81,19 +81,19 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Data" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pad-eu-4h7">
-                    <rect key="frame" x="245" y="166" width="400" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Status" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Wy-q8-AfX">
+                    <rect key="frame" x="85" y="165" width="130" height="21"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="100" id="oOi-5v-6Uh"/>
+                        <constraint firstAttribute="width" constant="130" id="4mX-ut-ly9"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Status" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Wy-q8-AfX">
-                    <rect key="frame" x="85" y="165" width="130" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Data" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pad-eu-4h7">
+                    <rect key="frame" x="245" y="165" width="270" height="21"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="130" id="4mX-ut-ly9"/>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="oOi-5v-6Uh"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -114,6 +114,7 @@
                 <constraint firstItem="14" firstAttribute="leading" secondItem="13" secondAttribute="trailing" constant="50" id="JTY-kx-q4O"/>
                 <constraint firstItem="SLq-rm-Ovw" firstAttribute="trailing" secondItem="14" secondAttribute="trailing" id="Jex-aQ-b5U"/>
                 <constraint firstItem="FGq-je-7EJ" firstAttribute="trailing" secondItem="SLq-rm-Ovw" secondAttribute="trailing" id="K1U-CM-xVS"/>
+                <constraint firstItem="pad-eu-4h7" firstAttribute="trailing" secondItem="14" secondAttribute="trailing" id="KDX-LU-jhI"/>
                 <constraint firstItem="5" firstAttribute="top" secondItem="13" secondAttribute="top" constant="-50" id="LZr-px-efM"/>
                 <constraint firstItem="FGq-je-7EJ" firstAttribute="leading" secondItem="SBB-yu-2Qf" secondAttribute="leading" id="MT6-JJ-MmD"/>
                 <constraint firstItem="7" firstAttribute="leading" secondItem="5" secondAttribute="trailing" constant="30" id="OXs-M9-6dQ"/>
@@ -137,6 +138,7 @@
                 <constraint firstItem="5" firstAttribute="leading" secondItem="13" secondAttribute="leading" id="qAD-F2-1ZJ"/>
                 <constraint firstItem="SLq-rm-Ovw" firstAttribute="top" secondItem="7" secondAttribute="bottom" constant="50.5" id="rnN-Lh-0ga"/>
                 <constraint firstItem="13" firstAttribute="top" secondItem="5" secondAttribute="bottom" constant="-70" id="tpJ-gh-wkf"/>
+                <constraint firstItem="14" firstAttribute="trailing" secondItem="pad-eu-4h7" secondAttribute="trailing" id="wot-nA-bDZ"/>
             </constraints>
             <variation key="default">
                 <mask key="constraints">

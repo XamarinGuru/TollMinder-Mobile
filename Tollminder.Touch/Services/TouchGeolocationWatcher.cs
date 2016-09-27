@@ -31,6 +31,7 @@ namespace Tollminder.Touch.Services
 		public override GeoLocation Location {
 			get { return base.Location;	}
 			set {
+				Log.LogMessage($"Received location in geowatcher {value}");
 				if (IsBound && (!base.Location?.Equals(value) ?? true))
 				{
 					base.Location = value;
@@ -59,7 +60,7 @@ namespace Tollminder.Touch.Services
 		public virtual void StopGeolocationWatcher ()
 		{
 			if (IsBound) {
-				StoptLocationUpdates ();
+				StopLocationUpdates ();
 				IsBound = false;
 			}
 		}
@@ -78,7 +79,7 @@ namespace Tollminder.Touch.Services
 		{
 			if (IsBound)
 			{
-				StoptLocationUpdates();
+				StopLocationUpdates();
 				LocationManager.DistanceFilter = distanceInterval;
 				StartLocationUpdates();
 			}
