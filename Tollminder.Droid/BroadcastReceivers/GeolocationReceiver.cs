@@ -4,7 +4,9 @@ using Android.App;
 using Android.Content;
 using Android.Gms.Location;
 using Android.Locations;
+using Android.OS;
 using Android.Runtime;
+using Android.Widget;
 using MvvmCross.Droid.Platform;
 using MvvmCross.Platform;
 using MvvmCross.Platform.Droid.Platform;
@@ -40,6 +42,11 @@ namespace Tollminder.Droid.BroadcastReceivers
 					}
 
 					Mvx.Resolve<IGeoLocationWatcher>().Location = location.GetGeolocationFromAndroidLocation();
+
+					new Handler(context.MainLooper).Post(() =>
+					{
+						Toast.MakeText(context, Mvx.Resolve<IGeoLocationWatcher>().Location.ToString(), ToastLength.Short).Show();
+					});
 				}
 			}
 		}

@@ -8,12 +8,13 @@ namespace Tollminder.Core.Models.Statuses
 	{
 		public override async Task<TollGeolocationStatus> CheckStatus ()
 		{
-			Log.LogMessage(string.Format($"TRY TO FIND WAYPOINT ENTERCE FROM {Services.Implementation.DistanceChecker.DistanceToWaypointRadius * 1000} m"));
+			Log.LogMessage(string.Format($"TRY TO FIND WAYPOINT EXIT FROM {Services.Implementation.DistanceChecker.DistanceToWaypointRadius * 1000} m"));
 
 			var waypoint = DataService.FindNearGeoLocation (GeoWatcher.Location, WaypointAction.Exit);
 
 			if (waypoint == null)
 			{
+				Log.LogMessage($"No waypoint founded for location {GeoWatcher.Location}");
 				WaypointChecker.SetCurrentWaypoint(null);
 				return TollGeolocationStatus.OnTollRoad;
 			}
@@ -21,6 +22,7 @@ namespace Tollminder.Core.Models.Statuses
 			Log.LogMessage (string.Format ("FOUNDED WAYPOINT EXIT : {0} AND WAYPOINT ACTION {1}", waypoint.Name, waypoint.WaypointAction));
 			if (WaypointChecker.CurrentWaypoint?.Equals(waypoint) ?? false)
 			{
+				Log.LogMessage("Waypoint equals to currentWaypoint");
 				return TollGeolocationStatus.OnTollRoad; 
 			}
 

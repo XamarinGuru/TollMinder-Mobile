@@ -47,9 +47,11 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 				Task.Run(async () =>
 				{
 					StopServices();
-					await StartServices();
+					await StartServices().ConfigureAwait(false);
+					Log.LogMessage("Autostart facade");
 				});
 			}
+			Log.LogMessage("Autostart init");
 		}
 
 		#endregion
@@ -71,13 +73,17 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 			bool isGranted = await Mvx.Resolve<IPermissionsService> ().CheckPermissionsAccesGrantedAsync ();
 			if (!IsBound && isGranted) {
 
-				Log.LogMessage (string.Format ("THE SEVICES HAS STARTED AT {0}", DateTime.Now));
+				Log.LogMessage (string.Format ("FACADE HAS STARTED AT {0}", DateTime.Now));
 
 				_textToSpeech.IsEnabled = true;
 				_geoWatcher.StartGeolocationWatcher ();
-				_token = _messenger.SubscribeOnThreadPoolThread<LocationMessage> (x => CheckTrackStatus ());
+				_token = _messenger.SubscribeOnThreadPoolThread<LocationMessage> (x =>
+				{
+					Log.LogMessage("Facade received LocationMessage");
+					CheckTrackStatus();
+				});
 				_activity.StartDetection ();
-				Log.LogMessage("Start location detection and subscride on LocationMessage");
+				Log.LogMessage("Start Facade location detection and subscride on LocationMessage");
 				return true;
 			}
 
@@ -89,7 +95,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 			if (!IsBound)
 				return false;
 
-			Log.LogMessage (string.Format ("THE SEVICES HAS STOPPED AT {0}", DateTime.Now));
+			Log.LogMessage (string.Format ("FACADE HAS STOPPED AT {0}", DateTime.Now));
 
 			_geoWatcher.StopGeolocationWatcher ();
 			_token?.Dispose ();
@@ -120,31 +126,40 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
 				_locationProcessing = true;
 
-				if (_batteryDrainService.CheckGpsTrackingSleepTime(TollStatus))
-					return;
-
-				BaseStatus statusObject = StatusesFactory.GetStatus(TollStatus);
-
-				Log.LogMessage($"Current status before check= {TollStatus}");
-
-				var task = statusObject.CheckStatus();
-
-				Task.WaitAny(task);
-
-				if (task.IsFaulted)
+				try
 				{
-					Mvx.Trace(task.Exception.Message + task.Exception.StackTrace + task.Exception.InnerException?.Message + task.Exception.InnerException?.StackTrace);
-					return;
+					if (_batteryDrainService.CheckGpsTrackingSleepTime(TollStatus))
+						return;
+
+					BaseStatus statusObject = StatusesFactory.GetStatus(TollStatus);
+
+					Log.LogMessage($"Current status before check= {TollStatus}");
+
+					var task = statusObject.CheckStatus();
+
+					Task.WaitAny(task);
+
+					if (task.IsFaulted)
+					{
+						Mvx.Trace(task.Exception.Message + task.Exception.StackTrace + task.Exception.InnerException?.Message + task.Exception.InnerException?.StackTrace);
+						return;
+					}
+
+					TollStatus = task.Result;
+
+					statusObject = StatusesFactory.GetStatus(TollStatus);
+
+					Log.LogMessage($"Current status after check = {TollStatus}");
+					Mvx.Resolve<INotificationSender>().SendLocalNotification($"Status: {TollStatus.ToString()}", $"Lat: {_geoWatcher.Location?.Latitude}, Long: {_geoWatcher.Location?.Longitude}");
 				}
-
-				TollStatus = task.Result;
-
-				statusObject = StatusesFactory.GetStatus(TollStatus);
-
-				Log.LogMessage($"Current status after check = {TollStatus}");
-				Mvx.Resolve<INotificationSender>().SendLocalNotification($"Status: {TollStatus.ToString()}", $"Lat: {_geoWatcher.Location?.Latitude}, Long: {_geoWatcher.Location?.Longitude}");
-
-				_locationProcessing = false;
+				catch (Exception e)
+				{
+					Log.LogMessage(e.Message + e.StackTrace);
+				}
+				finally
+				{
+					_locationProcessing = false;
+				}
 			}
 		}
 	}

@@ -23,7 +23,7 @@ namespace Tollminder.Droid
         {
             try
             {
-				Log.Error(tag, message);
+				Log.Error(tag, string.Format(message, args));
                 //Debug.WriteLine(tag + ":" + level + ":" + message, args);
             }
             catch (FormatException)

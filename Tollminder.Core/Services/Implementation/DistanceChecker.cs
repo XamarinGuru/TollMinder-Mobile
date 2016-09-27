@@ -11,7 +11,7 @@ namespace Tollminder.Core.Services.Implementation
 	public class DistanceChecker : IDistanceChecker
 	{
 		public static double DistanceToWaypointRadius { get; } = 0.6;
-		public double Epsilon { get; } = 0;
+		public double Epsilon { get; } = double.Epsilon;
 		public double WaypointDistanceRequired { get; } = 0.02;
 
 		private readonly IGeoLocationWatcher _geoWatcher;
@@ -25,12 +25,15 @@ namespace Tollminder.Core.Services.Implementation
 
 		public virtual TollRoadWaypointWithDistance GetMostClosestWaypoint (GeoLocation center, IList<TollRoadWaypoint> points)
 		{
-			var point = points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).OrderBy (x =>
+			var pts = points.AsParallel().AsOrdered().WithMergeOptions(ParallelMergeOptions.FullyBuffered).OrderBy(x => DistanceBetweenGeoLocations(center, x.Location));
+
+			foreach(var x in pts)
 			{
-				var a = DistanceBetweenGeoLocations(center, x.Location);
-				System.Diagnostics.Debug.WriteLine($"{a:0.##} {x.Name} {x.Location}");
-				return a;
-			}).FirstOrDefault ();
+				var distance = DistanceBetweenGeoLocations(center, x.Location);
+				Log.LogMessage($"{distance:0.##} {x.Name} {x.Location}");
+			}
+
+			TollRoadWaypoint point =  pts?.FirstOrDefault ();
 
 			if (point != null)
 			{

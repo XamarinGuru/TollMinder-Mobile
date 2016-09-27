@@ -16,12 +16,14 @@ namespace Tollminder.Core.Models.Statuses
 
 			if (waypoint == null)
 			{
+				Log.LogMessage($"No waypoint founded for location {GeoWatcher.Location}");
 				WaypointChecker.SetCurrentWaypoint(null);
 				return TollGeolocationStatus.NotOnTollRoad;
 			}
 			Log.LogMessage (string.Format ("FOUNDED WAYPOINT ENTERCE : {0} AND WAYPOINT ACTION {1}", waypoint.Name, waypoint.WaypointAction));
 			if (WaypointChecker.CurrentWaypoint?.Equals(waypoint) ?? false)
 			{
+				Log.LogMessage("Waypoint equals to currentWaypoint");
 				return TollGeolocationStatus.NotOnTollRoad;
 			}
 
