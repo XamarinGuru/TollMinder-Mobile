@@ -4,43 +4,47 @@ namespace Tollminder.Core.Services.Implementation
 {
 	public class WaypointChecker : IWaypointChecker
 	{
-		TollRoadWaypoint _currentWaypoint;
+		readonly IStoredSettingsService _storedSettingsService;
+
 		public TollRoadWaypoint CurrentWaypoint 
 		{
 			get 
 			{
-				return _currentWaypoint; 
+				return _storedSettingsService.CurrentWaypoint; 
 			}
 			private set 
 			{
-				_currentWaypoint = value;
+				_storedSettingsService.CurrentWaypoint = value;
 			}
 		}
 	
-		TollRoadWaypoint _entrance;
 		public TollRoadWaypoint Entrance
 		{
 			get
 			{
-				return _entrance;
+				return _storedSettingsService.TollRoadEntranceWaypoint;
 			}
 			private set
 			{
-				_entrance = value;
+				_storedSettingsService.TollRoadEntranceWaypoint = value;
 			}
 		}
 
-		TollRoadWaypoint _exit;
 		public TollRoadWaypoint Exit
 		{
 			get
 			{
-				return _exit;
+				return _storedSettingsService.TollRoadExitWaypoint;
 			}
 			private set
 			{
-				_exit = value;
+				_storedSettingsService.TollRoadExitWaypoint = value;
 			}
+		}
+
+		public WaypointChecker(IStoredSettingsService storedSettingsService)
+		{
+			_storedSettingsService = storedSettingsService;
 		}
 
 		public void SetCurrentWaypoint(TollRoadWaypoint point)

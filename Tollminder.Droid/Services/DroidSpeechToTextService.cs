@@ -187,7 +187,7 @@ namespace Tollminder.Droid.Services
 
 		public void OnError([GeneratedEnum] SpeechRecognizerError error)
 		{
-			Console.WriteLine("OnError" + error);
+			Core.Helpers.Log.LogMessage("SpeechRecognizerError = " + error);
 
 			if (error == SpeechRecognizerError.NoMatch || error == SpeechRecognizerError.SpeechTimeout)
 				StartSpeechRecognition();

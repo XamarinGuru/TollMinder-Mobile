@@ -23,10 +23,10 @@ namespace Tollminder.Core
 
 			Mvx.LazyConstructAndRegisterSingleton<IGeoDataService, DummyDataSerivce>();
 			Mvx.LazyConstructAndRegisterSingleton<IHttpService, HttpService>();
-			Mvx.LazyConstructAndRegisterSingleton<ITrackFacade, TrackFacade>();
 			Mvx.LazyConstructAndRegisterSingleton<INotifyService, NotifyService> ();
 			Mvx.LazyConstructAndRegisterSingleton<IWaypointChecker, WaypointChecker> ();
 			Mvx.LazyConstructAndRegisterSingleton<IDistanceChecker, DistanceChecker> ();
+			Mvx.ConstructAndRegisterSingleton<ITrackFacade, TrackFacade>();
         }
     }
 }

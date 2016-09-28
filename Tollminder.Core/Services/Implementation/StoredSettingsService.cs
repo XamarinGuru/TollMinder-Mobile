@@ -29,6 +29,25 @@ namespace Tollminder.Core.Services.Implementation
 			get { return _storedSettingsBase.Get<TollGeolocationStatus>(); }
 			set { _storedSettingsBase.Set<TollGeolocationStatus>(value); }
 		}
+
+		public TollRoadWaypoint CurrentWaypoint
+		{
+			get { return _storedSettingsBase.Get<TollRoadWaypoint>(); }
+			set { _storedSettingsBase.Set<TollRoadWaypoint>(value); }
+		}
+
+		public TollRoadWaypoint TollRoadEntranceWaypoint
+		{
+			get { return _storedSettingsBase.Get<TollRoadWaypoint>(); }
+			set { _storedSettingsBase.Set<TollRoadWaypoint>(value); }
+		}
+
+		public TollRoadWaypoint TollRoadExitWaypoint
+		{
+			get { return _storedSettingsBase.Get<TollRoadWaypoint>(); }
+			set { _storedSettingsBase.Set<TollRoadWaypoint>(value); }
+		}
+
 	}
 }
 
