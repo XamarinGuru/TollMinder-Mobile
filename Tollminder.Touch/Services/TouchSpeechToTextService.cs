@@ -212,7 +212,7 @@ namespace Tollminder.Touch.Services
 
 			if (answer != AnswerType.Unknown)
 			{
-				TextToSpeechService.Speak($"Your answer is {answer.ToString()}", false);
+				TextToSpeechService.Speak($"Your answer is {answer.ToString()}", false).Wait();
 				_recognitionTask.TrySetResult(answer == AnswerType.Positive);
 			}
 			else

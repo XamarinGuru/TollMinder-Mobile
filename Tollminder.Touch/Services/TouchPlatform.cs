@@ -19,6 +19,14 @@ namespace Tollminder.Touch.Services
 			}
 		}
 
+		public bool IsMusicRunning
+		{
+			get
+			{
+				return false;
+			}
+		}
+
 		public void PauseMusic()
 		{
 			
