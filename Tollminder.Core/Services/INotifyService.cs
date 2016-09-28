@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Threading.Tasks;
+
 namespace Tollminder.Core.Services
 {
 	public interface INotifyService
 	{
-		void Notify (string message);
+		Task Notify (string message);
 	}
 }
 

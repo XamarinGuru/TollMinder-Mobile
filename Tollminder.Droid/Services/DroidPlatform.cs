@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Android.App;
 using Android.Content;
 using Android.Media;
@@ -32,12 +33,17 @@ namespace Tollminder.Droid.Services
 			}
 		}
 
+		public bool IsMusicRunning
+		{
+			get
+			{
+				AudioManager manager = (AudioManager)Application.Context.GetSystemService(Context.AudioService);
+				return manager.IsMusicActive;
+			}
+		}
+
 		public void PauseMusic()
 		{
-			//AudioManager amanager = (AudioManager)Application.Context.GetSystemService(Context.AudioService);
-			//amanager.SetStreamVolume(Stream.Music, 2, VolumeNotificationFlags.ShowUi);
-			//amanager.SetStreamMute(Stream.Music, true);
-
 			Intent i = new Intent("com.android.music.musicservicecommand");
 			i.PutExtra("command", "pause");
 

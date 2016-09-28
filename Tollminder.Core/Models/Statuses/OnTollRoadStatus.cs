@@ -28,7 +28,7 @@ namespace Tollminder.Core.Models.Statuses
 
 			WaypointChecker.SetCurrentWaypoint(waypoint);
 
-			NotifyService.Notify (string.Format ("you are potentially going to exit {0} waypoints.", waypoint.Name));
+			await NotifyService.Notify (string.Format ("you are potentially going to exit {0} waypoints.", waypoint.Name));
 			if (await SpeechToTextService.AskQuestion($"Are you exiting {WaypointChecker.CurrentWaypoint.Name} the tollroad?"))
 			{
 				WaypointChecker.SetExit(WaypointChecker.CurrentWaypoint);

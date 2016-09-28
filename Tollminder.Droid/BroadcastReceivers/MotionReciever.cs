@@ -7,6 +7,7 @@ using Android.Content;
 using Android.Gms.Location;
 using Android.App;
 using MvvmCross.Droid.Platform;
+using System;
 
 namespace Tollminder.Droid.BroadcastReceivers
 {
@@ -19,8 +20,18 @@ namespace Tollminder.Droid.BroadcastReceivers
 			if (ActivityRecognitionResult.HasResult (intent)) {
 				ActivityRecognitionResult result = ActivityRecognitionResult.ExtractResult (intent);
 				if (result != null) {
-					var setup = MvxAndroidSetupSingleton.EnsureSingletonAvailable (context);
-					setup.EnsureInitialized ();
+					try
+					{
+						var setup = MvxAndroidSetupSingleton.EnsureSingletonAvailable(Application.Context ?? context);
+						setup.EnsureInitialized();
+					}
+					catch (Exception e)
+					{
+						//TODO: some mvvmcross initialization issies while deleting and starting app on thirt time
+						//Cannot start primary - as state already InitializingSecondary
+						Mvx.Trace(e.Message + e.StackTrace);
+					}
+
 					Mvx.Resolve<IMotionActivity> ().MotionType = result.MostProbableActivity.GetMotionType ();
 				}                
 			}

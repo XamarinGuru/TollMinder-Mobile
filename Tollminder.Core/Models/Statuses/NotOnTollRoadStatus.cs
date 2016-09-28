@@ -29,10 +29,10 @@ namespace Tollminder.Core.Models.Statuses
 
 			WaypointChecker.SetCurrentWaypoint(waypoint);
 
-			NotifyService.Notify (string.Format ("You are potentially going to enter {0} waypoints.",waypoint.Name));
+			await NotifyService.Notify (string.Format ("You are potentially going to enter {0} waypoints.",waypoint.Name));
 			if (await SpeechToTextService.AskQuestion($"Are you entering {WaypointChecker.CurrentWaypoint.Name} tollroad?"))
 			{
-				WaypointChecker.SetExit(WaypointChecker.CurrentWaypoint);
+				WaypointChecker.SetEntrance(WaypointChecker.CurrentWaypoint);
 				return TollGeolocationStatus.OnTollRoad;
 			}
 

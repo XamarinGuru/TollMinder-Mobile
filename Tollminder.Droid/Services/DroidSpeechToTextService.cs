@@ -25,6 +25,8 @@ namespace Tollminder.Droid.Services
 		Handler _handler;
 		AlertDialog _dialog;
 
+		bool _isMusicRunning;
+
 		IPlatform _platform;
 		IPlatform Platform
 		{
@@ -43,6 +45,15 @@ namespace Tollminder.Droid.Services
 			}
 		}
 
+		ITextToSpeechService _textToSpeechService;
+		ITextToSpeechService TextToSpeechService
+		{
+			get
+			{
+				return _textToSpeechService ?? (_textToSpeechService = Mvx.Resolve<ITextToSpeechService>());
+			}
+		}
+
 		string _question;
 		public string Question
 		{
@@ -58,11 +69,13 @@ namespace Tollminder.Droid.Services
 
 		public Task<bool> AskQuestion(string question)
 		{
-			Platform.PauseMusic();
-			_recognitionTask = new TaskCompletionSource<bool>();
+			Task.Delay(100).Wait();
 
-			if (_handler == null)
-				_handler = new Handler(Application.Context.MainLooper);
+			_isMusicRunning = Platform.IsMusicRunning;
+
+			if (_isMusicRunning)
+				Platform.PauseMusic();
+			_recognitionTask = new TaskCompletionSource<bool>();
 
 			if (Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity == null)
 			{
@@ -73,7 +86,9 @@ namespace Tollminder.Droid.Services
 				EnsureActivityLoaded().Wait();
 			}
 
-			Mvx.Resolve<ITextToSpeechService>().Speak(question, false).Wait();
+			_handler = new Handler(Application.Context.MainLooper);
+
+			TextToSpeechService.Speak(question, false).Wait();
 
 			Question = question;
 
@@ -84,30 +99,31 @@ namespace Tollminder.Droid.Services
 
 		void StartSpeechRecognition()
 		{
-			if (_dialog == null)
-			{
-				_handler.Post(() =>
+			_handler.Post(() =>
 				{
-					try
-					{ 
-						_dialog = new AlertDialog.Builder(Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity)
-								.SetTitle(Question)
-								.SetMessage("Please, answer yes or no after the tone")
-						        .SetCancelable(false)
-								.Show();
-					}
-					catch (Exception e)
+					if (_dialog == null)
 					{
-						Mvx.Trace(e.Message + e.StackTrace);
+						try
+						{
+							_dialog = new AlertDialog.Builder(Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity)
+									.SetTitle(Question)
+									.SetMessage("Please, answer yes or no after the tone")
+									.SetCancelable(false)
+									.Show();
+						}
+						catch (Exception e)
+						{
+							Mvx.Trace(e.Message + e.StackTrace);
+						}
+					}
+					else
+					{
+						_dialog.Show();
 					}
 				});
-			}
-			else
-			{
-				_dialog.Show();
-			}
 
-			Mvx.Resolve<ITextToSpeechService>().Speak("Please, answer yes or no after the tone", false).Wait();
+
+			TextToSpeechService.Speak("Please, answer yes or no after the tone", false).Wait();
 
 			try
 			{
@@ -191,6 +207,11 @@ namespace Tollminder.Droid.Services
 
 			if (error == SpeechRecognizerError.NoMatch || error == SpeechRecognizerError.SpeechTimeout)
 				StartSpeechRecognition();
+			else
+			{
+				_handler.Post(() => _dialog?.Cancel());
+				TextToSpeechService.Speak($"{error} error has occured in SpeechRecognizer", false).Wait();
+			}
 		}
 
 		public void OnEvent(int eventType, Bundle @params)
@@ -218,8 +239,9 @@ namespace Tollminder.Droid.Services
 
 			if (answer != AnswerType.Unknown)
 			{
-				Mvx.Resolve<ITextToSpeechService>().Speak($"Your answer is {answer.ToString()}", false);
-				Platform.PlayMusic();
+				TextToSpeechService.Speak($"Your answer is {answer.ToString()}", false).Wait();
+				if (_isMusicRunning)
+					Platform.PlayMusic();
 				_recognitionTask.TrySetResult(answer == AnswerType.Positive);
 			}
 			else

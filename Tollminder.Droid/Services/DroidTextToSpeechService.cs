@@ -52,7 +52,7 @@ namespace Tollminder.Droid.Services
 		TaskCompletionSource<bool> _speakTask;
 		public Task Speak(string text, bool disableMusic = true)
         {
-			DisableMusic = disableMusic;
+			DisableMusic = disableMusic && Platform.IsMusicRunning;
 			if (DisableMusic)
 				Platform.PauseMusic();
 			_speakTask = new TaskCompletionSource<bool>();

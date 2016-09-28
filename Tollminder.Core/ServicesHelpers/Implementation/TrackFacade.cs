@@ -80,7 +80,11 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 				_token = _messenger.SubscribeOnThreadPoolThread<LocationMessage> (x =>
 				{
 					Log.LogMessage("Facade received LocationMessage");
-					CheckTrackStatus();
+					if (!_locationProcessing)
+					{
+						Log.LogMessage("Start processing LocationMessage");
+						CheckTrackStatus();
+					}
 				});
 				_activity.StartDetection ();
 				Log.LogMessage("Start Facade location detection and subscride on LocationMessage");

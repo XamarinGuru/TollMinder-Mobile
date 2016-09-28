@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading.Tasks;
+
 namespace Tollminder.Core.Services.Implementation
 {
 	public class NotifyService : INotifyService
@@ -14,11 +16,10 @@ namespace Tollminder.Core.Services.Implementation
 			this._platform = platform;
 		}
 
-		public virtual void Notify (string message)
+		public async virtual Task Notify (string message)
 		{
 			if (!_platform.IsAppInForeground) {
 				_notificationSender.SendLocalNotification ("Toll Minder", message);
-				_textToSpeech.Speak (message).Wait();
 			}
 			_textToSpeech.Speak (message).Wait();		
 		}

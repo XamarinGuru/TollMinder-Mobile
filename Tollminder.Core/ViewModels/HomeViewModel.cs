@@ -43,7 +43,7 @@ namespace Tollminder.Core.ViewModels
 				Location = _geoWatcher.Location;
 
 			StatusString = _track.TollStatus.ToString();
-			RaisePropertyChanged(LogText);
+			LogText = Log._messageLog.ToString();
 		}
 
 		protected override void OnDestroy ()

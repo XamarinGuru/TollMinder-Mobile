@@ -37,6 +37,16 @@ namespace Tollminder.Touch.Services
 			}
 		}
 
+		ITextToSpeechService _textToSpeechService;
+		ITextToSpeechService TextToSpeechService
+		{
+			get
+			{
+				return _textToSpeechService ?? (_textToSpeechService = Mvx.Resolve<ITextToSpeechService>());
+			}
+		}
+
+
 		string _question;
 		public string Question
 		{
@@ -177,9 +187,9 @@ namespace Tollminder.Touch.Services
 				_error.Show();
 			});
 
-			Mvx.Resolve<ITextToSpeechService>().Speak(question).Wait();
+			TextToSpeechService.Speak(question, false).Wait();
 
-			Mvx.Resolve<ITextToSpeechService>().Speak("Please, answer after the signal").Wait();
+			TextToSpeechService.Speak("Please, answer after the signal", false).Wait();
 
 			UIApplication.SharedApplication.InvokeOnMainThread(() =>
 			{
@@ -202,7 +212,7 @@ namespace Tollminder.Touch.Services
 
 			if (answer != AnswerType.Unknown)
 			{
-				Mvx.Resolve<ITextToSpeechService>().Speak($"Your answer is {answer.ToString()}");
+				TextToSpeechService.Speak($"Your answer is {answer.ToString()}", false);
 				_recognitionTask.TrySetResult(answer == AnswerType.Positive);
 			}
 			else
