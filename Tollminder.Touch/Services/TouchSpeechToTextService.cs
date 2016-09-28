@@ -209,10 +209,10 @@ namespace Tollminder.Touch.Services
 			var answer = MappingService.DetectAnswer(matches);
 
 			_error.DismissWithClickedButtonIndex(0, true);
-
+			                                                   
 			if (answer != AnswerType.Unknown)
 			{
-				TextToSpeechService.Speak($"Your answer is {answer.ToString()}", false).Wait();
+				TextToSpeechService.Speak($"Your answer is {answer.ToString()}", false).ConfigureAwait(false);
 				_recognitionTask.TrySetResult(answer == AnswerType.Positive);
 			}
 			else
