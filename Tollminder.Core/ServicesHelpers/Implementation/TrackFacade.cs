@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MvvmCross.Platform;
 using MvvmCross.Plugins.Messenger;
@@ -26,6 +27,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 		object _locker = new object();
 		bool _locationProcessing;
 
+		List<MvxSubscriptionToken> _tokens = new List<MvxSubscriptionToken>();
 		MvxSubscriptionToken _token;
 
 		#endregion
@@ -47,11 +49,34 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 				Task.Run(async () =>
 				{
 					StopServices();
+
+					if (_storedSettingsService.SleepGPSDateTime != DateTime.MinValue 
+					    && _batteryDrainService.CheckGpsTrackingSleepTime(TollStatus))
+						return;
+					
 					await StartServices().ConfigureAwait(false);
 					Log.LogMessage("Autostart facade");
 				});
 			}
-			Log.LogMessage("Autostart init");
+
+			_tokens.Add(_messenger.SubscribeOnThreadPoolThread<MotionMessage>(async x =>
+			{
+                switch(x.Data)
+                {
+                    case MotionType.Automotive:
+                    case MotionType.Running:
+                    case MotionType.Walking:
+                        if (!IsBound)
+                            await StartServices().ConfigureAwait(false);
+                        break;
+                    default:
+                        if (IsBound)
+                            StopServices();
+                        break;
+                }
+			}));
+
+			Log.LogMessage("Facade init");
 		}
 
 		#endregion
@@ -86,6 +111,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 						CheckTrackStatus();
 					}
 				});
+				_tokens.Add(_token);
 				_activity.StartDetection ();
 				Log.LogMessage("Start Facade location detection and subscride on LocationMessage");
 				return true;
@@ -102,8 +128,8 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 			Log.LogMessage (string.Format ("FACADE HAS STOPPED AT {0}", DateTime.Now));
 
 			_geoWatcher.StopGeolocationWatcher ();
-			_token?.Dispose ();
-			_activity.StopDetection ();
+			_tokens.Remove(_token);
+			_token.Dispose();
 
 			return true;
 		}

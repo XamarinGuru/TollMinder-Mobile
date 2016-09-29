@@ -19,10 +19,10 @@ namespace Tollminder.Droid.Services
 			this._notifyService = Mvx.Resolve<INotifyService> ();
 			ServiceIntent = new Intent (ApplicationContext, typeof (MotionActivityService));
 		}
+
 		public virtual MotionType MotionType {
 			get { return _motionType; }
 			set {
-				//SpeakMotion (value);
 				_motionType = value;
 				Mvx.Resolve<IMvxMessenger> ().Publish (new MotionMessage (this, value));
 			}
