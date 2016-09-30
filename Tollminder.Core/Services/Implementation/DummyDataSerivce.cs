@@ -55,7 +55,6 @@ namespace Tollminder.Core.Services.Implementation
                         new TollRoadWaypoint
                         {
                             Name = "Kolektorna enterce",
-                            TollRoadId = 1,
                             Location = new GeoLocation
                             {
                                 Latitude = 50.401042,
@@ -67,7 +66,6 @@ namespace Tollminder.Core.Services.Implementation
                         new TollRoadWaypoint
                         {
                             Name = "Kolektorna exit",
-                            TollRoadId = 1,
                             Location = new GeoLocation
                             {
                                 Latitude = 50.397919,
@@ -271,7 +269,7 @@ namespace Tollminder.Core.Services.Implementation
                                 Latitude = 33.406353,
                                 Longitude = -117.164065
                             },
-                            WaypointAction = WaypointAction.Enterce
+                            WaypointAction = WaypointAction.Exit
                         }
                     }
                 },
@@ -299,7 +297,7 @@ namespace Tollminder.Core.Services.Implementation
                                 Latitude = 33.455975,
                                 Longitude = -117.103091
                             },
-                            WaypointAction = WaypointAction.Enterce
+                            WaypointAction = WaypointAction.Exit
                         }
                     }
                 }
