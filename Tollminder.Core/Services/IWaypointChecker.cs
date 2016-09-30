@@ -6,6 +6,7 @@ namespace Tollminder.Core.Services
 	public interface IWaypointChecker
 	{
 		TollRoadWaypoint CurrentWaypoint { get; }
+        TollRoad TollRoad { get; }
 		TollRoadWaypoint Entrance { get; }
 		TollRoadWaypoint Exit { get; }
 		void SetCurrentWaypoint(TollRoadWaypoint point);

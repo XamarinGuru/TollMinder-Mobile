@@ -50,29 +50,9 @@ namespace Tollminder.Core.Services.Implementation
 			return points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).Where (x => (DistanceBetweenGeoLocations (center, x.Location) - DistanceToWaypointRadius) < Epsilon);
 		}
 
-		public virtual Task<ParallelQuery<TollRoadWaypoint>> GetLocationsFromRadiusAsync (GeoLocation center, IList<TollRoadWaypoint> points)
-		{
-			return Task.Run(() => {
-				return points.AsParallel().WithMergeOptions(ParallelMergeOptions.AutoBuffered).Where (x => (DistanceBetweenGeoLocations (center, x.Location) - DistanceToWaypointRadius) < Epsilon);
-			});
-		}
-
 		public virtual TollRoadWaypoint GetLocationFromRadius (GeoLocation center, IList<TollRoadWaypoint> points)
 		{
 			return points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).FirstOrDefault (x => (DistanceBetweenGeoLocations (center, x.Location) - DistanceToWaypointRadius) < Epsilon);
-		}
-
-		public virtual Task<TollRoadWaypoint> GetLocationFromRadiusAsync (GeoLocation center, IList<TollRoadWaypoint> points)
-		{
-			return Task.Run (() => {
-				var point = points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).FirstOrDefault (x => 
-					{
-						Log.LogMessage (string.Format ("{0} - {1} = {2}", DistanceBetweenGeoLocations (center, x.Location), DistanceToWaypointRadius,  DistanceBetweenGeoLocations (center, x.Location) - DistanceToWaypointRadius));
-
-						return DistanceBetweenGeoLocations (center, x.Location) - DistanceToWaypointRadius <= Epsilon;
-					});
-				return point;
-			});
 		}
 	}
 }

@@ -14,6 +14,8 @@ namespace Tollminder.Core.Services.Implementation
 		readonly IGeoLocationWatcher _geoWatcher;
 		readonly IDistanceChecker _distanceChecker;
 		readonly IGeoDataService _geoDataService;
+		readonly IStoredSettingsService _storedSettingsService;
+
 
 		Timer _timer;
 
@@ -24,7 +26,7 @@ namespace Tollminder.Core.Services.Implementation
 			{ x => x >= 31 && x < 96 , 15 },
 			{ x => x >= 96 && x < 131 , 45 },
 			{ x => x >= 131 && x < 193 , 90 },
-			{ x => x >= 193, 1 } 
+			{ x => x >= 193, 120 } 
 		};
 	
 		public BatteryDrainService()
@@ -32,13 +34,14 @@ namespace Tollminder.Core.Services.Implementation
 			_geoWatcher = Mvx.Resolve<IGeoLocationWatcher>();
 			_distanceChecker = Mvx.Resolve<IDistanceChecker>();
 			_geoDataService = Mvx.Resolve<IGeoDataService>();
+			_storedSettingsService = Mvx.Resolve<IStoredSettingsService>();
 		}
 
 		public bool CheckGpsTrackingSleepTime(TollGeolocationStatus status)
 		{
 			WaypointAction action = (status == TollGeolocationStatus.NotOnTollRoad) ? WaypointAction.Enterce : WaypointAction.Exit;
 
-			double distance = _distanceChecker.GetMostClosestWaypoint(_geoWatcher.Location, (_geoDataService.GetWaypoints().Where(x => x.WaypointAction == action).ToList()))?.Distance ?? 0;
+            double distance = _distanceChecker.GetMostClosestWaypoint(_geoWatcher.Location, _geoDataService.GetAllWaypoints(action))?.Distance ?? 0;
 			var minutesOffset = conditionsDictionary.First(x => x.Key((int)distance)).Value;
 
 			Log.LogMessage($"CheckGpsTrackingSleepTime : DIST = {distance}, MINUTESOFFSET {minutesOffset}");
@@ -66,8 +69,10 @@ namespace Tollminder.Core.Services.Implementation
 			{
 				_timer.Cancel();
 				_timer = null;
+				_storedSettingsService.SleepGPSDateTime = DateTime.MinValue;
 			}
 
+			_storedSettingsService.SleepGPSDateTime = DateTime.Now.AddMinutes(minutes);
 			_timer = new Timer(TimerElapsed, null, new TimeSpan(0, minutes, 0), new TimeSpan(0, minutes, 0));
 
 			_geoWatcher.StopGeolocationWatcher();

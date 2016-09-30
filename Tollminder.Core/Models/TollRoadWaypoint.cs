@@ -1,12 +1,16 @@
 ﻿using System;
 using SQLite;
+using SQLiteNetExtensions.Attributes;
 
 namespace Tollminder.Core.Models
 {
+	[Table("TollRoadWaypoints")]
 	public class TollRoadWaypoint : IEquatable<TollRoadWaypoint>
 	{
 		[PrimaryKey, AutoIncrement]
 		public long Id { get; set; }
+		[ForeignKey(typeof(TollRoad))]
+		public long TollRoadId { get; set; }
 		public string Name { get; set; }
 		public GeoLocation Location { get; set; }
 		public WaypointAction WaypointAction { get; set; }
@@ -37,6 +41,7 @@ namespace Tollminder.Core.Models
 		{
 			Name = tollRoadWaypoint.Name;
 			Id = tollRoadWaypoint.Id;
+			TollRoadId = tollRoadWaypoint.TollRoadId;
 			Location = tollRoadWaypoint.Location;
 			WaypointAction = tollRoadWaypoint.WaypointAction;
 		}

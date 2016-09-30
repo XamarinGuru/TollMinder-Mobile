@@ -9,9 +9,7 @@ namespace Tollminder.Core.Services
 	{
 		TollRoadWaypointWithDistance GetMostClosestWaypoint (GeoLocation center, IList<TollRoadWaypoint> points);
 		ParallelQuery<TollRoadWaypoint> GetLocationsFromRadius (GeoLocation center, IList<TollRoadWaypoint> points);
-		Task<ParallelQuery<TollRoadWaypoint>> GetLocationsFromRadiusAsync (GeoLocation center, IList<TollRoadWaypoint> points);
 		TollRoadWaypoint GetLocationFromRadius (GeoLocation center, IList<TollRoadWaypoint> points);
-		Task<TollRoadWaypoint> GetLocationFromRadiusAsync (GeoLocation center, IList<TollRoadWaypoint> points);
 	}
 }
 

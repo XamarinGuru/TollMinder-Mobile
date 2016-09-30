@@ -10,7 +10,7 @@ namespace Tollminder.Core.Models.Statuses
 			Log.LogMessage (string.Format ($"TRY TO FIND WAYPOINT ENTERCE FROM {Services.Implementation.DistanceChecker.DistanceToWaypointRadius * 1000} m"));
 
 			var location = GeoWatcher.Location;
-			var waypoint = DataService.FindNearGeoLocation(location, WaypointAction.Enterce);
+            var waypoint = DataService.FindNearestTollRoad(location, WaypointAction.Enterce);
 
 			Log.LogMessage (string.Format ("CAR LOCATION {0} , WAYPOINT LOCATION {1}", location, waypoint));
 
@@ -18,6 +18,7 @@ namespace Tollminder.Core.Models.Statuses
 			{
 				Log.LogMessage($"No waypoint founded for location {GeoWatcher.Location}");
 				WaypointChecker.SetCurrentWaypoint(null);
+
 				return TollGeolocationStatus.NotOnTollRoad;
 			}
 			Log.LogMessage (string.Format ("FOUNDED WAYPOINT ENTERCE : {0} AND WAYPOINT ACTION {1}", waypoint.Name, waypoint.WaypointAction));
