@@ -34,6 +34,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
         public TrackFacade()
         {
+            Log.LogMessage("Facade init start");
             _textToSpeech = Mvx.Resolve<ITextToSpeechService>();
             _messenger = Mvx.Resolve<IMvxMessenger>();
             _geoWatcher = Mvx.Resolve<IGeoLocationWatcher>();
@@ -42,15 +43,19 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
             _speechToTextService = Mvx.Resolve<ISpeechToTextService>();
             _storedSettingsService = Mvx.Resolve<IStoredSettingsService>();
 
+            if (_storedSettingsService.SleepGPSDateTime != DateTime.MinValue
+                      && _storedSettingsService.SleepGPSDateTime > DateTime.Now
+                      && _batteryDrainService.CheckGpsTrackingSleepTime(TollStatus))
+            {
+                Log.LogMessage("Relaunch BatteryDrainService");
+                return;
+            }
+
             if (_storedSettingsService.GeoWatcherIsRunning)
             {
                 Task.Run(async () =>
                 {
                     StopServices();
-
-                    if (_storedSettingsService.SleepGPSDateTime != DateTime.MinValue
-                        && _batteryDrainService.CheckGpsTrackingSleepTime(TollStatus))
-                        return;
 
                     await StartServices().ConfigureAwait(false);
                     Log.LogMessage("Autostart facade");
@@ -73,8 +78,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
             //            break;
             //    }
             //}));
-
-            Log.LogMessage("Facade init");
+            Log.LogMessage("Facade init end");
         }
 
         #endregion

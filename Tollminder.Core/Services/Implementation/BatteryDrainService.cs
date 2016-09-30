@@ -60,23 +60,26 @@ namespace Tollminder.Core.Services.Implementation
 		{
 			Mvx.Resolve<INotifyService>().Notify($"Start GPS");
 			_geoWatcher.StartGeolocationWatcher();
-			_timer.Cancel();
+            DisposeTimer();
 		}
 
 		public void SetGpsTrackingSleepTime(int minutes)
 		{
-			if (_timer != null)
-			{
-				_timer.Cancel();
-				_timer = null;
-				_storedSettingsService.SleepGPSDateTime = DateTime.MinValue;
-			}
+            if (_timer != null)
+                DisposeTimer();
 
 			_storedSettingsService.SleepGPSDateTime = DateTime.Now.AddMinutes(minutes);
 			_timer = new Timer(TimerElapsed, null, new TimeSpan(0, minutes, 0), new TimeSpan(0, minutes, 0));
 
 			_geoWatcher.StopGeolocationWatcher();
 		}
+
+        private void DisposeTimer()
+        {
+            _timer.Cancel();
+            _timer = null;
+            _storedSettingsService.SleepGPSDateTime = DateTime.MinValue;
+        }
 	}
 }
 
