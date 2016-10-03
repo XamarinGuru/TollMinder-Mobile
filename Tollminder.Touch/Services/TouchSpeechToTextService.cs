@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using AudioToolbox;
 using AVFoundation;
@@ -195,9 +196,14 @@ namespace Tollminder.Touch.Services
 			UIApplication.SharedApplication.InvokeOnMainThread(() =>
 			{
                 AVAudioSession.SharedInstance().SetCategory(AVAudioSessionCategory.Playback);
-				SystemSound notificationSound = SystemSound.FromFile(@"/System/Library/Audio/UISounds/jbl_begin.caf");
-				notificationSound.AddSystemSoundCompletion(SystemSound.Vibrate.PlaySystemSound);
-				notificationSound.PlaySystemSound();
+                AVAudioSession.SharedInstance().SetActive(true);
+                //SystemSound notificationSound = SystemSound.FromFile(@"/System/Library/Audio/UISounds/jbl_begin.caf");
+                //notificationSound.AddSystemSoundCompletion(SystemSound.Vibrate.PlaySystemSound);
+                //notificationSound.PlaySystemSound();
+
+                AVAudioPlayer audioPlayer = AVAudioPlayer.FromUrl(NSUrl.FromFilename(Path.Combine("Sounds", "tap.aif")));
+                audioPlayer.PrepareToPlay();
+                audioPlayer.Play();
 			});
 
 			Question = question;
