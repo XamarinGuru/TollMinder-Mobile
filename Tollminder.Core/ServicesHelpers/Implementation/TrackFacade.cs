@@ -132,7 +132,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
             _geoWatcher.StopGeolocationWatcher();
             _tokens.Remove(_token);
-            _token.Dispose();
+            _token?.Dispose();
 
             return true;
         }

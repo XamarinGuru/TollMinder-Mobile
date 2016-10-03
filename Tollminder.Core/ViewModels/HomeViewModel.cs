@@ -36,14 +36,21 @@ namespace Tollminder.Core.ViewModels
 			_tokens.Add (_messenger.SubscribeOnThreadPoolThread<LocationMessage> (x => Location = x.Data, MvxReference.Strong));
 			_tokens.Add(_messenger.SubscribeOnThreadPoolThread<StatusMessage>(x => StatusString = x.Data.ToString(), MvxReference.Strong));
 
-			_tokens.Add (_messenger.SubscribeOnMainThread<LogUpdated> ((s) => LogText = Log._messageLog.ToString()));
-			_tokens.Add(_messenger.SubscribeOnMainThread<GeoWatcherStatusMessage>((s) => IsBound = s.Data));
+            _tokens.Add (_messenger.SubscribeOnMainThread<LogUpdated> ((s) => LogText = Log._messageLog.ToString(), MvxReference.Strong));
+			_tokens.Add(_messenger.SubscribeOnMainThread<GeoWatcherStatusMessage>((s) => IsBound = s.Data, MvxReference.Strong));
+
+            _tokens.Add(_messenger.SubscribeOnMainThread<NextWaypointChangedMessage>((s) => NextWaypointString = s.Data?.Name, MvxReference.Strong));
+            _tokens.Add(_messenger.SubscribeOnMainThread<TollRoadChangedMessage>((s) => TollRoadString = s.Data?.Name, MvxReference.Strong));
+
 			IsBound = _geoWatcher.IsBound;
 			if (_geoWatcher.Location != null)
 				Location = _geoWatcher.Location;
 
+            LogText = Log._messageLog.ToString();
+
 			StatusString = _track.TollStatus.ToString();
-			LogText = Log._messageLog.ToString();
+            TollRoadString = Mvx.Resolve<IWaypointChecker>().TollRoad?.Name;
+            NextWaypointString = Mvx.Resolve<IWaypointChecker>().NextWaypoint?.Name;
 		}
 
 		protected override void OnDestroy ()
@@ -83,6 +90,28 @@ namespace Tollminder.Core.ViewModels
 				RaisePropertyChanged (() => LogText);
 			}
 		}
+
+        private string _tollRoadString;
+        public string TollRoadString
+        {
+            get { return _tollRoadString; }
+            set
+            {
+                _tollRoadString = value;
+                RaisePropertyChanged(() => TollRoadString);
+            }
+        }
+
+        private string _nextWaypointString;
+        public string NextWaypointString
+        {
+            get { return _nextWaypointString; }
+            set
+            {
+                _nextWaypointString = value;
+                RaisePropertyChanged(() => NextWaypointString);
+            }
+        }
 
 		public string LocationString {
 			get { return _location.ToString(); } 

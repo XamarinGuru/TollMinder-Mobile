@@ -54,6 +54,12 @@ namespace Tollminder.Core.Services.Implementation
 			set { _storedSettingsBase.Set<TollRoadWaypoint>(value); }
 		}
 
+        public TollRoadWaypoint NextWaypoint
+        {
+            get { return _storedSettingsBase.Get<TollRoadWaypoint>(); }
+            set { _storedSettingsBase.Set<TollRoadWaypoint>(value); }
+        }
+
 		public DateTime SleepGPSDateTime
 		{
 			get { return _storedSettingsBase.Get<DateTime>(); }

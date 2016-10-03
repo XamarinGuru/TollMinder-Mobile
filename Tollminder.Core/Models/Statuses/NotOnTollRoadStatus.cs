@@ -34,6 +34,7 @@ namespace Tollminder.Core.Models.Statuses
 			if (await SpeechToTextService.AskQuestion($"Are you entering {WaypointChecker.CurrentWaypoint.Name} tollroad?"))
 			{
 				WaypointChecker.SetEntrance(WaypointChecker.CurrentWaypoint);
+                WaypointChecker.SetNextWaypoint(DataService.FindNextTollRoad(WaypointChecker.CurrentWaypoint));
 				return TollGeolocationStatus.OnTollRoad;
 			}
 

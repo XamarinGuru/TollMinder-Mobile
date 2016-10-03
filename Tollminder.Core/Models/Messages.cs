@@ -62,6 +62,22 @@ namespace Tollminder.Core.Models
 		}
 	}
 
+    public class TollRoadChangedMessage : GenericMessage<TollRoad>
+    {
+        public TollRoadChangedMessage(object sender, TollRoad road)
+            : base(sender, road)
+        {
+        }
+    }
+
+    public class NextWaypointChangedMessage : GenericMessage<TollRoadWaypoint>
+    {
+        public NextWaypointChangedMessage(object sender, TollRoadWaypoint point)
+            : base(sender, point)
+        {
+        }
+    }
+
 	public class LogUpdated : MvxMessage
 	{
 		public LogUpdated (object sender)

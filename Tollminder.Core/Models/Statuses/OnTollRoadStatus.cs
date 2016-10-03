@@ -35,6 +35,10 @@ namespace Tollminder.Core.Models.Statuses
 				WaypointChecker.SetExit(WaypointChecker.CurrentWaypoint);
 				return TollGeolocationStatus.NotOnTollRoad;
 			}
+            else
+            {
+                WaypointChecker.SetNextWaypoint(DataService.FindNextTollRoad(WaypointChecker.NextWaypoint));
+            }
 			return TollGeolocationStatus.OnTollRoad;
 		}
 	}

@@ -34,6 +34,8 @@ namespace Tollminder.Touch.Views
 			set.Bind(StopButton).For(x => x.Enabled).To(x => x.IsBound);
 			set.Bind (LogArea).To (v => v.LogText);
 			set.Bind(StatusLabel).To(v => v.StatusString);
+            set.Bind(TollRoadString).To(v => v.TollRoadString);
+            set.Bind(NextWaypointString).To(v => v.NextWaypointString);
 			set.Apply ();
 
 			this.AddLinqBinding(ViewModel, vm => vm.LogText, (value) =>

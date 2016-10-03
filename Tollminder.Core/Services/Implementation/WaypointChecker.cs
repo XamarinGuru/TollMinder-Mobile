@@ -1,4 +1,5 @@
 ﻿using MvvmCross.Platform;
+using MvvmCross.Plugins.Messenger;
 using Tollminder.Core.Models;
 
 namespace Tollminder.Core.Services.Implementation
@@ -13,6 +14,15 @@ namespace Tollminder.Core.Services.Implementation
             get
             {
                 return _geoDataService ?? (_geoDataService = Mvx.Resolve<IGeoDataService>());
+            }
+        }
+
+        IMvxMessenger _messenger;
+        IMvxMessenger Messeger
+        {
+            get
+            {
+                return _messenger ?? (_messenger = Mvx.Resolve<IMvxMessenger>());
             }
         }
 
@@ -52,6 +62,19 @@ namespace Tollminder.Core.Services.Implementation
 			}
 		}
 
+        public TollRoadWaypoint NextWaypoint
+        {
+            get
+            {
+                return _storedSettingsService.NextWaypoint;
+            }
+            private set
+            {
+                _storedSettingsService.NextWaypoint = value;
+                Messeger.Publish(new NextWaypointChangedMessage(this, value));
+            }
+        }
+
         public TollRoad TollRoad
         {
             get
@@ -61,6 +84,7 @@ namespace Tollminder.Core.Services.Implementation
             private set
             {
                 _storedSettingsService.TollRoad = value;
+                Messeger.Publish(new TollRoadChangedMessage(this, value));
             }
         }
 
@@ -83,7 +107,14 @@ namespace Tollminder.Core.Services.Implementation
 		public void SetExit(TollRoadWaypoint point)
 		{
 			Exit = point;
+            TollRoad = null;
+            NextWaypoint = null;
 		}
+
+        public void SetNextWaypoint(TollRoadWaypoint point)
+        {
+            NextWaypoint = point;
+        }
 	}
 }
 

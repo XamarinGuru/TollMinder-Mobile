@@ -67,6 +67,42 @@
         android:layout_height="wrap_content"
         android:padding="10dp">
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="TollRoad"
+            android:layout_weight="1" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text=""
+            android:textSize="10sp"
+            android:layout_weight="1"
+            local:MvxBind="Text TollRoadString" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Next waypoint"
+            android:layout_weight="1" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text=""
+            android:textSize="10sp"
+            android:layout_weight="1"
+            local:MvxBind="Text NextWaypointString" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+        <TextView
             android:id="@+id/text3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

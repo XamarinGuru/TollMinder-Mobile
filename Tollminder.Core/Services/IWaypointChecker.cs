@@ -9,9 +9,11 @@ namespace Tollminder.Core.Services
         TollRoad TollRoad { get; }
 		TollRoadWaypoint Entrance { get; }
 		TollRoadWaypoint Exit { get; }
+        TollRoadWaypoint NextWaypoint { get; }
 		void SetCurrentWaypoint(TollRoadWaypoint point);
 		void SetEntrance(TollRoadWaypoint point);
 		void SetExit(TollRoadWaypoint point);
+        void SetNextWaypoint(TollRoadWaypoint point);
 	}
 }
 

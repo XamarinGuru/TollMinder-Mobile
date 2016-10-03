@@ -139,7 +139,7 @@ namespace Tollminder.Core.Services.Implementation
                     {
                         new TollRoadWaypoint
                         {
-                            Name = "Home",
+                            Name = "Home Exit",
                             Location = new GeoLocation
                             {
                                 Latitude = 50.4014337,
@@ -150,7 +150,7 @@ namespace Tollminder.Core.Services.Implementation
                         },
                         new TollRoadWaypoint
                         {
-                            Name = "Home",
+                            Name = "Home enterce",
                             Location = new GeoLocation
                             {
                                 Latitude = 50.431920,
@@ -330,6 +330,15 @@ namespace Tollminder.Core.Services.Implementation
         public IList<TollRoadWaypoint> GetAllWaypoints(WaypointAction action)
         {
             return _dummyWaypoints.Where(x => x.WaypointAction == action).ToList();
+        }
+
+        public TollRoadWaypoint FindNextTollRoad(TollRoadWaypoint point)
+        {
+            var points = _dummyTollRoads.FirstOrDefault(x => x.Id == point.TollRoadId);
+
+            int index = points?.Points.IndexOf(point) + 1 ?? 0;
+
+            return points?.Points.ElementAtOrDefault(index);
         }
 
         #endregion
