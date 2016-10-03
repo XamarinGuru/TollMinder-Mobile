@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AudioToolbox;
+using AVFoundation;
 using Foundation;
 using MvvmCross.Platform;
 using OpenEars;
@@ -193,6 +194,7 @@ namespace Tollminder.Touch.Services
 
 			UIApplication.SharedApplication.InvokeOnMainThread(() =>
 			{
+                AVAudioSession.SharedInstance().SetCategory(AVAudioSessionCategory.Playback);
 				SystemSound notificationSound = SystemSound.FromFile(@"/System/Library/Audio/UISounds/jbl_begin.caf");
 				notificationSound.AddSystemSoundCompletion(SystemSound.Vibrate.PlaySystemSound);
 				notificationSound.PlaySystemSound();
