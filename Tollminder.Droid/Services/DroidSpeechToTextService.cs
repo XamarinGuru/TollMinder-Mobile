@@ -26,6 +26,7 @@ namespace Tollminder.Droid.Services
 		AlertDialog _dialog;
 
 		bool _isMusicRunning;
+        Ringtone _ringtone;
 
 		IPlatform _platform;
 		IPlatform Platform
@@ -69,8 +70,6 @@ namespace Tollminder.Droid.Services
 
 		public Task<bool> AskQuestion(string question)
 		{
-			Task.Delay(100).Wait();
-
 			_isMusicRunning = Platform.IsMusicRunning;
 
 			if (_isMusicRunning)
@@ -99,6 +98,7 @@ namespace Tollminder.Droid.Services
 
 		void StartSpeechRecognition()
 		{
+            _handler.Post(() => _dialog?.Cancel());
 			_handler.Post(() =>
 				{
 					if (_dialog == null)
@@ -127,9 +127,9 @@ namespace Tollminder.Droid.Services
 
 			try
 			{
-				var notification = RingtoneManager.GetDefaultUri(RingtoneType.Notification);
-				Ringtone r = RingtoneManager.GetRingtone(Application.Context, notification);
-				r.Play();
+                if (_ringtone == null)
+				    _ringtone = RingtoneManager.GetRingtone(Application.Context, RingtoneManager.GetDefaultUri(RingtoneType.Notification));
+				_ringtone.Play();
 			}
 			catch (Exception e)
 			{
@@ -159,7 +159,7 @@ namespace Tollminder.Droid.Services
 
 				//Platform.MuteAudio();
 			   _speechRecognizer.StartListening(voiceIntent);
-		   });
+		   }); 
 		}
 
 		Task<bool> EnsureActivityLoaded()
@@ -172,19 +172,6 @@ namespace Tollminder.Droid.Services
 			});
 			return _ensureTask.Task;
 		}
-
-		//void ISpeechToTextService.CheckResult(IList<string> matches)
-		//{
-		//	var answer = MappingService.DetectAnswer(matches);
-
-		//	if (answer != AnswerType.Unknown)
-		//	{
-		//		Mvx.Resolve<ITextToSpeechService>().Speak($"Your answer is {answer.ToString()}");
-		//		_recognitionTask.TrySetResult(answer == AnswerType.Positive);
-		//	}
-		//	else
-		//		AskQuestion(Question);
-		//}
 
 		public void OnBeginningOfSpeech()
 		{
@@ -205,13 +192,13 @@ namespace Tollminder.Droid.Services
 		{
 			Core.Helpers.Log.LogMessage("SpeechRecognizerError = " + error);
 
-			if (error == SpeechRecognizerError.NoMatch || error == SpeechRecognizerError.SpeechTimeout)
-				StartSpeechRecognition();
-			else
-			{
-				_handler.Post(() => _dialog?.Cancel());
-				TextToSpeechService.Speak($"{error} error has occured in SpeechRecognizer", false).Wait();
-			}
+            Task.Run(() =>
+            {
+                _handler.Post(() => _dialog?.Cancel());
+                TextToSpeechService.Speak("Unknow answer, retry in 5 seconds", false).Wait();
+                Task.Delay(5000).Wait();
+                StartSpeechRecognition();
+            });
 		}
 
 		public void OnEvent(int eventType, Bundle @params)
@@ -246,7 +233,10 @@ namespace Tollminder.Droid.Services
 			}
 			else
 			{
-				_speechRecognizer.StopListening();
+                _handler.Post(() =>
+                {
+                    _speechRecognizer.StopListening();
+                });
 				AskQuestion(Question);
 			}
 		}
