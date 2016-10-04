@@ -65,6 +65,12 @@ namespace Tollminder.Core.Services.Implementation
 			get { return _storedSettingsBase.Get<DateTime>(); }
 			set { _storedSettingsBase.Set<DateTime>(value); }
 		}
-	}
+
+        public double DistanceToNextWaypoint
+        {
+            get { return _storedSettingsBase.Get<double>(); }
+            set { _storedSettingsBase.Set<double>(value); }
+        }
+    }
 }
 

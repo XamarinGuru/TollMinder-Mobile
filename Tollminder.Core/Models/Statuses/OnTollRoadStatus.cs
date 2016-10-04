@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tollminder.Core.Helpers;
 
@@ -6,41 +7,28 @@ namespace Tollminder.Core.Models.Statuses
 {
 	public class OnTollRoadStatus : BaseStatus
 	{
+        const double WaypointAreaDistanceRequired = 0.05;
+
 		public override async Task<TollGeolocationStatus> CheckStatus ()
 		{
-			Log.LogMessage(string.Format($"TRY TO FIND WAYPOINT EXIT FROM {Services.Implementation.DistanceChecker.DistanceToWaypointRadius * 1000} m"));
+            var flag = WaypointChecker.DistanceToNextWaypoint - WaypointAreaDistanceRequired < double.Epsilon;
+            WaypointChecker.UpdateDistanceToNextWaypoint(GeoWatcher.Location);
+            Log.LogMessage($"Check if distance from current location to next waypoint is less than {WaypointAreaDistanceRequired*1000} m. [{flag}]");
 
-            var waypoint = DataService.FindNearestTollRoad (GeoWatcher.Location, WaypointAction.Exit);
-
-			if (waypoint == null)
-			{
-				Log.LogMessage($"No waypoint founded for location {GeoWatcher.Location}");
-				WaypointChecker.SetCurrentWaypoint(null);
-
-				return TollGeolocationStatus.OnTollRoad;
-			}
-
-			Log.LogMessage (string.Format ("FOUNDED WAYPOINT EXIT : {0} AND WAYPOINT ACTION {1}", waypoint.Name, waypoint.WaypointAction));
-			if (WaypointChecker.CurrentWaypoint?.Equals(waypoint) ?? false)
-			{
-				Log.LogMessage("Waypoint equals to currentWaypoint");
-				return TollGeolocationStatus.OnTollRoad; 
-			}
-
-			WaypointChecker.SetCurrentWaypoint(waypoint);
-
-			await NotifyService.Notify (string.Format ("you are potentially going to exit {0} waypoints.", waypoint.Name));
-			if (await SpeechToTextService.AskQuestion($"Are you exiting {WaypointChecker.CurrentWaypoint.Name} the tollroad?"))
-			{
-				WaypointChecker.SetExit(WaypointChecker.CurrentWaypoint);
-				return TollGeolocationStatus.NotOnTollRoad;
-			}
-            else
+            if (flag)
             {
-                WaypointChecker.SetNextWaypoint(DataService.FindNextTollRoad(WaypointChecker.NextWaypoint));
+                GeoWatcher.StartUpdatingHighAccuracyLocation();
+                return TollGeolocationStatus.NearTollRoadExit;
             }
-			return TollGeolocationStatus.OnTollRoad;
+            else
+                return TollGeolocationStatus.OnTollRoad;
 		}
+
+        public override bool CheckBatteryDrain()
+        {
+            var distance = DistanceChecker.GetMostClosestWaypoint(GeoWatcher.Location, new List<TollRoadWaypoint>() { WaypointChecker.NextWaypoint })?.Distance ?? 0;
+            return BatteryDrainService.CheckGpsTrackingSleepTime(distance);
+        }
 	}
 }
 

@@ -6,7 +6,7 @@ namespace Tollminder.Core.Services
 {
 	public interface IBatteryDrainService
 	{
-		bool CheckGpsTrackingSleepTime(TollGeolocationStatus status);
+        bool CheckGpsTrackingSleepTime(double distance);
 	}
 }
 

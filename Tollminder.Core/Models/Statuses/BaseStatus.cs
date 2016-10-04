@@ -81,6 +81,7 @@ namespace Tollminder.Core.Models.Statuses
 		}
 
 		public abstract Task<TollGeolocationStatus> CheckStatus ();
+        public abstract bool CheckBatteryDrain();
 	}
 }
 

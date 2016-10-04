@@ -43,14 +43,6 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
             _speechToTextService = Mvx.Resolve<ISpeechToTextService>();
             _storedSettingsService = Mvx.Resolve<IStoredSettingsService>();
 
-            if (_storedSettingsService.SleepGPSDateTime != DateTime.MinValue
-                      && _storedSettingsService.SleepGPSDateTime > DateTime.Now
-                      && _batteryDrainService.CheckGpsTrackingSleepTime(TollStatus))
-            {
-                Log.LogMessage("Relaunch BatteryDrainService");
-                return;
-            }
-
             if (_storedSettingsService.GeoWatcherIsRunning)
             {
                 Task.Run(async () =>
@@ -161,10 +153,10 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
                 try
                 {
-                    if (_batteryDrainService.CheckGpsTrackingSleepTime(TollStatus))
-                        return;
-
                     BaseStatus statusObject = StatusesFactory.GetStatus(TollStatus);
+
+                    if (statusObject.CheckBatteryDrain())
+                        return;
 
                     Log.LogMessage($"Current status before check= {TollStatus}");
 

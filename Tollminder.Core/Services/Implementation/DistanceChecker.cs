@@ -12,7 +12,6 @@ namespace Tollminder.Core.Services.Implementation
 	{
 		public static double DistanceToWaypointRadius { get; } = 0.6;
 		public double Epsilon { get; } = double.Epsilon;
-		public double WaypointDistanceRequired { get; } = 0.02;
 
 		private readonly IGeoLocationWatcher _geoWatcher;
 		private readonly IWaypointChecker _waypointChecker;
@@ -45,7 +44,7 @@ namespace Tollminder.Core.Services.Implementation
 			return null;
 		}
 
-		public virtual ParallelQuery<TollRoadWaypoint> GetLocationsFromRadius (GeoLocation center, IList<TollRoadWaypoint> points)
+        public virtual ParallelQuery<TollRoadWaypoint> GetLocationsFromRadius (GeoLocation center, IList<TollRoadWaypoint> points)
 		{
 			return points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).Where (x => (DistanceBetweenGeoLocations (center, x.Location) - DistanceToWaypointRadius) < Epsilon);
 		}

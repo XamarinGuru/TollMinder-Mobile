@@ -195,8 +195,8 @@ namespace Tollminder.Droid.Services
             Task.Run(() =>
             {
                 _handler.Post(() => _dialog?.Cancel());
-                TextToSpeechService.Speak("Unknow answer, retry in 5 seconds", false).Wait();
-                Task.Delay(5000).Wait();
+                TextToSpeechService.Speak("Unknow answer, retry", false).Wait();
+                Task.Delay(1000).Wait();
                 StartSpeechRecognition();
             });
 		}

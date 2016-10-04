@@ -19,7 +19,7 @@ namespace Tollminder.Core.Models
 		#region IEquatable implementation
 		public bool Equals (TollRoadWaypoint other)
 		{			
-			return Name == other.Name && Location == other.Location;
+            return Name == other.Name && Location.Equals(other.Location);
 		}
 		#endregion
 

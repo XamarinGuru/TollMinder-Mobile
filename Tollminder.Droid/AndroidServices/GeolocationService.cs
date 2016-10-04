@@ -16,7 +16,7 @@ namespace Tollminder.Droid.AndroidServices
 	public class GeolocationService : GoogleApiService, Android.Gms.Location.ILocationListener
 	{
 		public static string _distanceIntervalString = "distance_interval";
-		public static int _distanceIntervalDefault = 400;
+		public static int _distanceIntervalDefault = 10;
 
 		LocationRequest _request;
 

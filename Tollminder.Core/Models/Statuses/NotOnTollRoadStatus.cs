@@ -10,7 +10,7 @@ namespace Tollminder.Core.Models.Statuses
 			Log.LogMessage (string.Format ($"TRY TO FIND WAYPOINT ENTERCE FROM {Services.Implementation.DistanceChecker.DistanceToWaypointRadius * 1000} m"));
 
 			var location = GeoWatcher.Location;
-            var waypoint = DataService.FindNearestTollRoad(location, WaypointAction.Enterce);
+            var waypoint = DataService.FindNearestWaypoint(location, WaypointAction.Enterce);
 
 			Log.LogMessage (string.Format ("CAR LOCATION {0} , WAYPOINT LOCATION {1}", location, waypoint));
 
@@ -28,18 +28,24 @@ namespace Tollminder.Core.Models.Statuses
 				return TollGeolocationStatus.NotOnTollRoad;
 			}
 
-			WaypointChecker.SetCurrentWaypoint(waypoint);
+            WaypointChecker.SetCurrentWaypoint(waypoint);
 
-			await NotifyService.Notify (string.Format ("You are potentially going to enter {0} waypoints.",waypoint.Name));
-			if (await SpeechToTextService.AskQuestion($"Are you entering {WaypointChecker.CurrentWaypoint.Name} tollroad?"))
-			{
-				WaypointChecker.SetEntrance(WaypointChecker.CurrentWaypoint);
-                WaypointChecker.SetNextWaypoint(DataService.FindNextTollRoad(WaypointChecker.CurrentWaypoint));
-				return TollGeolocationStatus.OnTollRoad;
-			}
+			await NotifyService.Notify (string.Format ("You are potentially going to enter {0} waypoint.",waypoint.Name));
+            if (await SpeechToTextService.AskQuestion($"Are you entering {WaypointChecker.CurrentWaypoint.Name} tollroad?"))
+            {
+                WaypointChecker.SetEntrance(WaypointChecker.CurrentWaypoint);
+                WaypointChecker.SetNextWaypoint(DataService.FindNextExitWaypoint(WaypointChecker.CurrentWaypoint));
+                return TollGeolocationStatus.OnTollRoad;
+            }
 
 			return TollGeolocationStatus.NotOnTollRoad;
 		}
+
+        public override bool CheckBatteryDrain()
+        {
+            var distance = DistanceChecker.GetMostClosestWaypoint(GeoWatcher.Location, DataService.GetAllWaypoints(WaypointAction.Enterce))?.Distance ?? 0;
+            return BatteryDrainService.CheckGpsTrackingSleepTime(distance);
+        }
 	}
 }
 

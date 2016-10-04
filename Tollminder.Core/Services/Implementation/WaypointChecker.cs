@@ -1,12 +1,15 @@
-﻿using MvvmCross.Platform;
+﻿using System;
+using MvvmCross.Platform;
 using MvvmCross.Plugins.Messenger;
 using Tollminder.Core.Models;
+using Tollminder.Core.Helpers;
 
 namespace Tollminder.Core.Services.Implementation
 {
 	public class WaypointChecker : IWaypointChecker
 	{
 		readonly IStoredSettingsService _storedSettingsService;
+        const double WaypointDistanceRequired = 0.025;
 
         IGeoDataService _geoDataService;
         IGeoDataService GeoDataService
@@ -88,7 +91,19 @@ namespace Tollminder.Core.Services.Implementation
             }
         }
 
-		public WaypointChecker(IStoredSettingsService storedSettingsService)
+        public double DistanceToNextWaypoint
+        {
+            get
+            {
+                return _storedSettingsService.DistanceToNextWaypoint;
+            }
+            set
+            {
+                _storedSettingsService.DistanceToNextWaypoint = value;
+            }
+        }
+
+        public WaypointChecker(IStoredSettingsService storedSettingsService)
 		{
 			_storedSettingsService = storedSettingsService;
 		}
@@ -107,14 +122,40 @@ namespace Tollminder.Core.Services.Implementation
 		public void SetExit(TollRoadWaypoint point)
 		{
 			Exit = point;
-            TollRoad = null;
-            NextWaypoint = null;
 		}
 
         public void SetNextWaypoint(TollRoadWaypoint point)
         {
             NextWaypoint = point;
+            DistanceToNextWaypoint = Double.MaxValue;
         }
-	}
+
+        public bool IsCloserToNextWaypoint(GeoLocation location)
+        {
+            var oldDistance = DistanceToNextWaypoint;
+            UpdateDistanceToNextWaypoint(location);
+            return oldDistance - DistanceToNextWaypoint < 0;
+        }
+
+        public bool IsAtNextWaypoint(GeoLocation location)
+        {
+            UpdateDistanceToNextWaypoint(location);
+            return (DistanceToNextWaypoint - WaypointDistanceRequired) < 0;
+        }
+
+        public void UpdateDistanceToNextWaypoint(GeoLocation location)
+        {
+            DistanceToNextWaypoint = LocationChecker.DistanceBetweenGeoLocations(location, NextWaypoint.Location);
+        }
+
+        public void CreateBill()
+        {
+            TollRoad = null;
+            Entrance = null;
+            Exit = null;
+            NextWaypoint = null;
+            CurrentWaypoint = null;
+        }
+    }
 }
 

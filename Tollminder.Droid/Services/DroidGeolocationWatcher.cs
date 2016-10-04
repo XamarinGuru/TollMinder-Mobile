@@ -42,7 +42,8 @@ namespace Tollminder.Droid.Services
 			}
 			set {
 				Log.LogMessage($"Recieved new location in geolocation watcher {value}");
-				if (IsBound && (!_storedSettingsService.Location?.Equals(value) ?? true))
+                Log.LogMessage($"IsBound {IsBound}");
+                if (IsBound)// && (!_storedSettingsService.Location?.Equals(value) ?? true))
 				{
 					_storedSettingsService.Location = value;
 
@@ -73,7 +74,7 @@ namespace Tollminder.Droid.Services
 
 		public virtual void StartUpdatingHighAccuracyLocation ()
 		{
-			UpdateAccuracyLocation(20);
+			UpdateAccuracyLocation(5);
 		}
 
 		public virtual void StopUpdatingHighAccuracyLocation ()

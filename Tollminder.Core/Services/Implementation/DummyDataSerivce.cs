@@ -86,18 +86,28 @@ namespace Tollminder.Core.Services.Implementation
                             Name = "Poznaki Enterce",
                             Location = new GeoLocation
                             {
-                                Latitude = 50.399954,
-                                Longitude = 30.644416
+                                Latitude = 50.404261, 
+                                Longitude = 30.640005
                             },
                             WaypointAction = WaypointAction.Enterce
                         },
                         new TollRoadWaypoint
                         {
-                            Name = "Poznaki Exit",
+                            Name = "Poznaki Exit1",
                             Location = new GeoLocation
                             {
-                                Latitude = 50.398490,
-                                Longitude = 30.634127
+                                Latitude = 50.403132,
+                                Longitude = 30.637133
+                            },
+                            WaypointAction = WaypointAction.Enterce
+                        },
+                        new TollRoadWaypoint
+                        {
+                            Name = "Poznaki Exit2",
+                            Location = new GeoLocation
+                            {
+                                Latitude = 50.401101, 
+                                Longitude = 30.635864
                             },
                             WaypointAction = WaypointAction.Exit
                         }
@@ -139,25 +149,98 @@ namespace Tollminder.Core.Services.Implementation
                     {
                         new TollRoadWaypoint
                         {
-                            Name = "Home Exit",
+                            Name = "Home enterce",
                             Location = new GeoLocation
                             {
-                                Latitude = 50.4014337,
-                                Longitude = 30.5309801
+                                Latitude = 50.432786, 
+                                Longitude = 30.513626
+                            },
+                            WaypointAction = WaypointAction.Enterce
+                        },
+                        new TollRoadWaypoint
+                        {
+                            Name = "Home Exit1",
+                            Location = new GeoLocation
+                            {
+                                Latitude = 50.431016,
+                                Longitude = 30.513507
                             },
 
                             WaypointAction = WaypointAction.Exit
                         },
                         new TollRoadWaypoint
                         {
-                            Name = "Home enterce",
+                            Name = "Home Exit2",
                             Location = new GeoLocation
                             {
-                                Latitude = 50.431920,
-                                Longitude = 30.515982
+                                Latitude = 50.429668, 
+                                Longitude = 30.513514
+                            },
+
+                            WaypointAction = WaypointAction.Exit
+                        },
+                        new TollRoadWaypoint
+                        {
+                            Name = "Home Exit3",
+                            Location = new GeoLocation
+                            {
+                                Latitude = 50.428052,
+                                Longitude = 30.513620
+                            },
+
+                            WaypointAction = WaypointAction.Exit
+                        },
+                    }
+                },
+                new TollRoad()
+                {
+                    Id = 4,
+                    Name = "Home back",
+                    Points = new List<TollRoadWaypoint>()
+                    {
+                        new TollRoadWaypoint
+                        {
+                            Name = "Home back enterce",
+                            Location = new GeoLocation
+                            {
+                                Latitude = 50.428052,
+                                Longitude = 30.513620
                             },
                             WaypointAction = WaypointAction.Enterce
-                        }
+                        },
+                        new TollRoadWaypoint
+                        {
+                            Name = "Home back Exit1",
+                            Location = new GeoLocation
+                            {
+                                Latitude = 50.429668,
+                                Longitude = 30.513514
+                            },
+
+                            WaypointAction = WaypointAction.Exit
+                        },
+                        new TollRoadWaypoint
+                        {
+                            Name = "Home back Exit2",
+                            Location = new GeoLocation
+                            {
+                                Latitude = 50.431016,
+                                Longitude = 30.513507
+                            },
+
+                            WaypointAction = WaypointAction.Exit
+                        },
+                        new TollRoadWaypoint
+                        {
+                            Name = "Home back Exit3",
+                            Location = new GeoLocation
+                            {
+                                Latitude = 50.432786,
+                                Longitude = 30.513626
+                            },
+
+                            WaypointAction = WaypointAction.Exit
+                        },
                     }
                 },
                 new TollRoad()
@@ -188,6 +271,7 @@ namespace Tollminder.Core.Services.Implementation
                         }
                     }
                 },
+
                 new TollRoad()
                 {
                     Id = 6,
@@ -322,7 +406,7 @@ namespace Tollminder.Core.Services.Implementation
             return road;
         }
 
-        public TollRoadWaypoint FindNearestTollRoad(GeoLocation center, WaypointAction action)
+        public TollRoadWaypoint FindNearestWaypoint(GeoLocation center, WaypointAction action)
         {
             return _distanceChecker.GetLocationFromRadius(center, GetAllWaypoints(action));
         }
@@ -332,13 +416,18 @@ namespace Tollminder.Core.Services.Implementation
             return _dummyWaypoints.Where(x => x.WaypointAction == action).ToList();
         }
 
-        public TollRoadWaypoint FindNextTollRoad(TollRoadWaypoint point)
+        public TollRoadWaypoint FindNextExitWaypoint(TollRoadWaypoint point)
         {
             var points = _dummyTollRoads.FirstOrDefault(x => x.Id == point.TollRoadId);
 
-            int index = points?.Points.IndexOf(point) + 1 ?? 0;
+            int index = points?.Points.FindIndex(x => x.Equals(point)) ?? -1;
 
-            return points?.Points.ElementAtOrDefault(index);
+            Log.LogMessage($"Index of {point.Name} is {index}");
+
+            if (index == -1)
+                throw new Exception("Can't find next waypoint");
+
+            return points?.Points.ElementAtOrDefault(++index);
         }
 
         #endregion
