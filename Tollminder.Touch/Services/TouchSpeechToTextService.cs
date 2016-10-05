@@ -185,7 +185,12 @@ namespace Tollminder.Touch.Services
 
 			UIApplication.SharedApplication.InvokeOnMainThread(() =>
 			{
-				_error = new UIAlertView(question, "Please, answer after the signal", null, null, null);
+				_error = new UIAlertView(question, "Please, answer after the signal", null, "NO", "Yes");
+                _error.Clicked += (sender, buttonArgs) =>
+                {
+                    StopListening();
+                    _recognitionTask.TrySetResult(buttonArgs.ButtonIndex != _error.CancelButtonIndex);
+                };
 				_error.Show();
 			});
 
