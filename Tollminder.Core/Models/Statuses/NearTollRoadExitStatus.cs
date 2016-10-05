@@ -25,7 +25,10 @@ namespace Tollminder.Core.Models.Statuses
                     var waypoint = DataService.FindNextExitWaypoint(WaypointChecker.NextWaypoint);
 
                     if (waypoint != null)
+                    {
                         WaypointChecker.SetNextWaypoint(waypoint);
+                        return TollGeolocationStatus.OnTollRoad;
+                    }
                     else
                     {
                         await NotifyService.Notify("You've reached last waypoint of this road");

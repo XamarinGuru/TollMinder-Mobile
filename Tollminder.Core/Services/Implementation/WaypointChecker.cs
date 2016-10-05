@@ -134,13 +134,13 @@ namespace Tollminder.Core.Services.Implementation
         {
             var oldDistance = DistanceToNextWaypoint;
             UpdateDistanceToNextWaypoint(location);
-            return oldDistance - DistanceToNextWaypoint < 0;
+            return DistanceToNextWaypoint - oldDistance < double.Epsilon;
         }
 
         public bool IsAtNextWaypoint(GeoLocation location)
         {
             UpdateDistanceToNextWaypoint(location);
-            return (DistanceToNextWaypoint - WaypointDistanceRequired) < 0;
+            return DistanceToNextWaypoint - WaypointDistanceRequired < double.Epsilon;
         }
 
         public void UpdateDistanceToNextWaypoint(GeoLocation location)

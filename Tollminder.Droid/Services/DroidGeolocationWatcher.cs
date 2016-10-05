@@ -42,8 +42,7 @@ namespace Tollminder.Droid.Services
 			}
 			set {
 				Log.LogMessage($"Recieved new location in geolocation watcher {value}");
-                Log.LogMessage($"IsBound {IsBound}");
-                if (IsBound)// && (!_storedSettingsService.Location?.Equals(value) ?? true))
+                if (IsBound && (!_storedSettingsService.Location?.Equals(value) ?? true))
 				{
 					_storedSettingsService.Location = value;
 
