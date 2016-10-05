@@ -210,7 +210,37 @@ namespace Tollminder.Core.Services.Implementation
                         },
                         new TollRoadWaypoint
                         {
-                            Name = "15s Exit",
+                            Name = "15s Exit 1",
+                            Location = new GeoLocation
+                            {
+                                Latitude = 33.421481, 
+                                Longitude = -117.153897
+                            },
+                            WaypointAction = WaypointAction.Exit
+                        },
+                        new TollRoadWaypoint
+                        {
+                            Name = "15s Exit 2",
+                            Location = new GeoLocation
+                            {
+                                Latitude = 33.411704, 
+                                Longitude = -117.160756
+                            },
+                            WaypointAction = WaypointAction.Exit
+                        },
+                        new TollRoadWaypoint
+                        {
+                            Name = "15s Exit 3",
+                            Location = new GeoLocation
+                            {
+                                Latitude = 33.401856, 
+                                Longitude = -117.168674
+                            },
+                            WaypointAction = WaypointAction.Exit
+                        },
+                        new TollRoadWaypoint
+                        {
+                            Name = "15s Exit 4",
                             Location = new GeoLocation
                             {
                                 Latitude = 33.387116,
@@ -218,6 +248,7 @@ namespace Tollminder.Core.Services.Implementation
                             },
                             WaypointAction = WaypointAction.Exit
                         }
+
                     }
                 },
 
@@ -239,7 +270,37 @@ namespace Tollminder.Core.Services.Implementation
                         },
                         new TollRoadWaypoint
                         {
-                            Name = "15n Exit",
+                            Name = "15n Exit 1",
+                            Location = new GeoLocation
+                            {
+                                Latitude = 33.401856, 
+                                Longitude = -117.168674
+                            },
+                            WaypointAction = WaypointAction.Exit
+                        },
+                        new TollRoadWaypoint
+                        {
+                            Name = "15n Exit 2",
+                            Location = new GeoLocation
+                            {
+                                Latitude = 33.411704,
+                                Longitude = -117.160756
+                            },
+                            WaypointAction = WaypointAction.Exit
+                        },
+                        new TollRoadWaypoint
+                        {
+                            Name = "15n Exit 3",
+                            Location = new GeoLocation
+                            {
+                                Latitude = 33.421481, 
+                                Longitude = -117.153897
+                            },
+                            WaypointAction = WaypointAction.Exit
+                        },
+                        new TollRoadWaypoint
+                        {
+                            Name = "15n Exit 4",
                             Location = new GeoLocation
                             {
                                 Latitude = 33.428762,
@@ -265,9 +326,59 @@ namespace Tollminder.Core.Services.Implementation
                             },
                             WaypointAction = WaypointAction.Enterce
                         },
+                         new TollRoadWaypoint
+                        {
+                            Name = "FB Exit 1",
+                            Location = new GeoLocation
+                            {
+                                Latitude = 33.387464, 
+                                Longitude = -117.236152
+                            },
+                            WaypointAction = WaypointAction.Exit
+                        },
+                         new TollRoadWaypoint
+                        {
+                            Name = "FB Exit 2",
+                            Location = new GeoLocation
+                            {
+                                Latitude = 33.389100, 
+                                Longitude = -117.220234
+                            },
+                            WaypointAction = WaypointAction.Exit
+                        },
+                         new TollRoadWaypoint
+                        {
+                            Name = "FB Exit 3",
+                            Location = new GeoLocation
+                            {
+                                Latitude = 33.393478, 
+                                Longitude = -117.210206
+                            },
+                            WaypointAction = WaypointAction.Exit
+                        },
+                         new TollRoadWaypoint
+                        {
+                            Name = "FB Exit 4",
+                            Location = new GeoLocation
+                            {
+                                Latitude = 33.389100,
+                                Longitude = -117.220234
+                            },
+                            WaypointAction = WaypointAction.Exit
+                        },
+                         new TollRoadWaypoint
+                        {
+                            Name = "FB Exit 5",
+                            Location = new GeoLocation
+                            {
+                                Latitude = 33.387464, 
+                                Longitude = -117.236152
+                            },
+                            WaypointAction = WaypointAction.Exit
+                        },
                         new TollRoadWaypoint
                         {
-                            Name = "FB Exit",
+                            Name = "FB Exit 6",
                             Location = new GeoLocation
                             {
                                 Latitude = 33.389651,
@@ -296,7 +407,17 @@ namespace Tollminder.Core.Services.Implementation
                         },
                         new TollRoadWaypoint
                         {
-                            Name = "Old 395 Exit",
+                            Name = "Old 395 Exit 1",
+                            Location = new GeoLocation
+                            {
+                                Latitude = 33.399001, 
+                                Longitude = -117.169927
+                            },
+                            WaypointAction = WaypointAction.Exit
+                        },
+                        new TollRoadWaypoint
+                        {
+                            Name = "Old 395 Exit 2",
                             Location = new GeoLocation
                             {
                                 Latitude = 33.406353,
@@ -324,7 +445,27 @@ namespace Tollminder.Core.Services.Implementation
                         },
                         new TollRoadWaypoint
                         {
-                            Name = "Pechanga Exit",
+                            Name = "Pechanga Exit 1",
+                            Location = new GeoLocation
+                            {
+                                Latitude = 33.468083, 
+                                Longitude = -117.118997
+                            },
+                            WaypointAction = WaypointAction.Exit
+                        },
+                        new TollRoadWaypoint
+                        {
+                            Name = "Pechanga Exit 2",
+                            Location = new GeoLocation
+                            {
+                                Latitude = 33.462371, 
+                                Longitude = -117.111462
+                            },
+                            WaypointAction = WaypointAction.Exit
+                        },
+                        new TollRoadWaypoint
+                        {
+                            Name = "Pechanga Exit 3",
                             Location = new GeoLocation
                             {
                                 Latitude = 33.455975,
