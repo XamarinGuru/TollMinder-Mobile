@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Tollminder.Core.Helpers;
+using Tollminder.Core.Services.Implementation;
 
 namespace Tollminder.Core.Models.Statuses
 {
@@ -7,7 +8,7 @@ namespace Tollminder.Core.Models.Statuses
 	{
 		public override async Task<TollGeolocationStatus> CheckStatus ()
 		{
-			Log.LogMessage (string.Format ($"TRY TO FIND WAYPOINT ENTERCE FROM {Services.Implementation.DistanceChecker.DistanceToWaypointRadius * 1000} m"));
+			Log.LogMessage (string.Format ($"TRY TO FIND WAYPOINT ENTERCE FROM {SettingsService.DistanceToWaypointRadius * 1000} m"));
 
 			var location = GeoWatcher.Location;
             var waypoint = DataService.FindNearestWaypoint(location, WaypointAction.Enterce);

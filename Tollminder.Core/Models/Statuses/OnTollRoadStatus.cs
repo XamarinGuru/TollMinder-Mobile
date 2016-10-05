@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tollminder.Core.Helpers;
+using Tollminder.Core.Services.Implementation;
 
 namespace Tollminder.Core.Models.Statuses
 {
 	public class OnTollRoadStatus : BaseStatus
 	{
-        const double WaypointAreaDistanceRequired = 0.05;
         bool _previousLocationIsNotCloser;
 
 		public override async Task<TollGeolocationStatus> CheckStatus ()
@@ -21,9 +21,9 @@ namespace Tollminder.Core.Models.Statuses
                 _previousLocationIsNotCloser = !isCloserToNextWaypoint;
                 Log.LogMessage(string.Format("DISTANCE BETWEEN CAR AND WAYPOINT IS CLOSER"));
 
-                var flag = WaypointChecker.DistanceToNextWaypoint - WaypointAreaDistanceRequired < double.Epsilon;
+                var flag = WaypointChecker.DistanceToNextWaypoint - SettingsService.WaypointAreaDistanceRequired < double.Epsilon;
 
-                Log.LogMessage($"Check if distance from current location to next waypoint is less than {WaypointAreaDistanceRequired * 1000} m. [{flag}]");
+                Log.LogMessage($"Check if distance from current location to next waypoint is less than {SettingsService.WaypointAreaDistanceRequired * 1000} m. [{flag}]");
 
                 if (flag)
                 {

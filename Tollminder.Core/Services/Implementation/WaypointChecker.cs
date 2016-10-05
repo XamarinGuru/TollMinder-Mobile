@@ -9,7 +9,6 @@ namespace Tollminder.Core.Services.Implementation
 	public class WaypointChecker : IWaypointChecker
 	{
 		readonly IStoredSettingsService _storedSettingsService;
-        const double WaypointDistanceRequired = 0.025;
 
         IGeoDataService _geoDataService;
         IGeoDataService GeoDataService
@@ -140,7 +139,7 @@ namespace Tollminder.Core.Services.Implementation
         public bool IsAtNextWaypoint(GeoLocation location)
         {
             UpdateDistanceToNextWaypoint(location);
-            return DistanceToNextWaypoint - WaypointDistanceRequired < double.Epsilon;
+            return DistanceToNextWaypoint - SettingsService.WaypointDistanceRequired < double.Epsilon;
         }
 
         public void UpdateDistanceToNextWaypoint(GeoLocation location)

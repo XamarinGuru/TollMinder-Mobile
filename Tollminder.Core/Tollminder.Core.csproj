@@ -90,6 +90,7 @@
     <Compile Include="Helpers\MvxBindingContextOwnerExtensions.cs" />
     <Compile Include="Models\TollRoad.cs" />
     <Compile Include="Models\Statuses\NearTollRoadExitStatus.cs" />
+    <Compile Include="Services\Implementation\SettingsService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>

@@ -6,6 +6,7 @@ using MvvmCross.Plugins.Messenger;
 using Tollminder.Core.Helpers;
 using Tollminder.Core.Models;
 using Tollminder.Core.Services;
+using Tollminder.Core.Services.Implementation;
 using Tollminder.Droid.AndroidServices;
 
 namespace Tollminder.Droid.Services
@@ -73,12 +74,12 @@ namespace Tollminder.Droid.Services
 
 		public virtual void StartUpdatingHighAccuracyLocation ()
 		{
-			UpdateAccuracyLocation(5);
+            UpdateAccuracyLocation(SettingsService.DistanceIntervalHighDefault);
 		}
 
 		public virtual void StopUpdatingHighAccuracyLocation ()
 		{
-			UpdateAccuracyLocation(GeolocationService._distanceIntervalDefault);
+			UpdateAccuracyLocation(SettingsService.DistanceIntervalDefault);
 		}
 
 		void UpdateAccuracyLocation(int distanceInterval)

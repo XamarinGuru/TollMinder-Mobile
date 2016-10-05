@@ -5,13 +5,12 @@ using MvvmCross.Plugins.Messenger;
 using MvvmCross.Platform;
 using System;
 using System.Timers;
+using Tollminder.Core.Services.Implementation;
 
 namespace Tollminder.Touch.Services
 {
 	public class TouchGeolocationWatcher : TouchLocation, IGeoLocationWatcher
 	{	
-		public static int _distanceIntervalDefault = 400;
-
 		readonly IStoredSettingsService _storedSettingsService;
 		readonly IMvxMessenger _messenger;
 
@@ -67,12 +66,12 @@ namespace Tollminder.Touch.Services
 
 		public virtual void StartUpdatingHighAccuracyLocation ()
 		{
-			UpdateAccuracyLocation(20);
+			UpdateAccuracyLocation(SettingsService.DistanceIntervalHighDefault);
 		}
 
 		public virtual void StopUpdatingHighAccuracyLocation ()
 		{
-			UpdateAccuracyLocation(_distanceIntervalDefault);
+			UpdateAccuracyLocation(SettingsService.DistanceIntervalDefault);
 		}
 
 		void UpdateAccuracyLocation(int distanceInterval)

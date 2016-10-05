@@ -8,6 +8,7 @@ using MvvmCross.Droid.Platform;
 using MvvmCross.Platform;
 using Tollminder.Core.Helpers;
 using Tollminder.Core.Services;
+using Tollminder.Core.Services.Implementation;
 using Tollminder.Droid.BroadcastReceivers;
 
 namespace Tollminder.Droid.AndroidServices
@@ -16,7 +17,6 @@ namespace Tollminder.Droid.AndroidServices
 	public class GeolocationService : GoogleApiService, Android.Gms.Location.ILocationListener
 	{
 		public static string _distanceIntervalString = "distance_interval";
-		public static int _distanceIntervalDefault = 10;
 
 		LocationRequest _request;
 
@@ -71,7 +71,7 @@ namespace Tollminder.Droid.AndroidServices
 
 		public override StartCommandResult OnStartCommand (Intent intent, StartCommandFlags flags, int startId)
 		{
-			DistanceInterval = intent.GetIntExtra (_distanceIntervalString, _distanceIntervalDefault);
+            DistanceInterval = intent.GetIntExtra (_distanceIntervalString, SettingsService.DistanceIntervalDefault);
 			return StartCommandResult.RedeliverIntent;
 		}
 
