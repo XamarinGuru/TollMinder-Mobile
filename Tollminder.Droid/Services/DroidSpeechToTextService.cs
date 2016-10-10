@@ -19,7 +19,6 @@ namespace Tollminder.Droid.Services
 {
     public class DroidSpeechToTextService : Java.Lang.Object, ISpeechToTextService, IRecognitionListener
     {
-        //public static int VoiceConstId = 911;
         TaskCompletionSource<bool> _recognitionTask;
 
         SpeechRecognizer _speechRecognizer;
@@ -79,8 +78,8 @@ namespace Tollminder.Droid.Services
                     _voiceIntent = new Intent(RecognizerIntent.ActionRecognizeSpeech);
                     _voiceIntent.PutExtra(RecognizerIntent.ExtraLanguageModel, RecognizerIntent.LanguageModelFreeForm);
                     _voiceIntent.PutExtra(RecognizerIntent.ExtraCallingPackage, "com.tollminder");
-                    _voiceIntent.PutExtra(RecognizerIntent.ExtraSpeechInputCompleteSilenceLengthMillis, 5000);
-                    _voiceIntent.PutExtra(RecognizerIntent.ExtraSpeechInputPossiblyCompleteSilenceLengthMillis, 5000);
+                    _voiceIntent.PutExtra(RecognizerIntent.ExtraSpeechInputCompleteSilenceLengthMillis, 7000);
+                    _voiceIntent.PutExtra(RecognizerIntent.ExtraSpeechInputPossiblyCompleteSilenceLengthMillis, 7000);
                     _voiceIntent.PutExtra(RecognizerIntent.ExtraSpeechInputMinimumLengthMillis, 15000);
                     _voiceIntent.PutExtra(RecognizerIntent.ExtraMaxResults, 1);
 
@@ -121,59 +120,29 @@ namespace Tollminder.Droid.Services
 
         void StartSpeechRecognition()
         {
-            _handler.Post(() => _dialog?.Cancel());
-            _dialogWasManuallyAnswered = false;
-
             _handler.Post(() =>
            {
-                if (_dialog == null)
-               {
-                   try
-                   {
-                       _dialogWasManuallyAnswered = false;
-                       _dialog = new AlertDialog.Builder(Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity)
-                               .SetTitle(Question)
-                               .SetMessage("Please, answer yes or no after the tone")
-                               .SetCancelable(false)
-                               .SetPositiveButton("Yes", (sender, e) =>
-                   {
-                       _dialogWasManuallyAnswered = true;
-                       _speechRecognizer?.StopListening();
-                       _recognitionTask.TrySetResult(true);
-                   })
-                               .SetNegativeButton("No", (sender, e) =>
-                   {
-                       _dialogWasManuallyAnswered = true;
-                       _speechRecognizer?.StopListening();
-                       _recognitionTask.TrySetResult(false);
-                   })
-                               .Show();
-                   }
-                   catch (Exception e)
-                   {
-                       Mvx.Trace(e.Message + e.StackTrace);
-                   }
-               }
-               else
-               {
-                   _dialog.Show();
-               }
-
-               if (_speechRecognizer == null)
-               {
-                   TextToSpeechService.Speak("Please, answer yes or no after the tone", false).Wait();
-                   _speechRecognizer = SpeechRecognizer.CreateSpeechRecognizer(Application.Context);
-               }
-               else
-               {
-                   StopRecognizer();
-                   _speechRecognizer = SpeechRecognizer.CreateSpeechRecognizer(Application.Context);
-               }
-
-               //Platform.MuteAudio();
-               _speechRecognizer.SetRecognitionListener(this);
-               _speechRecognizer.StartListening(VoiceIntent);
+               ShowDialog();
+               StartRecognizer();
            });
+        }
+
+        void StartRecognizer()
+        {
+            if (_speechRecognizer == null)
+            {
+                TextToSpeechService.Speak("Please, answer yes or no after the tone", false).Wait();
+                _speechRecognizer = SpeechRecognizer.CreateSpeechRecognizer(Application.Context);
+            }
+            else
+            {
+                StopRecognizer();
+                _speechRecognizer = SpeechRecognizer.CreateSpeechRecognizer(Application.Context);
+            }
+
+            //Platform.MuteAudio();
+            _speechRecognizer.SetRecognitionListener(this);
+            _speechRecognizer.StartListening(VoiceIntent);
         }
 
         void StopRecognizer()
@@ -181,6 +150,44 @@ namespace Tollminder.Droid.Services
             _speechRecognizer?.StopListening();
             _speechRecognizer?.Cancel();
             _speechRecognizer?.Destroy();
+        }
+
+        void ShowDialog()
+        {
+            if (_dialog == null)
+            {
+                try
+                {
+                    _dialogWasManuallyAnswered = false;
+                    _dialog = new AlertDialog.Builder(Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity)
+                            .SetTitle(Question)
+                            .SetMessage("Please, answer yes or no after the tone")
+                            .SetCancelable(false)
+                            .SetPositiveButton("Yes", (sender, e) =>
+                {
+                    _dialogWasManuallyAnswered = true;
+                    _speechRecognizer?.StopListening();
+                    _recognitionTask.TrySetResult(true);
+                })
+                            .SetNegativeButton("No", (sender, e) =>
+                {
+                    _dialogWasManuallyAnswered = true;
+                    _speechRecognizer?.StopListening();
+                    _recognitionTask.TrySetResult(false);
+                })
+                            .Show();
+                }
+                catch (Exception e)
+                {
+                    Mvx.Trace(e.Message + e.StackTrace);
+                }
+            }
+        }
+
+        void DisposeDialog()
+        {
+            _dialog?.Cancel();
+            _dialog = null;
         }
 
         Task<bool> EnsureActivityLoaded()
@@ -217,12 +224,8 @@ namespace Tollminder.Droid.Services
             {
                 Task.Run(() =>
                 {
-                    _handler.Post(() =>
-                    {
-                        _dialog?.Cancel();
-                    });
                     TextToSpeechService.Speak("Please, retry", false).Wait();
-                    Task.Delay(1500).Wait();
+                    Task.Delay(1000).Wait();
                     StartSpeechRecognition();
                 });
             }
@@ -252,7 +255,9 @@ namespace Tollminder.Droid.Services
 
                 _handler.Post(() =>
                 {
-                    _dialog?.Cancel();
+                    if (answer != AnswerType.Unknown)
+                        DisposeDialog();
+
                     StopRecognizer();
                 });
 
