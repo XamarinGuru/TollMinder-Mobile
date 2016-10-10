@@ -87,7 +87,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Next waypoint"
+            android:text="Current waypoint"
             android:layout_weight="1" />
         <TextView
             android:layout_width="match_parent"
@@ -95,7 +95,7 @@
             android:text=""
             android:textSize="10sp"
             android:layout_weight="1"
-            local:MvxBind="Text NextWaypointString" />
+            local:MvxBind="Text CurrentWaypointString" />
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"

@@ -11,7 +11,7 @@ namespace Tollminder.Core.Models.Statuses
 
 		public override async Task<TollGeolocationStatus> CheckStatus ()
 		{
-            Log.LogMessage(string.Format($"TRY TO FIND WAYPOINT EXIT FROM {SettingsService.MinimumDistanceToWaypoint * 1000} m"));
+            Log.LogMessage(string.Format($"TRY TO FIND WAYPOINT EXIT FROM {SettingsService.WaypointLargeRadius * 1000} m"));
 
             var location = GeoWatcher.Location;
             var waypoint = DataService.FindNearestWaypoint(location, WaypointAction.Exit, WaypointChecker.IgnoredChoiceWaypoint);

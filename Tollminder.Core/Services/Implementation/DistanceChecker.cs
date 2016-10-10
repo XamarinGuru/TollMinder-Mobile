@@ -45,12 +45,12 @@ namespace Tollminder.Core.Services.Implementation
 
         public virtual ParallelQuery<TollRoadWaypoint> GetLocationsFromRadius (GeoLocation center, IList<TollRoadWaypoint> points)
 		{
-			return points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).Where (x => (DistanceBetweenGeoLocations (center, x.Location) - SettingsService.MinimumDistanceToWaypoint) < Epsilon);
+			return points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).Where (x => (DistanceBetweenGeoLocations (center, x.Location) - SettingsService.WaypointLargeRadius) < Epsilon);
 		}
 
 		public virtual TollRoadWaypoint GetLocationFromRadius (GeoLocation center, IList<TollRoadWaypoint> points)
 		{
-			return points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).FirstOrDefault (x => (DistanceBetweenGeoLocations (center, x.Location) - SettingsService.MinimumDistanceToWaypoint) < Epsilon);
+			return points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).FirstOrDefault (x => (DistanceBetweenGeoLocations (center, x.Location) - SettingsService.WaypointLargeRadius) < Epsilon);
 		}
 	}
 }

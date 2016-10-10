@@ -37,6 +37,7 @@ namespace Tollminder.Core.Services.Implementation
 			private set 
 			{
 				_storedSettingsService.CurrentWaypoint = value;
+                Messeger.Publish(new CurrentWaypointChangedMessage(this, value));
 			}
 		}
 	
@@ -138,7 +139,7 @@ namespace Tollminder.Core.Services.Implementation
         public bool IsAtNextWaypoint(GeoLocation location)
         {
             UpdateDistanceToNextWaypoint(location);
-            return DistanceToNextWaypoint - SettingsService.WaypointMainRadius < double.Epsilon;
+            return DistanceToNextWaypoint - SettingsService.WaypointSmallRadius < double.Epsilon;
         }
 
         public void UpdateDistanceToNextWaypoint(GeoLocation location)

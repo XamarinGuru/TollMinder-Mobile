@@ -70,9 +70,9 @@ namespace Tollminder.Core.Models
         }
     }
 
-    public class NextWaypointChangedMessage : GenericMessage<TollRoadWaypoint>
+    public class CurrentWaypointChangedMessage : GenericMessage<TollRoadWaypoint>
     {
-        public NextWaypointChangedMessage(object sender, TollRoadWaypoint point)
+        public CurrentWaypointChangedMessage(object sender, TollRoadWaypoint point)
             : base(sender, point)
         {
         }

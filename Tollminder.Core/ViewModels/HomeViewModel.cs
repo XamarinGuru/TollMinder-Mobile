@@ -39,7 +39,7 @@ namespace Tollminder.Core.ViewModels
             _tokens.Add (_messenger.SubscribeOnMainThread<LogUpdated> ((s) => LogText = Log._messageLog.ToString(), MvxReference.Strong));
 			_tokens.Add(_messenger.SubscribeOnMainThread<GeoWatcherStatusMessage>((s) => IsBound = s.Data, MvxReference.Strong));
 
-            _tokens.Add(_messenger.SubscribeOnMainThread<NextWaypointChangedMessage>((s) => NextWaypointString = s.Data?.Name, MvxReference.Strong));
+            _tokens.Add(_messenger.SubscribeOnMainThread<CurrentWaypointChangedMessage>((s) => CurrentWaypointString = s.Data?.Name, MvxReference.Strong));
             _tokens.Add(_messenger.SubscribeOnMainThread<TollRoadChangedMessage>((s) => TollRoadString = s.Data?.Name, MvxReference.Strong));
 
 			IsBound = _geoWatcher.IsBound;
@@ -50,7 +50,7 @@ namespace Tollminder.Core.ViewModels
 
 			StatusString = _track.TollStatus.ToString();
             TollRoadString = Mvx.Resolve<IWaypointChecker>().TollRoad?.Name;
-            NextWaypointString = Mvx.Resolve<IWaypointChecker>().IgnoredChoiceWaypoint?.Name;
+            CurrentWaypointString = Mvx.Resolve<IWaypointChecker>().CurrentWaypoint?.Name;
 		}
 
 		protected override void OnDestroy ()
@@ -102,14 +102,14 @@ namespace Tollminder.Core.ViewModels
             }
         }
 
-        private string _nextWaypointString;
-        public string NextWaypointString
+        private string _currentWaypointString;
+        public string CurrentWaypointString
         {
-            get { return _nextWaypointString; }
+            get { return _currentWaypointString; }
             set
             {
-                _nextWaypointString = value;
-                RaisePropertyChanged(() => NextWaypointString);
+                _currentWaypointString = value;
+                RaisePropertyChanged(() => CurrentWaypointString);
             }
         }
 
