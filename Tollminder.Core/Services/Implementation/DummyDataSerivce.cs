@@ -49,8 +49,8 @@ namespace Tollminder.Core.Services.Implementation
                             Name = "Pozniaki enterce",
                             Location = new GeoLocation
                             {
-                                Latitude = 50.393984,
-                                Longitude = 30.635904
+                                Latitude = 50.396417, 
+                                Longitude = 30.635258
                             },
                             WaypointAction = WaypointAction.Enterce
                         },
@@ -59,8 +59,8 @@ namespace Tollminder.Core.Services.Implementation
                             Name = "Pozniaki exit",
                             Location = new GeoLocation
                             {
-                                Latitude = 50.393922,
-                                Longitude = 30.635443
+                                Latitude = 50.396267, 
+                                Longitude = 30.634464
                              },
                              WaypointAction = WaypointAction.Exit
                         },
