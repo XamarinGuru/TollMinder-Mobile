@@ -21,175 +21,99 @@ namespace Tollminder.Core.Services.Implementation
                 new TollRoad()
                 {
                     Id = 0,
-                    Name = "Harkovkse metro",
+                    Name = "POH tollroad",
                     Points = new List<TollRoadWaypoint>()
                     {
                         new TollRoadWaypoint
                         {
-                            Name = "Harkovkse metro enterce",
+                            Name = "Osokorki enterce",
                             Location = new GeoLocation 
                             {
-                                Latitude = 50.401130,
-                                Longitude =  30.652835
+                                Latitude = 50.393487, 
+                                Longitude = 30.616838
                             },
                             WaypointAction = WaypointAction.Enterce
                         },
                         new TollRoadWaypoint 
                         {
-                            Name = "Harkovkse metro exit",
+                            Name = "Osokorki exit",
                             Location = new GeoLocation 
                             {
-                                Latitude = 50.403219,
-                                Longitude =  30.667185,
+                                Latitude = 50.393487,
+                                Longitude = 30.616838
+                             },
+                             WaypointAction = WaypointAction.Exit
+                        },
+                        new TollRoadWaypoint
+                        {
+                            Name = "Pozniaki enterce",
+                            Location = new GeoLocation
+                            {
+                                Latitude = 50.393984,
+                                Longitude = 30.635904
+                            },
+                            WaypointAction = WaypointAction.Enterce
+                        },
+                        new TollRoadWaypoint
+                        {
+                            Name = "Pozniaki exit",
+                            Location = new GeoLocation
+                            {
+                                Latitude = 50.393922,
+                                Longitude = 30.635443
+                             },
+                             WaypointAction = WaypointAction.Exit
+                        },
+                        new TollRoadWaypoint
+                        {
+                            Name = "Kharkivska enterce",
+                            Location = new GeoLocation
+                            {
+                                Latitude = 50.398644,
+                                Longitude = 30.652833
+                            },
+                            WaypointAction = WaypointAction.Enterce
+                        },
+                        new TollRoadWaypoint
+                        {
+                            Name = "Kharkivska exit",
+                            Location = new GeoLocation
+                            {
+                                Latitude = 50.398644,
+                                Longitude = 30.652833
+                             },
+                             WaypointAction = WaypointAction.Exit
+                        },
+                        new TollRoadWaypoint
+                        {
+                            Name = "Villitsa exit",
+                            Location = new GeoLocation
+                            {
+                                Latitude = 50.403031, 
+                                Longitude = 30.666128
+                             },
+                             WaypointAction = WaypointAction.Exit
+                        },
+                        new TollRoadWaypoint
+                        {
+                            Name = "Borispilska enterce",
+                            Location = new GeoLocation
+                            {
+                                Latitude = 50.402758,
+                                Longitude = 30.680092
+                            },
+                            WaypointAction = WaypointAction.Enterce
+                        },
+                        new TollRoadWaypoint
+                        {
+                            Name = "Borispilska exit",
+                            Location = new GeoLocation
+                            {
+                                Latitude = 50.402758,
+                                Longitude = 30.680092
                              },
                              WaypointAction = WaypointAction.Exit
                         }
-                    }
-                },
-                new TollRoad()
-                {
-                    Id = 1,
-                    Name = "Kolektorna",
-                    Points = new List<TollRoadWaypoint>()
-                    {
-                        new TollRoadWaypoint
-                        {
-                            Name = "Kolektorna enterce",
-                            Location = new GeoLocation
-                            {
-                                Latitude = 50.401042,
-                                Longitude = 30.681115
-                            },
-
-                            WaypointAction = WaypointAction.Enterce
-                        },
-                        new TollRoadWaypoint
-                        {
-                            Name = "Kolektorna exit",
-                            Location = new GeoLocation
-                            {
-                                Latitude = 50.397919,
-                                Longitude = 30.676943
-                            },
-                            WaypointAction = WaypointAction.Exit
-                         }
-                    }
-                },
-                new TollRoad()
-                {
-                    Id = 2,
-                    Name = "Poznaki",
-                    Points = new List<TollRoadWaypoint>()
-                    {
-                        new TollRoadWaypoint
-                        {
-                            Name = "Poznaki Enterce",
-                            Location = new GeoLocation
-                            {
-                                Latitude = 50.399812, 
-                                Longitude = 30.640644
-                            },
-                            WaypointAction = WaypointAction.Enterce
-                        },
-                        new TollRoadWaypoint
-                        {
-                            Name = "Poznaki Exit1",
-                            Location = new GeoLocation
-                            {
-                                Latitude = 50.399394, 
-                                Longitude = 30.638242
-                            },
-                            WaypointAction = WaypointAction.Exit
-                        },
-                        new TollRoadWaypoint
-                        {
-                            Name = "Poznaki Exit2",
-                            Location = new GeoLocation
-                            {
-                                Latitude = 50.399791,
-                                Longitude = 30.635832
-                            },
-                            WaypointAction = WaypointAction.Exit
-                        }
-                    }
-                },
-                new TollRoad()
-                {
-                    Id = 3,
-                    Name = "Osokorki",
-                    Points = new List<TollRoadWaypoint>()
-                    {
-                        new TollRoadWaypoint
-                        {
-                            Name = "Osokorki Exit",
-                            Location = new GeoLocation
-                            {
-                                Latitude = 50.395579,
-                                Longitude = 30.616243
-                            },
-                            WaypointAction = WaypointAction.Exit
-                        },
-                        new TollRoadWaypoint
-                        {
-                            Name = "Osokorki Enter",
-                            Location = new GeoLocation
-                            {
-                                Latitude = 50.397062,
-                                Longitude = 30.626107
-                            },
-                            WaypointAction = WaypointAction.Enterce
-                        }
-                    }
-                },
-                new TollRoad()
-                {
-                    Id = 4,
-                    Name = "Home",
-                    Points = new List<TollRoadWaypoint>()
-                    {
-                        new TollRoadWaypoint
-                        {
-                            Name = "Home enterce",
-                            Location = new GeoLocation
-                            {
-                                Latitude = 50.432576, 
-                                Longitude = 30.513533
-                            },
-                            WaypointAction = WaypointAction.Enterce
-                        },
-                        new TollRoadWaypoint
-                        {
-                            Name = "Home Exit1",
-                            Location = new GeoLocation
-                            {
-                                Latitude = 50.431500, 
-                                Longitude = 30.513552
-                            },
-
-                            WaypointAction = WaypointAction.Exit
-                        },
-                        new TollRoadWaypoint
-                        {
-                            Name = "Home Exit2",
-                            Location = new GeoLocation
-                            {
-                                Latitude = 50.429534, 
-                                Longitude = 30.513505
-                            },
-
-                            WaypointAction = WaypointAction.Exit
-                        },
-                        new TollRoadWaypoint
-                        {
-                            Name = "Home Exit3",
-                            Location = new GeoLocation
-                            {
-                                Latitude = 50.428181, 
-                                Longitude = 30.513559
-                            },
-
-                            WaypointAction = WaypointAction.Exit
-                        },
                     }
                 },
                 new TollRoad()
@@ -476,10 +400,11 @@ namespace Tollminder.Core.Services.Implementation
                     }
                 }
             };
-
+            int counter = 0;
             _dummyWaypoints = _dummyTollRoads.SelectMany(x => x.Points.Select(y => 
             {
                 y.TollRoadId = x.Id;
+                y.Id = ++counter;
                 return y;
             })).ToList();
         }

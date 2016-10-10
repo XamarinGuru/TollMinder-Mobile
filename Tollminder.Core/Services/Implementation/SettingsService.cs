@@ -9,9 +9,8 @@ namespace Tollminder.Core.Services.Implementation
         //public static int DistanceIntervalDefault = 10;
         //public static int DistanceIntervalHighDefault = 5;
 
-        public static double WaypointDistanceRequired = 0.1;
-        public static double DistanceToWaypointRadius = 0.6;
-        public static double WaypointAreaDistanceRequired = 0.2;
+        public static double WaypointMainRadius = 0.1;
+        public static double MinimumDistanceToWaypoint = 0.4;
         public static int DistanceIntervalDefault = 200;
         public static int DistanceIntervalHighDefault = 20;
     }

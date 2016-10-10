@@ -138,7 +138,7 @@ namespace Tollminder.Core.Services.Implementation
         public bool IsAtNextWaypoint(GeoLocation location)
         {
             UpdateDistanceToNextWaypoint(location);
-            return DistanceToNextWaypoint - SettingsService.WaypointDistanceRequired < double.Epsilon;
+            return DistanceToNextWaypoint - SettingsService.WaypointMainRadius < double.Epsilon;
         }
 
         public void UpdateDistanceToNextWaypoint(GeoLocation location)
