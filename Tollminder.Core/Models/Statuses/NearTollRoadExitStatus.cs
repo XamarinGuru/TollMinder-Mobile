@@ -8,7 +8,7 @@ namespace Tollminder.Core.Models.Statuses
 {
     public class NearTollRoadExitStatus : BaseStatus
     {
-        bool _previousLocationIsNotCloser;
+        bool? _previousLocationIsCloser = null;
 
         public override async Task<TollGeolocationStatus> CheckStatus()
         {
@@ -18,7 +18,6 @@ namespace Tollminder.Core.Models.Statuses
 
             if (isCloserToNextWaypoint)
             {
-                _previousLocationIsNotCloser = !isCloserToNextWaypoint;
                 Log.LogMessage(string.Format("DISTANCE BETWEEN CAR AND WAYPOINT IS CLOSER"));
 
                 if (WaypointChecker.IsAtNextWaypoint(GeoWatcher.Location))
@@ -51,8 +50,18 @@ namespace Tollminder.Core.Models.Statuses
                     }
                 }
             }
+            else
+            {
+                if ((_previousLocationIsCloser != null && !(bool)_previousLocationIsCloser))
+                {
+                    WaypointChecker.SetIgnoredChoiceWaypoint(WaypointChecker.CurrentWaypoint);
+                    return TollGeolocationStatus.OnTollRoad;
+                }
+            }
 
-            return TollGeolocationStatus.OnTollRoad;
+            _previousLocationIsCloser = isCloserToNextWaypoint;
+
+            return TollGeolocationStatus.NearTollRoadExit;
         }
 
         public override bool CheckBatteryDrain()

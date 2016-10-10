@@ -38,7 +38,7 @@ namespace Tollminder.Core.Models.Statuses
                 }
             }
 
-            return TollGeolocationStatus.NearTollRoadExit;
+            return TollGeolocationStatus.NearTollRoadEntrance;
         }
     }
 }

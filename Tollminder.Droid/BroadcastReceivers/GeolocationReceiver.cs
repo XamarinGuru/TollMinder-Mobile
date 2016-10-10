@@ -45,7 +45,7 @@ namespace Tollminder.Droid.BroadcastReceivers
 
 					new Handler(context.MainLooper).Post(() =>
 					{
-						Toast.MakeText(context, Mvx.Resolve<IGeoLocationWatcher>().Location.ToString(), ToastLength.Short).Show();
+						Toast.MakeText(context, Mvx.Resolve<IGeoLocationWatcher>().Location?.ToString(), ToastLength.Short).Show();
 					});
 				}
 			}
