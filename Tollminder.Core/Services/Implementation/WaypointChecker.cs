@@ -122,7 +122,7 @@ namespace Tollminder.Core.Services.Implementation
 			Exit = point;
 		}
 
-        public void SetNextWaypoint(TollRoadWaypoint point)
+        public void SetIgnoredChoiceWaypoint(TollRoadWaypoint point)
         {
             IgnoredChoiceWaypoint = point;
             DistanceToNextWaypoint = Double.MaxValue;

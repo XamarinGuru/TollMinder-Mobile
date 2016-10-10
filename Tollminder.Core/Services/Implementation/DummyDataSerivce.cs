@@ -496,9 +496,9 @@ namespace Tollminder.Core.Services.Implementation
             return road;
         }
 
-        public TollRoadWaypoint FindNearestWaypoint(GeoLocation center, WaypointAction action)
+        public TollRoadWaypoint FindNearestWaypoint(GeoLocation center, WaypointAction action, TollRoadWaypoint ignoredWaypoint = null)
         {
-            return _distanceChecker.GetLocationFromRadius(center, GetAllWaypoints(action));
+            return _distanceChecker.GetLocationFromRadius(center,(ignoredWaypoint != null) ? GetAllWaypoints(action).Where(x => x.Id != ignoredWaypoint.Id).ToList() : GetAllWaypoints(action));
         }
 
         public IList<TollRoadWaypoint> GetAllWaypoints(WaypointAction action, long tollRoadId = -1)

@@ -54,7 +54,7 @@ namespace Tollminder.Core.Services.Implementation
 			set { _storedSettingsBase.Set<TollRoadWaypoint>(value); }
 		}
 
-        public TollRoadWaypoint NextWaypoint
+        public TollRoadWaypoint IgnoredChoiceWaypoint
         {
             get { return _storedSettingsBase.Get<TollRoadWaypoint>(); }
             set { _storedSettingsBase.Set<TollRoadWaypoint>(value); }
