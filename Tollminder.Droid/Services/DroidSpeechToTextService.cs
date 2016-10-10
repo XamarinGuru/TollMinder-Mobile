@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
@@ -22,6 +23,7 @@ namespace Tollminder.Droid.Services
 		TaskCompletionSource<bool> _recognitionTask;
 
 		SpeechRecognizer _speechRecognizer;
+        Intent voiceIntent;
 		Handler _handler;
 		AlertDialog _dialog;
         bool _dialogManualAnswer;
@@ -137,24 +139,11 @@ namespace Tollminder.Droid.Services
 				});
 
 
-			TextToSpeechService.Speak("Please, answer yes or no after the tone", false).Wait();
-
-			try
-			{
-                if (_ringtone == null)
-				    _ringtone = RingtoneManager.GetRingtone(Application.Context, RingtoneManager.GetDefaultUri(RingtoneType.Notification));
-				_ringtone.Play();
-			}
-			catch (Exception e)
-			{
-				Mvx.Trace(e.Message + e.StackTrace);
-			}
-
-			var voiceIntent = new Intent(RecognizerIntent.ActionRecognizeSpeech);
+			voiceIntent = new Intent(RecognizerIntent.ActionRecognizeSpeech);
 			voiceIntent.PutExtra(RecognizerIntent.ExtraLanguageModel, RecognizerIntent.LanguageModelFreeForm);
 			voiceIntent.PutExtra(RecognizerIntent.ExtraCallingPackage, "com.tollminder");
-			voiceIntent.PutExtra(RecognizerIntent.ExtraSpeechInputCompleteSilenceLengthMillis, 3500);
-			voiceIntent.PutExtra(RecognizerIntent.ExtraSpeechInputPossiblyCompleteSilenceLengthMillis, 3500);
+		    voiceIntent.PutExtra(RecognizerIntent.ExtraSpeechInputCompleteSilenceLengthMillis, 5000);
+			voiceIntent.PutExtra(RecognizerIntent.ExtraSpeechInputPossiblyCompleteSilenceLengthMillis, 5000);
 			voiceIntent.PutExtra(RecognizerIntent.ExtraSpeechInputMinimumLengthMillis, 15000);
 			voiceIntent.PutExtra(RecognizerIntent.ExtraMaxResults, 1);
 
@@ -167,14 +156,27 @@ namespace Tollminder.Droid.Services
 		   {
 				if (_speechRecognizer == null)
 			   {
+                    TextToSpeechService.Speak("Please, answer yes or no after the tone", false).Wait();
 				   _speechRecognizer = SpeechRecognizer.CreateSpeechRecognizer(Application.Context);
-				   _speechRecognizer.SetRecognitionListener(this);
 			   }
+                else
+                {
+                    StopRecognizer();
+                    _speechRecognizer = SpeechRecognizer.CreateSpeechRecognizer(Application.Context);
+                }
 
-				//Platform.MuteAudio();
+               //Platform.MuteAudio();
+               _speechRecognizer.SetRecognitionListener(this);
 			   _speechRecognizer.StartListening(voiceIntent);
 		   }); 
 		}
+
+        void StopRecognizer()
+        {
+            _speechRecognizer?.StopListening();
+            _speechRecognizer?.Cancel();
+            _speechRecognizer?.Destroy();
+        }
 
 		Task<bool> EnsureActivityLoaded()
 		{
@@ -206,13 +208,16 @@ namespace Tollminder.Droid.Services
 		{
 			Core.Helpers.Log.LogMessage("SpeechRecognizerError = " + error);
 
-            if (!_dialogManualAnswer)
+            if (!_dialogManualAnswer && error == SpeechRecognizerError.NoMatch)
             {
                 Task.Run(() =>
                 {
-                    _handler.Post(() => _dialog?.Cancel());
-                    TextToSpeechService.Speak("Unknow answer, retry", false).Wait();
-                    Task.Delay(1000).Wait();
+                    _handler.Post(() =>
+                    {
+                        _dialog?.Cancel();
+                    });
+                    TextToSpeechService.Speak("Please, retry", false).Wait();
+                    Task.Delay(1500).Wait();
                     StartSpeechRecognition();
             });
             }
@@ -235,27 +240,28 @@ namespace Tollminder.Droid.Services
 
 		public void OnResults(Bundle results)
 		{
+            Console.WriteLine("OnResults");
             if (!_dialogManualAnswer)
             {
-                Console.WriteLine("OnResults");
 
                 var answer = MappingService.DetectAnswer(results.GetStringArrayList(SpeechRecognizer.ResultsRecognition));
 
-                _handler.Post(() => _dialog?.Cancel());
+                _handler.Post(() =>
+                {
+                    _dialog?.Cancel();
+                    StopRecognizer();
+                });
 
                 if (answer != AnswerType.Unknown)
                 {
                     TextToSpeechService.Speak($"Your answer is {answer.ToString()}", false).Wait();
                     if (_isMusicRunning)
                         Platform.PlayMusic();
+                    _speechRecognizer = null;
                     _recognitionTask.TrySetResult(answer == AnswerType.Positive);
                 }
                 else
                 {
-                    _handler.Post(() =>
-                    {
-                        _speechRecognizer.StopListening();
-                    });
     				AskQuestion(Question);
 			    }
             }
