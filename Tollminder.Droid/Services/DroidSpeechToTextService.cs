@@ -17,6 +17,7 @@ using Tollminder.Droid.Views;
 
 namespace Tollminder.Droid.Services
 {
+    //TODO: Google Speech Recognition timeout http://stackoverflow.com/questions/38150312/google-speech-recognition-timeout
     public class DroidSpeechToTextService : Java.Lang.Object, ISpeechToTextService, IRecognitionListener
     {
         TaskCompletionSource<bool> _recognitionTask;
