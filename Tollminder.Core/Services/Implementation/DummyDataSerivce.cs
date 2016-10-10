@@ -501,23 +501,19 @@ namespace Tollminder.Core.Services.Implementation
             return _distanceChecker.GetLocationFromRadius(center, GetAllWaypoints(action));
         }
 
-        public IList<TollRoadWaypoint> GetAllWaypoints(WaypointAction action)
+        public IList<TollRoadWaypoint> GetAllWaypoints(WaypointAction action, long tollRoadId = -1)
         {
-            return _dummyWaypoints.Where(x => x.WaypointAction == action).ToList();
+            if (tollRoadId == -1)
+                return _dummyWaypoints.Where(x => x.WaypointAction == action).ToList();
+            else
+                return _dummyWaypoints.Where(x => x.WaypointAction == action && x.TollRoadId == tollRoadId).ToList();
         }
 
-        public TollRoadWaypoint FindNextExitWaypoint(TollRoadWaypoint point)
+        public TollRoadWaypoint FindNextExitWaypoint(GeoLocation center, TollRoadWaypoint currentWaypoint)
         {
-            var points = _dummyTollRoads.FirstOrDefault(x => x.Id == point.TollRoadId);
+            var points = _dummyTollRoads.FirstOrDefault(x => x.Id == currentWaypoint.TollRoadId);
 
-            int index = points?.Points.FindIndex(x => x.Equals(point)) ?? -1;
-
-            Log.LogMessage($"Index of {point.Name} is {index}");
-
-            if (index == -1)
-                throw new Exception("Can't find next waypoint");
-
-            return points?.Points.ElementAtOrDefault(++index);
+            return _distanceChecker.GetLocationFromRadius(center, points?.Points.Where(x => x.Id != currentWaypoint.Id).ToList());
         }
 
         #endregion

@@ -153,8 +153,8 @@ namespace Tollminder.Droid.Services
 			var voiceIntent = new Intent(RecognizerIntent.ActionRecognizeSpeech);
 			voiceIntent.PutExtra(RecognizerIntent.ExtraLanguageModel, RecognizerIntent.LanguageModelFreeForm);
 			voiceIntent.PutExtra(RecognizerIntent.ExtraCallingPackage, "com.tollminder");
-			voiceIntent.PutExtra(RecognizerIntent.ExtraSpeechInputCompleteSilenceLengthMillis, 1500);
-			voiceIntent.PutExtra(RecognizerIntent.ExtraSpeechInputPossiblyCompleteSilenceLengthMillis, 1500);
+			voiceIntent.PutExtra(RecognizerIntent.ExtraSpeechInputCompleteSilenceLengthMillis, 3500);
+			voiceIntent.PutExtra(RecognizerIntent.ExtraSpeechInputPossiblyCompleteSilenceLengthMillis, 3500);
 			voiceIntent.PutExtra(RecognizerIntent.ExtraSpeechInputMinimumLengthMillis, 15000);
 			voiceIntent.PutExtra(RecognizerIntent.ExtraMaxResults, 1);
 

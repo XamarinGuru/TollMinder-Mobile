@@ -9,8 +9,8 @@ namespace Tollminder.Core.Services
     {
         TollRoad GetTollRoad(long id);
         TollRoadWaypoint FindNearestWaypoint(GeoLocation center, WaypointAction action);
-        TollRoadWaypoint FindNextExitWaypoint(TollRoadWaypoint point);
-        IList<TollRoadWaypoint> GetAllWaypoints(WaypointAction action);
+        TollRoadWaypoint FindNextExitWaypoint(GeoLocation center, TollRoadWaypoint currentWaypoint);
+        IList<TollRoadWaypoint> GetAllWaypoints(WaypointAction action, long tollRoadId = -1);
     }
 }
 

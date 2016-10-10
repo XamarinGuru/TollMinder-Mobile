@@ -50,7 +50,7 @@ namespace Tollminder.Core.ViewModels
 
 			StatusString = _track.TollStatus.ToString();
             TollRoadString = Mvx.Resolve<IWaypointChecker>().TollRoad?.Name;
-            NextWaypointString = Mvx.Resolve<IWaypointChecker>().NextWaypoint?.Name;
+            NextWaypointString = Mvx.Resolve<IWaypointChecker>().IgnoredChoiceWaypoint?.Name;
 		}
 
 		protected override void OnDestroy ()

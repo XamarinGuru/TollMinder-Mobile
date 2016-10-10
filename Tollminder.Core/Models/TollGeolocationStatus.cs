@@ -6,7 +6,8 @@ namespace Tollminder.Core.Models
 	{
 		NotOnTollRoad,
 		OnTollRoad,
-        NearTollRoadExit
+        NearTollRoadExit,
+        NearTollRoadEntrance
 	}
 }
 

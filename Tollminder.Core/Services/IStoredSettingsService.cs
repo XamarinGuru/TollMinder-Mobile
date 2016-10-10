@@ -12,7 +12,7 @@ namespace Tollminder.Core.Services
 		TollRoadWaypoint CurrentWaypoint { get; set; }
 		TollRoadWaypoint TollRoadEntranceWaypoint { get; set; }
 		TollRoadWaypoint TollRoadExitWaypoint { get; set; }
-        TollRoadWaypoint NextWaypoint { get; set; }
+        TollRoadWaypoint IgnoredChoiceWaypoint { get; set; }
         double DistanceToNextWaypoint { get; set; }
 		DateTime SleepGPSDateTime { get; set; }
 	}
