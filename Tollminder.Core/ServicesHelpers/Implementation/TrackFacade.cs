@@ -54,22 +54,6 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
                 });
             }
 
-            //_tokens.Add(_messenger.SubscribeOnThreadPoolThread<MotionMessage>(async x =>
-            //{
-            //    switch (x.Data)
-            //    {
-            //        case MotionType.Automotive:
-            //        case MotionType.Running:
-            //        case MotionType.Walking:
-            //            if (!IsBound)
-            //                await StartServices().ConfigureAwait(false);
-            //            break;
-            //        default:
-            //            if (IsBound)
-            //                StopServices();
-            //            break;
-            //    }
-            //}));
             Log.LogMessage("Facade init end");
         }
 

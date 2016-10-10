@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Timers;
 using Android.Content;
 using MvvmCross.Platform;
@@ -16,12 +17,37 @@ namespace Tollminder.Droid.Services
 		readonly IStoredSettingsService _storedSettingsService;
 		readonly IMvxMessenger _messenger;
 
+        List<MvxSubscriptionToken> _tokens = new List<MvxSubscriptionToken>();
+
 		#region IGeoLocationWatcher implementation
 		public DroidGeolocationWatcher (IStoredSettingsService storedSettingsService, IMvxMessenger messenger)
 		{
 			_storedSettingsService = storedSettingsService;
 			_messenger = messenger;
 			ServiceIntent = new Intent (ApplicationContext, typeof (GeolocationService));
+
+            _tokens.Add(_messenger.SubscribeOnThreadPoolThread<MotionMessage>(x =>
+            {
+                switch (x.Data)
+                {
+                    case MotionType.Automotive:
+                    case MotionType.Running:
+                    case MotionType.Walking:
+                        if (!IsBound)
+                        {
+                            Log.LogMessage($"[DroidGeolocationWatcher] Start geolocating because we are not still");
+                            StartGeolocationWatcher();
+                        }
+                        break;
+                    default:
+                        if (IsBound)
+                        {
+                            Log.LogMessage($"[DroidGeolocationWatcher] Stop geolocating because we are still");
+                            StopGeolocationWatcher();
+                        }
+                        break;
+                }
+            }));
 		}
 
 		public bool IsBound 
