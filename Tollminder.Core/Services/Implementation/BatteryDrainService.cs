@@ -16,6 +16,7 @@ namespace Tollminder.Core.Services.Implementation
 		readonly IGeoDataService _geoDataService;
 		readonly IStoredSettingsService _storedSettingsService;
         readonly IWaypointChecker _waypointChecker;
+        readonly IMotionActivity _motionActivity;
 
 		Timer _timer;
 
@@ -26,7 +27,7 @@ namespace Tollminder.Core.Services.Implementation
 			{ x => x >= 31 && x < 96 , 15 },
 			{ x => x >= 96 && x < 131 , 45 },
 			{ x => x >= 131 && x < 193 , 90 },
-			{ x => x >= 193, 120 } 
+			{ x => x >= 193, 1 } 
 		};
 	
 		public BatteryDrainService()
@@ -36,6 +37,7 @@ namespace Tollminder.Core.Services.Implementation
 			_geoDataService = Mvx.Resolve<IGeoDataService>();
 			_storedSettingsService = Mvx.Resolve<IStoredSettingsService>();
             _waypointChecker = Mvx.Resolve<IWaypointChecker>();
+            _motionActivity = Mvx.Resolve<IMotionActivity>();
 		}
 
 		public bool CheckGpsTrackingSleepTime(double distance)
@@ -46,7 +48,7 @@ namespace Tollminder.Core.Services.Implementation
 
 			if (minutesOffset > 0)
 			{
-				Mvx.Resolve<INotifyService>().Notify($"{(int)distance} km to nearest WayPoint. Stop GPS detecting for {minutesOffset} minutes");
+                Mvx.Resolve<INotificationSender>().SendLocalNotification($"{(int)distance} km to nearest WayPoint.", $"Stop GPS detecting for {minutesOffset} minutes");
 				SetGpsTrackingSleepTime(minutesOffset);
 				return true;
 			}
@@ -56,8 +58,15 @@ namespace Tollminder.Core.Services.Implementation
 
 		void TimerElapsed(object state = null)
 		{
-			Mvx.Resolve<INotifyService>().Notify($"Start GPS");
-			_geoWatcher.StartGeolocationWatcher();
+            if (_motionActivity.MotionType != MotionType.Still)
+            {
+                Log.LogMessage($"StartGeolocationWatcher from BatteryDrainService");
+                _geoWatcher.StartGeolocationWatcher();
+            }
+            else
+            {
+                Log.LogMessage($"StartGeolocationWatcher was not started because we are still");
+            }
             DisposeTimer();
 		}
 
@@ -76,6 +85,7 @@ namespace Tollminder.Core.Services.Implementation
         {
             _timer.Cancel();
             _timer = null;
+            Log.LogMessage($"Store SleepGPSDateTime MINDATE value to settings");
             _storedSettingsService.SleepGPSDateTime = DateTime.MinValue;
         }
 	}

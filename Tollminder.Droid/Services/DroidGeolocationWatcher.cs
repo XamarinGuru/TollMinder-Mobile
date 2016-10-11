@@ -28,18 +28,20 @@ namespace Tollminder.Droid.Services
 
             _tokens.Add(_messenger.SubscribeOnThreadPoolThread<MotionMessage>(x =>
             {
+                Log.LogMessage($"[DroidGeolocationWatcher] receive new motion type {x.Data}");
                 switch (x.Data)
                 {
                     case MotionType.Automotive:
                     case MotionType.Running:
                     case MotionType.Walking:
-                        if (!IsBound)
+                        if ((_storedSettingsService.SleepGPSDateTime == DateTime.MinValue || _storedSettingsService.SleepGPSDateTime < DateTime.Now)
+                            && !IsBound)
                         {
                             Log.LogMessage($"[DroidGeolocationWatcher] Start geolocating because we are not still");
                             StartGeolocationWatcher();
                         }
                         break;
-                    default:
+                    case MotionType.Still:
                         if (IsBound)
                         {
                             Log.LogMessage($"[DroidGeolocationWatcher] Stop geolocating because we are still");
@@ -82,8 +84,9 @@ namespace Tollminder.Droid.Services
 
 		public virtual void StartGeolocationWatcher ()
 		{
+            Log.LogMessage("StartGeolocationWatcher start");
 			if (!IsBound && ApplicationContext.IsGooglePlayServicesInstalled ()) {
-				Log.LogMessage("StartGeolocationWatcher");
+				Log.LogMessage("StartGeolocationWatcher success");
 				Start ();
 				IsBound = true;
 			}
@@ -91,9 +94,10 @@ namespace Tollminder.Droid.Services
 
 		public virtual void StopGeolocationWatcher ()
 		{
+            Log.LogMessage("StopGeolocationWatcher init");
 			if (IsBound) {
 				Stop ();
-				Log.LogMessage("StopGeolocationWatcher");
+				Log.LogMessage("StopGeolocationWatcher success");
 				IsBound = false;
 			}
 		}
