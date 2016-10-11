@@ -14,7 +14,7 @@ namespace Tollminder.Core.Models.Statuses
             Log.LogMessage(string.Format($"TRY TO FIND WAYPOINT EXIT FROM {SettingsService.WaypointLargeRadius * 1000} m"));
 
             var location = GeoWatcher.Location;
-            var waypoint = DataService.FindNearestWaypoint(location, WaypointAction.Exit, WaypointChecker.IgnoredChoiceWaypoint);
+            var waypoint = DataService.FindNearestExitWaypoint(location, WaypointChecker.IgnoredChoiceWaypoint);
 
             if (waypoint == null)
             {
@@ -41,7 +41,7 @@ namespace Tollminder.Core.Models.Statuses
 
         public override bool CheckBatteryDrain()
         {
-            var distance = DistanceChecker.GetMostClosestWaypoint(GeoWatcher.Location, DataService.GetAllWaypoints(WaypointAction.Enterce, WaypointChecker.TollRoad?.Id ?? -1))?.Distance ?? 0;
+            var distance = DistanceChecker.GetMostClosestWaypoint(GeoWatcher.Location, DataService.GetAllExitWaypoints(WaypointChecker.TollRoad.Id))?.Distance ?? 0;
             return BatteryDrainService.CheckGpsTrackingSleepTime(distance);
         }
 	}

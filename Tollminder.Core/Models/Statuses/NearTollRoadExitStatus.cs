@@ -14,7 +14,7 @@ namespace Tollminder.Core.Models.Statuses
         {
             var isCloserToNextWaypoint = WaypointChecker.IsCloserToNextWaypoint(GeoWatcher.Location);
 
-            Log.LogMessage($"Is Closer to {WaypointChecker.CurrentWaypoint?.Name} waypoint : {isCloserToNextWaypoint}");
+            Log.LogMessage($"Are we closer to {WaypointChecker.CurrentWaypoint?.Name} waypoint : {isCloserToNextWaypoint}, previous state : {_previousLocationIsCloser}");
 
             if (isCloserToNextWaypoint)
             {
@@ -22,11 +22,11 @@ namespace Tollminder.Core.Models.Statuses
 
                 if (WaypointChecker.IsAtNextWaypoint(GeoWatcher.Location))
                 {
-                    Log.LogMessage($"We are inside waypoint 30m radius");
+                    Log.LogMessage($"We are inside waypoint {SettingsService.WaypointSmallRadius * 1000} radius");
 
                     WaypointChecker.SetExit(WaypointChecker.CurrentWaypoint);
                     GeoWatcher.StopUpdatingHighAccuracyLocation();
-
+                    _previousLocationIsCloser = null;
                     if (await SpeechToTextService.AskQuestion($"Are you exiting {WaypointChecker.Exit.Name} the tollroad?"))
                     {
                         if (WaypointChecker.Exit != null)

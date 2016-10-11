@@ -421,26 +421,40 @@ namespace Tollminder.Core.Services.Implementation
             return road;
         }
 
-        public TollRoadWaypoint FindNearestWaypoint(GeoLocation center, WaypointAction action, TollRoadWaypoint ignoredWaypoint = null)
+        public TollRoadWaypoint FindNearestEntranceWaypoint(GeoLocation center, TollRoadWaypoint ignoredWaypoint = null)
         {
-            return _distanceChecker.GetLocationFromRadius(center,(ignoredWaypoint != null) ? GetAllWaypoints(action).Where(x => x.Id != ignoredWaypoint.Id).ToList() : GetAllWaypoints(action));
+            var points = GetAllEntranceWaypoints();
+
+            if (ignoredWaypoint != null)
+                points = points.Except(new List<TollRoadWaypoint>() { ignoredWaypoint }).ToList();
+            
+            return _distanceChecker.GetLocationFromRadius(center, points);
         }
 
-        public IList<TollRoadWaypoint> GetAllWaypoints(WaypointAction action, long tollRoadId = -1)
+        public TollRoadWaypoint FindNearestExitWaypoint(GeoLocation center, TollRoadWaypoint ignoredWaypoint = null)
         {
+            var points = GetAllExitWaypoints();
+
+            if (ignoredWaypoint != null)
+                points = points.Except(new List<TollRoadWaypoint>() { ignoredWaypoint }).ToList();
+
+            return _distanceChecker.GetLocationFromRadius(center, points);
+        }
+
+        public IList<TollRoadWaypoint> GetAllEntranceWaypoints()
+        {
+            return _dummyWaypoints.Where(x => x.WaypointAction == WaypointAction.Enterce || x.WaypointAction == WaypointAction.EntranceAndExit).ToList();
+        }
+
+        public IList<TollRoadWaypoint> GetAllExitWaypoints(long tollRoadId = -1)
+        {
+            var points = _dummyWaypoints.Where(x => x.WaypointAction == WaypointAction.Exit);
+
             if (tollRoadId == -1)
-                return _dummyWaypoints.Where(x => x.WaypointAction == action).ToList();
+                return points.ToList();
             else
-                return _dummyWaypoints.Where(x => x.WaypointAction == action && x.TollRoadId == tollRoadId).ToList();
+                return points.Where(x => x.TollRoadId == tollRoadId).ToList();
         }
-
-        public TollRoadWaypoint FindNextExitWaypoint(GeoLocation center, TollRoadWaypoint currentWaypoint)
-        {
-            var points = _dummyTollRoads.FirstOrDefault(x => x.Id == currentWaypoint.TollRoadId);
-
-            return _distanceChecker.GetLocationFromRadius(center, points?.Points.Where(x => x.Id != currentWaypoint.Id).ToList());
-        }
-
         #endregion
     }
 }
