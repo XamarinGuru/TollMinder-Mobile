@@ -27,10 +27,10 @@ namespace Tollminder.Droid.BroadcastReceivers
                 {
 					Mvx.Resolve<IGeoLocationWatcher>().Location = location.GetGeolocationFromAndroidLocation();
 
-					new Handler(context.MainLooper).Post(() =>
-					{
-						Toast.MakeText(context, Mvx.Resolve<IGeoLocationWatcher>().Location?.ToString(), ToastLength.Short).Show();
-					});
+					//new Handler(context.MainLooper).Post(() =>
+					//{
+					//	Toast.MakeText(context, Mvx.Resolve<IGeoLocationWatcher>().Location?.ToString(), ToastLength.Short).Show();
+					//});
 				}
 			}
 		}

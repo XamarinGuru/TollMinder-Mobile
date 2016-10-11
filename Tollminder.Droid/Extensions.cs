@@ -58,19 +58,25 @@ namespace Tollminder.Droid
 
 		public static MotionType GetMotionType (this DetectedActivity detectedAcitvity)
 		{
-			switch (detectedAcitvity.Type) {
-			case 3:
-				return MotionType.Still;
-			case 7:
-				return MotionType.Walking;
-			case 8:
-				return MotionType.Running;
-			case 0:
-				return MotionType.Automotive;
-			case 4: 
-				return MotionType.Unknown;
+            switch (detectedAcitvity.Type) 
+            {
+                case DetectedActivity.InVehicle:
+                    return MotionType.Automotive;
+                case DetectedActivity.OnBicycle:
+                    return MotionType.Automotive;
+                case DetectedActivity.OnFoot:
+                    return MotionType.Walking;
+                case DetectedActivity.Running:
+                    return MotionType.Running;
+                case DetectedActivity.Still:
+                    return MotionType.Still;
+                case DetectedActivity.Tilting:
+                    return MotionType.Unknown;
+                case DetectedActivity.Walking:
+                    return MotionType.Walking;
+                default:
+                    return MotionType.Unknown;
 			}
-			return MotionType.Unknown;
 		}
 
 		public static Bundle PutMotionType (this MotionType mType)

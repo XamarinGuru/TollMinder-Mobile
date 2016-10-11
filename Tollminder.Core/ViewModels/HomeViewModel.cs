@@ -7,7 +7,6 @@ using MvvmCross.Plugins.Messenger;
 using Tollminder.Core.Models;
 using Tollminder.Core.Services;
 using Tollminder.Core.ServicesHelpers;
-using Chance.MvvmCross.Plugins.UserInteraction;
 using Tollminder.Core.Helpers;
 
 namespace Tollminder.Core.ViewModels
@@ -35,6 +34,7 @@ namespace Tollminder.Core.ViewModels
 
 			_tokens.Add (_messenger.SubscribeOnThreadPoolThread<LocationMessage> (x => Location = x.Data, MvxReference.Strong));
 			_tokens.Add(_messenger.SubscribeOnThreadPoolThread<StatusMessage>(x => StatusString = x.Data.ToString(), MvxReference.Strong));
+            _tokens.Add(_messenger.SubscribeOnThreadPoolThread<MotionMessage>(x => MotionType = x.Data, MvxReference.Strong));
 
             _tokens.Add (_messenger.SubscribeOnMainThread<LogUpdated> ((s) => LogText = Log._messageLog.ToString(), MvxReference.Strong));
 			_tokens.Add(_messenger.SubscribeOnMainThread<GeoWatcherStatusMessage>((s) => IsBound = s.Data, MvxReference.Strong));

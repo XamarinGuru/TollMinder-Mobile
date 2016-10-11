@@ -139,8 +139,19 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
                 {
                     BaseStatus statusObject = StatusesFactory.GetStatus(TollStatus);
 
-                    if (statusObject.CheckBatteryDrain())
+                    if (_activity.MotionType == MotionType.Still || _activity.MotionType == MotionType.Unknown)
+                    {
+                        Log.LogMessage("Ignore location in FACADE because we are still");
                         return;
+                    }
+                    else
+                    {
+                        if (statusObject.CheckBatteryDrain())
+                        {
+                            Log.LogMessage("Ignore location in FACADE because we are too away from nearest waypoint");
+                            return;
+                        }
+                    }
 
                     Log.LogMessage($"Current status before check= {TollStatus}");
 
