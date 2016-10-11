@@ -7,6 +7,8 @@ namespace Tollminder.Core.Models.Statuses
 {
     public class NearTollRoadEntranceStatus : BaseStatus
     {
+        bool? _previousLocationIsCloser = null;
+
         public override bool CheckBatteryDrain()
         {
             return false;
@@ -25,6 +27,7 @@ namespace Tollminder.Core.Models.Statuses
                     Log.LogMessage($"We are inside waypoint 30m radius");
 
                     GeoWatcher.StopUpdatingHighAccuracyLocation();
+                    _previousLocationIsCloser = null;
 
                     if (await SpeechToTextService.AskQuestion($"Are you entering {WaypointChecker.CurrentWaypoint.Name} tollroad?"))
                     {
@@ -37,6 +40,16 @@ namespace Tollminder.Core.Models.Statuses
                     }
                 }
             }
+            else
+            {
+                if ((_previousLocationIsCloser != null && !(bool)_previousLocationIsCloser))
+                {
+                    WaypointChecker.SetIgnoredChoiceWaypoint(WaypointChecker.CurrentWaypoint);
+                    return TollGeolocationStatus.NotOnTollRoad;
+                }
+            }
+
+            _previousLocationIsCloser = isCloserToNextWaypoint;
 
             return TollGeolocationStatus.NearTollRoadEntrance;
         }

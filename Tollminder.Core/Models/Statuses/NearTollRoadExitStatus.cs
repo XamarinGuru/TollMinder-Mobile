@@ -26,6 +26,7 @@ namespace Tollminder.Core.Models.Statuses
 
                     WaypointChecker.SetExit(WaypointChecker.CurrentWaypoint);
                     GeoWatcher.StopUpdatingHighAccuracyLocation();
+                    _previousLocationIsCloser = null;
 
                     if (await SpeechToTextService.AskQuestion($"Are you exiting {WaypointChecker.Exit.Name} the tollroad?"))
                     {
