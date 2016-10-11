@@ -37,9 +37,14 @@ namespace Tollminder.Touch.Services
 			
 		}
 
-		#endregion
+        public void SetAudioEnabled(bool flag)
+        {
+            
+        }
+
+        #endregion
 
 
-	}
+    }
 }
 

@@ -9,6 +9,8 @@ namespace Tollminder.Core.Services
 
 		void PauseMusic();
 		void PlayMusic();
+
+        void SetAudioEnabled(bool flag);
     }
 }
 

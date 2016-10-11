@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Android.App;
 using Android.Content;
 using Android.Media;
+using Android.OS;
 using Tollminder.Core.Helpers;
 using Tollminder.Core.Services;
 
@@ -61,8 +62,32 @@ namespace Tollminder.Droid.Services
 
 			Application.Context.SendBroadcast(i);
 		}
-		#endregion
-		
-	}
+
+        public void SetAudioEnabled(bool flag)
+        {
+            AudioManager amanager = (AudioManager)Application.Context.GetSystemService(Context.AudioService);
+
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
+            {
+                Adjust value = (flag) ? Adjust.Unmute : Adjust.Mute;
+                amanager.AdjustStreamVolume(Stream.Notification, value, 0);
+                amanager.AdjustStreamVolume(Stream.Alarm, value, 0);
+                amanager.AdjustStreamVolume(Stream.Music, value, 0);
+                amanager.AdjustStreamVolume(Stream.Ring, value, 0);
+                amanager.AdjustStreamVolume(Stream.System, value, 0);
+            }
+            else
+            {
+                amanager.SetStreamMute(Stream.Notification, !flag);
+                amanager.SetStreamMute(Stream.Alarm, !flag);
+                amanager.SetStreamMute(Stream.Music, !flag);
+                amanager.SetStreamMute(Stream.Ring, !flag);
+                amanager.SetStreamMute(Stream.System, !flag);
+            }
+        }
+
+        #endregion
+
+    }
 }
 
