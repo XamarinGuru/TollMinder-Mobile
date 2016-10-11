@@ -139,7 +139,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
                 {
                     BaseStatus statusObject = StatusesFactory.GetStatus(TollStatus);
 
-                    if (_activity.MotionType == MotionType.Still || _activity.MotionType == MotionType.Unknown)
+                    if (_activity.MotionType == MotionType.Still)
                     {
                         Log.LogMessage("Ignore location in FACADE because we are still");
                         return;
