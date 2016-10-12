@@ -29,8 +29,8 @@ namespace Tollminder.Core.Services.Implementation
                             Name = "Osokorki enterce",
                             Location = new GeoLocation 
                             {
-                                Latitude = 50.393487, 
-                                Longitude = 30.616838
+                                Latitude = 50.396344, 
+                                Longitude = 30.620942
                             },
                             WaypointAction = WaypointAction.Enterce
                         },
@@ -46,17 +46,7 @@ namespace Tollminder.Core.Services.Implementation
                         },
                         new TollRoadWaypoint
                         {
-                            Name = "Pozniaki 2 enterce",
-                            Location = new GeoLocation
-                            {
-                                Latitude = 50.396417, 
-                                Longitude = 30.635258
-                            },
-                            WaypointAction = WaypointAction.Enterce
-                        },
-                        new TollRoadWaypoint
-                        {
-                            Name = "Pozniaki 1 enterce",
+                            Name = "Pozniaki near Lake enterce",
                             Location = new GeoLocation
                             {
                                 Latitude = 50.400262, 
@@ -64,19 +54,9 @@ namespace Tollminder.Core.Services.Implementation
                             },
                             WaypointAction = WaypointAction.Enterce
                         },
-                        //new TollRoadWaypoint
-                        //{
-                        //    Name = "Pozniaki exit",
-                        //    Location = new GeoLocation
-                        //    {
-                        //        Latitude = 50.396267, 
-                        //        Longitude = 30.634464
-                        //     },
-                        //     WaypointAction = WaypointAction.Exit
-                        //},
                         new TollRoadWaypoint
                         {
-                            Name = "Pozniaki near exit",
+                            Name = "Pozniaki near Billa exit",
                             Location = new GeoLocation
                             {
                                 Latitude = 50.397892, 
@@ -86,17 +66,17 @@ namespace Tollminder.Core.Services.Implementation
                         },
                         new TollRoadWaypoint
                         {
-                            Name = "Pozniaki near2 exit",
+                            Name = "Pozniaki near TNK  exit",
                             Location = new GeoLocation
                             {
-                                Latitude =  50.398762,
-                                Longitude = 30.635186
+                                Latitude =  50.398933, 
+                                Longitude = 30.636302
                              },
                              WaypointAction = WaypointAction.Exit
                         },
                         new TollRoadWaypoint
                         {
-                            Name = "KLO exit",
+                            Name = "Pozniaki near KLO exit",
                             Location = new GeoLocation
                             {
                                 Latitude = 50.398068, 
@@ -106,33 +86,13 @@ namespace Tollminder.Core.Services.Implementation
                         },
                         new TollRoadWaypoint
                         {
-                            Name = "Kharkivska 2 enterce",
+                            Name = "Kharkivska enterce",
                             Location = new GeoLocation
                             {
                                 Latitude = 50.401909, 
                                 Longitude = 30.657436
                             },
                             WaypointAction = WaypointAction.Enterce
-                        },
-                        new TollRoadWaypoint
-                        {
-                            Name = "Kharkivska 1 enterce",
-                            Location = new GeoLocation
-                            {
-                                Latitude = 50.398644,
-                                Longitude = 30.652833
-                            },
-                            WaypointAction = WaypointAction.Enterce
-                        },
-                        new TollRoadWaypoint
-                        {
-                            Name = "Kharkivska 1 exit",
-                            Location = new GeoLocation
-                            {
-                                Latitude = 50.398644,
-                                Longitude = 30.652833
-                             },
-                             WaypointAction = WaypointAction.Exit
                         },
                         new TollRoadWaypoint
                         {
@@ -143,16 +103,6 @@ namespace Tollminder.Core.Services.Implementation
                                 Longitude = 30.670538
                              },
                              WaypointAction = WaypointAction.Exit
-                        },
-                        new TollRoadWaypoint
-                        {
-                            Name = "Borispilska enterce",
-                            Location = new GeoLocation
-                            {
-                                Latitude = 50.402758,
-                                Longitude = 30.680092
-                            },
-                            WaypointAction = WaypointAction.Enterce
                         },
                         new TollRoadWaypoint
                         {
