@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tollminder.Core.Helpers;
 using Tollminder.Core.Services.Implementation;
@@ -8,7 +6,7 @@ namespace Tollminder.Core.Models.Statuses
 {
     public class NearTollRoadEntranceStatus : BaseStatus
     {
-        bool? _previousLocationIsCloser = null;
+        bool? _previousLocationIsCloser;
 
         public override bool CheckBatteryDrain()
         {
@@ -32,6 +30,8 @@ namespace Tollminder.Core.Models.Statuses
                     if (await SpeechToTextService.AskQuestion($"Are you entering {WaypointChecker.CurrentWaypoint.Name} tollroad?"))
                     {
                         WaypointChecker.SetEntrance(WaypointChecker.CurrentWaypoint);
+                        WaypointChecker.SetCurrentWaypoint(null);
+                        WaypointChecker.SetIgnoredChoiceWaypoint(null);
 
                         if (WaypointChecker.CurrentWaypoint.WaypointAction == WaypointAction.EntranceAndExit)
                         {
@@ -45,6 +45,7 @@ namespace Tollminder.Core.Models.Statuses
                     }
                     else
                     {
+                        WaypointChecker.SetIgnoredChoiceWaypoint(WaypointChecker.CurrentWaypoint);
                         return TollGeolocationStatus.NotOnTollRoad;
                     }
                 }

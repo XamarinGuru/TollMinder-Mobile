@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Tollminder.Core.Helpers;
 using Tollminder.Core.Services.Implementation;
 
@@ -33,7 +31,6 @@ namespace Tollminder.Core.Models.Statuses
             }
 
             WaypointChecker.SetCurrentWaypoint(waypoint);
-            WaypointChecker.SetIgnoredChoiceWaypoint(null);
             GeoWatcher.StartUpdatingHighAccuracyLocation();
 
             return TollGeolocationStatus.NearTollRoadEntrance;

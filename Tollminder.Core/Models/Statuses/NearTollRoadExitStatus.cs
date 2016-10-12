@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tollminder.Core.Helpers;
 using Tollminder.Core.Services.Implementation;
@@ -8,7 +6,7 @@ namespace Tollminder.Core.Models.Statuses
 {
     public class NearTollRoadExitStatus : BaseStatus
     {
-        bool? _previousLocationIsCloser = null;
+        bool? _previousLocationIsCloser;
 
         public override async Task<TollGeolocationStatus> CheckStatus()
         {
@@ -40,6 +38,7 @@ namespace Tollminder.Core.Models.Statuses
                         }
 
                         WaypointChecker.SetCurrentWaypoint(null);
+                        WaypointChecker.SetIgnoredChoiceWaypoint(null);
 
                         return TollGeolocationStatus.NotOnTollRoad;
                     }
