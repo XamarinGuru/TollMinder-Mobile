@@ -56,16 +56,16 @@ namespace Tollminder.Core.Services.Implementation
 			return false;
 		}
 
-		void TimerElapsed(object state = null)
+		void TimerElapsed(object state)
 		{
             if (_motionActivity.MotionType != MotionType.Still)
             {
-                Log.LogMessage($"StartGeolocationWatcher from BatteryDrainService");
+                Log.LogMessage($"StartGeolocationWatcher from BatteryDrainService after {state} m of sleeping");
                 _geoWatcher.StartGeolocationWatcher();
             }
             else
             {
-                Log.LogMessage($"StartGeolocationWatcher was not started because we are still");
+                Log.LogMessage($"StartGeolocationWatcher was not started because we are still after {state} m of sleeping");
             }
             DisposeTimer();
 		}
@@ -76,9 +76,11 @@ namespace Tollminder.Core.Services.Implementation
                 DisposeTimer();
 
 			_storedSettingsService.SleepGPSDateTime = DateTime.Now.AddMinutes(minutes);
-			_timer = new Timer(TimerElapsed, null, new TimeSpan(0, minutes, 0), new TimeSpan(0, minutes, 0));
+            Log.LogMessage($"Store SleepGPSDateTime {_storedSettingsService.SleepGPSDateTime} value to settings");
+            _timer = new Timer(TimerElapsed, minutes, new TimeSpan(0, minutes, 0), new TimeSpan(0, minutes, 0));
 
 			_geoWatcher.StopGeolocationWatcher();
+            Log.LogMessage($"StopGeolocationWatcher for {minutes} m from BatteryDrainService");
 		}
 
         private void DisposeTimer()

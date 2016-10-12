@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Tollminder.Core.Helpers;
+using Tollminder.Core.Services.Implementation;
 
 namespace Tollminder.Core.Models.Statuses
 {
@@ -22,7 +23,7 @@ namespace Tollminder.Core.Models.Statuses
             {
                 if (WaypointChecker.IsAtNextWaypoint(GeoWatcher.Location))
                 {
-                    Log.LogMessage($"We are inside waypoint 30m radius");
+                    Log.LogMessage($"We are inside waypoint {SettingsService.WaypointSmallRadius * 1000} m radius");
 
                     GeoWatcher.StopUpdatingHighAccuracyLocation();
                     _previousLocationIsCloser = null;
