@@ -11,7 +11,7 @@ namespace Tollminder.Core.Models.Statuses
 			Log.LogMessage (string.Format ($"TRY TO FIND WAYPOINT ENTRANCE FROM {SettingsService.WaypointLargeRadius * 1000} m"));
 
 			var location = GeoWatcher.Location;
-            var waypoint = DataService.FindNearestWaypoint(location, WaypointAction.Enterce);
+            var waypoint = DataService.FindNearestWaypoint(location, WaypointAction.Enterce, WaypointChecker.IgnoredChoiceWaypoint);
 
 			if (waypoint == null)
 			{
