@@ -89,8 +89,8 @@ namespace Tollminder.Core.Services.Implementation
                             Name = "Kharkivska enterce",
                             Location = new GeoLocation
                             {
-                                Latitude = 50.401909, 
-                                Longitude = 30.657436
+                                Latitude = 50.401921, 
+                                Longitude = 30.657414
                             },
                             WaypointAction = WaypointAction.Enterce
                         },
