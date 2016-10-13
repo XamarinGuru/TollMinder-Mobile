@@ -104,20 +104,21 @@ namespace Tollminder.Droid.Services
 
 		public virtual void StartUpdatingHighAccuracyLocation ()
 		{
-            UpdateAccuracyLocation(SettingsService.DistanceIntervalHighDefault);
+            UpdateAccuracyLocation(SettingsService.DistanceIntervalHighDefault, SettingsService.TimeIntervalHighDefault);
 		}
 
 		public virtual void StopUpdatingHighAccuracyLocation ()
 		{
-			UpdateAccuracyLocation(SettingsService.DistanceIntervalDefault);
+            UpdateAccuracyLocation(SettingsService.DistanceIntervalDefault, SettingsService.TimeIntervalDefault);
 		}
 
-		void UpdateAccuracyLocation(int distanceInterval)
+		void UpdateAccuracyLocation(int distanceInterval, int timeInterval)
 		{
 			if (IsBound)
 			{
 				Stop();
-				ServiceIntent.PutExtra(GeolocationService._distanceIntervalString, distanceInterval);
+				ServiceIntent.PutExtra(GeolocationService.DistanceIntervalString, distanceInterval);
+                ServiceIntent.PutExtra(GeolocationService.TimeIntervalString, timeInterval);
 				Start();
 			}
 		}
