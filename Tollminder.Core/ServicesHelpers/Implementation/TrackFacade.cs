@@ -153,6 +153,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
                         }
                     }
 
+                    var statusBeforeCheck = TollStatus;
                     Log.LogMessage($"Current status before check= {TollStatus}");
 
                     var task = statusObject.CheckStatus();
@@ -170,7 +171,8 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
                     statusObject = StatusesFactory.GetStatus(TollStatus);
 
                     Log.LogMessage($"Current status after check = {TollStatus}");
-                    Mvx.Resolve<INotificationSender>().SendLocalNotification($"Status: {TollStatus.ToString()}", $"Lat: {_geoWatcher.Location?.Latitude}, Long: {_geoWatcher.Location?.Longitude}");
+                    if (statusBeforeCheck != TollStatus)
+                        Mvx.Resolve<INotificationSender>().SendLocalNotification($"Status: {TollStatus.ToString()}", $"Lat: {_geoWatcher.Location?.Latitude}, Long: {_geoWatcher.Location?.Longitude}");
                 }
                 catch (Exception e)
                 {

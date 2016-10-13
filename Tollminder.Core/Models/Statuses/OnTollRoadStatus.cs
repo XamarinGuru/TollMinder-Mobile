@@ -33,7 +33,7 @@ namespace Tollminder.Core.Models.Statuses
             WaypointChecker.SetCurrentWaypoint(waypoint);
             GeoWatcher.StartUpdatingHighAccuracyLocation();
 
-            return TollGeolocationStatus.NearTollRoadEntrance;
+            return TollGeolocationStatus.NearTollRoadExit;
 		}
 
         public override bool CheckBatteryDrain()

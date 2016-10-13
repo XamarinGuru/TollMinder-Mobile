@@ -16,8 +16,8 @@ namespace Tollminder.Core.Models.Statuses
         public async override Task<TollGeolocationStatus> CheckStatus()
         {
             var isCloserToNextWaypoint = WaypointChecker.IsCloserToNextWaypoint(GeoWatcher.Location);
-
-            Log.LogMessage($"Are we closer to {WaypointChecker.CurrentWaypoint?.Name} waypoint : {isCloserToNextWaypoint}, previous state : {_previousLocationIsCloser}");
+            string status = (isCloserToNextWaypoint) ? "closer" : "not closer";
+            Log.LogMessage($"Distance to {WaypointChecker.CurrentWaypoint?.Name} waypoint is {WaypointChecker.DistanceToNextWaypoint} ({status})");
 
             if (isCloserToNextWaypoint)
             {
@@ -54,6 +54,7 @@ namespace Tollminder.Core.Models.Statuses
             {
                 if ((_previousLocationIsCloser != null && !(bool)_previousLocationIsCloser))
                 {
+                    GeoWatcher.StopUpdatingHighAccuracyLocation();
                     WaypointChecker.SetIgnoredChoiceWaypoint(WaypointChecker.CurrentWaypoint);
                     return TollGeolocationStatus.NotOnTollRoad;
                 }

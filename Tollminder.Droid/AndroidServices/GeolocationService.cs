@@ -16,11 +16,13 @@ namespace Tollminder.Droid.AndroidServices
 	[Service (Enabled = true, Exported = false)]
 	public class GeolocationService : GoogleApiService, Android.Gms.Location.ILocationListener
 	{
-		public static string _distanceIntervalString = "distance_interval";
+		public static string DistanceIntervalString = "distance_interval";
+        public static string TimeIntervalString = "time_interval";
 
 		LocationRequest _request;
 
 		public virtual int DistanceInterval { get; set; }
+        public virtual int TimeInterval { get; set; }
 
 		GeolocationReceiver _reciever;
 		public GeolocationReceiver Reciever 
@@ -44,7 +46,7 @@ namespace Tollminder.Droid.AndroidServices
 		{
 			get
 			{
-				return _request ?? (_request = new LocationRequest().SetPriority(LocationRequest.PriorityHighAccuracy).SetSmallestDisplacement(DistanceInterval).SetInterval(15000));
+				return _request ?? (_request = new LocationRequest().SetPriority(LocationRequest.PriorityHighAccuracy).SetSmallestDisplacement(DistanceInterval).SetInterval(TimeInterval));
 			}
 		}
 
@@ -71,7 +73,8 @@ namespace Tollminder.Droid.AndroidServices
 
 		public override StartCommandResult OnStartCommand (Intent intent, StartCommandFlags flags, int startId)
 		{
-            DistanceInterval = intent.GetIntExtra (_distanceIntervalString, SettingsService.DistanceIntervalDefault);
+            DistanceInterval = intent.GetIntExtra (DistanceIntervalString, SettingsService.DistanceIntervalDefault);
+            TimeInterval = intent.GetIntExtra(TimeIntervalString, SettingsService.TimeIntervalDefault);
 			return StartCommandResult.RedeliverIntent;
 		}
 

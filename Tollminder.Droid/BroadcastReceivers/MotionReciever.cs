@@ -25,10 +25,10 @@ namespace Tollminder.Droid.BroadcastReceivers
                     if (motion != Core.Models.MotionType.Unknown)
                         Mvx.Resolve<IMotionActivity>().MotionType = motion;
 
-                    new Handler(context.MainLooper).Post(() =>
-                    {
-                        Toast.MakeText(context, motion.ToString(), ToastLength.Short).Show();
-                    });
+                    //new Handler(context.MainLooper).Post(() =>
+                    //{
+                    //    Toast.MakeText(context, motion.ToString(), ToastLength.Short).Show();
+                    //});
 				}                
 			}
 		}
