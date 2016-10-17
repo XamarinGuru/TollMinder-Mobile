@@ -21,7 +21,7 @@ namespace Tollminder.Core.Services.Implementation
                 new TollRoad()
                 {
                     Id = 0,
-                    Name = "POH tollroad",
+                    Name = "POH tollroad east",
                     Points = new List<TollRoadWaypoint>()
                     {
                         new TollRoadWaypoint
@@ -34,26 +34,6 @@ namespace Tollminder.Core.Services.Implementation
                             },
                             WaypointAction = WaypointAction.Enterce
                         },
-                        new TollRoadWaypoint 
-                        {
-                            Name = "Osokorki exit",
-                            Location = new GeoLocation 
-                            {
-                                Latitude = 50.393487,
-                                Longitude = 30.616838
-                             },
-                             WaypointAction = WaypointAction.Exit
-                        },
-                        new TollRoadWaypoint
-                        {
-                            Name = "Pozniaki near Lake enterce",
-                            Location = new GeoLocation
-                            {
-                                Latitude = 50.400262, 
-                                Longitude = 30.645412
-                            },
-                            WaypointAction = WaypointAction.Enterce
-                        },
                         new TollRoadWaypoint
                         {
                             Name = "Pozniaki near Billa exit",
@@ -61,26 +41,6 @@ namespace Tollminder.Core.Services.Implementation
                             {
                                 Latitude = 50.397892, 
                                 Longitude = 30.631900
-                             },
-                             WaypointAction = WaypointAction.Exit
-                        },
-                        new TollRoadWaypoint
-                        {
-                            Name = "Pozniaki near TNK  exit",
-                            Location = new GeoLocation
-                            {
-                                Latitude =  50.398933, 
-                                Longitude = 30.636302
-                             },
-                             WaypointAction = WaypointAction.Exit
-                        },
-                        new TollRoadWaypoint
-                        {
-                            Name = "Pozniaki near KLO exit",
-                            Location = new GeoLocation
-                            {
-                                Latitude = 50.398068, 
-                                Longitude = 30.629106
                              },
                              WaypointAction = WaypointAction.Exit
                         },
@@ -111,6 +71,54 @@ namespace Tollminder.Core.Services.Implementation
                             {
                                 Latitude = 50.402758,
                                 Longitude = 30.680092
+                             },
+                             WaypointAction = WaypointAction.Exit
+                        }
+                    }
+                },
+                new TollRoad()
+                {
+                    Id = 1,
+                    Name = "POH tollroad west",
+                    Points = new List<TollRoadWaypoint>()
+                    {
+                        new TollRoadWaypoint
+                        {
+                            Name = "Pozniaki near Lake enterce",
+                            Location = new GeoLocation
+                            {
+                                Latitude = 50.400262,
+                                Longitude = 30.645412
+                            },
+                            WaypointAction = WaypointAction.Enterce
+                        },
+                        new TollRoadWaypoint
+                        {
+                            Name = "Pozniaki near TNK  exit",
+                            Location = new GeoLocation
+                            {
+                                Latitude =  50.398933,
+                                Longitude = 30.636302
+                             },
+                             WaypointAction = WaypointAction.Exit
+                        },
+                        new TollRoadWaypoint
+                        {
+                            Name = "Pozniaki near KLO exit",
+                            Location = new GeoLocation
+                            {
+                                Latitude = 50.398068,
+                                Longitude = 30.629106
+                             },
+                             WaypointAction = WaypointAction.Exit
+                        },
+                        new TollRoadWaypoint
+                        {
+                            Name = "Osokorki exit",
+                            Location = new GeoLocation
+                            {
+                                Latitude = 50.393487,
+                                Longitude = 30.616838
                              },
                              WaypointAction = WaypointAction.Exit
                         }
