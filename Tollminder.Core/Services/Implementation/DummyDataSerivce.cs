@@ -180,7 +180,7 @@ namespace Tollminder.Core.Services.Implementation
                                 Longitude =  -117.174028
                             },
                             WaypointAction = WaypointAction.Enterce
-                        }
+                        },
                         new TollRoadWaypoint
                         {
                             Name = "Rainbow Valley Exit",
