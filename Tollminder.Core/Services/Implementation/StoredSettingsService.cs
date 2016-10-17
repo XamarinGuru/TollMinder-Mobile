@@ -30,10 +30,10 @@ namespace Tollminder.Core.Services.Implementation
 			set { _storedSettingsBase.Set<TollGeolocationStatus>(value); }
 		}
 
-		public TollRoadWaypoint CurrentWaypoint
+        public TollPoint CurrentTollPoint
 		{
-			get { return _storedSettingsBase.Get<TollRoadWaypoint>(); }
-			set { _storedSettingsBase.Set<TollRoadWaypoint>(value); }
+            get { return _storedSettingsBase.Get<TollPoint>(); }
+            set { _storedSettingsBase.Set<TollPoint>(value); }
 		}
 
         public TollRoad TollRoad
@@ -54,10 +54,10 @@ namespace Tollminder.Core.Services.Implementation
 			set { _storedSettingsBase.Set<TollRoadWaypoint>(value); }
 		}
 
-        public TollRoadWaypoint IgnoredChoiceWaypoint
+        public TollPoint IgnoredChoiceTollPoint
         {
-            get { return _storedSettingsBase.Get<TollRoadWaypoint>(); }
-            set { _storedSettingsBase.Set<TollRoadWaypoint>(value); }
+            get { return _storedSettingsBase.Get<TollPoint>(); }
+            set { _storedSettingsBase.Set<TollPoint>(value); }
         }
 
 		public DateTime SleepGPSDateTime

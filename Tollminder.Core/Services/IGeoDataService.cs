@@ -8,10 +8,12 @@ namespace Tollminder.Core.Services
     public interface IGeoDataService
     {
         TollRoad GetTollRoad(long id);
-        TollRoadWaypoint FindNearestEntranceWaypoint(GeoLocation center, TollRoadWaypoint ignoredWaypoint = null);
-        TollRoadWaypoint FindNearestExitWaypoint(GeoLocation center, TollRoadWaypoint ignoredWaypoint = null);
-        IList<TollRoadWaypoint> GetAllEntranceWaypoints();
-        IList<TollRoadWaypoint> GetAllExitWaypoints(long tollRoadId = -1);
+        TollRoadWaypoint GetTollWayPoint(long id);
+        TollPoint GetTollPoint(long id);
+        TollPoint FindNearestEntranceWaypoint(GeoLocation center, TollPoint ignoredWaypoint = null);
+        TollPoint FindNearestExitWaypoint(GeoLocation center, TollPoint ignoredWaypoint = null);
+        IList<TollPoint> GetAllEntranceWaypoints();
+        IList<TollPoint> GetAllExitWaypoints(long tollRoadId = -1);
     }
 }
 

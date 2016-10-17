@@ -12,25 +12,25 @@ namespace Tollminder.Core.Models.Statuses
             Log.LogMessage(string.Format($"TRY TO FIND WAYPOINT EXIT FROM {SettingsService.WaypointLargeRadius * 1000} m"));
 
             var location = GeoWatcher.Location;
-            var waypoint = DataService.FindNearestExitWaypoint(location, WaypointChecker.IgnoredChoiceWaypoint);
+            var waypoint = DataService.FindNearestExitWaypoint(location, WaypointChecker.IgnoredChoiceTollPoint);
 
             if (waypoint == null)
             {
                 Log.LogMessage($"No waypoint founded for location {GeoWatcher.Location}");
-                WaypointChecker.SetCurrentWaypoint(null);
+                WaypointChecker.SetCurrentTollPoint(null);
 
                 return TollGeolocationStatus.OnTollRoad;
             }
 
             Log.LogMessage(string.Format("FOUNDED WAYPOINT : {0} AND WAYPOINT ACTION {1}", waypoint.Name, waypoint.WaypointAction));
 
-            if (WaypointChecker.CurrentWaypoint?.Equals(waypoint) ?? false)
+            if (WaypointChecker.CurrentTollPoint?.Equals(waypoint) ?? false)
             {
                 Log.LogMessage("Waypoint equals to currentWaypoint");
                 return TollGeolocationStatus.OnTollRoad;
             }
 
-            WaypointChecker.SetCurrentWaypoint(waypoint);
+            WaypointChecker.SetCurrentTollPoint(waypoint);
             GeoWatcher.StartUpdatingHighAccuracyLocation();
 
             return TollGeolocationStatus.NearTollRoadExit;

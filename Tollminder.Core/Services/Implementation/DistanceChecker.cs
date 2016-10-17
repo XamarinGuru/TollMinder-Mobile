@@ -21,7 +21,7 @@ namespace Tollminder.Core.Services.Implementation
 			this._waypointChecker = waypointChecker;
 		}
 
-		public virtual TollRoadWaypointWithDistance GetMostClosestWaypoint (GeoLocation center, IList<TollRoadWaypoint> points)
+		public virtual TollPointWithDistance GetMostClosestWaypoint (GeoLocation center, IList<TollPoint> points)
 		{
 			var pts = points.AsParallel().AsOrdered().WithMergeOptions(ParallelMergeOptions.FullyBuffered).OrderBy(x => DistanceBetweenGeoLocations(center, x.Location));
 
@@ -31,11 +31,11 @@ namespace Tollminder.Core.Services.Implementation
 				Log.LogMessage($"{distance:0.##} {x.Name} {x.Location}");
 			}
 
-			TollRoadWaypoint point =  pts?.FirstOrDefault ();
+			TollPoint point =  pts?.FirstOrDefault ();
 
 			if (point != null)
 			{
-				var tollRoadWaypointWithDistance = new TollRoadWaypointWithDistance(point);
+				var tollRoadWaypointWithDistance = new TollPointWithDistance(point);
 				tollRoadWaypointWithDistance.Distance = DistanceBetweenGeoLocations(center, point.Location);
 				return tollRoadWaypointWithDistance;
 			}
@@ -43,14 +43,14 @@ namespace Tollminder.Core.Services.Implementation
 			return null;
 		}
 
-        public virtual ParallelQuery<TollRoadWaypoint> GetLocationsFromRadius (GeoLocation center, IList<TollRoadWaypoint> points)
+        public virtual ParallelQuery<TollPoint> GetLocationsFromRadius (GeoLocation center, IList<TollPoint> points)
 		{
 			return points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).Where (x => (DistanceBetweenGeoLocations (center, x.Location) - SettingsService.WaypointLargeRadius) < Epsilon);
 		}
 
-		public virtual TollRoadWaypoint GetLocationFromRadius (GeoLocation center, IList<TollRoadWaypoint> points)
+		public virtual TollPoint GetLocationFromRadius (GeoLocation center, IList<TollPoint> points)
 		{
 			return points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).FirstOrDefault (x => (DistanceBetweenGeoLocations (center, x.Location) - SettingsService.WaypointLargeRadius) < Epsilon);
 		}
-	}
+    }
 }

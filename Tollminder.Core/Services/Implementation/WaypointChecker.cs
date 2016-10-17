@@ -28,15 +28,15 @@ namespace Tollminder.Core.Services.Implementation
             }
         }
 
-		public TollRoadWaypoint CurrentWaypoint 
+        public TollPoint CurrentTollPoint 
 		{
 			get 
 			{
-				return _storedSettingsService.CurrentWaypoint; 
+				return _storedSettingsService.CurrentTollPoint; 
 			}
 			private set 
 			{
-				_storedSettingsService.CurrentWaypoint = value;
+				_storedSettingsService.CurrentTollPoint = value;
                 Messeger.Publish(new CurrentWaypointChangedMessage(this, value));
 			}
 		}
@@ -65,15 +65,15 @@ namespace Tollminder.Core.Services.Implementation
 			}
 		}
 
-        public TollRoadWaypoint IgnoredChoiceWaypoint
+        public TollPoint IgnoredChoiceTollPoint
         {
             get
             {
-                return _storedSettingsService.IgnoredChoiceWaypoint;
+                return _storedSettingsService.IgnoredChoiceTollPoint;
             }
             private set
             {
-                _storedSettingsService.IgnoredChoiceWaypoint = value;
+                _storedSettingsService.IgnoredChoiceTollPoint = value;
             }
         }
 
@@ -107,25 +107,25 @@ namespace Tollminder.Core.Services.Implementation
 			_storedSettingsService = storedSettingsService;
 		}
 
-		public void SetCurrentWaypoint(TollRoadWaypoint point)
+        public void SetCurrentTollPoint(TollPoint point)
 		{
-			CurrentWaypoint = point;
+			CurrentTollPoint = point;
 		}
 
-		public void SetEntrance(TollRoadWaypoint point)
+		public void SetEntrance(TollPoint point)
 		{
-			Entrance = point;
-            TollRoad = GeoDataService.GetTollRoad(point.TollRoadId);
+			Entrance = GeoDataService.GetTollWayPoint(point.TollWaypointId);
+            TollRoad = GeoDataService.GetTollRoad(Entrance.TollRoadId);
 		}
 
-		public void SetExit(TollRoadWaypoint point)
+        public void SetExit(TollPoint point)
 		{
-			Exit = point;
+            Exit = GeoDataService.GetTollWayPoint(point.TollWaypointId);
 		}
 
-        public void SetIgnoredChoiceWaypoint(TollRoadWaypoint point)
+        public void SetIgnoredChoiceTollPoint(TollPoint point)
         {
-            IgnoredChoiceWaypoint = point;
+            IgnoredChoiceTollPoint = point;
             DistanceToNextWaypoint = Double.MaxValue;
         }
 
@@ -144,7 +144,7 @@ namespace Tollminder.Core.Services.Implementation
 
         public void UpdateDistanceToNextWaypoint(GeoLocation location)
         {
-            DistanceToNextWaypoint = LocationChecker.DistanceBetweenGeoLocations(location, CurrentWaypoint.Location);
+            DistanceToNextWaypoint = LocationChecker.DistanceBetweenGeoLocations(location, CurrentTollPoint.Location);
         }
 
         public void CreateBill()
@@ -152,8 +152,8 @@ namespace Tollminder.Core.Services.Implementation
             TollRoad = null;
             Entrance = null;
             Exit = null;
-            IgnoredChoiceWaypoint = null;
-            CurrentWaypoint = null;
+            IgnoredChoiceTollPoint = null;
+            CurrentTollPoint = null;
         }
     }
 }

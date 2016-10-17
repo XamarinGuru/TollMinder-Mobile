@@ -92,6 +92,7 @@
     <Compile Include="Models\Statuses\NearTollRoadExitStatus.cs" />
     <Compile Include="Services\Implementation\SettingsService.cs" />
     <Compile Include="Models\Statuses\NearTollRoadEntranceStatus.cs" />
+    <Compile Include="Models\TollPoint.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
