@@ -405,11 +405,12 @@ namespace Tollminder.Core.Services.Implementation
                return y;
            })).ToList();
             int tollPointCounter = 0;
-            _dummyTollPoints = _dummyTollRoads.SelectMany(x => x.WayPoints.SelectMany(y => y.TollPoints).Select(z =>
+            _dummyTollPoints = _dummyTollRoads.SelectMany(x => x.WayPoints.SelectMany(y => y.TollPoints.Select(z =>
             {
                 z.Id = ++tollPointCounter;
+                z.Name = y.Name;
                 return z;
-            })).ToList();
+            }))).ToList();
         }
 
         #region IGeoDataService implementation
@@ -444,9 +445,9 @@ namespace Tollminder.Core.Services.Implementation
             return tollPoint;
         }
 
-        public TollPoint FindNearestEntranceWaypoint(GeoLocation center, TollPoint ignoredWaypoint = null)
+        public TollPoint FindNearestEntranceTollPoint(GeoLocation center, TollPoint ignoredWaypoint = null)
         {
-            var points = GetAllEntranceWaypoints();
+            var points = GetAllEntranceTollPoints();
 
             if (ignoredWaypoint != null)
                 points = points.Except(new List<TollPoint>() { ignoredWaypoint }).ToList();
@@ -454,9 +455,9 @@ namespace Tollminder.Core.Services.Implementation
             return _distanceChecker.GetLocationFromRadius(center, points);
         }
 
-        public TollPoint FindNearestExitWaypoint(GeoLocation center, TollPoint ignoredWaypoint = null)
+        public TollPoint FindNearestExitTollPoint(GeoLocation center, TollPoint ignoredWaypoint = null)
         {
-            var points = GetAllExitWaypoints();
+            var points = GetAllExitTollPoints();
 
             if (ignoredWaypoint != null)
                 points = points.Except(new List<TollPoint>() { ignoredWaypoint }).ToList();
@@ -464,12 +465,12 @@ namespace Tollminder.Core.Services.Implementation
             return _distanceChecker.GetLocationFromRadius(center, points);
         }
 
-        public IList<TollPoint> GetAllEntranceWaypoints()
+        public IList<TollPoint> GetAllEntranceTollPoints()
         {
             return _dummyTollPoints.Where(x => x.WaypointAction == WaypointAction.Enterce || x.WaypointAction == WaypointAction.EntranceAndExit).ToList();
         }
 
-        public IList<TollPoint> GetAllExitWaypoints(long tollRoadId = -1)
+        public IList<TollPoint> GetAllExitTollPoints(long tollRoadId = -1)
         {
             var points = _dummyTollPoints.Where(x => x.WaypointAction == WaypointAction.Exit);
 
