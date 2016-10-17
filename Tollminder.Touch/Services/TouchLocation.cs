@@ -2,6 +2,7 @@
 using CoreLocation;
 using Tollminder.Core.Helpers;
 using Tollminder.Core.Models;
+using Tollminder.Core.Services.Implementation;
 using Tollminder.Touch.Helpers;
 
 namespace Tollminder.Touch.Services
@@ -50,11 +51,11 @@ namespace Tollminder.Touch.Services
 		{
 			LocationManager.RequestAlwaysAuthorization ();
 			LocationManager.RequestWhenInUseAuthorization ();
-			LocationManager.PausesLocationUpdatesAutomatically = false;
+            LocationManager.PausesLocationUpdatesAutomatically = true;
 			LocationManager.DesiredAccuracy = CLLocation.AccuracyBest;
-			LocationManager.DistanceFilter = 400;
-			//TODO: Need to be tested.
-			//LocationManager.ActivityType = CLActivityType.AutomotiveNavigation;
+            LocationManager.DistanceFilter = SettingsService.DistanceIntervalDefault;
+			
+            LocationManager.ActivityType = CLActivityType.AutomotiveNavigation;
 			if (EnvironmentInfo.IsForIOSNine) {
 				LocationManager.AllowsBackgroundLocationUpdates = true;			
 			}
