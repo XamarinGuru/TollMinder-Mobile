@@ -3,6 +3,7 @@ using System.Windows.Input;
 using Android.App;
 using Android.Views;
 using Android.Widget;
+using MvvmCross.Binding.BindingContext;
 
 namespace Tollminder.Droid
 {
@@ -59,9 +60,7 @@ namespace Tollminder.Droid
 
         public void Include(INotifyCollectionChanged changed)
         {
-			#pragma warning disable 219
             changed.CollectionChanged += (s,e) => { var test = $"{e.Action}{e.NewItems}{e.NewStartingIndex}{e.OldItems}{e.OldStartingIndex}"; };
-			#pragma warning restore 219
         }
 
         public void Include(ICommand command)
@@ -79,6 +78,13 @@ namespace Tollminder.Droid
             changed.PropertyChanged += (sender, e) =>  {
                 var test = e.PropertyName;
             };
+        }
+        
+        public void Include(MvxTaskBasedBindingContext context)
+        {
+            context.Dispose();
+            var context2 = new MvxTaskBasedBindingContext();
+            context2.Dispose();
         }
     }
 }
