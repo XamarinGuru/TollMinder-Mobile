@@ -47,6 +47,8 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
             _semaphor = new SemaphoreSlim(1);
 
+            _activity.StartDetection();
+
             if (_storedSettingsService.GeoWatcherIsRunning)
             {
                 Task.Run(async () =>
@@ -117,7 +119,6 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
                    }
                }));
 
-                _activity.StartDetection();
                 Log.LogMessage("Start Facade location detection and subscride on LocationMessage");
                 return true;
             }

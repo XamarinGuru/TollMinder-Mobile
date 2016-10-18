@@ -39,7 +39,7 @@ namespace Tollminder.Touch.Services
 		public void StartDetection()
 		{			
 			if (CMMotionActivityManager.IsActivityAvailable && !IsBound) {
-				_motionActivityManager?.StartActivityUpdates (NSOperationQueue.CurrentQueue, (activity) => GetMotionActivity (activity));
+				MotionActivityManager?.StartActivityUpdates (NSOperationQueue.CurrentQueue, (activity) => GetMotionActivity (activity));
 				IsBound = true;
 			}
 		}
@@ -47,7 +47,7 @@ namespace Tollminder.Touch.Services
 		public void StopDetection()
 		{			
 			if (CMMotionActivityManager.IsActivityAvailable && IsBound) {
-				_motionActivityManager?.StopActivityUpdates ();
+				MotionActivityManager?.StopActivityUpdates ();
 				IsBound = false;
 			}
 		}
