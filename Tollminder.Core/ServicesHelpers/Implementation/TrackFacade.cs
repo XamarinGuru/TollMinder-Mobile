@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using MvvmCross.Platform;
 using MvvmCross.Plugins.Messenger;
@@ -24,6 +25,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
         object _locker = new object();
         bool _locationProcessing;
+        SemaphoreSlim _semaphor;
 
         List<MvxSubscriptionToken> _tokens = new List<MvxSubscriptionToken>();
         MvxSubscriptionToken _token;
@@ -42,6 +44,8 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
             _batteryDrainService = Mvx.Resolve<IBatteryDrainService>();
             _speechToTextService = Mvx.Resolve<ISpeechToTextService>();
             _storedSettingsService = Mvx.Resolve<IStoredSettingsService>();
+
+            _semaphor = new SemaphoreSlim(1);
 
             if (_storedSettingsService.GeoWatcherIsRunning)
             {
@@ -83,14 +87,36 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
                 _geoWatcher.StartGeolocationWatcher();
                 _token = _messenger.SubscribeOnThreadPoolThread<LocationMessage>(x =>
                {
-                   Log.LogMessage("Facade received LocationMessage");
-                   if (!_locationProcessing)
-                   {
-                       Log.LogMessage("Start processing LocationMessage");
-                       CheckTrackStatus();
-                   }
+                   Log.LogMessage("Start processing LocationMessage");
+                   CheckTrackStatus();
                });
                 _tokens.Add(_token);
+
+                _tokens.Add(_messenger.SubscribeOnThreadPoolThread<MotionMessage>(async x =>
+               {
+                   Log.LogMessage($"[FACADE] receive new motion type {x.Data}");
+                   switch (x.Data)
+                   {
+                       case MotionType.Automotive:
+                       case MotionType.Running:
+                       case MotionType.Walking:
+                           if ((_storedSettingsService.SleepGPSDateTime == DateTime.MinValue || _storedSettingsService.SleepGPSDateTime < DateTime.Now)
+                               && !IsBound)
+                           {
+                               Log.LogMessage($"[FACADE] Start geolocating because we are not still");
+                               await StartServices();
+                           }
+                           break;
+                       case MotionType.Still:
+                           if (IsBound)
+                           {
+                               Log.LogMessage($"[FACADE] Stop geolocating because we are still");
+                               StopServices();
+                           }
+                           break;
+                   }
+               }));
+
                 _activity.StartDetection();
                 Log.LogMessage("Start Facade location detection and subscride on LocationMessage");
                 return true;
@@ -126,62 +152,58 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
             }
         }
 
-        protected virtual void CheckTrackStatus()
+        protected async virtual void CheckTrackStatus()
         {
-            lock (_locker)
+            if (_locationProcessing)
             {
-                if (_locationProcessing)
+                Log.LogMessage("Ignore location in FACADE because location processing");
+                return;
+            }
+
+            await _semaphor.WaitAsync();
+
+            if (_locationProcessing)
+                return;
+
+            _locationProcessing = true;
+
+            try
+            {
+                BaseStatus statusObject = StatusesFactory.GetStatus(TollStatus);
+
+                if (_activity.MotionType == MotionType.Still)
+                {
+                    Log.LogMessage("Ignore location in FACADE because we are still");
                     return;
-
-                _locationProcessing = true;
-
-                try
+                }
+                else
                 {
-                    BaseStatus statusObject = StatusesFactory.GetStatus(TollStatus);
-
-                    if (_activity.MotionType == MotionType.Still)
+                    if (statusObject.CheckBatteryDrain())
                     {
-                        Log.LogMessage("Ignore location in FACADE because we are still");
+                        Log.LogMessage("Ignore location in FACADE because we are too away from nearest waypoint");
                         return;
                     }
-                    else
-                    {
-                        if (statusObject.CheckBatteryDrain())
-                        {
-                            Log.LogMessage("Ignore location in FACADE because we are too away from nearest waypoint");
-                            return;
-                        }
-                    }
-
-                    var statusBeforeCheck = TollStatus;
-                    Log.LogMessage($"Current status before check= {TollStatus}");
-
-                    var task = statusObject.CheckStatus();
-
-                    Task.WaitAny(task);
-
-                    if (task.IsFaulted)
-                    {
-                        Mvx.Trace(task.Exception.Message + task.Exception.StackTrace + task.Exception.InnerException?.Message + task.Exception.InnerException?.StackTrace);
-                        return;
-                    }
-
-                    TollStatus = task.Result;
-
-                    statusObject = StatusesFactory.GetStatus(TollStatus);
-
-                    Log.LogMessage($"Current status after check = {TollStatus}");
-                    if (statusBeforeCheck != TollStatus)
-                        Mvx.Resolve<INotificationSender>().SendLocalNotification($"Status: {TollStatus.ToString()}", $"Lat: {_geoWatcher.Location?.Latitude}, Long: {_geoWatcher.Location?.Longitude}");
                 }
-                catch (Exception e)
-                {
-                    Log.LogMessage(e.Message + e.StackTrace);
-                }
-                finally
-                {
-                    _locationProcessing = false;
-                }
+
+                var statusBeforeCheck = TollStatus;
+                Log.LogMessage($"Current status before check= {TollStatus}");
+
+                TollStatus = await statusObject.CheckStatus();
+
+                statusObject = StatusesFactory.GetStatus(TollStatus);
+
+                Log.LogMessage($"Current status after check = {TollStatus}");
+                if (statusBeforeCheck != TollStatus)
+                    Mvx.Resolve<INotificationSender>().SendLocalNotification($"Status: {TollStatus.ToString()}", $"Lat: {_geoWatcher.Location?.Latitude}, Long: {_geoWatcher.Location?.Longitude}");
+            }
+            catch (Exception e)
+            {
+                Log.LogMessage(e.Message + e.StackTrace);
+            }
+            finally
+            {
+                _locationProcessing = false;
+                _semaphor.Release();
             }
         }
     }

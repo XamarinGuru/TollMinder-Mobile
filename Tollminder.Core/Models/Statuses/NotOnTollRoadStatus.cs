@@ -6,7 +6,7 @@ namespace Tollminder.Core.Models.Statuses
 {
 	public class NotOnTollRoadStatus : BaseStatus 
 	{
-		public override async Task<TollGeolocationStatus> CheckStatus ()
+		public override Task<TollGeolocationStatus> CheckStatus ()
 		{
 			Log.LogMessage (string.Format ($"TRY TO FIND WAYPOINT ENTRANCE FROM {SettingsService.WaypointLargeRadius * 1000} m"));
 
@@ -18,7 +18,7 @@ namespace Tollminder.Core.Models.Statuses
 				Log.LogMessage($"No waypoint founded for location {GeoWatcher.Location}");
                 WaypointChecker.SetCurrentTollPoint(null);
 
-				return TollGeolocationStatus.NotOnTollRoad;
+                return Task.FromResult(TollGeolocationStatus.NotOnTollRoad);
 			}
 
 			Log.LogMessage (string.Format ("FOUNDED WAYPOINT : {0} AND WAYPOINT ACTION {1}", waypoint.Name, waypoint.WaypointAction));
@@ -26,13 +26,13 @@ namespace Tollminder.Core.Models.Statuses
             if (WaypointChecker.CurrentTollPoint?.Equals(waypoint) ?? false)
 			{
 				Log.LogMessage("Waypoint equals to currentWaypoint");
-				return TollGeolocationStatus.NotOnTollRoad;
+                return Task.FromResult(TollGeolocationStatus.NotOnTollRoad);
 			}
 
             WaypointChecker.SetCurrentTollPoint(waypoint);
             GeoWatcher.StartUpdatingHighAccuracyLocation();
 
-            return TollGeolocationStatus.NearTollRoadEntrance;
+            return Task.FromResult(TollGeolocationStatus.NearTollRoadEntrance);
 		}
 
         public override bool CheckBatteryDrain()
