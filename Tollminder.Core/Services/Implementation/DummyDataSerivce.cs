@@ -104,6 +104,22 @@ namespace Tollminder.Core.Services.Implementation
                                     WaypointAction = WaypointAction.Exit
                                 }
                             }
+                        },
+                        new TollRoadWaypoint
+                        {
+                            Name = "Kharkivska bridge",
+                            TollPoints = new List<TollPoint>()
+                            {
+                                new TollPoint()
+                                {
+                                    Location = new GeoLocation
+                                    {
+                                        Latitude = 50.401120,
+                                        Longitude = 30.652072
+                                    },
+                                    WaypointAction = WaypointAction.EntranceAndExit
+                                }
+                            }
                         }
                     }
                 },
@@ -174,6 +190,22 @@ namespace Tollminder.Core.Services.Implementation
                                         Longitude = 30.616838
                                     },
                                     WaypointAction = WaypointAction.Exit
+                                }
+                            }
+                        },
+                        new TollRoadWaypoint
+                        {
+                            Name = "Osokorki bridge",
+                            TollPoints = new List<TollPoint>()
+                            {
+                                new TollPoint()
+                                {
+                                    Location = new GeoLocation
+                                    {
+                                        Latitude = 50.396300,
+                                        Longitude = 30.615771
+                                    },
+                                    WaypointAction = WaypointAction.EntranceAndExit
                                 }
                             }
                         }
@@ -421,7 +453,7 @@ namespace Tollminder.Core.Services.Implementation
 
             if (road == null)
                 throw new Exception($"TollRoad with id = {id} was not found");
-            
+
             return road;
         }
 
@@ -451,7 +483,7 @@ namespace Tollminder.Core.Services.Implementation
 
             if (ignoredWaypoint != null)
                 points = points.Except(new List<TollPoint>() { ignoredWaypoint }).ToList();
-            
+
             return _distanceChecker.GetLocationFromRadius(center, points);
         }
 
