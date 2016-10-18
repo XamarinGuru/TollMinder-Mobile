@@ -7,6 +7,8 @@ using MvvmCross.Core.ViewModels;
 using MvvmCross.Plugins.Messenger;
 using Tollminder.Core.Models;
 using AVFoundation;
+using System.Threading.Tasks;
+using Tollminder.Core.Services;
 
 namespace Tollminder.Touch
 {
@@ -21,6 +23,22 @@ namespace Tollminder.Touch
         {
             get;
             set;
+        }
+
+        int _delay = 180000;
+        public int Delay
+        {
+            get
+            {
+                if (_delay == 0)
+                    _delay = ((int)UIApplication.SharedApplication.BackgroundTimeRemaining - 1) * 1000;
+                
+                return _delay;
+            }
+            set
+            {
+                _delay = value;
+            }
         }
 
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
@@ -70,6 +88,12 @@ namespace Tollminder.Touch
         {
 			Console.WriteLine ("App entering background state.");
 			Mvx.Resolve<IMvxMessenger> ().Publish (new AppInBackgroundMessage (this));
+            nint taskID = UIApplication.SharedApplication.BeginBackgroundTask(() => { });
+            new Task(() =>
+            {
+                CheckBatteryDrainTimeout();
+                UIApplication.SharedApplication.EndBackgroundTask(taskID);
+            }).Start();
         }
 
         public override void WillEnterForeground(UIApplication application)
@@ -86,6 +110,20 @@ namespace Tollminder.Touch
         public override void WillTerminate(UIApplication application)
         {
             // Called when the application is about to terminate. Save data, if needed. See also DidEnterBackground.
+        }
+
+        void CheckBatteryDrainTimeout()
+        {
+            Mvx.Trace($"Time left : {UIApplication.SharedApplication.BackgroundTimeRemaining}");
+
+            Task.Delay(Delay).Wait();
+            nint taskID = UIApplication.SharedApplication.BeginBackgroundTask(() => { });
+            new Task(() =>
+            {
+                CheckBatteryDrainTimeout();
+                UIApplication.SharedApplication.EndBackgroundTask(taskID);
+
+            }).Start();
         }
     }
 }

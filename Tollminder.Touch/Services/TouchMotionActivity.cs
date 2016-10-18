@@ -13,11 +13,13 @@ namespace Tollminder.Touch.Services
 	{
 		public bool IsBound { get; private set; } = false;
 		CMMotionActivityManager _motionActivityManager;
-
-		public TouchMotionActivity ()
-		{
-			_motionActivityManager = new CMMotionActivityManager (); 
-		}
+        CMMotionActivityManager MotionActivityManager
+        {
+            get
+            {
+                return _motionActivityManager ?? (_motionActivityManager = new CMMotionActivityManager());
+            }
+        }
 
 		private MotionType _motionType;
 		public MotionType MotionType { 

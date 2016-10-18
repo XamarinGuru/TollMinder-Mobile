@@ -17,7 +17,7 @@ namespace Tollminder.Droid.Services
 		readonly IStoredSettingsService _storedSettingsService;
 		readonly IMvxMessenger _messenger;
 
-        List<MvxSubscriptionToken> _tokens = new List<MvxSubscriptionToken>();
+        //List<MvxSubscriptionToken> _tokens = new List<MvxSubscriptionToken>();
 
 		#region IGeoLocationWatcher implementation
 		public DroidGeolocationWatcher (IStoredSettingsService storedSettingsService, IMvxMessenger messenger)
@@ -26,30 +26,30 @@ namespace Tollminder.Droid.Services
 			_messenger = messenger;
 			ServiceIntent = new Intent (ApplicationContext, typeof (GeolocationService));
 
-            _tokens.Add(_messenger.SubscribeOnThreadPoolThread<MotionMessage>(x =>
-            {
-                Log.LogMessage($"[DroidGeolocationWatcher] receive new motion type {x.Data}");
-                switch (x.Data)
-                {
-                    case MotionType.Automotive:
-                    case MotionType.Running:
-                    case MotionType.Walking:
-                        if ((_storedSettingsService.SleepGPSDateTime == DateTime.MinValue || _storedSettingsService.SleepGPSDateTime < DateTime.Now)
-                            && !IsBound)
-                        {
-                            Log.LogMessage($"[DroidGeolocationWatcher] Start geolocating because we are not still");
-                            StartGeolocationWatcher();
-                        }
-                        break;
-                    case MotionType.Still:
-                        if (IsBound)
-                        {
-                            Log.LogMessage($"[DroidGeolocationWatcher] Stop geolocating because we are still");
-                            StopGeolocationWatcher();
-                        }
-                        break;
-                }
-            }));
+            //_tokens.Add(_messenger.SubscribeOnThreadPoolThread<MotionMessage>(x =>
+            //{
+            //    Log.LogMessage($"[DroidGeolocationWatcher] receive new motion type {x.Data}");
+            //    switch (x.Data)
+            //    {
+            //        case MotionType.Automotive:
+            //        case MotionType.Running:
+            //        case MotionType.Walking:
+            //            if ((_storedSettingsService.SleepGPSDateTime == DateTime.MinValue || _storedSettingsService.SleepGPSDateTime < DateTime.Now)
+            //                && !IsBound)
+            //            {
+            //                Log.LogMessage($"[DroidGeolocationWatcher] Start geolocating because we are not still");
+            //                StartGeolocationWatcher();
+            //            }
+            //            break;
+            //        case MotionType.Still:
+            //            if (IsBound)
+            //            {
+            //                Log.LogMessage($"[DroidGeolocationWatcher] Stop geolocating because we are still");
+            //                StopGeolocationWatcher();
+            //            }
+            //            break;
+            //    }
+            //}));
 		}
 
 		public bool IsBound 
