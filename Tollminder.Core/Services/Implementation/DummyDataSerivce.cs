@@ -104,23 +104,23 @@ namespace Tollminder.Core.Services.Implementation
                                     WaypointAction = WaypointAction.Exit
                                 }
                             }
-                        },
-                        new TollRoadWaypoint
-                        {
-                            Name = "Kharkivska bridge",
-                            TollPoints = new List<TollPoint>()
-                            {
-                                new TollPoint()
-                                {
-                                    Location = new GeoLocation
-                                    {
-                                        Latitude = 50.401120,
-                                        Longitude = 30.652072
-                                    },
-                                    WaypointAction = WaypointAction.EntranceAndExit
-                                }
-                            }
                         }
+                        //new TollRoadWaypoint
+                        //{
+                        //    Name = "Kharkivska bridge",
+                        //    TollPoints = new List<TollPoint>()
+                        //    {
+                        //        new TollPoint()
+                        //        {
+                        //            Location = new GeoLocation
+                        //            {
+                        //                Latitude = 50.401120,
+                        //                Longitude = 30.652072
+                        //            },
+                        //            WaypointAction = WaypointAction.EntranceAndExit
+                        //        }
+                        //    }
+                        //}
                     }
                 },
                 new TollRoad()
@@ -190,22 +190,6 @@ namespace Tollminder.Core.Services.Implementation
                                         Longitude = 30.616838
                                     },
                                     WaypointAction = WaypointAction.Exit
-                                }
-                            }
-                        },
-                        new TollRoadWaypoint
-                        {
-                            Name = "Osokorki bridge",
-                            TollPoints = new List<TollPoint>()
-                            {
-                                new TollPoint()
-                                {
-                                    Location = new GeoLocation
-                                    {
-                                        Latitude = 50.396300,
-                                        Longitude = 30.615771
-                                    },
-                                    WaypointAction = WaypointAction.EntranceAndExit
                                 }
                             }
                         }
@@ -440,6 +424,7 @@ namespace Tollminder.Core.Services.Implementation
             _dummyTollPoints = _dummyTollRoads.SelectMany(x => x.WayPoints.SelectMany(y => y.TollPoints.Select(z =>
             {
                 z.Id = ++tollPointCounter;
+                z.TollWaypointId = y.Id;
                 z.Name = y.Name;
                 return z;
             }))).ToList();
@@ -477,32 +462,32 @@ namespace Tollminder.Core.Services.Implementation
             return tollPoint;
         }
 
-        public TollPoint FindNearestEntranceTollPoint(GeoLocation center, TollPoint ignoredWaypoint = null)
+        public List<TollPointWithDistance> FindNearestEntranceTollPoints(GeoLocation center, TollPoint ignoredWaypoint = null)
         {
             var points = GetAllEntranceTollPoints();
 
             if (ignoredWaypoint != null)
                 points = points.Except(new List<TollPoint>() { ignoredWaypoint }).ToList();
 
-            return _distanceChecker.GetLocationFromRadius(center, points);
+            return _distanceChecker.GetMostClosestWaypoint(center, points);
         }
 
-        public TollPoint FindNearestExitTollPoint(GeoLocation center, TollPoint ignoredWaypoint = null)
+        public List<TollPointWithDistance> FindNearestExitTollPoints(GeoLocation center, TollPoint ignoredWaypoint = null)
         {
             var points = GetAllExitTollPoints();
 
             if (ignoredWaypoint != null)
                 points = points.Except(new List<TollPoint>() { ignoredWaypoint }).ToList();
 
-            return _distanceChecker.GetLocationFromRadius(center, points);
-        }
+            return _distanceChecker.GetMostClosestWaypoint(center, points);
+        } 
 
-        public IList<TollPoint> GetAllEntranceTollPoints()
+        public List<TollPoint> GetAllEntranceTollPoints()
         {
             return _dummyTollPoints.Where(x => x.WaypointAction == WaypointAction.Enterce || x.WaypointAction == WaypointAction.EntranceAndExit).ToList();
         }
 
-        public IList<TollPoint> GetAllExitTollPoints(long tollRoadId = -1)
+        public List<TollPoint> GetAllExitTollPoints(long tollRoadId = -1)
         {
             var points = _dummyTollPoints.Where(x => x.WaypointAction == WaypointAction.Exit);
 

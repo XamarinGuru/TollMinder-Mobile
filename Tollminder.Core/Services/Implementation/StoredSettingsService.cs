@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Tollminder.Core.Models;
 
 namespace Tollminder.Core.Services.Implementation
@@ -30,10 +31,10 @@ namespace Tollminder.Core.Services.Implementation
 			set { _storedSettingsBase.Set<TollGeolocationStatus>(value); }
 		}
 
-        public TollPoint CurrentTollPoint
+        public List<TollPointWithDistance> TollPointsInRadius
 		{
-            get { return _storedSettingsBase.Get<TollPoint>(); }
-            set { _storedSettingsBase.Set<TollPoint>(value); }
+            get { return _storedSettingsBase.Get<List<TollPointWithDistance>>(); }
+            set { _storedSettingsBase.Set<List<TollPointWithDistance>>(value); }
 		}
 
         public TollRoad TollRoad
@@ -65,12 +66,6 @@ namespace Tollminder.Core.Services.Implementation
 			get { return _storedSettingsBase.Get<DateTime>(); }
 			set { _storedSettingsBase.Set<DateTime>(value); }
 		}
-
-        public double DistanceToNextWaypoint
-        {
-            get { return _storedSettingsBase.Get<double>(); }
-            set { _storedSettingsBase.Set<double>(value); }
-        }
     }
 }
 

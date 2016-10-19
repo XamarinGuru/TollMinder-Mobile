@@ -6,8 +6,6 @@ namespace Tollminder.Core.Models.Statuses
 {
     public class NearTollRoadEntranceStatus : BaseStatus
     {
-        bool? _previousLocationIsCloser;
-
         public override bool CheckBatteryDrain()
         {
             return false;
@@ -15,54 +13,40 @@ namespace Tollminder.Core.Models.Statuses
 
         public async override Task<TollGeolocationStatus> CheckStatus()
         {
-            var isCloserToNextWaypoint = WaypointChecker.IsCloserToNextWaypoint(GeoWatcher.Location);
-            string status = (isCloserToNextWaypoint) ? "closer" : "not closer";
-            Log.LogMessage($"Distance to {WaypointChecker.CurrentTollPoint?.Name} waypoint is {WaypointChecker.DistanceToNextWaypoint} ({status})");
+            var insideTollPoint = WaypointChecker.DetectWeAreInsideSomeTollPoint(GeoWatcher.Location);
 
-            if (isCloserToNextWaypoint)
+            if (insideTollPoint != null)
             {
-                if (WaypointChecker.IsAtNextWaypoint(GeoWatcher.Location))
+                Log.LogMessage($"We are inside tollpoint {SettingsService.WaypointSmallRadius * 1000} radius");
+
+                WaypointChecker.SetIgnoredChoiceTollPoint(insideTollPoint);
+
+                if (await SpeechToTextService.AskQuestion($"Are you entering {insideTollPoint.Name} tollroad?"))
                 {
-                    Log.LogMessage($"We are inside waypoint {SettingsService.WaypointSmallRadius * 1000} radius");
+                    WaypointChecker.SetEntrance(insideTollPoint);
+                    WaypointChecker.SetIgnoredChoiceTollPoint(null);
 
-                    GeoWatcher.StopUpdatingHighAccuracyLocation();
-                    _previousLocationIsCloser = null;
-                    if (await SpeechToTextService.AskQuestion($"Are you entering {WaypointChecker.CurrentTollPoint.Name} tollroad?"))
+                    if (insideTollPoint.WaypointAction == WaypointAction.EntranceAndExit)
                     {
-                        WaypointChecker.SetEntrance(WaypointChecker.CurrentTollPoint);
-                        WaypointChecker.SetCurrentTollPoint(null);
-                        WaypointChecker.SetIgnoredChoiceTollPoint(null);
-
-                        if (WaypointChecker.CurrentTollPoint.WaypointAction == WaypointAction.EntranceAndExit)
-                        {
-                            WaypointChecker.SetExit(WaypointChecker.CurrentTollPoint);
-                            await NotifyService.Notify("Bill was created");
-                            WaypointChecker.CreateBill();
-                            return TollGeolocationStatus.NotOnTollRoad;
-                        }
-                        else
-                            return TollGeolocationStatus.OnTollRoad;
-                    }
-                    else
-                    {
-                        WaypointChecker.SetIgnoredChoiceTollPoint(WaypointChecker.CurrentTollPoint);
+                        WaypointChecker.SetExit(insideTollPoint);
+                       
+                        WaypointChecker.SetTollPointsInRadius(null);
+                        await NotifyService.Notify("Bill was created");
+                        WaypointChecker.CreateBill();
                         return TollGeolocationStatus.NotOnTollRoad;
                     }
+                    else
+                        return TollGeolocationStatus.OnTollRoad;
+                }
+                else
+                {
+                    return TollGeolocationStatus.NotOnTollRoad;
                 }
             }
             else
             {
-                if ((_previousLocationIsCloser != null && !(bool)_previousLocationIsCloser))
-                {
-                    GeoWatcher.StopUpdatingHighAccuracyLocation();
-                    WaypointChecker.SetIgnoredChoiceTollPoint(WaypointChecker.CurrentTollPoint);
-                    return TollGeolocationStatus.NotOnTollRoad;
-                }
+                return TollGeolocationStatus.NearTollRoadEntrance;
             }
-
-            _previousLocationIsCloser = isCloserToNextWaypoint;
-
-            return TollGeolocationStatus.NearTollRoadEntrance;
         }
     }
 }

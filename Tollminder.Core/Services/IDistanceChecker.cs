@@ -7,9 +7,7 @@ namespace Tollminder.Core.Services
 {
 	public interface IDistanceChecker
 	{
-        TollPointWithDistance GetMostClosestWaypoint (GeoLocation center, IList<TollPoint> points);
-        ParallelQuery<TollPoint> GetLocationsFromRadius (GeoLocation center, IList<TollPoint> points);
-        TollPoint GetLocationFromRadius (GeoLocation center, IList<TollPoint> points);
+        List<TollPointWithDistance> GetMostClosestWaypoint(GeoLocation center, List<TollPoint> points, double radius = double.MaxValue);
 	}
 }
 

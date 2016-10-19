@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using MvvmCross.Plugins.Messenger;
 
 namespace Tollminder.Core.Models
@@ -70,9 +71,9 @@ namespace Tollminder.Core.Models
         }
     }
 
-    public class CurrentWaypointChangedMessage : GenericMessage<TollPoint>
+    public class CurrentWaypointChangedMessage : GenericMessage<List<TollPointWithDistance>>
     {
-        public CurrentWaypointChangedMessage(object sender, TollPoint point)
+        public CurrentWaypointChangedMessage(object sender, List<TollPointWithDistance> point)
             : base(sender, point)
         {
         }

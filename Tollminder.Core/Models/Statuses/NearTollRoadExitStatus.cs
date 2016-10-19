@@ -6,62 +6,44 @@ namespace Tollminder.Core.Models.Statuses
 {
     public class NearTollRoadExitStatus : BaseStatus
     {
-        bool? _previousLocationIsCloser;
-
         public override async Task<TollGeolocationStatus> CheckStatus()
         {
-            var isCloserToNextWaypoint = WaypointChecker.IsCloserToNextWaypoint(GeoWatcher.Location);
-            string status = (isCloserToNextWaypoint) ? "closer" : "not closer";
-            Log.LogMessage($"Distance to {WaypointChecker.CurrentTollPoint?.Name} waypoint is {WaypointChecker.DistanceToNextWaypoint} ({status})");
+            var insideTollPoint = WaypointChecker.DetectWeAreInsideSomeTollPoint(GeoWatcher.Location);
 
-            if (isCloserToNextWaypoint)
+            if (insideTollPoint != null)
             {
-                Log.LogMessage(string.Format("DISTANCE BETWEEN CAR AND WAYPOINT IS CLOSER"));
+                Log.LogMessage($"We are inside tollpoint {SettingsService.WaypointSmallRadius * 1000} radius");
 
-                if (WaypointChecker.IsAtNextWaypoint(GeoWatcher.Location))
+                WaypointChecker.SetIgnoredChoiceTollPoint(insideTollPoint);
+
+                if (await SpeechToTextService.AskQuestion($"Are you entering {insideTollPoint.Name} tollroad?"))
                 {
-                    Log.LogMessage($"We are inside waypoint {SettingsService.WaypointSmallRadius * 1000} radius");
+                    WaypointChecker.SetExit(insideTollPoint);
+                    WaypointChecker.SetIgnoredChoiceTollPoint(null);
 
-                    WaypointChecker.SetExit(WaypointChecker.CurrentTollPoint);
-                    GeoWatcher.StopUpdatingHighAccuracyLocation();
-                    _previousLocationIsCloser = null;
-                    if (await SpeechToTextService.AskQuestion($"Are you exiting {WaypointChecker.Exit.Name} the tollroad?"))
+                    if (WaypointChecker.Exit != null)
                     {
-                        if (WaypointChecker.Exit != null)
-                        {
-                            await NotifyService.Notify("Bill was created");
-                            WaypointChecker.CreateBill();
-                        }
-                        else
-                        {
-                            await NotifyService.Notify("Bill was not created. You didn't enter any exit");
-                        }
-
-                        WaypointChecker.SetCurrentTollPoint(null);
-                        WaypointChecker.SetIgnoredChoiceTollPoint(null);
-
-                        return TollGeolocationStatus.NotOnTollRoad;
+                        await NotifyService.Notify("Bill was created");
+                        WaypointChecker.CreateBill();
                     }
                     else
                     {
-                        WaypointChecker.SetIgnoredChoiceTollPoint(WaypointChecker.CurrentTollPoint);
-                        return TollGeolocationStatus.OnTollRoad;
+                        await NotifyService.Notify("Bill was not created. You didn't enter any exit");
                     }
+
+                    WaypointChecker.SetTollPointsInRadius(null);
+
+                    return TollGeolocationStatus.NotOnTollRoad;
+                }
+                else
+                {
+                    return TollGeolocationStatus.OnTollRoad;
                 }
             }
             else
             {
-                if ((_previousLocationIsCloser != null && !(bool)_previousLocationIsCloser))
-                {
-                    GeoWatcher.StopUpdatingHighAccuracyLocation();
-                    WaypointChecker.SetIgnoredChoiceTollPoint(WaypointChecker.CurrentTollPoint);
-                    return TollGeolocationStatus.OnTollRoad;
-                }
+                return TollGeolocationStatus.NearTollRoadExit;
             }
-
-            _previousLocationIsCloser = isCloserToNextWaypoint;
-
-            return TollGeolocationStatus.NearTollRoadExit;
         }
 
         public override bool CheckBatteryDrain()

@@ -23,12 +23,13 @@ namespace Tollminder.Core.Models
         {
         }
 
-        public TollPointWithDistance(TollPoint tollPoint)
+        public TollPointWithDistance(TollPoint tollPoint, double distance)
         {
             Name = tollPoint.Name;
             Id = tollPoint.Id;
             TollWaypointId = tollPoint.TollWaypointId;
             Location = tollPoint.Location;
+            Distance = distance;
         }
     }
 }

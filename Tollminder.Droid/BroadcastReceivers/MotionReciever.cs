@@ -6,6 +6,7 @@ using Android.App;
 using MvvmCross.Droid.Services;
 using Android.OS;
 using Android.Widget;
+using System.Threading.Tasks;
 
 namespace Tollminder.Droid.BroadcastReceivers
 {
@@ -15,7 +16,7 @@ namespace Tollminder.Droid.BroadcastReceivers
 	{
 		public override void OnReceive (Context context, Intent intent)
 		{
-            base.OnReceive(context, intent);
+            //base.OnReceive(Application.Context, intent);
 
 			if (ActivityRecognitionResult.HasResult (intent)) {
 				ActivityRecognitionResult result = ActivityRecognitionResult.ExtractResult (intent);

@@ -10,10 +10,10 @@ namespace Tollminder.Core.Services
         TollRoad GetTollRoad(long id);
         TollRoadWaypoint GetTollWayPoint(long id);
         TollPoint GetTollPoint(long id);
-        TollPoint FindNearestEntranceTollPoint(GeoLocation center, TollPoint ignoredWaypoint = null);
-        TollPoint FindNearestExitTollPoint(GeoLocation center, TollPoint ignoredWaypoint = null);
-        IList<TollPoint> GetAllEntranceTollPoints();
-        IList<TollPoint> GetAllExitTollPoints(long tollRoadId = -1);
+        List<TollPointWithDistance> FindNearestEntranceTollPoints(GeoLocation center, TollPoint ignoredWaypoint = null);
+        List<TollPointWithDistance> FindNearestExitTollPoints(GeoLocation center, TollPoint ignoredWaypoint = null);
+        List<TollPoint> GetAllEntranceTollPoints();
+        List<TollPoint> GetAllExitTollPoints(long tollRoadId = -1);
     }
 }
 

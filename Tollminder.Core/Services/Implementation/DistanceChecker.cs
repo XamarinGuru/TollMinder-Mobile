@@ -21,36 +21,15 @@ namespace Tollminder.Core.Services.Implementation
 			this._waypointChecker = waypointChecker;
 		}
 
-		public virtual TollPointWithDistance GetMostClosestWaypoint (GeoLocation center, IList<TollPoint> points)
+        public List<TollPointWithDistance> GetMostClosestWaypoint (GeoLocation center, List<TollPoint> points, double radius = double.MaxValue)
 		{
-			var pts = points.AsParallel().AsOrdered().WithMergeOptions(ParallelMergeOptions.FullyBuffered).OrderBy(x => DistanceBetweenGeoLocations(center, x.Location));
-
-			foreach(var x in pts)
-			{
-				var distance = DistanceBetweenGeoLocations(center, x.Location);
-				Log.LogMessage($"{distance:0.##} {x.Name} {x.Location}");
-			}
-
-			TollPoint point =  pts?.FirstOrDefault ();
-
-			if (point != null)
-			{
-				var tollRoadWaypointWithDistance = new TollPointWithDistance(point);
-				tollRoadWaypointWithDistance.Distance = DistanceBetweenGeoLocations(center, point.Location);
-				return tollRoadWaypointWithDistance;
-			}
-
-			return null;
-		}
-
-        public virtual ParallelQuery<TollPoint> GetLocationsFromRadius (GeoLocation center, IList<TollPoint> points)
-		{
-			return points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).Where (x => (DistanceBetweenGeoLocations (center, x.Location) - SettingsService.WaypointLargeRadius) < Epsilon);
-		}
-
-		public virtual TollPoint GetLocationFromRadius (GeoLocation center, IList<TollPoint> points)
-		{
-			return points.AsParallel ().WithMergeOptions (ParallelMergeOptions.AutoBuffered).FirstOrDefault (x => (DistanceBetweenGeoLocations (center, x.Location) - SettingsService.WaypointLargeRadius) < Epsilon);
+            return points.AsParallel()
+                         .AsOrdered()
+                         .WithMergeOptions(ParallelMergeOptions.FullyBuffered)
+                         .Select(x => new TollPointWithDistance(x, DistanceBetweenGeoLocations(center, x.Location)))
+                         .OrderBy(x => x.Distance)
+                         .Where(x => x.Distance - radius < Epsilon)
+                         .ToList();
 		}
     }
 }

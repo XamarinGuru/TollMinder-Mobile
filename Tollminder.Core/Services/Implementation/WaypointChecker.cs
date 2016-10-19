@@ -3,6 +3,7 @@ using MvvmCross.Platform;
 using MvvmCross.Plugins.Messenger;
 using Tollminder.Core.Models;
 using Tollminder.Core.Helpers;
+using System.Collections.Generic;
 
 namespace Tollminder.Core.Services.Implementation
 {
@@ -28,15 +29,15 @@ namespace Tollminder.Core.Services.Implementation
             }
         }
 
-        public TollPoint CurrentTollPoint 
+        public List<TollPointWithDistance> TollPointsInRadius 
 		{
 			get 
 			{
-				return _storedSettingsService.CurrentTollPoint; 
+				return _storedSettingsService.TollPointsInRadius; 
 			}
 			private set 
 			{
-				_storedSettingsService.CurrentTollPoint = value;
+				_storedSettingsService.TollPointsInRadius = value;
                 Messeger.Publish(new CurrentWaypointChangedMessage(this, value));
 			}
 		}
@@ -90,26 +91,9 @@ namespace Tollminder.Core.Services.Implementation
             }
         }
 
-        public double DistanceToNextWaypoint
-        {
-            get
-            {
-                return _storedSettingsService.DistanceToNextWaypoint;
-            }
-            set
-            {
-                _storedSettingsService.DistanceToNextWaypoint = value;
-            }
-        }
-
         public WaypointChecker(IStoredSettingsService storedSettingsService)
 		{
 			_storedSettingsService = storedSettingsService;
-		}
-
-        public void SetCurrentTollPoint(TollPoint point)
-		{
-			CurrentTollPoint = point;
 		}
 
 		public void SetEntrance(TollPoint point)
@@ -123,28 +107,22 @@ namespace Tollminder.Core.Services.Implementation
             Exit = GeoDataService.GetTollWayPoint(point.TollWaypointId);
 		}
 
+        public void SetTollPointsInRadius(List<TollPointWithDistance> points)
+        {
+            if (points == null)
+                points = new List<TollPointWithDistance>();
+            
+            TollPointsInRadius = points;
+        }
+
         public void SetIgnoredChoiceTollPoint(TollPoint point)
         {
             IgnoredChoiceTollPoint = point;
-            DistanceToNextWaypoint = Double.MaxValue;
         }
 
-        public bool IsCloserToNextWaypoint(GeoLocation location)
+        public double UpdateDistanceToNextWaypoint(GeoLocation location, TollPoint point)
         {
-            var oldDistance = DistanceToNextWaypoint;
-            UpdateDistanceToNextWaypoint(location);
-            return DistanceToNextWaypoint - oldDistance < double.Epsilon;
-        }
-
-        public bool IsAtNextWaypoint(GeoLocation location)
-        {
-            UpdateDistanceToNextWaypoint(location);
-            return DistanceToNextWaypoint - SettingsService.WaypointSmallRadius < double.Epsilon;
-        }
-
-        public void UpdateDistanceToNextWaypoint(GeoLocation location)
-        {
-            DistanceToNextWaypoint = LocationChecker.DistanceBetweenGeoLocations(location, CurrentTollPoint.Location);
+            return LocationChecker.DistanceBetweenGeoLocations(location, point.Location);
         }
 
         public void CreateBill()
@@ -152,8 +130,21 @@ namespace Tollminder.Core.Services.Implementation
             TollRoad = null;
             Entrance = null;
             Exit = null;
+            TollPointsInRadius.Clear();
             IgnoredChoiceTollPoint = null;
-            CurrentTollPoint = null;
+        }
+
+        public TollPoint DetectWeAreInsideSomeTollPoint(GeoLocation location)
+        {
+            foreach(var item in TollPointsInRadius)
+            {
+                var distance = UpdateDistanceToNextWaypoint(location, item);
+                Log.LogMessage($"Distance to {item.Name} waypoint is {distance}");
+                if (distance - SettingsService.WaypointSmallRadius < double.Epsilon)
+                    return item;
+            }
+
+            return null;
         }
     }
 }

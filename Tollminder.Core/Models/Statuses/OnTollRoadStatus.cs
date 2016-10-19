@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Tollminder.Core.Helpers;
 using Tollminder.Core.Services.Implementation;
 
@@ -9,36 +10,33 @@ namespace Tollminder.Core.Models.Statuses
 
 		public override Task<TollGeolocationStatus> CheckStatus ()
 		{
-            Log.LogMessage(string.Format($"TRY TO FIND WAYPOINT EXIT FROM {SettingsService.WaypointLargeRadius * 1000} m"));
+            Log.LogMessage(string.Format($"TRY TO FIND TOLLPOINT EXITS FROM {SettingsService.WaypointLargeRadius * 1000} m"));
 
             var location = GeoWatcher.Location;
-            var waypoint = DataService.FindNearestExitTollPoint(location, WaypointChecker.IgnoredChoiceTollPoint);
+            var waypoints = DataService.FindNearestExitTollPoints(location, WaypointChecker.IgnoredChoiceTollPoint);
 
-            if (waypoint == null)
+            WaypointChecker.SetTollPointsInRadius(waypoints);
+            WaypointChecker.SetIgnoredChoiceTollPoint(null);
+
+            if (waypoints.Count == 0)
             {
                 Log.LogMessage($"No waypoint founded for location {GeoWatcher.Location}");
-                WaypointChecker.SetCurrentTollPoint(null);
-
                 return Task.FromResult(TollGeolocationStatus.OnTollRoad);
             }
-
-            Log.LogMessage(string.Format("FOUNDED WAYPOINT : {0} AND WAYPOINT ACTION {1}", waypoint.Name, waypoint.WaypointAction));
-
-            if (WaypointChecker.CurrentTollPoint?.Equals(waypoint) ?? false)
+            else
             {
-                Log.LogMessage("Waypoint equals to currentWaypoint");
-                return Task.FromResult(TollGeolocationStatus.OnTollRoad);
+                foreach (var item in WaypointChecker.TollPointsInRadius)
+                    Log.LogMessage($"FOUNDED WAYPOINT : {item.Name}, DISTANCE {item.Distance}");
+
+                GeoWatcher.StartUpdatingHighAccuracyLocation();
+
+                return Task.FromResult(TollGeolocationStatus.NearTollRoadExit);
             }
-
-            WaypointChecker.SetCurrentTollPoint(waypoint);
-            GeoWatcher.StartUpdatingHighAccuracyLocation();
-
-            return Task.FromResult(TollGeolocationStatus.NearTollRoadExit);
 		}
 
         public override bool CheckBatteryDrain()
         {
-            var distance = DistanceChecker.GetMostClosestWaypoint(GeoWatcher.Location, DataService.GetAllExitTollPoints(WaypointChecker.TollRoad.Id))?.Distance ?? 0;
+            var distance = DistanceChecker.GetMostClosestWaypoint(GeoWatcher.Location, DataService.GetAllExitTollPoints(WaypointChecker.TollRoad.Id)).FirstOrDefault()?.Distance ?? 0;
             return BatteryDrainService.CheckGpsTrackingSleepTime(distance);
         }
 	}

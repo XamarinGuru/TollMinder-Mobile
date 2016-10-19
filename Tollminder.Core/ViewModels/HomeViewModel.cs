@@ -8,6 +8,7 @@ using Tollminder.Core.Models;
 using Tollminder.Core.Services;
 using Tollminder.Core.ServicesHelpers;
 using Tollminder.Core.Helpers;
+using System.Linq;
 
 namespace Tollminder.Core.ViewModels
 {
@@ -39,7 +40,7 @@ namespace Tollminder.Core.ViewModels
             _tokens.Add (_messenger.SubscribeOnMainThread<LogUpdated> ((s) => LogText = Log._messageLog.ToString(), MvxReference.Strong));
 			_tokens.Add(_messenger.SubscribeOnMainThread<GeoWatcherStatusMessage>((s) => IsBound = s.Data, MvxReference.Strong));
 
-            _tokens.Add(_messenger.SubscribeOnMainThread<CurrentWaypointChangedMessage>((s) => CurrentWaypointString = s.Data?.Name, MvxReference.Strong));
+            _tokens.Add(_messenger.SubscribeOnMainThread<CurrentWaypointChangedMessage>((s) => CurrentWaypointString = string.Join("\n", s.Data?.Select(x => x.Name)), MvxReference.Strong));
             _tokens.Add(_messenger.SubscribeOnMainThread<TollRoadChangedMessage>((s) => TollRoadString = s.Data?.Name, MvxReference.Strong));
 
 			IsBound = _geoWatcher.IsBound;
@@ -50,7 +51,8 @@ namespace Tollminder.Core.ViewModels
 
 			StatusString = _track.TollStatus.ToString();
             TollRoadString = Mvx.Resolve<IWaypointChecker>().TollRoad?.Name;
-            CurrentWaypointString = Mvx.Resolve<IWaypointChecker>().CurrentTollPoint?.Name;
+            if (Mvx.Resolve<IWaypointChecker>().TollPointsInRadius != null)
+                CurrentWaypointString = string.Join("\n", Mvx.Resolve<IWaypointChecker>().TollPointsInRadius?.Select(x => x.Name));
 		}
 
 		protected override void OnDestroy ()
