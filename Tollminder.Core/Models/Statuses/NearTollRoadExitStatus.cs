@@ -8,7 +8,12 @@ namespace Tollminder.Core.Models.Statuses
     {
         public override async Task<TollGeolocationStatus> CheckStatus()
         {
-            var insideTollPoint = WaypointChecker.DetectWeAreInsideSomeTollPoint(GeoWatcher.Location);
+            var location = GeoWatcher.Location;
+            var waypoints = DataService.FindNearestEntranceTollPoints(location, WaypointChecker.IgnoredChoiceTollPoint);
+
+            WaypointChecker.SetTollPointsInRadius(waypoints);
+
+            var insideTollPoint = WaypointChecker.DetectWeAreInsideSomeTollPoint(location);
 
             if (insideTollPoint != null)
             {
