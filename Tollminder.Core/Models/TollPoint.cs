@@ -4,7 +4,7 @@ using SQLiteNetExtensions.Attributes;
 
 namespace Tollminder.Core.Models
 {
-    public class TollPoint
+    public class TollPoint: IEquatable<TollRoadWaypoint>
     {
         [PrimaryKey, AutoIncrement]
         public long Id { get; set; }
@@ -13,6 +13,11 @@ namespace Tollminder.Core.Models
         public long TollWaypointId { get; set; }
         public GeoLocation Location { get; set; }
         public WaypointAction WaypointAction { get; set; }
+
+        public bool Equals(TollRoadWaypoint other)
+        {
+            return Id == other.Id;
+        }
     }
 
     public class TollPointWithDistance : TollPoint

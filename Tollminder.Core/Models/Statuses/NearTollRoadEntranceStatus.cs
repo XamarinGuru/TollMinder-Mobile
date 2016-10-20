@@ -21,6 +21,9 @@ namespace Tollminder.Core.Models.Statuses
 
                 WaypointChecker.SetIgnoredChoiceTollPoint(insideTollPoint);
 
+                if (WaypointChecker.TollPointsInRadius.Count == 1)
+                    GeoWatcher.StopUpdatingHighAccuracyLocation();
+
                 if (await SpeechToTextService.AskQuestion($"Are you entering {insideTollPoint.Name} tollroad?"))
                 {
                     WaypointChecker.SetEntrance(insideTollPoint);

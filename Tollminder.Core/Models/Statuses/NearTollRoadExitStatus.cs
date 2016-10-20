@@ -16,9 +16,13 @@ namespace Tollminder.Core.Models.Statuses
 
                 WaypointChecker.SetIgnoredChoiceTollPoint(insideTollPoint);
 
+                if (WaypointChecker.TollPointsInRadius.Count == 1)
+                    GeoWatcher.StopUpdatingHighAccuracyLocation();
+
                 if (await SpeechToTextService.AskQuestion($"Are you entering {insideTollPoint.Name} tollroad?"))
                 {
                     WaypointChecker.SetExit(insideTollPoint);
+                    WaypointChecker.SetTollPointsInRadius(null);
                     WaypointChecker.SetIgnoredChoiceTollPoint(null);
 
                     if (WaypointChecker.Exit != null)
@@ -30,8 +34,6 @@ namespace Tollminder.Core.Models.Statuses
                     {
                         await NotifyService.Notify("Bill was not created. You didn't enter any exit");
                     }
-
-                    WaypointChecker.SetTollPointsInRadius(null);
 
                     return TollGeolocationStatus.NotOnTollRoad;
                 }
