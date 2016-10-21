@@ -34,6 +34,7 @@ namespace Tollminder.Core.Models
             Id = tollPoint.Id;
             TollWaypointId = tollPoint.TollWaypointId;
             Location = tollPoint.Location;
+            WaypointAction = tollPoint.WaypointAction;
             Distance = distance;
         }
     }

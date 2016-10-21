@@ -19,6 +19,7 @@ namespace Tollminder.Core.Models.Statuses
 
             if (waypoints.Count == 0)
             {
+                GeoWatcher.StopUpdatingHighAccuracyLocation();
                 Log.LogMessage($"No waypoint founded for location {GeoWatcher.Location}");
                 return Task.FromResult(TollGeolocationStatus.NotOnTollRoad);
             }

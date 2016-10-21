@@ -18,6 +18,9 @@ namespace Tollminder.Core.Models.Statuses
 
             WaypointChecker.SetTollPointsInRadius(waypoints);
 
+            if(waypoints.Count == 0)
+                return TollGeolocationStatus.NotOnTollRoad;
+
             var insideTollPoint = WaypointChecker.DetectWeAreInsideSomeTollPoint(location);
 
             if (insideTollPoint != null)
@@ -32,7 +35,6 @@ namespace Tollminder.Core.Models.Statuses
                 if (await SpeechToTextService.AskQuestion($"Are you entering {insideTollPoint.Name} tollroad?"))
                 {
                     WaypointChecker.SetEntrance(insideTollPoint);
-                    WaypointChecker.SetIgnoredChoiceTollPoint(null);
 
                     if (insideTollPoint.WaypointAction == WaypointAction.EntranceAndExit)
                     {
