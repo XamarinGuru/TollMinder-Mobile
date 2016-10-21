@@ -63,7 +63,7 @@ Target "android-package" (fun () ->
             KeystorePath = "Tollminder.keystore"
             KeystorePassword = getBuildParamOrDefault "pass" ""
             KeystoreAlias = "tollminder"
-            ZipalignPath = "/Users/gloriumtech/Library/Developer/Xamarin/android-sdk-macosx/build-tools/23.0.2/zipalign"
+            ZipalignPath = "/Users/gloriumtech/Library/Developer/Xamarin/android-sdk-macosx/build-tools/24.0.3/zipalign"
         })
     |> ignore
 )
