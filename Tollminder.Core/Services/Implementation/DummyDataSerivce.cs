@@ -348,7 +348,7 @@ namespace Tollminder.Core.Services.Implementation
                     {
                         new TollRoadWaypoint
                         {
-                            Name = "Pechanga entrance",
+                            Name = "Pechanga bridge",
                             TollPoints = new List<TollPoint>()
                             {
                                 new TollPoint()
@@ -358,55 +358,7 @@ namespace Tollminder.Core.Services.Implementation
                                         Latitude = 33.473324,
                                         Longitude = -117.12711
                                     },
-                                    WaypointAction = WaypointAction.Enterce
-                                }
-                            }
-                        },
-                        new TollRoadWaypoint
-                        {
-                            Name = "Loma Linda Exit",
-                            TollPoints = new List<TollPoint>()
-                            {
-                                new TollPoint()
-                                {
-                                    Location = new GeoLocation
-                                    {
-                                        Latitude = 33.466661,
-                                        Longitude = -117.118350
-                                    },
-                                    WaypointAction = WaypointAction.Exit
-                                }
-                            }
-                        },
-                        new TollRoadWaypoint
-                        {
-                            Name = "Via Eduardo Exit",
-                            TollPoints = new List<TollPoint>()
-                            {
-                                new TollPoint()
-                                {
-                                    Location = new GeoLocation
-                                    {
-                                        Latitude = 33.459104,
-                                        Longitude = -117.108260
-                                    },
-                                    WaypointAction = WaypointAction.Exit
-                                }
-                            }
-                        },
-                        new TollRoadWaypoint
-                        {
-                            Name = "Pechanga Exit",
-                            TollPoints = new List<TollPoint>()
-                            {
-                                new TollPoint()
-                                {
-                                    Location = new GeoLocation
-                                    {
-                                        Latitude = 33.455975,
-                                        Longitude = -117.103091
-                                    },
-                                    WaypointAction = WaypointAction.Exit
+                                    WaypointAction = WaypointAction.EntranceAndExit
                                 }
                             }
                         }
