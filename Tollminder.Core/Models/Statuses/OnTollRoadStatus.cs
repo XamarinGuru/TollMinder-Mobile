@@ -13,7 +13,7 @@ namespace Tollminder.Core.Models.Statuses
             Log.LogMessage(string.Format($"TRY TO FIND TOLLPOINT EXITS FROM {SettingsService.WaypointLargeRadius * 1000} m"));
 
             var location = GeoWatcher.Location;
-            var waypoints = DataService.FindNearestExitTollPoints(location, WaypointChecker.IgnoredChoiceTollPoint);
+            var waypoints = DataService.FindNearestExitTollPoints(location);
 
             WaypointChecker.SetTollPointsInRadius(waypoints);
             WaypointChecker.SetIgnoredChoiceTollPoint(null);

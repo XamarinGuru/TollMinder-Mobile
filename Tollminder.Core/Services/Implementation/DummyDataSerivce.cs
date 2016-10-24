@@ -430,24 +430,14 @@ namespace Tollminder.Core.Services.Implementation
             return tollPoint;
         }
 
-        public List<TollPointWithDistance> FindNearestEntranceTollPoints(GeoLocation center, TollPoint ignoredWaypoint = null)
+        public List<TollPointWithDistance> FindNearestEntranceTollPoints(GeoLocation center)
         {
-            var points = GetAllEntranceTollPoints();
-
-            if (ignoredWaypoint != null)
-                points = points.Except(new List<TollPoint>() { ignoredWaypoint }).ToList();
-
-            return _distanceChecker.GetMostClosestWaypoint(center, points, SettingsService.WaypointLargeRadius);
+            return _distanceChecker.GetMostClosestWaypoint(center, GetAllEntranceTollPoints(), SettingsService.WaypointLargeRadius);
         }
 
-        public List<TollPointWithDistance> FindNearestExitTollPoints(GeoLocation center, TollPoint ignoredWaypoint = null)
+        public List<TollPointWithDistance> FindNearestExitTollPoints(GeoLocation center)
         {
-            var points = GetAllExitTollPoints();
-
-            if (ignoredWaypoint != null)
-                points = points.Except(new List<TollPoint>() { ignoredWaypoint }).ToList();
-
-            return _distanceChecker.GetMostClosestWaypoint(center, points, SettingsService.WaypointLargeRadius);
+            return _distanceChecker.GetMostClosestWaypoint(center, GetAllExitTollPoints(), SettingsService.WaypointLargeRadius);
         } 
 
         public List<TollPoint> GetAllEntranceTollPoints()

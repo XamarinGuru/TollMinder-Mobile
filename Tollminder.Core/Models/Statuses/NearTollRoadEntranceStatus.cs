@@ -14,7 +14,7 @@ namespace Tollminder.Core.Models.Statuses
         public async override Task<TollGeolocationStatus> CheckStatus()
         {
             var location = GeoWatcher.Location;
-            var waypoints = DataService.FindNearestEntranceTollPoints(location, WaypointChecker.IgnoredChoiceTollPoint);
+            var waypoints = DataService.FindNearestEntranceTollPoints(location);
 
             WaypointChecker.SetTollPointsInRadius(waypoints);
 
@@ -42,7 +42,7 @@ namespace Tollminder.Core.Models.Statuses
                        
                         WaypointChecker.SetTollPointsInRadius(null);
                         await NotifyService.Notify("Bill was created");
-                        WaypointChecker.CreateBill();
+                        WaypointChecker.ClearData();
                         return TollGeolocationStatus.NotOnTollRoad;
                     }
                     else
