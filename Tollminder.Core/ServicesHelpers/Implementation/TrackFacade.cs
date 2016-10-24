@@ -48,6 +48,32 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
             _semaphor = new SemaphoreSlim(1);
 
+            _motionToken = _messenger.SubscribeOnThreadPoolThread<MotionMessage>(async x =>
+              {
+                  Log.LogMessage($"[FACADE] receive new motion type {x.Data}");
+                  switch (x.Data)
+                  {
+                      case MotionType.Automotive:
+                      case MotionType.Running:
+                      case MotionType.Walking:
+                          if ((_storedSettingsService.SleepGPSDateTime == DateTime.MinValue || _storedSettingsService.SleepGPSDateTime < DateTime.Now)
+                              && !IsBound)
+                          {
+                              Log.LogMessage($"[FACADE] Start geolocating because we are not still");
+                              await StartServices();
+                          }
+                          break;
+                      case MotionType.Still:
+                          if (IsBound)
+                          {
+                              Log.LogMessage($"[FACADE] Stop geolocating because we are still");
+                              StopServices();
+                          }
+                          break;
+                  }
+              });
+            _tokens.Add(_motionToken);
+
             Log.LogMessage("Facade init end");
         }
 
@@ -83,31 +109,6 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
                });
                 _tokens.Add(_locationToken);
 
-               _motionToken = _messenger.SubscribeOnThreadPoolThread<MotionMessage>(async x =>
-               {
-                   Log.LogMessage($"[FACADE] receive new motion type {x.Data}");
-                   switch (x.Data)
-                   {
-                       case MotionType.Automotive:
-                       case MotionType.Running:
-                       case MotionType.Walking:
-                           if ((_storedSettingsService.SleepGPSDateTime == DateTime.MinValue || _storedSettingsService.SleepGPSDateTime < DateTime.Now)
-                               && !IsBound)
-                           {
-                               Log.LogMessage($"[FACADE] Start geolocating because we are not still");
-                               await StartServices();
-                           }
-                           break;
-                       case MotionType.Still:
-                           if (IsBound)
-                           {
-                               Log.LogMessage($"[FACADE] Stop geolocating because we are still");
-                               StopServices();
-                           }
-                           break;
-                   }
-               });
-                _tokens.Add(_motionToken);
                 Log.LogMessage("Start Facade location detection and subscride on LocationMessage");
                 return true;
             }
@@ -124,7 +125,6 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
             _geoWatcher.StopGeolocationWatcher();
             _tokens.Remove(_locationToken);
-            _tokens.Remove(_motionToken);
             _motionToken?.Dispose();
 
             return true;
