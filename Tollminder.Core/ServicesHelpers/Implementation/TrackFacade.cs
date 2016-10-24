@@ -47,19 +47,6 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
             _semaphor = new SemaphoreSlim(1);
 
-            _activity.StartDetection();
-
-            if (_storedSettingsService.GeoWatcherIsRunning)
-            {
-                Task.Run(async () =>
-                {
-                    StopServices();
-
-                    await StartServices().ConfigureAwait(false);
-                    Log.LogMessage("Autostart facade");
-                });
-            }
-
             Log.LogMessage("Facade init end");
         }
 
@@ -86,6 +73,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
                 Log.LogMessage(string.Format("FACADE HAS STARTED AT {0}", DateTime.Now));
 
                 _textToSpeech.IsEnabled = true;
+                _activity.StartDetection();
                 _geoWatcher.StartGeolocationWatcher();
                 _token = _messenger.SubscribeOnThreadPoolThread<LocationMessage>(x =>
                {

@@ -355,8 +355,24 @@ namespace Tollminder.Core.Services.Implementation
                                 {
                                     Location = new GeoLocation
                                     {
-                                        Latitude = 33.473324,
-                                        Longitude = -117.12711
+                                        Latitude = 33.473411, 
+                                        Longitude = -117.127120
+                                    },
+                                    WaypointAction = WaypointAction.EntranceAndExit
+                                }
+                            }
+                        },
+                        new TollRoadWaypoint
+                        {
+                            Name = "Pechanga bridge2",
+                            TollPoints = new List<TollPoint>()
+                            {
+                                new TollPoint()
+                                {
+                                    Location = new GeoLocation
+                                    {
+                                        Latitude = 33.472443, 
+                                        Longitude = -117.124787
                                     },
                                     WaypointAction = WaypointAction.EntranceAndExit
                                 }

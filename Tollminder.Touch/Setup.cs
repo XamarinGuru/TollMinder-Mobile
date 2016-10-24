@@ -23,7 +23,7 @@ namespace Tollminder.Touch
 
 		protected override IMvxApplication CreateApp()
 		{
-			return new Core.App();
+			return new Core.App(this);
 		}
 		
 		protected override IMvxTrace CreateDebugTrace()
