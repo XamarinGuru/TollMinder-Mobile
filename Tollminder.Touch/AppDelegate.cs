@@ -102,7 +102,7 @@ namespace Tollminder.Touch
             Mvx.Trace("CheckBatteryDrainTimeout from background");
             Mvx.Resolve<ITrackFacade>().StopServices();
             Mvx.Resolve<ITrackFacade>().StartServices();
-            Mvx.Resolve<INotificationSender>().SendLocalNotification("", $"Time left : {UIApplication.SharedApplication.BackgroundTimeRemaining}");
+            Mvx.Resolve<INotificationSender>().SendLocalNotification("Background mode", $"App is still working");
             Task.Delay(600000).Wait();
             nint taskID = UIApplication.SharedApplication.BeginBackgroundTask(() => { });
             new Task(() =>
