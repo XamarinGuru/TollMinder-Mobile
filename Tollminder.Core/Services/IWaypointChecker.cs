@@ -16,7 +16,7 @@ namespace Tollminder.Core.Services
         void SetExit(TollPoint point);
         void SetIgnoredChoiceTollPoint(TollPoint point);
 
-        void CreateBill();
+        void ClearData();
 
         TollPoint DetectWeAreInsideSomeTollPoint(GeoLocation location);
 	}
