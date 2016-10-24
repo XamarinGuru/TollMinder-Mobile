@@ -51,6 +51,7 @@ namespace Tollminder.Core.Services.Implementation
 			private set
 			{
 				_storedSettingsService.TollRoadEntranceWaypoint = value;
+                _storedSettingsService.TollRoadEntranceWaypointDateTime = (value == null) ? DateTime.MinValue : DateTime.Now;
 			}
 		}
 
@@ -63,6 +64,7 @@ namespace Tollminder.Core.Services.Implementation
 			private set
 			{
 				_storedSettingsService.TollRoadExitWaypoint = value;
+                _storedSettingsService.TollRoadExitWaypointDateTime = (value == null) ? DateTime.MinValue : DateTime.Now;
 			}
 		}
 
@@ -125,7 +127,7 @@ namespace Tollminder.Core.Services.Implementation
             return LocationChecker.DistanceBetweenGeoLocations(location, point.Location);
         }
 
-        public void CreateBill()
+        public void ClearData()
         {
             TollRoad = null;
             Entrance = null;
@@ -138,6 +140,9 @@ namespace Tollminder.Core.Services.Implementation
         {
             foreach(var item in TollPointsInRadius)
             {
+                if (item.Equals(IgnoredChoiceTollPoint))
+                    break;
+                
                 var distance = UpdateDistanceToNextWaypoint(location, item);
                 Log.LogMessage($"Distance to {item.Name} waypoint is {distance}");
                 if (distance - SettingsService.WaypointSmallRadius < double.Epsilon)

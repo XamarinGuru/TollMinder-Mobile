@@ -49,11 +49,23 @@ namespace Tollminder.Core.Services.Implementation
 			set { _storedSettingsBase.Set<TollRoadWaypoint>(value); }
 		}
 
+        public DateTime TollRoadEntranceWaypointDateTime
+        {
+            get { return _storedSettingsBase.Get<DateTime>(); }
+            set { _storedSettingsBase.Set<DateTime>(value); }
+        }
+
 		public TollRoadWaypoint TollRoadExitWaypoint
 		{
 			get { return _storedSettingsBase.Get<TollRoadWaypoint>(); }
 			set { _storedSettingsBase.Set<TollRoadWaypoint>(value); }
 		}
+
+        public DateTime TollRoadExitWaypointDateTime
+        {
+            get { return _storedSettingsBase.Get<DateTime>(); }
+            set { _storedSettingsBase.Set<DateTime>(value); }
+        }
 
         public TollPoint IgnoredChoiceTollPoint
         {
