@@ -28,7 +28,8 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
         SemaphoreSlim _semaphor;
 
         List<MvxSubscriptionToken> _tokens = new List<MvxSubscriptionToken>();
-        MvxSubscriptionToken _token;
+        MvxSubscriptionToken _locationToken;
+        MvxSubscriptionToken _motionToken;
 
         #endregion
 
@@ -75,14 +76,14 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
                 _textToSpeech.IsEnabled = true;
                 _activity.StartDetection();
                 _geoWatcher.StartGeolocationWatcher();
-                _token = _messenger.SubscribeOnThreadPoolThread<LocationMessage>(x =>
+                _locationToken = _messenger.SubscribeOnThreadPoolThread<LocationMessage>(x =>
                {
                    Log.LogMessage("Start processing LocationMessage");
                    CheckTrackStatus();
                });
-                _tokens.Add(_token);
+                _tokens.Add(_locationToken);
 
-                _tokens.Add(_messenger.SubscribeOnThreadPoolThread<MotionMessage>(async x =>
+               _motionToken = _messenger.SubscribeOnThreadPoolThread<MotionMessage>(async x =>
                {
                    Log.LogMessage($"[FACADE] receive new motion type {x.Data}");
                    switch (x.Data)
@@ -105,8 +106,8 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
                            }
                            break;
                    }
-               }));
-
+               });
+                _tokens.Add(_motionToken);
                 Log.LogMessage("Start Facade location detection and subscride on LocationMessage");
                 return true;
             }
@@ -122,8 +123,9 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
             Log.LogMessage(string.Format("FACADE HAS STOPPED AT {0}", DateTime.Now));
 
             _geoWatcher.StopGeolocationWatcher();
-            _tokens.Remove(_token);
-            _token?.Dispose();
+            _tokens.Remove(_locationToken);
+            _tokens.Remove(_motionToken);
+            _motionToken?.Dispose();
 
             return true;
         }
