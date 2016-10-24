@@ -16,7 +16,7 @@ namespace Tollminder.Droid.BroadcastReceivers
 	{
 		public override void OnReceive (Context context, Intent intent)
 		{
-            //base.OnReceive(Application.Context, intent);
+            base.OnReceive(Application.Context, intent);
 
 			if (ActivityRecognitionResult.HasResult (intent)) {
 				ActivityRecognitionResult result = ActivityRecognitionResult.ExtractResult (intent);
