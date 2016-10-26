@@ -39,9 +39,7 @@
 	<key>XSAppIconAssets</key>
 	<string>Resources/Images.xcassets/AppIcons.appiconset</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.8</string>
-	<key>CFBundleVersion</key>
-	<string>8</string>
+	<string>2.10</string>
 	<key>NSLocationUsageDescription</key>
 	<string>We need to get your location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
@@ -52,5 +50,7 @@
 	<string>New need detect your voice</string>
 	<key>NSMotionUsageDescription</key>
 	<string>We need to get motion activity </string>
+	<key>CFBundleVersion</key>
+	<string>10</string>
 </dict>
 </plist>

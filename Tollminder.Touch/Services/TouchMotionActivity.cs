@@ -30,13 +30,18 @@ namespace Tollminder.Touch.Services
 			}
 		}
 
-		//public bool IsAutomove {
-		//	get {
-		//		return MotionType == MotionType.Automotive;
-		//	}
-		//}
+        //public bool IsAutomove {
+        //	get {
+        //		return MotionType == MotionType.Automotive;
+        //	}
+        //}
 
-		public void StartDetection()
+        public TouchMotionActivity()
+        {
+            _motionActivityManager = new CMMotionActivityManager();
+        }
+
+        public void StartDetection()
 		{			
 			if (CMMotionActivityManager.IsActivityAvailable && !IsBound) {
 				MotionActivityManager?.StartActivityUpdates (NSOperationQueue.CurrentQueue, (activity) => GetMotionActivity (activity));
