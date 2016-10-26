@@ -19,11 +19,8 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
         readonly IMotionActivity _activity;
         readonly ITextToSpeechService _textToSpeech;
         readonly IMvxMessenger _messenger;
-        readonly IBatteryDrainService _batteryDrainService;
-        readonly ISpeechToTextService _speechToTextService;
         readonly IStoredSettingsService _storedSettingsService;
 
-        object _locker = new object();
         bool _locationProcessing;
         SemaphoreSlim _semaphor;
 
@@ -42,8 +39,6 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
             _messenger = Mvx.Resolve<IMvxMessenger>();
             _geoWatcher = Mvx.Resolve<IGeoLocationWatcher>();
             _activity = Mvx.Resolve<IMotionActivity>();
-            _batteryDrainService = Mvx.Resolve<IBatteryDrainService>();
-            _speechToTextService = Mvx.Resolve<ISpeechToTextService>();
             _storedSettingsService = Mvx.Resolve<IStoredSettingsService>();
 
             _semaphor = new SemaphoreSlim(1);
