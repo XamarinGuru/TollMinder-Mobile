@@ -50,11 +50,10 @@ namespace Tollminder.Droid.Services
 
 		#region ITextToSpeechService implementation
 		TaskCompletionSource<bool> _speakTask;
-		public Task Speak(string text, bool disableMusic = true)
+		public Task Speak(string text, bool disableMusic = false)
         {
 			DisableMusic = disableMusic && Platform.IsMusicRunning;
-			if (DisableMusic)
-				Platform.PauseMusic();
+		
 			_speakTask = new TaskCompletionSource<bool>();
 			if (IsEnabled) {
 				Speaker.Speak (text, QueueMode.Flush, null, text);
@@ -72,6 +71,8 @@ namespace Tollminder.Droid.Services
 
 		public override void OnStart(string utteranceId)
 		{
+            if (DisableMusic)
+                Platform.PauseMusic();
 		}
 
 		public override void OnDone(string utteranceId)
@@ -83,7 +84,8 @@ namespace Tollminder.Droid.Services
 
 		public override void OnError(string utteranceId)
 		{
-			Platform.PlayMusic();
+            if (DisableMusic)
+			    Platform.PlayMusic();
 			_speakTask.TrySetException(new Exception("Text to speech not working"));
 		}
 
