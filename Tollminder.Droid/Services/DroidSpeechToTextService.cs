@@ -203,7 +203,8 @@ namespace Tollminder.Droid.Services
 
         void DisposeDialog()
         {
-            _dialog?.Cancel();
+            if (_dialog.IsShowing)
+                _dialog?.Cancel();
             _dialog = null;
         }
 
