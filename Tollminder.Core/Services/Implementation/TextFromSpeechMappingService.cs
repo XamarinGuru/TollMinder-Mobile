@@ -23,7 +23,7 @@ namespace Tollminder.Core.Services.Implementation
 		bool Contains(List<string> list, string match)
 		{
 			foreach (var item in list)
-				if (match.Contains(item))
+                if (item == match)
 					return true;
 
 			return false;

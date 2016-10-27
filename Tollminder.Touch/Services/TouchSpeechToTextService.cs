@@ -183,23 +183,30 @@ namespace Tollminder.Touch.Services
 		{
 			_recognitionTask = new TaskCompletionSource<bool>();
 
-			UIApplication.SharedApplication.InvokeOnMainThread(() =>
-			{
-				_error = new UIAlertView(question, "Please, answer after the signal", null, "NO", "Yes");
+            AskQuestionMethod(question);
+
+			return _recognitionTask.Task;
+		}
+
+        void AskQuestionMethod(string question)
+        {
+            UIApplication.SharedApplication.InvokeOnMainThread(() =>
+            {
+                _error = new UIAlertView(question, "Please, answer after the signal", null, "NO", "Yes");
                 _error.Clicked += (sender, buttonArgs) =>
                 {
                     StopListening();
                     _recognitionTask.TrySetResult(buttonArgs.ButtonIndex != _error.CancelButtonIndex);
                 };
-				_error.Show();
-			});
+                _error.Show();
+            });
 
-			TextToSpeechService.Speak(question, false).Wait();
+            TextToSpeechService.Speak(question, false).Wait();
 
-			TextToSpeechService.Speak("Please, answer after the signal", false).Wait();
+            TextToSpeechService.Speak("Please, answer after the signal", false).Wait();
 
-			UIApplication.SharedApplication.InvokeOnMainThread(() =>
-			{
+            UIApplication.SharedApplication.InvokeOnMainThread(() =>
+            {
                 AVAudioSession.SharedInstance().SetCategory(AVAudioSessionCategory.Playback);
                 AVAudioSession.SharedInstance().SetActive(true);
                 //SystemSound notificationSound = SystemSound.FromFile(@"/System/Library/Audio/UISounds/jbl_begin.caf");
@@ -209,13 +216,11 @@ namespace Tollminder.Touch.Services
                 AVAudioPlayer audioPlayer = AVAudioPlayer.FromUrl(NSUrl.FromFilename(Path.Combine("Sounds", "tap.aif")));
                 audioPlayer.PrepareToPlay();
                 audioPlayer.Play();
-			});
+            });
 
-			Question = question;
-			StartListening();
-
-			return _recognitionTask.Task;
-		}
+            Question = question;
+            StartListening();
+        }
 
 		public void CheckResult(IList<string> matches)
 		{
@@ -229,7 +234,7 @@ namespace Tollminder.Touch.Services
 				_recognitionTask.TrySetResult(answer == AnswerType.Positive);
 			}
 			else
-				AskQuestion(Question);
+                AskQuestionMethod(Question);
 		}
 
 		public void StartListening()
