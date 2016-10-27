@@ -5,7 +5,7 @@ namespace Tollminder.Core.Models
 	public enum WaypointAction
 	{
 		Enterce,
-        EntranceAndExit,
+        Bridge,
 		Exit
 	}
 

@@ -36,7 +36,7 @@ namespace Tollminder.Core.Models.Statuses
                 {
                     WaypointChecker.SetEntrance(insideTollPoint);
 
-                    if (insideTollPoint.WaypointAction == WaypointAction.EntranceAndExit)
+                    if (insideTollPoint.WaypointAction == WaypointAction.Bridge)
                     {
                         WaypointChecker.SetExit(insideTollPoint);
                        
