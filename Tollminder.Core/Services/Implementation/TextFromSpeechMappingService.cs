@@ -9,14 +9,14 @@ namespace Tollminder.Core.Services.Implementation
 	{
 		List<string> PositiveList = new List<string>()
 		{
-			"yea", 
-			"yep",
+			//"yea", 
+			//"yep",
 			"yes"
 		};
 
 		List<string> NegativeList = new List<string>()
 		{
-			"nope",
+			//"nope",
 			"no"
 		};
 
