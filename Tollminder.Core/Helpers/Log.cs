@@ -10,32 +10,36 @@ namespace Tollminder.Core.Helpers
 	{
 		public static StringBuilder _messageLog = new StringBuilder ();
         static int counter = 0;
+        static object _locker = new object();
 
 		public static void LogMessage(string message)
 		{
-			//#if DEBUG
-            try
+            lock (_locker)
             {
-    			Mvx.Trace (MvvmCross.Platform.Platform.MvxTraceLevel.Diagnostic, message, string.Empty);
+                //#if DEBUG
+                try
+                {
+                    Mvx.Trace(MvvmCross.Platform.Platform.MvxTraceLevel.Diagnostic, message, string.Empty);
 
-                if (counter > 500)
+                    if (counter > 300)
+                    {
+                        _messageLog.Clear();
+                        counter = 0;
+                    }
+
+                    _messageLog.AppendLine($"[{DateTime.Now}] {message}");
+                    counter++;
+
+                    Mvx.Resolve<IMvxMessenger>()?.Publish(new LogUpdated(new object()));
+                }
+                catch (Exception e)
                 {
                     _messageLog.Clear();
                     counter = 0;
-                }
-
-    			_messageLog.AppendLine($"[{DateTime.Now}] {message}");
-                counter++;
-			
-				Mvx.Resolve<IMvxMessenger>()?.Publish(new LogUpdated(new object()));
-			}
-			catch(Exception e)
-			{
-                _messageLog.Clear();
-                counter = 0;
-				Mvx.Trace(e.Message + e.StackTrace);
-			}
-			//#endif
+    				Mvx.Trace(e.Message + e.StackTrace);
+			    }
+			    //#endif
+            }
 		}
 	}
 }
