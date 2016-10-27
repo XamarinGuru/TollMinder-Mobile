@@ -16,370 +16,43 @@ namespace Tollminder.Core.Services.Implementation
 
         public DummyDataSerivce(IDistanceChecker distanceChecker)
         {
-            this._distanceChecker = distanceChecker;
+            _distanceChecker = distanceChecker;
             _dummyTollRoads = new List<TollRoad>()
             {
-                new TollRoad()
+                new TollRoad("POH tollroad east",new List<TollPoint>()
                 {
-                    Id = 0,
-                    Name = "POH tollroad east",
-                    WayPoints = new List<TollRoadWaypoint>()
-                    {
-                        new TollRoadWaypoint
-                        {
-                            Name = "Osokorki enterce",
-                            TollPoints = new List<TollPoint>()
-                            {
-                                new TollPoint()
-                                {
-                                    Location = new GeoLocation
-                                    {
-                                        Latitude = 50.396344,
-                                        Longitude = 30.620942
-                                    },
-                                    WaypointAction = WaypointAction.Enterce
-                                }
-                            }
-                        },
-                        new TollRoadWaypoint
-                        {
-                            Name = "Pozniaki near Billa exit",
-                            TollPoints = new List<TollPoint>()
-                            {
-                                new TollPoint()
-                                {
-                                    Location = new GeoLocation
-                                    {
-                                        Latitude = 50.397892,
-                                        Longitude = 30.631900
-                                    },
-                                    WaypointAction = WaypointAction.Exit
-                                }
-                            }
-                        },
-                        //new TollRoadWaypoint
-                        //{
-                        //    Name = "Kharkivska enterce",
-                        //    TollPoints = new List<TollPoint>()
-                        //    {
-                        //        new TollPoint()
-                        //        {
-                        //            Location = new GeoLocation
-                        //            {
-                        //                Latitude = 50.401921,
-                        //                Longitude = 30.657414
-                        //            },
-                        //            WaypointAction = WaypointAction.Enterce
-                        //        }
-                        //    }
-                        //},
-                        new TollRoadWaypoint
-                        {
-                            Name = "Virlitsa exit",
-                            TollPoints = new List<TollPoint>()
-                            {
-                                new TollPoint()
-                                {
-                                    Location = new GeoLocation
-                                    {
-                                        Latitude = 50.402902,
-                                        Longitude = 30.670538
-                                    },
-                                    WaypointAction = WaypointAction.Exit
-                                }
-                            }
-                        },
-                        new TollRoadWaypoint
-                        {
-                            Name = "Borispilska exit",
-                            TollPoints = new List<TollPoint>()
-                            {
-                                new TollPoint()
-                                {
-                                    Location = new GeoLocation
-                                    {
-                                        Latitude = 50.402758,
-                                        Longitude = 30.680092
-                                    },
-                                    WaypointAction = WaypointAction.Exit
-                                }
-                            }
-                        },
-                        new TollRoadWaypoint
-                        {
-                            Name = "Kharkivska bridge",
-                            TollPoints = new List<TollPoint>()
-                            {
-                                new TollPoint()
-                                {
-                                    Location = new GeoLocation
-                                    {
-                                        Latitude = 50.401120,
-                                        Longitude = 30.652072
-                                    },
-                                    WaypointAction = WaypointAction.EntranceAndExit
-                                }
-                            }
-                        }
-                    }
-                },
-                new TollRoad()
+                    new TollPoint("Osokorki enterce","50.396344, 30.620942","Entrance"),
+                    new TollPoint("Pozniaki near Billa exit","50.397892, 30.631900","Exit"),
+                    new TollPoint("Virlitsa exit","50.402902, 30.670538","Exit"),
+                    new TollPoint("Borispilska exit","50.402758,  30.680092","Exit"),
+                    new TollPoint("Kharkivska bridge","50.401120, 30.652072","Bridge")
+                }),
+                new TollRoad("POH tollroad west",new List<TollPoint>()
                 {
-                    Id = 1,
-                    Name = "POH tollroad west",
-                    WayPoints = new List<TollRoadWaypoint>()
-                    {
-                        new TollRoadWaypoint
-                        {
-                            Name = "Pozniaki near Lake enterce",
-                            TollPoints = new List<TollPoint>()
-                            {
-                                new TollPoint()
-                                {
-                                    Location = new GeoLocation
-                                    {
-                                        Latitude = 50.400262,
-                                        Longitude = 30.645412
-                                    },
-                                    WaypointAction = WaypointAction.Enterce
-                                }
-                            }
-                        },
-                        new TollRoadWaypoint
-                        {
-                            Name = "Pozniaki near TNK  exit",
-                            TollPoints = new List<TollPoint>()
-                            {
-                                new TollPoint()
-                                {
-                                    Location = new GeoLocation
-                                    {
-                                        Latitude =  50.398933,
-                                        Longitude = 30.636302
-                                    },
-                                    WaypointAction = WaypointAction.Exit
-                                }
-                            }
-                        },
-                        new TollRoadWaypoint
-                        {
-                            Name = "Pozniaki near KLO exit",
-                            TollPoints = new List<TollPoint>()
-                            {
-                                new TollPoint()
-                                {
-                                    Location = new GeoLocation
-                                    {
-                                        Latitude = 50.398068,
-                                        Longitude = 30.629106
-                                    },
-                                    WaypointAction = WaypointAction.Exit
-                                }
-                            }
-                        },
-                        new TollRoadWaypoint
-                        {
-                            Name = "Osokorki exit",
-                            TollPoints = new List<TollPoint>()
-                            {
-                                new TollPoint()
-                                {
-                                    Location = new GeoLocation
-                                    {
-                                        Latitude = 50.393487,
-                                        Longitude = 30.616838
-                                    },
-                                    WaypointAction = WaypointAction.Exit
-                                }
-                            }
-                        }
-                    }
-                },
-                new TollRoad()
+                    new TollPoint("Pozniaki near Lake enterce","50.400262, 30.645412","Entrance"),
+                    new TollPoint("Pozniaki near TNK  exit","50.398933, 30.636302","Exit"),
+                    new TollPoint("Pozniaki near KLO exit","50.398068, 30.629106","Exit"),
+                    new TollPoint("Osokorki exit","50.393487,  30.616838","Exit")
+                }),
+                new TollRoad("TollRoad s15",new List<TollPoint>()
                 {
-                    Id = 5,
-                    Name = "15s",
-                    WayPoints = new List<TollRoadWaypoint>()
-                    {
-                        new TollRoadWaypoint
-                        {
-                            Name = "Temecula entrance",
-                            TollPoints = new List<TollPoint>()
-                            {
-                                new TollPoint()
-                                {
-                                    Location = new GeoLocation
-                                    {
-                                        Latitude = 33.479557,
-                                        Longitude = -117.140821
-                                    },
-                                    WaypointAction = WaypointAction.Enterce
-                                }
-                            }
-                        },
-                        new TollRoadWaypoint
-                        {
-                            Name = "Rainbow Valley Exit",
-                            TollPoints = new List<TollPoint>()
-                            {
-                                new TollPoint()
-                                {
-                                    Location = new GeoLocation
-                                    {
-                                        Latitude = 33.431537,
-                                        Longitude = -117.146470
-                                    },
-                                    WaypointAction = WaypointAction.Exit
-                                }
-                            }
-                        },
-                        new TollRoadWaypoint
-                        {
-                            Name = "Rainbow Valley Entrance",
-                            TollPoints = new List<TollPoint>()
-                            {
-                                new TollPoint()
-                                {
-                                    Location = new GeoLocation
-                                    {
-                                        Latitude = 33.429156,
-                                        Longitude = -117.147947
-                                    },
-                                    WaypointAction = WaypointAction.Enterce
-                                }
-                            }
-                        },
-                        new TollRoadWaypoint
-                        {
-                            Name = "Old 365 Exit",
-                            TollPoints = new List<TollPoint>()
-                            {
-                                new TollPoint()
-                                {
-                                    Location = new GeoLocation
-                                    {
-                                        Latitude = 33.388171,
-                                        Longitude = -117.175638
-                                    },
-                                    WaypointAction = WaypointAction.Exit
-                                }
-                            }
-                        }
-                    }
-                },
-
-                new TollRoad()
+                    new TollPoint("Temecula entrance","33.479557, -117.140821","Entrance"),
+                    new TollPoint("Rainbow Valley Exit","33.431537, -117.146470","Exit"),
+                    new TollPoint("Rainbow Valley Entrance","33.429156, -117.147947","Entrance"),
+                    new TollPoint("Old 365 Exit","33.388171, -117.175638","Exit")
+                }),
+                new TollRoad("TollRoad n15",new List<TollPoint>()
                 {
-                    Id = 6,
-                    Name = "15n",
-                    WayPoints = new List<TollRoadWaypoint>()
-                    {
-                        new TollRoadWaypoint
-                        {
-                            Name = "Old 365 Entrance",
-                            TollPoints = new List<TollPoint>()
-                            {
-                                new TollPoint()
-                                {
-                                    Location = new GeoLocation
-                                    {
-                                        Latitude = 33.389516,
-                                        Longitude =  -117.174028
-                                    },
-                                    WaypointAction = WaypointAction.Enterce
-                                }
-                            }
-                        },
-                        new TollRoadWaypoint
-                        {
-                            Name = "Rainbow Valley Exit",
-                            TollPoints = new List<TollPoint>()
-                            {
-                                new TollPoint()
-                                {
-                                    Location = new GeoLocation
-                                    {
-                                        Latitude = 33.429848,
-                                        Longitude = -117.144840
-                                    },
-                                    WaypointAction = WaypointAction.Exit
-                                }
-                            }
-                        },
-                        new TollRoadWaypoint
-                        {
-                            Name = "Rainbow Valley Entrance",
-                            TollPoints = new List<TollPoint>()
-                            {
-                                new TollPoint()
-                                {
-                                    Location = new GeoLocation
-                                    {
-                                        Latitude = 33.431869,
-                                        Longitude = -117.143373
-                                    },
-                                    WaypointAction = WaypointAction.Enterce
-                                }
-                            }
-                        },
-                        new TollRoadWaypoint
-                        {
-                            Name = "Temecula Exit",
-                            TollPoints = new List<TollPoint>()
-                            {
-                                new TollPoint()
-                                {
-                                    Location = new GeoLocation
-                                    {
-                                        Latitude = 33.479535,
-                                        Longitude = -117.139537
-                                    },
-                                    WaypointAction = WaypointAction.Exit
-                                }
-                            }
-                        }
-                    }
-                },
-                new TollRoad()
+                    new TollPoint("Temecula exit","33.479535, -117.139537","Exit"),
+                    new TollPoint("Rainbow Valley Exit","33.429848, -117.144840","Exit"),
+                    new TollPoint("Rainbow Valley Entrance","33.431869, -117.143373","Entrance"),
+                    new TollPoint("Old 365 Entrance","33.389516, -117.174028","Entrance")
+                }),
+                new TollRoad("Pechanga",new List<TollPoint>()
                 {
-                    Id = 9,
-                    Name = "Pechanga",
-                    WayPoints = new List<TollRoadWaypoint>()
-                    {
-                        new TollRoadWaypoint
-                        {
-                            Name = "Pechanga bridge",
-                            TollPoints = new List<TollPoint>()
-                            {
-                                new TollPoint()
-                                {
-                                    Location = new GeoLocation
-                                    {
-                                        Latitude = 33.473411, 
-                                        Longitude = -117.127120
-                                    },
-                                    WaypointAction = WaypointAction.EntranceAndExit
-                                }
-                            }
-                        },
-                        new TollRoadWaypoint
-                        {
-                            Name = "Pechanga bridge2",
-                            TollPoints = new List<TollPoint>()
-                            {
-                                new TollPoint()
-                                {
-                                    Location = new GeoLocation
-                                    {
-                                        Latitude = 33.472443, 
-                                        Longitude = -117.124787
-                                    },
-                                    WaypointAction = WaypointAction.EntranceAndExit
-                                }
-                            }
-                        }
-                    }
-                }
+                    new TollPoint("Pechanga bridge","33.473411, -117.127120","Bridge"),
+                    new TollPoint("Pechanga bridge 2","33.472443, -117.124787","Bridge")
+                })
             };
             int waypointCounter = 0;
             _dummyWayPoints = _dummyTollRoads.SelectMany(x => x.WayPoints.Select(y =>
@@ -393,7 +66,6 @@ namespace Tollminder.Core.Services.Implementation
             {
                 z.Id = ++tollPointCounter;
                 z.TollWaypointId = y.Id;
-                z.Name = y.Name;
                 return z;
             }))).ToList();
         }
@@ -442,7 +114,7 @@ namespace Tollminder.Core.Services.Implementation
 
         public List<TollPoint> GetAllEntranceTollPoints()
         {
-            return _dummyTollPoints.Where(x => x.WaypointAction == WaypointAction.Enterce || x.WaypointAction == WaypointAction.EntranceAndExit).ToList();
+            return _dummyTollPoints.Where(x => x.WaypointAction == WaypointAction.Entrance || x.WaypointAction == WaypointAction.Bridge).ToList();
         }
 
         public List<TollPoint> GetAllExitTollPoints(long tollRoadId = -1)

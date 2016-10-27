@@ -31,11 +31,11 @@ namespace Tollminder.Core
 
             RegisterAppStart<HomeViewModel>();
 
-			Mvx.LazyConstructAndRegisterSingleton<IGeoDataService, DummyDataSerivce>();
 			Mvx.LazyConstructAndRegisterSingleton<IHttpService, HttpService>();
 			Mvx.LazyConstructAndRegisterSingleton<INotifyService, NotifyService> ();
 			Mvx.LazyConstructAndRegisterSingleton<IWaypointChecker, WaypointChecker> ();
 			Mvx.LazyConstructAndRegisterSingleton<IDistanceChecker, DistanceChecker> ();
+            Mvx.LazyConstructAndRegisterSingleton<IGeoDataService, DummyDataSerivce>();
 			Mvx.LazyConstructAndRegisterSingleton<ITrackFacade, TrackFacade>();
         }
 

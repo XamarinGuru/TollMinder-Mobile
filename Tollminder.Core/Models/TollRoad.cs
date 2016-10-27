@@ -14,6 +14,24 @@ namespace Tollminder.Core.Models
 		[OneToMany(CascadeOperations = CascadeOperation.All)]
         public List<TollRoadWaypoint> WayPoints { get; set; }
 
+        public TollRoad()
+        {
+
+        }
+
+        public TollRoad(string name, List<TollPoint> points)
+        {
+            Name = name;
+            WayPoints = new List<TollRoadWaypoint>();
+            foreach(var item in points)
+            {
+                WayPoints.Add(new TollRoadWaypoint()
+                {
+                    TollPoints = new List<TollPoint>() { item }
+                });
+            };
+        }
+
         public bool Equals(TollRoad other)
         {
             return Id == other.Id;
