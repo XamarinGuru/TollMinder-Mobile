@@ -93,6 +93,17 @@ namespace Tollminder.Core.Services.Implementation
             }
         }
 
+        public TimeSpan TripDuration 
+        { 
+            get
+            {
+                if (Exit == null || Entrance == null)
+                    throw new Exception("Trip not finished");
+
+                return _storedSettingsService.TollRoadExitWaypointDateTime.Subtract(_storedSettingsService.TollRoadEntranceWaypointDateTime);
+            }
+        }
+
         public WaypointChecker(IStoredSettingsService storedSettingsService)
 		{
 			_storedSettingsService = storedSettingsService;

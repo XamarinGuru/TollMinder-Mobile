@@ -27,6 +27,7 @@ namespace Tollminder.Core.Models
             {
                 WayPoints.Add(new TollRoadWaypoint()
                 {
+                    Name = item.Name,
                     TollPoints = new List<TollPoint>() { item }
                 });
             };

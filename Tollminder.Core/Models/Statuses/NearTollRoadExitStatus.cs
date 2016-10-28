@@ -36,6 +36,14 @@ namespace Tollminder.Core.Models.Statuses
                     if (WaypointChecker.Exit != null)
                     {
                         await NotifyService.Notify("Bill was created");
+
+                        var duration = WaypointChecker.TripDuration;
+
+                        if (duration.Hours > 0)
+                            await NotifyService.Notify($"Trip duration is {duration.Hours} hours {duration.Minutes} minutes {duration.Seconds} seconds");
+                        else
+                            await NotifyService.Notify($"Trip duration is {duration.Minutes} minutes {duration.Seconds} seconds");
+
                         WaypointChecker.ClearData();
                     }
                     else

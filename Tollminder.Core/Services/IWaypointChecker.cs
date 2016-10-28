@@ -15,7 +15,7 @@ namespace Tollminder.Core.Services
         void SetEntrance(TollPoint point);
         void SetExit(TollPoint point);
         void SetIgnoredChoiceTollPoint(TollPoint point);
-
+        TimeSpan TripDuration { get; }
         void ClearData();
 
         TollPoint DetectWeAreInsideSomeTollPoint(GeoLocation location);
