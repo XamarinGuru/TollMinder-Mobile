@@ -104,12 +104,12 @@ namespace Tollminder.Core.Services.Implementation
 
         public List<TollPointWithDistance> FindNearestEntranceTollPoints(GeoLocation center)
         {
-            return _distanceChecker.GetMostClosestWaypoint(center, GetAllEntranceTollPoints(), SettingsService.WaypointLargeRadius);
+            return _distanceChecker.GetMostClosestTollPoint(center, GetAllEntranceTollPoints(), SettingsService.WaypointLargeRadius);
         }
 
         public List<TollPointWithDistance> FindNearestExitTollPoints(GeoLocation center)
         {
-            return _distanceChecker.GetMostClosestWaypoint(center, GetAllExitTollPoints(), SettingsService.WaypointLargeRadius);
+            return _distanceChecker.GetMostClosestTollPoint(center, GetAllExitTollPoints(), SettingsService.WaypointLargeRadius);
         } 
 
         public List<TollPoint> GetAllEntranceTollPoints()

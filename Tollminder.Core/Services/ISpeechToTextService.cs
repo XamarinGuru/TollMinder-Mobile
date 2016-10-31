@@ -8,7 +8,6 @@ namespace Tollminder.Core.Services
 	public interface ISpeechToTextService
 	{
 		Task<bool> AskQuestion(string question);
-		//void CheckResult(IList<string> matches);
 	}
 }
 

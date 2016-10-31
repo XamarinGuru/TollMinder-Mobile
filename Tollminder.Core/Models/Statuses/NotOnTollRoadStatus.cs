@@ -36,7 +36,7 @@ namespace Tollminder.Core.Models.Statuses
 
         public override bool CheckBatteryDrain()
         {
-            var distance = DistanceChecker.GetMostClosestWaypoint(GeoWatcher.Location, DataService.GetAllEntranceTollPoints()).FirstOrDefault()?.Distance ?? 0;
+            var distance = DistanceChecker.GetMostClosestTollPoint(GeoWatcher.Location, DataService.GetAllEntranceTollPoints()).FirstOrDefault()?.Distance ?? 0;
             return BatteryDrainService.CheckGpsTrackingSleepTime(distance);
         }
 	}
