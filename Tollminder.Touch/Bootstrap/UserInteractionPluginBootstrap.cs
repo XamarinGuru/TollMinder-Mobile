@@ -1,3 +1,4 @@
+using MvvmCross.Platform;
 using MvvmCross.Platform.Plugins;
 
 namespace Tollminder.Touch.Bootstrap

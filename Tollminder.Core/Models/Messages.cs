@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using MvvmCross.Plugins.Messenger;
 
 namespace Tollminder.Core.Models
@@ -14,11 +15,43 @@ namespace Tollminder.Core.Models
 		}
 	}
 
+	public class AppInBackgroundMessage : MvxMessage
+	{
+		public AppInBackgroundMessage (object sender)
+			: base (sender)
+		{
+		}
+	}
+
 	public class LocationMessage : GenericMessage<GeoLocation>
 	{
 		public LocationMessage (object sender, GeoLocation geo)
 			: base (sender, geo)
 		{				
+		}
+	}
+
+	public class StatusMessage : GenericMessage<TollGeolocationStatus>
+	{
+		public StatusMessage(object sender, TollGeolocationStatus status)
+			: base(sender, status)
+		{
+		}
+	}
+
+	public class SpechRecognitionActivityLoadedMessage : MvxMessage
+	{
+		public SpechRecognitionActivityLoadedMessage(object sender)
+			: base(sender)
+		{
+		}
+	}
+
+	public class GeoWatcherStatusMessage : GenericMessage<bool>
+	{
+		public GeoWatcherStatusMessage(object sender, bool status)
+			: base(sender, status)
+		{
 		}
 	}
 
@@ -30,9 +63,25 @@ namespace Tollminder.Core.Models
 		}
 	}
 
-	public class GeoFenceExitMessage : MvxMessage
+    public class TollRoadChangedMessage : GenericMessage<TollRoad>
+    {
+        public TollRoadChangedMessage(object sender, TollRoad road)
+            : base(sender, road)
+        {
+        }
+    }
+
+    public class CurrentWaypointChangedMessage : GenericMessage<List<TollPointWithDistance>>
+    {
+        public CurrentWaypointChangedMessage(object sender, List<TollPointWithDistance> point)
+            : base(sender, point)
+        {
+        }
+    }
+
+	public class LogUpdated : MvxMessage
 	{
-		public GeoFenceExitMessage (object sender, MotionType motion)
+		public LogUpdated (object sender)
 			: base (sender)
 		{				
 		}

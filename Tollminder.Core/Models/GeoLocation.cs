@@ -1,12 +1,13 @@
 ﻿using System;
-using SQLite.Net.Attributes;
+using MvvmCross.Platform;
+using SQLite;
 
 namespace Tollminder.Core.Models
 {
 	// encapulates a geolocation and other information
 	public class GeoLocation : IEquatable<GeoLocation>
 	{
-		const double Epsilon = 0.0000001;
+		const double Epsilon = 0.0001;
 
 		public GeoLocation () 
 		{
@@ -18,6 +19,21 @@ namespace Tollminder.Core.Models
 			Latitude = lat;
 			Longitude = lng;
 		}
+
+        public GeoLocation(string location)
+        {
+            try
+            {
+                var coords = location.Split(',');
+                Latitude = double.Parse(coords[0], System.Globalization.CultureInfo.InvariantCulture);
+                Longitude = double.Parse(coords[1], System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch (Exception ex)
+            {
+                Mvx.Trace($"Wrong dummy location: {location}, ex {ex.Message + ex.StackTrace}");
+                throw new Exception("Wrong location data");
+            }
+        }
 
 		public const double DesiredAccuracy = 100;
 
@@ -44,9 +60,9 @@ namespace Tollminder.Core.Models
 		// does this equal another location?
 		public bool Equals(GeoLocation other)
 		{
-			return ((Latitude == other.Latitude)
-				&& (Longitude == other.Longitude)
-				&& (Altitude == other.Altitude));
+			return ((Math.Abs (Latitude - other.Latitude) < Epsilon)
+				&& (Math.Abs (Longitude - other.Longitude) < Epsilon)
+				&& (Math.Abs (Altitude - other.Altitude) < Epsilon));
 		}
 
 		public override string ToString()

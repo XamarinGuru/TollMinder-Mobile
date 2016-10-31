@@ -1,4 +1,4 @@
-#r @"packages/FAKE.4.12.0/tools/FakeLib.dll"
+#r @"packages/FAKE.4.29.2/tools/FakeLib.dll"
 #load "build-helpers.fsx"
 open Fake
 open System
@@ -42,7 +42,7 @@ Target "ios-adhoc" (fun () ->
             BuildIpa = true
         }) 
 
-    let appPath = Directory.EnumerateFiles(Path.Combine("TollMinder.Touch", "bin", "iPhone"), "*.ipa").First()
+    let appPath = Directory.EnumerateFiles(Path.Combine("TollMinder.Touch", "bin", "iPhone"), "*.ipa", SearchOption.AllDirectories).First()
     TeamCityHelper.PublishArtifact appPath
 )
 
@@ -63,27 +63,29 @@ Target "android-package" (fun () ->
             KeystorePath = "Tollminder.keystore"
             KeystorePassword = getBuildParamOrDefault "pass" ""
             KeystoreAlias = "tollminder"
-            ZipalignPath = "/Users/nickolasshpotenko/Library/Developer/Xamarin/android-sdk-macosx/build-tools/23.0.2/zipalign"
+            ZipalignPath = "/Users/gloriumtech/Library/Developer/Xamarin/android-sdk-macosx/build-tools/24.0.3/zipalign"
         })
-    |> fun file -> TeamCityHelper.PublishArtifact file.FullName
+    |> ignore
 )
 
 Target "ios-hockey" (fun () ->
     HockeyApp(fun parametrs ->
-        {parametrs with
+        {parametrs with 
             ApiToken = getBuildParam "hkey"
-            File = Directory.EnumerateFiles(Path.Combine("TollMinder.Touch", "bin", "iPhone"), "*.ipa").First()
+            Notify = NotifyOption.None
+            DownloadStatus = DownloadStatusOption.Downloadable
+            File = Directory.EnumerateFiles(Path.Combine("TollMinder.Touch", "bin", "iPhone"), "*.ipa", SearchOption.AllDirectories).First()
          }) |> ignore    
 )
 
 Target "android-hockey" (fun () ->
     HockeyApp(fun parametrs ->
         {parametrs with
-            Notify = NotifyOption.CanInstallApp
+            Notify = NotifyOption.None
             DownloadStatus = DownloadStatusOption.Downloadable
             ApiToken = getBuildParam "hkey"
             File = Directory.EnumerateFiles(Path.Combine("TollMinder.Droid", "bin", "Release"), "*Aligned.apk").First()
-         }) |> ignore   
+         }) |> ignore  
 )
 
 

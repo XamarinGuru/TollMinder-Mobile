@@ -6,15 +6,21 @@ namespace Tollminder.Touch.Services
 {
 	public class TouchNotificationSender : INotificationSender
 	{
+        UILocalNotification notification;
+
 		#region INotificationSender implementation
 
 		public void SendLocalNotification (string title, string message)
 		{
-			var notification = new UILocalNotification ();
-			notification.AlertTitle = title;
-			notification.AlertBody = message;
-			notification.SoundName = "Default";
-			UIApplication.SharedApplication.PresentLocalNotificationNow (notification);
+			UIApplication.SharedApplication.InvokeOnMainThread (() => {
+				notification = new UILocalNotification ();
+				notification.AlertTitle = title;
+				notification.AlertBody = message;
+				notification.SoundName = UILocalNotification.DefaultSoundName;
+                //notification.AlertAction = UILocalNotification.
+                UIApplication.SharedApplication.CancelLocalNotification(notification);
+                UIApplication.SharedApplication.PresentLocalNotificationNow (notification);
+			});
 		}
 
 		public void SendRemoteNotification ()

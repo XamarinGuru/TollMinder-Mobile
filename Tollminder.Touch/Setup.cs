@@ -23,7 +23,7 @@ namespace Tollminder.Touch
 
 		protected override IMvxApplication CreateApp()
 		{
-			return new Core.App();
+			return new Core.App(this);
 		}
 		
 		protected override IMvxTrace CreateDebugTrace()
@@ -38,7 +38,9 @@ namespace Tollminder.Touch
 			Mvx.LazyConstructAndRegisterSingleton<IMotionActivity,TouchMotionActivity> ();
 			Mvx.LazyConstructAndRegisterSingleton<IPlatform,TouchPlatform> ();
 			Mvx.LazyConstructAndRegisterSingleton<INotificationSender,TouchNotificationSender> ();
-			Mvx.ConstructAndRegisterSingleton<ITextToSpeechService,TouchTextToSpeechService> ();
+			Mvx.LazyConstructAndRegisterSingleton<ITextToSpeechService,TouchTextToSpeechService> ();
+			Mvx.LazyConstructAndRegisterSingleton<ISpeechToTextService, TouchSpeechToTextService>();
+			Mvx.LazyConstructAndRegisterSingleton<IStoredSettingsBase, TouchStoredSettingsBase>();
 		}
 	}
 }

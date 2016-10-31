@@ -5,6 +5,9 @@ using MvvmCross.Platform;
 using MvvmCross.Droid.Platform;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform.Platform;
+using MvvmCross.Platform.Converters;
+using MvvmCross.Platform.IoC;
+using System;
 
 namespace Tollminder.Droid
 {
@@ -16,7 +19,7 @@ namespace Tollminder.Droid
 
         protected override IMvxApplication CreateApp()
         {
-            return new Core.App();
+            return new Core.App(this);
         }
 		
         protected override IMvxTrace CreateDebugTrace()
@@ -31,7 +34,15 @@ namespace Tollminder.Droid
 			Mvx.LazyConstructAndRegisterSingleton<IMotionActivity,DroidMotionActivity> ();
 			Mvx.LazyConstructAndRegisterSingleton<INotificationSender,DroidNotificationSender> ();
 			Mvx.LazyConstructAndRegisterSingleton<IPlatform, DroidPlatform> ();
-			Mvx.ConstructAndRegisterSingleton<ITextToSpeechService, DroidTextToSpeechService> ();
+			Mvx.LazyConstructAndRegisterSingleton<ITextToSpeechService, DroidTextToSpeechService> ();
+			Mvx.LazyConstructAndRegisterSingleton<ISpeechToTextService, DroidSpeechToTextService>();
+			Mvx.LazyConstructAndRegisterSingleton<IStoredSettingsBase, DroidStoredSettingsBase>();
+		}
+
+		protected override void FillValueConverters(IMvxValueConverterRegistry registry)
+		{
+			foreach (var item in CreatableTypes().EndingWith("Converter"))
+				registry.AddOrOverwrite(item.Name, (IMvxValueConverter)Activator.CreateInstance(item));
 		}
     }
 }

@@ -4,6 +4,9 @@ using Android.Locations;
 using Android.Widget;
 using Android.OS;
 using Android.Gms.Location;
+using Tollminder.Core.Helpers;
+using Android.Content;
+using Android.Gms.Common;
 
 namespace Tollminder.Droid
 {
@@ -19,7 +22,9 @@ namespace Tollminder.Droid
 
 		public static GeoLocation GetGeolocationFromAndroidLocation (this Location loc)
 		{
+			Log.LogMessage($"Recieved new location from broadcast receiver {loc}");
 			var geoLocation = new GeoLocation (); 
+			Log.LogMessage (string.Format ("ACCURACY IS {0}", loc.Accuracy));
 			geoLocation.Accuracy = loc.Accuracy;
 			geoLocation.Altitude = loc.Altitude;
 			geoLocation.Longitude = loc.Longitude;
@@ -40,7 +45,7 @@ namespace Tollminder.Droid
 
 		}
 
-		public static Bundle GetGeolocationFromAndroidLocation (this GeoLocation loc)
+		public static Bundle GetBundleFromLocation (this GeoLocation loc)
 		{
 			var bundle = new Bundle ();
 			bundle.PutDouble (Accuracy, loc.Accuracy);
@@ -53,19 +58,25 @@ namespace Tollminder.Droid
 
 		public static MotionType GetMotionType (this DetectedActivity detectedAcitvity)
 		{
-			switch (detectedAcitvity.Type) {
-			case 3:
-				return MotionType.Still;
-			case 7:
-				return MotionType.Walking;
-			case 8:
-				return MotionType.Running;
-			case 0:
-				return MotionType.Automotive;
-			case 4: 
-				return MotionType.Unknown;
+            switch (detectedAcitvity.Type) 
+            {
+                case DetectedActivity.InVehicle:
+                    return MotionType.Automotive;
+                case DetectedActivity.OnBicycle:
+                    return MotionType.Automotive;
+                case DetectedActivity.OnFoot:
+                    return MotionType.Walking;
+                case DetectedActivity.Running:
+                    return MotionType.Running;
+                case DetectedActivity.Still:
+                    return MotionType.Still;
+                case DetectedActivity.Tilting:
+                    return MotionType.Unknown;
+                case DetectedActivity.Walking:
+                    return MotionType.Walking;
+                default:
+                    return MotionType.Unknown;
 			}
-			return MotionType.Unknown;
 		}
 
 		public static Bundle PutMotionType (this MotionType mType)
@@ -101,6 +112,19 @@ namespace Tollminder.Droid
 		public static bool GetIsEnabled (this Bundle mType) 
 		{			
 			return mType.GetBoolean(IsEnabled);	
+		}
+
+		public static bool IsGooglePlayServicesInstalled (this Context context)
+		{
+			int queryResult = GoogleApiAvailability.Instance.IsGooglePlayServicesAvailable (context);
+			if (queryResult == ConnectionResult.Success) {
+				return true;
+			}
+
+			if (GoogleApiAvailability.Instance.IsUserResolvableError (queryResult)) {
+				string errorString = GoogleApiAvailability.Instance.GetErrorString (queryResult);
+			}
+			return false;
 		}
 	}
 }

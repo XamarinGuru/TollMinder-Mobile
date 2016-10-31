@@ -18,4 +18,11 @@ namespace Tollminder.Core.Models
 		OnAddGeofence,
 		None
 	}
+
+	public enum AnswerType
+	{
+		Positive,
+		Negative,
+		Unknown
+	}
 }

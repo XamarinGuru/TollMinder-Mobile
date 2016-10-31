@@ -28,19 +28,32 @@
     <MtouchDebug>true</MtouchDebug>
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchProfiling>true</MtouchProfiling>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
+    <DebugSymbols>false</DebugSymbols>
     <Optimize>true</Optimize>
     <OutputPath>bin\iPhone\Release</OutputPath>
+    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;RELEASE;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <MtouchArch>ARMv7, ARMv7s, ARM64</MtouchArch>
+    <MtouchArch>ARMv7, ARM64</MtouchArch>
     <MtouchUseSGen>true</MtouchUseSGen>
-    <CodesignKey>iPhone Distribution</CodesignKey>
+    <CodesignKey>iPhone Distribution: Dmitry Stepanov (W6C5Q44UVB)</CodesignKey>
     <MtouchUseRefCounting>true</MtouchUseRefCounting>
     <MtouchUseLlvm>true</MtouchUseLlvm>
     <IpaPackageName>TollMinder</IpaPackageName>
+    <MtouchExtraArgs></MtouchExtraArgs>
+    <CodesignProvision>27901335-a135-4d3a-9ae5-4c35f71bd3fa</CodesignProvision>
+    <BuildIpa>true</BuildIpa>
+    <IpaMetadata>Info.plist</IpaMetadata>
+    <MtouchFloat32>false</MtouchFloat32>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+    <MtouchUseThumb>true</MtouchUseThumb>
+    <MtouchLink>SdkOnly</MtouchLink>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <Optimize>true</Optimize>
@@ -53,6 +66,7 @@
     <MtouchUseRefCounting>true</MtouchUseRefCounting>
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchUseSGen>true</MtouchUseSGen>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>true</DebugSymbols>
@@ -63,7 +77,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <MtouchArch>ARMv7, ARMv7s, ARM64</MtouchArch>
+    <MtouchArch>ARMv7, ARM64</MtouchArch>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchFloat32>true</MtouchFloat32>
     <CodesignKey>iPhone Developer</CodesignKey>
@@ -72,82 +86,99 @@
     <MtouchUseSGen>true</MtouchUseSGen>
     <MtouchUseRefCounting>true</MtouchUseRefCounting>
     <MtouchProfiling>true</MtouchProfiling>
-    <IpaPackageName>
-    </IpaPackageName>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-hoc|iPhone' ">
-    <Optimize>true</Optimize>
-    <OutputPath>bin\iPhone\Ad-hoc</OutputPath>
-    <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Distribution: Dmitry Stepanov (W6C5Q44UVB)</CodesignKey>
-    <CodesignProvision>2f9a7eec-76c3-414f-96e3-0cc740413863</CodesignProvision>
-    <MtouchUseLlvm>true</MtouchUseLlvm>
-    <MtouchArch>ARMv7, ARMv7s, ARM64</MtouchArch>
-    <IpaPackageName>
-    </IpaPackageName>
-    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <IpaPackageName></IpaPackageName>
+    <CodesignProvision></CodesignProvision>
+    <MtouchLink>None</MtouchLink>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
-    <Reference Include="PLCrashReporterUnifiedBinding">
-      <HintPath>..\packages\Xamarin.Insights.1.11.3\lib\Xamarin.iOS10\PLCrashReporterUnifiedBinding.dll</HintPath>
-    </Reference>
-    <Reference Include="SQLite.Net">
-      <HintPath>..\packages\SQLite.Net.Core-PCL.3.1.1\lib\portable-win8+net45+wp8+wpa81+MonoAndroid1+MonoTouch1\SQLite.Net.dll</HintPath>
-    </Reference>
-    <Reference Include="SQLite.Net.Async">
-      <HintPath>..\packages\SQLite.Net.Async-PCL.3.1.1\lib\portable-win8+net45+wp8+wpa81+MonoAndroid1+MonoTouch1\SQLite.Net.Async.dll</HintPath>
-    </Reference>
-    <Reference Include="SQLite.Net.Platform.XamarinIOS.Unified">
-      <HintPath>..\packages\SQLite.Net-PCL.3.1.1\lib\Xamarin.iOS10\SQLite.Net.Platform.XamarinIOS.Unified.dll</HintPath>
-    </Reference>
     <Reference Include="SQLite.Net.Platform.XamarinIOS">
       <HintPath>..\packages\SQLite.Net-PCL.3.1.1\lib\monotouch\SQLite.Net.Platform.XamarinIOS.dll</HintPath>
     </Reference>
     <Reference Include="ModernHttpClient">
       <HintPath>..\packages\modernhttpclient.2.4.2\lib\Xamarin.iOS10\ModernHttpClient.dll</HintPath>
     </Reference>
-    <Reference Include="MvvmCross.Platform.iOS">
-      <HintPath>..\packages\MvvmCross.Platform.4.0.0-beta8\lib\Xamarin.iOS10\MvvmCross.Platform.iOS.dll</HintPath>
+    <Reference Include="System.Reactive.Interfaces">
+      <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\portable-windows8+net45+wp8\System.Reactive.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="MvvmCross.Platform">
-      <HintPath>..\packages\MvvmCross.Platform.4.0.0-beta8\lib\Xamarin.iOS10\MvvmCross.Platform.dll</HintPath>
+    <Reference Include="System.Reactive.Core">
+      <HintPath>..\packages\Rx-Core.2.2.5\lib\portable-windows8+net45+wp8\System.Reactive.Core.dll</HintPath>
     </Reference>
-    <Reference Include="MvvmCross.Localization">
-      <HintPath>..\packages\MvvmCross.Platform.4.0.0-beta8\lib\Xamarin.iOS10\MvvmCross.Localization.dll</HintPath>
+    <Reference Include="System.Reactive.Linq">
+      <HintPath>..\packages\Rx-Linq.2.2.5\lib\portable-windows8+net45+wp8\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Chance.MvvmCross.Plugins.UserInteraction">
-      <HintPath>..\packages\Birdie.MvvmCross.Plugins.UserInteraction.1.2.0-beta9\lib\Xamarin.iOS10\Chance.MvvmCross.Plugins.UserInteraction.dll</HintPath>
+      <HintPath>..\packages\Birdie.MvvmCross.Plugins.UserInteraction.1.2.1\lib\Xamarin.iOS10\Chance.MvvmCross.Plugins.UserInteraction.dll</HintPath>
     </Reference>
     <Reference Include="Chance.MvvmCross.Plugins.UserInteraction.Touch">
-      <HintPath>..\packages\Birdie.MvvmCross.Plugins.UserInteraction.1.2.0-beta9\lib\Xamarin.iOS10\Chance.MvvmCross.Plugins.UserInteraction.Touch.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.iOS">
-      <HintPath>..\packages\MvvmCross.Core.4.0.0-beta8\lib\Xamarin.iOS10\MvvmCross.iOS.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Core">
-      <HintPath>..\packages\MvvmCross.Core.4.0.0-beta8\lib\Xamarin.iOS10\MvvmCross.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Binding.iOS">
-      <HintPath>..\packages\MvvmCross.Binding.4.0.0-beta8\lib\Xamarin.iOS10\MvvmCross.Binding.iOS.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Binding">
-      <HintPath>..\packages\MvvmCross.Binding.4.0.0-beta8\lib\Xamarin.iOS10\MvvmCross.Binding.dll</HintPath>
+      <HintPath>..\packages\Birdie.MvvmCross.Plugins.UserInteraction.1.2.1\lib\Xamarin.iOS10\Chance.MvvmCross.Plugins.UserInteraction.Touch.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Insights">
-      <HintPath>..\packages\Xamarin.Insights.1.11.3\lib\Xamarin.iOS10\Xamarin.Insights.dll</HintPath>
+      <HintPath>..\packages\Xamarin.Insights.1.12.3\lib\Xamarin.iOS10\Xamarin.Insights.dll</HintPath>
+    </Reference>
+    <Reference Include="PLCrashReporterUnifiedBinding">
+      <HintPath>..\packages\Xamarin.Insights.1.12.3\lib\Xamarin.iOS10\PLCrashReporterUnifiedBinding.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Platform.iOS">
+      <HintPath>..\packages\MvvmCross.Platform.4.3.0\lib\Xamarin.iOS10\MvvmCross.Platform.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Platform">
+      <HintPath>..\packages\MvvmCross.Platform.4.3.0\lib\Xamarin.iOS10\MvvmCross.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.iOS">
+      <HintPath>..\packages\MvvmCross.Core.4.3.0\lib\Xamarin.iOS10\MvvmCross.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Core">
+      <HintPath>..\packages\MvvmCross.Core.4.3.0\lib\Xamarin.iOS10\MvvmCross.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Binding.iOS">
+      <HintPath>..\packages\MvvmCross.Binding.4.3.0\lib\Xamarin.iOS10\MvvmCross.Binding.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Binding">
+      <HintPath>..\packages\MvvmCross.Binding.4.3.0\lib\Xamarin.iOS10\MvvmCross.Binding.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Localization">
+      <HintPath>..\packages\MvvmCross.Binding.4.3.0\lib\Xamarin.iOS10\MvvmCross.Localization.dll</HintPath>
     </Reference>
     <Reference Include="MvvmCross.Plugins.Messenger">
-      <HintPath>..\packages\MvvmCross.Plugin.Messenger.4.0.0-beta8\lib\Xamarin.iOS10\MvvmCross.Plugins.Messenger.dll</HintPath>
+      <HintPath>..\packages\MvvmCross.Plugin.Messenger.4.3.0\lib\Xamarin.iOS10\MvvmCross.Plugins.Messenger.dll</HintPath>
     </Reference>
     <Reference Include="MvvmCross.Plugins.Sqlite">
-      <HintPath>..\packages\MvvmCross.Plugin.SQLitePCL.4.0.0-beta8\lib\Xamarin.iOS10\MvvmCross.Plugins.Sqlite.dll</HintPath>
+      <HintPath>..\packages\MvvmCross.Plugin.SQLitePCL.4.3.4\lib\Xamarin.iOS10\MvvmCross.Plugins.Sqlite.dll</HintPath>
     </Reference>
     <Reference Include="MvvmCross.Plugins.Sqlite.iOS">
-      <HintPath>..\packages\MvvmCross.Plugin.SQLitePCL.4.0.0-beta8\lib\Xamarin.iOS10\MvvmCross.Plugins.Sqlite.iOS.dll</HintPath>
+      <HintPath>..\packages\MvvmCross.Plugin.SQLitePCL.4.3.4\lib\Xamarin.iOS10\MvvmCross.Plugins.Sqlite.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLite-net">
+      <HintPath>..\packages\sqlite-net-pcl.1.2.0\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLite-net.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Permissions.Abstractions">
+      <HintPath>..\packages\Plugin.Permissions.1.2.1\lib\Xamarin.iOS10\Plugin.Permissions.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Permissions">
+      <HintPath>..\packages\Plugin.Permissions.1.2.1\lib\Xamarin.iOS10\Plugin.Permissions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices">
+      <HintPath>..\packages\Rx-PlatformServices.2.3\lib\portable-windows8+net45+wp8\System.Reactive.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.core">
+      <HintPath>..\packages\SQLitePCLRaw.core.1.1.0\lib\Xamarin.iOS10\SQLitePCLRaw.core.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.provider.sqlite3">
+      <HintPath>..\packages\SQLitePCLRaw.provider.sqlite3.ios_unified.1.1.0\lib\Xamarin.iOS10\SQLitePCLRaw.provider.sqlite3.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.batteries_green">
+      <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.0\lib\Xamarin.iOS10\SQLitePCLRaw.batteries_green.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.batteries_v2">
+      <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.0\lib\Xamarin.iOS10\SQLitePCLRaw.batteries_v2.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -182,21 +213,44 @@
     <Compile Include="Services\TouchGeoFence.cs" />
     <Compile Include="Services\TouchPlatform.cs" />
     <Compile Include="Services\TouchNotificationSender.cs" />
-    <Compile Include="Bootstrap\SqlitePluginBootstrap.cs" />
-    <Compile Include="Bootstrap\MessengerPluginBootstrap.cs" />
+    <Compile Include="Services\TouchSpeechToTextService.cs" />
+    <Compile Include="Services\TouchStoredSettingsBase.cs" />
+    <Compile Include="Converters\InverseBoolConverter.cs" />
     <Compile Include="Bootstrap\UserInteractionPluginBootstrap.cs" />
+    <Compile Include="Bootstrap\MessengerPluginBootstrap.cs" />
+    <Compile Include="Bootstrap\SqlitePluginBootstrap.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
-  <Import Project="..\packages\Xamarin.Insights.1.11.3\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.11.3\build\Xamarin.iOS10\Xamarin.Insights.targets')" />
+  <Import Project="..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets')" />
   <ItemGroup>
     <ProjectReference Include="..\Tollminder.Core\Tollminder.Core.csproj">
       <Project>{E6D05A1A-E03C-4D21-83F4-0D59E9429837}</Project>
       <Name>Tollminder.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ios Binding\OpenEars\OpenEars.csproj">
+      <Project>{724479A5-0430-40C2-B8D9-C5EE3293B919}</Project>
+      <Name>OpenEars</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
     <Folder Include="Views\" />
     <Folder Include="Helpers\" />
+    <Folder Include="Sounds\" />
+    <Folder Include="Converters\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\OpenEars1.dic" />
+    <BundleResource Include="Resources\OpenEars1.languagemodel" />
+    <BundleResource Include="Resources\AcousticModelEnglish.bundle\LICENSE" />
+    <BundleResource Include="Resources\AcousticModelEnglish.bundle\LanguageModelGeneratorLookupList.text" />
+    <BundleResource Include="Resources\AcousticModelEnglish.bundle\feat.params" />
+    <BundleResource Include="Resources\AcousticModelEnglish.bundle\mdef" />
+    <BundleResource Include="Resources\AcousticModelEnglish.bundle\means" />
+    <BundleResource Include="Resources\AcousticModelEnglish.bundle\noisedict" />
+    <BundleResource Include="Resources\AcousticModelEnglish.bundle\sendump" />
+    <BundleResource Include="Resources\AcousticModelEnglish.bundle\transition_matrices" />
+    <BundleResource Include="Resources\AcousticModelEnglish.bundle\variances" />
+    <BundleResource Include="Sounds\tap.aif" />
   </ItemGroup>
 </Project>

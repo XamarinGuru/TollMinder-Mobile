@@ -1,20 +1,14 @@
-﻿using System;
-using Tollminder.Droid.Helpers;
-using Tollminder.Droid.Handlers;
-using Android.Gms.Common.Apis;
-using Android.Gms.Common;
-using Android.App;
-using Android.OS;
-using Java.Util.Concurrent;
-using Tollminder.Core.Helpers;
-using Tollminder.Core.Models;
-using Android.Gms.Location;
+﻿using Android.App;
 using Android.Content;
+using Android.Gms.Common.Apis;
+using Android.Gms.Location;
+using Android.OS;
+using Tollminder.Core.Helpers;
 
 namespace Tollminder.Droid.AndroidServices
 {
-	[Service]
-	public class MotionActivityService : GoogleApiService<MotionServiceHanlder> 
+	[Service(Enabled = true, Exported = false)]
+	public class MotionActivityService : GoogleApiService
 	{
 		
 		public static readonly int ResolutionRequest = 101;
@@ -26,7 +20,15 @@ namespace Tollminder.Droid.AndroidServices
 			CreateGoogleApiClient (ActivityRecognition.API);
 			Connect ();
 		}
-		public override void OnConnected (Android.OS.Bundle connectionHint)
+
+		public override void OnDestroy ()
+		{
+			base.OnDestroy ();
+			StopMotionSerivce ();
+			ActivityPendingIntent.Cancel ();
+		}
+
+		public override void OnConnected (Bundle connectionHint)
 		{
 			base.OnConnected (connectionHint);
 			StartMotionService ();
@@ -39,50 +41,33 @@ namespace Tollminder.Droid.AndroidServices
 				return;
 			}
 			StopMotionSerivce ();
-			var status = await ActivityRecognition.ActivityRecognitionApi.RequestActivityUpdatesAsync (GoogleApiClient, 1000, GetActivityPendingIntent);
-			#if DEBUG
+			var status = await ActivityRecognition.ActivityRecognitionApi.RequestActivityUpdatesAsync (GoogleApiClient, 1000, ActivityPendingIntent);
 			Log.LogMessage(string.Format ("GoogleApiClient connected : {0}", status));
-			#endif
 		}
 
 		public virtual async void StopMotionSerivce ()
 		{
 			if (GoogleApiClient != null && GoogleApiClient.IsConnected) {
-				var status = await ActivityRecognition.ActivityRecognitionApi.RemoveActivityUpdatesAsync (GoogleApiClient, GetActivityPendingIntent);
-				#if DEBUG
+				var status = await ActivityRecognition.ActivityRecognitionApi.RemoveActivityUpdatesAsync (GoogleApiClient, ActivityPendingIntent);
 				Log.LogMessage(string.Format ("GoogleApiClient connected : {0}", status));
-				#endif				
 			}
 		}
 
-		public override StartCommandResult OnStartCommand (Android.Content.Intent intent, StartCommandFlags flags, int startId)
+		public override IBinder OnBind (Intent intent)
 		{
-			ActivityRecognitionResult result = ActivityRecognitionResult.ExtractResult (intent);
-			SendMessage (result.MostProbableActivity.GetMotionType ().PutMotionType ());
-			#if DEBUG
-			Log.LogMessage(string.Format ("Most probable reuslt - {0}", result.MostProbableActivity.GetMotionType ()));
-			#endif
-			return base.OnStartCommand (intent, flags, startId);
-
-
-		}
-
-		protected virtual void SendMessage (Bundle bundle)
-		{
-			if (MessengerClient != null) {
-				DroidMessanging.SendMessage (MotionConstants.GetMotion, MessengerClient, null, bundle);
-			}
+			return null;
 		}
 
 		private PendingIntent _motionActivityPendingIntent;
-		private PendingIntent GetActivityPendingIntent 
+		private PendingIntent ActivityPendingIntent 
 		{
 			get {
 				if (_motionActivityPendingIntent != null) {
 					return _motionActivityPendingIntent;
 				}
-				Intent intent = new Intent (this, typeof(MotionActivityService));
-				_motionActivityPendingIntent = PendingIntent.GetService (this, 0, intent, PendingIntentFlags.UpdateCurrent);
+				Intent intent = new Intent ("com.tollminder.MotionReciever");
+				intent.SetPackage ("com.tollminder");
+				_motionActivityPendingIntent = PendingIntent.GetBroadcast (this, 1, intent, PendingIntentFlags.UpdateCurrent);
 				return _motionActivityPendingIntent;
 			}
 		}

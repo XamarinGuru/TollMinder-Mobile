@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Threading.Tasks;
+using Tollminder.Core.Models;
 
 namespace Tollminder.Core.ServicesHelpers
 {
 	public interface ITrackFacade
 	{
-		void StartServices();
-		void StopServices();
+		TollGeolocationStatus TollStatus { get; }
+
+		Task<bool> StartServices();
+		bool StopServices();
 	}
 }

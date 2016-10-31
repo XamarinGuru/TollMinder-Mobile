@@ -6,7 +6,8 @@ namespace Tollminder.Core.Services
 	public interface IMotionActivity
 	{
 		bool IsBound { get; }
-		MotionType MotionType { get; }
+		MotionType MotionType { get; set; }
+		//bool IsAutomove { get; }
 		void StartDetection ();
 		void StopDetection ();
 	}

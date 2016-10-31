@@ -20,12 +20,12 @@ let RestoreSubmodulePackages dirPath =
 
 let RestorePackages solutionFile =
     Exec "tools/NuGet/NuGet.exe" ("restore " + solutionFile)
-    solutionFile |> RestoreComponents (fun defaults -> {defaults with ToolPath = "tools/xpkg/xamarin-component.exe" })
-//    RestoreSubmodulePackages "Submodules" 
+    //solutionFile |> RestoreComponents (fun defaults -> {defaults with ToolPath = "tools/xpkg/xamarin-component.exe" })
+    //RestoreSubmodulePackag`es "Submodules" 
 
 let RunNUnitTests dllPath xmlPath =
     Exec "/Library/Frameworks/Mono.framework/Versions/Current/bin/nunit-console4" (dllPath + " -xml=" + xmlPath)
-    TeamCityHelper.sendTeamCityNUnitImport xmlPath
+    TeamCityHelper.sendTeamCityNUnitImport xmlPath 
 
 let RunUITests appPath =
     let testAppFolder = Path.Combine("Tests", "GoClientApp.UITests", "testapps")

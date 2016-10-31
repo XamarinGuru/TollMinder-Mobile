@@ -10,13 +10,41 @@ namespace Tollminder.Touch.Services
 
 		public bool IsAppInForeground {
 			get {
-				return UIApplication.SharedApplication.ApplicationState == UIApplicationState.Active;
+				//TODO exception run on ui thread.
+				bool IsAppInForeground = true;
+				UIApplication.SharedApplication.InvokeOnMainThread (() => {
+					IsAppInForeground = UIApplication.SharedApplication.ApplicationState == UIApplicationState.Active;
+				});
+				return IsAppInForeground;
 			}
 		}
 
-		#endregion
+		public bool IsMusicRunning
+		{
+			get
+			{
+				return false;
+			}
+		}
+
+		public void PauseMusic()
+		{
+			
+		}
+
+		public void PlayMusic()
+		{
+			
+		}
+
+        public void SetAudioEnabled(bool flag)
+        {
+            
+        }
+
+        #endregion
 
 
-	}
+    }
 }
 

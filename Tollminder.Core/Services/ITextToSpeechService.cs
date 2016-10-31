@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Tollminder.Core.Services
 {
     public interface ITextToSpeechService
     {
-        void Speak(string text);
+        Task Speak(string text, bool disableMusic = false);
 		bool IsEnabled { get; set; }
     }
 }

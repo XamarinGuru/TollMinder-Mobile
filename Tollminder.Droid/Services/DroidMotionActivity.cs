@@ -2,15 +2,36 @@
 using Tollminder.Core.Models;
 using Tollminder.Core.Services;
 using Tollminder.Droid.AndroidServices;
-using Tollminder.Droid.Handlers;
-using Tollminder.Droid.ServicesConnections;
 using MvvmCross.Plugins.Messenger;
+using Android.Content;
+using Android.Gms.Location;
+using Android.App;
 
 namespace Tollminder.Droid.Services
 {
-	public class DroidMotionActivity : AndroidServiceWithServiceConnection<MotionActivityService,MotionClientHanlder, MotionServiceConnection> , IMotionActivity
+	public class DroidMotionActivity : DroidServiceStarter , IMotionActivity
 	{
+		readonly INotifyService _notifyService;
+		private MotionType _motionType;
+
+		public DroidMotionActivity ()
+		{
+			this._notifyService = Mvx.Resolve<INotifyService> ();
+			ServiceIntent = new Intent (ApplicationContext, typeof (MotionActivityService));
+		}
+
+		public virtual MotionType MotionType {
+			get { return _motionType; }
+			set {
+				_motionType = value;
+				Mvx.Resolve<IMvxMessenger> ().Publish (new MotionMessage (this, value));
+			}
+		}
+
+		public bool IsAutomove { get { return _motionType == MotionType.Automotive; } }
+
 		public bool IsBound { get; private set; } = false;
+
 		#region IMotionActivity implementation
 
 		public void StartDetection ()
@@ -23,20 +44,24 @@ namespace Tollminder.Droid.Services
 
 		public void StopDetection ()
 		{
-			if (IsBound & MessengerService != null) {				
+			if (IsBound) {				
 				Stop ();
 				IsBound = false;
 			}
 		}
 
-		private MotionType _motionType;
-		public virtual MotionType MotionType {
-			get { return _motionType; }
-			set {
-				_motionType = value;
-				Mvx.Resolve<IMvxMessenger> ().Publish (new MotionMessage (this, value));
+		protected virtual void SpeakMotion (MotionType value)
+		{
+			if (value != MotionType) {
+				if (IsAutomove) {
+					_notifyService.Notify ("You start moving on the car");
+				} else {
+					_notifyService.Notify (value.ToString ());
+				}
 			}
 		}
+
+		public virtual bool IsStartMovingOnTheCar (MotionType value) => value == MotionType.Automotive;
 
 		#endregion
 	}

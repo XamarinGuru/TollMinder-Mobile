@@ -1,89 +1,131 @@
-﻿using Android.App;
+﻿using System;
+using Android.App;
+using Android.Content;
 using Android.Gms.Location;
+using Android.Locations;
 using Android.OS;
+using MvvmCross.Droid.Platform;
+using MvvmCross.Platform;
 using Tollminder.Core.Helpers;
-using Tollminder.Core.Models;
-using Tollminder.Droid.Helpers;
-using Tollminder.Droid.Handlers;
+using Tollminder.Core.Services;
+using Tollminder.Core.Services.Implementation;
+using Tollminder.Droid.BroadcastReceivers;
 
 namespace Tollminder.Droid.AndroidServices
-{	
-	
-	public class GeolocationService : GoogleApiService<GeolocationServiceHandler>,
-										Android.Gms.Location.ILocationListener									
-										 
+{
+	[Service (Enabled = true, Exported = false)]
+	public class GeolocationService : GoogleApiService, Android.Gms.Location.ILocationListener
 	{
-		private LocationRequest _locationRequest;
+		public static string DistanceIntervalString = "distance_interval";
+        public static string TimeIntervalString = "time_interval";
 
-		private GeoLocation _geoLocation;
-		public virtual GeoLocation Location {
-			get { return _geoLocation; } 
-			protected set { 
-				_geoLocation = value;
-				SendMessage ();
+		LocationRequest _request;
+
+		public virtual int DistanceInterval { get; set; }
+        public virtual int TimeInterval { get; set; }
+
+		GeolocationReceiver _reciever;
+		public GeolocationReceiver Reciever 
+		{
+			get 
+			{
+				return _reciever ?? (_reciever = new GeolocationReceiver());
 			}
 		}
 
+		PendingIntent _geolocationPendingIntent;
+		protected PendingIntent GeolocationPendingIntent
+		{
+			get
+			{
+				return _geolocationPendingIntent ?? (_geolocationPendingIntent = PendingIntent.GetBroadcast(this, 0, new Intent("com.tollminder.GeolocationReciever").SetPackage("com.tollminder"), PendingIntentFlags.UpdateCurrent));
+			}
+		}
+
+		protected virtual LocationRequest LocationRequest
+		{
+			get
+			{
+				return _request ?? (_request = new LocationRequest().SetPriority(LocationRequest.PriorityHighAccuracy).SetSmallestDisplacement(DistanceInterval).SetInterval(TimeInterval));
+			}
+		}
 
 		public override void OnCreate ()
 		{
 			base.OnCreate ();
+			RegisterGeolocationBroadcastReceiver();
 			CreateGoogleApiClient (LocationServices.API);
 			Connect ();
+		}
+
+		void RegisterGeolocationBroadcastReceiver()
+		{
+			var intentFilter = new IntentFilter();
+			intentFilter.AddAction("com.tollminder.GeolocationReciever");
+			RegisterReceiver(Reciever, intentFilter);
+		}
+
+		void UnRegisterGeolocationBroadcastReceiver()
+		{
+			UnregisterReceiver(Reciever);
+			GeolocationPendingIntent.Cancel();
+		}
+
+		public override StartCommandResult OnStartCommand (Intent intent, StartCommandFlags flags, int startId)
+		{
+            DistanceInterval = intent.GetIntExtra (DistanceIntervalString, SettingsService.DistanceIntervalDefault);
+            TimeInterval = intent.GetIntExtra(TimeIntervalString, SettingsService.TimeIntervalDefault);
+			return StartCommandResult.RedeliverIntent;
 		}
 
 		public override void OnDestroy ()
 		{
 			base.OnDestroy ();
+			StopLocationUpdate ();
+			UnRegisterGeolocationBroadcastReceiver();
 		}
 
 		public virtual void StopLocationUpdate ()
 		{
 			if (GoogleApiClient != null && GoogleApiClient.IsConnected) {
-				LocationServices.FusedLocationApi.RemoveLocationUpdates (GoogleApiClient, this);
+				LocationServices.FusedLocationApi.RemoveLocationUpdates (GoogleApiClient, GeolocationPendingIntent);
 			}
 		}
 
 		public virtual void StartLocationUpdate ()
 		{
-			if (!GoogleApiClient.IsConnected) {
-				Connect ();
-				return;
-			}
-			StopLocationUpdate ();
-			SetUpLocationRequest ();
-			LocationServices.FusedLocationApi.RequestLocationUpdates (GoogleApiClient, _locationRequest, this);
+			Log.LogMessage ("START LOCATION UPDATES ");
+			LocationServices.FusedLocationApi.RequestLocationUpdates (GoogleApiClient, LocationRequest, GeolocationPendingIntent);
 		}
 
 		public override void OnConnected (Bundle connectionHint)
 		{
 			base.OnConnected (connectionHint);
 			StartLocationUpdate ();
-			#if DEBUG
-			Log.LogMessage("GoogleApiClient connected");
-			#endif
+			Log.LogMessage ("GoogleApiClient connected");
 		}
 
-		public void OnLocationChanged (Android.Locations.Location location)
+		public override void OnConnectionFailed (Android.Gms.Common.ConnectionResult result)
 		{
-			Location = location.GetGeolocationFromAndroidLocation();
+			base.OnConnectionFailed (result);
 		}
 
-		private void SetUpLocationRequest ()
+		public override void OnConnectionSuspended (int cause)
 		{
-			if (_locationRequest == null) {
-				_locationRequest = new LocationRequest ();
-				_locationRequest.SetPriority (LocationRequest.PriorityLowPower);
-				_locationRequest.SetInterval(1000);
-				_locationRequest.SetFastestInterval(1000);
-			}
+			base.OnConnectionSuspended (cause);
 		}
 
-		private void SendMessage ()
+		public override IBinder OnBind (Intent intent)
 		{
-			if (MessengerClient != null) {
-				DroidMessanging.SendMessage (ServiceConstants.ServicePushLocations, MessengerClient, null, Location.GetGeolocationFromAndroidLocation ());
-			}
+			return null;
 		}
-	}	
+
+		public void OnLocationChanged(Location location)
+		{
+			var setup = MvxAndroidSetupSingleton.EnsureSingletonAvailable(Application.Context);
+			setup.EnsureInitialized();
+
+			Mvx.Resolve<IGeoLocationWatcher>().Location = location.GetGeolocationFromAndroidLocation();
+		}
+	}
 }

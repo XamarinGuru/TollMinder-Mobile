@@ -4,6 +4,12 @@ using System;
 using MvvmCross.iOS.Platform;
 using MvvmCross.Platform;
 using MvvmCross.Core.ViewModels;
+using MvvmCross.Plugins.Messenger;
+using Tollminder.Core.Models;
+using AVFoundation;
+using System.Threading.Tasks;
+using Tollminder.Core.Services;
+using Tollminder.Core.ServicesHelpers;
 
 namespace Tollminder.Touch
 {
@@ -40,7 +46,12 @@ namespace Tollminder.Touch
 				);
 				application.CancelAllLocalNotifications ();
 				application.RegisterUserNotificationSettings (notificationSettings);
-			} 
+			}
+
+            var session = AVAudioSession.SharedInstance ();
+            NSError categoryError;
+            session.SetCategory (AVAudioSessionCategory.Playback);
+            session.SetActive (true, out categoryError);
 
             return true;
         }
@@ -48,11 +59,6 @@ namespace Tollminder.Touch
 		public override void ReceivedLocalNotification (UIApplication application, UILocalNotification notification)
 		{
 			
-		}
-
-		public override void PerformFetch (UIApplication application, Action<UIBackgroundFetchResult> completionHandler)
-		{
-			completionHandler (UIBackgroundFetchResult.NewData);
 		}
 
         public override void OnResignActivation(UIApplication application)
@@ -66,6 +72,13 @@ namespace Tollminder.Touch
         public override void DidEnterBackground(UIApplication application)
         {
 			Console.WriteLine ("App entering background state.");
+			Mvx.Resolve<IMvxMessenger> ().Publish (new AppInBackgroundMessage (this));
+            nint taskID = UIApplication.SharedApplication.BeginBackgroundTask(() => { });
+            new Task(() =>
+            {
+                CheckBatteryDrainTimeout();
+                UIApplication.SharedApplication.EndBackgroundTask(taskID);
+            }).Start();
         }
 
         public override void WillEnterForeground(UIApplication application)
@@ -82,6 +95,22 @@ namespace Tollminder.Touch
         public override void WillTerminate(UIApplication application)
         {
             // Called when the application is about to terminate. Save data, if needed. See also DidEnterBackground.
+        }
+
+        void CheckBatteryDrainTimeout()
+        {
+            Mvx.Trace("CheckBatteryDrainTimeout from background");
+            Mvx.Resolve<ITrackFacade>().StopServices();
+            Mvx.Resolve<ITrackFacade>().StartServices();
+            Mvx.Resolve<INotificationSender>().SendLocalNotification("Background mode", $"App is still working");
+            Task.Delay(600000).Wait();
+            nint taskID = UIApplication.SharedApplication.BeginBackgroundTask(() => { });
+            new Task(() =>
+            {
+                CheckBatteryDrainTimeout();
+                UIApplication.SharedApplication.EndBackgroundTask(taskID);
+
+            }).Start();
         }
     }
 }
