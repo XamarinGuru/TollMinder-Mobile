@@ -65,15 +65,13 @@ namespace Tollminder.Core.Services.Implementation
 
         public void InsertOrUpdateAllTollRoads(IList<TollRoad> tollRoads)
         {
-            DeleteOldTollRoadsAndWaypoints(tollRoads);
-            DeleteOldTollPoints(tollRoads);
-
+            DeleteOldTollRoads(tollRoads);
             Connection.InsertOrReplaceAllWithChildren(tollRoads, true);
         }
 
         public IList<TollPoint> GetAllEntranceTollPoints()
         {
-            var list = Connection.GetAllWithChildren<TollPoint>(x => x.WaypointAction == WaypointAction.Entrance || x.WaypointAction == WaypointAction.Bridge).ToList();
+            var list = Connection.GetAllWithChildren<TollPoint>(x => x.WaypointAction == WaypointAction.Entrance || x.WaypointAction == WaypointAction.Bridge, true).ToList();
             return list;
         }
 
@@ -89,18 +87,11 @@ namespace Tollminder.Core.Services.Implementation
             }
         }
 
-        void DeleteOldTollRoadsAndWaypoints(IList<TollRoad> tollRoads)
+        void DeleteOldTollRoads(IList<TollRoad> tollRoads)
         {
             var roadIds = tollRoads.Select(x => x.Id);
-            var tollRoadsToRemove = Connection.GetAllWithChildren<TollRoad>(x => roadIds.Contains(x.Id));
+            var tollRoadsToRemove = Connection.GetAllWithChildren<TollRoad>(x => roadIds.Contains(x.Id), true);
             Connection.DeleteAll(tollRoadsToRemove, true);
-        }
-
-        void DeleteOldTollPoints(IList<TollRoad> tollRoads)
-        {
-            var tollIds = tollRoads.SelectMany(x => x.WayPoints.SelectMany(y => y.TollPoints)).Select(x => x.Id);
-            var tollPointsToRemove = Connection.GetAllWithChildren<TollPoint>(x => tollIds.Contains(x.Id));
-            Connection.DeleteAll(tollPointsToRemove, true);
         }
     }
 }
