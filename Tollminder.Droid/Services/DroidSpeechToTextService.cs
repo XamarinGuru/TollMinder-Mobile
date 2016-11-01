@@ -183,18 +183,8 @@ namespace Tollminder.Droid.Services
                             .SetTitle(Question)
                             .SetMessage("Please, answer yes or no after the tone")
                             .SetCancelable(false)
-                            .SetPositiveButton("Yes", (sender, e) =>
-                {
-                    _dialogWasManuallyAnswered = true;
-                    _speechRecognizer?.StopListening();
-                    _recognitionTask.TrySetResult(true);
-                })
-                            .SetNegativeButton("No", (sender, e) =>
-                {
-                    _dialogWasManuallyAnswered = true;
-                    _speechRecognizer?.StopListening();
-                    _recognitionTask.TrySetResult(false);
-                })
+                            .SetPositiveButton("Yes", (sender, e) => SetDialogAnswer(true))
+                            .SetNegativeButton("No", (sender, e) => SetDialogAnswer(false))
                             .Show();
                 }
                 catch (Exception e)
@@ -202,6 +192,14 @@ namespace Tollminder.Droid.Services
                     Mvx.Trace(e.Message + e.StackTrace);
                 }
             }
+        }
+
+        void SetDialogAnswer(bool result)
+        {
+            _dialogWasManuallyAnswered = true;
+            _speechRecognizer?.StopListening();
+            DisposeDialog();
+            _recognitionTask.TrySetResult(result);
         }
 
         void DisposeDialog()
