@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using MvvmCross.Platform;
-using MvvmCross.Plugins.Sqlite;
-using SQLiteNetExtensions.Extensions;
-using Tollminder.Core.Helpers;
 using Tollminder.Core.Models;
 
 namespace Tollminder.Core.Services.Implementation

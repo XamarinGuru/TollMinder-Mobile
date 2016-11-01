@@ -97,10 +97,10 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
                 _textToSpeech.IsEnabled = true;
                 _activity.StartDetection();
                 _geoWatcher.StartGeolocationWatcher();
-                _locationToken = _messenger.SubscribeOnThreadPoolThread<LocationMessage>(x =>
+                _locationToken = _messenger.SubscribeOnThreadPoolThread<LocationMessage>(async x =>
                {
                    Log.LogMessage("Start processing LocationMessage");
-                   CheckTrackStatus();
+                   await CheckTrackStatus();
                });
                 _tokens.Add(_locationToken);
 
@@ -138,7 +138,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
             }
         }
 
-        protected async virtual void CheckTrackStatus()
+        protected async virtual Task CheckTrackStatus()
         {
             if (_locationProcessing)
             {
@@ -157,19 +157,19 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
             {
                 BaseStatus statusObject = StatusesFactory.GetStatus(TollStatus);
 
-                //if (_activity.MotionType == MotionType.Still)
-                //{
-                //    Log.LogMessage("Ignore location in FACADE because we are still");
-                //    return;
-                //}
-                //else
-                //{
+                if (_activity.MotionType == MotionType.Still)
+                {
+                    Log.LogMessage("Ignore location in FACADE because we are still");
+                    return;
+                }
+                else
+                {
                     if (statusObject.CheckBatteryDrain())
                     {
                         Log.LogMessage("Ignore location in FACADE because we are too away from nearest waypoint");
                         return;
                     }
-                //}
+                }
 
                 var statusBeforeCheck = TollStatus;
                 Log.LogMessage($"Current status before check= {TollStatus}");
@@ -199,8 +199,8 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
             if (_storedSettingsService.GeoWatcherIsRunning)
             {
-                Mvx.Resolve<ITrackFacade>().StopServices();
-                await Mvx.Resolve<ITrackFacade>().StartServices().ConfigureAwait(false);
+                StopServices();
+                await StartServices().ConfigureAwait(false);
                 Log.LogMessage("Autostart facade");
             }
         }
