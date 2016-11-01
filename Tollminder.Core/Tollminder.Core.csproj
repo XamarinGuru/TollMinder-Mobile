@@ -70,7 +70,7 @@
     <Compile Include="Services\IDistanceChecker.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Services\Implementation\DistanceChecker.cs" />
-    <Compile Include="Services\Implementation\DummyDataSerivce.cs" />
+    <Compile Include="Services\Implementation\GeoDataService.cs" />
     <Compile Include="Services\Implementation\WaypointChecker.cs" />
     <Compile Include="Models\Statuses\OnTollRoadStatus.cs" />
     <Compile Include="Models\Statuses\StatusesFactory.cs" />
@@ -93,6 +93,10 @@
     <Compile Include="Services\Implementation\SettingsService.cs" />
     <Compile Include="Models\Statuses\NearTollRoadEntranceStatus.cs" />
     <Compile Include="Models\TollPoint.cs" />
+    <Compile Include="Interfaces\IDatabaseEntry.cs" />
+    <Compile Include="Services\IDataBaseService.cs" />
+    <Compile Include="Services\Implementation\DataBaseService.cs" />
+    <Compile Include="Services\IGeoData.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
@@ -108,6 +112,7 @@
     <Folder Include="ServicesHelpers\Implementation\" />
     <Folder Include="Models\Statuses\" />
     <Folder Include="Extensions\" />
+    <Folder Include="Interfaces\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="ModernHttpClient">

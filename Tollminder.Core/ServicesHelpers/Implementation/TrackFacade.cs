@@ -34,7 +34,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
         public TrackFacade()
         {
-            Log.LogMessage("Facade init start");
+            Log.LogMessage("Facade ctor start");
             _textToSpeech = Mvx.Resolve<ITextToSpeechService>();
             _messenger = Mvx.Resolve<IMvxMessenger>();
             _geoWatcher = Mvx.Resolve<IGeoLocationWatcher>();
@@ -69,7 +69,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
               });
             _tokens.Add(_motionToken);
 
-            Log.LogMessage("Facade init end");
+            Log.LogMessage("Facade ctor end");
         }
 
         #endregion
@@ -157,19 +157,19 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
             {
                 BaseStatus statusObject = StatusesFactory.GetStatus(TollStatus);
 
-                if (_activity.MotionType == MotionType.Still)
-                {
-                    Log.LogMessage("Ignore location in FACADE because we are still");
-                    return;
-                }
-                else
-                {
+                //if (_activity.MotionType == MotionType.Still)
+                //{
+                //    Log.LogMessage("Ignore location in FACADE because we are still");
+                //    return;
+                //}
+                //else
+                //{
                     if (statusObject.CheckBatteryDrain())
                     {
                         Log.LogMessage("Ignore location in FACADE because we are too away from nearest waypoint");
                         return;
                     }
-                }
+                //}
 
                 var statusBeforeCheck = TollStatus;
                 Log.LogMessage($"Current status before check= {TollStatus}");
@@ -190,6 +190,18 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
             {
                 _locationProcessing = false;
                 _semaphor.Release();
+            }
+        }
+
+        public async Task Initialize()
+        {
+            await Mvx.Resolve<IGeoDataService>().RefreshTollRoads(new CancellationToken()).ConfigureAwait(false);
+
+            if (_storedSettingsService.GeoWatcherIsRunning)
+            {
+                Mvx.Resolve<ITrackFacade>().StopServices();
+                await Mvx.Resolve<ITrackFacade>().StartServices().ConfigureAwait(false);
+                Log.LogMessage("Autostart facade");
             }
         }
     }

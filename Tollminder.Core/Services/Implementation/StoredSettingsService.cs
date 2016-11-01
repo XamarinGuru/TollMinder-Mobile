@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MvvmCross.Platform;
 using Tollminder.Core.Models;
 
 namespace Tollminder.Core.Services.Implementation
@@ -8,9 +9,9 @@ namespace Tollminder.Core.Services.Implementation
 	{
 		readonly IStoredSettingsBase _storedSettingsBase;
 
-		public StoredSettingsService(IStoredSettingsBase storedSettingsBase)
+		public StoredSettingsService()
 		{
-			_storedSettingsBase = storedSettingsBase;
+            _storedSettingsBase = Mvx.Resolve<IStoredSettingsBase>();
 		}
 
 		public bool GeoWatcherIsRunning

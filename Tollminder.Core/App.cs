@@ -9,6 +9,7 @@ using MvvmCross.Platform.IoC;
 using MvvmCross.Platform;
 using MvvmCross.Core.Platform;
 using Tollminder.Core.Helpers;
+using System.Threading;
 
 namespace Tollminder.Core
 {
@@ -31,11 +32,8 @@ namespace Tollminder.Core
 
             RegisterAppStart<HomeViewModel>();
 
-			Mvx.LazyConstructAndRegisterSingleton<IHttpService, HttpService>();
-			Mvx.LazyConstructAndRegisterSingleton<INotifyService, NotifyService> ();
 			Mvx.LazyConstructAndRegisterSingleton<IWaypointChecker, WaypointChecker> ();
 			Mvx.LazyConstructAndRegisterSingleton<IDistanceChecker, DistanceChecker> ();
-            Mvx.LazyConstructAndRegisterSingleton<IGeoDataService, DummyDataSerivce>();
 			Mvx.LazyConstructAndRegisterSingleton<ITrackFacade, TrackFacade>();
         }
 
@@ -43,18 +41,9 @@ namespace Tollminder.Core
         {
             if (e.SetupState == MvxSetup.MvxSetupState.Initialized)
             {
-                if (Mvx.Resolve<IStoredSettingsService>().GeoWatcherIsRunning)
-                {
-                    Task.Run(async () =>
-                    {
-                        Mvx.Resolve<ITrackFacade>().StopServices();
-
-                        await Mvx.Resolve<ITrackFacade>().StartServices().ConfigureAwait(false);
-                        Log.LogMessage("Autostart facade");
-                         _setup.StateChanged -= StateChanged;
-                        _setup = null;
-                    });
-                }
+                Task.Run(async () => await Mvx.Resolve<ITrackFacade>().Initialize()).ConfigureAwait(false);
+                _setup.StateChanged -= StateChanged;
+                _setup = null;
             }
         }
     }

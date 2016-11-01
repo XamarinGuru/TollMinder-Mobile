@@ -9,7 +9,7 @@ namespace Tollminder.Core.Models.Statuses
         public override async Task<TollGeolocationStatus> CheckStatus()
         {
             var location = GeoWatcher.Location;
-            var waypoints = DataService.FindNearestExitTollPoints(location);
+            var waypoints = GeoDataService.FindNearestExitTollPoints(location);
 
             WaypointChecker.SetTollPointsInRadius(waypoints);
 

@@ -1,44 +1,20 @@
 ﻿using System;
 using MvvmCross.Platform;
 using SQLite;
+using SQLiteNetExtensions.Attributes;
 
 namespace Tollminder.Core.Models
 {
 	// encapulates a geolocation and other information
-	public class GeoLocation : IEquatable<GeoLocation>
+	public class GeoLocation : IEquatable<GeoLocation>, IDatabaseEntry
 	{
+        public const double DesiredAccuracy = 100;
 		const double Epsilon = 0.0001;
 
-		public GeoLocation () 
-		{
-			
-		}
-
-		public GeoLocation (double lat, double lng)
-		{
-			Latitude = lat;
-			Longitude = lng;
-		}
-
-        public GeoLocation(string location)
-        {
-            try
-            {
-                var coords = location.Split(',');
-                Latitude = double.Parse(coords[0], System.Globalization.CultureInfo.InvariantCulture);
-                Longitude = double.Parse(coords[1], System.Globalization.CultureInfo.InvariantCulture);
-            }
-            catch (Exception ex)
-            {
-                Mvx.Trace($"Wrong dummy location: {location}, ex {ex.Message + ex.StackTrace}");
-                throw new Exception("Wrong location data");
-            }
-        }
-
-		public const double DesiredAccuracy = 100;
-
-		[PrimaryKey,AutoIncrement]
-		public long Id { get; set; }
+        [PrimaryKey, AutoIncrement]
+        public long DBId { get; set; }
+        [ForeignKey(typeof(TollPoint))]
+        public long TollPointId { get; set; }
 		public double Speed { get; set; }
 		public double Latitude { get; set; }
 		public double Longitude { get; set; }
@@ -56,6 +32,31 @@ namespace Tollminder.Core.Models
 		{
 			get { return Math.Abs (Latitude) < Epsilon && Math.Abs (Longitude) < Epsilon; }
 		}
+
+        public GeoLocation()
+        {
+        }
+
+        public GeoLocation(double lat, double lng)
+        {
+            Latitude = lat;
+            Longitude = lng;
+        }
+
+        public GeoLocation(string location)
+        {
+            try
+            {
+                var coords = location.Split(',');
+                Latitude = double.Parse(coords[0], System.Globalization.CultureInfo.InvariantCulture);
+                Longitude = double.Parse(coords[1], System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch (Exception ex)
+            {
+                Mvx.Trace($"Wrong dummy location: {location}, ex {ex.Message + ex.StackTrace}");
+                throw new Exception("Wrong location data");
+            }
+        }
 
 		// does this equal another location?
 		public bool Equals(GeoLocation other)

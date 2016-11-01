@@ -5,19 +5,20 @@ using SQLiteNetExtensions.Attributes;
 
 namespace Tollminder.Core.Models
 {
-    public class TollPoint: IEquatable<TollRoadWaypoint>
+    public class TollPoint: IEquatable<TollRoadWaypoint>, IDatabaseEntry
     {
         [PrimaryKey, AutoIncrement]
+        public long DBId { get; set; }
         public long Id { get; set; }
         public string Name { get; set; }
         [ForeignKey(typeof(TollRoadWaypoint))]
         public long TollWaypointId { get; set; }
+        [OneToOne(CascadeOperations = CascadeOperation.All)]
         public GeoLocation Location { get; set; }
         public WaypointAction WaypointAction { get; set; }
 
         public TollPoint()
         {
-
         }
 
         public TollPoint(string name, string location, string type)

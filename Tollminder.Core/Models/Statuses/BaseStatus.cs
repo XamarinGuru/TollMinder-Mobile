@@ -45,7 +45,7 @@ namespace Tollminder.Core.Models.Statuses
 		}
 
 		IGeoDataService _dataService;
-		protected IGeoDataService DataService 
+		protected IGeoDataService GeoDataService 
 		{
 			get 
 			{

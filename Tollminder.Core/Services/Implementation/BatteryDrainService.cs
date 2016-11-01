@@ -12,10 +12,7 @@ namespace Tollminder.Core.Services.Implementation
 	public class BatteryDrainService : IBatteryDrainService
 	{
 		readonly IGeoLocationWatcher _geoWatcher;
-		readonly IDistanceChecker _distanceChecker;
-		readonly IGeoDataService _geoDataService;
 		readonly IStoredSettingsService _storedSettingsService;
-        readonly IWaypointChecker _waypointChecker;
         readonly IMotionActivity _motionActivity;
 
 		Timer _timer;
@@ -33,10 +30,7 @@ namespace Tollminder.Core.Services.Implementation
 		public BatteryDrainService()
 		{
 			_geoWatcher = Mvx.Resolve<IGeoLocationWatcher>();
-			_distanceChecker = Mvx.Resolve<IDistanceChecker>();
-			_geoDataService = Mvx.Resolve<IGeoDataService>();
 			_storedSettingsService = Mvx.Resolve<IStoredSettingsService>();
-            _waypointChecker = Mvx.Resolve<IWaypointChecker>();
             _motionActivity = Mvx.Resolve<IMotionActivity>();
 		}
 

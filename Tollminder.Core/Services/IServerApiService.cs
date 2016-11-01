@@ -8,6 +8,6 @@ namespace Tollminder.Core.Services
 {
 	public interface IServerApiService
 	{
-		Task<IList<TollRoadWaypoint>> GetWaypoints (CancellationToken token);
+        Task<IList<TollRoad>> RefreshTollRoads (CancellationToken token);
 	}
 }

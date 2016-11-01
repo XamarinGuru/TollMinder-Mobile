@@ -9,7 +9,7 @@ namespace Tollminder.Core.Services.Implementation
 	{
 		public double Epsilon { get; } = double.Epsilon;
 
-        public List<TollPointWithDistance> GetMostClosestTollPoint (GeoLocation center, List<TollPoint> points, double radius = double.MaxValue)
+        public List<TollPointWithDistance> GetMostClosestTollPoint (GeoLocation center, IList<TollPoint> points, double radius = double.MaxValue)
 		{
             return points.AsParallel()
                          .AsOrdered()
