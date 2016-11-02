@@ -21,6 +21,10 @@ namespace Tollminder.Droid.Services
     //TODO: Google Speech Recognition timeout http://stackoverflow.com/questions/38150312/google-speech-recognition-timeout
     public class DroidSpeechToTextService : Java.Lang.Object, ISpeechToTextService, IRecognitionListener
     {
+        readonly IPlatform PlatformService;
+        readonly ITextFromSpeechMappingService MappingService;
+        readonly ITextToSpeechService TextToSpeechService;
+        
         TaskCompletionSource<bool> _recognitionTask;
 
         SpeechRecognizer _speechRecognizer;
@@ -30,42 +34,6 @@ namespace Tollminder.Droid.Services
         bool _firstInit = true;
         bool _dialogWasManuallyAnswered;
         bool _isMusicRunning;
-
-        IPlatform _platform;
-        IPlatform Platform
-        {
-            get
-            {
-                return _platform ?? (_platform = Mvx.Resolve<IPlatform>());
-            }
-        }
-
-        ITextFromSpeechMappingService _mappingService;
-        ITextFromSpeechMappingService MappingService
-        {
-            get
-            {
-                return _mappingService ?? (_mappingService = Mvx.Resolve<ITextFromSpeechMappingService>());
-            }
-        }
-
-        ITextToSpeechService _textToSpeechService;
-        ITextToSpeechService TextToSpeechService
-        {
-            get
-            {
-                return _textToSpeechService ?? (_textToSpeechService = Mvx.Resolve<ITextToSpeechService>());
-            }
-        }
-
-        IPlatform _platformService;
-        IPlatform PlatformService
-        {
-            get
-            {
-                return _platformService ?? (_platformService = Mvx.Resolve<IPlatform>());
-            }
-        }
 
         string _question;
         public string Question
@@ -102,6 +70,13 @@ namespace Tollminder.Droid.Services
             }
         }
 
+        public DroidSpeechToTextService()
+        {
+            PlatformService = Mvx.Resolve<IPlatform>();
+            MappingService = Mvx.Resolve<ITextFromSpeechMappingService>();
+            TextToSpeechService = Mvx.Resolve<ITextToSpeechService>();
+        }
+
         public Task<bool> AskQuestion(string question)
         {
             _recognitionTask = new TaskCompletionSource<bool>();
@@ -113,10 +88,10 @@ namespace Tollminder.Droid.Services
 
         void AskQuestionMethod(string question)
         {
-            _isMusicRunning = Platform.IsMusicRunning;
+            _isMusicRunning = PlatformService.IsMusicRunning;
 
             if (_isMusicRunning)
-                Platform.PauseMusic();
+                PlatformService.PauseMusic();
 
             if (Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity == null)
             {
@@ -174,7 +149,7 @@ namespace Tollminder.Droid.Services
 
         void ShowDialog()
         {
-            if (_platform.IsAppInForeground && _dialog == null)
+            if (PlatformService.IsAppInForeground && _dialog == null)
             {
                 try
                 {
@@ -237,7 +212,7 @@ namespace Tollminder.Droid.Services
 
         public void OnError([GeneratedEnum] SpeechRecognizerError error)
         {
-            Core.Helpers.Log.LogMessage("SpeechRecognizerError = " + error);
+            Log.LogMessage("SpeechRecognizerError = " + error);
 
             if (!_dialogWasManuallyAnswered && (error == SpeechRecognizerError.NoMatch || error == SpeechRecognizerError.SpeechTimeout))
                 StartSpeechRecognition();
@@ -282,7 +257,7 @@ namespace Tollminder.Droid.Services
                 {
                     TextToSpeechService.Speak($"Your answer is {answer.ToString()}", false).Wait();
                     if (_isMusicRunning)
-                        Platform.PlayMusic();
+                        PlatformService.PlayMusic();
                     _recognitionTask.TrySetResult(answer == AnswerType.Positive);
                 }
                 else

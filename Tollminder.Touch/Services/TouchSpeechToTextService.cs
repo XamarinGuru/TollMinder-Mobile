@@ -16,6 +16,9 @@ namespace Tollminder.Touch.Services
 {
 	public class TouchSpeechToTextService : ISpeechToTextService
 	{
+        readonly ITextFromSpeechMappingService MappingService;
+        readonly ITextToSpeechService TextToSpeechService;
+
 		OEEventsObserver observer;
 		OEPocketsphinxController pocketSphinxController;
 		OEFliteController fliteController;
@@ -24,30 +27,11 @@ namespace Tollminder.Touch.Services
 
 		UIAlertView _error;
 
-		String pathToLanguageModel;
-		String pathToDictionary;
-		String pathToAcousticModel;
-		String firstVoiceToUse;
-		String secondVoiceToUse;
-
-		ITextFromSpeechMappingService _mappingService;
-		ITextFromSpeechMappingService MappingService
-		{
-			get
-			{
-				return _mappingService ?? (_mappingService = Mvx.Resolve<ITextFromSpeechMappingService>());
-			}
-		}
-
-		ITextToSpeechService _textToSpeechService;
-		ITextToSpeechService TextToSpeechService
-		{
-			get
-			{
-				return _textToSpeechService ?? (_textToSpeechService = Mvx.Resolve<ITextToSpeechService>());
-			}
-		}
-
+		string pathToLanguageModel;
+		string pathToDictionary;
+		string pathToAcousticModel;
+		string firstVoiceToUse;
+		string secondVoiceToUse;
 
 		string _question;
 		public string Question
@@ -64,6 +48,9 @@ namespace Tollminder.Touch.Services
 
 		public TouchSpeechToTextService()
 		{
+            MappingService = Mvx.Resolve<ITextFromSpeechMappingService>();
+            TextToSpeechService = Mvx.Resolve<ITextToSpeechService>();
+
 			observer = new OEEventsObserver();
 			observer.WeakDelegate = new MyOpenEarsEventsObserverDelegate(this);
 			pocketSphinxController = new OEPocketsphinxController();
