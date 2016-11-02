@@ -2,6 +2,7 @@
 using MvvmCross.Platform;
 using SQLite;
 using SQLiteNetExtensions.Attributes;
+using Tollminder.Core.Helpers;
 
 namespace Tollminder.Core.Models
 {
@@ -30,7 +31,7 @@ namespace Tollminder.Core.Models
                 WaypointAction = enumType;
             else
             {
-                Mvx.Trace("Wrong action type");
+                Log.LogMessage($"Wrong action type : {type}");
                 throw new Exception("Wrong action type");
             }
         }

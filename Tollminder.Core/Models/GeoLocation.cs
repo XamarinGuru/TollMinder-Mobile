@@ -2,6 +2,7 @@
 using MvvmCross.Platform;
 using SQLite;
 using SQLiteNetExtensions.Attributes;
+using Tollminder.Core.Helpers;
 
 namespace Tollminder.Core.Models
 {
@@ -53,7 +54,7 @@ namespace Tollminder.Core.Models
             }
             catch (Exception ex)
             {
-                Mvx.Trace($"Wrong dummy location: {location}, ex {ex.Message + ex.StackTrace}");
+                Log.LogMessage($"Wrong dummy location: {location}, ex {ex.Message + ex.StackTrace}");
                 throw new Exception("Wrong location data");
             }
         }
