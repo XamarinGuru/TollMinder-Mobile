@@ -120,7 +120,6 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
             _geoWatcher.StopGeolocationWatcher();
             _tokens.Remove(_locationToken);
-            _motionToken?.Dispose();
 
             return true;
         }
