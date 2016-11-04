@@ -22,7 +22,7 @@ using System;
 namespace Tollminder.Droid.Views
 {
 	[Activity(Label = "Home", LaunchMode = LaunchMode.SingleTask, ScreenOrientation = ScreenOrientation.Portrait)]
-	public class HomeView : MvxActivity<HomeViewModel>
+    public class HomeView : MvxActivity<HomeViewModel>
     {
  		ScrollView _sv;
 

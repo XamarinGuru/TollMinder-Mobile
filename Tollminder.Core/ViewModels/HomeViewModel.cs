@@ -12,8 +12,7 @@ using System.Linq;
 
 namespace Tollminder.Core.ViewModels
 {
-    public class HomeViewModel 
-		: ViewModelBase
+    public class HomeViewModel : BaseViewModel
     {		
 		readonly IMvxMessenger _messenger;
 		readonly ITrackFacade _track;
@@ -53,14 +52,6 @@ namespace Tollminder.Core.ViewModels
             TollRoadString = Mvx.Resolve<IWaypointChecker>().TollRoad?.Name;
             if (Mvx.Resolve<IWaypointChecker>().TollPointsInRadius != null)
                 CurrentWaypointString = string.Join("\n", Mvx.Resolve<IWaypointChecker>().TollPointsInRadius?.Select(x => x.Name));
-		}
-
-		protected override void OnDestroy ()
-		{
-			base.OnDestroy ();
-			foreach (var item in _tokens) {
-				item.Dispose ();
-			}
 		}
 
 		bool _isBound;

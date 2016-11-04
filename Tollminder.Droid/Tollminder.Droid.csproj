@@ -31,6 +31,7 @@
     <ConsolePause>false</ConsolePause>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <AndroidSupportedAbis>armeabi;armeabi-v7a;x86;arm64-v8a;x86_64</AndroidSupportedAbis>
+    <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -183,6 +184,39 @@
     <Reference Include="MvvmCross.Plugins.Sqlite.Droid">
       <HintPath>..\packages\MvvmCross.Plugin.SQLitePCL.4.4.0\lib\MonoAndroid\MvvmCross.Plugins.Sqlite.Droid.dll</HintPath>
     </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.RecyclerView">
+      <HintPath>..\packages\Xamarin.Android.Support.v7.RecyclerView.24.2.1\lib\MonoAndroid70\Xamarin.Android.Support.v7.RecyclerView.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.Design">
+      <HintPath>..\packages\Xamarin.Android.Support.Design.24.2.1\lib\MonoAndroid70\Xamarin.Android.Support.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Plus">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Plus.29.0.0.2\lib\MonoAndroid41\Xamarin.GooglePlayServices.Plus.dll</HintPath>
+    </Reference>
+    <Reference Include="Bolts.AppLinks">
+      <HintPath>..\packages\Bolts.1.4.0.1\lib\MonoAndroid403\Bolts.AppLinks.dll</HintPath>
+    </Reference>
+    <Reference Include="Bolts.Tasks">
+      <HintPath>..\packages\Bolts.1.4.0.1\lib\MonoAndroid403\Bolts.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.CustomTabs">
+      <HintPath>..\packages\Xamarin.Android.Support.CustomTabs.24.2.1\lib\MonoAndroid70\Xamarin.Android.Support.CustomTabs.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.CardView">
+      <HintPath>..\packages\Xamarin.Android.Support.v7.CardView.23.4.0.1\lib\MonoAndroid403\Xamarin.Android.Support.v7.CardView.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Facebook">
+      <HintPath>..\packages\Xamarin.Facebook.Android.4.16.1\lib\MonoAndroid403\Xamarin.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="ExoPlayer">
+      <HintPath>..\packages\Xam.Plugins.Android.ExoPlayer.1.5.8\lib\MonoAndroid\ExoPlayer.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Ads">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Ads.29.0.0.2\lib\MonoAndroid41\Xamarin.GooglePlayServices.Ads.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Facebook.AudienceNetwork">
+      <HintPath>..\packages\Xamarin.Facebook.AudienceNetwork.Android.4.16.1\lib\MonoAndroid41\Xamarin.Facebook.AudienceNetwork.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -213,6 +247,9 @@
     <Compile Include="Bootstrap\MessengerPluginBootstrap.cs" />
     <Compile Include="Bootstrap\JsonPluginBootstrap.cs" />
     <Compile Include="Bootstrap\SqlitePluginBootstrap.cs" />
+    <Compile Include="Services\DroidInsightsService.cs" />
+    <Compile Include="Views\LoginView.cs" />
+    <Compile Include="Views\BaseActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -230,8 +267,10 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\Icon.png" />
     <AndroidResource Include="Resources\layout\homeView.axml" />
     <AndroidResource Include="Resources\layout\SplashScreen.axml" />
-    <AndroidResource Include="Resources\values\SplashStyle.xml" />
     <AndroidResource Include="Resources\drawable\splash.png" />
+    <AndroidResource Include="Resources\layout\login_view.axml" />
+    <AndroidResource Include="Resources\values\colors.xml" />
+    <AndroidResource Include="Resources\values\styles.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
@@ -250,6 +289,12 @@
       <Project>{E6D05A1A-E03C-4D21-83F4-0D59E9429837}</Project>
       <Name>Tollminder.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <XamarinComponentReference Include="facebookandroid">
+      <Version>4.16.1.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
   </ItemGroup>
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />
 </Project>

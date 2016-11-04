@@ -41,14 +41,11 @@
     <Compile Include="Helpers\LocationUpdatedEventArgs.cs" />
     <Compile Include="Models\MotionType.cs" />
     <Compile Include="Services\IMotionActivity.cs" />
-    <Compile Include="ViewModels\ViewModelBase.cs" />
-    <Compile Include="AllocationTracker.cs" />
     <Compile Include="Models\Messages.cs" />
     <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\GeofenceException.cs" />
     <Compile Include="Helpers\Log.cs" />
     <Compile Include="Services\INotificationSender.cs" />
-    <Compile Include="XamarinInsightsHelper.cs" />
     <Compile Include="Helpers\LocationChecker.cs" />
     <Compile Include="Services\IGeoDataServiceAsync.cs" />
     <Compile Include="Services\Implementation\GeoDataServiceAsync.cs" />
@@ -97,6 +94,13 @@
     <Compile Include="Services\IDataBaseService.cs" />
     <Compile Include="Services\Implementation\DataBaseService.cs" />
     <Compile Include="Services\IGeoData.cs" />
+    <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="Models\Validator.cs" />
+    <Compile Include="Models\ValidatorDataItem.cs" />
+    <Compile Include="Services\IInsightsService.cs" />
+    <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="Helpers\RegularExpressionHelper.cs" />
+    <Compile Include="Converters\BoolInverseConverter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
@@ -113,6 +117,7 @@
     <Folder Include="Models\Statuses\" />
     <Folder Include="Extensions\" />
     <Folder Include="Interfaces\" />
+    <Folder Include="Converters\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="ModernHttpClient">

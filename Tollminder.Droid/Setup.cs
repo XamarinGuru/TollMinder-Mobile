@@ -8,6 +8,7 @@ using MvvmCross.Platform.Platform;
 using MvvmCross.Platform.Converters;
 using MvvmCross.Platform.IoC;
 using System;
+using Tollminder.Core.Converters;
 
 namespace Tollminder.Droid
 {
@@ -30,6 +31,7 @@ namespace Tollminder.Droid
 		protected override void InitializePlatformServices ()
 		{
 			base.InitializePlatformServices ();
+            Mvx.LazyConstructAndRegisterSingleton<IInsightsService, DroidInsightsService>();
 			Mvx.LazyConstructAndRegisterSingleton<IGeoLocationWatcher,DroidGeolocationWatcher> ();
 			Mvx.LazyConstructAndRegisterSingleton<IMotionActivity,DroidMotionActivity> ();
 			Mvx.LazyConstructAndRegisterSingleton<INotificationSender,DroidNotificationSender> ();
@@ -43,6 +45,7 @@ namespace Tollminder.Droid
 		{
 			foreach (var item in CreatableTypes().EndingWith("Converter"))
 				registry.AddOrOverwrite(item.Name, (IMvxValueConverter)Activator.CreateInstance(item));
+            registry.AddOrOverwrite("BoolInverseConverter", new BoolInverseConverter());
 		}
     }
 }

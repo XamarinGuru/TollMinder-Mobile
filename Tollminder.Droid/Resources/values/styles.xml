@@ -1,0 +1,21 @@
+﻿<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <style name="Theme.Splash" parent="AppTheme.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+	 <style name="AppTheme.NoActionBarBase">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+	<style name="AppTheme.NoActionBar" parent="AppTheme.NoActionBarBase"/>
+
+	 <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/green_dark</item>
+        <item name="colorAccent">@color/green</item>
+        <item name="colorControlNormal">@color/blue</item>
+    </style>
+
+</resources>
