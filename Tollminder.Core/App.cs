@@ -30,7 +30,7 @@ namespace Tollminder.Core
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
 
-            RegisterAppStart<LoginViewModel>();
+            RegisterAppStart(new CustomAppStart());
 
 			Mvx.LazyConstructAndRegisterSingleton<IWaypointChecker, WaypointChecker> ();
 			Mvx.LazyConstructAndRegisterSingleton<IDistanceChecker, DistanceChecker> ();

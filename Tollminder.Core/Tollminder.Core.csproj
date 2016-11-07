@@ -101,6 +101,8 @@
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="Helpers\RegularExpressionHelper.cs" />
     <Compile Include="Converters\BoolInverseConverter.cs" />
+    <Compile Include="CustomAppStart.cs" />
+    <Compile Include="Models\LoginData.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>

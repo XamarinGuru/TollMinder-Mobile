@@ -1,12 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.tollminder" android:versionCode="20" android:versionName="2.20">
-  <uses-sdk android:minSdkVersion="18" android:targetSdkVersion="24" />
-  <uses-permission android:name="android.permission.INTERNET" />
-  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-  <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
-  <uses-permission android:name="android.permission.RECORD_AUDIO" />
-  <application android:allowBackup="true" android:icon="@mipmap/icon" android:label="TollMinder" android:theme="@android:style/Theme.Holo.Light.DarkActionBar">
-  </application>
+	<uses-sdk android:minSdkVersion="18" android:targetSdkVersion="24" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
+	<uses-permission android:name="android.permission.RECORD_AUDIO" />
+	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
+	<uses-permission android:name="android.permission.USE_CREDENTIALS" />
+	<uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+	<uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+	<application android:allowBackup="true" android:icon="@mipmap/icon" android:label="TollMinder" android:theme="@android:style/Theme.Holo.Light.DarkActionBar"></application>
 </manifest>

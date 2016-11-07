@@ -79,6 +79,12 @@ namespace Tollminder.Core.Services.Implementation
 			get { return _storedSettingsBase.Get<DateTime>(); }
 			set { _storedSettingsBase.Set<DateTime>(value); }
 		}
+
+        public bool IsAuthorized
+        {
+            get { return _storedSettingsBase.Get<bool>(); }
+            set { _storedSettingsBase.Set<bool>(value); }
+        }
     }
 }
 

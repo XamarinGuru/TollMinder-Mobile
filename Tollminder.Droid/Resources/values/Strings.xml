@@ -2,7 +2,4 @@
 <resources>
 	<string name="hello">Hello World, Click Me!</string>
 	<string name="app_name">Tollminder</string>
-	<string name="app_id">355198514515820</string>
-	<string name="fb_login_protocol_scheme">fb355198514515820</string>
-	<string name="facebook_app_name">HelloFBSample</string>
 </resources>

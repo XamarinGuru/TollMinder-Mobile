@@ -2,8 +2,10 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
+using MvvmCross.Platform;
 using Tollminder.Core.Helpers;
 using Tollminder.Core.Models;
+using Tollminder.Core.Services;
 
 namespace Tollminder.Core.ViewModels
 {
@@ -23,6 +25,12 @@ namespace Tollminder.Core.ViewModels
             }
         }
 
+        IStoredSettingsService _storedSettingsService;
+        public IStoredSettingsService StoredSettingsService 
+        {
+            get { return _storedSettingsService ?? (_storedSettingsService = Mvx.Resolve<IStoredSettingsService>());}
+        }
+
         string _passwordString;
         public string PasswordString
         {
@@ -31,6 +39,19 @@ namespace Tollminder.Core.ViewModels
             {
                 _passwordString = value;
                 RaisePropertyChanged(() => PasswordString);
+            }
+        }
+
+        public LoginData EmailLoginData
+        {
+            get
+            {
+                return new LoginData()
+                {
+                    Email = LoginString,
+                    Password = PasswordString,
+                    Source = AuthorizationType.Email
+                };
             }
         }
 
@@ -48,21 +69,41 @@ namespace Tollminder.Core.ViewModels
             Validators.Add(new Validator("Password", "Field can't' be empty", () => string.IsNullOrEmpty(PasswordString)));
         }
 
-        MvxCommand _loginCommand;
+        MvxCommand<LoginData> _loginCommand;
         public ICommand LoginCommand
         {
             get
             {
-                return _loginCommand ?? (_loginCommand = new MvxCommand(async () => await ServerCommandWrapper(LoginTask)));
+                return _loginCommand ?? (_loginCommand = new MvxCommand<LoginData>(async (data) => await ServerCommandWrapper(async () => await LoginTask(data))));
             }
         }
 
-        async Task LoginTask()
+        async Task LoginTask(LoginData data)
         {
-            if (Validate())
+            bool success = false;
+
+            switch(data.Source)
             {
-                if (LoginString == Login && PasswordString == Password)
-                    ShowViewModel<HomeViewModel>();
+                case AuthorizationType.Email:
+                    if (Validate())
+                    {
+
+                        if (LoginString == Login && PasswordString == Password)
+                        {
+                            success = true;
+                        }
+                    }
+                    break;
+                case AuthorizationType.Facebook:
+                case AuthorizationType.GPlus:
+                    success = true;
+                    break;
+            }
+
+            if (success)
+            {
+                StoredSettingsService.IsAuthorized = true;
+                ShowViewModel<HomeViewModel>();
             }
         }
 

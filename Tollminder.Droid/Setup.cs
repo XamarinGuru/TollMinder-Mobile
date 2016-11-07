@@ -9,6 +9,7 @@ using MvvmCross.Platform.Converters;
 using MvvmCross.Platform.IoC;
 using System;
 using Tollminder.Core.Converters;
+using System.Linq;
 
 namespace Tollminder.Droid
 {
@@ -41,10 +42,23 @@ namespace Tollminder.Droid
 			Mvx.LazyConstructAndRegisterSingleton<IStoredSettingsBase, DroidStoredSettingsBase>();
 		}
 
+        protected override System.Collections.Generic.IEnumerable<System.Reflection.Assembly> ValueConverterAssemblies
+        {
+            get
+            {
+                var toReturn = base.ValueConverterAssemblies.ToList();
+                toReturn.Add(typeof(BoolInverseConverter).Assembly);
+                return toReturn;
+            }
+        }
+
 		protected override void FillValueConverters(IMvxValueConverterRegistry registry)
 		{
+            base.FillValueConverters(registry);
+
 			foreach (var item in CreatableTypes().EndingWith("Converter"))
 				registry.AddOrOverwrite(item.Name, (IMvxValueConverter)Activator.CreateInstance(item));
+
             registry.AddOrOverwrite("BoolInverseConverter", new BoolInverseConverter());
 		}
     }
