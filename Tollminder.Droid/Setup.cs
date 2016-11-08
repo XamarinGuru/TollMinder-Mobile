@@ -48,6 +48,7 @@ namespace Tollminder.Droid
             {
                 var toReturn = base.ValueConverterAssemblies.ToList();
                 toReturn.Add(typeof(BoolInverseConverter).Assembly);
+                toReturn.Add(typeof(Setup).Assembly);
                 return toReturn;
             }
         }
@@ -56,10 +57,11 @@ namespace Tollminder.Droid
 		{
             base.FillValueConverters(registry);
 
-			foreach (var item in CreatableTypes().EndingWith("Converter"))
-				registry.AddOrOverwrite(item.Name, (IMvxValueConverter)Activator.CreateInstance(item));
+            foreach(var assembly in ValueConverterAssemblies)
+                foreach (var item in assembly.CreatableTypes().EndingWith("Converter"))
+				    registry.AddOrOverwrite(item.Name, (IMvxValueConverter)Activator.CreateInstance(item));
 
-            registry.AddOrOverwrite("BoolInverseConverter", new BoolInverseConverter());
+            //registry.AddOrOverwrite("BoolInverseConverter", new BoolInverseConverter());
 		}
     }
 }
