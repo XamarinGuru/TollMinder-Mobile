@@ -14,8 +14,11 @@ using MvvmCross.Platform;
 using Newtonsoft.Json;
 using Org.Json;
 using Tollminder.Core.Models;
+using Tollminder.Core.Services;
 using Tollminder.Core.ViewModels;
+using Tollminder.Droid.Inerfaces;
 using Tollminder.Droid.Models;
+using Tollminder.Droid.Services;
 using Xamarin.Facebook;
 using Xamarin.Facebook.Login;
 
@@ -25,10 +28,8 @@ namespace Tollminder.Droid.Views
 {
 
     [Activity(Label = "LoginView", Theme = "@style/AppTheme.NoActionBar", ScreenOrientation = ScreenOrientation.Portrait, NoHistory = true)]
-    public class LoginView : BaseActivity<LoginViewModel>, GoogleApiClient.IOnConnectionFailedListener, View.IOnClickListener, IFacebookCallback, GraphRequest.IGraphJSONObjectCallback
+    public class LoginView : BaseActivity<LoginViewModel>
     {
-        Button btnLogin;
-
         protected override int LayoutId
         {
             get
@@ -37,167 +38,11 @@ namespace Tollminder.Droid.Views
             }
         }
 
-        #region G+ fields
-        const int googleSignInRequestCode = 9001;
-        GoogleApiClient googleApiClient;
-        SignInButton googleSignInButton;
-        GoogleSignInOptions gso;
-        #endregion
-
-        #region Facebook fields
-        const int facebookSignInRequestCode = 9002;
-        ICallbackManager facebookCallbackManager;
-        #endregion
-
-        protected override void OnCreate(Bundle bundle)
-        {
-            #region Facebook
-            FacebookSdk.SdkInitialize(Application.Context);
-            #endregion
-
-            base.OnCreate(bundle);
-
-            btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
-            btnLogin.Click += EmailLogin_Click;
-
-            #region G+
-            gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
-                .RequestEmail()
-                .Build();
-            googleApiClient = new GoogleApiClient.Builder(this)
-                .EnableAutoManage(this, this)
-                .AddApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .Build();
-
-            googleSignInButton = FindViewById<SignInButton>(Resource.Id.sign_in_button);
-            googleSignInButton.SetSize(SignInButton.SizeStandard);
-            googleSignInButton.SetOnClickListener(this);
-            #endregion
-
-            #region Facebook
-            facebookCallbackManager = CallbackManagerFactory.Create();
-            LoginManager.Instance.RegisterCallback(facebookCallbackManager, this);
-            #endregion
-        }
-
-        void EmailLogin_Click(object sender, EventArgs e)
-        {
-            ViewModel.LoginCommand.Execute(ViewModel.EmailLoginData);
-        }
-
-        #region G+
-        protected override void OnStart()
-        {
-            base.OnStart();
-            googleApiClient.Connect();
-        }
-
-        protected override void OnStop()
-        {
-            base.OnStop();
-            googleApiClient.Disconnect();
-        }
-
-        public void OnClick(View v)
-        {
-            Intent signInIntent = Auth.GoogleSignInApi.GetSignInIntent(googleApiClient);
-            StartActivityForResult(signInIntent, googleSignInRequestCode);
-        }
-
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
-
-            facebookCallbackManager.OnActivityResult(requestCode, (int)resultCode, data);
-
-            if (requestCode == googleSignInRequestCode)
-            {
-                if (resultCode == Result.Ok)
-                {
-                    GoogleSignInResult result = Auth.GoogleSignInApi.GetSignInResultFromIntent(data);
-                    GoogleSignInAccount acct = result.SignInAccount;
-                    if (acct != null)
-                    {
-                        Toast.MakeText(this, $"Profile: {acct.DisplayName}, {acct.Email}, {acct.PhotoUrl}", ToastLength.Long);
-                        Mvx.Trace($"Profile: {acct.DisplayName}, {acct.Email}, {acct.PhotoUrl}");
-                        ViewModel.LoginCommand.Execute(new LoginData()
-                        {
-                            Email = acct.Email,
-                            Name = acct.DisplayName,
-                            Photo = acct.PhotoUrl?.ToString(),
-                            Source = AuthorizationType.GPlus
-                        });
-                    }
-                }
-            }
-        }
-
-        public void OnConnectionFailed(ConnectionResult result)
-        {
-           Mvx.Trace("OnConnectionFailed:" + result);
-        }
-        #endregion
-
-        #region Facebook
-        public void OnCancel()
-        {
-           Mvx.Trace("Facebook OnCancel");
-        }
-
-        public void OnError(FacebookException error)
-        {
-            Mvx.Trace("Facebook OnError" + error);
-        }
-
-        public void OnSuccess(Java.Lang.Object result)
-        {
-            ViewModel.IsBusy = true;
-            try
-            {
-                GraphRequest request = GraphRequest.NewMeRequest(AccessToken.CurrentAccessToken, this);
-
-                Bundle parameters = new Bundle();
-                parameters.PutString("fields", "id,name,email");
-                request.Parameters = parameters;
-                request.ExecuteAsync();
-                LoginManager.Instance.LogOut();
-            }
-            catch(System.Exception e)
-            {
-                Mvx.Trace(e.Message + e.StackTrace);
-            }
-            finally
-            {
-                ViewModel.IsBusy = false;
-            }
-        }
-
-        public void OnCompleted(JSONObject json, GraphResponse response)
-        {
-            FacebookAccountResult acct = JsonConvert.DeserializeObject<FacebookAccountResult>(json.ToString());
-
-            if (acct != null)
-            {
-                Toast.MakeText(this, $"Profile: {acct.Name}, {acct.Email}, {acct.PhotoUrl}", ToastLength.Long);
-                Mvx.Trace($"Profile: {acct.Name}, {acct.Email}, {acct.PhotoUrl}");
-                ViewModel.LoginCommand.Execute(new LoginData()
-                {
-                    Email = acct.Email,
-                    Name = acct.Name,
-                    Photo = acct.PhotoUrl,
-                    Source = AuthorizationType.Facebook
-                });
-            }
-        }
-        #endregion
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                btnLogin.Click -= EmailLogin_Click;
-            }
-            base.Dispose(disposing);
+            (Mvx.Resolve<IFacebookLoginService>() as IDroidSocialLogin).OnActivityResult(requestCode, resultCode, data);
+            (Mvx.Resolve<IGPlusLoginService>()as IDroidSocialLogin).OnActivityResult(requestCode, resultCode, data);
         }
     }
 }

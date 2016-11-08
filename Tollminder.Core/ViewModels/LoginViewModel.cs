@@ -31,6 +31,18 @@ namespace Tollminder.Core.ViewModels
             get { return _storedSettingsService ?? (_storedSettingsService = Mvx.Resolve<IStoredSettingsService>());}
         }
 
+        IFacebookLoginService _facebookLoginService;
+        public IFacebookLoginService FacebookLoginService
+        {
+            get { return _facebookLoginService ?? (_facebookLoginService = Mvx.Resolve<IFacebookLoginService>()); }
+        }
+
+        IGPlusLoginService _gPlusLoginService;
+        public IGPlusLoginService GPlusLoginService
+        {
+            get { return _gPlusLoginService ?? (_gPlusLoginService = Mvx.Resolve<IGPlusLoginService>()); }
+        }
+
         string _passwordString;
         public string PasswordString
         {
@@ -42,11 +54,11 @@ namespace Tollminder.Core.ViewModels
             }
         }
 
-        public LoginData EmailLoginData
+        public PersonData EmailLoginData
         {
             get
             {
-                return new LoginData()
+                return new PersonData()
                 {
                     Email = LoginString,
                     Password = PasswordString,
@@ -62,6 +74,13 @@ namespace Tollminder.Core.ViewModels
             PasswordString = Password;
         }
 
+        public override void OnCreateFinish()
+        {
+            base.OnCreateFinish();
+            FacebookLoginService.Initialize();
+            GPlusLoginService.Initialize();
+        }
+
         protected override void SetValidators()
         {
             Validators.Add(new Validator("Login", "Field can't' be empty", () => string.IsNullOrEmpty(LoginString)));
@@ -69,16 +88,34 @@ namespace Tollminder.Core.ViewModels
             Validators.Add(new Validator("Password", "Field can't' be empty", () => string.IsNullOrEmpty(PasswordString)));
         }
 
-        MvxCommand<LoginData> _loginCommand;
-        public ICommand LoginCommand
+        MvxCommand _emailLoginCommand;
+        public ICommand EmailLoginCommand
         {
             get
             {
-                return _loginCommand ?? (_loginCommand = new MvxCommand<LoginData>(async (data) => await ServerCommandWrapper(async () => await LoginTask(data))));
+                return _emailLoginCommand ?? (_emailLoginCommand = new MvxCommand(async () => await ServerCommandWrapper(async () => await LoginTask(EmailLoginData))));
             }
         }
 
-        async Task LoginTask(LoginData data)
+        MvxCommand _facebookLoginCommand;
+        public ICommand FacebookLoginCommand
+        {
+            get
+            {
+                return _facebookLoginCommand ?? (_facebookLoginCommand = new MvxCommand(async () => await ServerCommandWrapper(async () => await LoginTask(await FacebookLoginService.Login()))));
+            }
+        }
+
+        MvxCommand _gPlusLoginCommand;
+        public ICommand GPlusLoginCommand
+        {
+            get
+            {
+                return _gPlusLoginCommand ?? (_gPlusLoginCommand = new MvxCommand(async () => await ServerCommandWrapper(async () => await LoginTask(await GPlusLoginService.Login()))));
+            }
+        }
+
+        async Task LoginTask(PersonData data)
         {
             bool success = false;
 

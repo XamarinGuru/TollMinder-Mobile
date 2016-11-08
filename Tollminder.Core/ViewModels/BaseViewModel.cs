@@ -164,6 +164,11 @@ namespace Tollminder.Core.ViewModels
             Debug.WriteLine(string.Format("{1} of {0}", memberName, this.GetType().FullName));
         }
 
+        public virtual void OnCreateFinish()
+        {
+            DebugMethod();
+        }
+
         public virtual void OnResume()
         {
             DebugMethod();

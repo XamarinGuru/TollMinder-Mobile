@@ -245,7 +245,7 @@
     <Compile Include="AndroidServices\MotionActivityService.cs" />
     <Compile Include="AndroidServices\GeolocationService.cs" />
     <Compile Include="Services\DroidMotionActivity.cs" />
-    <Compile Include="Inerfaces\IDroidMessenger.cs" />
+    <Compile Include="Inerfaces\IDroidSocialLogin.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="MainApplication.cs" />
     <Compile Include="DebugTrace.cs" />
@@ -265,6 +265,8 @@
     <Compile Include="Views\LoginView.cs" />
     <Compile Include="Views\BaseActivity.cs" />
     <Compile Include="Models\FacebookAccountResult.cs" />
+    <Compile Include="Services\DroidFacebookLoginService.cs" />
+    <Compile Include="Services\DroidGPlusLoginService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

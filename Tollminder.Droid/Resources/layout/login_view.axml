@@ -58,7 +58,7 @@
                 </android.support.design.widget.TextInputLayout>
                 <Button
                     android:id="@+id/btnLogin"
-                    local:MvxBind="Enabled BoolInverseConverter(IsBusy);"
+                    local:MvxBind="Enabled BoolInverseConverter(IsBusy); Click EmailLoginCommand"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Login" />
@@ -70,12 +70,14 @@
                         android:id="@+id/sign_in_button"
                         android:layout_weight="1"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent"
+                        local:MvxBind="Enabled BoolInverseConverter(IsBusy); Click GPlusLoginCommand" />
                     <com.facebook.login.widget.LoginButton
                         android:id="@+id/login_button"
                         android:layout_weight="1"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent"
+                        local:MvxBind="Enabled BoolInverseConverter(IsBusy); Click FacebookLoginCommand" />
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
