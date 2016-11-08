@@ -1,9 +1,5 @@
 ﻿
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
@@ -11,16 +7,9 @@ using Android.Gms.Auth.Api;
 using Android.Gms.Auth.Api.SignIn;
 using Android.Gms.Common;
 using Android.Gms.Common.Apis;
-using Android.Gms.Plus;
 using Android.OS;
-using Android.Runtime;
-using Android.Util;
 using Android.Views;
 using Android.Widget;
-using Java.Lang;
-using MvvmCross.Binding.BindingContext;
-using MvvmCross.Droid.Support.V7.AppCompat;
-using MvvmCross.Droid.Views;
 using MvvmCross.Platform;
 using Newtonsoft.Json;
 using Org.Json;
@@ -28,9 +17,7 @@ using Tollminder.Core.Models;
 using Tollminder.Core.ViewModels;
 using Tollminder.Droid.Models;
 using Xamarin.Facebook;
-using Xamarin.Facebook.AppEvents;
 using Xamarin.Facebook.Login;
-using Xamarin.Facebook.Login.Widget;
 
 [assembly: MetaData("com.facebook.sdk.ApplicationId", Value = "@string/app_id")]
 
@@ -131,6 +118,7 @@ namespace Tollminder.Droid.Views
                     GoogleSignInAccount acct = result.SignInAccount;
                     if (acct != null)
                     {
+                        Toast.MakeText(this, $"Profile: {acct.DisplayName}, {acct.Email}, {acct.PhotoUrl}", ToastLength.Long);
                         Mvx.Trace($"Profile: {acct.DisplayName}, {acct.Email}, {acct.PhotoUrl}");
                         ViewModel.LoginCommand.Execute(new LoginData()
                         {
@@ -153,12 +141,12 @@ namespace Tollminder.Droid.Views
         #region Facebook
         public void OnCancel()
         {
-           
+           Mvx.Trace("Facebook OnCancel");
         }
 
         public void OnError(FacebookException error)
         {
-           
+            Mvx.Trace("Facebook OnError" + error);
         }
 
         public void OnSuccess(Java.Lang.Object result)
@@ -190,6 +178,7 @@ namespace Tollminder.Droid.Views
 
             if (acct != null)
             {
+                Toast.MakeText(this, $"Profile: {acct.Name}, {acct.Email}, {acct.PhotoUrl}", ToastLength.Long);
                 Mvx.Trace($"Profile: {acct.Name}, {acct.Email}, {acct.PhotoUrl}");
                 ViewModel.LoginCommand.Execute(new LoginData()
                 {
