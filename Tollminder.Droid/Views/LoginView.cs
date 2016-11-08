@@ -26,21 +26,29 @@ using Newtonsoft.Json;
 using Org.Json;
 using Tollminder.Core.Models;
 using Tollminder.Core.ViewModels;
+using Tollminder.Droid.Models;
 using Xamarin.Facebook;
 using Xamarin.Facebook.AppEvents;
 using Xamarin.Facebook.Login;
 using Xamarin.Facebook.Login.Widget;
 
-[assembly: Permission(Name = Android.Manifest.Permission.Internet)]
-[assembly: Permission(Name = Android.Manifest.Permission.WriteExternalStorage)]
+[assembly: MetaData("com.facebook.sdk.ApplicationId", Value = "@string/app_id")]
 
 namespace Tollminder.Droid.Views
 {
 
-    [Activity(Label = "LoginView", Theme = "@style/AppTheme.NoActionBar", ScreenOrientation = ScreenOrientation.Portrait, NoHistory = true, LaunchMode = LaunchMode.SingleTask)]
+    [Activity(Label = "LoginView", Theme = "@style/AppTheme.NoActionBar", ScreenOrientation = ScreenOrientation.Portrait, NoHistory = true)]
     public class LoginView : BaseActivity<LoginViewModel>, GoogleApiClient.IOnConnectionFailedListener, View.IOnClickListener, IFacebookCallback, GraphRequest.IGraphJSONObjectCallback
     {
         Button btnLogin;
+
+        protected override int LayoutId
+        {
+            get
+            {
+                return Resource.Layout.login_view;
+            }
+        }
 
         #region G+ fields
         const int googleSignInRequestCode = 9001;
@@ -51,24 +59,12 @@ namespace Tollminder.Droid.Views
 
         #region Facebook fields
         const int facebookSignInRequestCode = 9002;
-        const string facebookAppName = "TollMinder";
-        const string facebookAppId = "194561500997971";
         ICallbackManager facebookCallbackManager;
-        LoginButton loginButton;
         #endregion
-        protected override int LayoutId
-        {
-            get
-            {
-                return Resource.Layout.login_view;
-            }
-        }
 
         protected override void OnCreate(Bundle bundle)
         {
             #region Facebook
-            FacebookSdk.ApplicationId = facebookAppId;
-            FacebookSdk.ApplicationName = facebookAppName;
             FacebookSdk.SdkInitialize(Application.Context);
             #endregion
 
@@ -92,11 +88,8 @@ namespace Tollminder.Droid.Views
             #endregion
 
             #region Facebook
-            loginButton = FindViewById<LoginButton>(Resource.Id.login_button);
-            LoginManager.Instance.LogInWithReadPermissions(this, new List<string> { "public_profile", "email" });
             facebookCallbackManager = CallbackManagerFactory.Create();
             LoginManager.Instance.RegisterCallback(facebookCallbackManager, this);
-            LoginManager.Instance.LogOut();
             #endregion
         }
 
@@ -105,6 +98,7 @@ namespace Tollminder.Droid.Views
             ViewModel.LoginCommand.Execute(ViewModel.EmailLoginData);
         }
 
+        #region G+
         protected override void OnStart()
         {
             base.OnStart();
@@ -117,7 +111,6 @@ namespace Tollminder.Droid.Views
             googleApiClient.Disconnect();
         }
 
-        #region G+
         public void OnClick(View v)
         {
             Intent signInIntent = Auth.GoogleSignInApi.GetSignInIntent(googleApiClient);
@@ -143,7 +136,7 @@ namespace Tollminder.Droid.Views
                         {
                             Email = acct.Email,
                             Name = acct.DisplayName,
-                            Photo = acct.PhotoUrl.ToString(),
+                            Photo = acct.PhotoUrl?.ToString(),
                             Source = AuthorizationType.GPlus
                         });
                     }
@@ -216,21 +209,6 @@ namespace Tollminder.Droid.Views
                 btnLogin.Click -= EmailLogin_Click;
             }
             base.Dispose(disposing);
-        }
-    }
-
-    class FacebookAccountResult
-    {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
-
-        public string PhotoUrl
-        {
-            get
-            {
-                return $"https://graph.facebook.com/{Id}/picture?type=large";
-            }
         }
     }
 }
