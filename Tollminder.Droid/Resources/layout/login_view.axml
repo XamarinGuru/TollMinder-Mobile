@@ -65,18 +65,21 @@
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp">
+                    android:layout_height="wrap_content">
                     <com.google.android.gms.common.SignInButton
                         android:id="@+id/sign_in_button"
                         android:layout_weight="1"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         local:MvxBind="Enabled BoolInverseConverter(IsBusy); Click GPlusLoginCommand" />
                     <com.facebook.login.widget.LoginButton
                         android:id="@+id/login_button"
                         android:layout_weight="1"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
                         local:MvxBind="Enabled BoolInverseConverter(IsBusy); Click FacebookLoginCommand" />
                 </LinearLayout>
             </LinearLayout>

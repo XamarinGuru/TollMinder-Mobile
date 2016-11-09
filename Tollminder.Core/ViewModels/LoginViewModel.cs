@@ -74,9 +74,9 @@ namespace Tollminder.Core.ViewModels
             PasswordString = Password;
         }
 
-        public override void OnCreateFinish()
+        public override void Start()
         {
-            base.OnCreateFinish();
+            base.Start();
             FacebookLoginService.Initialize();
             GPlusLoginService.Initialize();
         }
@@ -102,7 +102,7 @@ namespace Tollminder.Core.ViewModels
         {
             get
             {
-                return _facebookLoginCommand ?? (_facebookLoginCommand = new MvxCommand(async () => await ServerCommandWrapper(async () => await LoginTask(await FacebookLoginService.Login()))));
+                return _facebookLoginCommand ?? (_facebookLoginCommand = new MvxCommand(async () => await ServerCommandWrapper(async () => await LoginTask(await FacebookLoginService.GetPersonData()))));
             }
         }
 
@@ -111,7 +111,7 @@ namespace Tollminder.Core.ViewModels
         {
             get
             {
-                return _gPlusLoginCommand ?? (_gPlusLoginCommand = new MvxCommand(async () => await ServerCommandWrapper(async () => await LoginTask(await GPlusLoginService.Login()))));
+                return _gPlusLoginCommand ?? (_gPlusLoginCommand = new MvxCommand(async () => await ServerCommandWrapper(async () => await LoginTask(await GPlusLoginService.GetPersonData()))));
             }
         }
 
@@ -166,6 +166,13 @@ namespace Tollminder.Core.ViewModels
                     
                 }));
             }
+        }
+
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            FacebookLoginService.ReleaseResources();
+            GPlusLoginService.ReleaseResources();
         }
     }
 }

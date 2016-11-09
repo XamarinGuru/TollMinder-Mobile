@@ -7,6 +7,7 @@ namespace Tollminder.Core.Services
     public interface ILoginServiceBase
     {
         void Initialize();
-        Task<PersonData> Login();
+        void ReleaseResources();
+        Task<PersonData> GetPersonData();
     }
 }

@@ -12,7 +12,6 @@ namespace Tollminder.Droid.Views
         {
             base.OnCreate(bundle);
             SetContentView(LayoutId);
-            ViewModel.OnCreateFinish();
         }
 
         protected override void OnResume()

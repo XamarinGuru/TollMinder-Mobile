@@ -20,7 +20,6 @@ namespace Tollminder.Droid.Services
     {
         const int googleSignInRequestCode = 9001;
         GoogleApiClient googleApiClient;
-        SignInButton googleSignInButton;
         GoogleSignInOptions gso;
 
         TaskCompletionSource<PersonData> _gPlusTask;
@@ -44,19 +43,16 @@ namespace Tollminder.Droid.Services
                .AddApi(Auth.GOOGLE_SIGN_IN_API, gso)
                .Build();
 
-            googleSignInButton = activity.FindViewById<SignInButton>(Resource.Id.sign_in_button);
-            googleSignInButton.SetSize(SignInButton.SizeStandard);
             googleApiClient.Connect();
         }
 
-        public Task<PersonData> Login()
+        public Task<PersonData> GetPersonData()
         {
             _gPlusTask = new TaskCompletionSource<PersonData>();
 
             Intent signInIntent = Auth.GoogleSignInApi.GetSignInIntent(googleApiClient);
             Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity.StartActivityForResult(signInIntent, googleSignInRequestCode);
 
-            googleSignInButton.PerformClick();
             return _gPlusTask.Task;
         }
 
@@ -76,7 +72,6 @@ namespace Tollminder.Droid.Services
                     if (acct != null)
                     {
                         Mvx.Trace($"Profile: {acct.DisplayName}, {acct.Email}, {acct.PhotoUrl}");
-                        googleApiClient.Disconnect();
                         _gPlusTask.TrySetResult(new PersonData()
                         {
                             Email = acct.Email,
@@ -87,6 +82,11 @@ namespace Tollminder.Droid.Services
                     }
                 }
             }
+        }
+
+        public void ReleaseResources()
+        {
+            googleApiClient.Disconnect();
         }
     }
 }

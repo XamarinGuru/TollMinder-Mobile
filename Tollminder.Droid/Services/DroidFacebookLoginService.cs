@@ -35,7 +35,7 @@ namespace Tollminder.Droid.Services
             LoginManager.Instance.RegisterCallback(facebookCallbackManager, this);
         }
 
-        public Task<PersonData> Login()
+        public Task<PersonData> GetPersonData()
         {
             _facebookTask = new TaskCompletionSource<PersonData>();
             LoginManager.Instance.LogInWithReadPermissions(Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity, new List<string> { "public_profile", "email"});
@@ -85,11 +85,7 @@ namespace Tollminder.Droid.Services
             facebookCallbackManager.OnActivityResult(requestCode, (int)resultCode, data);
         }
 
-        public void Connect()
-        {
-        }
-
-        public void Disconnect()
+        public void ReleaseResources()
         {
         }
     }

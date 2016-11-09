@@ -10,6 +10,8 @@ using AVFoundation;
 using System.Threading.Tasks;
 using Tollminder.Core.Services;
 using Tollminder.Core.ServicesHelpers;
+using Google.Core;
+using Google.SignIn;
 
 namespace Tollminder.Touch
 {
@@ -53,7 +55,23 @@ namespace Tollminder.Touch
             session.SetCategory (AVAudioSessionCategory.Playback);
             session.SetActive (true, out categoryError);
 
+            string clientId = "194561500997971";
+
+            NSError configureError;
+            Context.SharedInstance.Configure(out configureError);
+            if (configureError != null)
+            {
+                // If something went wrong, assign the clientID manually
+                Console.WriteLine("Error configuring the Google context: {0}", configureError);
+                SignIn.SharedInstance.ClientID = clientId;
+            }
+
             return true;
+        }
+
+        public override bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
+        {
+            return SignIn.SharedInstance.HandleUrl(url, sourceApplication, annotation);
         }
 
 		public override void ReceivedLocalNotification (UIApplication application, UILocalNotification notification)
