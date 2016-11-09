@@ -1,12 +1,14 @@
 ﻿using System;
-namespace Tollminder.Droid.Models
+using Newtonsoft.Json;
+
+namespace Tollminder.Core.Models
 {
     public class FacebookAccountResult
     {
         public string Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
-
+        [JsonIgnore]
         public string PhotoUrl
         {
             get

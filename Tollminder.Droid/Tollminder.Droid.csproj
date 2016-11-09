@@ -264,7 +264,6 @@
     <Compile Include="Services\DroidInsightsService.cs" />
     <Compile Include="Views\LoginView.cs" />
     <Compile Include="Views\BaseActivity.cs" />
-    <Compile Include="Models\FacebookAccountResult.cs" />
     <Compile Include="Services\DroidFacebookLoginService.cs" />
     <Compile Include="Services\DroidGPlusLoginService.cs" />
   </ItemGroup>

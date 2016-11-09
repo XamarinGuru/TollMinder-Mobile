@@ -1,25 +1,33 @@
 ﻿using System;
+using System.Collections.Generic;
 using Cirrious.FluentLayouts.Touch;
 using CoreGraphics;
+using Facebook.CoreKit;
+using Facebook.LoginKit;
+using Google.SignIn;
 using MvvmCross.Binding.BindingContext;
 using Tollminder.Core;
 using Tollminder.Core.ViewModels;
 using Tollminder.Touch.Controllers;
 using Tollminder.Touch.Controls;
 using Tollminder.Touch.Extensions;
+using Tollminder.Touch.Services;
 using UIKit;
 
 namespace Tollminder.Touch.Views
 {
     public class LoginView : BaseViewController<LoginViewModel>
     {
-        UILabel DontHaveAnAccountLabel { get; set; }
-        UIButton ForgotPasswordButton { get; set; }
-        UIButton GetStartedButton { get; set; }
-        UIButton LoginButton { get; set; }
-        UILabel LogInLabel { get; set; }
-        TextFieldValidationWithImage LoginTxt { get; set; }
-        TextFieldValidationWithImage PasswordTxt { get; set; }
+        UILabel DontHaveAnAccountLabel;
+        UIButton ForgotPasswordButton;
+        UIButton GetStartedButton;
+        UIButton LoginButton;
+        UILabel LogInLabel;
+        TextFieldValidationWithImage LoginTxt;
+        TextFieldValidationWithImage PasswordTxt;
+
+        UIButton FacebookLoginButton;
+        SignInButton GPlusLoginButton;
 
         public LoginView()
         {
@@ -60,22 +68,44 @@ namespace Tollminder.Touch.Views
             LoginButton.Layer.ShadowRadius = 1;
             LoginButton.Layer.ShadowOffset = new CGSize(1, 1);
 
+            GPlusLoginButton = new SignInButton();
+            FacebookLoginButton = new UIButton();
+            FacebookLoginButton.SetTitle("Log in with Facebook", UIControlState.Normal);
+            FacebookLoginButton.BackgroundColor = Theme.BlueDark.ToUIColor();
+            FacebookLoginButton.SetTitleColor(UIColor.White, UIControlState.Normal);
+            FacebookLoginButton.ClipsToBounds = false;
+            FacebookLoginButton.Layer.CornerRadius = 5;
+            FacebookLoginButton.Layer.ShadowColor = UIColor.Black.CGColor;
+            FacebookLoginButton.Layer.ShadowOpacity = 0.1f;
+            FacebookLoginButton.Layer.ShadowRadius = 1;
+            FacebookLoginButton.Layer.ShadowOffset = new CGSize(1, 1);
+
             centerView.AddIfNotNull(LoginTxt);
             centerView.AddIfNotNull(PasswordTxt);
             centerView.AddIfNotNull(LoginButton);
+            centerView.AddIfNotNull(FacebookLoginButton);
+            centerView.AddIfNotNull(GPlusLoginButton);
 
             centerView.AddConstraints(
                 LoginTxt.AtTopOf(centerView, 8),
                 LoginTxt.AtLeftOf(centerView, 8),
-                LoginTxt.AtRightOf(centerView, 8),
+                LoginTxt.AtRightOf(centerView, 50),
 
                 PasswordTxt.Below(LoginTxt, 8),
                 PasswordTxt.AtLeftOf(centerView, 8),
-                PasswordTxt.AtRightOf(centerView, 8),
+                PasswordTxt.AtRightOf(centerView, 50),
 
                 LoginButton.Below(PasswordTxt, 8),
                 LoginButton.AtLeftOf(centerView, 50),
-                LoginButton.AtRightOf(centerView, 50)
+                LoginButton.AtRightOf(centerView, 50),
+
+                FacebookLoginButton.Below(LoginButton, 8),
+                FacebookLoginButton.AtLeftOf(centerView, 50),
+                FacebookLoginButton.AtRightOf(centerView, 50),
+
+                GPlusLoginButton.Below(FacebookLoginButton, 8),
+                GPlusLoginButton.AtLeftOf(centerView, 50),
+                GPlusLoginButton.AtRightOf(centerView, 50)
             );
 
             View.AddIfNotNull(topView);
@@ -111,6 +141,7 @@ namespace Tollminder.Touch.Views
             set.Bind(PasswordTxt.TextFieldWithValidator.TextField).To(vm => vm.PasswordString);
             set.Bind(PasswordTxt.TextFieldWithValidator).For(v => v.ErrorMessageString).To(vm => vm.Errors["Password"]);
             set.Bind(LoginButton).To(vm => vm.EmailLoginCommand);
+            set.Bind(FacebookLoginButton).To(vm => vm.FacebookLoginCommand);
             set.Apply();
         }
     }

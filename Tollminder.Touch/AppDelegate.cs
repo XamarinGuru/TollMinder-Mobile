@@ -55,23 +55,30 @@ namespace Tollminder.Touch
             session.SetCategory (AVAudioSessionCategory.Playback);
             session.SetActive (true, out categoryError);
 
-            string clientId = "194561500997971";
+            //string clientId = "194561500997971";
 
-            NSError configureError;
-            Context.SharedInstance.Configure(out configureError);
-            if (configureError != null)
-            {
-                // If something went wrong, assign the clientID manually
-                Console.WriteLine("Error configuring the Google context: {0}", configureError);
-                SignIn.SharedInstance.ClientID = clientId;
-            }
+            //NSError configureError;
+            //Context.SharedInstance.Configure(out configureError);
+            //if (configureError != null)
+            //{
+            //    // If something went wrong, assign the clientID manually
+            //    Console.WriteLine("Error configuring the Google context: {0}", configureError);
+            //    SignIn.SharedInstance.ClientID = clientId;
+            //}
 
-            return true;
+            Facebook.CoreKit.Profile.EnableUpdatesOnAccessTokenChange(true);
+            Facebook.CoreKit.Settings.AppID = "194561500997971";
+            Facebook.CoreKit.Settings.DisplayName = "TollMinder";
+
+            // This method verifies if you have been logged into the app before, and keep you logged in after you reopen or kill your app.
+            return Facebook.CoreKit.ApplicationDelegate.SharedInstance.FinishedLaunching(application, launchOptions);
+
         }
 
         public override bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
         {
-            return SignIn.SharedInstance.HandleUrl(url, sourceApplication, annotation);
+            return Facebook.CoreKit.ApplicationDelegate.SharedInstance.OpenUrl(application, url, sourceApplication, annotation);
+            //return SignIn.SharedInstance.HandleUrl(url, sourceApplication, annotation);
         }
 
 		public override void ReceivedLocalNotification (UIApplication application, UILocalNotification notification)

@@ -52,5 +52,21 @@
 	<string>We need to get motion activity </string>
 	<key>CFBundleVersion</key>
 	<string>12</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb194561500997971</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>
