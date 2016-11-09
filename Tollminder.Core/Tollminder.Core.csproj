@@ -106,6 +106,7 @@
     <Compile Include="Services\IFacebookLoginService.cs" />
     <Compile Include="Services\ILoginServiceBase.cs" />
     <Compile Include="Services\IGPlusLoginService.cs" />
+    <Compile Include="Theme.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>

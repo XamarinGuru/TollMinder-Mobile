@@ -252,6 +252,9 @@
     <Compile Include="Services\TouchGPlusLoginService.cs" />
     <Compile Include="Controls\TextFieldValidatorView.cs" />
     <Compile Include="Controls\TextFieldHandleText.cs" />
+    <Compile Include="Controls\TextFieldValidationWithImage.cs" />
+    <Compile Include="Controls\TextFieldWithValidator.cs" />
+    <Compile Include="Extensions\TouchDrawing.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets')" />

@@ -43,9 +43,14 @@ namespace Tollminder.Touch.Services
             };
         }
 
-        public Task<PersonData> Login()
+        public void ReleaseResources()
         {
             
+        }
+
+        public Task<PersonData> GetPersonData()
+        {
+            throw new NotImplementedException();
         }
     }
 }
