@@ -17,7 +17,6 @@ using Tollminder.Core.Models;
 using Tollminder.Core.Services;
 using Tollminder.Core.ViewModels;
 using Tollminder.Droid.Inerfaces;
-using Tollminder.Droid.Models;
 using Tollminder.Droid.Services;
 using Xamarin.Facebook;
 using Xamarin.Facebook.Login;

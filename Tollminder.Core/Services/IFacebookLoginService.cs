@@ -1,7 +1,7 @@
 ﻿using System;
 namespace Tollminder.Core.Services
 {
-    public interface IFacebookLoginService : ILoginServiceBase
+    public interface IFacebookLoginService : ISocialLoginServiceBase
     {
     }
 }

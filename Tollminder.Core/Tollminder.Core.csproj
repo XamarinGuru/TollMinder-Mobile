@@ -104,7 +104,7 @@
     <Compile Include="CustomAppStart.cs" />
     <Compile Include="Models\SocialData.cs" />
     <Compile Include="Services\IFacebookLoginService.cs" />
-    <Compile Include="Services\ILoginServiceBase.cs" />
+    <Compile Include="Services\ISocialLoginServiceBase.cs" />
     <Compile Include="Services\IGPlusLoginService.cs" />
     <Compile Include="Theme.cs" />
     <Compile Include="Models\FacebookAccountResult.cs" />

@@ -4,7 +4,7 @@ using Tollminder.Core.Models;
 
 namespace Tollminder.Core.Services
 {
-    public interface ILoginServiceBase
+    public interface ISocialLoginServiceBase
     {
         void Initialize();
         void ReleaseResources();
