@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.tollminder" android:versionCode="20" android:versionName="2.20">
-	<uses-sdk android:minSdkVersion="18" android:targetSdkVersion="24" />
-	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-	<uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
-	<uses-permission android:name="android.permission.RECORD_AUDIO" />
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	<application android:allowBackup="true" android:icon="@mipmap/icon" android:label="@string/app_name" android:theme="@android:style/Theme.Holo.Light.DarkActionBar">
-		<meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/app_id" />
-	</application>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.tollminder" android:versionCode="22" android:versionName="2.22">
+  <uses-sdk android:minSdkVersion="18" android:targetSdkVersion="24" />
+  <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+  <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
+  <uses-permission android:name="android.permission.RECORD_AUDIO" />
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+  <application android:allowBackup="true" android:icon="@mipmap/icon" android:label="@string/app_name" android:theme="@android:style/Theme.Holo.Light.DarkActionBar">
+    <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/app_id" />
+  </application>
 </manifest>
