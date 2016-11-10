@@ -55,30 +55,55 @@ namespace Tollminder.Touch
             session.SetCategory (AVAudioSessionCategory.Playback);
             session.SetActive (true, out categoryError);
 
-            //string clientId = "194561500997971";
+            string clientId = "41587140639-m2eom7qq6394aoa96nrrh30hd4p28o57.apps.googleusercontent.com";
 
-            //NSError configureError;
-            //Context.SharedInstance.Configure(out configureError);
-            //if (configureError != null)
-            //{
-            //    // If something went wrong, assign the clientID manually
-            //    Console.WriteLine("Error configuring the Google context: {0}", configureError);
-            //    SignIn.SharedInstance.ClientID = clientId;
-            //}
+            NSError configureError;
+            Context.SharedInstance.Configure(out configureError);
+            if (configureError != null)
+            {
+                // If something went wrong, assign the clientID manually
+                Console.WriteLine("Error configuring the Google context: {0}", configureError);
+                SignIn.SharedInstance.ClientID = clientId;
+            }
 
-            Facebook.CoreKit.Profile.EnableUpdatesOnAccessTokenChange(true);
-            Facebook.CoreKit.Settings.AppID = "194561500997971";
-            Facebook.CoreKit.Settings.DisplayName = "TollMinder";
-
-            // This method verifies if you have been logged into the app before, and keep you logged in after you reopen or kill your app.
             return Facebook.CoreKit.ApplicationDelegate.SharedInstance.FinishedLaunching(application, launchOptions);
 
         }
 
+        SocialNetworks GetSocialNetworkForUrl(NSUrl url)
+        {
+            if (url.Scheme == GetUrlScheme(SocialNetworks.Facebook))
+            {
+                return SocialNetworks.Facebook;
+            }
+            if (url.Scheme == GetUrlScheme(SocialNetworks.GooglePlus))
+            {
+                return SocialNetworks.GooglePlus;
+            }
+
+            return SocialNetworks.Unknown;
+        }
+
+        string GetUrlScheme(SocialNetworks socialNetwork)
+        {
+            var predicate = NSPredicate.FromFormat("%K = %@", new NSObject[] { new NSString("CFBundleURLName"), new NSString(socialNetwork.ToString()) });
+            var urlTypes = (NSMutableArray)NSBundle.MainBundle.InfoDictionary.ObjectForKey(new NSString("CFBundleURLTypes"));
+            var urlSchemes = (NSArray)urlTypes.Filter(predicate).ValueForKey(new NSString("CFBundleURLSchemes"));
+            var neededScheme = urlSchemes.GetItem<NSMutableArray>(0).GetItem<NSMutableString>(0).ToString();
+            return neededScheme;
+        }
+
         public override bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
         {
-            return Facebook.CoreKit.ApplicationDelegate.SharedInstance.OpenUrl(application, url, sourceApplication, annotation);
-            //return SignIn.SharedInstance.HandleUrl(url, sourceApplication, annotation);
+            switch (GetSocialNetworkForUrl(url))
+            {
+                case SocialNetworks.Facebook:
+                    return Facebook.CoreKit.ApplicationDelegate.SharedInstance.OpenUrl(application, url, sourceApplication, annotation);
+                case SocialNetworks.GooglePlus:
+                    return SignIn.SharedInstance.HandleUrl(url, sourceApplication, annotation);
+            }
+
+            return base.OpenUrl(application, url, sourceApplication, annotation);
         }
 
 		public override void ReceivedLocalNotification (UIApplication application, UILocalNotification notification)
@@ -136,6 +161,13 @@ namespace Tollminder.Touch
                 UIApplication.SharedApplication.EndBackgroundTask(taskID);
 
             }).Start();
+        }
+
+        enum SocialNetworks
+        {
+            Unknown,
+            Facebook,
+            GooglePlus
         }
     }
 }

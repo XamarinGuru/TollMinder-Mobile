@@ -22,7 +22,7 @@ namespace Tollminder.Droid.Services
         GoogleApiClient googleApiClient;
         GoogleSignInOptions gso;
 
-        TaskCompletionSource<PersonData> _gPlusTask;
+        TaskCompletionSource<SocialData> _gPlusTask;
 
         public DroidGPlusLoginService()
         {
@@ -46,9 +46,9 @@ namespace Tollminder.Droid.Services
             googleApiClient.Connect();
         }
 
-        public Task<PersonData> GetPersonData()
+        public Task<SocialData> GetPersonData()
         {
-            _gPlusTask = new TaskCompletionSource<PersonData>();
+            _gPlusTask = new TaskCompletionSource<SocialData>();
 
             Intent signInIntent = Auth.GoogleSignInApi.GetSignInIntent(googleApiClient);
             Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity.StartActivityForResult(signInIntent, googleSignInRequestCode);
@@ -72,7 +72,7 @@ namespace Tollminder.Droid.Services
                     if (acct != null)
                     {
                         Mvx.Trace($"Profile: {acct.DisplayName}, {acct.Email}, {acct.PhotoUrl}");
-                        _gPlusTask.TrySetResult(new PersonData()
+                        _gPlusTask.TrySetResult(new SocialData()
                         {
                             Email = acct.Email,
                             Name = acct.DisplayName,

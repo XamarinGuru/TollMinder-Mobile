@@ -1,7 +1,7 @@
 ﻿using System;
 namespace Tollminder.Core.Models
 {
-    public class PersonData
+    public class SocialData
     {
         public string Name { get; set; }
         public string Email { get; set; }

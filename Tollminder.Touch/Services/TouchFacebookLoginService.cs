@@ -18,7 +18,7 @@ namespace Tollminder.Touch.Services
 
         LoginManager manager;
 
-        TaskCompletionSource<PersonData> _facebookTask;
+        TaskCompletionSource<SocialData> _facebookTask;
 
         public TouchFacebookLoginService()
         {
@@ -26,6 +26,9 @@ namespace Tollminder.Touch.Services
 
         public void Initialize()
         {
+            Profile.EnableUpdatesOnAccessTokenChange(true);
+            Settings.AppID = "194561500997971";
+            Settings.DisplayName = "TollMinder";
             manager = new LoginManager();
             manager.LoginBehavior = LoginBehavior.Native;
         }
@@ -35,15 +38,24 @@ namespace Tollminder.Touch.Services
             manager = null;
         }
 
-        public Task<PersonData> GetPersonData()
+        public Task<SocialData> GetPersonData()
         {
-            _facebookTask = new TaskCompletionSource<PersonData>();
+            _facebookTask = new TaskCompletionSource<SocialData>();
 
             manager.LogInWithReadPermissions(readPermissions.ToArray(), (res, e) => 
             {
                 if (e != null)
                 {
                     Mvx.Trace($"FacebookLoginButton error {e}");
+                    _facebookTask.TrySetResult(null);
+                    return;
+                }
+
+                if (AccessToken.CurrentAccessToken == null)
+                {
+                    Mvx.Trace($"Empty token");
+                    _facebookTask.TrySetResult(null);
+                    return;
                 }
 
                 GraphRequest request = new GraphRequest("/me", new NSDictionary("fields", "name,picture,email"), AccessToken.CurrentAccessToken.TokenString, null, "GET");
@@ -59,7 +71,7 @@ namespace Tollminder.Touch.Services
                     if (acct != null)
                     {
                         Mvx.Trace($"Profile: {acct.Name}, {acct.Email}, {acct.PhotoUrl}");
-                        _facebookTask.TrySetResult(new PersonData()
+                        _facebookTask.TrySetResult(new SocialData()
                         {
                             Email = acct.Name,
                             Name = acct.Name,

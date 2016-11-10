@@ -30,6 +30,7 @@
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchProfiling>true</MtouchProfiling>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugSymbols>false</DebugSymbols>
@@ -291,6 +292,7 @@
     <BundleResource Include="Resources\AcousticModelEnglish.bundle\transition_matrices" />
     <BundleResource Include="Resources\AcousticModelEnglish.bundle\variances" />
     <BundleResource Include="Sounds\tap.aif" />
+    <BundleResource Include="GoogleService-Info.plist" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="facebookios">

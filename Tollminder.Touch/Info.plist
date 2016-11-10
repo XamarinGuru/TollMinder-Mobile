@@ -66,6 +66,26 @@
 			<array>
 				<string>fb194561500997971</string>
 			</array>
+			<key>CFBundleURLName</key>
+			<string>Facebook</string>
+		</dict>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>GooglePlus</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.41587140639-m2eom7qq6394aoa96nrrh30hd4p28o57</string>
+			</array>
+			<key>CFBundleURLTypes</key>
+			<string>Editor</string>
+		</dict>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.tollminder</string>
+			</array>
+			<key>CFBundleURLTypes</key>
+			<string>Editor</string>
 		</dict>
 	</array>
 </dict>

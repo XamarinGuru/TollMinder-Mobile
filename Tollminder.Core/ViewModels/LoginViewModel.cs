@@ -54,11 +54,11 @@ namespace Tollminder.Core.ViewModels
             }
         }
 
-        public PersonData EmailLoginData
+        public SocialData EmailLoginData
         {
             get
             {
-                return new PersonData()
+                return new SocialData()
                 {
                     Email = LoginString,
                     Password = PasswordString,
@@ -115,8 +115,14 @@ namespace Tollminder.Core.ViewModels
             }
         }
 
-        async Task LoginTask(PersonData data)
+        async Task LoginTask(SocialData data)
         {
+            if (data == null)
+            {
+                Mvx.Trace("Received empty data for login");
+                return;
+            }
+
             bool success = false;
 
             switch(data.Source)

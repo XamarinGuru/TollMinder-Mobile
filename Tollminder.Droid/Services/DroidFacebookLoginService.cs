@@ -22,7 +22,7 @@ namespace Tollminder.Droid.Services
     {
         ICallbackManager facebookCallbackManager;
 
-        TaskCompletionSource<PersonData> _facebookTask;
+        TaskCompletionSource<SocialData> _facebookTask;
 
         public DroidFacebookLoginService()
         {
@@ -35,9 +35,9 @@ namespace Tollminder.Droid.Services
             LoginManager.Instance.RegisterCallback(facebookCallbackManager, this);
         }
 
-        public Task<PersonData> GetPersonData()
+        public Task<SocialData> GetPersonData()
         {
-            _facebookTask = new TaskCompletionSource<PersonData>();
+            _facebookTask = new TaskCompletionSource<SocialData>();
             LoginManager.Instance.LogInWithReadPermissions(Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity, new List<string> { "public_profile", "email"});
             return _facebookTask.Task;
         }
@@ -70,7 +70,7 @@ namespace Tollminder.Droid.Services
             if (acct != null)
             {
                 Mvx.Trace($"Profile: {acct.Name}, {acct.Email}, {acct.PhotoUrl}");
-                _facebookTask.TrySetResult(new PersonData()
+                _facebookTask.TrySetResult(new SocialData()
                 {
                     Email = acct.Email,
                     Name = acct.Name,

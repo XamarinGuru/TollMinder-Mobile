@@ -16,7 +16,7 @@ using UIKit;
 
 namespace Tollminder.Touch.Views
 {
-    public class LoginView : BaseViewController<LoginViewModel>
+    public class LoginView : BaseViewController<LoginViewModel>, ISignInUIDelegate
     {
         UILabel DontHaveAnAccountLabel;
         UIButton ForgotPasswordButton;
@@ -27,7 +27,7 @@ namespace Tollminder.Touch.Views
         TextFieldValidationWithImage PasswordTxt;
 
         UIButton FacebookLoginButton;
-        SignInButton GPlusLoginButton;
+        UIButton GPlusLoginButton;
 
         public LoginView()
         {
@@ -68,10 +68,20 @@ namespace Tollminder.Touch.Views
             LoginButton.Layer.ShadowRadius = 1;
             LoginButton.Layer.ShadowOffset = new CGSize(1, 1);
 
-            GPlusLoginButton = new SignInButton();
+            GPlusLoginButton = new UIButton();
+            GPlusLoginButton.SetTitle("Log in with Goggle", UIControlState.Normal);
+            GPlusLoginButton.BackgroundColor = UIColor.Red;
+            GPlusLoginButton.SetTitleColor(UIColor.White, UIControlState.Normal);
+            GPlusLoginButton.ClipsToBounds = false;
+            GPlusLoginButton.Layer.CornerRadius = 5;
+            GPlusLoginButton.Layer.ShadowColor = UIColor.Black.CGColor;
+            GPlusLoginButton.Layer.ShadowOpacity = 0.1f;
+            GPlusLoginButton.Layer.ShadowRadius = 1;
+            GPlusLoginButton.Layer.ShadowOffset = new CGSize(1, 1);
+
             FacebookLoginButton = new UIButton();
             FacebookLoginButton.SetTitle("Log in with Facebook", UIControlState.Normal);
-            FacebookLoginButton.BackgroundColor = Theme.BlueDark.ToUIColor();
+            FacebookLoginButton.BackgroundColor = UIColor.Blue;
             FacebookLoginButton.SetTitleColor(UIColor.White, UIControlState.Normal);
             FacebookLoginButton.ClipsToBounds = false;
             FacebookLoginButton.Layer.CornerRadius = 5;
@@ -129,6 +139,8 @@ namespace Tollminder.Touch.Views
                 bottomView.Below(centerView),
                 bottomView.WithRelativeHeight(View, 0.3f)
             );
+
+            SignIn.SharedInstance.UIDelegate = this;
         }
 
         protected override void InitializeBindings()
@@ -142,6 +154,7 @@ namespace Tollminder.Touch.Views
             set.Bind(PasswordTxt.TextFieldWithValidator).For(v => v.ErrorMessageString).To(vm => vm.Errors["Password"]);
             set.Bind(LoginButton).To(vm => vm.EmailLoginCommand);
             set.Bind(FacebookLoginButton).To(vm => vm.FacebookLoginCommand);
+            set.Bind(GPlusLoginButton).To(vm => vm.GPlusLoginCommand);
             set.Apply();
         }
     }
