@@ -146,6 +146,7 @@ namespace Tollminder.Core.ViewModels
             if (success)
             {
                 StoredSettingsService.IsAuthorized = true;
+                Close(this);
                 ShowViewModel<HomeViewModel>();
             }
         }

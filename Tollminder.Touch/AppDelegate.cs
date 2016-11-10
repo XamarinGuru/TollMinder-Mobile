@@ -55,17 +55,6 @@ namespace Tollminder.Touch
             session.SetCategory (AVAudioSessionCategory.Playback);
             session.SetActive (true, out categoryError);
 
-            string clientId = "41587140639-m2eom7qq6394aoa96nrrh30hd4p28o57.apps.googleusercontent.com";
-
-            NSError configureError;
-            Context.SharedInstance.Configure(out configureError);
-            if (configureError != null)
-            {
-                // If something went wrong, assign the clientID manually
-                Console.WriteLine("Error configuring the Google context: {0}", configureError);
-                SignIn.SharedInstance.ClientID = clientId;
-            }
-
             return Facebook.CoreKit.ApplicationDelegate.SharedInstance.FinishedLaunching(application, launchOptions);
 
         }

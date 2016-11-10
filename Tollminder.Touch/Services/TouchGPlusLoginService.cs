@@ -45,6 +45,17 @@ namespace Tollminder.Touch.Services
 
         public void Initialize()
         {
+            string clientId = "41587140639-m2eom7qq6394aoa96nrrh30hd4p28o57.apps.googleusercontent.com";
+
+            NSError configureError;
+            Context.SharedInstance.Configure(out configureError);
+            if (configureError != null)
+            {
+                // If something went wrong, assign the clientID manually
+                Console.WriteLine("Error configuring the Google context: {0}", configureError);
+                SignIn.SharedInstance.ClientID = clientId;
+            }
+
             SignIn.SharedInstance.DisconnectUser();
             SignIn.SharedInstance.Delegate = this;
         }
