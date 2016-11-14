@@ -9,14 +9,12 @@
         android:layout_width="match_parent"
         android:layout_height="50dp">
         <Button
-            android:id="@+id/button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="START"
             android:layout_weight="1"
-            local:MvxBind="Click StartCommand; Enabled InverseBoolConverter(IsBound)" />
+            local:MvxBind="Click StartCommand; Enabled BoolInverseConverter(IsBound)" />
         <Button
-            android:id="@+id/button1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="STOP"
@@ -135,4 +133,9 @@
             android:enabled="false"
             android:gravity="bottom" />
     </ScrollView>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Log Out"
+        local:MvxBind="Click LogOutCommand" />
 </LinearLayout>

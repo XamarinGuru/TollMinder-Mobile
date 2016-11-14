@@ -16,17 +16,19 @@ namespace Tollminder.Core.ViewModels
     {		
 		readonly IMvxMessenger _messenger;
 		readonly ITrackFacade _track;
+        readonly IStoredSettingsService _storedSettingsService;
 		readonly IGeoLocationWatcher _geoWatcher;
 
-		private IList<MvxSubscriptionToken> _tokens;
+		IList<MvxSubscriptionToken> _tokens;
+        public HomeViewModel(IMvxMessenger messenger, ITrackFacade track, IGeoLocationWatcher geoWatcher, IStoredSettingsService storedSettingsService)
+        {
+            _track = track;
+            _messenger = messenger;
+            _geoWatcher = geoWatcher;
+            _storedSettingsService = storedSettingsService;
 
-		public HomeViewModel (IMvxMessenger messenger, ITrackFacade track, IGeoLocationWatcher geoWatcher)
-		{
-			_track = track;
-			_messenger = messenger;
-			_geoWatcher = geoWatcher;
-			_tokens = new List<MvxSubscriptionToken> ();
-		}
+            _tokens = new List<MvxSubscriptionToken>();
+        }
 
 		public override void Start ()
 		{
@@ -135,7 +137,7 @@ namespace Tollminder.Core.ViewModels
 			get { return _motionType.ToString(); }
 		}
 
-		private MvxCommand _startCommand;
+		MvxCommand _startCommand;
 		public ICommand StartCommand {
 			get {
 				return _startCommand ?? (_startCommand = new MvxCommand (async () =>
@@ -146,7 +148,7 @@ namespace Tollminder.Core.ViewModels
 			}  
 		}
 
-		private MvxCommand _stopCommand;
+		MvxCommand _stopCommand;
 		public ICommand StopCommand {
 			get {
 				return _stopCommand ?? (_stopCommand = new MvxCommand (() =>
@@ -156,5 +158,19 @@ namespace Tollminder.Core.ViewModels
 				}));
 			}  
 		}
+
+        MvxCommand _logOutCommand;
+        public ICommand LogOutCommand
+        {
+            get
+            {
+               return _logOutCommand ?? (_logOutCommand = new MvxCommand(() =>
+               {
+                   _track.StopServices();
+                   _storedSettingsService.IsAuthorized = false;
+                    ShowViewModel<LoginViewModel>();
+               }));
+            }
+        }
 	}
 }
