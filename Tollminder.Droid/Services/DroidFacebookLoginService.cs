@@ -44,11 +44,13 @@ namespace Tollminder.Droid.Services
         public void OnCancel()
         {
             Mvx.Trace("Facebook OnCancel");
+            _facebookTask.TrySetResult(null);
         }
 
         public void OnError(FacebookException error)
         {
             Mvx.Trace("Facebook OnError" + error);
+            _facebookTask.TrySetResult(null);
         }
 
         public void OnSuccess(Java.Lang.Object p0)
@@ -77,6 +79,8 @@ namespace Tollminder.Droid.Services
                     Source = AuthorizationType.Facebook
                 });
             }
+            else
+                _facebookTask.TrySetResult(null);
         }
 
         public void OnActivityResult(int requestCode, Result resultCode, Intent data)

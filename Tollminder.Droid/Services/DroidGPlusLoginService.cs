@@ -80,6 +80,8 @@ namespace Tollminder.Droid.Services
                             Source = AuthorizationType.GPlus
                         });
                     }
+                    else
+                        _gPlusTask.TrySetResult(null);
                 }
                 else
                 {
