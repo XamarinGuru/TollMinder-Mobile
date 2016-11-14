@@ -9,11 +9,12 @@ using Tollminder.Core.ViewModels;
 using Tollminder.Touch.Controllers;
 using Tollminder.Touch.Controls;
 using Tollminder.Touch.Extensions;
+using Tollminder.Touch.Interfaces;
 using UIKit;
 
 namespace Tollminder.Touch.Views
 {
-    public class LoginView : BaseViewController<LoginViewModel>, ISignInUIDelegate
+    public class LoginView : BaseViewController<LoginViewModel>, ISignInUIDelegate, ICleanBackStack
     {
         UILabel DontHaveAnAccountLabel;
         UIButton ForgotPasswordButton;
