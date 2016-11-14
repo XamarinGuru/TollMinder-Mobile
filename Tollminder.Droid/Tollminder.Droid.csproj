@@ -255,7 +255,6 @@
     <Compile Include="Services\DroidReciever.cs" />
     <Compile Include="BroadcastReceivers\MotionReciever.cs" />
     <Compile Include="Services\DroidSpeechToTextService.cs" />
-    <Compile Include="Converters\InverseBoolConverter.cs" />
     <Compile Include="Services\DroidStoredSettingsBase.cs" />
     <Compile Include="LinkerPleaseInclude.cs" />
     <Compile Include="Bootstrap\MessengerPluginBootstrap.cs" />

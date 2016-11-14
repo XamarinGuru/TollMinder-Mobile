@@ -10,11 +10,9 @@ using Android.Runtime;
 using Android.Speech;
 using MvvmCross.Platform;
 using MvvmCross.Platform.Droid.Platform;
-using MvvmCross.Plugins.Messenger;
 using Tollminder.Core.Helpers;
 using Tollminder.Core.Models;
 using Tollminder.Core.Services;
-using Tollminder.Droid.Views;
 
 namespace Tollminder.Droid.Services
 {

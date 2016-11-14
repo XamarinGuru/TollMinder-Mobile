@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using Cirrious.FluentLayouts.Touch;
 using CoreGraphics;
-using Facebook.CoreKit;
-using Facebook.LoginKit;
 using Google.SignIn;
 using MvvmCross.Binding.BindingContext;
 using Tollminder.Core;
+using Tollminder.Core.Converters;
 using Tollminder.Core.ViewModels;
 using Tollminder.Touch.Controllers;
 using Tollminder.Touch.Controls;
 using Tollminder.Touch.Extensions;
-using Tollminder.Touch.Services;
 using UIKit;
 
 namespace Tollminder.Touch.Views
@@ -153,8 +150,11 @@ namespace Tollminder.Touch.Views
             set.Bind(PasswordTxt.TextFieldWithValidator.TextField).To(vm => vm.PasswordString);
             set.Bind(PasswordTxt.TextFieldWithValidator).For(v => v.ErrorMessageString).To(vm => vm.Errors["Password"]);
             set.Bind(LoginButton).To(vm => vm.EmailLoginCommand);
+            set.Bind(LoginButton).For(x => x.Enabled).To(vm => vm.IsBusy).WithConversion(new BoolInverseConverter());
             set.Bind(FacebookLoginButton).To(vm => vm.FacebookLoginCommand);
+            set.Bind(FacebookLoginButton).For(x => x.Enabled).To(vm => vm.IsBusy).WithConversion(new BoolInverseConverter());
             set.Bind(GPlusLoginButton).To(vm => vm.GPlusLoginCommand);
+            set.Bind(GPlusLoginButton).For(x => x.Enabled).To(vm => vm.IsBusy).WithConversion(new BoolInverseConverter());
             set.Apply();
         }
     }
