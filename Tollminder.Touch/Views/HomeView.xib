@@ -16,6 +16,7 @@
                 <outlet property="GeoLabel" destination="5" id="name-outlet-5"/>
                 <outlet property="GeoLabelData" destination="7" id="name-outlet-7"/>
                 <outlet property="LogArea" destination="FGq-je-7EJ" id="y40-NT-tvC"/>
+                <outlet property="LogOut" destination="ttf-pb-gcg" id="Jfm-2X-SJ0"/>
                 <outlet property="NextWaypointString" destination="MO4-ig-wSm" id="kdR-7D-MJ3"/>
                 <outlet property="StartButton" destination="13" id="name-outlet-13"/>
                 <outlet property="StatusLabel" destination="pad-eu-4h7" id="x9t-HY-20t"/>
@@ -145,7 +146,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ttf-pb-gcg">
-                    <rect key="frame" x="408" y="844" width="263" height="30"/>
+                    <rect key="frame" x="397" y="845" width="263" height="30"/>
                     <color key="backgroundColor" red="1" green="0.2514843678" blue="0.2163755775" alpha="1" colorSpace="calibratedRGB"/>
                     <state key="normal" title="Log out"/>
                 </button>

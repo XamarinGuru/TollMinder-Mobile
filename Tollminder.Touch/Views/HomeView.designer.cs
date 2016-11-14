@@ -25,6 +25,9 @@ namespace Tollminder.Touch.Views
 		UIKit.UITextView LogArea { get; set; }
 
 		[Outlet]
+		UIKit.UIButton LogOut { get; set; }
+
+		[Outlet]
 		UIKit.UILabel NextWaypointString { get; set; }
 
 		[Outlet]
@@ -56,14 +59,14 @@ namespace Tollminder.Touch.Views
 				GeoLabelData = null;
 			}
 
-			if (TollRoadString != null) {
-				TollRoadString.Dispose ();
-				TollRoadString = null;
-			}
-
 			if (LogArea != null) {
 				LogArea.Dispose ();
 				LogArea = null;
+			}
+
+			if (LogOut != null) {
+				LogOut.Dispose ();
+				LogOut = null;
 			}
 
 			if (NextWaypointString != null) {
@@ -84,6 +87,11 @@ namespace Tollminder.Touch.Views
 			if (StopButton != null) {
 				StopButton.Dispose ();
 				StopButton = null;
+			}
+
+			if (TollRoadString != null) {
+				TollRoadString.Dispose ();
+				TollRoadString = null;
 			}
 		}
 	}
