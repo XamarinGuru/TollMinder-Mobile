@@ -93,15 +93,6 @@ namespace Tollminder.Droid.Services
             if (_isMusicRunning)
                 PlatformService.PauseMusic();
 
-            if (Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity == null)
-            {
-                var otherActivity = new Intent(Application.Context, typeof(HomeView));
-                otherActivity.AddFlags(ActivityFlags.NewTask);
-                Application.Context.StartActivity(otherActivity);
-
-                EnsureActivityLoaded().Wait();
-            }
-
             _handler = new Handler(Application.Context.MainLooper);
 
             TextToSpeechService.Speak(question, false).Wait();
@@ -173,26 +164,15 @@ namespace Tollminder.Droid.Services
         {
             _dialogWasManuallyAnswered = true;
             _speechRecognizer?.StopListening();
-            DisposeDialog();
+            CancelDialog();
             _recognitionTask.TrySetResult(result);
         }
 
-        void DisposeDialog()
+        void CancelDialog()
         {
             if (_dialog?.IsShowing ?? false)
                 _dialog?.Cancel();
             _dialog = null;
-        }
-
-        Task<bool> EnsureActivityLoaded()
-        {
-            var _ensureTask = new TaskCompletionSource<bool>();
-            Mvx.Resolve<IMvxMessenger>().SubscribeOnThreadPoolThread<SpechRecognitionActivityLoadedMessage>(x =>
-            {
-                Console.WriteLine("Received SpechRecognitionActivityLoadedMessage");
-                _ensureTask.SetResult(true);
-            });
-            return _ensureTask.Task;
         }
 
         public void OnBeginningOfSpeech()
@@ -246,7 +226,7 @@ namespace Tollminder.Droid.Services
                 _handler.Post(() =>
                 {
                     if (answer != AnswerType.Unknown)
-                        DisposeDialog();
+                        CancelDialog();
 
                     StopRecognizer();
                 });

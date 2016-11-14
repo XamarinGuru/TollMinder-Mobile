@@ -39,14 +39,6 @@ namespace Tollminder.Core.Models
 		}
 	}
 
-	public class SpechRecognitionActivityLoadedMessage : MvxMessage
-	{
-		public SpechRecognitionActivityLoadedMessage(object sender)
-			: base(sender)
-		{
-		}
-	}
-
 	public class GeoWatcherStatusMessage : GenericMessage<bool>
 	{
 		public GeoWatcherStatusMessage(object sender, bool status)

@@ -36,12 +36,5 @@ namespace Tollminder.Droid.Views
 		{
 			PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 		}
-
-		protected override void OnResume()
-		{
-			base.OnResume();
-			Console.WriteLine("OnResume HomeView");
-			Mvx.Resolve<IMvxMessenger>().Publish(new SpechRecognitionActivityLoadedMessage(this));
-		}
     }
 }
