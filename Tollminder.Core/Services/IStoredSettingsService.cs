@@ -17,6 +17,8 @@ namespace Tollminder.Core.Services
         DateTime TollRoadExitWaypointDateTime { get; set; }
         TollPoint IgnoredChoiceTollPoint { get; set; }
 		DateTime SleepGPSDateTime { get; set; }
+
+        bool IsAuthorized { get; set; }
 	}
 }
 

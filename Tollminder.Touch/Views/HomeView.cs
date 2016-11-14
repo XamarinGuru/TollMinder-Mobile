@@ -4,10 +4,11 @@ using Tollminder.Core.ViewModels;
 using Tollminder.Touch.Converters;
 using Tollminder.Core.Helpers;
 using Foundation;
+using Tollminder.Touch.Interfaces;
 
 namespace Tollminder.Touch.Views
 {
-	public partial class HomeView : MvxViewController
+	public partial class HomeView : MvxViewController, ICleanBackStack
 	{	
 		#pragma warning disable 108		
 		public new HomeViewModel ViewModel { get { return base.ViewModel as HomeViewModel; } }

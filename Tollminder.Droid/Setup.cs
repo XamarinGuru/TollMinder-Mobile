@@ -8,6 +8,8 @@ using MvvmCross.Platform.Platform;
 using MvvmCross.Platform.Converters;
 using MvvmCross.Platform.IoC;
 using System;
+using Tollminder.Core.Converters;
+using System.Linq;
 
 namespace Tollminder.Droid
 {
@@ -30,6 +32,7 @@ namespace Tollminder.Droid
 		protected override void InitializePlatformServices ()
 		{
 			base.InitializePlatformServices ();
+            Mvx.LazyConstructAndRegisterSingleton<IInsightsService, DroidInsightsService>();
 			Mvx.LazyConstructAndRegisterSingleton<IGeoLocationWatcher,DroidGeolocationWatcher> ();
 			Mvx.LazyConstructAndRegisterSingleton<IMotionActivity,DroidMotionActivity> ();
 			Mvx.LazyConstructAndRegisterSingleton<INotificationSender,DroidNotificationSender> ();
@@ -37,12 +40,30 @@ namespace Tollminder.Droid
 			Mvx.LazyConstructAndRegisterSingleton<ITextToSpeechService, DroidTextToSpeechService> ();
 			Mvx.LazyConstructAndRegisterSingleton<ISpeechToTextService, DroidSpeechToTextService>();
 			Mvx.LazyConstructAndRegisterSingleton<IStoredSettingsBase, DroidStoredSettingsBase>();
+            Mvx.ConstructAndRegisterSingleton<IFacebookLoginService, DroidFacebookLoginService>();
+            Mvx.LazyConstructAndRegisterSingleton<IGPlusLoginService, DroidGPlusLoginService>();
 		}
+
+        protected override System.Collections.Generic.IEnumerable<System.Reflection.Assembly> ValueConverterAssemblies
+        {
+            get
+            {
+                var toReturn = base.ValueConverterAssemblies.ToList();
+                toReturn.Add(typeof(BoolInverseConverter).Assembly);
+                toReturn.Add(typeof(Setup).Assembly);
+                return toReturn;
+            }
+        }
 
 		protected override void FillValueConverters(IMvxValueConverterRegistry registry)
 		{
-			foreach (var item in CreatableTypes().EndingWith("Converter"))
-				registry.AddOrOverwrite(item.Name, (IMvxValueConverter)Activator.CreateInstance(item));
+            base.FillValueConverters(registry);
+
+            foreach(var assembly in ValueConverterAssemblies)
+                foreach (var item in assembly.CreatableTypes().EndingWith("Converter"))
+				    registry.AddOrOverwrite(item.Name, (IMvxValueConverter)Activator.CreateInstance(item));
+
+            //registry.AddOrOverwrite("BoolInverseConverter", new BoolInverseConverter());
 		}
     }
 }

@@ -34,6 +34,7 @@ namespace Tollminder.Touch
 		protected override void InitializePlatformServices ()
 		{
 			base.InitializePlatformServices ();
+            Mvx.LazyConstructAndRegisterSingleton<IInsightsService, TouchInsightsService>();
 			Mvx.LazyConstructAndRegisterSingleton<IGeoLocationWatcher,TouchGeolocationWatcher> ();
 			Mvx.LazyConstructAndRegisterSingleton<IMotionActivity,TouchMotionActivity> ();
 			Mvx.LazyConstructAndRegisterSingleton<IPlatform,TouchPlatform> ();
@@ -41,6 +42,8 @@ namespace Tollminder.Touch
 			Mvx.LazyConstructAndRegisterSingleton<ITextToSpeechService,TouchTextToSpeechService> ();
 			Mvx.LazyConstructAndRegisterSingleton<ISpeechToTextService, TouchSpeechToTextService>();
 			Mvx.LazyConstructAndRegisterSingleton<IStoredSettingsBase, TouchStoredSettingsBase>();
+            Mvx.ConstructAndRegisterSingleton<IFacebookLoginService, TouchFacebookLoginService>();
+            Mvx.LazyConstructAndRegisterSingleton<IGPlusLoginService, TouchGPlusLoginService>();
 		}
 	}
 }
