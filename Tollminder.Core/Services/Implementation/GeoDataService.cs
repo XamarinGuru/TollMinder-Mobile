@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MvvmCross.Platform;
+using Tollminder.Core.Helpers;
 using Tollminder.Core.Models;
 
 namespace Tollminder.Core.Services.Implementation
@@ -11,12 +12,14 @@ namespace Tollminder.Core.Services.Implementation
         readonly IDistanceChecker _distanceChecker;
         readonly IDataBaseService _dataBaseStorage;
         readonly IServerApiService _serverApiService;
+        readonly IStoredSettingsService _storedSettingsService;
 
         public GeoDataService()
         {
             _distanceChecker = Mvx.Resolve<IDistanceChecker>();
             _dataBaseStorage = Mvx.Resolve<IDataBaseService>();
             _serverApiService = Mvx.Resolve<IServerApiService>();
+            _storedSettingsService = Mvx.Resolve<IStoredSettingsService>();
         }
 
         public List<TollPointWithDistance> FindNearestEntranceTollPoints(GeoLocation center)
@@ -31,7 +34,7 @@ namespace Tollminder.Core.Services.Implementation
 
         public async Task RefreshTollRoads(CancellationToken token)
         {
-            var list = await _serverApiService.RefreshTollRoads(token);
+            var list = await _serverApiService.RefreshTollRoads(_storedSettingsService.LastSyncDateTime.UnixTime(), token);
             _dataBaseStorage.InsertOrUpdateAllTollRoads(list);
         }
 

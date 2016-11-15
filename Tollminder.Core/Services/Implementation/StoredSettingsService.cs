@@ -85,6 +85,12 @@ namespace Tollminder.Core.Services.Implementation
             get { return _storedSettingsBase.Get<bool>(); }
             set { _storedSettingsBase.Set<bool>(value); }
         }
+
+        public DateTime LastSyncDateTime
+        {
+            get { return _storedSettingsBase.Get<DateTime>(new DateTime(1970, 1, 1)); }
+            set { _storedSettingsBase.Set<DateTime>(value); }
+        }
     }
 }
 

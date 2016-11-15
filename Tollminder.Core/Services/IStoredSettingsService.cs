@@ -19,6 +19,8 @@ namespace Tollminder.Core.Services
 		DateTime SleepGPSDateTime { get; set; }
 
         bool IsAuthorized { get; set; }
+
+        DateTime LastSyncDateTime { get; set; }
 	}
 }
 

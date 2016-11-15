@@ -108,6 +108,12 @@
     <Compile Include="Services\IGPlusLoginService.cs" />
     <Compile Include="Theme.cs" />
     <Compile Include="Models\FacebookAccountResult.cs" />
+    <Compile Include="Services\Implementation\ServerApiServiceBase.cs" />
+    <Compile Include="Models\Exceptions.cs" />
+    <Compile Include="Models\BaseApiResponse.cs" />
+    <Compile Include="Helpers\DateTimeFromUnixConverterHelper.cs" />
+    <Compile Include="Helpers\DateHelper.cs" />
+    <Compile Include="Models\User.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
@@ -186,6 +192,12 @@
     </Reference>
     <Reference Include="Chance.MvvmCross.Plugins.UserInteraction">
       <HintPath>..\packages\Birdie.MvvmCross.Plugins.UserInteraction.1.4.0\lib\portable-win+net45+wp8+win8+wpa81\Chance.MvvmCross.Plugins.UserInteraction.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Plugins.File">
+      <HintPath>..\packages\MvvmCross.Plugin.File.4.4.0\lib\portable-net45+win+wpa81+wp80\MvvmCross.Plugins.File.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Plugins.Network">
+      <HintPath>..\packages\MvvmCross.Plugin.Network.4.4.0\lib\portable-net45+win+wpa81+wp80\MvvmCross.Plugins.Network.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>
