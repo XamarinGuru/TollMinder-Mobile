@@ -9,6 +9,8 @@ using Tollminder.Core.Services;
 using Tollminder.Core.ServicesHelpers;
 using Tollminder.Core.Helpers;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Tollminder.Core.ViewModels
 {
@@ -30,9 +32,16 @@ namespace Tollminder.Core.ViewModels
             _tokens = new List<MvxSubscriptionToken>();
         }
 
+        Task RefreshToolRoads()
+        {
+            return ServerCommandWrapper(() => Mvx.Resolve<IGeoDataService>().RefreshTollRoads(CancellationToken.None));
+        }
+
 		public override void Start ()
 		{
 			base.Start ();
+
+            Task.Run(RefreshToolRoads);
 
 			_tokens.Add (_messenger.SubscribeOnThreadPoolThread<LocationMessage> (x => Location = x.Data, MvxReference.Strong));
 			_tokens.Add(_messenger.SubscribeOnThreadPoolThread<StatusMessage>(x => StatusString = x.Data.ToString(), MvxReference.Strong));

@@ -9,5 +9,6 @@ namespace Tollminder.Core.Services
 	public interface IServerApiService
 	{
         Task<IList<TollRoad>> RefreshTollRoads (long lastSyncDateTime, CancellationToken token);
+        Task<User> SignIn(string phone, string password);
 	}
 }

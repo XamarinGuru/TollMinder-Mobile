@@ -11,24 +11,20 @@ namespace Tollminder.Core.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
-        const string Login = "stweb@live.com";
+        const string Login = "555123456";
         const string Password = "1";
 
         string _loginString;
         public string LoginString
         {
             get { return _loginString; }
-            set
-            {
-                _loginString = value;
-                RaisePropertyChanged(() => LoginString);
-            }
+            set { SetProperty(ref _loginString, value); }
         }
 
         IStoredSettingsService _storedSettingsService;
-        public IStoredSettingsService StoredSettingsService 
+        public IStoredSettingsService StoredSettingsService
         {
-            get { return _storedSettingsService ?? (_storedSettingsService = Mvx.Resolve<IStoredSettingsService>());}
+            get { return _storedSettingsService ?? (_storedSettingsService = Mvx.Resolve<IStoredSettingsService>()); }
         }
 
         IFacebookLoginService _facebookLoginService;
@@ -47,11 +43,7 @@ namespace Tollminder.Core.ViewModels
         public string PasswordString
         {
             get { return _passwordString; }
-            set
-            {
-                _passwordString = value;
-                RaisePropertyChanged(() => PasswordString);
-            }
+            set { SetProperty(ref _passwordString, value); }
         }
 
         public SocialData EmailLoginData
@@ -84,7 +76,7 @@ namespace Tollminder.Core.ViewModels
         protected override void SetValidators()
         {
             Validators.Add(new Validator("Login", "Field can't' be empty", () => string.IsNullOrEmpty(LoginString)));
-            Validators.Add(new Validator("Login", "E-mail is not correct", () => !LoginString.ValidateRegExpression(RegularExpressionHelper.EmailRegexpr)));
+            //Validators.Add(new Validator("Login", "E-mail is not correct", () => !LoginString.ValidateRegExpression(RegularExpressionHelper.EmailRegexpr)));
             Validators.Add(new Validator("Password", "Field can't' be empty", () => string.IsNullOrEmpty(PasswordString)));
         }
 
@@ -125,16 +117,15 @@ namespace Tollminder.Core.ViewModels
 
             bool success = false;
 
-            switch(data.Source)
+            switch (data.Source)
             {
                 case AuthorizationType.Email:
                     if (Validate())
                     {
+                        var _serverApiService = Mvx.Resolve<IServerApiService>();
 
-                        if (LoginString == Login && PasswordString == Password)
-                        {
-                            success = true;
-                        }
+                        var result = await _serverApiService.SignIn(LoginString, PasswordString);
+                        success = result != null;
                     }
                     break;
                 case AuthorizationType.Facebook:
@@ -158,7 +149,7 @@ namespace Tollminder.Core.ViewModels
             {
                 return _registrationCommand ?? (_registrationCommand = new MvxCommand(() =>
                 {
-                    
+
                 }));
             }
         }
@@ -168,9 +159,9 @@ namespace Tollminder.Core.ViewModels
         {
             get
             {
-                return _forgotPasswordCommand ?? (_forgotPasswordCommand = new MvxCommand(() => 
+                return _forgotPasswordCommand ?? (_forgotPasswordCommand = new MvxCommand(() =>
                 {
-                    
+
                 }));
             }
         }

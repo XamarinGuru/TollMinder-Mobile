@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using MvvmCross.Platform;
@@ -34,8 +35,16 @@ namespace Tollminder.Core.Services.Implementation
 
         public async Task RefreshTollRoads(CancellationToken token)
         {
-            var list = await _serverApiService.RefreshTollRoads(_storedSettingsService.LastSyncDateTime.UnixTime(), token);
-            _dataBaseStorage.InsertOrUpdateAllTollRoads(list);
+            var currentTime = DateTime.UtcNow;
+
+            var shouldUpdateTollRoads = currentTime - _storedSettingsService.LastSyncDateTime <= TimeSpan.FromDays(1);
+
+            if (shouldUpdateTollRoads)
+            {
+                _storedSettingsService.LastSyncDateTime = currentTime;    
+                var list = await _serverApiService.RefreshTollRoads(_storedSettingsService.LastSyncDateTime.UnixTime(), token);
+                _dataBaseStorage.InsertOrUpdateAllTollRoads(list);
+            }
         }
 
         public TollRoad GetTollRoad(long id)

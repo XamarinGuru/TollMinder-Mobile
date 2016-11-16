@@ -194,8 +194,6 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
         public async Task Initialize()
         {
-            await Mvx.Resolve<IGeoDataService>().RefreshTollRoads(new CancellationToken()).ConfigureAwait(false);
-
             if (_storedSettingsService.GeoWatcherIsRunning)
             {
                 StopServices();

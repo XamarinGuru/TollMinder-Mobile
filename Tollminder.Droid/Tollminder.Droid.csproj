@@ -31,9 +31,9 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <RunCodeAnalysis>false</RunCodeAnalysis>
-    <AndroidSupportedAbis>armeabi;armeabi-v7a;x86;arm64-v8a;x86_64</AndroidSupportedAbis>
+    <AndroidSupportedAbis>x86;armeabi;armeabi-v7a;arm64-v8a;x86_64</AndroidSupportedAbis>
     <AndroidKeyStore>True</AndroidKeyStore>
-    <AndroidSigningKeyStore>/Users/gloriumtech/Documents/Repository/tollminder/TollMinder.keystore</AndroidSigningKeyStore>
+    <AndroidSigningKeyStore>../TollMinder.keystore</AndroidSigningKeyStore>
     <AndroidSigningStorePass>Palladium5 </AndroidSigningStorePass>
     <AndroidSigningKeyAlias>tollminder</AndroidSigningKeyAlias>
     <AndroidSigningKeyPass>Palladium5 </AndroidSigningKeyPass>
@@ -243,6 +243,13 @@
     <Reference Include="MvvmCross.Plugins.Network.Droid">
       <HintPath>..\packages\MvvmCross.Plugin.Network.4.4.0\lib\MonoAndroid\MvvmCross.Plugins.Network.Droid.dll</HintPath>
     </Reference>
+    <Reference Include="Chance.MvvmCross.Plugins.UserInteraction">
+      <HintPath>..\packages\Birdie.MvvmCross.Plugins.UserInteraction.1.4.0\lib\MonoAndroid\Chance.MvvmCross.Plugins.UserInteraction.dll</HintPath>
+    </Reference>
+    <Reference Include="Chance.MvvmCross.Plugins.UserInteraction.Droid">
+      <HintPath>..\packages\Birdie.MvvmCross.Plugins.UserInteraction.1.4.0\lib\MonoAndroid\Chance.MvvmCross.Plugins.UserInteraction.Droid.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -279,6 +286,8 @@
     <Compile Include="Services\DroidGPlusLoginService.cs" />
     <Compile Include="Bootstrap\FilePluginBootstrap.cs" />
     <Compile Include="Bootstrap\NetworkPluginBootstrap.cs" />
+    <Compile Include="Bootstrap\UserInteractionPluginBootstrap.cs" />
+    <Compile Include="Services\DroidHttpClientHandlerService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

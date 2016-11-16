@@ -40,8 +40,9 @@ namespace Tollminder.Droid
 			Mvx.LazyConstructAndRegisterSingleton<ITextToSpeechService, DroidTextToSpeechService> ();
 			Mvx.LazyConstructAndRegisterSingleton<ISpeechToTextService, DroidSpeechToTextService>();
 			Mvx.LazyConstructAndRegisterSingleton<IStoredSettingsBase, DroidStoredSettingsBase>();
-            Mvx.ConstructAndRegisterSingleton<IFacebookLoginService, DroidFacebookLoginService>();
             Mvx.LazyConstructAndRegisterSingleton<IGPlusLoginService, DroidGPlusLoginService>();
+            Mvx.LazyConstructAndRegisterSingleton<IHttpClientHandlerService, DroidHttpClientHandlerService>();
+            Mvx.ConstructAndRegisterSingleton<IFacebookLoginService, DroidFacebookLoginService>();
 		}
 
         protected override System.Collections.Generic.IEnumerable<System.Reflection.Assembly> ValueConverterAssemblies

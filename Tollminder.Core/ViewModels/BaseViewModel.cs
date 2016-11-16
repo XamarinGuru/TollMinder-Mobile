@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Chance.MvvmCross.Plugins.UserInteraction;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using MvvmCross.Plugins.Messenger;
@@ -87,6 +88,11 @@ namespace Tollminder.Core.ViewModels
                 IsBusy = true;
                 await action();
             }
+            catch (Exceptions.UiApiException ex)
+            {
+                Mvx.Trace(ex.Message, ex.StackTrace);
+                InvokeOnMainThread(async () => await Mvx.Resolve<IUserInteraction>().AlertAsync(ex.Message, ex.Title));
+            }
             catch (Exception ex)
             {
                 Mvx.Trace(ex.Message + "PARALEL", ex.StackTrace);
@@ -110,6 +116,11 @@ namespace Tollminder.Core.ViewModels
                 IsBusy = true;
                 await action();
             }
+            catch (Exceptions.UiApiException ex)
+            {
+                Mvx.Trace(ex.Message, ex.StackTrace);
+                InvokeOnMainThread(async () => await Mvx.Resolve<IUserInteraction>().AlertAsync(ex.Message, ex.Title));
+            }
             catch (Exception ex)
             {
                 Mvx.Trace(ex.Message, ex.StackTrace);
@@ -131,6 +142,11 @@ namespace Tollminder.Core.ViewModels
             {
                 IsBusy = true;
                 await action(arg);
+            }
+            catch (Exceptions.UiApiException ex)
+            {
+                Mvx.Trace(ex.Message, ex.StackTrace);
+                InvokeOnMainThread(async () => await Mvx.Resolve<IUserInteraction>().AlertAsync(ex.Message, ex.Title));
             }
             catch (Exception ex)
             {

@@ -7,15 +7,25 @@ using Tollminder.Core.Models;
 
 namespace Tollminder.Core.Services.Implementation
 {
-    public class ServerApiService : ServerApiServiceBase, IServerApiService
+    public class ServerApiService : HttpClientService, IServerApiService
 	{
-        public async Task<IList<TollRoad>> RefreshTollRoads (long lastSyncDateTime, CancellationToken token)
+        const string BaseApiUrl = "http://54.152.103.212/api/";
+
+        public Task<IList<TollRoad>> RefreshTollRoads (long lastSyncDateTime, CancellationToken token)
 		{
-            var r = await GetWithResultAsync<List<TollRoad>>(j => j, $"sync/{lastSyncDateTime}");
-            return r;
+            return GetAsync<IList<TollRoad>>($"{BaseApiUrl}sync/{lastSyncDateTime}", token);
 		}
 
+        public Task<User> SignIn(string phone, string password)
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                ["phone"] = phone,
+                ["password"] = password
+            };
 
+            return SendAsync<Dictionary<string, object>, User>(parameters, $"{BaseApiUrl}user/signin");
+        }
 	}
 }
 

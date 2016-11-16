@@ -14,7 +14,7 @@ using System;
 
 namespace Tollminder.Droid.Views
 {
-	[Activity(Label = "Home", LaunchMode = LaunchMode.SingleTask, ScreenOrientation = ScreenOrientation.Portrait, NoHistory = true)]
+    [Activity(Label = "Home", Theme = "@style/AppTheme",LaunchMode = LaunchMode.SingleTask, ScreenOrientation = ScreenOrientation.Portrait, NoHistory = true)]
     public class HomeView : MvxActivity<HomeViewModel>
     {
  		ScrollView _sv;

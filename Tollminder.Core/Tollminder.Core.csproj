@@ -108,12 +108,24 @@
     <Compile Include="Services\IGPlusLoginService.cs" />
     <Compile Include="Theme.cs" />
     <Compile Include="Models\FacebookAccountResult.cs" />
-    <Compile Include="Services\Implementation\ServerApiServiceBase.cs" />
-    <Compile Include="Models\Exceptions.cs" />
     <Compile Include="Models\BaseApiResponse.cs" />
     <Compile Include="Helpers\DateTimeFromUnixConverterHelper.cs" />
     <Compile Include="Helpers\DateHelper.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\ErrorApiResponse.cs" />
+    <Compile Include="Services\Implementation\HttpClientService.cs" />
+    <Compile Include="Services\IHttpClientService.cs" />
+    <Compile Include="Models\ProgressCompleted.cs" />
+    <Compile Include="Services\IExceptionHandlerService.cs" />
+    <Compile Include="Exceptions\Interfaces\IHttpExceptionHandler.cs" />
+    <Compile Include="Exceptions\HttpStatusCodeHandler.cs" />
+    <Compile Include="Exceptions\ServerUnavailableException.cs" />
+    <Compile Include="Exceptions\ApiException.cs" />
+    <Compile Include="Exceptions\UIApiException.cs" />
+    <Compile Include="Services\IHttpClientHandlerService.cs" />
+    <Compile Include="Helpers\HttpHelpers\ProgressByteArrayContent.cs" />
+    <Compile Include="Helpers\HttpHelpers\ProgressStringContent.cs" />
+    <Compile Include="Helpers\HttpHelpers\SchemaEnumeration.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
@@ -131,6 +143,9 @@
     <Folder Include="Extensions\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Converters\" />
+    <Folder Include="Exceptions\" />
+    <Folder Include="Exceptions\Interfaces\" />
+    <Folder Include="Helpers\HttpHelpers\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="ModernHttpClient">
@@ -190,14 +205,20 @@
     <Reference Include="MvvmCross.Plugins.Sqlite">
       <HintPath>..\packages\MvvmCross.Plugin.SQLitePCL.4.4.0\lib\portable-win+net45+wp8+win8+wpa81+win81+dotnet\MvvmCross.Plugins.Sqlite.dll</HintPath>
     </Reference>
-    <Reference Include="Chance.MvvmCross.Plugins.UserInteraction">
-      <HintPath>..\packages\Birdie.MvvmCross.Plugins.UserInteraction.1.4.0\lib\portable-win+net45+wp8+win8+wpa81\Chance.MvvmCross.Plugins.UserInteraction.dll</HintPath>
-    </Reference>
     <Reference Include="MvvmCross.Plugins.File">
       <HintPath>..\packages\MvvmCross.Plugin.File.4.4.0\lib\portable-net45+win+wpa81+wp80\MvvmCross.Plugins.File.dll</HintPath>
     </Reference>
     <Reference Include="MvvmCross.Plugins.Network">
       <HintPath>..\packages\MvvmCross.Plugin.Network.4.4.0\lib\portable-net45+win+wpa81+wp80\MvvmCross.Plugins.Network.dll</HintPath>
+    </Reference>
+    <Reference Include="Cirrious.CrossCore">
+      <HintPath>..\packages\MvvmCross.HotTuna.CrossCore.3.5.0\lib\portable-win+net45+wp8+win8+wpa81\Cirrious.CrossCore.dll</HintPath>
+    </Reference>
+    <Reference Include="Cirrious.MvvmCross.Localization">
+      <HintPath>..\packages\MvvmCross.HotTuna.CrossCore.3.5.0\lib\portable-win+net45+wp8+win8+wpa81\Cirrious.MvvmCross.Localization.dll</HintPath>
+    </Reference>
+    <Reference Include="Chance.MvvmCross.Plugins.UserInteraction">
+      <HintPath>..\packages\Birdie.MvvmCross.Plugins.UserInteraction.1.2.1\lib\portable-win+net45+wp8+win8+wpa81\Chance.MvvmCross.Plugins.UserInteraction.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>

@@ -37,11 +37,11 @@ namespace Tollminder.Core
 			Mvx.LazyConstructAndRegisterSingleton<ITrackFacade, TrackFacade>();
         }
 
-        void StateChanged (object sender, MvxSetup.MvxSetupStateEventArgs e)
+        async void StateChanged (object sender, MvxSetup.MvxSetupStateEventArgs e)
         {
             if (e.SetupState == MvxSetup.MvxSetupState.Initialized)
             {
-                Task.Run(async () => await Mvx.Resolve<ITrackFacade>().Initialize()).ConfigureAwait(false);
+                await Mvx.Resolve<ITrackFacade>().Initialize();
                 _setup.StateChanged -= StateChanged;
                 _setup = null;
             }
