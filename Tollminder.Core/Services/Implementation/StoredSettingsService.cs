@@ -91,6 +91,12 @@ namespace Tollminder.Core.Services.Implementation
             get { return _storedSettingsBase.Get<DateTime>(new DateTime(1970, 1, 1)); }
             set { _storedSettingsBase.Set<DateTime>(value); }
         }
+
+        public string AuthToken
+        {
+            get { return _storedSettingsBase.Get<string>(); }
+            set { _storedSettingsBase.Set(value); }
+        }
     }
 }
 

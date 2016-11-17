@@ -115,7 +115,8 @@ namespace Tollminder.Core.ViewModels
                 return;
             }
 
-            bool success = false;
+            var success = false;
+            var result = default(User);
 
             switch (data.Source)
             {
@@ -124,7 +125,7 @@ namespace Tollminder.Core.ViewModels
                     {
                         var _serverApiService = Mvx.Resolve<IServerApiService>();
 
-                        var result = await _serverApiService.SignIn(LoginString, PasswordString);
+                        result = await _serverApiService.SignIn(LoginString, PasswordString);
                         success = result != null;
                     }
                     break;
@@ -137,6 +138,7 @@ namespace Tollminder.Core.ViewModels
             if (success)
             {
                 StoredSettingsService.IsAuthorized = true;
+                StoredSettingsService.AuthToken = result.Token;
                 Close(this);
                 ShowViewModel<HomeViewModel>();
             }

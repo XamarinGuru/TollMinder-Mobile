@@ -3,13 +3,7 @@ namespace Tollminder.Core.Helpers
 {
     public static class DateHelper
     {
-        static DateTime UnixStartDateTime
-        {
-            get
-            {
-                return new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
-            }
-        }
+        public static DateTime UnixStartDateTime { get; } = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
 
         public static DateTime UnixTimeStampToDateTime(double unixTimeStamp)
         {
@@ -22,7 +16,7 @@ namespace Tollminder.Core.Helpers
         {
             var dt = (convertToUniversalTime && date != UnixStartDateTime) ? date.ToUniversalTime() : date;
             var timeSpan = (dt - UnixStartDateTime);
-            return (long)timeSpan.TotalSeconds;
+            return (long)timeSpan.TotalMilliseconds;
         }
 
         public static int GetDifference(DateTime olderDate, DateTime newerDate)

@@ -9,6 +9,8 @@ using Tollminder.Core.Exceptions;
 using Tollminder.Core.Exceptions.Interfaces;
 using Tollminder.Core.Models;
 using Tollminder.Core.Helpers.HttpHelpers;
+using System.Net.Http.Headers;
+using System.Linq;
 
 namespace Tollminder.Core.Services.Implementation
 {
@@ -150,14 +152,17 @@ namespace Tollminder.Core.Services.Implementation
         }
         #endregion
         #region GetMethods
-        public virtual Task<TResponse> GetAsync<TResponse>(string url)
+        public virtual Task<TResponse> GetAsync<TResponse>(string url, string authToken = null)
         {
-            return GetAsync<TResponse>(url, CancellationToken.None);
+            return GetAsync<TResponse>(url, CancellationToken.None, authToken);
         }
-        public virtual async Task<TResponse> GetAsync<TResponse>(string url, CancellationToken token)
+        public virtual async Task<TResponse> GetAsync<TResponse>(string url, CancellationToken token, string authToken = null)
         {
             using (var requestMessage = new HttpRequestMessage(HttpMethod.Get, url))
             {
+                if (!string.IsNullOrEmpty(authToken)) 
+                    requestMessage.Headers.Authorization = new AuthenticationHeaderValue(authToken);
+                
                 using (var response = await Client.SendAsync(requestMessage, token).ConfigureAwait(false))
                 {
                     var responseJson = await response.Content.ReadAsStringAsync().ConfigureAwait(false);

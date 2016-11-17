@@ -20,7 +20,7 @@ namespace Tollminder.Droid.Services
 		public T Get<T>(T defaultValue = default(T), [CallerMemberNameAttribute] string key = "")
 		{
 			var str = prefs.GetString(key, null);
-			if (str == null || string.IsNullOrEmpty(str))
+			if (string.IsNullOrEmpty(str))
 			{
 				return defaultValue;
 			}

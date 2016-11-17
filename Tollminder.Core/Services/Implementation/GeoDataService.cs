@@ -37,13 +37,17 @@ namespace Tollminder.Core.Services.Implementation
         {
             var currentTime = DateTime.UtcNow;
 
-            var shouldUpdateTollRoads = currentTime - _storedSettingsService.LastSyncDateTime <= TimeSpan.FromDays(1);
+            var shouldUpdateTollRoads = currentTime - _storedSettingsService.LastSyncDateTime > TimeSpan.FromDays(1);
 
             if (shouldUpdateTollRoads)
             {
-                _storedSettingsService.LastSyncDateTime = currentTime;    
                 var list = await _serverApiService.RefreshTollRoads(_storedSettingsService.LastSyncDateTime.UnixTime(), token);
-                _dataBaseStorage.InsertOrUpdateAllTollRoads(list);
+
+                if (list != null)
+                {
+                    _storedSettingsService.LastSyncDateTime = currentTime;
+                    _dataBaseStorage.InsertOrUpdateAllTollRoads(list);
+                }
             }
         }
 
