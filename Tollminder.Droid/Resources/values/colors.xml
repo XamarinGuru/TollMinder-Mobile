@@ -6,6 +6,8 @@
     <color name="black">#000000</color>
     <color name="blue_dark">#006699</color>
     <color name="blue">#0099cc</color>
-    <color name="red">#FF0066</color>
+    <color name="red">#ff0066</color>
     <color name="orange">#ff9948</color>
+    <color name="home_background">#303343</color>
+    <color name="gray_dark">#405b6e</color>
 </resources>

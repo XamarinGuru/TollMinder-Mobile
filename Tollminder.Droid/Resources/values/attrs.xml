@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+	<declare-styleable name="RoundedRectangleButton">
+		<attr name="image" format="integer" />
+		<attr name="text" format="string" />
+	</declare-styleable>
+</resources>

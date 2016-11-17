@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Chance.MvvmCross.Plugins.UserInteraction;
 using MvvmCross.Core.ViewModels;
@@ -175,7 +176,7 @@ namespace Tollminder.Core.ViewModels
             RaisePropertyChanged(() => Errors);
         }
 
-        void DebugMethod([System.Runtime.CompilerServices.CallerMemberName] string memberName = "")
+        void DebugMethod([CallerMemberName] string memberName = "")
         {
             Debug.WriteLine(string.Format("{1} of {0}", memberName, this.GetType().FullName));
         }

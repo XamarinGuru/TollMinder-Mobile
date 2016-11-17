@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Tollminder.Core.ViewModels
 {
-    public class HomeViewModel : BaseViewModel
+    public class HomeDebugViewModel : BaseViewModel
     {		
 		readonly IMvxMessenger _messenger;
 		readonly ITrackFacade _track;
@@ -22,10 +22,10 @@ namespace Tollminder.Core.ViewModels
 		readonly IGeoLocationWatcher _geoWatcher;
 
 		IList<MvxSubscriptionToken> _tokens;
-        public HomeViewModel(IMvxMessenger messenger, ITrackFacade track, IGeoLocationWatcher geoWatcher, IStoredSettingsService storedSettingsService)
+        public HomeDebugViewModel(IMvxMessenger messenger, ITrackFacade track, IGeoLocationWatcher geoWatcher, IStoredSettingsService storedSettingsService)
         {
-            _messenger = messenger;
             _track = track;
+            _messenger = messenger;
             _geoWatcher = geoWatcher;
             _storedSettingsService = storedSettingsService;
 

@@ -11,7 +11,7 @@ namespace Tollminder.Touch.Views
 	public partial class HomeView : MvxViewController, ICleanBackStack
 	{	
 		#pragma warning disable 108		
-		public new HomeViewModel ViewModel { get { return base.ViewModel as HomeViewModel; } }
+		public new HomeDebugViewModel ViewModel { get { return base.ViewModel as HomeDebugViewModel; } }
 		#pragma warning restore 108
 
 		public HomeView () : base ("HomeView", null)
@@ -26,7 +26,7 @@ namespace Tollminder.Touch.Views
 			LogArea.Font = UIKit.UIFont.FromName ("Helvetica", 12f);
 			AutomaticallyAdjustsScrollViewInsets = true;
 
-			var set = this.CreateBindingSet<HomeView, HomeViewModel>();
+			var set = this.CreateBindingSet<HomeView, HomeDebugViewModel>();
 			set.Bind (GeoLabelData).To (v => v.LocationString);
 			set.Bind (StartButton).To (v => v.StartCommand);
 			set.Bind (StopButton).To (v => v.StopCommand);

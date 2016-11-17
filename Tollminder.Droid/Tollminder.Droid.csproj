@@ -255,7 +255,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Setup.cs" />
     <Compile Include="SplashScreen.cs" />
-    <Compile Include="Views\HomeView.cs" />
+    <Compile Include="Views\HomeDebugView.cs" />
     <Compile Include="Services\DroidTextToSpeechService.cs" />
     <Compile Include="Services\DroidNotificationSender.cs" />
     <Compile Include="Extensions.cs" />
@@ -265,7 +265,6 @@
     <Compile Include="AndroidServices\GeolocationService.cs" />
     <Compile Include="Services\DroidMotionActivity.cs" />
     <Compile Include="Inerfaces\IDroidSocialLogin.cs" />
-    <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="MainApplication.cs" />
     <Compile Include="DebugTrace.cs" />
     <Compile Include="BroadcastReceivers\GeolocationReceiver.cs" />
@@ -288,37 +287,25 @@
     <Compile Include="Bootstrap\NetworkPluginBootstrap.cs" />
     <Compile Include="Bootstrap\UserInteractionPluginBootstrap.cs" />
     <Compile Include="Services\DroidHttpClientHandlerService.cs" />
+    <Compile Include="Views\HomeView.cs" />
+    <Compile Include="Controls\RoundedRectangleButton.cs" />
+    <Compile Include="Resources\Resource.designer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="packages.config" />
-    <None Include="ToDo-MvvmCross\_ Droid UI.txt" />
+    <None Include="Resources\.DS_Store" />
+    <None Include="Resources\AboutResources.txt" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\values\Strings.xml" />
-    <AndroidResource Include="Resources\mipmap-hdpi\Icon.png" />
-    <AndroidResource Include="Resources\mipmap-mdpi\Icon.png" />
-    <AndroidResource Include="Resources\mipmap-xhdpi\Icon.png" />
-    <AndroidResource Include="Resources\mipmap-xxhdpi\Icon.png" />
-    <AndroidResource Include="Resources\mipmap-xxxhdpi\Icon.png" />
-    <AndroidResource Include="Resources\layout\homeView.axml" />
-    <AndroidResource Include="Resources\layout\SplashScreen.axml" />
-    <AndroidResource Include="Resources\drawable\splash.png" />
-    <AndroidResource Include="Resources\layout\login_view.axml" />
-    <AndroidResource Include="Resources\values\colors.xml" />
-    <AndroidResource Include="Resources\values\styles.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\drawable\" />
-    <Folder Include="Resources\layout\" />
     <Folder Include="Services\" />
     <Folder Include="AndroidServices\" />
     <Folder Include="Inerfaces\" />
     <Folder Include="BroadcastReceivers\" />
     <Folder Include="Converters\" />
     <Folder Include="Models\" />
+    <Folder Include="Controls\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\MonoAndroid10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\MonoAndroid10\Xamarin.Insights.targets')" />
@@ -333,6 +320,49 @@
       <Version>4.16.1.0</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\home_view_button_background.xml" />
+    <AndroidResource Include="Resources\drawable\splash.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\home_background.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_home_pay.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_home_pay_history.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_home_profile.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_home_tracking.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\home_background.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_home_pay.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_home_pay_history.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_home_profile.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_home_tracking.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\home_background.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_home_pay.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_home_pay_history.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_home_profile.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_home_tracking.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\home_background.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_home_pay.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_home_pay_history.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_home_profile.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_home_tracking.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\home_background.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_home_pay.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_home_pay_history.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_home_profile.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_home_tracking.png" />
+    <AndroidResource Include="Resources\layout\home_debug_view.axml" />
+    <AndroidResource Include="Resources\layout\home_view.axml" />
+    <AndroidResource Include="Resources\layout\home_view_button.axml" />
+    <AndroidResource Include="Resources\layout\login_view.axml" />
+    <AndroidResource Include="Resources\layout\SplashScreen.axml" />
+    <AndroidResource Include="Resources\mipmap-hdpi\icon.png" />
+    <AndroidResource Include="Resources\mipmap-mdpi\icon.png" />
+    <AndroidResource Include="Resources\mipmap-xhdpi\icon.png" />
+    <AndroidResource Include="Resources\mipmap-xxhdpi\icon.png" />
+    <AndroidResource Include="Resources\mipmap-xxxhdpi\icon.png" />
+    <AndroidResource Include="Resources\values\attrs.xml" />
+    <AndroidResource Include="Resources\values\colors.xml" />
+    <AndroidResource Include="Resources\values\Strings.xml" />
+    <AndroidResource Include="Resources\values\styles.xml" />
   </ItemGroup>
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />
   <Import Project="..\packages\Xamarin.GooglePlayServices.Basement.32.961.0-beta1\build\Xamarin.GooglePlayServices.Basement.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Basement.32.961.0-beta1\build\Xamarin.GooglePlayServices.Basement.targets')" />

@@ -14,17 +14,17 @@ namespace Tollminder.Droid.Services
 		#region INotificationSender implementation
 		public void SendLocalNotification (string title, string message)
 		{
-			var notificationIntent = new Intent (Application.Context, typeof(HomeView));
+			var notificationIntent = new Intent (Application.Context, typeof(HomeDebugView));
 
 			var stackBuilder = Android.Support.V4.App.TaskStackBuilder.Create (Application.Context);
-			stackBuilder.AddParentStack (Java.Lang.Class.FromType (typeof(HomeView)));
+			stackBuilder.AddParentStack (Java.Lang.Class.FromType (typeof(HomeDebugView)));
 			stackBuilder.AddNextIntent (notificationIntent);
 
 			var notificationPendingIntent =	stackBuilder.GetPendingIntent (0, (int)PendingIntentFlags.UpdateCurrent);
 
 			var builder = new NotificationCompat.Builder (Application.Context);
-			builder.SetSmallIcon (Resource.Mipmap.Icon)
-				.SetLargeIcon (BitmapFactory.DecodeResource (Application.Context.Resources, Resource.Mipmap.Icon))
+            builder.SetSmallIcon (Resource.Mipmap.icon)
+				.SetLargeIcon (BitmapFactory.DecodeResource (Application.Context.Resources, Resource.Mipmap.icon))
 				.SetColor (Color.Red)
 				.SetContentTitle (title)
 				.SetContentText (message)
