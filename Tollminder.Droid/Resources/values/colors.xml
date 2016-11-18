@@ -10,4 +10,5 @@
     <color name="orange">#ff9948</color>
     <color name="home_background">#303343</color>
     <color name="gray_dark">#405b6e</color>
+    <color name="gray_light">#686f7a</color>
 </resources>

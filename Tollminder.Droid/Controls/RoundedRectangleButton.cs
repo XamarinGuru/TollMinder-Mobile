@@ -28,6 +28,12 @@ namespace Tollminder.Droid.Controls
             }
         }
 
+        public string ImageUrl
+        {
+            get { return imageView.ImageUrl; }
+            set { imageView.ImageUrl = value; }
+        }
+
         public string Text
         {
             get { return textView?.Text; }
@@ -69,6 +75,8 @@ namespace Tollminder.Droid.Controls
                 imageView?.SetImageDrawable(drawable);
 
             Text = attr.GetString(Resource.Styleable.RoundedRectangleButton_text);
+
+            attr.Recycle();
         }
     }
 }

@@ -1,110 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:local="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
-    <LinearLayout
-        android:orientation="vertical"
+    android:background="@drawable/home_background">
+
+    <RelativeLayout
+        android:id="@+id/logo_container"
+        android:layout_width="match_parent"
+        android:layout_height="169dp"
+        android:layout_alignParentTop="true">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/home_logo" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/button_container"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_width="match_parent">
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.2" />
+        android:layout_below="@+id/logo_container">
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.6"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="40dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/login_card_background">
+
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true">
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="20dp">
+
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     local:MvxBind="Error Errors['Login']">
+
                     <EditText
                         android:id="@+id/etLogin"
-                        android:singleLine="true"
-                        android:layout_height="wrap_content"
                         android:layout_width="match_parent"
-                        android:hint="Login"
-                        local:MvxBind="Text LoginString;"
+                        android:layout_height="wrap_content"
                         android:drawablePadding="10dp"
-                        android:nextFocusDown="@+id/etPassword"
+                        android:hint="Login"
                         android:inputType="textNoSuggestions"
-                        android:padding="20dp" />
+                        android:nextFocusDown="@+id/etPassword"
+                        android:padding="20dp"
+                        android:singleLine="true"
+                        local:MvxBind="Text LoginString;" />
                 </android.support.design.widget.TextInputLayout>
+
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     local:MvxBind="Error Errors['Password']">
+
                     <EditText
                         android:id="@+id/etPassword"
-                        android:singleLine="true"
-                        android:layout_height="wrap_content"
                         android:layout_width="match_parent"
-                        android:hint="Password"
-                        local:MvxBind="Text PasswordString"
-                        android:password="true"
-                        android:drawablePadding="10dp"
+                        android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
+                        android:drawablePadding="10dp"
+                        android:hint="Password"
                         android:inputType="textNoSuggestions"
-                        android:padding="20dp" />
+                        android:padding="20dp"
+                        android:password="true"
+                        android:singleLine="true"
+                        local:MvxBind="Text PasswordString" />
                 </android.support.design.widget.TextInputLayout>
+
                 <Button
+                    android:layout_marginTop="20dp"
                     android:id="@+id/btnLogin"
-                    local:MvxBind="Enabled BoolInverseConverter(IsBusy); Click EmailLoginCommand"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Login" />
+                    android:background="@drawable/login_button_background"
+                    android:fontFamily="roboto"
+                    android:text="LOGIN"
+                    android:textColor="@color/white"
+                    local:MvxBind="Enabled BoolInverseConverter(IsBusy); Click EmailLoginCommand" />
+
                 <LinearLayout
-                    android:orientation="horizontal"
+                    android:layout_marginTop="20dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <com.google.android.gms.common.SignInButton
-                        android:id="@+id/sign_in_button"
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        local:MvxBind="Enabled BoolInverseConverter(IsBusy); Click GPlusLoginCommand" />
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
                     <com.facebook.login.widget.LoginButton
                         android:id="@+id/login_button"
-                        android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:paddingTop="10dp"
+                        android:layout_weight="1"
                         android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
                         local:MvxBind="Enabled BoolInverseConverter(IsBusy); Click FacebookLoginCommand" />
+
+                    <com.google.android.gms.common.SignInButton
+                        android:id="@+id/sign_in_button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        local:MvxBind="Enabled BoolInverseConverter(IsBusy); Click GPlusLoginCommand" />
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
-        <RelativeLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.2">
-            <TextView
-                android:id="@+id/tvRegistration"
-                android:text="Create account"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                local:MvxBind="Click RegistrationCommand" />
-            <TextView
-                android:id="@+id/tvForgotPassword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="20dp"
-                android:text="Forgot password?"
-                android:layout_below="@id/tvRegistration"
-                android:layout_centerInParent="true"
-                local:MvxBind="Click ForgotPasswordCommand" />
-        </RelativeLayout>
-    </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>
