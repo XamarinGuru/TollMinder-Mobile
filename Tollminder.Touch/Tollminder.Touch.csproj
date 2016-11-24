@@ -27,10 +27,11 @@
     <MtouchUseSGen>true</MtouchUseSGen>
     <MtouchFastDev>true</MtouchFastDev>
     <MtouchDebug>true</MtouchDebug>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Developer: Dmitry Stepanov (C2BVG7CP4Y)</CodesignKey>
     <MtouchProfiling>true</MtouchProfiling>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <CodesignProvision>9c536bda-515d-432a-b9fb-b1d475be5165</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugSymbols>false</DebugSymbols>
@@ -220,6 +221,7 @@
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
+    <ImageAsset Include="Resources\Images.xcassets\Image.imageset\Contents.json" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.xib" />
@@ -236,9 +238,9 @@
     <Compile Include="DebugTrace.cs" />
     <Compile Include="LinkerPleaseInclude.cs" />
     <Compile Include="Services\TouchTextToSpeechService.cs" />
-    <Compile Include="Views\HomeView.cs" />
-    <Compile Include="Views\HomeView.designer.cs">
-      <DependentUpon>HomeView.cs</DependentUpon>
+    <Compile Include="Views\HomeDebugView.cs" />
+    <Compile Include="Views\HomeDebugView.designer.cs">
+      <DependentUpon>HomeDebugView.cs</DependentUpon>
     </Compile>
     <Compile Include="Services\TouchGeolocationWatcher.cs" />
     <Compile Include="AppDelegate.cs" />
@@ -273,6 +275,8 @@
     <Compile Include="Bootstrap\NetworkPluginBootstrap.cs" />
     <Compile Include="Bootstrap\UserInteractionPluginBootstrap.cs" />
     <Compile Include="Services\TouchHttpClientHandlerService.cs" />
+    <Compile Include="Views\HomeView.cs" />
+    <Compile Include="Controls\RoundedButton.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets')" />
@@ -296,6 +300,7 @@
     <Folder Include="Extensions\" />
     <Folder Include="Controls\" />
     <Folder Include="Interfaces\" />
+    <Folder Include="Resources\Images\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\OpenEars1.dic" />
@@ -311,6 +316,17 @@
     <BundleResource Include="Resources\AcousticModelEnglish.bundle\variances" />
     <BundleResource Include="Sounds\tap.aif" />
     <BundleResource Include="GoogleService-Info.plist" />
+    <BundleResource Include="Resources\Images\home_background.png" />
+    <BundleResource Include="Resources\Images\home_logo.png" />
+    <BundleResource Include="Resources\Images\ic_home_pay.png" />
+    <BundleResource Include="Resources\Images\ic_home_pay_history.png" />
+    <BundleResource Include="Resources\Images\ic_home_profile.png" />
+    <BundleResource Include="Resources\Images\ic_home_support.png" />
+    <BundleResource Include="Resources\Images\ic_home_tracking_active.png" />
+    <BundleResource Include="Resources\Images\ic_home_tracking_default.png" />
+    <BundleResource Include="Resources\Images\facebook-button.png" />
+    <BundleResource Include="Resources\Images\google-button.png" />
+    <BundleResource Include="Resources\Images\facebook_logIn.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="facebookios">

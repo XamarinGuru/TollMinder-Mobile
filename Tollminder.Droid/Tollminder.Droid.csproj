@@ -347,6 +347,10 @@
     <AndroidResource Include="Resources\values\Strings.xml" />
     <AndroidResource Include="Resources\values\styles.xml" />
     <AndroidResource Include="Resources\values\dimens.xml" />
+    <AndroidResource Include="Resources\drawable\home_view_button_background.xml" />
+    <AndroidResource Include="Resources\drawable\login_button_background.xml" />
+    <AndroidResource Include="Resources\drawable\login_card_background.xml" />
+    <AndroidResource Include="Resources\drawable\splash.png" />
     <AndroidResource Include="Resources\drawable-hdpi\home_background.png" />
     <AndroidResource Include="Resources\drawable-hdpi\home_logo.png" />
     <AndroidResource Include="Resources\drawable-hdpi\ic_home_pay.png" />
@@ -387,10 +391,6 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_home_support.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_home_tracking_active.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_home_tracking_default.png" />
-    <AndroidResource Include="Resources\drawable\home_view_button_background.xml" />
-    <AndroidResource Include="Resources\drawable\login_button_background.xml" />
-    <AndroidResource Include="Resources\drawable\login_card_background.xml" />
-    <AndroidResource Include="Resources\drawable\splash.png" />
   </ItemGroup>
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />
   <Import Project="..\packages\Xamarin.GooglePlayServices.Basement.32.961.0-beta1\build\Xamarin.GooglePlayServices.Basement.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Basement.32.961.0-beta1\build\Xamarin.GooglePlayServices.Basement.targets')" />

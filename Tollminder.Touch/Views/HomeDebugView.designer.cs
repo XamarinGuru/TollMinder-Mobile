@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 namespace Tollminder.Touch.Views
 {
 	[Register ("HomeView")]
-	partial class HomeView
+	partial class HomeDebugView
 	{
 		[Outlet]
 		UIKit.UILabel ActivityLabel { get; set; }

@@ -124,5 +124,11 @@ namespace Tollminder.Touch.Extensions
             textView.TranslatesAutoresizingMaskIntoConstraints = translateResize;
             return textView;
         }
+
+
+        public static void AddChildInParentView(this UIView parentView, params UIView[] childView)
+        {
+            parentView.AddIfNotNull(childView);
+        }
     }
 }
