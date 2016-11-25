@@ -10,33 +10,43 @@ using UIKit;
 namespace Tollminder.Touch.Controls
 {
     [Register("RoundedButton")]
-    public class RoundedButton : UIView
+    public class RoundedButton : UIButton
     {
         MvxImageView _imageView;
         UILabel _buttonText;
-        UIView _separatorView;
-        string _labelText;
-        string _imageUrl;
-
-        public UIView SeparatorView
-        {
-            get { return _separatorView; }
-            set { _separatorView = value; }
-        }
+        UIColor _buttonBackGroundColor;
+        UIColor _buttonTextColor;
+        //string _labelText;
+        //UIImage _imageUrl;
 
         public string ButtonText
         {
-            get { return _labelText; }
+            get { return _buttonText.Text; }
+            set { _buttonText.Text = value; }
+        }
+
+        public UIImage ButtonImage
+        {
+            get { return _imageView.Image; }
+            set { _imageView.Image = value; }
+        }
+
+        public UIColor ButtonBackgroundColor
+        {
+            get { return _buttonBackGroundColor; }
             set { 
-                _labelText = value;
-                
+                _buttonBackGroundColor = value;
+                this.BackgroundColor = _buttonBackGroundColor;
             }
         }
 
-        public string ImageUrl
+        public UIColor ButtonTextColor
         {
-            get { return _imageUrl; }
-            set { _imageUrl = value; }
+            get { return _buttonTextColor; }
+            set { 
+                _buttonTextColor = value;
+                _buttonText.TextColor = _buttonTextColor;
+            }
         }
 
         public RoundedButton() : base()
@@ -61,32 +71,23 @@ namespace Tollminder.Touch.Controls
 
         void InitObjects()
         {
-            _buttonText = new UILabel().ChangeLabelStyle(UIFont.FromName("Helvetica", Theme.LargeTextSize), Theme.LargeTextSize, Theme.BlueDark.ToUIColor(), false, UITextAlignment.Center);
-            _separatorView = new UIView() { BackgroundColor = Theme.BlueGray50.ToUIColor() };
-            _buttonText.Text = _labelText;
-            _imageView.ImageUrl = _imageUrl;
+            _buttonText = new UILabel();
+            _imageView = new MvxImageView();
 
-            this.AddIfNotNull(_buttonText);
-            this.AddIfNotNull(_separatorView);
-            this.AddIfNotNull(_imageView);
+            _buttonText.Font = UIFont.FromName("Helvetica", 13f);
+            this.AddIfNotNull(_buttonText, _imageView);
+            this.Layer.CornerRadius = 20;
 
             this.AddConstraints(
+                _imageView.AtTopOf(this, 10),
+                _imageView.WithSameCenterX(this),
+                _imageView.Height().EqualTo(80),
+                _imageView.Width().EqualTo(80),
 
-                _buttonText.Below(_imageView),
-                _buttonText.AtLeftOf(this),
-                _buttonText.AtRightOf(this),
-                _buttonText.Height().EqualTo(17),
-
-                _imageView.AtTopOf(this),
-                _imageView.AtLeftOf(this),
-                _imageView.AtRightOf(this),
-                _imageView.Height().EqualTo(20),
-
-                _separatorView.Below(_imageView, 2),
-                _separatorView.WithSameWidth(_imageView),
-                _separatorView.WithSameLeft(_imageView),
-                _separatorView.WithSameRight(_imageView),
-                _separatorView.Height().EqualTo(1)
+                _buttonText.Below(_imageView, 10),
+                _buttonText.WithSameCenterX(this),
+                _buttonText.Height().EqualTo(15),
+                _buttonText.AtBottomOf(this, 10)
             );
         }
     }
