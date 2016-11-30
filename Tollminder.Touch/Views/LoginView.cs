@@ -53,9 +53,7 @@ namespace Tollminder.Touch.Views
             // Hide navigation bar
             NavigationController.SetNavigationBarHidden(true, false);
 
-            View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile(@"Images/home_background.png").
-                                           ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal).
-                                           ImageWithAlignmentRectInsets(UIEdgeInsets.Zero));
+            View.BackgroundColor = UIColor.FromPatternImage(EnvironmentInfo.CheckDevice().Scale(View.Frame.Size));
             imageView.Frame = new CGRect(10, 10, imageView.Image.CGImage.Width, imageView.Image.CGImage.Height);
             topView.AddIfNotNull(imageView);
             topView.AddConstraints(
@@ -71,28 +69,27 @@ namespace Tollminder.Touch.Views
             _passwordTextField.TextFieldWithValidator.TextField.Placeholder = "Password";
             _passwordTextField.TextFieldWithValidator.TextField.KeyboardType = UIKeyboardType.Default;
 
-            _loginButton = new UIButton();
-            ButtonInitializer(_loginButton, "Login", UIControlState.Normal, Theme.BlueDark.ToUIColor(), 
+            _loginButton = ButtonInitializer(_loginButton, "Login", UIControlState.Normal, Theme.BlueDark.ToUIColor(),
                               UIColor.White, UIControlState.Normal, null, UIControlState.Disabled);
 
-            _googlePlusLoginButton = new UIButton();
-            ButtonInitializer(_googlePlusLoginButton, null, UIControlState.Disabled, null, null, 
+            _googlePlusLoginButton = ButtonInitializer(_googlePlusLoginButton, null, UIControlState.Disabled, null, null,
                               UIControlState.Disabled, @"Images/google-button.png", UIControlState.Normal);
 
-            _facebookLoginButton = new UIButton();
-            ButtonInitializer(_facebookLoginButton, null, UIControlState.Disabled, null, null,
-                              UIControlState.Disabled,@"Images/facebook-button.png", UIControlState.Normal);
+            _facebookLoginButton = ButtonInitializer(_facebookLoginButton, null, UIControlState.Disabled, null, null,
+                              UIControlState.Disabled, @"Images/facebook_logIn.png", UIControlState.Normal);
 
             socialNetworksView.AddIfNotNull(_facebookLoginButton, _googlePlusLoginButton);
             socialNetworksView.AddConstraints(
 
-                _facebookLoginButton.AtTopOf(socialNetworksView, 8),
+                _facebookLoginButton.AtTopOf(socialNetworksView),
                 _facebookLoginButton.AtLeftOf(socialNetworksView),
-                _facebookLoginButton.AtRightOf(_googlePlusLoginButton, 112),
+                _facebookLoginButton.WithRelativeWidth(socialNetworksView, 0.48f),
+                _facebookLoginButton.AtBottomOf(socialNetworksView),
 
-                _googlePlusLoginButton.AtTopOf(socialNetworksView, 8),
-                _googlePlusLoginButton.AtLeftOf(_facebookLoginButton, 112),
-                _googlePlusLoginButton.AtRightOf(socialNetworksView)
+                _googlePlusLoginButton.AtTopOf(socialNetworksView),
+                _googlePlusLoginButton.WithRelativeWidth(socialNetworksView, 0.48f),
+                _googlePlusLoginButton.AtRightOf(socialNetworksView),
+                _googlePlusLoginButton.AtBottomOf(socialNetworksView)
             );
 
             // Central block with text fields and login buttons
@@ -103,21 +100,23 @@ namespace Tollminder.Touch.Views
                 _loginTextField.AtTopOf(centerView, 8),
                 _loginTextField.AtLeftOf(centerView, -15),
                 _loginTextField.AtRightOf(centerView, 20),
+                _loginTextField.Height().EqualTo(50),
 
-                _passwordTextField.Below(_loginTextField, 8),
+                _passwordTextField.Below(_loginTextField, 10),
                 _passwordTextField.AtLeftOf(centerView, -15),
                 _passwordTextField.AtRightOf(centerView, 20),
+                _passwordTextField.Height().EqualTo(50),
 
-                _loginButton.Below(_passwordTextField, 10),
+                _loginButton.Below(_passwordTextField, 30),
                 _loginButton.AtLeftOf(centerView, 20),
                 _loginButton.AtRightOf(centerView, 20),
-                // make a fat button
-                _loginButton.Height().EqualTo(50),
+                // make a fat login button
+                _loginButton.WithRelativeHeight(centerView, 0.15f),
 
                 socialNetworksView.Below(_loginButton, 20),
                 socialNetworksView.AtLeftOf(centerView, 20),
                 socialNetworksView.AtRightOf(centerView, 20),
-                socialNetworksView.AtBottomOf(centerView, 10)
+                socialNetworksView.WithRelativeHeight(centerView, 0.12f)
             );
 
             // Main view
@@ -131,7 +130,7 @@ namespace Tollminder.Touch.Views
                 centerView.AtLeftOf(View, 30),
                 centerView.AtRightOf(View, 30),
                 centerView.Below(topView),
-                centerView.AtBottomOf(View, 50),
+                centerView.AtBottomOf(View, 70),
 
                 bottomView.AtBottomOf(View),
                 bottomView.AtLeftOf(View),
@@ -147,11 +146,17 @@ namespace Tollminder.Touch.Views
         private UIButton ButtonInitializer(UIButton button, string title, UIControlState titleState, UIColor backgroundColor, 
                                            UIColor titleColor, UIControlState colorTitleState, string imagePath, UIControlState imageState)
         {
+            button = new UIButton();
             button.SetTitle(title, titleState);
-            if(imagePath != null)
+            if (imagePath != null)
+            {
                 button.SetImage(UIImage.FromFile(imagePath), imageState);
+                button.HorizontalAlignment = UIControlContentHorizontalAlignment.Fill;
+                button.VerticalAlignment = UIControlContentVerticalAlignment.Fill;
+            }
             button.BackgroundColor = backgroundColor;
             button.SetTitleColor(titleColor, colorTitleState);
+            button.ImageView.ContentMode = UIViewContentMode.ScaleToFill;
             button.ClipsToBounds = false;
             button.Layer.CornerRadius = 5;
             button.Layer.ShadowColor = UIColor.Black.CGColor;

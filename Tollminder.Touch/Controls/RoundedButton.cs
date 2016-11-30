@@ -19,10 +19,10 @@ namespace Tollminder.Touch.Controls
         //string _labelText;
         //UIImage _imageUrl;
 
-        public string ButtonText
+        public UILabel ButtonText
         {
-            get { return _buttonText.Text; }
-            set { _buttonText.Text = value; }
+            get { return _buttonText; }
+            set { _buttonText = value; }
         }
 
         public UIImage ButtonImage
@@ -74,20 +74,22 @@ namespace Tollminder.Touch.Controls
             _buttonText = new UILabel();
             _imageView = new MvxImageView();
 
-            _buttonText.Font = UIFont.FromName("Helvetica", 13f);
+            _buttonText.Font = UIFont.FromName("Helvetica", 16f);
             this.AddIfNotNull(_buttonText, _imageView);
-            this.Layer.CornerRadius = 20;
+            this.Layer.CornerRadius = 30;
+            this.UserInteractionEnabled = true;
+
 
             this.AddConstraints(
                 _imageView.AtTopOf(this, 10),
                 _imageView.WithSameCenterX(this),
-                _imageView.Height().EqualTo(80),
-                _imageView.Width().EqualTo(80),
+                _imageView.WithRelativeWidth(this, 0.6f),
+                _imageView.WithRelativeHeight(this, 0.6f),
 
-                _buttonText.Below(_imageView, 10),
+                _buttonText.Below(_imageView, 5),
                 _buttonText.WithSameCenterX(this),
-                _buttonText.Height().EqualTo(15),
-                _buttonText.AtBottomOf(this, 10)
+                _buttonText.Height().EqualTo(20),
+                _buttonText.AtBottomOf(this, 15)
             );
         }
     }

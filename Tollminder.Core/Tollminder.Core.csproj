@@ -127,6 +127,9 @@
     <Compile Include="Helpers\HttpHelpers\ProgressStringContent.cs" />
     <Compile Include="Helpers\HttpHelpers\SchemaEnumeration.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
+    <Compile Include="Utils\Slack\SlackClient.cs" />
+    <Compile Include="Utils\Slack\Payload.cs" />
+    <Compile Include="Utils\Slack\SlackManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
@@ -147,6 +150,7 @@
     <Folder Include="Exceptions\" />
     <Folder Include="Exceptions\Interfaces\" />
     <Folder Include="Helpers\HttpHelpers\" />
+    <Folder Include="Utils\Slack\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="ModernHttpClient">

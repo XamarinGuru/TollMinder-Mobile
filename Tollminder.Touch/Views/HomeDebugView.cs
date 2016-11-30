@@ -37,7 +37,7 @@ namespace Tollminder.Touch.Views
 			set.Bind(StatusLabel).To(v => v.StatusString);
             set.Bind(TollRoadString).To(v => v.TollRoadString);
             set.Bind(NextWaypointString).To(v => v.CurrentWaypointString);
-            set.Bind(LogOut).To(v => v.LogOutCommand);
+            set.Bind(LogOut).To(v => v.LogOutCommand); 
 			set.Apply ();
 
 			this.AddLinqBinding(ViewModel, vm => vm.LogText, (value) =>

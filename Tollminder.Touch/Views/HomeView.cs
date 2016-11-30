@@ -47,7 +47,7 @@ namespace Tollminder.Touch.Views
 
             // Hide navigation bar
             NavigationController.SetNavigationBarHidden(true, false);
-            View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile(@"Images/home_background.png"));
+            View.BackgroundColor = UIColor.FromPatternImage(EnvironmentInfo.CheckDevice().Scale(View.Frame.Size));
             applicationLogo.Frame = new CoreGraphics.CGRect(10, 10, applicationLogo.Image.CGImage.Width, applicationLogo.Image.CGImage.Height);
             topView.AddIfNotNull(applicationLogo);
             topView.AddConstraints(
@@ -55,41 +55,40 @@ namespace Tollminder.Touch.Views
                 applicationLogo.WithSameCenterY(topView)
             );
 
-            _trackingButton = ButtonInitiaziler("Tracking is Off", UIImage.FromFile(@"Images/ic_home_tracking_default.png"));
+            _trackingButton = ButtonInitiaziler(null, null);//UIImage.FromFile(@"Images/ic_home_tracking_default.png"));
             _profileButton = ButtonInitiaziler("Profile", UIImage.FromFile(@"Images/ic_home_profile.png"));
             _payButton = ButtonInitiaziler("Pay", UIImage.FromFile(@"Images/ic_home_pay.png"));
             _payHistoryButton = ButtonInitiaziler("Pay History", UIImage.FromFile(@"Images/ic_home_pay_history.png"));
-            _callCentergButton = ButtonInitiaziler(null, UIImage.FromFile(@"Images/ic_home_support.png"));
-            //_callCentergButton.ButtonTextColor = UIColor.LightGray;
-            callCenterLabel.Text = "Call Center:\n+(1)305 335 85 08";
-            callCenterLabel.TextColor = UIColor.LightGray;
-            _callCentergButton.ButtonBackgroundColor = null;
 
-            centerView.AddIfNotNull(_trackingButton, _profileButton, _profileButton, _payButton, _payHistoryButton);
+            _callCentergButton = ButtonInitiaziler(null, UIImage.FromFile(@"Images/ic_home_support.png"));
+            //_callCentergButton.LineBreakMode = UILineBreakMode.WordWrap;
+            //_callCentergButton.ButtonText.Lines = 0;
+            _callCentergButton.ButtonText.TextColor = UIColor.LightGray;
+            _callCentergButton.ButtonBackgroundColor = null;
+            callCenterLabel.Text = "+(1)305 335 85 08";
+            callCenterLabel.TextColor = UIColor.LightGray;
+
+            centerView.AddIfNotNull(_trackingButton, _profileButton, _payButton, _payHistoryButton);
             centerView.AddConstraints(
                 _trackingButton.AtTopOf(centerView),
-                _trackingButton.AtLeftOf(centerView, 5),
-                _trackingButton.AtRightOf(_profileButton, 130),
-                _trackingButton.Height().EqualTo(120),
-                _trackingButton.Width().EqualTo(120),
+                _trackingButton.AtLeftOf(centerView, 8),
+                _trackingButton.WithRelativeWidth(centerView, 0.45f),
+                _trackingButton.WithRelativeHeight(centerView, 0.43f),
 
                 _profileButton.AtTopOf(centerView),
-                _profileButton.AtLeftOf(_trackingButton, 130),
-                _profileButton.AtRightOf(centerView, 15),
-                _profileButton.Height().EqualTo(120),
-                _profileButton.Width().EqualTo(120),
+                _profileButton.AtRightOf(centerView, 8),
+                _profileButton.WithRelativeWidth(centerView, 0.45f),
+                _profileButton.WithRelativeHeight(centerView, 0.43f),
 
-                _payButton.Below(_trackingButton, 10),
-                _payButton.AtLeftOf(centerView, 5),
-                _payButton.AtRightOf(_payHistoryButton, 130),
-                _payButton.Height().EqualTo(120),
-                _payButton.Width().EqualTo(120),
+                _payButton.Below(_trackingButton, 15),
+                _payButton.AtLeftOf(centerView, 8),
+                _payButton.WithRelativeWidth(centerView, 0.45f),
+                _payButton.WithRelativeHeight(centerView, 0.43f),
 
-                _payHistoryButton.Below(_profileButton, 10),
-                _payHistoryButton.AtLeftOf(_payButton, 130),
-                _payHistoryButton.AtRightOf(centerView, 15),
-                _payHistoryButton.Height().EqualTo(120),
-                _payHistoryButton.Width().EqualTo(120)
+                _payHistoryButton.Below(_profileButton, 15),
+                _payHistoryButton.AtRightOf(centerView, 8),
+                _payHistoryButton.WithRelativeWidth(centerView, 0.45f),
+                _payHistoryButton.WithRelativeHeight(centerView, 0.43f)
             );
 
             bottomView.AddIfNotNull(_callCentergButton, callCenterLabel);
@@ -97,39 +96,42 @@ namespace Tollminder.Touch.Views
                 _callCentergButton.AtTopOf(bottomView),
                 _callCentergButton.AtLeftOf(bottomView, 20),
                 _callCentergButton.AtRightOf(bottomView, 20),
-                _callCentergButton.Height().EqualTo(100),
-                _callCentergButton.Width().EqualTo(120),
+                _callCentergButton.WithRelativeHeight(bottomView, 0.8f),
+                _callCentergButton.WithRelativeWidth(bottomView, 0.78f),
 
-                callCenterLabel.Below(_callCentergButton),
-                callCenterLabel.AtLeftOf(bottomView, 40),
-                callCenterLabel.AtRightOf(bottomView, 40),
-                callCenterLabel.Height().EqualTo(40)
+                callCenterLabel.Below(_callCentergButton, -10),
+                callCenterLabel.WithSameCenterX(bottomView),
+                callCenterLabel.AtBottomOf(bottomView, 15)
             );
 
             View.AddIfNotNull(topView, centerView, bottomView);
             View.AddConstraints(
-                topView.AtTopOf(View, -20),
+                topView.AtTopOf(View),
                 topView.AtLeftOf(View),
                 topView.AtRightOf(View),
-                topView.WithRelativeHeight(View, 0.3f),
+                topView.WithRelativeHeight(View, 0.2f),
 
-                centerView.Below(topView, -20),
+                centerView.Below(topView),
                 centerView.AtLeftOf(View, 30),
                 centerView.AtRightOf(View, 30),
+                centerView.WithRelativeHeight(View, 0.5f),
 
-                bottomView.Below(centerView, 280),
-                bottomView.AtLeftOf(View, 80),
-                bottomView.AtRightOf(View, 30)
+                bottomView.Below(centerView),
+                bottomView.WithSameCenterX(topView),
+                bottomView.WithRelativeHeight(View, 0.25f),
+                bottomView.AtBottomOf(View, 20)
             );
 
             SignIn.SharedInstance.UIDelegate = this;
         }
 
-        private RoundedButton ButtonInitiaziler(string buttonText, UIImage buttonImage)
+        private RoundedButton ButtonInitiaziler(string buttonText, UIImage buttonImage, int linesNumber = 0)
         {
             RoundedButton newButton = new RoundedButton();
-            newButton.ButtonText = buttonText;
-            newButton.ButtonImage = buttonImage;
+            newButton.ButtonText.Text = buttonText;
+            //newButton.ButtonText.Lines = linesNumber;
+            if(buttonImage !=null)
+                newButton.ButtonImage = buttonImage;
             newButton.BackgroundColor = UIColor.White;
             return newButton;
         }
@@ -140,7 +142,9 @@ namespace Tollminder.Touch.Views
 
             var set = this.CreateBindingSet<HomeView, HomeViewModel>();
             set.Bind(_trackingButton).To(vm => vm.TrackingCommand);
+            set.Bind(_trackingButton.ButtonText).To(vm => vm.TrackingText);             set.Bind(_trackingButton).For(x => x.ButtonImage).To(vm => vm.IsBound).                WithConversion("GetPathToImage");
             set.Bind(_profileButton).To(vm => vm.ProfileCommand);
+            set.Bind(_callCentergButton.ButtonText).To(vm => vm.SupportText);
             set.Apply();
         }
     }

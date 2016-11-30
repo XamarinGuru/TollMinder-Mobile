@@ -31,7 +31,7 @@
     <MtouchProfiling>true</MtouchProfiling>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <CodesignProvision>9c536bda-515d-432a-b9fb-b1d475be5165</CodesignProvision>
+    <CodesignProvision></CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugSymbols>false</DebugSymbols>
@@ -43,12 +43,12 @@
     <ConsolePause>false</ConsolePause>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <MtouchUseSGen>true</MtouchUseSGen>
-    <CodesignKey>iPhone Distribution: Dmitry Stepanov (W6C5Q44UVB)</CodesignKey>
+    <CodesignKey>iPhone Developer: Dmitry Stepanov (BV8YE8XU9Y)</CodesignKey>
     <MtouchUseRefCounting>true</MtouchUseRefCounting>
     <MtouchUseLlvm>true</MtouchUseLlvm>
     <IpaPackageName>TollMinder</IpaPackageName>
     <MtouchExtraArgs></MtouchExtraArgs>
-    <CodesignProvision>27901335-a135-4d3a-9ae5-4c35f71bd3fa</CodesignProvision>
+    <CodesignProvision></CodesignProvision>
     <BuildIpa>true</BuildIpa>
     <IpaMetadata>Info.plist</IpaMetadata>
     <MtouchFloat32>false</MtouchFloat32>
@@ -222,6 +222,9 @@
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
     <ImageAsset Include="Resources\Images.xcassets\Image.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Images.xcassets\Image.imageset\Default-640h%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\Image.imageset\Default-667h%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Contents.json" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.xib" />
@@ -277,7 +280,7 @@
     <Compile Include="Services\TouchHttpClientHandlerService.cs" />
     <Compile Include="Views\HomeView.cs" />
     <Compile Include="Controls\RoundedButton.cs" />
-    <Compile Include="Converters\BoolToIconConverter.cs" />
+    <Compile Include="Converters\GetPathToImageConverter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets')" />
@@ -317,7 +320,6 @@
     <BundleResource Include="Resources\AcousticModelEnglish.bundle\variances" />
     <BundleResource Include="Sounds\tap.aif" />
     <BundleResource Include="GoogleService-Info.plist" />
-    <BundleResource Include="Resources\Images\home_background.png" />
     <BundleResource Include="Resources\Images\home_logo.png" />
     <BundleResource Include="Resources\Images\ic_home_pay.png" />
     <BundleResource Include="Resources\Images\ic_home_pay_history.png" />
@@ -328,6 +330,8 @@
     <BundleResource Include="Resources\Images\facebook-button.png" />
     <BundleResource Include="Resources\Images\google-button.png" />
     <BundleResource Include="Resources\Images\facebook_logIn.png" />
+    <BundleResource Include="Resources\Images\home_background-640h%402x.png" />
+    <BundleResource Include="Resources\Images\home_background-667h%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="facebookios">

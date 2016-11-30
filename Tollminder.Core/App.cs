@@ -10,6 +10,7 @@ using MvvmCross.Platform;
 using MvvmCross.Core.Platform;
 using Tollminder.Core.Helpers;
 using System.Threading;
+using Tollminder.Core.Utils.Slack;
 
 namespace Tollminder.Core
 {
@@ -29,7 +30,7 @@ namespace Tollminder.Core
                 .EndingWith("Service")
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
-
+            //SlackManager.SendMessage("App has been started!!!!!!");
             RegisterAppStart(new CustomAppStart());
 
 			Mvx.LazyConstructAndRegisterSingleton<IWaypointChecker, WaypointChecker> ();

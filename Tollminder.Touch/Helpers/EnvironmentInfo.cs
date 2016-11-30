@@ -9,6 +9,13 @@ namespace Tollminder.Touch
 		{			
 			get { return UIDevice.CurrentDevice.CheckSystemVersion (9, 0); }
 		}
+
+        public static UIImage CheckDevice()
+        {
+            return UIScreen.MainScreen.Bounds.Height > 640 ? 
+                 UIImage.FromFile(@"Images/home_background-667h@2x.png") :
+                           UIImage.FromFile(@"Images/home_background-640h@2x.png");
+        }
 	}
 }
 

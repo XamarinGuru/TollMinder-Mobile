@@ -96,12 +96,12 @@ namespace Tollminder.Touch.Controls
                 _topLabel.AtTopOf(this),
                 _topLabel.AtLeftOf(this),
                 _topLabel.AtRightOf(this),
-                _topLabel.Height().EqualTo(17),
+                _topLabel.WithRelativeHeight(this, 0.6f),
 
                 _textField.Below(_topLabel, 2),
                 _textField.AtLeftOf(this),
                 _textField.AtRightOf(this),
-                _textField.Height().EqualTo(20),
+                _textField.WithRelativeHeight(this, 0.9f),
 
                 _separatorView.Below(_textField, 2),
                 _separatorView.WithSameWidth(_textField),
