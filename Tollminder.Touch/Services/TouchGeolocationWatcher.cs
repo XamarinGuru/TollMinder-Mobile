@@ -31,7 +31,7 @@ namespace Tollminder.Touch.Services
 			get { return base.Location;	}
 			set {
 				Log.LogMessage($"Received location in geowatcher {value}");
-                if (IsBound && (!base.Location?.Equals(value) ?? true))
+                if (IsBound) //&& (!base.Location?.Equals(value) ?? true))
 				{
 					base.Location = value;
 					Mvx.Resolve<IMvxMessenger>().Publish(new LocationMessage(this, value));

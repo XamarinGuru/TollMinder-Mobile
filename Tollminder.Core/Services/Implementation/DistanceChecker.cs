@@ -14,8 +14,8 @@ namespace Tollminder.Core.Services.Implementation
             return points.AsParallel()
                          .AsOrdered()
                          .WithMergeOptions(ParallelMergeOptions.FullyBuffered)
-                         .Where(x => DistanceBetweenGeoLocations(center, x.Location) - radius < Epsilon)
-                         .Select(x => new TollPointWithDistance(x, DistanceBetweenGeoLocations(center, x.Location)))
+                         .Where(x => DistanceBetweenGeoLocations(center, new GeoLocation { Longitude = x.Longitude, Latitude = x.Latitude }) - radius < Epsilon)
+                         .Select(x => new TollPointWithDistance(x, DistanceBetweenGeoLocations(center, new GeoLocation{Longitude = x.Longitude, Latitude = x.Latitude})))
                          .OrderBy(x => x.Distance)
                          .ToList();
 		}

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using MvvmCross.Platform;
@@ -9,13 +10,30 @@ using Tollminder.Core.Models;
 namespace Tollminder.Core.Services.Implementation
 {
     public class ServerApiService : HttpClientService, IServerApiService
-	{
+	{   
         const string BaseApiUrl = "http://54.152.103.212/api/";
 
-        public Task<IList<TollRoad>> RefreshTollRoads (long lastSyncDateTime, CancellationToken token)
+        public async Task<IList<TollRoad>> RefreshTollRoads (long lastSyncDateTime, CancellationToken token)
 		{
-            var authToken = Mvx.Resolve<IStoredSettingsService>().AuthToken;
-            return GetAsync<IList<TollRoad>>($"{BaseApiUrl}sync/{lastSyncDateTime}", token, authToken);
+            IList<TollRoad> result = new List<TollRoad>();
+            try
+            {
+                var authToken = Mvx.Resolve<IStoredSettingsService>().AuthToken;
+                //Debug.WriteLine($"{BaseApiUrl}sync/{lastSyncDateTime}");
+                //var tollRoads = GetAsync<object>($"{BaseApiUrl}sync/{0}", token, "2f45b14a832198b132863af5a82e7a382f9b534b5ded4451c3eac1844cf94cfd");
+                //Debug.WriteLine(tollRoads.Result);
+                //return null;
+                 result = await GetAsync<IList<TollRoad>>($"{BaseApiUrl}sync/{0}", token, "LM9NJSUN3GDQU8BFPPCUPpCRtLnd89NZXLSUUR9DBjjSR32EBQxCbHX963ycqcjv");
+                Debug.WriteLine($"{BaseApiUrl}sync/{0}");
+                //Debug.WriteLine(result);
+
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+
+            return result;
 		}
 
         public Task<User> SignIn(string phone, string password)
@@ -26,7 +44,8 @@ namespace Tollminder.Core.Services.Implementation
                 ["password"] = password
             };
 
-            return SendAsync<Dictionary<string, object>, User>(parameters, $"{BaseApiUrl}user/signin");
+            var ss = SendAsync<Dictionary<string, object>, User>(parameters, $"{BaseApiUrl}user/signin");
+            return ss;
         }
 	}
 }

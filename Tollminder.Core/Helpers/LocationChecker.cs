@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Tollminder.Core.Models;
 
 namespace Tollminder.Core.Helpers
@@ -29,12 +30,15 @@ namespace Tollminder.Core.Helpers
 			double cLon = Math.Cos(center.Longitude.ToRadians() - otherPoint.Longitude.ToRadians());
 
 			double cosD = sLat1*sLat2 + cLat1*cLat2*cLon;
+            Debug.WriteLine(cosD);
 
 			double d = Math.Acos(cosD);
-
-			double dist = R * d;
-
-			return dist;
+            Debug.WriteLine(d);
+			
+            double dist = R * d;
+            Debug.WriteLine(dist);
+			
+            return dist;
 		}
 	}
 }

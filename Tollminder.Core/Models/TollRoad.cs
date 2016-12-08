@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using SQLite;
 using SQLiteNetExtensions.Attributes;
 
@@ -8,12 +9,18 @@ namespace Tollminder.Core.Models
 	[Table("TollRoads")]
     public class TollRoad : IEquatable<TollRoad>, IDatabaseEntry
 	{
-		[PrimaryKey, AutoIncrement]
-		public long DBId { get; set; }
-        public long Id { get; set; }
+		[PrimaryKey]//, AutoIncrement]
+		//public int DBId { get; set; }
+        [JsonProperty("_id")]
+        public string Id { get; set; }
 		public string Name { get; set; }
+        [JsonProperty("_wayPoints")]
 		[OneToMany(CascadeOperations = CascadeOperation.All)]
         public List<TollRoadWaypoint> WayPoints { get; set; }
+        [JsonProperty("longitude")]
+        public string Longitude { get; set; }
+        [JsonProperty("latitude")]
+        public string Latitude { get; set; }
 
         public TollRoad()
         {

@@ -27,7 +27,7 @@
     <MtouchUseSGen>true</MtouchUseSGen>
     <MtouchFastDev>true</MtouchFastDev>
     <MtouchDebug>true</MtouchDebug>
-    <CodesignKey>iPhone Developer: Dmitry Stepanov (C2BVG7CP4Y)</CodesignKey>
+    <CodesignKey>iPhone Developer: Dmitry Stepanov (BV8YE8XU9Y)</CodesignKey>
     <MtouchProfiling>true</MtouchProfiling>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
@@ -43,12 +43,12 @@
     <ConsolePause>false</ConsolePause>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <MtouchUseSGen>true</MtouchUseSGen>
-    <CodesignKey>iPhone Developer: Dmitry Stepanov (BV8YE8XU9Y)</CodesignKey>
+    <CodesignKey>iPhone Distribution: Dmitry Stepanov (W6C5Q44UVB)</CodesignKey>
     <MtouchUseRefCounting>true</MtouchUseRefCounting>
     <MtouchUseLlvm>true</MtouchUseLlvm>
     <IpaPackageName>TollMinder</IpaPackageName>
     <MtouchExtraArgs></MtouchExtraArgs>
-    <CodesignProvision></CodesignProvision>
+    <CodesignProvision>Automatic:AdHoc</CodesignProvision>
     <BuildIpa>true</BuildIpa>
     <IpaMetadata>Info.plist</IpaMetadata>
     <MtouchFloat32>false</MtouchFloat32>

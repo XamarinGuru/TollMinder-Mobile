@@ -7,15 +7,16 @@ using Tollminder.Core.Helpers;
 namespace Tollminder.Core.Models
 {
 	// encapulates a geolocation and other information
-	public class GeoLocation : IEquatable<GeoLocation>, IDatabaseEntry
+	public class GeoLocation : IEquatable<GeoLocation>//, IDatabaseEntry
 	{
         public const double DesiredAccuracy = 100;
 		const double Epsilon = 0.0001;
 
-        [PrimaryKey, AutoIncrement]
-        public long DBId { get; set; }
-        [ForeignKey(typeof(TollPoint))]
-        public long TollPointId { get; set; }
+        //[PrimaryKey, AutoIncrement]
+        //public int DBId { get; set; }
+
+        //[ForeignKey(typeof(TollPoint))]
+        public string TollPointId { get; set; }
 		public double Speed { get; set; }
 		public double Latitude { get; set; }
 		public double Longitude { get; set; }

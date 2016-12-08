@@ -3,6 +3,6 @@ namespace Tollminder.Core
 {
     public interface IDatabaseEntry
     {
-        long DBId { get; set;}
+        string Id { get; set; }//int DBId { get; set;}
     }
 }

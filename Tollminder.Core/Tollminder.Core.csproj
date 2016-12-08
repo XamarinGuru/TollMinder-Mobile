@@ -130,6 +130,7 @@
     <Compile Include="Utils\Slack\SlackClient.cs" />
     <Compile Include="Utils\Slack\Payload.cs" />
     <Compile Include="Utils\Slack\SlackManager.cs" />
+    <Compile Include="Extensions\SQLiteExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
