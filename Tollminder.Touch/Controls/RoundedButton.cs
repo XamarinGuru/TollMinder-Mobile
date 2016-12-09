@@ -16,19 +16,18 @@ namespace Tollminder.Touch.Controls
         UILabel _buttonText;
         UIColor _buttonBackGroundColor;
         UIColor _buttonTextColor;
-        //string _labelText;
-        //UIImage _imageUrl;
-
-        public UILabel ButtonText
-        {
-            get { return _buttonText; }
-            set { _buttonText = value; }
-        }
+        nfloat _distanceBetweenTextAndImage;
 
         public UIImage ButtonImage
         {
             get { return _imageView.Image; }
             set { _imageView.Image = value; }
+        }
+
+        public UILabel ButtonText
+        {
+            get { return _buttonText; }
+            set { _buttonText = value; }
         }
 
         public UIColor ButtonBackgroundColor
@@ -51,6 +50,14 @@ namespace Tollminder.Touch.Controls
 
         public RoundedButton() : base()
         {
+            _distanceBetweenTextAndImage = EnvironmentInfo.GetRoundedButtonDistanceBetweenTextAndImage;
+            InitObjects();
+        }
+
+        public RoundedButton(nfloat distanceBetweenTextAndImage) : base()
+        {
+            _distanceBetweenTextAndImage = distanceBetweenTextAndImage == 0 ? EnvironmentInfo.GetRoundedButtonDistanceBetweenTextAndImage
+                                                                            : distanceBetweenTextAndImage;
             InitObjects();
         }
 
@@ -86,10 +93,10 @@ namespace Tollminder.Touch.Controls
                 _imageView.WithRelativeWidth(this, 0.6f),
                 _imageView.WithRelativeHeight(this, 0.6f),
 
-                _buttonText.Below(_imageView, 5),
+                _buttonText.Below(_imageView),
                 _buttonText.WithSameCenterX(this),
                 _buttonText.Height().EqualTo(20),
-                _buttonText.AtBottomOf(this, 15)
+                _buttonText.AtBottomOf(this, _distanceBetweenTextAndImage)
             );
         }
     }

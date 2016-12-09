@@ -53,7 +53,7 @@ namespace Tollminder.Touch.Views
             // Hide navigation bar
             NavigationController.SetNavigationBarHidden(true, false);
 
-            View.BackgroundColor = UIColor.FromPatternImage(EnvironmentInfo.CheckDevice().Scale(View.Frame.Size));
+            View.BackgroundColor = UIColor.FromPatternImage(EnvironmentInfo.GetHomeBackground.Scale(View.Frame.Size));
             imageView.Frame = new CGRect(10, 10, imageView.Image.CGImage.Width, imageView.Image.CGImage.Height);
             topView.AddIfNotNull(imageView);
             topView.AddConstraints(

@@ -294,6 +294,7 @@
     <Compile Include="Controls\RoundedButton.cs" />
     <Compile Include="Converters\GetPathToImageConverter.cs" />
     <Compile Include="Services\TouchCheckerAppFirstLaunch.cs" />
+    <Compile Include="Helpers\RoundedButtonManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets')" />
@@ -345,6 +346,8 @@
     <BundleResource Include="Resources\Images\facebook_logIn.png" />
     <BundleResource Include="Resources\Images\home_background-640h%402x.png" />
     <BundleResource Include="Resources\Images\home_background-667h%402x.png" />
+    <BundleResource Include="Resources\Images\home_background.png" />
+    <BundleResource Include="Resources\Images\home_board.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="facebookios">

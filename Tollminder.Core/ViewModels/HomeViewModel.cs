@@ -63,7 +63,7 @@ namespace Tollminder.Core.ViewModels
 
         public string TrackingText
         {
-            get { return IsBound ? "Tracking is On" : "Tracking is Off"; }
+            get { return IsBound ? "TRACKING IS ON" : "TRACKING IS OFF"; }
         }
 
         MvxCommand _trackingCommand;
