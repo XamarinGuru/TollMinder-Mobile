@@ -140,7 +140,7 @@ namespace Tollminder.Core.ViewModels
                 StoredSettingsService.IsAuthorized = true;
                 StoredSettingsService.AuthToken = result.Token;
                 Close(this);
-                ShowViewModel<HomeDebugViewModel>();
+                ShowViewModel<HomeViewModel>();
             }
         }
 

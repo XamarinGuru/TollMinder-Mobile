@@ -34,7 +34,6 @@ namespace Tollminder.Touch.Views
         {
         }
 
-
         protected override void InitializeObjects()
         {
             base.InitializeObjects();
@@ -55,14 +54,12 @@ namespace Tollminder.Touch.Views
                 applicationLogo.WithSameCenterY(topView)
             );
 
-            _trackingButton = ButtonInitiaziler(null, null);//UIImage.FromFile(@"Images/ic_home_tracking_default.png"));
+            _trackingButton = ButtonInitiaziler();
             _profileButton = ButtonInitiaziler("Profile", UIImage.FromFile(@"Images/ic_home_profile.png"));
             _payButton = ButtonInitiaziler("Pay", UIImage.FromFile(@"Images/ic_home_pay.png"));
             _payHistoryButton = ButtonInitiaziler("Pay History", UIImage.FromFile(@"Images/ic_home_pay_history.png"));
 
             _callCentergButton = ButtonInitiaziler(null, UIImage.FromFile(@"Images/ic_home_support.png"));
-            //_callCentergButton.LineBreakMode = UILineBreakMode.WordWrap;
-            //_callCentergButton.ButtonText.Lines = 0;
             _callCentergButton.ButtonText.TextColor = UIColor.LightGray;
             _callCentergButton.ButtonBackgroundColor = null;
             callCenterLabel.Text = "+(1)305 335 85 08";
@@ -125,11 +122,10 @@ namespace Tollminder.Touch.Views
             SignIn.SharedInstance.UIDelegate = this;
         }
 
-        private RoundedButton ButtonInitiaziler(string buttonText, UIImage buttonImage, int linesNumber = 0)
+        private RoundedButton ButtonInitiaziler(string buttonText = null, UIImage buttonImage = null, int linesNumber = 0)
         {
             RoundedButton newButton = new RoundedButton();
             newButton.ButtonText.Text = buttonText;
-            //newButton.ButtonText.Lines = linesNumber;
             if(buttonImage !=null)
                 newButton.ButtonImage = buttonImage;
             newButton.BackgroundColor = UIColor.White;

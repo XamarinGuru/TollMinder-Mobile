@@ -23,7 +23,7 @@ namespace Tollminder.Core.Services.Implementation
                 //var tollRoads = GetAsync<object>($"{BaseApiUrl}sync/{0}", token, "2f45b14a832198b132863af5a82e7a382f9b534b5ded4451c3eac1844cf94cfd");
                 //Debug.WriteLine(tollRoads.Result);
                 //return null;
-                 result = await GetAsync<IList<TollRoad>>($"{BaseApiUrl}sync/{0}", token, "LM9NJSUN3GDQU8BFPPCUPpCRtLnd89NZXLSUUR9DBjjSR32EBQxCbHX963ycqcjv");
+                result = await GetAsync<IList<TollRoad>>($"{BaseApiUrl}sync/{0}", token, authToken);//"LM9NJSUN3GDQU8BFPPCUPpCRtLnd89NZXLSUUR9DBjjSR32EBQxCbHX963ycqcjv");
                 Debug.WriteLine($"{BaseApiUrl}sync/{0}");
                 //Debug.WriteLine(result);
 
