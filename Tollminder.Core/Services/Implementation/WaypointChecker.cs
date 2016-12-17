@@ -22,7 +22,7 @@ namespace Tollminder.Core.Services.Implementation
 			private set 
 			{
 				StoredSettingsService.TollPointsInRadius = value;
-                Messenger.Publish(new CurrentWaypointChangedMessage(this, value));
+                Messenger.Publish(new CurrentTollpointChangedMessage(this, value));
 			}
 		}
 	
@@ -61,6 +61,20 @@ namespace Tollminder.Core.Services.Implementation
             private set
             {
                 StoredSettingsService.IgnoredChoiceTollPoint = value;
+            }
+        }
+
+        double _distanceToNearestTollpoint;
+        public double DistanceToNearestTollpoint
+        {
+            get
+            {
+                return _distanceToNearestTollpoint;
+            }
+            private set
+            {
+                _distanceToNearestTollpoint = value;
+                Messenger.Publish(new DistanceToNearestTollpoint(this, value));
             }
         }
 
@@ -148,7 +162,10 @@ namespace Tollminder.Core.Services.Implementation
                 var distance = UpdateDistanceToNextWaypoint(location, item);
                 Log.LogMessage($"Distance to {item.Name} waypoint is {distance}");
                 if (distance - SettingsService.WaypointSmallRadius < double.Epsilon)
+                {
+                    DistanceToNearestTollpoint = distance * 1000;
                     return item;
+                }
             }
 
             return null;

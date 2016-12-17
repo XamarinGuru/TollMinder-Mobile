@@ -27,7 +27,7 @@ namespace Tollminder.Touch.Services
 				var speechUtterance = new AVSpeechUtterance (text) {
 					Rate = AVSpeechUtterance.MaximumSpeechRate / 2,
 					Voice = AVSpeechSynthesisVoice.FromLanguage ("en-US"),
-					Volume = 0.5f,
+					Volume = 1.0f,
 					PitchMultiplier = 1.0f
 					//PreUtteranceDelay = 0.1
 				};

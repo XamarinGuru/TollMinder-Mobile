@@ -50,7 +50,7 @@ namespace Tollminder.Core.ViewModels
             _tokens.Add (_messenger.SubscribeOnMainThread<LogUpdated> ((s) => LogText = Log._messageLog.ToString(), MvxReference.Strong));
 			_tokens.Add(_messenger.SubscribeOnMainThread<GeoWatcherStatusMessage>((s) => IsBound = s.Data, MvxReference.Strong));
 
-            _tokens.Add(_messenger.SubscribeOnMainThread<CurrentWaypointChangedMessage>((s) => CurrentWaypointString = string.Join("\n", s.Data?.Select(x => x.Name)), MvxReference.Strong));
+            _tokens.Add(_messenger.SubscribeOnMainThread<CurrentTollpointChangedMessage>((s) => CurrentWaypointString = string.Join("\n", s.Data?.Select(x => x.Name)), MvxReference.Strong));
             _tokens.Add(_messenger.SubscribeOnMainThread<TollRoadChangedMessage>((s) => TollRoadString = s.Data?.Name, MvxReference.Strong));
 
 			IsBound = _geoWatcher.IsBound;

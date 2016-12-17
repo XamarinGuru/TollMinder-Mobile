@@ -4,6 +4,7 @@ using Android.App;
 using Android.OS;
 using Android.Runtime;
 using Plugin.CurrentActivity;
+using Tollminder.Droid.AndroidServices;
 
 namespace Tollminder.Droid
 {
@@ -40,6 +41,7 @@ namespace Tollminder.Droid
 
         public void OnActivityDestroyed(Activity activity)
         {
+            //Debug.
         }
 
         public void OnActivityPaused(Activity activity)

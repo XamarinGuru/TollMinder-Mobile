@@ -10,6 +10,7 @@ namespace Tollminder.Core.Services
 		TollRoadWaypoint Entrance { get; }
 		TollRoadWaypoint Exit { get; }
         TollPoint IgnoredChoiceTollPoint { get; }
+        double DistanceToNearestTollpoint { get; }
         TimeSpan TripDuration { get; }
         List<TollPointWithDistance> TollPointsInRadius { get; }
 

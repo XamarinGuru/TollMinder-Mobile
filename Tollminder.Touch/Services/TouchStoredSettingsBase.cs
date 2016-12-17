@@ -26,7 +26,7 @@ namespace Tollminder.Touch.Services
 
 		public T Get<T>(T defaultValue = default(T), [CallerMemberNameAttribute] string key = "")
 		{
-			var str = _preferences.StringForKey(key);
+ 			var str = _preferences.StringForKey(key);
 			if (str == NULL || string.IsNullOrEmpty(str))
 			{
 				return defaultValue;

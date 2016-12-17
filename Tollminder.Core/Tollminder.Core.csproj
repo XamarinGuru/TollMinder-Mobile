@@ -132,6 +132,8 @@
     <Compile Include="Utils\Slack\SlackManager.cs" />
     <Compile Include="Extensions\SQLiteExtensions.cs" />
     <Compile Include="Services\ICheckerAppFirstLaunch.cs" />
+    <Compile Include="Services\INetworkCheck.cs" />
+    <Compile Include="ViewModels\HomeTestViewModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>

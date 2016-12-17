@@ -48,7 +48,7 @@
     <MtouchUseLlvm>true</MtouchUseLlvm>
     <IpaPackageName>TollMinder</IpaPackageName>
     <MtouchExtraArgs></MtouchExtraArgs>
-    <CodesignProvision>Automatic:AdHoc</CodesignProvision>
+    <CodesignProvision>e9ba7656-ecb0-4477-8d24-04843dff107d</CodesignProvision>
     <BuildIpa>true</BuildIpa>
     <IpaMetadata>Info.plist</IpaMetadata>
     <MtouchFloat32>false</MtouchFloat32>
@@ -295,6 +295,12 @@
     <Compile Include="Converters\GetPathToImageConverter.cs" />
     <Compile Include="Services\TouchCheckerAppFirstLaunch.cs" />
     <Compile Include="Helpers\RoundedButtonManager.cs" />
+    <Compile Include="Services\TouchNetworkCheck.cs" />
+    <Compile Include="Views\HomeTestView.cs" />
+    <Compile Include="Views\HomeTestView.designer.cs">
+      <DependentUpon>HomeTestView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TollpointsWithDistanceView.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets')" />

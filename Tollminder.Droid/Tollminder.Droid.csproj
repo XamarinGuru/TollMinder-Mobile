@@ -301,6 +301,8 @@
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Converters\BoolToIconConverter.cs" />
     <Compile Include="Bootstrap\DownloadCachePluginBootstrap.cs" />
+    <Compile Include="BroadcastReceivers\RebootReceiver.cs" />
+    <Compile Include="AndroidServices\NorficationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
@@ -391,6 +393,11 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_home_support.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_home_tracking_active.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_home_tracking_default.png" />
+    <AndroidResource Include="Resources\mipmap-mdpi\TollMinder_logo.png" />
+    <AndroidResource Include="Resources\mipmap-hdpi\TollMinder_logo.png" />
+    <AndroidResource Include="Resources\mipmap-xhdpi\TollMinder_logo.png" />
+    <AndroidResource Include="Resources\mipmap-xxhdpi\TollMinder_logo.png" />
+    <AndroidResource Include="Resources\mipmap-xxxhdpi\TollMinder_logo.png" />
   </ItemGroup>
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />
   <Import Project="..\packages\Xamarin.GooglePlayServices.Basement.32.961.0-beta1\build\Xamarin.GooglePlayServices.Basement.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Basement.32.961.0-beta1\build\Xamarin.GooglePlayServices.Basement.targets')" />

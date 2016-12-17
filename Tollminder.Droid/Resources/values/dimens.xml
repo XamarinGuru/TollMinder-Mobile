@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <resources>
-    <dimen name="home_button_fringe">127dp</dimen>
+    <dimen name="home_button_fringe">90dp</dimen>
+	<dimen name="home_button_tracking">130dp</dimen>
 </resources>

@@ -6,6 +6,7 @@ using MvvmCross.Platform;
 using Tollminder.Core.Helpers;
 using Tollminder.Core.Models;
 using Tollminder.Core.Services;
+using Tollminder.Core.Services.Implementation;
 
 namespace Tollminder.Core.ViewModels
 {
@@ -13,6 +14,7 @@ namespace Tollminder.Core.ViewModels
     {
         const string Login = "555123456";
         const string Password = "1";
+        private DataBaseService _dataBaseService;
 
         string _loginString;
         public string LoginString
@@ -64,6 +66,7 @@ namespace Tollminder.Core.ViewModels
             base.Init();
             LoginString = Login;
             PasswordString = Password;
+            _dataBaseService = new DataBaseService();
         }
 
         public override void Start()
@@ -128,6 +131,7 @@ namespace Tollminder.Core.ViewModels
                         result = await _serverApiService.SignIn(LoginString, PasswordString);
                         success = result != null;
                     }
+                    success = true;
                     break;
                 case AuthorizationType.Facebook:
                 case AuthorizationType.GPlus:
@@ -137,10 +141,11 @@ namespace Tollminder.Core.ViewModels
 
             if (success)
             {
+                _dataBaseService.SetUser(result);
                 StoredSettingsService.IsAuthorized = true;
                 StoredSettingsService.AuthToken = result.Token;
                 Close(this);
-                ShowViewModel<HomeViewModel>();
+                ShowViewModel<HomeDebugViewModel>();
             }
         }
 

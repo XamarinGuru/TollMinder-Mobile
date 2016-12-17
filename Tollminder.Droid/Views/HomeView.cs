@@ -11,7 +11,8 @@ using Tollminder.Core.Helpers;
 using MvvmCross.Plugins.Messenger;
 using Tollminder.Core.Models;
 using System;
-
+using Tollminder.Droid.AndroidServices;
+using Android.Content;
 
 namespace Tollminder.Droid.Views
 {
@@ -28,5 +29,11 @@ namespace Tollminder.Droid.Views
 		{
 			PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 		}
+
+        protected override void OnPause()
+        {
+            base.OnPause();Intent intentStart = new Intent(this, typeof(HomeView));
+            PushNotificationService.ShowNotification(this, this.GetType(), "Tollminder - still working", "Press to open.");
+        }
     }
 }
