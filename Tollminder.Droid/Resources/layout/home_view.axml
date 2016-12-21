@@ -1,72 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/home_background"
     android:id="@+id/home_view"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="1">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="93dp"
         android:id="@+id/logo_container"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@drawable/home_logo" />
-    </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/button_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true">
-        <tollminder.droid.controls.RoundedRectangleButton
-            android:layout_width="@dimen/home_button_fringe"
-            android:layout_height="@dimen/home_button_fringe"
-            android:layout_marginRight="10dp"
-            android:id="@+id/button_pay_history"
+            android:scaleType="fitXY"
+            android:src="@drawable/home_logo"
             android:layout_centerHorizontal="true"
-            app:MvxBind="Click PayHistoryCommand"
-            app:image="@drawable/ic_home_pay_history"
-            app:text="Pay History"
-            tools:background="@drawable/home_view_button_background" />
-        <tollminder.droid.controls.RoundedRectangleButton
-            android:layout_width="@dimen/home_button_fringe"
-            android:layout_height="@dimen/home_button_fringe"
-            android:layout_marginRight="10dp"
-            android:id="@+id/button_profile"
-            android:layout_toLeftOf="@id/button_pay_history"
-            app:MvxBind="Click ProfileCommand"
-            app:image="@drawable/ic_home_profile"
-            app:text="Profile"
-            tools:background="@drawable/home_view_button_background" />
-        <tollminder.droid.controls.RoundedRectangleButton
-            android:layout_width="@dimen/home_button_fringe"
-            android:layout_height="@dimen/home_button_fringe"
-            android:layout_marginRight="10dp"
-            android:id="@+id/button_pay"
-            android:layout_toRightOf="@id/button_pay_history"
-            app:MvxBind="Click PayCommand"
-            app:image="@drawable/ic_home_pay"
-            app:text="Pay"
-            tools:background="@drawable/home_view_button_background" />
+            android:layout_marginTop="47dp" />
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="210dp"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_weight="0.82">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/home_board"
+            android:id="@+id/imageView_board"
+            android:layout_centerHorizontal="true"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="8dp" />
+
+        <RelativeLayout
+            android:id="@+id/button_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <tollminder.droid.controls.RoundedRectangleButton
+                android:layout_width="@dimen/home_button_fringe"
+                android:layout_height="@dimen/home_button_fringe"
+                android:id="@+id/button_pay_history"
+                app:MvxBind="Click PayHistoryCommand"
+                app:image="@drawable/ic_home_pay_history"
+                app:text="Pay History"
+                tools:background="@drawable/home_view_button_background"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+            <tollminder.droid.controls.RoundedRectangleButton
+                android:layout_width="@dimen/home_button_fringe"
+                android:layout_height="@dimen/home_button_fringe"
+                android:id="@+id/button_pay"
+                app:MvxBind="Click PayCommand"
+                app:image="@drawable/ic_home_pay"
+                app:text="Pay"
+                tools:background="@drawable/home_view_button_background"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/button_pay_history"
+                android:layout_toEndOf="@+id/button_pay_history"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp" />
+
+            <tollminder.droid.controls.RoundedRectangleButton
+                android:layout_width="@dimen/home_button_fringe"
+                android:layout_height="@dimen/home_button_fringe"
+                android:id="@+id/button_profile"
+                app:MvxBind="Click ProfileCommand"
+                app:image="@drawable/ic_home_profile"
+                app:text="Profile"
+                tools:background="@drawable/home_view_button_background"
+                android:layout_marginRight="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@+id/button_pay_history"
+                android:layout_toStartOf="@+id/button_pay_history" />
+        </RelativeLayout>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="182dp"
         android:layout_alignParentBottom="true">
         <tollminder.droid.controls.RoundedRectangleButton
             android:layout_width="@dimen/home_button_tracking"
             android:layout_height="@dimen/home_button_tracking"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="50dp"
             android:layout_marginBottom="60dp"
+            tools:background="@drawable/home_view_tracking_button"
             app:MvxBind="Click TrackingCommand; ImageUrl BoolToIconConverter(IsBound, 'ic_home_tracking'); Text TrackingText"
-            app:image="@drawable/ic_home_tracking_default"
-            tools:background="@drawable/home_view_button_background" />
+            app:image="@drawable/ic_home_tracking_default" />
     </RelativeLayout>
-</RelativeLayout>
+</LinearLayout>

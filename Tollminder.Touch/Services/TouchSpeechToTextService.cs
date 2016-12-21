@@ -22,8 +22,9 @@ namespace Tollminder.Touch.Services
 		OEEventsObserver observer;
 		OEPocketsphinxController pocketSphinxController;
 		OEFliteController fliteController;
+        AVAudioPlayer _audioPlayer;
 
-		TaskCompletionSource<bool> _recognitionTask;
+        TaskCompletionSource<bool> _recognitionTask;
 
 		UIAlertView _error;
 
@@ -200,9 +201,9 @@ namespace Tollminder.Touch.Services
                 //notificationSound.AddSystemSoundCompletion(SystemSound.Vibrate.PlaySystemSound);
                 //notificationSound.PlaySystemSound();
 
-                AVAudioPlayer audioPlayer = AVAudioPlayer.FromUrl(NSUrl.FromFilename(Path.Combine("Sounds", "tap.aif")));
-                audioPlayer.PrepareToPlay();
-                audioPlayer.Play();
+                _audioPlayer = AVAudioPlayer.FromUrl(NSUrl.FromFilename(Path.Combine("Sounds", "tap.aif")));
+                _audioPlayer.PrepareToPlay();
+                _audioPlayer.Play();
             });
 
             Question = question;

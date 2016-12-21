@@ -1,6 +1,7 @@
 ﻿using System;
 using Android.Content;
 using Android.Runtime;
+using Android.Support.Percent;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
@@ -9,7 +10,7 @@ using MvvmCross.Binding.Droid.Views;
 namespace Tollminder.Droid.Controls
 {
     [Register("tollminder.droid.controls.RoundedRectangleButton")]
-    public class RoundedRectangleButton : LinearLayout
+    public class RoundedRectangleButton : PercentRelativeLayout
     {
         MvxImageView imageView;
         TextView textView;
@@ -51,11 +52,6 @@ namespace Tollminder.Droid.Controls
 
         public RoundedRectangleButton(Android.Content.Context context, IAttributeSet attrs, int defStyleAttr) : base(context, attrs, defStyleAttr)
         {
-            Init(context, attrs);
-        }
-
-        public RoundedRectangleButton(Android.Content.Context context, IAttributeSet attrs, int defStyleAttr, int defStyleRes) : base(context, attrs, defStyleAttr, defStyleRes)
-        { 
             Init(context, attrs);
         }
 

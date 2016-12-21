@@ -25,7 +25,7 @@ namespace Tollminder.Droid.AndroidServices
                                                                     .SetContentText(contentText)
                                                                     .SetDefaults(NotificationDefaults.Sound | NotificationDefaults.Vibrate)
                                                                     .SetPriority((int)NotificationPriority.High)
-                                                                    .SetSmallIcon(Resource.Mipmap.TollMinder_logo);
+                                                                    .SetSmallIcon(Resource.Mipmap.ic_launcher);
 
             Notification notification = builder.Build();
             NotificationManager notificationManager = context.GetSystemService(Context.NotificationService) as NotificationManager;

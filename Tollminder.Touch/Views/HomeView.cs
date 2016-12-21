@@ -3,8 +3,10 @@ using Cirrious.FluentLayouts.Touch;
 using CoreGraphics;
 using Google.SignIn;
 using MvvmCross.Binding.BindingContext;
+using MvvmCross.iOS.Views;
 using Tollminder.Core;
 using Tollminder.Core.Converters;
+using Tollminder.Core.Helpers;
 using Tollminder.Core.ViewModels;
 using Tollminder.Touch.Controllers;
 using Tollminder.Touch.Controls;
@@ -12,6 +14,9 @@ using Tollminder.Touch.Extensions;
 using Tollminder.Touch.Helpers;
 using Tollminder.Touch.Interfaces;
 using UIKit;
+using Foundation;
+using Tollminder.Touch.Converters;
+using System.Diagnostics;
 
 namespace Tollminder.Touch.Views
 {
@@ -23,7 +28,8 @@ namespace Tollminder.Touch.Views
         RoundedButton _payHistoryButton;
         RoundedButton _callCentergButton;
         //RoundedButtonManager RoundedButtonManager;
-
+        public new HomeViewModel ViewModel { get { return base.ViewModel as HomeViewModel; } }
+        
         public HomeView()
         {
         }
@@ -65,7 +71,17 @@ namespace Tollminder.Touch.Views
             _payButton = RoundedButtonManager.ButtonInitiaziler("PAY", UIImage.FromFile(@"Images/ic_home_pay.png"));
             _payHistoryButton = RoundedButtonManager.ButtonInitiaziler("PAY HISTORY", UIImage.FromFile(@"Images/ic_home_pay_history.png"));
             _trackingButton = RoundedButtonManager.ButtonInitiaziler(EnvironmentInfo.GetTrackingButtonDistanceBetweenTextAndImage);
-            
+
+            this.AddLinqBinding(ViewModel, vm => vm.TrackingCommand, (value) =>
+            {
+                _trackingButton.BackgroundColor = UIColor.White;
+                _trackingButton.Alpha = 0.7f;
+                _trackingButton.ButtonTextColor = UIColor.FromRGB(3, 117, 27);
+                //var blur = new UIVisualEffectView(UIBlurEffect.FromStyle(UIBlurEffectStyle.Light));
+                //blur.Frame = _trackingButton.Bounds;
+                //blur.UserInteractionEnabled = true;
+                //_trackingButton.InsertSubview(blur, 0);
+            });
             //_callCentergButton = ButtonInitiaziler(null, UIImage.FromFile(@"Images/ic_home_support.png"));
             //_callCentergButton.ButtonText.TextColor = UIColor.LightGray;
             //_callCentergButton.ButtonBackgroundColor = null;
@@ -129,7 +145,7 @@ namespace Tollminder.Touch.Views
 
         protected override void InitializeBindings()
         {
-            base.InitializeBindings();
+             base.InitializeBindings();
 
             var set = this.CreateBindingSet<HomeView, HomeViewModel>();
             set.Bind(_trackingButton).To(vm => vm.TrackingCommand);
@@ -138,7 +154,17 @@ namespace Tollminder.Touch.Views
                WithConversion("GetPathToImage");
             set.Bind(_profileButton).To(vm => vm.ProfileCommand);
             //set.Bind(_callCentergButton.ButtonText).To(vm => vm.SupportText);
-            set.Apply();
+
+            //this.AddLinqBinding(ViewModel, v=>v.IsBound, (isBound)=>{
+            //    string imagePath = string.Format(@"Images/ic_home_tracking{0}", isBound ? "_active.png" : "_default.png");
+            //    Debug.WriteLine(imagePath);
+            //    _trackingButton.ButtonTextColor = isBound ? UIColor.FromRGB(3, 117, 27) : UIColor.Red;
+            //    Debug.WriteLine(_trackingButton.ButtonTextColor);
+            //    _trackingButton.ButtonText.Text = ViewModel.TrackingText;
+            //    Debug.WriteLine(_trackingButton.ButtonText.Text);
+            //        _trackingButton.ButtonImage = UIImage.FromFile(imagePath);
+            //});
+         set.Apply();
         }
     }
 }
