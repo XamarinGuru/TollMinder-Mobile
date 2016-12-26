@@ -13,6 +13,7 @@ using MvvmCross.Platform.Droid.Platform;
 using Tollminder.Core.Helpers;
 using Tollminder.Core.Models;
 using Tollminder.Core.Services;
+using Tollminder.Core.Utils;
 
 namespace Tollminder.Droid.Services
 {
@@ -26,7 +27,7 @@ namespace Tollminder.Droid.Services
         TaskCompletionSource<bool> _recognitionTask;
 
         SpeechRecognizer _speechRecognizer;
-
+        Timer _timer;
         Handler _handler;
         AlertDialog _dialog;
         bool _firstInit = true;
@@ -79,13 +80,20 @@ namespace Tollminder.Droid.Services
         {
             _recognitionTask = new TaskCompletionSource<bool>();
 
-            AskQuestionMethod(question);
-
+            //AskQuestionMethod(question);
+            _timer = new Timer((s) => { AskQuestionMethod(question); }, question, new TimeSpan(0, 0, 0), new TimeSpan(0, 0, 15000), true);
+            
             return _recognitionTask.Task;
         }
 
         void AskQuestionMethod(string question)
         {
+            if (_speechRecognizer != null)
+            {
+                StopRecognizer();
+                CancelDialog();
+            }
+
             _isMusicRunning = PlatformService.IsMusicRunning;
 
             if (_isMusicRunning)

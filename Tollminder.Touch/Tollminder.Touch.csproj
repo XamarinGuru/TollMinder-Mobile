@@ -267,7 +267,6 @@
     <Compile Include="Services\TouchGeoFence.cs" />
     <Compile Include="Services\TouchPlatform.cs" />
     <Compile Include="Services\TouchNotificationSender.cs" />
-    <Compile Include="Services\TouchSpeechToTextService.cs" />
     <Compile Include="Services\TouchStoredSettingsBase.cs" />
     <Compile Include="Bootstrap\MessengerPluginBootstrap.cs" />
     <Compile Include="Bootstrap\SqlitePluginBootstrap.cs" />
@@ -302,6 +301,10 @@
     </Compile>
     <Compile Include="Views\TollpointsWithDistanceView.cs" />
     <Compile Include="Views\ProfileView.cs" />
+    <Compile Include="Services\TouchSheduleNotification.cs" />
+    <Compile Include="Services\SpeechServices\MyOpenEarsEventsObserverDelegate.cs" />
+    <Compile Include="Services\SpeechServices\TouchSpeechToTextService.cs" />
+    <Compile Include="Services\SpeechServices\Timer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets')" />
@@ -326,6 +329,7 @@
     <Folder Include="Controls\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Resources\Images\" />
+    <Folder Include="Services\SpeechServices\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\OpenEars1.dic" />

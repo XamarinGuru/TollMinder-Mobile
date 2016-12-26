@@ -8,6 +8,7 @@ using MvvmCross.Platform.Platform;
 using MvvmCross.Platform;
 using MvvmCross.Platform.Converters;
 using Tollminder.Touch.Converters;
+using Tollminder.Touch.Services.SpeechServices;
 
 namespace Tollminder.Touch
 {

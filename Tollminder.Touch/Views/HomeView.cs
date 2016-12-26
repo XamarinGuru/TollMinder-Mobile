@@ -17,6 +17,7 @@ using UIKit;
 using Foundation;
 using Tollminder.Touch.Converters;
 using System.Diagnostics;
+using Tollminder.Touch.Services;
 
 namespace Tollminder.Touch.Views
 {
@@ -139,7 +140,7 @@ namespace Tollminder.Touch.Views
                 bottomView.WithRelativeHeight(View, 0.27f),
                 bottomView.AtBottomOf(View, 30)
             );
-
+            //TouchSheduleNotification.SheduleNotification();
             SignIn.SharedInstance.UIDelegate = this;
         }
 

@@ -405,6 +405,13 @@
     <AndroidResource Include="Resources\drawable-mdpi\home_board.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\home_board.png" />
     <AndroidResource Include="Resources\drawable\home_view_tracking_button.xml" />
+    <AndroidResource Include="Resources\layout\profile_view.axml" />
+    <AndroidResource Include="Resources\drawable-hdpi\tab_background.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\tab_background.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\tab_background.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\tab_background.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\tab_background.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\home_board_new.9.png" />
   </ItemGroup>
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />
   <Import Project="..\packages\Xamarin.GooglePlayServices.Basement.32.961.0-beta1\build\Xamarin.GooglePlayServices.Basement.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Basement.32.961.0-beta1\build\Xamarin.GooglePlayServices.Basement.targets')" />
