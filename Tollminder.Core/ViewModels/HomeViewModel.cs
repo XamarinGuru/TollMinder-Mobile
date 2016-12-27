@@ -91,9 +91,9 @@ namespace Tollminder.Core.ViewModels
             {
                 return _profileCommand ?? (_profileCommand = new MvxCommand(() =>
                 {
-                    _track.StopServices();
-                    _storedSettingsService.IsAuthorized = false;
-                    ShowViewModel<LoginViewModel>();
+                    //_track.StopServices();
+                    //_storedSettingsService.IsAuthorized = false;
+                    ShowViewModel<ProfileViewModel>();
                 }));
             }
         }

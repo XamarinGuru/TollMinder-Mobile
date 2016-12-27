@@ -5,62 +5,70 @@
     android:layout_height="match_parent"
     android:background="@drawable/tab_background">
     <RelativeLayout
-        android:id="@+id/button_container"
+        android:id="@+id/profile_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/logo_container">
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:id="@+id/profile_top_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/back_to_home_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="">
 
+            </Button>
+        </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="40dp"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-            android:orientation="vertical">
-
+            android:orientation="vertical"
+            android:layout_below="@id/profile_top_navigation">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="20dp"
                 android:weightSum="1">
-
                 <android.support.design.widget.TextInputLayout
-                    android:layout_width="110dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    local:MvxBind="Error Errors['Login']"
-                    android:layout_weight="0.43">
-
+                    android:layout_weight="0.5"
+                    local:MvxBind="Error Errors['FirstName']">
                     <EditText
-                        android:id="@+id/etLogin"
+                        android:id="@+id/etxt_firstName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawablePadding="10dp"
-                        android:hint="Login"
+                        android:hint="First Name"
                         android:inputType="textNoSuggestions"
-                        android:nextFocusDown="@+id/etPassword"
+                        android:nextFocusDown="@+id/etxt_lastName"
                         android:padding="20dp"
                         android:singleLine="true"
-                        local:MvxBind="Text LoginString;" />
+                        local:MvxBind="Text FirstNameString;" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
-                    android:layout_width="130dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    local:MvxBind="Error Errors['Password']">
-
+                    android:layout_weight="0.5"
+                    local:MvxBind="Error Errors['Last Name']">
                     <EditText
-                        android:id="@+id/etPassword"
+                        android:id="@+id/lastName_editText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:drawablePadding="10dp"
-                        android:hint="Password"
+                        android:hint="Last Name"
                         android:inputType="textNoSuggestions"
+                        android:nextFocusDown="@+id/email_editText"
                         android:padding="20dp"
                         android:password="true"
                         android:singleLine="true"
-                        local:MvxBind="Text PasswordString" />
+                        local:MvxBind="Text LastNameString" />
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 
@@ -71,97 +79,92 @@
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    local:MvxBind="Error Errors['Login']">
-
+                    local:MvxBind="Error Errors['Email']">
                     <EditText
-                        android:id="@+id/etLogin"
+                        android:id="@+id/email_editText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawablePadding="10dp"
                         android:hint="Login"
                         android:inputType="textNoSuggestions"
-                        android:nextFocusDown="@+id/etPassword"
+                        android:nextFocusDown="@+id/address_editText"
                         android:padding="20dp"
                         android:singleLine="true"
-                        local:MvxBind="Text LoginString;" />
+                        local:MvxBind="Text EmailString;" />
                 </android.support.design.widget.TextInputLayout>
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    local:MvxBind="Error Errors['Login']">
-
+                    local:MvxBind="Error Errors['Address']">
                     <EditText
-                        android:id="@+id/etLogin"
+                        android:id="@+id/address_editText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawablePadding="10dp"
-                        android:hint="Login"
+                        android:hint="Address"
                         android:inputType="textNoSuggestions"
-                        android:nextFocusDown="@+id/etPassword"
+                        android:nextFocusDown="@+id/city_editText"
                         android:padding="20dp"
                         android:singleLine="true"
-                        local:MvxBind="Text LoginString;" />
+                        local:MvxBind="Text AddressString;" />
                 </android.support.design.widget.TextInputLayout>
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    local:MvxBind="Error Errors['Login']">
-
+                    local:MvxBind="Error Errors['City']">
                     <EditText
-                        android:id="@+id/etLogin"
+                        android:id="@+id/city_editText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawablePadding="10dp"
-                        android:hint="Login"
+                        android:hint="City"
                         android:inputType="textNoSuggestions"
-                        android:nextFocusDown="@+id/etPassword"
+                        android:nextFocusDown="@+id/state_editText"
                         android:padding="20dp"
                         android:singleLine="true"
-                        local:MvxBind="Text LoginString;" />
+                        local:MvxBind="Text CityString;" />
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="20dp">
-
+                android:orientation="horizontal">
                 <android.support.design.widget.TextInputLayout
-                    android:layout_width="134dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    local:MvxBind="Error Errors['Login']">
-
+                    android:layout_weight="0.5"
+                    local:MvxBind="Error Errors['State']">
                     <EditText
-                        android:id="@+id/etLogin"
+                        android:id="@+id/state_editText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawablePadding="10dp"
-                        android:hint="Login"
+                        android:hint="State"
                         android:inputType="textNoSuggestions"
-                        android:nextFocusDown="@+id/etPassword"
+                        android:nextFocusDown="@+id/zip_code_editText"
                         android:padding="20dp"
                         android:singleLine="true"
-                        local:MvxBind="Text LoginString;" />
+                        local:MvxBind="Text StateString;" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    local:MvxBind="Error Errors['Password']">
-
+                    android:layout_weight="0.5"
+                    local:MvxBind="Error Errors['ZipCode']">
                     <EditText
-                        android:id="@+id/etPassword"
+                        android:id="@+id/zip_code_editText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:drawablePadding="10dp"
-                        android:hint="Password"
+                        android:hint="Zip Code"
                         android:inputType="textNoSuggestions"
                         android:padding="20dp"
                         android:password="true"
                         android:singleLine="true"
-                        local:MvxBind="Text PasswordString" />
+                        local:MvxBind="Text ZipCodeString" />
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 
@@ -170,25 +173,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
                 <com.facebook.login.widget.LoginButton
-                    android:id="@+id/login_button"
+                    android:id="@+id/add_license_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
+                    android:layout_weight="0.5"
                     local:MvxBind="Enabled BoolInverseConverter(IsBusy); Click FacebookLoginCommand" />
 
                 <com.google.android.gms.common.SignInButton
-                    android:id="@+id/sign_in_button"
+                    android:id="@+id/add_credit_card_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="0.5"
                     local:MvxBind="Enabled BoolInverseConverter(IsBusy); Click GPlusLoginCommand" />
             </LinearLayout>
-
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>

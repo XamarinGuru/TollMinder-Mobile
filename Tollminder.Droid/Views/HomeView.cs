@@ -1,4 +1,3 @@
-
 using Android.App;
 using Android.OS;
 using MvvmCross.Droid.Views;
@@ -36,8 +35,12 @@ namespace Tollminder.Droid.Views
         protected override void OnPause()
         {
             base.OnPause();
-            PushNotificationService.ShowNotification(this, this.GetType(), "Tollminder - still working", "Press to open.");
         }
 
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            PushNotificationService.ShowNotification(this, this.GetType(), "Tollminder - still working", "Press to open.");
+        }
       }
 }

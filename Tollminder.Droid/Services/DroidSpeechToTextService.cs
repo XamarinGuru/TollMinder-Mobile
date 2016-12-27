@@ -81,7 +81,7 @@ namespace Tollminder.Droid.Services
             _recognitionTask = new TaskCompletionSource<bool>();
 
             //AskQuestionMethod(question);
-            _timer = new Timer((s) => { AskQuestionMethod(question); }, question, new TimeSpan(0, 0, 0), new TimeSpan(0, 0, 15000), true);
+            _timer = new Timer((s) => { AskQuestionMethod(question); }, question, new TimeSpan(0, 0, 0), new TimeSpan(0, 0, 15));
             
             return _recognitionTask.Task;
         }
@@ -90,7 +90,7 @@ namespace Tollminder.Droid.Services
         {
             if (_speechRecognizer != null)
             {
-                StopRecognizer();
+                //StopRecognizer();
                 CancelDialog();
             }
 
@@ -121,16 +121,12 @@ namespace Tollminder.Droid.Services
         {
             if (_speechRecognizer != null)
                 StopRecognizer();
-            
+
             _speechRecognizer = SpeechRecognizer.CreateSpeechRecognizer(Application.Context);
 
             PlatformService.SetAudioEnabled(_firstInit);
 
-            if (_firstInit)
-            {
-                TextToSpeechService.Speak("Please, answer yes or no after the tone", false).Wait();
-                _firstInit = false;
-            }
+            TextToSpeechService.Speak("Please, answer yes or no after the tone", false).Wait();
 
             _speechRecognizer.SetRecognitionListener(this);
             _speechRecognizer.StartListening(VoiceIntent);
@@ -138,6 +134,8 @@ namespace Tollminder.Droid.Services
 
         void StopRecognizer()
         {
+            if (_recognitionTask.Task.IsCompleted)
+                _timer.Cancel();
             _speechRecognizer?.StopListening();
             _speechRecognizer?.Cancel();
             _speechRecognizer?.Destroy();
@@ -200,8 +198,8 @@ namespace Tollminder.Droid.Services
         {
             Log.LogMessage("SpeechRecognizerError = " + error);
 
-            if (!_dialogWasManuallyAnswered && (error == SpeechRecognizerError.NoMatch || error == SpeechRecognizerError.SpeechTimeout))
-                StartSpeechRecognition();
+            //if (!_dialogWasManuallyAnswered && (error == SpeechRecognizerError.NoMatch || error == SpeechRecognizerError.SpeechTimeout))
+            //    StartSpeechRecognition();
         }
 
         public void OnEvent(int eventType, Bundle @params)
@@ -237,7 +235,7 @@ namespace Tollminder.Droid.Services
                     StopRecognizer();
                 });
 
-                _firstInit = true;
+                //_firstInit = true;
 
                 if (answer != AnswerType.Unknown)
                 {
@@ -245,6 +243,7 @@ namespace Tollminder.Droid.Services
                     if (_isMusicRunning)
                         PlatformService.PlayMusic();
                     _recognitionTask.TrySetResult(answer == AnswerType.Positive);
+                    _timer.Cancel();
                 }
                 else
                 {

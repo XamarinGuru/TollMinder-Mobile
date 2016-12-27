@@ -27,7 +27,7 @@ namespace Tollminder.Touch.Services.SpeechServices
 		OEFliteController fliteController;
         AVAudioPlayer _audioPlayer;
         AnswerType _answer;
-        Timer _timer;
+        Core.Utils.Timer _timer;
 
         TaskCompletionSource<bool> _recognitionTask;
 
@@ -75,22 +75,13 @@ namespace Tollminder.Touch.Services.SpeechServices
 
             //AskQuestionMethod(question);
 
-            _timer = new Core.Utils.Timer((s) => { AskQuestionMethod(question);}, question, new TimeSpan(0, 0, 0), new TimeSpan(0, 0, 15000), true);
+            _timer = new Core.Utils.Timer((s) => { AskQuestionMethod(question);}, question, new TimeSpan(0, 0, 0), new TimeSpan(0, 0, 15), true);
 			return _recognitionTask.Task;
 		}
 
         void AskQuestionMethod(string question)
         {
             StopListening();
-            //if (_recognitionTask.Task.IsCompleted)
-            //{
-            //    UIApplication.SharedApplication.InvokeOnMainThread(() =>
-            //    {
-            //        _error.DismissWithClickedButtonIndex(0, true);
-            //    });
-            //    _timer.Cancel();
-            //    return;
-            //}
             
             UIApplication.SharedApplication.InvokeOnMainThread(() =>
             {
@@ -102,7 +93,6 @@ namespace Tollminder.Touch.Services.SpeechServices
                 };
                 _error.Show();
             });
-
             TextToSpeechService.Speak(question, false).Wait();
 
             TextToSpeechService.Speak("Please, answer after the signal", false).Wait();
@@ -139,44 +129,9 @@ namespace Tollminder.Touch.Services.SpeechServices
                 AskQuestionMethod(Question);
 		}
 
-        // The following method is called by the timer's delegate.
-        class TimerExampleState
-        {
-            public int counter = 0;
-            public System.Threading.Timer tmr;
-        }
-        void CheckStatus(Object state)
-        {
-            TimerExampleState s = (TimerExampleState)state;
-            s.counter++;
-            Debug.WriteLine("{0} Checking Status {1}.", DateTime.Now.TimeOfDay, s.counter);
-            if (s.counter == 5)
-            {
-                // Shorten the period. Wait 10 seconds to restart the timer.
-                (s.tmr).Change(10000, 100);
-                Debug.WriteLine("changed...");
-            }
-            if (s.counter == 10)
-            {
-                Debug.WriteLine("disposing of timer...");
-                s.tmr.Dispose();
-                s.tmr = null;
-            }
-        }
 		public void StartListening()
 		{
-            //TimerExampleState s = new TimerExampleState();
-
-            //// Create the delegate that invokes methods for the timer.
-            //TimerCallback timerDelegate = new TimerCallback(CheckStatus);
-
-            //    // Create a timer that waits one second, then invokes every second.
-            //    System.Threading.Timer timer = new System.Threading.Timer(timerDelegate, s, 1000, 1000);
-
-            //// Keep a handle to the timer, so it can be disposed.
-                                        //s.tmr = timer;
-
-			pocketSphinxController.StartListeningWithLanguageModelAtPathdictionaryAtPathlanguageModelIsJSGF(
+            pocketSphinxController.StartListeningWithLanguageModelAtPathdictionaryAtPathlanguageModelIsJSGF(
 				pathToLanguageModel,
 				pathToDictionary,
 				pathToAcousticModel,
@@ -189,13 +144,10 @@ namespace Tollminder.Touch.Services.SpeechServices
 			pocketSphinxController.StopListening();
             UIApplication.SharedApplication.InvokeOnMainThread(() =>
             {
-                _error.DismissWithClickedButtonIndex(0, true);
+                _error?.DismissWithClickedButtonIndex(0, true);
             });
             if (_recognitionTask.Task.IsCompleted)
-            {
                 _timer.Cancel();
-                //return;
-            }
 		}
 
 		public void SuspendRecognition()

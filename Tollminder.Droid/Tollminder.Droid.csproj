@@ -306,6 +306,7 @@
     <Compile Include="Bootstrap\DownloadCachePluginBootstrap.cs" />
     <Compile Include="BroadcastReceivers\RebootReceiver.cs" />
     <Compile Include="AndroidServices\NorficationService.cs" />
+    <Compile Include="Views\ProfileView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
