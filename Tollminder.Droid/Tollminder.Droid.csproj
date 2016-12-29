@@ -20,6 +20,7 @@
     <XamarinInsightsApiKey>2b455f0ac1fe12ddfc5b5ffae045c69e33a79c33</XamarinInsightsApiKey>
     <AndroidLinkMode>None</AndroidLinkMode>
     <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
+    <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,6 +38,7 @@
     <AndroidSigningStorePass>Palladium5 </AndroidSigningStorePass>
     <AndroidSigningKeyAlias>tollminder</AndroidSigningKeyAlias>
     <AndroidSigningKeyPass>Palladium5 </AndroidSigningKeyPass>
+    <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -307,6 +309,8 @@
     <Compile Include="BroadcastReceivers\RebootReceiver.cs" />
     <Compile Include="AndroidServices\NorficationService.cs" />
     <Compile Include="Views\ProfileView.cs" />
+    <Compile Include="Views\LicenseView.cs" />
+    <Compile Include="Views\CreditCardView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
@@ -405,14 +409,20 @@
     <AndroidResource Include="Resources\drawable-hdpi\home_board.png" />
     <AndroidResource Include="Resources\drawable-mdpi\home_board.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\home_board.png" />
-    <AndroidResource Include="Resources\drawable\home_view_tracking_button.xml" />
     <AndroidResource Include="Resources\layout\profile_view.axml" />
     <AndroidResource Include="Resources\drawable-hdpi\tab_background.png" />
     <AndroidResource Include="Resources\drawable-mdpi\tab_background.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\tab_background.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\tab_background.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\tab_background.png" />
-    <AndroidResource Include="Resources\drawable-xxxhdpi\home_board_new.9.png" />
+    <AndroidResource Include="Resources\drawable\profile_top_background.png" />
+    <AndroidResource Include="Resources\drawable\icon_back.png" />
+    <AndroidResource Include="Resources\layout\license_view.axml" />
+    <AndroidResource Include="Resources\layout\credit_card_view.axml" />
+    <AndroidResource Include="Resources\drawable\creditCards.png" />
+    <AndroidResource Include="Resources\drawable\button_style.xml" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\home_board.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\home_board.png" />
   </ItemGroup>
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />
   <Import Project="..\packages\Xamarin.GooglePlayServices.Basement.32.961.0-beta1\build\Xamarin.GooglePlayServices.Basement.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Basement.32.961.0-beta1\build\Xamarin.GooglePlayServices.Basement.targets')" />

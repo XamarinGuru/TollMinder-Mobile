@@ -11,16 +11,16 @@ using Tollminder.Core.ViewModels;
 
 namespace Tollminder.Droid.Views
 {
-    [Activity(Label = "Profile", Theme = "@style/AppTheme", LaunchMode = LaunchMode.SingleTask, ScreenOrientation = ScreenOrientation.Portrait, NoHistory = true)]
-    public class ProfileView : MvxActivity<ProfileViewModel>
+    [Activity(Label = "License", Theme = "@style/AppTheme", LaunchMode = LaunchMode.SingleTask, ScreenOrientation = ScreenOrientation.Portrait, NoHistory = true)]
+    public class LicenseView : MvxActivity<LicenseViewModel>
     {
         EditText lastEditText;
 
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            SetContentView(Resource.Layout.profile_view);
-            lastEditText = FindViewById<EditText>(Resource.Id.zip_code_editText);
+            SetContentView(Resource.Layout.license_view);
+            lastEditText = FindViewById<EditText>(Resource.Id.vehicle_class_editText);
             // hide keyboard when last editText lost focus
             lastEditText.FocusChange += (object sender, View.FocusChangeEventArgs e) => {
                 if (!lastEditText.HasFocus)

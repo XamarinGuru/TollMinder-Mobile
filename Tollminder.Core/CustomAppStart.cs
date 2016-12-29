@@ -20,6 +20,7 @@ namespace Tollminder.Core
             }
             else
                 ShowViewModel<LoginViewModel>();
+            //ShowViewModel<ProfileViewModel>();
         }
     }
 }
