@@ -43,12 +43,12 @@
                     android:id="@+id/license_plate_editText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawablePadding="10dp"
                     android:background="@android:color/transparent"
                     android:hint="License Plate"
                     android:inputType="textNoSuggestions"
                     android:nextFocusDown="@+id/license_state_editText"
-                    android:padding="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:padding="10dp"
                     android:singleLine="true"
                     local:MvxBind="Text LicensePlateString;" />
             </android.support.design.widget.TextInputLayout>
@@ -62,12 +62,12 @@
                     android:id="@+id/license_state_editText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawablePadding="10dp"
                     android:background="@android:color/transparent"
                     android:hint="State"
                     android:inputType="textNoSuggestions"
                     android:nextFocusDown="@+id/vehicle_class_editText"
-                    android:padding="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:padding="10dp"
                     android:singleLine="true"
                     local:MvxBind="Text LicenseStateString;" />
             </android.support.design.widget.TextInputLayout>
@@ -81,11 +81,11 @@
                     android:id="@+id/vehicle_class_editText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawablePadding="10dp"
                     android:background="@android:color/transparent"
                     android:hint="Vehicle Class"
                     android:inputType="textNoSuggestions"
-                    android:padding="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:padding="10dp"
                     android:singleLine="true"
                     local:MvxBind="Text VehicleClassString;" />
             </android.support.design.widget.TextInputLayout>

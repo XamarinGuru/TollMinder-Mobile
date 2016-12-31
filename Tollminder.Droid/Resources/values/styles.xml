@@ -22,8 +22,4 @@
         <item name="android:background">@drawable/login_card_background</item>
         <item name="colorControlActivated">@color/blue</item>
     </style>
-
-    <style name="RoundedButton">
-        <item name="android:background">@color/white</item>
-    </style>
 </resources>

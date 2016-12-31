@@ -40,7 +40,7 @@ namespace Tollminder.Droid.Views
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            PushNotificationService.ShowNotification(this, this.GetType(), "Tollminder - still working", "Press to open.");
+            //PushNotificationService.ShowNotification(this, this.GetType(), "Tollminder - still working", "Press to open.");
         }
       }
 }

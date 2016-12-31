@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:local="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/tab_background"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:background="@drawable/tab_background">
     <RelativeLayout
         android:id="@+id/profile_top_navigation"
         android:layout_width="match_parent"
@@ -50,13 +50,12 @@
                         android:id="@+id/firstName_editText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:drawablePadding="10dp"
                         android:background="@android:color/transparent"
                         android:hint="First Name"
                         android:inputType="textNoSuggestions"
                         android:nextFocusDown="@+id/lastName_editText"
-                        android:padding="20dp"
+                        android:drawablePadding="10dp"
+                        android:padding="10dp"
                         android:singleLine="true"
                         local:MvxBind="Text FirstNameString;" />
                 </android.support.design.widget.TextInputLayout>
@@ -71,12 +70,12 @@
                         android:id="@+id/lastName_editText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawablePadding="10dp"
                         android:background="@android:color/transparent"
                         android:hint="Last Name"
                         android:inputType="textNoSuggestions"
                         android:nextFocusDown="@+id/email_editText"
-                        android:padding="20dp"
+                        android:drawablePadding="10dp"
+                        android:padding="10dp"
                         android:singleLine="true"
                         local:MvxBind="Text LastNameString" />
                 </android.support.design.widget.TextInputLayout>
@@ -95,12 +94,12 @@
                         android:id="@+id/email_editText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawablePadding="10dp"
                         android:background="@android:color/transparent"
                         android:hint="Login"
                         android:inputType="textNoSuggestions"
                         android:nextFocusDown="@+id/address_editText"
-                        android:padding="20dp"
+                        android:layout_marginLeft="10dp"
+                        android:padding="10dp"
                         android:singleLine="true"
                         local:MvxBind="Text EmailString;" />
                 </android.support.design.widget.TextInputLayout>
@@ -114,12 +113,12 @@
                         android:id="@+id/address_editText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawablePadding="10dp"
                         android:background="@android:color/transparent"
                         android:hint="Address"
                         android:inputType="textNoSuggestions"
                         android:nextFocusDown="@+id/city_editText"
-                        android:padding="20dp"
+                        android:layout_marginLeft="10dp"
+                        android:padding="10dp"
                         android:singleLine="true"
                         local:MvxBind="Text AddressString;" />
                 </android.support.design.widget.TextInputLayout>
@@ -133,12 +132,12 @@
                         android:id="@+id/city_editText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawablePadding="10dp"
                         android:background="@android:color/transparent"
                         android:hint="City"
                         android:inputType="textNoSuggestions"
                         android:nextFocusDown="@+id/state_editText"
-                        android:padding="20dp"
+                        android:layout_marginLeft="10dp"
+                        android:padding="10dp"
                         android:singleLine="true"
                         local:MvxBind="Text CityString;" />
                 </android.support.design.widget.TextInputLayout>
@@ -158,12 +157,12 @@
                         android:id="@+id/state_editText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawablePadding="10dp"
                         android:background="@android:color/transparent"
                         android:hint="State"
                         android:inputType="textNoSuggestions"
                         android:nextFocusDown="@+id/zip_code_editText"
-                        android:padding="20dp"
+                        android:layout_marginLeft="10dp"
+                        android:padding="10dp"
                         android:singleLine="true"
                         local:MvxBind="Text StateString;" />
                 </android.support.design.widget.TextInputLayout>
@@ -179,12 +178,12 @@
                         android:id="@+id/zip_code_editText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawablePadding="10dp"
                         android:background="@android:color/transparent"
                         android:hint="Zip Code"
-                        android:inputType="textNoSuggestions"
+                        android:inputType="number"
                         android:password="true"
-                        android:padding="20dp"
+                        android:layout_marginLeft="10dp"
+                        android:padding="10dp"
                         android:singleLine="true"
                         local:MvxBind="Text ZipCodeString" />
                 </android.support.design.widget.TextInputLayout>
@@ -197,26 +196,22 @@
                 android:id="@+id/card_container"
                 android:focusable="true"
                 android:focusableInTouchMode="true">
-                <Button
+                <tollminder.droid.controls.ProfileButton
                     android:id="@+id/add_license_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="50dp"
                     android:layout_marginBottom="10dp"
-                    android:text="Add License Plate &gt;"
-                    android:background="#d3fff6"
-                    tools:background="@drawable/button_style"
-                    local:MvxBind="Click AddLicenseCommand" />
-                <Button
+                    local:text_profile="Add License Plate"
+                    local:MvxBind="Click AddLicenseCommand"
+                    local:icon_profile="@drawable/ic_license" />
+                <tollminder.droid.controls.ProfileButton
                     android:id="@+id/add_credit_card_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="50dp"
                     android:layout_marginBottom="50dp"
-                    android:text="Add Credit Card &gt;"
-                    android:background="#d3fff6"
-                    tools:background="@drawable/button_style"
-                    local:MvxBind="Click AddCreditCardCommand" />
+                    local:text_profile="Add Credit Card"
+                    local:MvxBind="Click AddCreditCardCommand"
+                    local:icon_profile="@drawable/ic_card" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
