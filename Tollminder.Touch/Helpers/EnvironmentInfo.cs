@@ -16,8 +16,8 @@ namespace Tollminder.Touch
             get
             {
                 return GetScreenSize > 640 ?
-                 UIImage.FromFile(@"Images/home_background-667h@2x.png") :
-                           UIImage.FromFile(@"Images/home_background-640h@2x.png");
+                 UIImage.FromFile(@"Images/main_background-667h@2x.png") :
+                           UIImage.FromFile(@"Images/main_background-640h@2x.png");
             }
         }
 
@@ -49,6 +49,11 @@ namespace Tollminder.Touch
         public static nfloat GetRoundedButtonDistanceBetweenTextAndImage
         {
             get { return GetScreenSize > 640 ? 20 : 15; }
+        }
+
+        public static nfloat GetProfileButtonDistanceBetweenTextAndIcon
+        {
+            get { return GetScreenSize > 640 ? 60 : 50; }
         }
 	}
 }

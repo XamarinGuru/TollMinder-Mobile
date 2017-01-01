@@ -50,14 +50,14 @@ namespace Tollminder.Touch.Views
             var topView = new UIView();
             var centerView = new UIView();
             var bottomView = new UIView();
-            var applicationLogo = new UIImageView(UIImage.FromBundle(@"Images/home_logo.png"));
+            var applicationLogo = new UIImageView(UIImage.FromBundle(@"Images/logo.png"));
             var callCenterLabel = new UILabel();
-            var applicationBoard = new UIImageView(UIImage.FromBundle(@"Images/home_board.png"));
+            var applicationBoard = new UIImageView(UIImage.FromBundle(@"Images/homeView/home_board.png"));
             //_roundedButtonManager = new RoundedButtonManager();
 
             // Hide navigation bar
             NavigationController.SetNavigationBarHidden(true, false);
-            View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile(@"Images/home_background.png").Scale(View.Frame.Size));//EnvironmentInfo.CheckDevice().Scale(View.Frame.Size));
+            View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile(@"Images/main_background.png").Scale(View.Frame.Size));//EnvironmentInfo.CheckDevice().Scale(View.Frame.Size));
             applicationLogo.Frame = new CoreGraphics.CGRect(10, 10, applicationLogo.Image.CGImage.Width, applicationLogo.Image.CGImage.Height);
             topView.AddIfNotNull(applicationLogo);
             topView.AddConstraints(
@@ -68,9 +68,9 @@ namespace Tollminder.Touch.Views
             );
             //topView.BackgroundColor = UIColor.LightGray;
 
-            _profileButton = RoundedButtonManager.ButtonInitiaziler("PROFILE", UIImage.FromFile(@"Images/ic_home_profile.png"));
-            _payButton = RoundedButtonManager.ButtonInitiaziler("PAY", UIImage.FromFile(@"Images/ic_home_pay.png"));
-            _payHistoryButton = RoundedButtonManager.ButtonInitiaziler("PAY HISTORY", UIImage.FromFile(@"Images/ic_home_pay_history.png"));
+            _profileButton = RoundedButtonManager.ButtonInitiaziler("PROFILE", UIImage.FromFile(@"Images/homeView/ic_home_profile.png"));
+            _payButton = RoundedButtonManager.ButtonInitiaziler("PAY", UIImage.FromFile(@"Images/homeView/ic_home_pay.png"));
+            _payHistoryButton = RoundedButtonManager.ButtonInitiaziler("PAY HISTORY", UIImage.FromFile(@"Images/homeView/ic_home_pay_history.png"));
             _trackingButton = RoundedButtonManager.ButtonInitiaziler(EnvironmentInfo.GetTrackingButtonDistanceBetweenTextAndImage);
 
             this.AddLinqBinding(ViewModel, vm => vm.TrackingCommand, (value) =>

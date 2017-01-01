@@ -234,13 +234,21 @@
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
     <ImageAsset Include="Resources\Images.xcassets\Image.imageset\Contents.json" />
-    <ImageAsset Include="Resources\Images.xcassets\Image.imageset\Default-640h%402x.png" />
     <ImageAsset Include="Resources\Images.xcassets\Image.imageset\Default-667h%402x.png" />
     <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Contents.json" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\87x87.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\58x58.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\29x29.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\120x120.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\114x114.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\57x57.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\80x80.png" />
+    <ImageAsset Include="Resources\Images.xcassets\Image.imageset\home_background.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.xib" />
     <InterfaceDefinition Include="Views\HomeView.xib" />
+    <InterfaceDefinition Include="Views\ProfileView.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -304,6 +312,8 @@
     <Compile Include="Services\TouchSheduleNotification.cs" />
     <Compile Include="Services\SpeechServices\MyOpenEarsEventsObserverDelegate.cs" />
     <Compile Include="Services\SpeechServices\TouchSpeechToTextService.cs" />
+    <Compile Include="Controls\ProfileButton.cs" />
+    <Compile Include="Helpers\ProfileButtonManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets')" />
@@ -329,6 +339,11 @@
     <Folder Include="Interfaces\" />
     <Folder Include="Resources\Images\" />
     <Folder Include="Services\SpeechServices\" />
+    <Folder Include="Resources\Images\loginView\" />
+    <Folder Include="Resources\Images\homeView\" />
+    <Folder Include="Resources\Images\profileView\" />
+    <Folder Include="Resources\Images\payHistoryView\" />
+    <Folder Include="Resources\Images\creditCardView\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\OpenEars1.dic" />
@@ -344,20 +359,31 @@
     <BundleResource Include="Resources\AcousticModelEnglish.bundle\variances" />
     <BundleResource Include="Sounds\tap.aif" />
     <BundleResource Include="GoogleService-Info.plist" />
-    <BundleResource Include="Resources\Images\home_logo.png" />
-    <BundleResource Include="Resources\Images\ic_home_pay.png" />
-    <BundleResource Include="Resources\Images\ic_home_pay_history.png" />
-    <BundleResource Include="Resources\Images\ic_home_profile.png" />
-    <BundleResource Include="Resources\Images\ic_home_support.png" />
-    <BundleResource Include="Resources\Images\ic_home_tracking_active.png" />
-    <BundleResource Include="Resources\Images\ic_home_tracking_default.png" />
-    <BundleResource Include="Resources\Images\facebook-button.png" />
-    <BundleResource Include="Resources\Images\google-button.png" />
-    <BundleResource Include="Resources\Images\facebook_logIn.png" />
-    <BundleResource Include="Resources\Images\home_background-640h%402x.png" />
-    <BundleResource Include="Resources\Images\home_background-667h%402x.png" />
-    <BundleResource Include="Resources\Images\home_background.png" />
-    <BundleResource Include="Resources\Images\home_board.png" />
+    <BundleResource Include="Resources\Images\navigation_bar_background.png" />
+    <BundleResource Include="Resources\Images\tab_background.png" />
+    <BundleResource Include="Resources\Images\creditCardView\creditCards.png" />
+    <BundleResource Include="Resources\Images\loginView\facebook_logIn.png" />
+    <BundleResource Include="Resources\Images\loginView\facebook-button.png" />
+    <BundleResource Include="Resources\Images\loginView\google-button.png" />
+    <BundleResource Include="Resources\Images\homeView\home_board.png" />
+    <BundleResource Include="Resources\Images\homeView\ic_home_pay.png" />
+    <BundleResource Include="Resources\Images\homeView\ic_home_pay_history.png" />
+    <BundleResource Include="Resources\Images\homeView\ic_home_profile.png" />
+    <BundleResource Include="Resources\Images\homeView\ic_home_support.png" />
+    <BundleResource Include="Resources\Images\homeView\ic_home_tracking_active.png" />
+    <BundleResource Include="Resources\Images\homeView\ic_home_tracking_default.png" />
+    <BundleResource Include="Resources\Images\main_background.png" />
+    <BundleResource Include="Resources\Images\main_background-640h%402x.png" />
+    <BundleResource Include="Resources\Images\main_background-667h%402x.png" />
+    <BundleResource Include="Resources\Images\logo.png" />
+    <BundleResource Include="Resources\Images\payHistoryView\Calendar.png" />
+    <BundleResource Include="Resources\Images\payHistoryView\Download.png" />
+    <BundleResource Include="Resources\Images\profileView\ic_card.png" />
+    <BundleResource Include="Resources\Images\profileView\ic_license.png" />
+    <BundleResource Include="Resources\Images\creditCardView\amex.png" />
+    <BundleResource Include="Resources\Images\creditCardView\discover.png" />
+    <BundleResource Include="Resources\Images\creditCardView\MasterCard.png" />
+    <BundleResource Include="Resources\Images\creditCardView\visa.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="facebookios">
