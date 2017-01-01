@@ -9,7 +9,7 @@ namespace Tollminder.Touch.Converters
     {
         protected override UIImage Convert(bool value, Type targetType, object parameter, CultureInfo culture)
         {
-            string imagePath = string.Format(@"Images/ic_home_tracking{0}{1}", parameter, value ? "_active.png" : "_default.png");
+            string imagePath = string.Format(@"Images/homeView/ic_home_tracking{0}{1}", parameter, value ? "_active.png" : "_default.png");
             return UIImage.FromFile(imagePath);
         }
     }

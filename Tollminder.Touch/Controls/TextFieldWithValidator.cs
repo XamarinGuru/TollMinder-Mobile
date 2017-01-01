@@ -12,6 +12,7 @@ namespace Tollminder.Touch.Controls
     public class TextFieldWithValidator : UIView
     {
         UILabel _topLabel;
+        UIColor topLabelColor;
 
         public TextFieldWithValidator() : base()
         {
@@ -49,6 +50,11 @@ namespace Tollminder.Touch.Controls
 
         public UILabel TopLabel { get { return _topLabel; } set { _topLabel = value; } }
 
+        public UIColor TopLabelColor{ 
+            get { 
+                return topLabelColor == null ? Theme.MainBlue.ToUIColor() : topLabelColor;
+            } set { topLabelColor = value; } 
+        }
 
         UIView _separatorView;
         public UIView SeparatorView { get { return _separatorView; } set { _separatorView = value; } }
@@ -67,7 +73,7 @@ namespace Tollminder.Touch.Controls
 
         void InitObjects()
         {
-            _topLabel = new UILabel().ChangeLabelStyle(UIFont.FromName("Helvetica", Theme.SmallTextSize), Theme.SmallestTextSize, Theme.MainBlue.ToUIColor(), false, UITextAlignment.Left);
+            _topLabel = new UILabel().ChangeLabelStyle(UIFont.FromName("Helvetica", Theme.SmallTextSize), Theme.SmallestTextSize, topLabelColor, false, UITextAlignment.Left);
 
             TextField = new TextFieldHandleText();
             (TextField as UITextField).ChangeTextFieldStyle(UIFont.FromName("Helvetica", Theme.MediumTextSize), Theme.SmallTextSize, UIColor.Black, false, UITextAlignment.Left);
@@ -96,12 +102,12 @@ namespace Tollminder.Touch.Controls
                 _topLabel.AtTopOf(this),
                 _topLabel.AtLeftOf(this),
                 _topLabel.AtRightOf(this),
-                _topLabel.WithRelativeHeight(this, 0.6f),
+                _topLabel.WithRelativeHeight(this, 0.3f),
 
                 _textField.Below(_topLabel, 2),
                 _textField.AtLeftOf(this),
                 _textField.AtRightOf(this),
-                _textField.WithRelativeHeight(this, 0.9f),
+                _textField.WithRelativeHeight(this, 0.5f),
 
                 _separatorView.Below(_textField, 2),
                 _separatorView.WithSameWidth(_textField),

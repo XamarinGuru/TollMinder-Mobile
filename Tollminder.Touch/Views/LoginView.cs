@@ -48,7 +48,7 @@ namespace Tollminder.Touch.Views
             var centerView = new UIView();
             var bottomView = new UIView();
             var socialNetworksView = new UIView();
-            var imageView = new UIImageView(UIImage.FromBundle(@"Images/home_logo.png"));
+            var imageView = new UIImageView(UIImage.FromBundle(@"Images/logo.png"));
 
             // Hide navigation bar
             NavigationController.SetNavigationBarHidden(true, false);
@@ -73,7 +73,7 @@ namespace Tollminder.Touch.Views
                               UIColor.White, UIControlState.Normal, null, UIControlState.Disabled);
 
             _googlePlusLoginButton = ButtonInitializer(_googlePlusLoginButton, null, UIControlState.Disabled, null, null,
-                              UIControlState.Disabled, @"Images/google-button.png", UIControlState.Normal);
+                              UIControlState.Disabled, @"Images/loginView/google-button.png", UIControlState.Normal);
 
             _facebookLoginButton = ButtonInitializer(_facebookLoginButton, null, UIControlState.Disabled, null, null,
                               UIControlState.Disabled, @"Images/facebook_logIn.png", UIControlState.Normal);

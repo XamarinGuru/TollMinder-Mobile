@@ -49,12 +49,12 @@ namespace Tollminder.Touch.Controls
             this.AddIfNotNull(LeftImageView);
             this.AddIfNotNull(TextFieldWithValidator);
             this.AddConstraints(
-                LeftImageView.AtLeftOf(this, 8),
+                LeftImageView.AtLeftOf(this),
                 LeftImageView.Height().EqualTo(20),
                 LeftImageView.Width().EqualTo(20),
-                LeftImageView.WithSameCenterY(this).Plus(6),
+                LeftImageView.WithSameCenterY(this),
 
-                TextFieldWithValidator.ToRightOf(LeftImageView, 8),
+                TextFieldWithValidator.ToRightOf(LeftImageView),
                 TextFieldWithValidator.AtRightOf(this),
                 TextFieldWithValidator.AtTopOf(this, 8),
                 TextFieldWithValidator.AtBottomOf(this, 8)
