@@ -6,6 +6,9 @@ using MvvmCross.iOS.Views.Presenters;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform.Platform;
 using MvvmCross.Platform;
+using MvvmCross.Platform.Converters;
+using Tollminder.Touch.Converters;
+using Tollminder.Touch.Services.SpeechServices;
 
 namespace Tollminder.Touch
 {
@@ -47,5 +50,10 @@ namespace Tollminder.Touch
             Mvx.LazyConstructAndRegisterSingleton<IGPlusLoginService, TouchGPlusLoginService>();
             Mvx.LazyConstructAndRegisterSingleton<IHttpClientHandlerService, TouchHttpClientHandlerService>();
 		}
+
+        //protected override void FillValueConverters(IMvxValueConverterRegistry registry)
+        //{
+        //    registry.AddOrOverwrite("GetPathToImageConverter", new GetPathToImageConverter());
+        //}
 	}
 }

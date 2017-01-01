@@ -1,4 +1,3 @@
-
 using Android.App;
 using Android.OS;
 using MvvmCross.Droid.Views;
@@ -13,6 +12,9 @@ using Tollminder.Core.Models;
 using System;
 using Tollminder.Droid.AndroidServices;
 using Android.Content;
+using Android.Graphics;
+using Android.Views;
+using Android.Graphics.Drawables;
 
 namespace Tollminder.Droid.Views
 {
@@ -32,8 +34,13 @@ namespace Tollminder.Droid.Views
 
         protected override void OnPause()
         {
-            base.OnPause();Intent intentStart = new Intent(this, typeof(HomeView));
-            PushNotificationService.ShowNotification(this, this.GetType(), "Tollminder - still working", "Press to open.");
+            base.OnPause();
         }
-    }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            //PushNotificationService.ShowNotification(this, this.GetType(), "Tollminder - still working", "Press to open.");
+        }
+      }
 }

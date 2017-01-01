@@ -100,7 +100,7 @@ namespace Tollminder.Core.ViewModels
             get { return IsBound ? "TRACKING IS ON" : "TRACKING IS OFF"; }
         }
 
-        MvxCommand _trackingCommand;
+        MvxCommand _trackingCommand;  
         public ICommand TrackingCommand
         {
             get

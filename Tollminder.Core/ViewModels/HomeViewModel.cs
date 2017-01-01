@@ -74,10 +74,8 @@ namespace Tollminder.Core.ViewModels
                 return _trackingCommand ?? (_trackingCommand = new MvxCommand(async () =>
                 {
                     var result = false;
-                    if (IsBound)
-                        result = _track.StopServices();
-                    else
-                        result = await _track.StartServices();
+                        result = IsBound? 
+                        _track.StopServices(): await _track.StartServices();
                     
                     if (result)
                         IsBound = _geoWatcher.IsBound;
@@ -93,9 +91,9 @@ namespace Tollminder.Core.ViewModels
             {
                 return _profileCommand ?? (_profileCommand = new MvxCommand(() =>
                 {
-                    _track.StopServices();
-                    _storedSettingsService.IsAuthorized = false;
-                    ShowViewModel<LoginViewModel>();
+                    //_track.StopServices();
+                    //_storedSettingsService.IsAuthorized = false;
+                    ShowViewModel<ProfileViewModel>();
                 }));
             }
         }

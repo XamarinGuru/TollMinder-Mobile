@@ -4,4 +4,9 @@
 		<attr name="image" format="integer" />
 		<attr name="text" format="string" />
 	</declare-styleable>
+	<declare-styleable name="ProfileButton">
+		<attr name="icon_profile" format="integer" />
+		<attr name="text_profile" format="string" />
+		<attr name="arrow_profile" format="integer" />
+	</declare-styleable>
 </resources>

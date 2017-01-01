@@ -16,10 +16,11 @@ namespace Tollminder.Core
 
             if (storedSettings.IsAuthorized)// && dataBaseService.IsTokenStillValid(storedSettings.AuthToken).Result)
             {
-                ShowViewModel<HomeDebugViewModel>();
+                ShowViewModel<HomeViewModel>();
             }
             else
                 ShowViewModel<LoginViewModel>();
+            //ShowViewModel<ProfileViewModel>();
         }
     }
 }

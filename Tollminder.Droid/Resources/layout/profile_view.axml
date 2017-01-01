@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:local="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/tab_background">
+    <RelativeLayout
+        android:id="@+id/profile_top_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/profile_top_background">
+        <ImageButton
+            android:id="@+id/back_to_home_view"
+            android:layout_width="45dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_back"
+            local:MvxBind="Click BackHomeCommand"
+            android:background="@android:color/transparent"
+            android:focusable="true"
+            android:focusableInTouchMode="true" />
+    </RelativeLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:layout_below="@id/profile_top_navigation">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginRight="5dp"
+                    android:theme="@style/TextInput"
+                    local:MvxBind="Error Errors['FirstName']">
+                    <EditText
+                        android:id="@+id/firstName_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:hint="First Name"
+                        android:inputType="textNoSuggestions"
+                        android:nextFocusDown="@+id/lastName_editText"
+                        android:drawablePadding="10dp"
+                        android:padding="10dp"
+                        android:singleLine="true"
+                        local:MvxBind="Text FirstNameString;" />
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="5dp"
+                    android:theme="@style/TextInput"
+                    local:MvxBind="Error Errors['Last Name']">
+                    <EditText
+                        android:id="@+id/lastName_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:hint="Last Name"
+                        android:inputType="textNoSuggestions"
+                        android:nextFocusDown="@+id/email_editText"
+                        android:drawablePadding="10dp"
+                        android:padding="10dp"
+                        android:singleLine="true"
+                        local:MvxBind="Text LastNameString" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/TextInput"
+                    android:layout_marginBottom="10dp"
+                    local:MvxBind="Error Errors['Email']">
+                    <EditText
+                        android:id="@+id/email_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:hint="Login"
+                        android:inputType="textNoSuggestions"
+                        android:nextFocusDown="@+id/address_editText"
+                        android:layout_marginLeft="10dp"
+                        android:padding="10dp"
+                        android:singleLine="true"
+                        local:MvxBind="Text EmailString;" />
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/TextInput"
+                    android:layout_marginBottom="10dp"
+                    local:MvxBind="Error Errors['Address']">
+                    <EditText
+                        android:id="@+id/address_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:hint="Address"
+                        android:inputType="textNoSuggestions"
+                        android:nextFocusDown="@+id/city_editText"
+                        android:layout_marginLeft="10dp"
+                        android:padding="10dp"
+                        android:singleLine="true"
+                        local:MvxBind="Text AddressString;" />
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/TextInput"
+                    android:layout_marginBottom="10dp"
+                    local:MvxBind="Error Errors['City']">
+                    <EditText
+                        android:id="@+id/city_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:hint="City"
+                        android:inputType="textNoSuggestions"
+                        android:nextFocusDown="@+id/state_editText"
+                        android:layout_marginLeft="10dp"
+                        android:padding="10dp"
+                        android:singleLine="true"
+                        local:MvxBind="Text CityString;" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginRight="5dp"
+                    android:theme="@style/TextInput"
+                    local:MvxBind="Error Errors['State']">
+                    <EditText
+                        android:id="@+id/state_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:hint="State"
+                        android:inputType="textNoSuggestions"
+                        android:nextFocusDown="@+id/zip_code_editText"
+                        android:layout_marginLeft="10dp"
+                        android:padding="10dp"
+                        android:singleLine="true"
+                        local:MvxBind="Text StateString;" />
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="5dp"
+                    local:passwordToggleEnabled="false"
+                    android:theme="@style/TextInput"
+                    local:MvxBind="Error Errors['ZipCode']">
+                    <EditText
+                        android:id="@+id/zip_code_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:hint="Zip Code"
+                        android:inputType="number"
+                        android:password="true"
+                        android:layout_marginLeft="10dp"
+                        android:padding="10dp"
+                        android:singleLine="true"
+                        local:MvxBind="Text ZipCodeString" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/card_container"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
+                <tollminder.droid.controls.ProfileButton
+                    android:id="@+id/add_license_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    local:text_profile="Add License Plate"
+                    local:MvxBind="Click AddLicenseCommand"
+                    local:icon_profile="@drawable/ic_license" />
+                <tollminder.droid.controls.ProfileButton
+                    android:id="@+id/add_credit_card_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="50dp"
+                    local:text_profile="Add Credit Card"
+                    local:MvxBind="Click AddCreditCardCommand"
+                    local:icon_profile="@drawable/ic_card" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

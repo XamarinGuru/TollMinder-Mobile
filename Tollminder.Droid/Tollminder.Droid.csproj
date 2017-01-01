@@ -20,6 +20,7 @@
     <XamarinInsightsApiKey>2b455f0ac1fe12ddfc5b5ffae045c69e33a79c33</XamarinInsightsApiKey>
     <AndroidLinkMode>None</AndroidLinkMode>
     <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
+    <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,10 +34,11 @@
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <AndroidSupportedAbis>x86;armeabi;armeabi-v7a;arm64-v8a;x86_64</AndroidSupportedAbis>
     <AndroidKeyStore>True</AndroidKeyStore>
-    <AndroidSigningKeyStore>../TollMinder.keystore</AndroidSigningKeyStore>
+    <AndroidSigningKeyStore>/Users/gloriumtech/Documents/Repository/TollMinder/TollMinder.keystore</AndroidSigningKeyStore>
     <AndroidSigningStorePass>Palladium5 </AndroidSigningStorePass>
     <AndroidSigningKeyAlias>tollminder</AndroidSigningKeyAlias>
     <AndroidSigningKeyPass>Palladium5 </AndroidSigningKeyPass>
+    <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -259,6 +261,9 @@
     <Reference Include="MvvmCross.Plugins.DownloadCache.Droid">
       <HintPath>..\packages\MvvmCross.Plugin.DownloadCache.4.4.0\lib\MonoAndroid\MvvmCross.Plugins.DownloadCache.Droid.dll</HintPath>
     </Reference>
+    <Reference Include="Xamarin.Android.Support.Percent">
+      <HintPath>..\packages\Xamarin.Android.Support.Percent.24.2.1\lib\MonoAndroid70\Xamarin.Android.Support.Percent.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -303,6 +308,10 @@
     <Compile Include="Bootstrap\DownloadCachePluginBootstrap.cs" />
     <Compile Include="BroadcastReceivers\RebootReceiver.cs" />
     <Compile Include="AndroidServices\NorficationService.cs" />
+    <Compile Include="Views\ProfileView.cs" />
+    <Compile Include="Views\LicenseView.cs" />
+    <Compile Include="Views\CreditCardView.cs" />
+    <Compile Include="Controls\ProfileButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
@@ -318,6 +327,11 @@
     <Folder Include="Converters\" />
     <Folder Include="Models\" />
     <Folder Include="Controls\" />
+    <Folder Include="Resources\mipmap-hdpi\" />
+    <Folder Include="Resources\mipmap-mdpi\" />
+    <Folder Include="Resources\mipmap-xhdpi\" />
+    <Folder Include="Resources\mipmap-xxhdpi\" />
+    <Folder Include="Resources\mipmap-xxxhdpi\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\MonoAndroid10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\MonoAndroid10\Xamarin.Insights.targets')" />
@@ -339,11 +353,6 @@
     <AndroidResource Include="Resources\layout\home_view_button.axml" />
     <AndroidResource Include="Resources\layout\login_view.axml" />
     <AndroidResource Include="Resources\layout\SplashScreen.axml" />
-    <AndroidResource Include="Resources\mipmap-hdpi\icon.png" />
-    <AndroidResource Include="Resources\mipmap-mdpi\icon.png" />
-    <AndroidResource Include="Resources\mipmap-xhdpi\icon.png" />
-    <AndroidResource Include="Resources\mipmap-xxhdpi\icon.png" />
-    <AndroidResource Include="Resources\mipmap-xxxhdpi\icon.png" />
     <AndroidResource Include="Resources\values\attrs.xml" />
     <AndroidResource Include="Resources\values\colors.xml" />
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -393,11 +402,50 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_home_support.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_home_tracking_active.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_home_tracking_default.png" />
-    <AndroidResource Include="Resources\mipmap-mdpi\TollMinder_logo.png" />
-    <AndroidResource Include="Resources\mipmap-hdpi\TollMinder_logo.png" />
-    <AndroidResource Include="Resources\mipmap-xhdpi\TollMinder_logo.png" />
-    <AndroidResource Include="Resources\mipmap-xxhdpi\TollMinder_logo.png" />
-    <AndroidResource Include="Resources\mipmap-xxxhdpi\TollMinder_logo.png" />
+    <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\mipmap-mdpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\mipmap-xhdpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\mipmap-xxhdpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\home_board.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\home_board.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\home_board.png" />
+    <AndroidResource Include="Resources\layout\profile_view.axml" />
+    <AndroidResource Include="Resources\drawable-hdpi\tab_background.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\tab_background.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\tab_background.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\tab_background.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\tab_background.png" />
+    <AndroidResource Include="Resources\drawable\profile_top_background.png" />
+    <AndroidResource Include="Resources\drawable\icon_back.png" />
+    <AndroidResource Include="Resources\layout\license_view.axml" />
+    <AndroidResource Include="Resources\layout\credit_card_view.axml" />
+    <AndroidResource Include="Resources\drawable\creditCards.png" />
+    <AndroidResource Include="Resources\drawable\button_style.xml" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\home_board.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\home_board.png" />
+    <AndroidResource Include="Resources\layout\profile_view_button.axml" />
+    <AndroidResource Include="Resources\drawable\profile_view_button_background.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_calendar.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_card.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_download.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_license.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_calendar.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_card.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_download.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_license.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_calendar.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_card.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_download.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_license.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_calendar.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_card.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_download.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_license.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_calendar.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_card.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_download.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_license.png" />
   </ItemGroup>
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />
   <Import Project="..\packages\Xamarin.GooglePlayServices.Basement.32.961.0-beta1\build\Xamarin.GooglePlayServices.Basement.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Basement.32.961.0-beta1\build\Xamarin.GooglePlayServices.Basement.targets')" />

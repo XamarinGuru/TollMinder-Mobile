@@ -81,7 +81,7 @@ namespace Tollminder.Touch.Controls
             _buttonText = new UILabel();
             _imageView = new MvxImageView();
 
-            _buttonText.Font = UIFont.FromName("Helvetica", 16f);
+            _buttonText.Font = UIFont.FromName("Helvetica-Bold", 16f);
             this.AddIfNotNull(_buttonText, _imageView);
             this.Layer.CornerRadius = 30;
             this.UserInteractionEnabled = true;

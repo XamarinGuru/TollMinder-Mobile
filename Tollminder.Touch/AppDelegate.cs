@@ -54,9 +54,40 @@ namespace Tollminder.Touch
             NSError categoryError;
             session.SetCategory (AVAudioSessionCategory.Playback);
             session.SetActive (true, out categoryError);
+            // check for a notification
+            if (launchOptions != null)
+            {
+                // check for a local notification
+                if (launchOptions.ContainsKey(UIApplication.LaunchOptionsLocalNotificationKey))
+                {
+                    var localNotification = launchOptions[UIApplication.LaunchOptionsLocalNotificationKey] as UILocalNotification;
+                    if (localNotification != null)
+                    {
+                        UIAlertController okayAlertController = UIAlertController.Create(localNotification.AlertAction, localNotification.AlertBody, UIAlertControllerStyle.Alert);
+                        okayAlertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Default, null));
+
+                        Window.RootViewController.PresentViewController(okayAlertController, true, null);
+
+                        // reset our badge
+                        UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
+                    }
+                }
+            }
 
             return Facebook.CoreKit.ApplicationDelegate.SharedInstance.FinishedLaunching(application, launchOptions);
 
+        }
+
+        public override void ReceivedLocalNotification(UIApplication application, UILocalNotification notification)
+        {
+            // show an alert
+            //UIAlertController okayAlertController = UIAlertController.Create(notification.AlertAction, notification.AlertBody, UIAlertControllerStyle.Alert);
+            //okayAlertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Default, null));
+
+            //Window.RootViewController.PresentViewController(okayAlertController, true, null);
+
+            //// reset our badge
+            //UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
         }
 
         SocialNetworks GetSocialNetworkForUrl(NSUrl url)
@@ -94,11 +125,6 @@ namespace Tollminder.Touch
 
             return base.OpenUrl(application, url, sourceApplication, annotation);
         }
-
-		public override void ReceivedLocalNotification (UIApplication application, UILocalNotification notification)
-		{
-			
-		}
 
         public override void OnResignActivation(UIApplication application)
         {
