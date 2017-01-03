@@ -20,6 +20,7 @@ namespace Tollminder.Droid.Views
         {
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.profile_view);
+
             lastEditText = FindViewById<EditText>(Resource.Id.zip_code_editText);
             // hide keyboard when last editText lost focus
             lastEditText.FocusChange += (object sender, View.FocusChangeEventArgs e) => {

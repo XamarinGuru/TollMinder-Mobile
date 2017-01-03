@@ -446,6 +446,11 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_card.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_download.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_license.png" />
+    <AndroidResource Include="Resources\layout\item_spinner.axml" />
+    <AndroidResource Include="Resources\layout\item_spinnerdropdown.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\states.json" />
   </ItemGroup>
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />
   <Import Project="..\packages\Xamarin.GooglePlayServices.Basement.32.961.0-beta1\build\Xamarin.GooglePlayServices.Basement.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Basement.32.961.0-beta1\build\Xamarin.GooglePlayServices.Basement.targets')" />

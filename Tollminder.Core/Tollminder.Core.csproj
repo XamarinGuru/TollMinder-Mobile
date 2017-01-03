@@ -137,6 +137,8 @@
     <Compile Include="ViewModels\ProfileViewModel.cs" />
     <Compile Include="ViewModels\LicenseViewModel.cs" />
     <Compile Include="ViewModels\CreditCardViewModel.cs" />
+    <Compile Include="Models\StatesData.cs" />
+    <Compile Include="Services\IGetStatesData.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>

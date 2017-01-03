@@ -1,10 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Runtime.CompilerServices;
 using Android.App;
 using Android.Content;
+using Android.Content.Res;
+using Android.OS;
 using Android.Preferences;
 using Newtonsoft.Json;
+using Tollminder.Core.Models;
 using Tollminder.Core.Services;
+using Tollminder.Droid.Views;
 
 namespace Tollminder.Droid.Services
 {
@@ -35,6 +41,18 @@ namespace Tollminder.Droid.Services
 			editor.PutString(key, str);
 			editor.Apply();
 		}
+
+        public List<StatesData> GetStatesFromJson()
+        {
+            List<StatesData> states = null;
+
+            using (StreamReader read = new StreamReader(Application.Context.Assets.Open("states.json")))
+            {
+                string json = read.ReadToEnd();
+                states = JsonConvert.DeserializeObject<List<StatesData>>(json);
+            }
+            return states;
+        }
 	}
 }
 
