@@ -8,7 +8,7 @@
     <RelativeLayout
         android:id="@+id/profile_top_navigation"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="130dp"
         android:layout_marginBottom="30dp"
         android:background="@drawable/profile_top_background">
         <ImageButton
@@ -16,12 +16,32 @@
             android:layout_width="45dp"
             android:layout_height="30dp"
             android:layout_marginLeft="20dp"
-            android:layout_centerVertical="true"
+            android:layout_marginTop="20dp"
             android:src="@drawable/icon_back"
             local:MvxBind="Click BackHomeCommand"
             android:background="@android:color/transparent"
             android:focusable="true"
             android:focusableInTouchMode="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:textSize="20dp"
+            android:layout_centerHorizontal="true"
+            android:text="Profile"
+            android:id="@+id/top_profile_label"
+            android:textColor="@color/white"/>
+        <TextView
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/top_profile_label"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="Please, Enter Your Personal Information."
+            android:textSize="15dp"
+            android:gravity="center_horizontal"
+            android:textColor="@color/blue"/>
     </RelativeLayout>
     <ScrollView
         android:layout_width="match_parent"
@@ -147,14 +167,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <MvxSpinner
-                    android:layout_width="180dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="100dp"
+                    android:layout_height="60dp"
                     android:layout_weight="1"
                     android:layout_marginRight="5dp"
                     android:id="@+id/spinner"
                     android:textSize="40dp"
+                    android:textColor="@color/gray_light"
                     local:MvxBind="ItemsSource States;SelectedItem SelectedState; Text StateAbbreviation"
-                    android:theme="@style/TextInput"/>
+                    android:background="@drawable/login_card_background"/>
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -202,10 +223,6 @@
                     local:MvxBind="Click AddCreditCardCommand"
                     local:icon_profile="@drawable/ic_card" />
             </LinearLayout>
-            <MvxSpinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

@@ -117,7 +117,7 @@ namespace Tollminder.Core.ViewModels
             {
                 return _payHistoryCommand ?? (_payHistoryCommand = new MvxCommand(() =>
                 {
-                    return;
+                    ShowViewModel<PayHistoryViewModel>();
                 }));
             }
         }
