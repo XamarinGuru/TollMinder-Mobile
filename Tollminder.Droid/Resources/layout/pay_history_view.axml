@@ -57,6 +57,7 @@
                     android:text="From:"
                     android:textSize="20dp"
                     android:textColor="@color/white"
+                    local:MvxBind="Click OpenCalendarFromCommand;Text DateTimeConverter(GetPayDateFrom, 'd')"
                     android:background="@drawable/calendar_border"
                     android:id="@+id/date_from"
                     local:icon_profile="@drawable/ic_calendar" />
@@ -69,7 +70,7 @@
                     android:text="To:"
                     android:textSize="20dp"
                     android:textColor="@color/white"
-                    local:MvxBind="Click OpenCalendarCommand"
+                    local:MvxBind="Click OpenCalendarToCommand;Text DateTimeConverter(GetPayDateTo, 'd')"
                     android:background="@drawable/calendar_border"
                     android:id="@+id/date_to"
                     local:icon_profile="@drawable/ic_calendar" />

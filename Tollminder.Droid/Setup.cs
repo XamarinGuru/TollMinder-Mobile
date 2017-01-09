@@ -10,6 +10,7 @@ using MvvmCross.Platform.IoC;
 using System;
 using Tollminder.Core.Converters;
 using System.Linq;
+using Tollminder.Droid.Views.Fragments;
 
 namespace Tollminder.Droid
 {
@@ -43,6 +44,7 @@ namespace Tollminder.Droid
             Mvx.LazyConstructAndRegisterSingleton<IGPlusLoginService, DroidGPlusLoginService>();
             Mvx.LazyConstructAndRegisterSingleton<IHttpClientHandlerService, DroidHttpClientHandlerService>();
             Mvx.ConstructAndRegisterSingleton<IFacebookLoginService, DroidFacebookLoginService>();
+            Mvx.RegisterType<ICalendarDialog, CalendarDialog>();
 		}
 
         protected override System.Collections.Generic.IEnumerable<System.Reflection.Assembly> ValueConverterAssemblies

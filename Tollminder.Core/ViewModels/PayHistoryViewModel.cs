@@ -13,6 +13,7 @@ namespace Tollminder.Core.ViewModels
     {
         readonly IDataBaseService dataBaseService;
         readonly IServerApiService serverApiService;
+        private DateTime dateFromCalendarView;
 
         public PayHistoryViewModel()
         {
@@ -20,11 +21,20 @@ namespace Tollminder.Core.ViewModels
             serverApiService = Mvx.Resolve<IServerApiService>();
 
             backHomeCommand = new MvxCommand(() => { ShowViewModel<HomeViewModel>(); });
-            openCalendarCommand = new MvxCommand(() => { ShowViewModel<CalendarViewModel>(); });
-            downloadHistoryCommand = new MvxCommand(async () => { 
-                history = await serverApiService.GetPayHistory("58625cb651d7202e7dfaa69c", "10/1/2016", "1/5/2017"); 
+            backToPayHistoryCommand = new MvxCommand(() => { ShowViewModel<PayHistoryViewModel>(); });
+
+            openCalendarFromCommand = new MvxCommand(async () => {
+                GetPayDateFrom = await Mvx.Resolve<ICalendarDialog>().ShowDialog();
             });
-            //states = dataBaseService.GetStates();
+            openCalendarToCommand = new MvxCommand(async () =>
+            {
+                GetPayDateTo = await Mvx.Resolve<ICalendarDialog>().ShowDialog();
+            });
+
+            downloadHistoryCommand = new MvxCommand(async () => { 
+                //History = await serverApiService.GetPayHistory("58625cb651d7202e7dfaa69c", getPayDateFrom, getPayDateTo); 
+            });
+            //States = dataBaseService.GetStates();
         }
 
         async Task DownloadHistory()
@@ -37,15 +47,40 @@ namespace Tollminder.Core.ViewModels
             //Task.Run(DownloadHistory);
             base.Start();
         }
+        private DateTime getPayDateFrom;
+        public DateTime GetPayDateFrom { 
+            get { return getPayDateFrom; } 
+            set 
+            {
+                SetProperty(ref getPayDateFrom, value);
+                RaisePropertyChanged(() => GetPayDateFrom);
+            }
+        }
 
+        private DateTime getPayDateTo;
+        public DateTime GetPayDateTo { 
+            get { return getPayDateTo; }
+            set
+            {
+                SetProperty(ref getPayDateTo, value);
+                RaisePropertyChanged(() => GetPayDateTo);
+            }
+        }
+
+        private MvxCommand backToPayHistoryCommand;
+        public ICommand BackToPayHistoryCommand { get { return backToPayHistoryCommand; } }
+       
         private MvxCommand backHomeCommand;
         public ICommand BackHomeCommand { get { return backHomeCommand; } }
 
         private MvxCommand downloadHistoryCommand;
         public ICommand DownloadHistoryCommand { get { return downloadHistoryCommand; } }
 
-        private MvxCommand openCalendarCommand;
-        public ICommand OpenCalendarCommand { get { return openCalendarCommand; } }
+        private MvxCommand openCalendarFromCommand;
+        public ICommand OpenCalendarFromCommand { get { return openCalendarFromCommand; } }
+
+        private MvxCommand openCalendarToCommand;
+        public ICommand OpenCalendarToCommand { get { return openCalendarToCommand; } }
 
         private IList<PayHistory> history;
         public IList<PayHistory> History
@@ -53,7 +88,7 @@ namespace Tollminder.Core.ViewModels
             get { return history; }
             set
             {
-                history = value;
+                SetProperty(ref history, value);
                 RaisePropertyChanged(() => History);
             }
         }
@@ -64,7 +99,7 @@ namespace Tollminder.Core.ViewModels
             get { return states; }
             set
             {
-                states = value;
+                SetProperty(ref states, value);
                 RaisePropertyChanged(() => States);
             }
         }

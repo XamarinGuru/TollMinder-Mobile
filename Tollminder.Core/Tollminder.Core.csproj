@@ -143,6 +143,7 @@
     <Compile Include="Models\DriverLicense.cs" />
     <Compile Include="Models\PayHistory.cs" />
     <Compile Include="ViewModels\CalendarViewModel.cs" />
+    <Compile Include="Services\ICalendarDialog.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>

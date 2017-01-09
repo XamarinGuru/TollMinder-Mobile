@@ -314,6 +314,8 @@
     <Compile Include="Controls\ProfileButton.cs" />
     <Compile Include="Views\PayHistoryView.cs" />
     <Compile Include="Views\Fragments\CalendarDialogFragment.cs" />
+    <Compile Include="Services\CalendarService.cs" />
+    <Compile Include="Converters\DateTimeConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />

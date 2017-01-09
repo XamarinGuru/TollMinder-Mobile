@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -8,42 +9,51 @@ using Android.Widget;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Binding.Droid.BindingContext;
 using MvvmCross.Droid.Support.V4;
+using MvvmCross.Platform;
+using MvvmCross.Platform.Droid.Platform;
+using Tollminder.Core.Services;
 using Tollminder.Core.ViewModels;
 
 namespace Tollminder.Droid.Views.Fragments
 {
-    public class CalendarDialogFragment : MvxDialogFragment<CalendarViewModel>
+    public class CalendarDialog : ICalendarDialog
     {
         ImageButton backToPayHistory;
-        //View view;
+        CalendarView calendarView;
+        AlertDialog dialog;
 
-        public override Dialog OnCreateDialog(Bundle savedInstanceState)
+        protected Activity CurrentActivity
         {
-            base.EnsureBindingContextSet(savedInstanceState);
-            //Contract.Ensures(Contract.Result<Dialog>() != null);
-            View view = this.BindingInflate(Resource.Layout.calendar_fragment, null);
-            AlertDialog.Builder builder = new AlertDialog.Builder(Activity);
-            return (builder.SetView(view).Create());
+            get { return Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity; }
         }
 
-        public override Android.Views.View OnCreateView(Android.Views.LayoutInflater inflater, Android.Views.ViewGroup container, Bundle savedInstanceState)
+        public Task<DateTime> ShowDialog()
         {
-            View view = inflater.Inflate(Resource.Layout.calendar_fragment, container, false);
+            View view = CurrentActivity.LayoutInflater.Inflate(Resource.Layout.calendar_fragment, null);
+            AlertDialog.Builder builder = new AlertDialog.Builder(CurrentActivity);
+            builder.SetView(view);
+            builder.Create();
+            dialog = builder.Show();
+
             backToPayHistory = view.FindViewById<ImageButton>(Resource.Id.calendar_btn_back_to_payhistory);
-            var set = this.CreateBindingSet<CalendarDialogFragment, CalendarViewModel>();
-            set.Bind(backToPayHistory).To(vm => vm.BackToPayHistoryCommand);
-            set.Apply();
-            return view;//base.OnCreateView(inflater, container, savedInstanceState);
-        }
+            calendarView = view.FindViewById<CalendarView>(Resource.Id.calendarView);
+            var result = new TaskCompletionSource<DateTime>();
 
-        public override void OnDismiss(IDialogInterface dialog)
-        {
-            base.OnDismiss(dialog);
-        }
+            calendarView.DateChange += (sim, args) =>
+            {
+                var year = args.Year;
+                var month = args.Month + 1;
+                var dayOfMont = args.DayOfMonth;
 
-        public override void OnCancel(IDialogInterface dialog)
-        { 
-            base.OnCancel(dialog);
+                var date = new DateTime(year, month, dayOfMont);
+                if (result != null)
+                {
+                    result.SetResult(date);
+                }
+                dialog.Dismiss();
+            };
+
+            return result.Task;
         }
     }
 }
