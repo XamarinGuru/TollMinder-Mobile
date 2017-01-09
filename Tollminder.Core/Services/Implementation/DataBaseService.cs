@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MvvmCross.Platform;
 using MvvmCross.Plugins.Sqlite;
+using Newtonsoft.Json;
 using SQLiteNetExtensions.Extensions;
 using Tollminder.Core.Helpers;
 using Tollminder.Core.Models;
@@ -16,6 +17,7 @@ namespace Tollminder.Core.Services.Implementation
     public class DataBaseService : IDataBaseService
     {
         readonly ICheckerAppFirstLaunch _checkerAppFirstLaunch;
+        readonly IStoredSettingsBase storedSettingsBase;
         private User _user;
         string databaseName = "tollminder.sqlite";
         SQLite.SQLiteConnection _connection;
@@ -30,6 +32,7 @@ namespace Tollminder.Core.Services.Implementation
         public DataBaseService()
         {
             TryCreateTables();
+            storedSettingsBase = Mvx.Resolve<IStoredSettingsBase>();
             //_checkerAppFirstLaunch = Mvx.Resolve<ICheckerAppFirstLaunch>();
         }
 
@@ -69,6 +72,7 @@ namespace Tollminder.Core.Services.Implementation
             Connection.CreateTable<TollPoint>();
             Connection.CreateTable<TollRoadWaypoint>();
             Connection.CreateTable<TollRoad>();
+            //Connection.CreateTable<StatesData>();
         }
 
         public void InsertOrUpdateAllTollRoads(IList<TollRoad> tollRoads)
@@ -119,6 +123,11 @@ namespace Tollminder.Core.Services.Implementation
                 var waypointIds = road.WayPoints.Select(x => x.Id).ToList();
                 return Connection.GetAllWithChildren<TollPoint>(x => x.WaypointAction == WaypointAction.Exit && waypointIds.Contains(x.TollWaypointId));
             }
+        }
+
+        public List<StatesData> GetStates()
+        {
+            return storedSettingsBase.GetStatesFromJson();
         }
 
         void DeleteOldTollRoads(IList<TollRoad> tollRoads)

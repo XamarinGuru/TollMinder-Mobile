@@ -12,8 +12,8 @@ namespace Tollminder.Core.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
-        const string Login = "555123456";
-        const string Password = "1";
+        const string Login = "380000000000";
+        const string Password = "123456789";
         private DataBaseService _dataBaseService;
 
         string _loginString;

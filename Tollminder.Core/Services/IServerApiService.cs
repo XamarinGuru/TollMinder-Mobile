@@ -11,5 +11,6 @@ namespace Tollminder.Core.Services
         Task<IList<TollRoad>> RefreshTollRoads (long lastSyncDateTime, CancellationToken token);
         Task<User> SignIn(string phone, string password);
         Task<User> GetUser(string id);
+        Task<IList<PayHistory>> GetPayHistory(string userId, DateTime dateFrom, DateTime dateTo);
 	}
 }

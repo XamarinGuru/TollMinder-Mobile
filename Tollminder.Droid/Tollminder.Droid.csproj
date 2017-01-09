@@ -312,6 +312,10 @@
     <Compile Include="Views\LicenseView.cs" />
     <Compile Include="Views\CreditCardView.cs" />
     <Compile Include="Controls\ProfileButton.cs" />
+    <Compile Include="Views\PayHistoryView.cs" />
+    <Compile Include="Views\Fragments\CalendarDialogFragment.cs" />
+    <Compile Include="Services\CalendarService.cs" />
+    <Compile Include="Converters\DateTimeConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
@@ -332,6 +336,7 @@
     <Folder Include="Resources\mipmap-xhdpi\" />
     <Folder Include="Resources\mipmap-xxhdpi\" />
     <Folder Include="Resources\mipmap-xxxhdpi\" />
+    <Folder Include="Views\Fragments\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\MonoAndroid10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\MonoAndroid10\Xamarin.Insights.targets')" />
@@ -446,6 +451,22 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_card.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_download.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_license.png" />
+    <AndroidResource Include="Resources\layout\item_spinner.axml" />
+    <AndroidResource Include="Resources\layout\item_spinnerdropdown.axml" />
+    <AndroidResource Include="Resources\layout\pay_history_view.axml" />
+    <AndroidResource Include="Resources\layout\calendar_view_button.axml" />
+    <AndroidResource Include="Resources\drawable\calendar_button_background.xml" />
+    <AndroidResource Include="Resources\drawable\calendar_border.axml" />
+    <AndroidResource Include="Resources\drawable\home_view_button.axml" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_logout.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_logout.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_logout.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_logout.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_logout.png" />
+    <AndroidResource Include="Resources\layout\calendar_fragment.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\states.json" />
   </ItemGroup>
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />
   <Import Project="..\packages\Xamarin.GooglePlayServices.Basement.32.961.0-beta1\build\Xamarin.GooglePlayServices.Basement.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Basement.32.961.0-beta1\build\Xamarin.GooglePlayServices.Basement.targets')" />

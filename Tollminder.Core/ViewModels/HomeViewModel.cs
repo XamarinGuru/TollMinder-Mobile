@@ -30,6 +30,12 @@ namespace Tollminder.Core.ViewModels
             _track = track;
             _geoWatcher = geoWatcher;
             _storedSettingsService = storedSettingsService;
+            logoutCommand = new MvxCommand(() =>
+            {
+                _track.StopServices();
+                _storedSettingsService.IsAuthorized = false;
+                ShowViewModel<LoginViewModel>();
+            });
 
             _tokens = new List<MvxSubscriptionToken>();
         }
@@ -117,8 +123,17 @@ namespace Tollminder.Core.ViewModels
             {
                 return _payHistoryCommand ?? (_payHistoryCommand = new MvxCommand(() =>
                 {
-                    return;
+                    ShowViewModel<PayHistoryViewModel>();
                 }));
+            }
+        }
+
+        MvxCommand logoutCommand;
+        public ICommand LogoutCommand
+        {
+            get
+            {
+                return logoutCommand;
             }
         }
 
