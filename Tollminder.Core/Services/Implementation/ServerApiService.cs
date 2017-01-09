@@ -14,18 +14,12 @@ namespace Tollminder.Core.Services.Implementation
         const string BaseApiUrl = "http://54.152.103.212/api/";
         private string authToken = Mvx.Resolve<IStoredSettingsService>().AuthToken;
 
-        public async Task<IList<TollRoad>> RefreshTollRoads (long lastSyncDateTime, CancellationToken token)
+        public Task<IList<TollRoad>> RefreshTollRoads (long lastSyncDateTime, CancellationToken token)
 		{
-            IList<TollRoad> result = new List<TollRoad>();
+            Task<IList<TollRoad>> result = null;
             try
             {
-                //Debug.WriteLine($"{BaseApiUrl}sync/{lastSyncDateTime}");
-                //var tollRoads = GetAsync<object>($"{BaseApiUrl}sync/{0}", token, "2f45b14a832198b132863af5a82e7a382f9b534b5ded4451c3eac1844cf94cfd");
-                //Debug.WriteLine(tollRoads.Result);
-                //return null;
-                result = await GetAsync<IList<TollRoad>>($"{BaseApiUrl}sync/{0}", token, "LM9NJSUN3GDQU8BFPPCUPpCRtLnd89NZXLSUUR9DBjjSR32EBQxCbHX963ycqcjv");
-                Debug.WriteLine($"{BaseApiUrl}sync/{0}");
-                //Debug.WriteLine(result);
+                result =  GetAsync<IList<TollRoad>>($"{BaseApiUrl}sync/{0}", token, "LM9NJSUN3GDQU8BFPPCUPpCRtLnd89NZXLSUUR9DBjjSR32EBQxCbHX963ycqcjv");
             }
             catch(Exception ex)
             {
@@ -45,6 +39,28 @@ namespace Tollminder.Core.Services.Implementation
 
             var user = SendAsync<Dictionary<string, object>, User>(parameters, $"{BaseApiUrl}user/signin");
             return user;
+        }
+
+        public Task<IList<PayHistory>> GetPayHistory(string userId, string dateFrom, string dateTo)
+        {
+            //long fDate = ToUnixTime(new DateTime(2016, 10, 1));
+            //long tDate = ToUnixTime(new DateTime(2017, 1, 5));
+            string fDate = new DateTime(2016, 10, 1).ToString("yyyy-MM-dd HH':'mm':'ss");
+            string tDate = new DateTime(2017, 1, 5).ToString("yyyy-MM-dd HH':'mm':'ss");
+            var parameters = new
+            {
+                _user = userId,
+                from = fDate,
+                to = tDate
+            };
+
+            return SendAsync<object, IList<PayHistory>>(parameters, $"{BaseApiUrl}/trip/paymentHistory");
+        }
+        private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1);
+
+        public static long ToUnixTime(DateTime dateTime)
+        {
+            return (dateTime - UnixEpoch).Ticks / TimeSpan.TicksPerMillisecond;
         }
 
         public Task<User> GetUser(string id)

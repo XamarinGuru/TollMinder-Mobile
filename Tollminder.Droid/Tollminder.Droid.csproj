@@ -313,7 +313,7 @@
     <Compile Include="Views\CreditCardView.cs" />
     <Compile Include="Controls\ProfileButton.cs" />
     <Compile Include="Views\PayHistoryView.cs" />
-    <Compile Include="Views\Fragments\CalendarFragment.cs" />
+    <Compile Include="Views\Fragments\CalendarDialogFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
@@ -456,6 +456,12 @@
     <AndroidResource Include="Resources\drawable\calendar_button_background.xml" />
     <AndroidResource Include="Resources\drawable\calendar_border.axml" />
     <AndroidResource Include="Resources\drawable\home_view_button.axml" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_logout.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_logout.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_logout.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_logout.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_logout.png" />
+    <AndroidResource Include="Resources\layout\calendar_fragment.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\states.json" />

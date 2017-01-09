@@ -141,6 +141,8 @@
     <Compile Include="Services\IGetStatesData.cs" />
     <Compile Include="ViewModels\PayHistoryViewModel.cs" />
     <Compile Include="Models\DriverLicense.cs" />
+    <Compile Include="Models\PayHistory.cs" />
+    <Compile Include="ViewModels\CalendarViewModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>

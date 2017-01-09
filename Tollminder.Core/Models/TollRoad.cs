@@ -9,8 +9,7 @@ namespace Tollminder.Core.Models
 	[Table("TollRoads")]
     public class TollRoad : IEquatable<TollRoad>, IDatabaseEntry
 	{
-		[PrimaryKey]//, AutoIncrement]
-		//public int DBId { get; set; }
+		[PrimaryKey]
         [JsonProperty("_id")]
         public string Id { get; set; }
 		public string Name { get; set; }

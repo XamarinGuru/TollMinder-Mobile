@@ -72,7 +72,7 @@ namespace Tollminder.Core.Services.Implementation
             Connection.CreateTable<TollPoint>();
             Connection.CreateTable<TollRoadWaypoint>();
             Connection.CreateTable<TollRoad>();
-            Connection.CreateTable<StatesData>();
+            //Connection.CreateTable<StatesData>();
         }
 
         public void InsertOrUpdateAllTollRoads(IList<TollRoad> tollRoads)

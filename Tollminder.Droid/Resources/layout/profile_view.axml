@@ -168,7 +168,7 @@
                 android:orientation="horizontal">
                 <MvxSpinner
                     android:layout_width="100dp"
-                    android:layout_height="60dp"
+                    android:layout_height="55dp"
                     android:layout_weight="1"
                     android:layout_marginRight="5dp"
                     android:id="@+id/spinner"
