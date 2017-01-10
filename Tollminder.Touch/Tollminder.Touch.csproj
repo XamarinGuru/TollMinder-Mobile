@@ -317,7 +317,6 @@
     <Compile Include="Controls\ProfileButton.cs" />
     <Compile Include="Helpers\ProfileButtonManager.cs" />
     <Compile Include="Views\LicensePlateView.cs" />
-    <Compile Include="Services\LoadResourceJson.cs" />
     <Compile Include="Controls\PickerModel.cs" />
     <Compile Include="Views\PayHistoryView.cs" />
   </ItemGroup>

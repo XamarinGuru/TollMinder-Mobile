@@ -14,20 +14,20 @@ namespace Tollminder.Droid.Views
     [Activity(Label = "License", Theme = "@style/AppTheme", LaunchMode = LaunchMode.SingleTask, ScreenOrientation = ScreenOrientation.Portrait, NoHistory = true)]
     public class LicenseView : MvxActivity<LicenseViewModel>
     {
-        EditText lastEditText;
+        Spinner lastField;
 
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.license_view);
-            lastEditText = FindViewById<EditText>(Resource.Id.vehicle_class_editText);
+            lastField = FindViewById<Spinner>(Resource.Id.license_spinner_vehicle_class);
             // hide keyboard when last editText lost focus
-            lastEditText.FocusChange += (object sender, View.FocusChangeEventArgs e) => {
-                if (!lastEditText.HasFocus)
+            lastField.FocusChange += (object sender, View.FocusChangeEventArgs e) => {
+                if (!lastField.HasFocus)
                 {
                     InputMethodManager inputManager = (InputMethodManager)GetSystemService(Context.InputMethodService);
 
-                    inputManager.HideSoftInputFromWindow(lastEditText.WindowToken, 0);
+                    inputManager.HideSoftInputFromWindow(lastField.WindowToken, 0);
                 }
             };    
         }

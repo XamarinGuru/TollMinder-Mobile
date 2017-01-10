@@ -15,7 +15,7 @@
             android:layout_width="45dp"
             android:layout_height="30dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_centerVertical="true"
             android:src="@drawable/icon_back"
             local:MvxBind="Click BackToProfileCommand"
             android:background="@android:color/transparent"
@@ -72,43 +72,28 @@
                     android:singleLine="true"
                     local:MvxBind="Text LicensePlateString;" />
             </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
+            <MvxSpinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:theme="@style/TextInput"
+                android:layout_weight="1"
                 android:layout_marginBottom="10dp"
-                local:MvxBind="Error Errors['License State']">
-                <EditText
-                    android:id="@+id/license_state_editText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:hint="State"
-                    android:inputType="textNoSuggestions"
-                    android:nextFocusDown="@+id/vehicle_class_editText"
-                    android:layout_marginLeft="10dp"
-                    android:padding="10dp"
-                    android:singleLine="true"
-                    local:MvxBind="Text LicenseStateString;" />
-            </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
+                android:id="@+id/license_spinner_states"
+                android:textSize="40dp"
+                android:gravity="left"
+                android:paddingLeft="15dp"
+                local:MvxBind="ItemsSource States;SelectedItem SelectedState; Text StateAbbreviation"
+                android:background="@drawable/login_card_background" />
+            <MvxSpinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:theme="@style/TextInput"
+                android:layout_weight="1"
                 android:layout_marginBottom="10dp"
-                local:MvxBind="Error Errors['Vehicle Class']">
-                <EditText
-                    android:id="@+id/vehicle_class_editText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:hint="Vehicle Class"
-                    android:inputType="textNoSuggestions"
-                    android:layout_marginLeft="10dp"
-                    android:padding="10dp"
-                    android:singleLine="true"
-                    local:MvxBind="Text VehicleClassString;" />
-            </android.support.design.widget.TextInputLayout>
+                android:id="@+id/license_spinner_vehicle_class"
+                android:textSize="40dp"
+                android:gravity="left"
+                android:paddingLeft="15dp"
+                local:MvxBind="ItemsSource VehicleClasses;SelectedItem SelectedVehicleClass; Text SelectedVehicleClass"
+                android:background="@drawable/login_card_background" />
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

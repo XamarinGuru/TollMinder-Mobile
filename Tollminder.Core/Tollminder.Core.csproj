@@ -130,7 +130,6 @@
     <Compile Include="Utils\Slack\SlackClient.cs" />
     <Compile Include="Utils\Slack\Payload.cs" />
     <Compile Include="Utils\Slack\SlackManager.cs" />
-    <Compile Include="Extensions\SQLiteExtensions.cs" />
     <Compile Include="Services\ICheckerAppFirstLaunch.cs" />
     <Compile Include="Services\INetworkCheck.cs" />
     <Compile Include="ViewModels\HomeTestViewModel.cs" />
@@ -138,7 +137,6 @@
     <Compile Include="ViewModels\LicenseViewModel.cs" />
     <Compile Include="ViewModels\CreditCardViewModel.cs" />
     <Compile Include="Models\StatesData.cs" />
-    <Compile Include="Services\IGetStatesData.cs" />
     <Compile Include="ViewModels\PayHistoryViewModel.cs" />
     <Compile Include="Models\DriverLicense.cs" />
     <Compile Include="Models\PayHistory.cs" />

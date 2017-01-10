@@ -20,13 +20,12 @@ namespace Tollminder.Droid.Views
         {
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.credit_card_view);
-            lastEditText = FindViewById<EditText>(Resource.Id.cvv_editText);
+            lastEditText = FindViewById<EditText>(Resource.Id.zip_code_editText);
             // hide keyboard when last editText lost focus
             lastEditText.FocusChange += (object sender, View.FocusChangeEventArgs e) => {
                 if (!lastEditText.HasFocus)
                 {
                     InputMethodManager inputManager = (InputMethodManager)GetSystemService(Context.InputMethodService);
-
                     inputManager.HideSoftInputFromWindow(lastEditText.WindowToken, 0);
                 }
             };    

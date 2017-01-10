@@ -17,6 +17,8 @@ using UIKit;
 using Foundation;
 using Tollminder.Touch.Converters;
 using System.Diagnostics;
+using System.Collections.Generic;
+using Tollminder.Core.Models;
 
 namespace Tollminder.Touch.Views
 {
@@ -28,6 +30,7 @@ namespace Tollminder.Touch.Views
         TextFieldValidationWithImage stateTextField;
         UIPickerView picker;
         TextFieldValidationWithImage vehicleClassTextField;
+        List<StatesData> states;
 
         public LicensePlateView()
         {
@@ -84,7 +87,7 @@ namespace Tollminder.Touch.Views
             touchLabel.UserInteractionEnabled = true;
             touchLabel.AddGestureRecognizer(tap);
             picker = new UIPickerView();
-            picker.Model = new PickerModel(stateTextField);//TextFieldInitializer("State");
+            //picker.Model = new PickerModel(stateTextField, );//TextFieldInitializer("State");
             picker.BackgroundColor = UIColor.White;
             vehicleClassTextField = TextFieldInitializer("Vehicle CLass");
 
@@ -162,7 +165,7 @@ namespace Tollminder.Touch.Views
 
             var set = this.CreateBindingSet<LicensePlateView, LicenseViewModel>();
             set.Bind(backHomeView).To(vm => vm.BackToProfileCommand);
-            //set.Bind(stateTextField.).To(vm => vm.VehicleClasses);
+            set.Bind(states).To(vm => vm.States);
             //set.Bind(_trackingButton).For(x => x.ButtonImage).To(vm => vm.IsBound).
             //   WithConversion("GetPathToImage");
             //set.Bind(_profileButton).To(vm => vm.ProfileCommand);

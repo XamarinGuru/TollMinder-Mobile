@@ -148,7 +148,7 @@ namespace Tollminder.Touch.Views
 
             scrollView.AddIfNotNull(topTextRowView, centerTextRowView, bottomTextRowView, bottomView);
             scrollView.AddConstraints(
-                topTextRowView.AtTopOf(scrollView),
+                topTextRowView.AtTopOf(scrollView, 30),
                 topTextRowView.WithSameWidth(scrollView),
                 topTextRowView.WithSameCenterX(scrollView),
                 topTextRowView.WithRelativeHeight(scrollView, 0.12f),
@@ -168,7 +168,7 @@ namespace Tollminder.Touch.Views
                 bottomView.WithSameWidth(scrollView),
                 bottomView.AtLeftOf(scrollView),
                 bottomView.AtRightOf(scrollView),
-                bottomView.AtBottomOf(scrollView),
+                bottomView.AtBottomOf(scrollView, 100),
                 bottomView.WithRelativeHeight(scrollView, 0.27f)
             );
 
@@ -185,7 +185,9 @@ namespace Tollminder.Touch.Views
             );
 
             SignIn.SharedInstance.UIDelegate = this;
-            EnableNextKeyForTextFields(firstNameTextField.TextFieldWithValidator.TextField);
+            EnableNextKeyForTextFields(firstNameTextField.TextFieldWithValidator.TextField, lastNameTextField.TextFieldWithValidator.TextField, emailTextField.TextFieldWithValidator.TextField,
+                                       addressTextField.TextFieldWithValidator.TextField, cityTextField.TextFieldWithValidator.TextField, stateTextField.TextFieldWithValidator.TextField,
+                                       zipCodeTextField.TextFieldWithValidator.TextField);
         }
 
         private TextFieldValidationWithImage TextFieldInitializer(string placeholder)
