@@ -53,11 +53,10 @@ namespace Tollminder.Touch.Views
             var applicationLogo = new UIImageView(UIImage.FromBundle(@"Images/logo.png"));
             var callCenterLabel = new UILabel();
             var applicationBoard = new UIImageView(UIImage.FromBundle(@"Images/homeView/home_board.png"));
-            //_roundedButtonManager = new RoundedButtonManager();
 
             // Hide navigation bar
             NavigationController.SetNavigationBarHidden(true, false);
-            View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile(@"Images/main_background.png").Scale(View.Frame.Size));//EnvironmentInfo.CheckDevice().Scale(View.Frame.Size));
+            View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile(@"Images/main_background.png").Scale(View.Frame.Size));
             applicationLogo.Frame = new CoreGraphics.CGRect(10, 10, applicationLogo.Image.CGImage.Width, applicationLogo.Image.CGImage.Height);
             topView.AddIfNotNull(applicationLogo);
             topView.AddConstraints(
@@ -66,7 +65,6 @@ namespace Tollminder.Touch.Views
                 applicationLogo.WithSameCenterX(topView),
                 applicationLogo.WithSameCenterY(topView)
             );
-            //topView.BackgroundColor = UIColor.LightGray;
 
             _profileButton = RoundedButtonManager.ButtonInitiaziler("PROFILE", UIImage.FromFile(@"Images/homeView/ic_home_profile.png"));
             _payButton = RoundedButtonManager.ButtonInitiaziler("PAY", UIImage.FromFile(@"Images/homeView/ic_home_pay.png"));
@@ -154,6 +152,7 @@ namespace Tollminder.Touch.Views
             set.Bind(_trackingButton).For(x => x.ButtonImage).To(vm => vm.IsBound).
                WithConversion("GetPathToImage");
             set.Bind(_profileButton).To(vm => vm.ProfileCommand);
+            set.Bind(_payHistoryButton).To(vm => vm.PayHistoryCommand);
             //set.Bind(_callCentergButton.ButtonText).To(vm => vm.SupportText);
 
             //this.AddLinqBinding(ViewModel, v=>v.IsBound, (isBound)=>{
@@ -165,7 +164,7 @@ namespace Tollminder.Touch.Views
             //    Debug.WriteLine(_trackingButton.ButtonText.Text);
             //        _trackingButton.ButtonImage = UIImage.FromFile(imagePath);
             //});
-         set.Apply();
+            set.Apply();
         }
     }
 }

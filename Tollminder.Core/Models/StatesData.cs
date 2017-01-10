@@ -1,5 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using Newtonsoft.Json;
+using Xamarin.Forms;
+using System.Reflection;
+using Tollminder.Core.Services;
 
 namespace Tollminder.Core.Models
 {
@@ -9,6 +14,7 @@ namespace Tollminder.Core.Models
         public string Name { get; set;}
         [JsonProperty("abbreviation")]
         public string Abbreviation { get; set;}
+        private List<StatesData> states;
 
         public override string ToString()
         {

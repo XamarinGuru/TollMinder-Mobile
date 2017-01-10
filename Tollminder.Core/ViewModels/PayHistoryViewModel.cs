@@ -11,13 +11,11 @@ namespace Tollminder.Core.ViewModels
 {
     public class PayHistoryViewModel : BaseViewModel
     {
-        readonly IDataBaseService dataBaseService;
         readonly IServerApiService serverApiService;
         private DateTime dateFromCalendarView;
 
         public PayHistoryViewModel()
         {
-            dataBaseService = Mvx.Resolve<IDataBaseService>();
             serverApiService = Mvx.Resolve<IServerApiService>();
 
             backHomeCommand = new MvxCommand(() => { ShowViewModel<HomeViewModel>(); });
@@ -32,20 +30,21 @@ namespace Tollminder.Core.ViewModels
             });
 
             downloadHistoryCommand = new MvxCommand(async () => { 
-                //History = await serverApiService.GetPayHistory("58625cb651d7202e7dfaa69c", getPayDateFrom, getPayDateTo); 
+                History = await serverApiService.GetPayHistory("58625cb651d7202e7dfaa69c", getPayDateFrom, getPayDateTo);
             });
             //States = dataBaseService.GetStates();
         }
 
         async Task DownloadHistory()
         {
+            await serverApiService.GetPayHistory("58625cb651d7202e7dfaa69c", getPayDateFrom, getPayDateTo);
         }
 
-        public async override void Start()
+        public override void Start()
         {
-            //history = await serverApiService.GetPayHistory("58625cb651d7202e7dfaa69c", "10/1/2016", "1/5/2017");
-            //Task.Run(DownloadHistory);
+            //DownloadHistory();
             base.Start();
+
         }
         private DateTime getPayDateFrom;
         public DateTime GetPayDateFrom { 
@@ -82,8 +81,8 @@ namespace Tollminder.Core.ViewModels
         private MvxCommand openCalendarToCommand;
         public ICommand OpenCalendarToCommand { get { return openCalendarToCommand; } }
 
-        private IList<PayHistory> history;
-        public IList<PayHistory> History
+        private PayHistoryTrips history;
+        public PayHistoryTrips History
         {
             get { return history; }
             set

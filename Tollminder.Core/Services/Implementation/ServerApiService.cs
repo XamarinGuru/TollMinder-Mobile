@@ -41,16 +41,16 @@ namespace Tollminder.Core.Services.Implementation
             return user;
         }
 
-        public Task<IList<PayHistory>> GetPayHistory(string userId, DateTime dateFrom, DateTime dateTo)
+        public Task<PayHistoryTrips> GetPayHistory(string userId, DateTime dateFrom, DateTime dateTo)
         {
             var parameters = new
             {
-                _user = userId,
-                from = dateFrom.ToString("yyyy-MM-dd HH':'mm':'ss"),
-                to = dateTo.ToString("yyyy-MM-dd HH':'mm':'ss")
+                user = userId,
+                from = "2016-10-01 00:00:00",//dateFrom.ToString("O"),
+                to = "2017-01-05 00:00:00"//dateTo.ToString("O")
             };
 
-            return SendAsync<object, IList<PayHistory>>(parameters, $"{BaseApiUrl}/trip/paymentHistory");
+            return SendAsync<object, PayHistoryTrips>(parameters, $"{BaseApiUrl}trip/paymentHistory");
         }
         private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1);
 

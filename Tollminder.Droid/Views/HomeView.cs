@@ -15,6 +15,7 @@ using Android.Content;
 using Android.Graphics;
 using Android.Views;
 using Android.Graphics.Drawables;
+using Android.Util;
 
 namespace Tollminder.Droid.Views
 {
@@ -24,6 +25,17 @@ namespace Tollminder.Droid.Views
 		protected override void OnCreate(Bundle bundle)
 		{
 			base.OnCreate(bundle);
+            Display display = WindowManager.DefaultDisplay;
+            //DisplayMetrics outMetrics = new DisplayMetrics();
+            //display.GetMetrics(outMetrics);
+
+            DisplayMetrics displayMetrics = Resources.DisplayMetrics;
+            float dpHeight = displayMetrics.HeightPixels / displayMetrics.Density;
+            float dpWidth = displayMetrics.WidthPixels / displayMetrics.Density;
+            Point size = new Point();
+            display.GetSize(size);
+            int width = size.X;
+            int height = size.Y;
 			SetContentView(Resource.Layout.home_view);
 		}
 

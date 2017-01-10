@@ -125,11 +125,6 @@ namespace Tollminder.Core.Services.Implementation
             }
         }
 
-        public List<StatesData> GetStates()
-        {
-            return storedSettingsBase.GetStatesFromJson();
-        }
-
         void DeleteOldTollRoads(IList<TollRoad> tollRoads)
         {
             var tollRoadsFromLocalDataBase = Connection.GetAllWithChildren<TollRoad>(null, true);

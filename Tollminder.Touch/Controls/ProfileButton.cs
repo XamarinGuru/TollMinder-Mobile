@@ -103,7 +103,7 @@ namespace Tollminder.Touch.Controls
                 buttonText.WithSameCenterX(this),
                 buttonText.WithSameCenterY(this),
                 buttonText.AtLeftOf(iconView, distanceBetweenTextAndIcon),
-                buttonText.WithRelativeWidth(this, 0.4f),
+                buttonText.WithRelativeWidth(this, 0.8f),
                 buttonText.WithRelativeHeight(this, 0.4f),
 
                 arrowView.WithSameCenterY(this),

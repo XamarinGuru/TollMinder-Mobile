@@ -6,6 +6,5 @@ namespace Tollminder.Core.Services
     public interface IDataBaseService : IGeoData
     {
         void InsertOrUpdateAllTollRoads(IList<TollRoad> tollRoads);
-        List<StatesData> GetStates();
     }
 }

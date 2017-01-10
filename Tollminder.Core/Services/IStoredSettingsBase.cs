@@ -9,7 +9,6 @@ namespace Tollminder.Core.Services
 	{
 		void Set<T>(T value, [CallerMemberNameAttribute] string key = "");
 		T Get<T>(T defaultValue = default(T), [CallerMemberNameAttribute] string key = "");
-        List<StatesData> GetStatesFromJson();
 	}
 }
 

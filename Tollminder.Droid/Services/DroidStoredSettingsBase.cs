@@ -41,18 +41,6 @@ namespace Tollminder.Droid.Services
 			editor.PutString(key, str);
 			editor.Apply();
 		}
-
-        public List<StatesData> GetStatesFromJson()
-        {
-            List<StatesData> states = null;
-
-            using (StreamReader read = new StreamReader(Application.Context.Assets.Open("states.json")))
-            {
-                string json = read.ReadToEnd();
-                states = JsonConvert.DeserializeObject<List<StatesData>>(json);
-            }
-            return states;
-        }
 	}
 }
 

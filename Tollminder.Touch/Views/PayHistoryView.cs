@@ -20,7 +20,7 @@ using System.Diagnostics;
 
 namespace Tollminder.Touch.Views
 {
-    public class ProfileView : BaseViewController<ProfileViewModel>, ISignInUIDelegate, ICleanBackStack
+    public class PayHistoryView : BaseViewController<PayHistoryViewModel>, ISignInUIDelegate, ICleanBackStack
     {
         UIButton backHomeView;
 
@@ -32,18 +32,17 @@ namespace Tollminder.Touch.Views
         TextFieldValidationWithImage stateTextField;
         TextFieldValidationWithImage zipCodeTextField;
 
-        ProfileButton addLicenseButton;
-        ProfileButton addCreditCardButton;
+        ProfileButton dowloadHistoryButton;
         
-        public ProfileView()
+        public PayHistoryView()
         {
         }
 
-        public ProfileView(IntPtr handle) : base(handle)
+        public PayHistoryView(IntPtr handle) : base(handle)
         {
         }
 
-        public ProfileView(string nibName, Foundation.NSBundle bundle) : base(nibName, bundle)
+        public PayHistoryView(string nibName, Foundation.NSBundle bundle) : base(nibName, bundle)
         {
         }
 
@@ -86,8 +85,7 @@ namespace Tollminder.Touch.Views
             stateTextField = TextFieldInitializer("State");
             zipCodeTextField = TextFieldInitializer("Zip Code");
             
-            addLicenseButton = ProfileButtonManager.ButtonInitiaziler("Add License Plate", UIImage.FromFile(@"Images/profileView/ic_license.png"));
-            addCreditCardButton = ProfileButtonManager.ButtonInitiaziler("Add Credit Card", UIImage.FromFile(@"Images/profileView/ic_card.png"));
+            dowloadHistoryButton = ProfileButtonManager.ButtonInitiaziler("Download History", UIImage.FromFile(@"Images/profileView/ic_license.png"));
 
             topTextRowView.AddIfNotNull(firstNameTextField, lastNameTextField);
             topTextRowView.AddConstraints(
@@ -102,69 +100,22 @@ namespace Tollminder.Touch.Views
                 lastNameTextField.WithSameHeight(topTextRowView)
             );
 
-            centerTextRowView.AddIfNotNull(emailTextField, addressTextField, cityTextField);
-            centerTextRowView.AddConstraints(
-                emailTextField.AtTopOf(centerTextRowView),
-                emailTextField.WithSameCenterX(centerTextRowView),
-                emailTextField.WithSameWidth(centerTextRowView),
-                emailTextField.WithRelativeHeight(centerTextRowView, 0.3f),
-
-                addressTextField.Below(emailTextField, 10),
-                addressTextField.WithSameCenterX(centerTextRowView),
-                addressTextField.WithSameWidth(centerTextRowView),
-                addressTextField.WithRelativeHeight(centerTextRowView, 0.3f),
-
-                cityTextField.Below(addressTextField, 10),
-                cityTextField.WithSameCenterX(centerTextRowView),
-                cityTextField.WithSameWidth(centerTextRowView),
-                cityTextField.WithRelativeHeight(centerTextRowView, 0.3f)
-            );
-
-            bottomTextRowView.AddIfNotNull(stateTextField, zipCodeTextField);
-            bottomTextRowView.AddConstraints(
-                stateTextField.AtTopOf(bottomTextRowView),
-                stateTextField.AtLeftOf(bottomTextRowView),
-                stateTextField.WithRelativeWidth(bottomTextRowView, 0.475f),
-                stateTextField.WithSameHeight(bottomTextRowView),
-
-                zipCodeTextField.AtTopOf(bottomTextRowView),
-                zipCodeTextField.AtRightOf(bottomTextRowView),
-                zipCodeTextField.WithRelativeWidth(bottomTextRowView, 0.475f),
-                zipCodeTextField.WithSameHeight(bottomTextRowView)
-            );
-
-            bottomView.AddIfNotNull(addLicenseButton, addCreditCardButton);
+            bottomView.AddIfNotNull(dowloadHistoryButton);
             bottomView.AddConstraints(
-                addLicenseButton.AtTopOf(bottomView),
-                addLicenseButton.WithSameCenterX(bottomView),
-                addLicenseButton.WithSameWidth(bottomView),
-                addLicenseButton.WithRelativeHeight(bottomView, 0.4f), 
-
-                addCreditCardButton.Below(addLicenseButton, 10),
-                addCreditCardButton.WithSameCenterX(bottomView),
-                addCreditCardButton.WithSameWidth(bottomView),
-                addCreditCardButton.WithRelativeHeight(bottomView, 0.4f)
+                dowloadHistoryButton.AtTopOf(bottomView),
+                dowloadHistoryButton.WithSameCenterX(bottomView),
+                dowloadHistoryButton.WithSameWidth(bottomView),
+                dowloadHistoryButton.WithRelativeHeight(bottomView, 0.4f)
             );
 
-            scrollView.AddIfNotNull(topTextRowView, centerTextRowView, bottomTextRowView, bottomView);
+            scrollView.AddIfNotNull(topTextRowView, bottomView);
             scrollView.AddConstraints(
                 topTextRowView.AtTopOf(scrollView),
                 topTextRowView.WithSameWidth(scrollView),
                 topTextRowView.WithSameCenterX(scrollView),
                 topTextRowView.WithRelativeHeight(scrollView, 0.12f),
 
-                centerTextRowView.Below(topTextRowView, 10),
-                centerTextRowView.WithSameWidth(scrollView),
-                centerTextRowView.AtLeftOf(scrollView),
-                centerTextRowView.AtRightOf(scrollView),
-                centerTextRowView.WithRelativeHeight(scrollView, 0.4f),
-
-                bottomTextRowView.Below(centerTextRowView, 10),
-                bottomTextRowView.WithSameWidth(scrollView),
-                bottomTextRowView.WithSameCenterX(scrollView),
-                bottomTextRowView.WithRelativeHeight(scrollView, 0.12f),
-
-                bottomView.Below(bottomTextRowView, 10),
+                bottomView.Below(topTextRowView, 10),
                 bottomView.WithSameWidth(scrollView),
                 bottomView.AtLeftOf(scrollView),
                 bottomView.AtRightOf(scrollView),
@@ -206,9 +157,9 @@ namespace Tollminder.Touch.Views
         {
              base.InitializeBindings();
 
-            var set = this.CreateBindingSet<ProfileView, ProfileViewModel>();
+            var set = this.CreateBindingSet<PayHistoryView, PayHistoryViewModel>();
             set.Bind(backHomeView).To(vm => vm.BackHomeCommand);
-            set.Bind(addLicenseButton).To(vm => vm.AddLicenseCommand);
+            set.Bind(dowloadHistoryButton).To(vm => vm.DownloadHistoryCommand);
             //set.Bind(_trackingButton.ButtonText).To(vm => vm.TrackingText);
             //set.Bind(_trackingButton).For(x => x.ButtonImage).To(vm => vm.IsBound).
             //   WithConversion("GetPathToImage");
