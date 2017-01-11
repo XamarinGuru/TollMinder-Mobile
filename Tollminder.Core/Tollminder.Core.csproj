@@ -146,6 +146,8 @@
     <Compile Include="Services\Implementation\StatesService.cs" />
     <Compile Include="Services\Implementation\LicenseDataService.cs" />
     <Compile Include="Models\Rate.cs" />
+    <Compile Include="ViewModels\PayHistoryPdfViewModel.cs" />
+    <Compile Include="Services\IDownloadManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>

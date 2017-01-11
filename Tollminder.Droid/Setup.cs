@@ -43,6 +43,7 @@ namespace Tollminder.Droid
 			Mvx.LazyConstructAndRegisterSingleton<IStoredSettingsBase, DroidStoredSettingsBase>();
             Mvx.LazyConstructAndRegisterSingleton<IGPlusLoginService, DroidGPlusLoginService>();
             Mvx.LazyConstructAndRegisterSingleton<IHttpClientHandlerService, DroidHttpClientHandlerService>();
+            Mvx.LazyConstructAndRegisterSingleton<IDownloadManager, DownloadManager>();
             Mvx.ConstructAndRegisterSingleton<IFacebookLoginService, DroidFacebookLoginService>();
             Mvx.RegisterType<ICalendarDialog, CalendarDialog>();
 		}

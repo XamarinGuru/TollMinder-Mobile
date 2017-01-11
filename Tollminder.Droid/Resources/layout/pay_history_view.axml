@@ -80,6 +80,7 @@
                 android:layout_height="50dp"
                 android:orientation="horizontal"
                 android:background="@color/gray_dark"
+                android:id="@+id/radio_button_container"
                 android:layout_marginBottom="2dp">
                 <RadioButton
                     android:layout_width="wrap_content"
@@ -107,14 +108,13 @@
             </LinearLayout>
             <MvxListView
                 android:id="@+id/pay_history"
-                android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="40dp"
-                local:MvxBind="ItemsSource History;SelectedItem SelectedState; Text StateAbbreviation"
-                android:background="@drawable/login_card_background" />
+                local:MvxBind="ItemsSource History;SelectedItem SelectedTransaction; Text Transaction"
+                android:background="@drawable/login_card_background"/>
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>
