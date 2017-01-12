@@ -1,19 +1,22 @@
 ﻿using System;
 using Android.App;
+using Android.Content;
 using Android.Webkit;
 using MvvmCross.Platform;
 using Tollminder.Core.Services;
 
 namespace Tollminder.Droid.Services
 {
-    public class PdfWebViewClient : WebViewClient
+    public class PdfWebViewClient : WebViewClient, IDownloadListener
     {
         private ProgressDialog progressBar;
+        private Context context;
         private bool isLoaded = false;
 
         public PdfWebViewClient(ProgressDialog progressBar)
         {
             this.progressBar = progressBar;
+            context = progressBar.Context;
         }
 
         public override bool ShouldOverrideUrlLoading(WebView view, string url)
@@ -24,7 +27,7 @@ namespace Tollminder.Droid.Services
                 isLoaded = true;
             }
             else {
-                Mvx.Resolve<IDownloadManager>().Download(url, null);
+                Mvx.Resolve<IDownloadManager>().Download(url, null, ProgressDialog.Show(context, "Pdf file", "Downloading..."));
             }
             view.Reload();
             return false;
@@ -34,6 +37,11 @@ namespace Tollminder.Droid.Services
         {
             if (progressBar.IsShowing)
                 progressBar.Dismiss();
+        }
+
+        public void OnDownloadStart(string url, string userAgent, string contentDisposition, string mimetype, long contentLength)
+        {
+            
         }
     }
 }

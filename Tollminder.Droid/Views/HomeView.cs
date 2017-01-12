@@ -19,12 +19,12 @@ using Android.Util;
 
 namespace Tollminder.Droid.Views
 {
-    [Activity(Label = "Home", Theme = "@style/AppTheme",LaunchMode = LaunchMode.SingleTask, ScreenOrientation = ScreenOrientation.Portrait, NoHistory = true)]
+    [Activity(Label = "Home", Theme = "@style/AppTheme", LaunchMode = LaunchMode.SingleTask, ScreenOrientation = ScreenOrientation.Portrait, NoHistory = true)]
     public class HomeView : MvxActivity<HomeViewModel>
     {
-		protected override void OnCreate(Bundle bundle)
-		{
-			base.OnCreate(bundle);
+        protected override void OnCreate(Bundle bundle)
+        {
+            base.OnCreate(bundle);
             Display display = WindowManager.DefaultDisplay;
             //DisplayMetrics outMetrics = new DisplayMetrics();
             //display.GetMetrics(outMetrics);
@@ -36,13 +36,13 @@ namespace Tollminder.Droid.Views
             display.GetSize(size);
             int width = size.X;
             int height = size.Y;
-			SetContentView(Resource.Layout.home_view);
-		}
+            SetContentView(Resource.Layout.home_view);
+        }
 
-		public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
-		{
-			PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-		}
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        {
+            PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
 
         protected override void OnPause()
         {
@@ -54,5 +54,5 @@ namespace Tollminder.Droid.Views
             base.OnDestroy();
             //PushNotificationService.ShowNotification(this, this.GetType(), "Tollminder - still working", "Press to open.");
         }
-      }
+    }
 }

@@ -36,5 +36,9 @@ namespace Tollminder.Droid.Controls
                 LoadUrl("http://docs.google.com/viewer?url=" + _url);
             }
         }
+        public override void SetDownloadListener(IDownloadListener listener)
+        {
+            base.SetDownloadListener(listener);
+        }
     }
 }

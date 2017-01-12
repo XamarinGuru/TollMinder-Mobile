@@ -12,7 +12,7 @@ namespace Tollminder.Core.ViewModels
         {
             this.downloadManager = downloadManager;
             backToPayHistoryCommand = new MvxCommand(() => { ShowViewModel<PayHistoryViewModel>(); });
-            downloadPayHistoryPdfCommand = new MvxCommand(() => { downloadManager.Download(PdfUrl, null);});
+            downloadPayHistoryPdfCommand = new MvxCommand(() => { downloadManager.Download(PdfUrl);});
         }
 
         public void Init(string pdfUrlFromServer)

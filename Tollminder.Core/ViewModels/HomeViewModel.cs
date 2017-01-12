@@ -11,6 +11,7 @@ using Tollminder.Core.Helpers;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Tollminder.Core.ViewModels
 {
@@ -30,12 +31,19 @@ namespace Tollminder.Core.ViewModels
             _track = track;
             _geoWatcher = geoWatcher;
             _storedSettingsService = storedSettingsService;
-            logoutCommand = new MvxCommand(() =>
+            try
             {
-                _track.StopServices();
-                _storedSettingsService.IsAuthorized = false;
-                ShowViewModel<LoginViewModel>();
-            });
+                logoutCommand = new MvxCommand(() =>
+                {
+                    _track.StopServices();
+                    _storedSettingsService.IsAuthorized = false;
+                    ShowViewModel<LoginViewModel>();
+                });
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex.Message, ex.StackTrace);
+            }
 
             _tokens = new List<MvxSubscriptionToken>();
         }
