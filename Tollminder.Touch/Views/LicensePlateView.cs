@@ -88,8 +88,9 @@ namespace Tollminder.Touch.Views
             touchLabel.AddGestureRecognizer(tap);
             touchLabel.BackgroundColor = UIColor.White;
             touchLabel.TextColor = UIColor.Black;
+            touchLabel.Text = "State";
             picker = new UIPickerView();
-            picker.Model = new PickerModel(touchLabel.Text, null);//TextFieldInitializer("State");
+            picker.Model = new PickerModel(touchLabel, null);//TextFieldInitializer("State");
             picker.BackgroundColor = UIColor.White;
             vehicleClassTextField = TextFieldInitializer("Vehicle CLass");
 

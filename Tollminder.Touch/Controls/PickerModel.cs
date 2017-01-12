@@ -17,10 +17,10 @@ namespace Tollminder.Touch.Controls
             "psc.exe"
         };
 
-        private string textField;
+        private UILabel textField;
         private string[] elements;
 
-        public PickerModel(string textField, string[] elementsList)//TextFieldValidationWithImage
+        public PickerModel(UILabel textField, string[] elementsList)//TextFieldValidationWithImage
         {
             this.textField = textField;
             elements = elementsList;
@@ -49,7 +49,7 @@ namespace Tollminder.Touch.Controls
 
         public override void Selected(UIPickerView pickerView, nint row, nint component)
         {
-           textField = String.Format("{0}", //textField.TextFieldWithValidator.TextField.Text = String.Format("{0}",
+            textField.Text = String.Format("{0}", //textField.TextFieldWithValidator.TextField.Text = String.Format("{0}",
                 names[pickerView.SelectedRowInComponent(0)]);
             pickerView.Hidden = true;
         }
