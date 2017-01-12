@@ -119,7 +119,7 @@ namespace Tollminder.Core.ViewModels
             }
 
             var success = false;
-            var result = default(User);
+            var result = default(Profile);
 
             switch (data.Source)
             {

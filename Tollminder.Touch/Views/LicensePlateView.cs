@@ -86,22 +86,24 @@ namespace Tollminder.Touch.Views
             UILabel touchLabel = new UILabel();
             touchLabel.UserInteractionEnabled = true;
             touchLabel.AddGestureRecognizer(tap);
+            touchLabel.BackgroundColor = UIColor.White;
+            touchLabel.TextColor = UIColor.Black;
             picker = new UIPickerView();
-            //picker.Model = new PickerModel(stateTextField, );//TextFieldInitializer("State");
+            picker.Model = new PickerModel(touchLabel.Text, null);//TextFieldInitializer("State");
             picker.BackgroundColor = UIColor.White;
             vehicleClassTextField = TextFieldInitializer("Vehicle CLass");
 
-            topTextRowView.AddIfNotNull(licensePlateTextField, touchLabel, stateTextField, vehicleClassTextField);
+            topTextRowView.AddIfNotNull(licensePlateTextField, touchLabel, vehicleClassTextField);
             topTextRowView.AddConstraints(
                 licensePlateTextField.AtTopOf(topTextRowView),
                 licensePlateTextField.WithSameCenterX(topTextRowView),
                 licensePlateTextField.WithSameWidth(topTextRowView),
                 licensePlateTextField.WithRelativeHeight(topTextRowView, 0.3f),
 
-                stateTextField.Below(touchLabel, 10),
-                stateTextField.WithSameCenterX(topTextRowView),
-                stateTextField.WithSameWidth(topTextRowView),
-                stateTextField.WithRelativeHeight(topTextRowView, 0.3f),
+                //stateTextField.Below(touchLabel, 10),
+                //stateTextField.WithSameCenterX(topTextRowView),
+                //stateTextField.WithSameWidth(topTextRowView),
+                //stateTextField.WithRelativeHeight(topTextRowView, 0.3f),
 
                 touchLabel.Below(licensePlateTextField, 10),
                 touchLabel.WithSameCenterX(topTextRowView),

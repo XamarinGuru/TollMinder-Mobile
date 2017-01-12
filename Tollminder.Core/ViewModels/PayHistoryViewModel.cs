@@ -33,7 +33,6 @@ namespace Tollminder.Core.ViewModels
             downloadHistoryCommand = new MvxCommand(async () => { 
                 GetPdfUrl = await serverApiService.DownloadPayHistory("58625cb651d7202e7dfaa69c", getPayDateFrom, getPayDateTo);
             });
-            //States = dataBaseService.GetStates();
         }
 
         async Task DownloadHistory()
@@ -114,17 +113,6 @@ namespace Tollminder.Core.ViewModels
         public string Transaction
         {
             get { return SelectedTransaction.ToString(); }
-        }
-
-        private List<StatesData> states;
-        public List<StatesData> States
-        {
-            get { return states; }
-            set
-            {
-                SetProperty(ref states, value);
-                RaisePropertyChanged(() => States);
-            }
         }
     }
 }

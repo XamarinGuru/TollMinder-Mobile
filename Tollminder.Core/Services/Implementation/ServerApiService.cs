@@ -29,7 +29,7 @@ namespace Tollminder.Core.Services.Implementation
             return result;
 		}
 
-        public Task<User> SignIn(string phone, string password)
+        public Task<Profile> SignIn(string phone, string password)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -37,8 +37,7 @@ namespace Tollminder.Core.Services.Implementation
                 ["password"] = password
             };
 
-            var user = SendAsync<Dictionary<string, object>, User>(parameters, $"{BaseApiUrl}user/signin");
-            return user;
+            return SendAsync<Dictionary<string, object>, Profile>(parameters, $"{BaseApiUrl}user/signin");
         }
 
         public Task<string> DownloadPayHistory(string userId, DateTime dateFrom, DateTime dateTo)
@@ -48,39 +47,35 @@ namespace Tollminder.Core.Services.Implementation
                 user = userId,
                 range = new
                 {
-                    from = dateFrom.ToString("O"),//"2016-10-01 00:00:00",//
-                    to = dateTo.ToString("O")//"2017-01-05 00:00:00"//
+                    from = dateFrom.ToString("O"),
+                    to = dateTo.ToString("O")
                 }
             };
 
             return SendAsync<object, string>(parameters, $"{BaseApiUrl}file/paymentHistoryPdf");
         }
 
-
         public Task<List<PayHistory>> GetPayHistory(string userId, DateTime dateFrom, DateTime dateTo)
         {
             var parameters = new
             {
                 user = userId,
-                from = dateFrom.ToString("O"),//"2016-10-01 00:00:00",//
-                to = dateTo.ToString("O")//"2017-01-05 00:00:00"//
+                from = dateFrom.ToString("O"),
+                to = dateTo.ToString("O")
             };
 
             return SendAsync<object, List<PayHistory>>(parameters, $"{BaseApiUrl}trip/paymentHistory");
         }
 
-        private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1);
-
-        public static long ToUnixTime(DateTime dateTime)
+        public Task<Profile> GetProfile(string id)
         {
-            return (dateTime - UnixEpoch).Ticks / TimeSpan.TicksPerMillisecond;
-        }
-
-        public Task<User> GetUser(string id)
-        {
-            var user = GetAsync<User>($"{BaseApiUrl}user/{id}");
+            var user = GetAsync<Profile>($"{BaseApiUrl}user/{id}");
             return user;
         }
-	}
-}
 
+        public Task<System.Net.HttpStatusCode> SaveProfile(Profile profile)
+        {
+            return SendAsync<Profile>(profile, $"{BaseApiUrl}user/signin", CancellationToken.None);
+        }
+    }
+}

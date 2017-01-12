@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using MvvmCross.Platform;
 using MvvmCross.Plugins.Sqlite;
-using Newtonsoft.Json;
 using SQLiteNetExtensions.Extensions;
-using Tollminder.Core.Helpers;
 using Tollminder.Core.Models;
 using Xamarin.Forms;
 
@@ -18,7 +15,7 @@ namespace Tollminder.Core.Services.Implementation
     {
         readonly ICheckerAppFirstLaunch _checkerAppFirstLaunch;
         readonly IStoredSettingsBase storedSettingsBase;
-        private User _user;
+        private Profile _user;
         string databaseName = "tollminder.sqlite";
         SQLite.SQLiteConnection _connection;
         SQLite.SQLiteConnection Connection
@@ -68,11 +65,10 @@ namespace Tollminder.Core.Services.Implementation
 
         void TryCreateTables()
         {
-            Connection.CreateTable<User>();
+            Connection.CreateTable<Profile>();
             Connection.CreateTable<TollPoint>();
             Connection.CreateTable<TollRoadWaypoint>();
             Connection.CreateTable<TollRoad>();
-            //Connection.CreateTable<StatesData>();
         }
 
         public void InsertOrUpdateAllTollRoads(IList<TollRoad> tollRoads)
@@ -145,16 +141,16 @@ namespace Tollminder.Core.Services.Implementation
             }
         }
 
-        public void SetUser(User user)
+        public void SetUser(Profile user)
         {
             Connection.InsertOrReplace(user);
         }
 
-        async Task<User> GetUser(string token)
+        async Task<Profile> GetUser(string token)
         {
-            var userFromDataBase = Connection.Get<User>(x => x.Token == token);
+            var userFromDataBase = Connection.Get<Profile>(x => x.Token == token);
             var _serverApiService = Mvx.Resolve<IServerApiService>();
-            _user = await _serverApiService.GetUser(userFromDataBase.Id);
+            _user = await _serverApiService.GetProfile(userFromDataBase.Id);
 
             return _user;
         }
@@ -183,52 +179,6 @@ namespace Tollminder.Core.Services.Implementation
             var elemTp = new List<TollPoint>();
             var roadsIds = tollRoads.Select(x => x.Id);
 
-            //foreach(var tollRoad in tollRoadsFromLocalDatabase)
-            //{
-            //    //GetElementsToRemove(tollRoad);
-            //    if (!roadsIds.Contains(tollRoad.Id))
-            //        elementsToRemove.Add(tollRoad);
-            //    else
-            //    {
-            //        foreach (var wayPoint in tollRoad.WayPoints)
-            //        {
-            //            if (!tollRoads.Select(x => x.WayPoints).Contains(tollRoad.WayPoints))
-            //                elemWp.Add(wayPoint);
-            //            else {
-            //                foreach (var tollPoint in wayPoint.TollPoints)
-            //                {
-            //                    if (tollPoint.Id != tollRoad.Id)
-            //                        elemTp.Add(tollPoint);
-            //                }
-            //            }
-            //        }
-            //        elementsToRemove.Add(new TollRoad{
-            //            Id = tollRoad.Id,
-            //            Name = tollRoad.Name,
-            //            Latitude = tollRoad.Latitude,
-            //            Longitude = tollRoad.Longitude,
-            //            WayPoints = 
-            //        };
-            //    }
-            //        //GetElementsToRemove(tollRoad.WayPoints.FindAll(tollRoads.Select(wp => wp.Id)));
-                    
-            //}
-            return elementsToRemove;
-        }
-
-        List<TollRoad> GetElementsToRemove(object tollRoad)
-        {
-            tollRoad.GetType().GetProperties();
-            List<TollRoad> elementsToRemove = new List<TollRoad>();
-            foreach (var road in tollRoad.GetType().GetProperties())
-            {
-                Debug.WriteLine(road.Name);
-                //if (tollRoad.)
-                //{
-                //    GetElementsToRemove();
-                //}
-                //elementsToRemove.Add(tollRoad);
-            }
             return elementsToRemove;
         }
     }

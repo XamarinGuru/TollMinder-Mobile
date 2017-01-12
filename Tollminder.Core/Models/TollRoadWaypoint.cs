@@ -10,8 +10,7 @@ namespace Tollminder.Core.Models
 	[Table("TollRoadWaypoints")]
 	public class TollRoadWaypoint : IEquatable<TollRoadWaypoint>, IDatabaseEntry
 	{
-		[PrimaryKey]//, AutoIncrement]
-        //public int DBId { get; set; }
+		[PrimaryKey]
         [JsonProperty("_id")]
 		public string Id { get; set; }
         [JsonProperty("_tollRoad")]
@@ -27,8 +26,6 @@ namespace Tollminder.Core.Models
         [JsonProperty("longitude")]
         public double Longitude { get; set;}
        
-        //[OneToOne(CascadeOperations = CascadeOperation.All)]
-        //[JsonProperty("location")]
         [Ignore]
         public GeoLocation Location { get; set; }
 

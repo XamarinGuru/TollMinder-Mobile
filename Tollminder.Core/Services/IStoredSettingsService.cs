@@ -19,7 +19,10 @@ namespace Tollminder.Core.Services
 		DateTime SleepGPSDateTime { get; set; }
 
         bool IsAuthorized { get; set; }
+        bool IsDataSynchronized { get; set; }
         string AuthToken { get; set; }
+        string ProfileId { get; set; }
+        Profile Profile { get; set; }
 
         DateTime LastSyncDateTime { get; set; }
 	}

@@ -111,7 +111,7 @@
     <Compile Include="Models\BaseApiResponse.cs" />
     <Compile Include="Helpers\DateTimeFromUnixConverterHelper.cs" />
     <Compile Include="Helpers\DateHelper.cs" />
-    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\Profile.cs" />
     <Compile Include="Models\ErrorApiResponse.cs" />
     <Compile Include="Services\Implementation\HttpClientService.cs" />
     <Compile Include="Services\IHttpClientService.cs" />
@@ -148,6 +148,10 @@
     <Compile Include="Models\Rate.cs" />
     <Compile Include="ViewModels\PayHistoryPdfViewModel.cs" />
     <Compile Include="Services\IDownloadManager.cs" />
+    <Compile Include="Services\ISynchronisationService.cs" />
+    <Compile Include="Services\IProfileSettingService.cs" />
+    <Compile Include="Services\Implementation\ProfileSettingService.cs" />
+    <Compile Include="Services\Implementation\SynchronisationService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>

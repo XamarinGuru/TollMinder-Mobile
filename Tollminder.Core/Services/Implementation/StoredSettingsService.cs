@@ -97,6 +97,24 @@ namespace Tollminder.Core.Services.Implementation
             get { return _storedSettingsBase.Get<string>(); }
             set { _storedSettingsBase.Set(value); }
         }
+
+        public bool IsDataSynchronized
+        {
+            get { return _storedSettingsBase.Get<bool>(); }
+            set { _storedSettingsBase.Set(value); }
+        }
+
+        public string ProfileId
+        {
+            get { return _storedSettingsBase.Get<string>(); }
+            set { _storedSettingsBase.Set(value); }
+        }
+
+        public Profile Profile
+        {
+            get { return _storedSettingsBase.Get<Profile>(); }
+            set { _storedSettingsBase.Set(value); }
+        }
     }
 }
 

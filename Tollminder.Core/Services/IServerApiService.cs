@@ -9,9 +9,10 @@ namespace Tollminder.Core.Services
 	public interface IServerApiService
 	{
         Task<IList<TollRoad>> RefreshTollRoads (long lastSyncDateTime, CancellationToken token);
-        Task<User> SignIn(string phone, string password);
-        Task<User> GetUser(string id);
+        Task<Profile> SignIn(string phone, string password);
+        Task<Profile> GetProfile(string userId);
         Task<List<PayHistory>> GetPayHistory(string userId, DateTime dateFrom, DateTime dateTo);
         Task<string> DownloadPayHistory(string userId, DateTime dateFrom, DateTime dateTo);
+        Task<System.Net.HttpStatusCode> SaveProfile(Profile profile);
 	}
 }

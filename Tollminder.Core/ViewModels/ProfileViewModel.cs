@@ -12,17 +12,25 @@ namespace Tollminder.Core.ViewModels
     public class ProfileViewModel : BaseViewModel
     {
         readonly ILoadResourceData<StatesData> loadResourceData;
+        readonly ISynchronisationService synchronisationService;
+        readonly IProfileSettingService profileSettingService;
         readonly int firstState = 0;
 
         public ProfileViewModel()
         {
-            if (Mvx.CanResolve<ILoadResourceData<StatesData>>())
-                loadResourceData = Mvx.Resolve<ILoadResourceData<StatesData>>();
+            loadResourceData = Mvx.Resolve<ILoadResourceData<StatesData>>();
+            profileSettingService = Mvx.Resolve<IProfileSettingService>();
+            synchronisationService = Mvx.Resolve<ISynchronisationService>();
+
             backHomeCommand = new MvxCommand(() => { ShowViewModel<HomeViewModel>(); });
             addLicenseCommand = new MvxCommand(() => { ShowViewModel<LicenseViewModel>(); });
             addCreditCardCommand = new MvxCommand(() => { ShowViewModel<CreditCardViewModel>(); });
+
             States = loadResourceData.GetData("Tollminder.Core.states.json");
             SelectedState = States[firstState];
+
+            //synchronisationService.DataSynchronisation();
+            //profileSettingService.GetProfile();
         }
 
         public override void Start()
@@ -63,6 +71,18 @@ namespace Tollminder.Core.ViewModels
         public string StateAbbreviation
         {
             get { return SelectedState.Abbreviation; }
+        }
+
+        private Profile profile;
+        public Profile Profile
+        {
+            get { return profile; }
+            set
+            {
+                SetProperty(ref profile, value);
+                RaisePropertyChanged(() => Profile);
+                //profileSettingService.SaveProfile(Profile);
+            }
         }
     }
 }

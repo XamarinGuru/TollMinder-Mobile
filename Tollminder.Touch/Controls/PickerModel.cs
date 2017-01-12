@@ -4,7 +4,7 @@ using UIKit;
 
 namespace Tollminder.Touch.Controls
 {
-    public class PickerModel<T> : UIPickerViewModel
+    public class PickerModel : UIPickerViewModel
     {
         static string[] names = new string[] {
             "pscorlib.dll",
@@ -17,10 +17,10 @@ namespace Tollminder.Touch.Controls
             "psc.exe"
         };
 
-        private TextFieldValidationWithImage textField;
+        private string textField;
         private string[] elements;
 
-        public PickerModel(TextFieldValidationWithImage textField, string[] elementsList)
+        public PickerModel(string textField, string[] elementsList)//TextFieldValidationWithImage
         {
             this.textField = textField;
             elements = elementsList;
@@ -33,7 +33,7 @@ namespace Tollminder.Touch.Controls
 
         public override nint GetRowsInComponent(UIPickerView pickerView, nint component)
         {
-            return elements.Length;
+            return names.Length;//elements.Length;
         }
 
         public override string GetTitle(UIPickerView pickerView, nint row, nint component)
@@ -41,7 +41,7 @@ namespace Tollminder.Touch.Controls
             switch (component)
             {
                 case 0:
-                    return elements[row];
+                    return names[row];
                 default:
                     throw new NotImplementedException();
             }
@@ -49,8 +49,8 @@ namespace Tollminder.Touch.Controls
 
         public override void Selected(UIPickerView pickerView, nint row, nint component)
         {
-            textField.TextFieldWithValidator.TextField.Text = String.Format("{0}",
-                elements[pickerView.SelectedRowInComponent(0)]);
+           textField = String.Format("{0}", //textField.TextFieldWithValidator.TextField.Text = String.Format("{0}",
+                names[pickerView.SelectedRowInComponent(0)]);
             pickerView.Hidden = true;
         }
 

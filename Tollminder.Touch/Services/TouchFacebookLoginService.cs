@@ -26,7 +26,7 @@ namespace Tollminder.Touch.Services
 
         public void Initialize()
         {
-            Profile.EnableUpdatesOnAccessTokenChange(true);
+            Facebook.CoreKit.Profile.EnableUpdatesOnAccessTokenChange(true);
             Settings.AppID = "194561500997971";
             Settings.DisplayName = "TollMinder";
             manager = new LoginManager();

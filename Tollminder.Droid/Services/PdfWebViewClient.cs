@@ -7,7 +7,7 @@ using Tollminder.Core.Services;
 
 namespace Tollminder.Droid.Services
 {
-    public class PdfWebViewClient : WebViewClient, IDownloadListener
+    public class PdfWebViewClient : WebViewClient
     {
         private ProgressDialog progressBar;
         private Context context;
@@ -37,11 +37,6 @@ namespace Tollminder.Droid.Services
         {
             if (progressBar.IsShowing)
                 progressBar.Dismiss();
-        }
-
-        public void OnDownloadStart(string url, string userAgent, string contentDisposition, string mimetype, long contentLength)
-        {
-            
         }
     }
 }

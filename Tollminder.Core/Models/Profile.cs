@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Tollminder.Core.Models
 {
-    public class User
+    public class Profile
     {
         [JsonProperty(PropertyName = "_id")]
         public string Id { get; set; }
@@ -38,8 +38,8 @@ namespace Tollminder.Core.Models
         public string State { get; set; }
         [JsonProperty(PropertyName = "zipCode")]
         public string ZipCode { get; set; }
-        //[JsonProperty(PropertyName = "licensePlate")]
-        //public DriverLicense LicensePlate { get; set; }
+        [JsonProperty(PropertyName = "driverLicense")]
+        public DriverLicense DriverLicense { get; set; }
         // Here could be your credit cards
     }
 }
