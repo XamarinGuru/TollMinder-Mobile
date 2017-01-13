@@ -5,7 +5,6 @@ using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using Tollminder.Core.Models;
 using Tollminder.Core.Services;
-using Xamarin.Forms;
 
 namespace Tollminder.Core.ViewModels
 {
@@ -22,7 +21,10 @@ namespace Tollminder.Core.ViewModels
             profileSettingService = Mvx.Resolve<IProfileSettingService>();
             synchronisationService = Mvx.Resolve<ISynchronisationService>();
 
-            backHomeCommand = new MvxCommand(() => { ShowViewModel<HomeViewModel>(); });
+            backHomeCommand = new MvxCommand(() => { 
+                synchronisationService.DataSynchronisation();
+                ShowViewModel<HomeViewModel>(); 
+            });
             addLicenseCommand = new MvxCommand(() => { ShowViewModel<LicenseViewModel>(); });
             addCreditCardCommand = new MvxCommand(() => { ShowViewModel<CreditCardViewModel>(); });
             statesWheelCommand = new MvxCommand(() => { 
@@ -87,7 +89,8 @@ namespace Tollminder.Core.ViewModels
             {
                 SetProperty(ref profile, value);
                 RaisePropertyChanged(() => Profile);
-                profileSettingService.SaveProfile(Profile);
+                if(Profile != null)
+                    profileSettingService.SaveProfile(Profile);
             }
         }
 

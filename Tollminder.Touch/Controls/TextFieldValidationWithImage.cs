@@ -11,6 +11,8 @@ namespace Tollminder.Touch.Controls
     public class TextFieldValidationWithImage : UIView
     {
         UITapGestureRecognizer _clickAction;
+        public UIImageView LeftImageView { get; private set; }
+        public TextFieldWithValidator TextFieldWithValidator { get; private set; }
 
         public TextFieldValidationWithImage() : base()
         {
@@ -31,9 +33,6 @@ namespace Tollminder.Touch.Controls
         {
             InitObjects();
         }
-
-        public UIImageView LeftImageView { get; private set; }
-        public TextFieldWithValidator TextFieldWithValidator { get; private set; }
 
         public void SetClickAction(UITapGestureRecognizer action)
         {

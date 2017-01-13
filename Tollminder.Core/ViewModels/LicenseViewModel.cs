@@ -13,11 +13,14 @@ namespace Tollminder.Core.ViewModels
     {
         readonly ILoadResourceData<StatesData> loadStatesData;
         readonly ILoadResourceData<string> loadVehicleData;
+        readonly IProfileSettingService profileSettingService;
         readonly int firstElement = 0;
         
         public LicenseViewModel()
         {
             loadStatesData = Mvx.Resolve<ILoadResourceData<StatesData>>();
+            profileSettingService = Mvx.Resolve<IProfileSettingService>();
+
             States = loadStatesData.GetData("Tollminder.Core.states.json");
             SelectedState = States[firstElement];
 
@@ -49,6 +52,19 @@ namespace Tollminder.Core.ViewModels
         public ICommand StatesWheelCommand { get { return statesWheelCommand; } }
         private MvxCommand vehicleClassesWheelCommand;
         public ICommand VehicleClassesWheelCommand { get { return vehicleClassesWheelCommand; } }
+
+       private Profile profile;
+        public Profile Profile
+        {
+            get { return profile; }
+            set
+            {
+                SetProperty(ref profile, value);
+                RaisePropertyChanged(() => Profile);
+                if (Profile != null)
+                    profileSettingService.SaveProfile(Profile);
+            }
+        }
 
         // States
         private List<StatesData> states;

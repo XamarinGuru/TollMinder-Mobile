@@ -29,7 +29,6 @@ namespace Tollminder.Touch.Views
         RoundedButton _payHistoryButton;
         RoundedButton _callCentergButton;
         RoundedButton logoutButton;
-        //RoundedButtonManager RoundedButtonManager;
         public new HomeViewModel ViewModel { get { return base.ViewModel as HomeViewModel; } }
         
         public HomeView()
@@ -84,10 +83,6 @@ namespace Tollminder.Touch.Views
                 _trackingButton.BackgroundColor = UIColor.White;
                 _trackingButton.Alpha = 0.7f;
                 _trackingButton.ButtonTextColor = UIColor.FromRGB(3, 117, 27);
-                //var blur = new UIVisualEffectView(UIBlurEffect.FromStyle(UIBlurEffectStyle.Light));
-                //blur.Frame = _trackingButton.Bounds;
-                //blur.UserInteractionEnabled = true;
-                //_trackingButton.InsertSubview(blur, 0);
             });
             //_callCentergButton = ButtonInitiaziler(null, UIImage.FromFile(@"Images/ic_home_support.png"));
             //_callCentergButton.ButtonText.TextColor = UIColor.LightGray;
@@ -96,7 +91,6 @@ namespace Tollminder.Touch.Views
             //callCenterLabel.TextColor = UIColor.LightGray;
 
             applicationBoard.Frame = new CoreGraphics.CGRect(10, 10, applicationBoard.Image.CGImage.Width, applicationBoard.Image.CGImage.Height);
-            //centerView.BackgroundColor = UIColor.Magenta;//UIColor.FromPatternImage(UIImage.FromFile(@"Images/home_board.png"));
             centerView.AddIfNotNull(applicationBoard, _profileButton, _payButton, _payHistoryButton);
             centerView.AddConstraints(
                 applicationBoard.WithSameHeight(centerView),
@@ -146,7 +140,6 @@ namespace Tollminder.Touch.Views
                 bottomView.WithRelativeHeight(View, 0.27f),
                 bottomView.AtBottomOf(View, 30)
             );
-            //TouchSheduleNotification.SheduleNotification();
             SignIn.SharedInstance.UIDelegate = this;
         }
 

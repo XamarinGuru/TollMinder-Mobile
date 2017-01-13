@@ -13,26 +13,7 @@ namespace Tollminder.Touch.Controls
     {
         UILabel _topLabel;
         UIColor topLabelColor;
-
-        public TextFieldWithValidator() : base()
-        {
-            InitObjects();
-        }
-
-        public TextFieldWithValidator(IntPtr handle) : base(handle)
-        {
-            InitObjects();
-        }
-
-        public TextFieldWithValidator(NSCoder coder) : base(coder)
-        {
-            InitObjects();
-        }
-
-        public TextFieldWithValidator(CGRect rect) : base(rect)
-        {
-            InitObjects();
-        }
+        public UIColor ErrorColor { get; set; } = UIColor.Red;
 
         TextFieldHandleText _textField;
         public TextFieldHandleText TextField
@@ -69,7 +50,25 @@ namespace Tollminder.Touch.Controls
             }
         }
 
-        public UIColor ErrorColor { get; set; } = UIColor.Red;
+        public TextFieldWithValidator() : base()
+        {
+            InitObjects();
+        }
+
+        public TextFieldWithValidator(IntPtr handle) : base(handle)
+        {
+            InitObjects();
+        }
+
+        public TextFieldWithValidator(NSCoder coder) : base(coder)
+        {
+            InitObjects();
+        }
+
+        public TextFieldWithValidator(CGRect rect) : base(rect)
+        {
+            InitObjects();
+        }
 
         void InitObjects()
         {

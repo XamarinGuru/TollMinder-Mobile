@@ -12,9 +12,9 @@ namespace Tollminder.Core
        public void Start(object hint = null)
         {
             var storedSettings = Mvx.Resolve<IStoredSettingsService>();
-            //var dataBaseService = new DataBaseService();
 
-            if (storedSettings.IsAuthorized)// && dataBaseService.IsTokenStillValid(storedSettings.AuthToken).Result)
+            // need to check it 
+            if (storedSettings.IsAuthorized) // AuthorizeTokenSynchronisation()
             {
                 ShowViewModel<HomeViewModel>();
             }

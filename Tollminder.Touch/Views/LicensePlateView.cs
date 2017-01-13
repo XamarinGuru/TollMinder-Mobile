@@ -195,14 +195,14 @@ namespace Tollminder.Touch.Views
                 set.Bind(statesPickerViewModel).For(p => p.ItemsSource).To(vm => vm.States);
                 set.Bind(statesPickerViewModel).For(p => p.SelectedItem).To(vm => vm.SelectedState);
                 set.Bind(stateLabel.WheelText).To(vm => vm.SelectedState);
-                //set.Bind(stateLabel).For(x => x.Enabled).To(vm => vm.IsBusy).WithConversion(new BoolInverseConverter());
+                set.Bind(stateLabel).For(x => x.Enabled).To(vm => vm.IsBusy).WithConversion(new BoolInverseConverter());
                 set.Bind(statesPicker).For(x => x.Hidden).To(vm => vm.IsStateWheelHidden).WithConversion(new BoolInverseConverter());
                 set.Bind(stateLabel).To(vm => vm.StatesWheelCommand);
 
                 set.Bind(vehicleClassesPickerViewModel).For(p => p.ItemsSource).To(vm => vm.VehicleClasses);
                 set.Bind(vehicleClassesPickerViewModel).For(p => p.SelectedItem).To(vm => vm.SelectedVehicleClass);
                 set.Bind(vehicleClassLabel.WheelText).To(vm => vm.SelectedVehicleClass);
-                //set.Bind(vehicleClassLabel).For(x => x.Enabled).To(vm => vm.IsBusy).WithConversion(new BoolInverseConverter());
+                set.Bind(vehicleClassLabel).For(x => x.Enabled).To(vm => vm.IsBusy).WithConversion(new BoolInverseConverter());
                 set.Bind(vehicleClassesPicker).For(x => x.Hidden).To(vm => vm.IsVehicleClassWheelHidden).WithConversion(new BoolInverseConverter());
                 set.Bind(vehicleClassLabel).To(vm => vm.VehicleClassesWheelCommand);
                 

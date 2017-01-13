@@ -316,7 +316,6 @@
     <Compile Include="Helpers\ProfileButtonManager.cs" />
     <Compile Include="Views\LicensePlateView.cs" />
     <Compile Include="Controls\PickerModel.cs" />
-    <Compile Include="Views\PayHistoryView.cs" />
     <Compile Include="Controls\LabelForDataWheel.cs" />
     <Compile Include="Views\PayHistoryView\PayHistoryView.cs" />
     <Compile Include="Views\PayHistoryView\PayHistoryCell.cs" />

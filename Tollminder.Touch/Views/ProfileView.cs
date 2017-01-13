@@ -68,7 +68,7 @@ namespace Tollminder.Touch.Views
 
             // Hide navigation bar
             NavigationController.SetNavigationBarHidden(true, false);
-            View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile(@"Images/tab_background.png").Scale(View.Frame.Size));//EnvironmentInfo.CheckDevice().Scale(View.Frame.Size));
+            View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile(@"Images/tab_background.png").Scale(View.Frame.Size));
             profileNavigationBarBackground.Frame = new CoreGraphics.CGRect(10, 10, profileNavigationBarBackground.Image.CGImage.Width, profileNavigationBarBackground.Image.CGImage.Height);
 
             topView.AddIfNotNull(profileNavigationBarBackground, backHomeView);
