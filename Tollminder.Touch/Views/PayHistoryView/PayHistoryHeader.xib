@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="1" customClass="PayHistoryHeader">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <color key="backgroundColor" customColorSpace="sRGB" colorSpace="calibratedRGB" red="0.46274509803921571" green="0.8901960784313725" blue="0.78431372549019607" alpha="1"/>
+            <subviews>
+                <view contentMode="scaleToFill" id="4" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                    <rect key="frame" x="305" y="0.0" width="1" height="600"/>
+                    <color key="backgroundColor" colorSpace="calibratedRGB" red="0.074509803921568626" green="0.57647058823529407" blue="0.43529411764705883" alpha="1"/>
+                    <constraints>
+                        <constraint id="62" firstItem="4" firstAttribute="width" constant="1"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tollroad" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="25" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                    <rect key="frame" x="203.5" y="290" width="61.5" height="20.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amount" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="29" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                    <rect key="frame" x="347" y="290" width="60" height="20.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <constraints>
+                <constraint id="26" firstItem="25" firstAttribute="centerY" secondItem="1" secondAttribute="centerY"/>
+                <constraint id="27" firstItem="25" firstAttribute="centerY" secondItem="1" secondAttribute="centerY"/>
+                <constraint id="31" firstItem="29" firstAttribute="centerY" secondItem="1" secondAttribute="centerY"/>
+                <constraint id="45" firstItem="4" firstAttribute="centerX" secondItem="1" secondAttribute="centerX"/>
+                <constraint id="48" firstItem="4" firstAttribute="top" secondItem="1" secondAttribute="top"/>
+                <constraint id="49" firstItem="4" firstAttribute="bottom" secondItem="1" secondAttribute="bottom"/>
+                <constraint id="50" firstItem="29" firstAttribute="leading" secondItem="4" secondAttribute="trailing" constant="40"/>
+                <constraint id="51" firstItem="4" firstAttribute="leading" secondItem="25" secondAttribute="trailing" constant="40"/>
+            </constraints>
+        </view>
+    </objects>
+    <resources>
+        <image name="Image" width="1242" height="2208"/>
+        <image name="Images/navigation_bar_background.png" width="750" height="275"/>
+        <image name="Images/tab_background.png" width="750" height="1059"/>
+        <image name="Images/creditCardView/creditCards.png" width="590" height="96"/>
+        <image name="Images/loginView/facebook_logIn.png" width="100" height="46"/>
+        <image name="Images/loginView/facebook-button.png" width="101" height="39"/>
+        <image name="Images/loginView/google-button.png" width="102" height="39"/>
+        <image name="Images/homeView/home_board.png" width="1122" height="933"/>
+        <image name="Images/homeView/ic_home_pay.png" width="270" height="270"/>
+        <image name="Images/homeView/ic_home_pay_history.png" width="270" height="270"/>
+        <image name="Images/homeView/ic_home_profile.png" width="271" height="270"/>
+        <image name="Images/homeView/ic_home_support.png" width="65" height="67"/>
+        <image name="Images/homeView/ic_home_tracking_active.png" width="339" height="339"/>
+        <image name="Images/homeView/ic_home_tracking_default.png" width="339" height="339"/>
+        <image name="Images/main_background.png" width="1242" height="2208"/>
+        <image name="Images/main_background-640h.png" width="180" height="320"/>
+        <image name="Images/main_background-667h.png" width="375" height="667"/>
+        <image name="Images/logo.png" width="334" height="40"/>
+        <image name="Images/payHistoryView/Calendar.png" width="43" height="33"/>
+        <image name="Images/payHistoryView/Download.png" width="32" height="32"/>
+        <image name="Images/profileView/ic_card.png" width="40" height="26"/>
+        <image name="Images/profileView/ic_license.png" width="40" height="26"/>
+        <image name="Images/creditCardView/amex.png" width="54" height="36"/>
+        <image name="Images/creditCardView/discover.png" width="54" height="36"/>
+        <image name="Images/creditCardView/MasterCard.png" width="54" height="36"/>
+        <image name="Images/creditCardView/visa.png" width="54" height="36"/>
+        <image name="Images/ic_back.png" width="35" height="30"/>
+    </resources>
+</document>

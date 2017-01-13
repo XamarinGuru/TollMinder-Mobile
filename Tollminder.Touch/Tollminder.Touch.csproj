@@ -27,7 +27,7 @@
     <MtouchUseSGen>true</MtouchUseSGen>
     <MtouchFastDev>true</MtouchFastDev>
     <MtouchDebug>true</MtouchDebug>
-    <CodesignKey>iPhone Developer: Dmitry Stepanov (BV8YE8XU9Y)</CodesignKey>
+    <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchProfiling>true</MtouchProfiling>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
@@ -251,6 +251,8 @@
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.xib" />
     <InterfaceDefinition Include="Views\ProfileView.xib" />
+    <InterfaceDefinition Include="Views\PayHistoryView\PayHistoryCell.xib" />
+    <InterfaceDefinition Include="Views\PayHistoryView\PayHistoryHeader.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -316,6 +318,15 @@
     <Compile Include="Controls\PickerModel.cs" />
     <Compile Include="Views\PayHistoryView.cs" />
     <Compile Include="Controls\LabelForDataWheel.cs" />
+    <Compile Include="Views\PayHistoryView\PayHistoryView.cs" />
+    <Compile Include="Views\PayHistoryView\PayHistoryCell.cs" />
+    <Compile Include="Views\PayHistoryView\PayHistoryCell.designer.cs">
+      <DependentUpon>PayHistoryCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PayHistoryView\PayHistoryHeader.cs" />
+    <Compile Include="Views\PayHistoryView\PayHistoryHeader.designer.cs">
+      <DependentUpon>PayHistoryHeader.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets')" />
@@ -346,6 +357,7 @@
     <Folder Include="Resources\Images\profileView\" />
     <Folder Include="Resources\Images\payHistoryView\" />
     <Folder Include="Resources\Images\creditCardView\" />
+    <Folder Include="Views\PayHistoryView\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\OpenEars1.dic" />
