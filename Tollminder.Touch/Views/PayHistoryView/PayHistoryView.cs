@@ -17,13 +17,15 @@ using UIKit;
 using Foundation;
 using Tollminder.Touch.Converters;
 using System.Diagnostics;
+using System.Drawing;
+using MvvmCross.Binding.iOS.Views;
 
 namespace Tollminder.Touch.Views
 {
     public class PayHistoryView : BaseViewController<PayHistoryViewModel>, ISignInUIDelegate, ICleanBackStack
     {
         UIButton backHomeView;
-
+		UITableView tableView;
         TextFieldValidationWithImage firstNameTextField;
         TextFieldValidationWithImage lastNameTextField;
         TextFieldValidationWithImage emailTextField;
@@ -51,9 +53,10 @@ namespace Tollminder.Touch.Views
             base.InitializeObjects();
 
             var topView = new UIView();
-            var scrollView = new UIScrollView();
-            var topTextRowView = new UIView();
-            var centerTextRowView = new UIView();
+            var scrollView = new UIView();
+			var topTextRowView = PayHistoryHeader.Create();
+            
+			var centerTextRowView = new UIView();
             var bottomTextRowView = new UIView();
             var bottomView = new UIView();
             backHomeView = UIButton.FromType(UIButtonType.Custom);
@@ -87,25 +90,24 @@ namespace Tollminder.Touch.Views
             
             dowloadHistoryButton = ProfileButtonManager.ButtonInitiaziler("Download History", UIImage.FromFile(@"Images/profileView/ic_license.png"));
 
-            topTextRowView.AddIfNotNull(firstNameTextField, lastNameTextField);
-            topTextRowView.AddConstraints(
-                firstNameTextField.AtTopOf(topTextRowView),
-                firstNameTextField.AtLeftOf(topTextRowView),
-                firstNameTextField.WithRelativeWidth(topTextRowView, 0.475f),
-                firstNameTextField.WithSameHeight(topTextRowView),
+			 tableView = new UITableView();
 
-                lastNameTextField.AtTopOf(topTextRowView),
-                lastNameTextField.AtRightOf(topTextRowView),
-                lastNameTextField.WithRelativeWidth(topTextRowView, 0.475f),
-                lastNameTextField.WithSameHeight(topTextRowView)
-            );
 
-            bottomView.AddIfNotNull(dowloadHistoryButton);
+            bottomView.AddIfNotNull(dowloadHistoryButton,tableView);
             bottomView.AddConstraints(
+
+
                 dowloadHistoryButton.AtTopOf(bottomView),
                 dowloadHistoryButton.WithSameCenterX(bottomView),
                 dowloadHistoryButton.WithSameWidth(bottomView),
-                dowloadHistoryButton.WithRelativeHeight(bottomView, 0.4f)
+                dowloadHistoryButton.WithRelativeHeight(bottomView, 0.4f),
+
+				tableView.AtTopOf(bottomView),
+				tableView.WithSameCenterX(bottomView),
+				tableView.WithSameWidth(bottomView),
+				tableView.WithRelativeHeight(bottomView, 1)
+
+
             );
 
             scrollView.AddIfNotNull(topTextRowView, bottomView);
@@ -120,16 +122,17 @@ namespace Tollminder.Touch.Views
                 bottomView.AtLeftOf(scrollView),
                 bottomView.AtRightOf(scrollView),
                 bottomView.AtBottomOf(scrollView),
-                bottomView.WithRelativeHeight(scrollView, 0.27f)
+                bottomView.WithRelativeHeight(scrollView, 0.9f)
             );
-
+			scrollView.BackgroundColor = UIColor.Red;
             View.AddIfNotNull(topView, scrollView);
-            View.AddConstraints(
-                topView.AtTopOf(View),
-                topView.WithSameWidth(View),
-                topView.WithRelativeHeight(View, 0.2f),
+			View.AddConstraints(
+				topView.AtTopOf(View),
+				topView.WithSameWidth(View),
+				topView.WithRelativeHeight(View, 0.2f),
 
-                scrollView.Below(topView, 30),
+				scrollView.Below(topView, 1),
+
                 scrollView.AtLeftOf(View, 30),
                 scrollView.AtRightOf(View, 30),
                 scrollView.WithRelativeHeight(View, 0.8f)
@@ -157,15 +160,34 @@ namespace Tollminder.Touch.Views
         {
              base.InitializeBindings();
 
+
+			// choice here:
+			//
+			//   for original demo use:
+			//     var source = new MvxStandardTableViewSource(tableView, "TitleText");
+			//
+			//   or for prettier cells from XIB file use:
+			//     tableView.RowHeight = 88;
+			//     var source = new MvxSimpleTableViewSource(tableView, BookCell.Key, BookCell.Key);
+
+			tableView.RowHeight = 44;
+			var source = new MvxSimpleTableViewSource(tableView, PayHistoryCell.Key, PayHistoryCell.Key);
+			tableView.Source = source;
+			//tableView.TableHeaderView =  
+				
+
+
             var set = this.CreateBindingSet<PayHistoryView, PayHistoryViewModel>();
             set.Bind(backHomeView).To(vm => vm.BackHomeCommand);
             set.Bind(dowloadHistoryButton).To(vm => vm.DownloadHistoryCommand);
-            //set.Bind(_trackingButton.ButtonText).To(vm => vm.TrackingText);
-            //set.Bind(_trackingButton).For(x => x.ButtonImage).To(vm => vm.IsBound).
-            //   WithConversion("GetPathToImage");
-            //set.Bind(_profileButton).To(vm => vm.ProfileCommand);
-            //set.Bind(_callCentergButton.ButtonText).To(vm => vm.SupportText);
-            set.Apply();
+			set.Bind(source).To(vm => vm.History);
+
+			//set.Bind(_trackingButton.ButtonText).To(vm => vm.TrackingText);
+			//set.Bind(_trackingButton).For(x => x.ButtonImage).To(vm => vm.IsBound).
+			//   WithConversion("GetPathToImage");
+			//set.Bind(_profileButton).To(vm => vm.ProfileCommand);
+			//set.Bind(_callCentergButton.ButtonText).To(vm => vm.SupportText);
+			set.Apply();
         }
     }
 }
