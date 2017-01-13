@@ -65,10 +65,16 @@ namespace Tollminder.Core.Services.Implementation
 
         void TryCreateTables()
         {
-            Connection.CreateTable<Profile>();
-            Connection.CreateTable<TollPoint>();
-            Connection.CreateTable<TollRoadWaypoint>();
-            Connection.CreateTable<TollRoad>();
+            try
+            {
+                Connection.CreateTable<TollPoint>();
+                Connection.CreateTable<TollRoadWaypoint>();
+                Connection.CreateTable<TollRoad>();
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex.Message, ex.StackTrace);
+            }
         }
 
         public void InsertOrUpdateAllTollRoads(IList<TollRoad> tollRoads)

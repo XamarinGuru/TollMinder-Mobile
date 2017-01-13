@@ -1,10 +1,13 @@
 ﻿using System;
 using Newtonsoft.Json;
+using SQLite;
 
 namespace Tollminder.Core.Models
 {
-    public class Profile
+    [Table("Profile")]
+    public class Profile : IDatabaseEntry
     {
+        [PrimaryKey]
         [JsonProperty(PropertyName = "_id")]
         public string Id { get; set; }
         [JsonProperty(PropertyName = "firstName")]

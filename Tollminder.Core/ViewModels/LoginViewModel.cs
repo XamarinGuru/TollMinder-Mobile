@@ -72,6 +72,7 @@ namespace Tollminder.Core.ViewModels
         public override void Start()
         {
             base.Start();
+
             FacebookLoginService.Initialize();
             GPlusLoginService.Initialize();
         }
@@ -141,8 +142,10 @@ namespace Tollminder.Core.ViewModels
 
             if (success)
             {
-                _dataBaseService.SetUser(result);
+                //_dataBaseService.SetUser(result);
+                StoredSettingsService.Profile = result;
                 StoredSettingsService.IsAuthorized = true;
+                StoredSettingsService.ProfileId = result.Id;
                 StoredSettingsService.AuthToken = result.Token;
                 Close(this);
                 ShowViewModel<HomeViewModel>();

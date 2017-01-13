@@ -17,6 +17,7 @@ using UIKit;
 using Foundation;
 using Tollminder.Touch.Converters;
 using System.Diagnostics;
+using MvvmCross.Binding.iOS.Views;
 
 namespace Tollminder.Touch.Views
 {
@@ -31,6 +32,10 @@ namespace Tollminder.Touch.Views
         TextFieldValidationWithImage cityTextField;
         TextFieldValidationWithImage stateTextField;
         TextFieldValidationWithImage zipCodeTextField;
+
+        LabelForDataWheel stateLabel;
+        UIPickerView statesPicker;
+        MvxPickerViewModel statesPickerViewModel;
 
         ProfileButton addLicenseButton;
         ProfileButton addCreditCardButton;
@@ -85,6 +90,15 @@ namespace Tollminder.Touch.Views
             cityTextField = TextFieldInitializer("City");
             stateTextField = TextFieldInitializer("State");
             zipCodeTextField = TextFieldInitializer("Zip Code");
+
+            stateLabel = LabelDataWheelInitiaziler("State");
+            statesPicker = new UIPickerView();
+            statesPickerViewModel = new MvxPickerViewModel(statesPicker);
+            statesPicker.Model = statesPickerViewModel;
+            statesPicker.Hidden = true;
+            statesPicker.ShowSelectionIndicator = true;
+            //statesPicker.Model = new PickerModel<StatesData>(stateLabel, statesList);
+            statesPicker.BackgroundColor = UIColor.White;
             
             addLicenseButton = ProfileButtonManager.ButtonInitiaziler("Add License Plate", UIImage.FromFile(@"Images/profileView/ic_license.png"));
             addCreditCardButton = ProfileButtonManager.ButtonInitiaziler("Add Credit Card", UIImage.FromFile(@"Images/profileView/ic_card.png"));
@@ -120,12 +134,12 @@ namespace Tollminder.Touch.Views
                 cityTextField.WithRelativeHeight(centerTextRowView, 0.3f)
             );
 
-            bottomTextRowView.AddIfNotNull(stateTextField, zipCodeTextField);
+            bottomTextRowView.AddIfNotNull(stateLabel, zipCodeTextField);
             bottomTextRowView.AddConstraints(
-                stateTextField.AtTopOf(bottomTextRowView),
-                stateTextField.AtLeftOf(bottomTextRowView),
-                stateTextField.WithRelativeWidth(bottomTextRowView, 0.475f),
-                stateTextField.WithSameHeight(bottomTextRowView),
+                stateLabel.AtTopOf(bottomTextRowView),
+                stateLabel.AtLeftOf(bottomTextRowView),
+                stateLabel.WithRelativeWidth(bottomTextRowView, 0.475f),
+                stateLabel.WithSameHeight(bottomTextRowView),
 
                 zipCodeTextField.AtTopOf(bottomTextRowView),
                 zipCodeTextField.AtRightOf(bottomTextRowView),
@@ -172,7 +186,7 @@ namespace Tollminder.Touch.Views
                 bottomView.WithRelativeHeight(scrollView, 0.27f)
             );
 
-            View.AddIfNotNull(topView, scrollView);
+            View.AddIfNotNull(topView, scrollView, statesPicker);
             View.AddConstraints(
                 topView.AtTopOf(View),
                 topView.WithSameWidth(View),
@@ -181,13 +195,29 @@ namespace Tollminder.Touch.Views
                 scrollView.Below(topView, 30),
                 scrollView.AtLeftOf(View, 30),
                 scrollView.AtRightOf(View, 30),
-                scrollView.WithRelativeHeight(View, 0.8f)
+                scrollView.WithRelativeHeight(View, 0.8f),
+
+                statesPicker.AtBottomOf(View),
+                statesPicker.AtLeftOf(View),
+                statesPicker.AtRightOf(View),
+                statesPicker.WithSameWidth(View),
+                statesPicker.WithRelativeHeight(View, 0.2f)
             );
 
             SignIn.SharedInstance.UIDelegate = this;
             EnableNextKeyForTextFields(firstNameTextField.TextFieldWithValidator.TextField, lastNameTextField.TextFieldWithValidator.TextField, emailTextField.TextFieldWithValidator.TextField,
-                                       addressTextField.TextFieldWithValidator.TextField, cityTextField.TextFieldWithValidator.TextField, stateTextField.TextFieldWithValidator.TextField,
-                                       zipCodeTextField.TextFieldWithValidator.TextField);
+                                       addressTextField.TextFieldWithValidator.TextField, cityTextField.TextFieldWithValidator.TextField, zipCodeTextField.TextFieldWithValidator.TextField);
+        }
+
+        private LabelForDataWheel LabelDataWheelInitiaziler(string fieldName)
+        {
+            LabelForDataWheel labelWheel = new LabelForDataWheel();
+            labelWheel.PlaceHolderText = fieldName;
+            labelWheel.LabelTextColor = UIColor.Black;
+            labelWheel.WheelTextColor = UIColor.Cyan;
+            labelWheel.BackgroundColor = UIColor.White;
+            labelWheel.Layer.CornerRadius = 10;
+            return labelWheel;
         }
 
         private TextFieldValidationWithImage TextFieldInitializer(string placeholder)
@@ -211,7 +241,22 @@ namespace Tollminder.Touch.Views
             var set = this.CreateBindingSet<ProfileView, ProfileViewModel>();
             set.Bind(backHomeView).To(vm => vm.BackHomeCommand);
             set.Bind(addLicenseButton).To(vm => vm.AddLicenseCommand);
-            //set.Bind(_trackingButton.ButtonText).To(vm => vm.TrackingText);
+            set.Bind(firstNameTextField.TextFieldWithValidator.TextField).To(vm => vm.Profile.FirstName);
+            set.Bind(lastNameTextField.TextFieldWithValidator.TextField).To(vm => vm.Profile.LastName);
+            set.Bind(emailTextField.TextFieldWithValidator.TextField).To(vm => vm.Profile.Email);
+            set.Bind(addressTextField.TextFieldWithValidator.TextField).To(vm => vm.Profile.Address);
+            set.Bind(cityTextField.TextFieldWithValidator.TextField).To(vm => vm.Profile.City);
+
+            set.Bind(stateTextField.TextFieldWithValidator.TextField).To(vm => vm.Profile.State);
+
+            set.Bind(statesPickerViewModel).For(p => p.ItemsSource).To(vm => vm.States);
+            set.Bind(statesPickerViewModel).For(p => p.SelectedItem).To(vm => vm.SelectedState);
+            set.Bind(stateLabel.WheelText).To(vm => vm.SelectedState);
+            //set.Bind(stateLabel).For(x => x.Enabled).To(vm => vm.IsBusy).WithConversion(new BoolInverseConverter());
+            set.Bind(statesPicker).For(x => x.Hidden).To(vm => vm.IsStateWheelHidden).WithConversion(new BoolInverseConverter());
+            set.Bind(stateLabel).To(vm => vm.StatesWheelCommand);
+
+            set.Bind(zipCodeTextField.TextFieldWithValidator.TextField).To(vm => vm.Profile.ZipCode);
             //set.Bind(_trackingButton).For(x => x.ButtonImage).To(vm => vm.IsBound).
             //   WithConversion("GetPathToImage");
             //set.Bind(_profileButton).To(vm => vm.ProfileCommand);

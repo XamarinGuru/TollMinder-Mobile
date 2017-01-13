@@ -55,6 +55,11 @@ namespace Tollminder.Touch
         {
             get { return GetScreenSize > 640 ? 60 : 50; }
         }
+
+        public static nfloat GetLabelDataWheelDistanceBetweenPlaceholderAndWheelText
+        {
+            get { return GetScreenSize > 640 ? 3 : 2; }
+        }
 	}
 }
 

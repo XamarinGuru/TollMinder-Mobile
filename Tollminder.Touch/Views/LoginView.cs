@@ -48,26 +48,25 @@ namespace Tollminder.Touch.Views
             var centerView = new UIView();
             var bottomView = new UIView();
             var socialNetworksView = new UIView();
-            var imageView = new UIImageView(UIImage.FromBundle(@"Images/logo.png"));
+            var applicationLogo = new UIImageView(UIImage.FromBundle(@"Images/logo.png"));
 
             // Hide navigation bar
             NavigationController.SetNavigationBarHidden(true, false);
 
             View.BackgroundColor = UIColor.FromPatternImage(EnvironmentInfo.GetHomeBackground.Scale(View.Frame.Size));
-            imageView.Frame = new CGRect(10, 10, imageView.Image.CGImage.Width, imageView.Image.CGImage.Height);
-            topView.AddIfNotNull(imageView);
+            applicationLogo.Frame = new CoreGraphics.CGRect(10, 10, applicationLogo.Image.CGImage.Width, applicationLogo.Image.CGImage.Height);
+            topView.AddIfNotNull(applicationLogo);
             topView.AddConstraints(
-                imageView.WithSameCenterX(topView),
-                imageView.WithSameCenterY(topView)
+                applicationLogo.WithRelativeWidth(topView, 0.8f),
+                applicationLogo.WithRelativeHeight(topView, 0.18f),
+                applicationLogo.WithSameCenterX(topView),
+                applicationLogo.WithSameCenterY(topView)
             );
 
-            _loginTextField = new TextFieldValidationWithImage();
-            _loginTextField.TextFieldWithValidator.TextField.Placeholder = "Login";
+            _loginTextField = TextFieldInitializer("Login");
             _loginTextField.TextFieldWithValidator.TextField.KeyboardType = UIKeyboardType.EmailAddress;
                 
-            _passwordTextField = new TextFieldValidationWithImage();
-            _passwordTextField.TextFieldWithValidator.TextField.Placeholder = "Password";
-            _passwordTextField.TextFieldWithValidator.TextField.KeyboardType = UIKeyboardType.Default;
+            _passwordTextField = TextFieldInitializer("Password");
 
             _loginButton = ButtonInitializer(_loginButton, "Login", UIControlState.Normal, Theme.BlueDark.ToUIColor(),
                               UIColor.White, UIControlState.Normal, null, UIControlState.Disabled);
@@ -76,7 +75,7 @@ namespace Tollminder.Touch.Views
                               UIControlState.Disabled, @"Images/loginView/google-button.png", UIControlState.Normal);
 
             _facebookLoginButton = ButtonInitializer(_facebookLoginButton, null, UIControlState.Disabled, null, null,
-                              UIControlState.Disabled, @"Images/facebook_logIn.png", UIControlState.Normal);
+                              UIControlState.Disabled, @"Images/loginView/facebook_logIn.png", UIControlState.Normal);
 
             socialNetworksView.AddIfNotNull(_facebookLoginButton, _googlePlusLoginButton);
             socialNetworksView.AddConstraints(
@@ -97,15 +96,15 @@ namespace Tollminder.Touch.Views
             centerView.AddIfNotNull(_loginTextField, _passwordTextField, _loginButton, socialNetworksView);
             centerView.BackgroundColor = UIColor.White;
             centerView.AddConstraints(
-                _loginTextField.AtTopOf(centerView, 8),
-                _loginTextField.AtLeftOf(centerView, -15),
-                _loginTextField.AtRightOf(centerView, 20),
-                _loginTextField.Height().EqualTo(50),
+                _loginTextField.AtTopOf(centerView, 10),
+                _loginTextField.WithSameCenterX(centerView),
+                _loginTextField.WithSameWidth(centerView),
+                _loginTextField.WithRelativeHeight(centerView, 0.22f),
 
-                _passwordTextField.Below(_loginTextField, 10),
-                _passwordTextField.AtLeftOf(centerView, -15),
-                _passwordTextField.AtRightOf(centerView, 20),
-                _passwordTextField.Height().EqualTo(50),
+                _passwordTextField.Below(_loginTextField),
+                _passwordTextField.WithSameCenterX(centerView),
+                _passwordTextField.WithSameWidth(centerView),
+                _passwordTextField.WithRelativeHeight(centerView, 0.22f),
 
                 _loginButton.Below(_passwordTextField, 30),
                 _loginButton.AtLeftOf(centerView, 20),
@@ -141,6 +140,20 @@ namespace Tollminder.Touch.Views
 
             SignIn.SharedInstance.UIDelegate = this;
             EnableNextKeyForTextFields(_loginTextField.TextFieldWithValidator.TextField, _passwordTextField.TextFieldWithValidator.TextField);
+        }
+
+        private TextFieldValidationWithImage TextFieldInitializer(string placeholder)
+        {
+            TextFieldValidationWithImage textField = new TextFieldValidationWithImage();
+            textField.TextFieldWithValidator.TextField.Placeholder = placeholder;
+            textField.BackgroundColor = UIColor.White;
+            textField.TextFieldWithValidator.TextField.TextColor = UIColor.LightGray;
+            textField.TextFieldWithValidator.SeparatorView.BackgroundColor = UIColor.Clear;
+            textField.Layer.CornerRadius = 10;
+            textField.TextFieldWithValidator.TopLabelColor = UIColor.Black;
+            textField.TextFieldWithValidator.TextField.KeyboardType = UIKeyboardType.Default;
+
+            return textField;
         }
 
         private UIButton ButtonInitializer(UIButton button, string title, UIControlState titleState, UIColor backgroundColor, 

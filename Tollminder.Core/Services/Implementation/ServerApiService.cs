@@ -67,15 +67,15 @@ namespace Tollminder.Core.Services.Implementation
             return SendAsync<object, List<PayHistory>>(parameters, $"{BaseApiUrl}trip/paymentHistory");
         }
 
-        public Task<Profile> GetProfile(string id)
+        public Task<Profile> GetProfile(string userId, string authToken = null)
         {
-            var user = GetAsync<Profile>($"{BaseApiUrl}user/{id}");
+            var user = GetAsync<Profile>($"{BaseApiUrl}user/{userId}", authToken);
             return user;
         }
 
-        public Task<System.Net.HttpStatusCode> SaveProfile(Profile profile)
+        public Task<System.Net.HttpStatusCode> SaveProfile(string userId, Profile profile, string authToken)
         {
-            return SendAsync<Profile>(profile, $"{BaseApiUrl}user/signin", CancellationToken.None);
+            return SendAsync<Profile>(profile, $"{BaseApiUrl}user/{userId}", new CancellationTokenSource(), authToken);
         }
     }
 }

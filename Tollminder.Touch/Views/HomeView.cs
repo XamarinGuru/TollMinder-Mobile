@@ -28,6 +28,7 @@ namespace Tollminder.Touch.Views
         RoundedButton _payButton;
         RoundedButton _payHistoryButton;
         RoundedButton _callCentergButton;
+        RoundedButton logoutButton;
         //RoundedButtonManager RoundedButtonManager;
         public new HomeViewModel ViewModel { get { return base.ViewModel as HomeViewModel; } }
         
@@ -58,19 +59,26 @@ namespace Tollminder.Touch.Views
             NavigationController.SetNavigationBarHidden(true, false);
             View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile(@"Images/main_background.png").Scale(View.Frame.Size));
             applicationLogo.Frame = new CoreGraphics.CGRect(10, 10, applicationLogo.Image.CGImage.Width, applicationLogo.Image.CGImage.Height);
-            topView.AddIfNotNull(applicationLogo);
+            logoutButton = RoundedButtonManager.ButtonInitiaziler("", UIImage.FromFile(@"Images/homeView/ic_logout.png"));
+            
+            topView.AddIfNotNull(applicationLogo, logoutButton);
             topView.AddConstraints(
                 applicationLogo.WithRelativeWidth(topView, 0.5f),
                 applicationLogo.WithRelativeHeight(topView, 0.18f),
                 applicationLogo.WithSameCenterX(topView),
-                applicationLogo.WithSameCenterY(topView)
+                applicationLogo.WithSameCenterY(topView),
+
+                logoutButton.AtTopOf(topView, 10),
+                logoutButton.AtRightOf(topView),
+                logoutButton.WithRelativeWidth(topView, 0.2f),
+                logoutButton.WithRelativeHeight(topView, 0.4f)
             );
 
             _profileButton = RoundedButtonManager.ButtonInitiaziler("PROFILE", UIImage.FromFile(@"Images/homeView/ic_home_profile.png"));
             _payButton = RoundedButtonManager.ButtonInitiaziler("PAY", UIImage.FromFile(@"Images/homeView/ic_home_pay.png"));
             _payHistoryButton = RoundedButtonManager.ButtonInitiaziler("PAY HISTORY", UIImage.FromFile(@"Images/homeView/ic_home_pay_history.png"));
             _trackingButton = RoundedButtonManager.ButtonInitiaziler(EnvironmentInfo.GetTrackingButtonDistanceBetweenTextAndImage);
-
+            
             this.AddLinqBinding(ViewModel, vm => vm.TrackingCommand, (value) =>
             {
                 _trackingButton.BackgroundColor = UIColor.White;
@@ -153,17 +161,8 @@ namespace Tollminder.Touch.Views
                WithConversion("GetPathToImage");
             set.Bind(_profileButton).To(vm => vm.ProfileCommand);
             set.Bind(_payHistoryButton).To(vm => vm.PayHistoryCommand);
-            //set.Bind(_callCentergButton.ButtonText).To(vm => vm.SupportText);
+            set.Bind(logoutButton).To(vm => vm.LogoutCommand);
 
-            //this.AddLinqBinding(ViewModel, v=>v.IsBound, (isBound)=>{
-            //    string imagePath = string.Format(@"Images/ic_home_tracking{0}", isBound ? "_active.png" : "_default.png");
-            //    Debug.WriteLine(imagePath);
-            //    _trackingButton.ButtonTextColor = isBound ? UIColor.FromRGB(3, 117, 27) : UIColor.Red;
-            //    Debug.WriteLine(_trackingButton.ButtonTextColor);
-            //    _trackingButton.ButtonText.Text = ViewModel.TrackingText;
-            //    Debug.WriteLine(_trackingButton.ButtonText.Text);
-            //        _trackingButton.ButtonImage = UIImage.FromFile(imagePath);
-            //});
             set.Apply();
         }
     }

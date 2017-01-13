@@ -4,7 +4,7 @@ using UIKit;
 
 namespace Tollminder.Touch.Controls
 {
-    public class PickerModel : UIPickerViewModel
+    public class PickerModel<T> : UIPickerViewModel
     {
         static string[] names = new string[] {
             "pscorlib.dll",
@@ -17,12 +17,12 @@ namespace Tollminder.Touch.Controls
             "psc.exe"
         };
 
-        private UILabel textField;
-        private string[] elements;
+        private LabelForDataWheel wheelField;
+        private List<T> elements;
 
-        public PickerModel(UILabel textField, string[] elementsList)//TextFieldValidationWithImage
+        public PickerModel(LabelForDataWheel wheelField, List<T> elementsList)//TextFieldValidationWithImage
         {
-            this.textField = textField;
+            this.wheelField = wheelField;
             elements = elementsList;
         }
 
@@ -33,7 +33,7 @@ namespace Tollminder.Touch.Controls
 
         public override nint GetRowsInComponent(UIPickerView pickerView, nint component)
         {
-            return names.Length;//elements.Length;
+            return elements != null ? elements.Count : 0;
         }
 
         public override string GetTitle(UIPickerView pickerView, nint row, nint component)
@@ -41,7 +41,7 @@ namespace Tollminder.Touch.Controls
             switch (component)
             {
                 case 0:
-                    return names[row];
+                return elements[(int)row].ToString();
                 default:
                     throw new NotImplementedException();
             }
@@ -49,9 +49,12 @@ namespace Tollminder.Touch.Controls
 
         public override void Selected(UIPickerView pickerView, nint row, nint component)
         {
-            textField.Text = String.Format("{0}", //textField.TextFieldWithValidator.TextField.Text = String.Format("{0}",
-                names[pickerView.SelectedRowInComponent(0)]);
-            pickerView.Hidden = true;
+            if (elements != null)
+            {
+                wheelField.WheelText.Text = String.Format("{0}", //textField.TextFieldWithValidator.TextField.Text = String.Format("{0}",
+                    elements[(int)pickerView.SelectedRowInComponent(0)]);
+                pickerView.Hidden = true;
+            }
         }
 
         public override nfloat GetComponentWidth(UIPickerView picker, nint component)

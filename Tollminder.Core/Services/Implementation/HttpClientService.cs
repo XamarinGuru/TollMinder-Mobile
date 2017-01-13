@@ -160,15 +160,17 @@ namespace Tollminder.Core.Services.Implementation
         /// <param name="token">Token.</param>
         /// <typeparam name="TRequest">The 1st type parameter.</typeparam>
         /// <typeparam name="TResponse">The 2nd type parameter.</typeparam>
-        public virtual async Task<System.Net.HttpStatusCode> SendAsync<TRequest>(TRequest data, string url, CancellationToken token)
+        public virtual async Task<System.Net.HttpStatusCode> SendAsync<TRequest>(TRequest data, string url, CancellationTokenSource token, string authToken)
         {
-            using (var request = new HttpRequestMessage(HttpMethod.Post, url))
+            using (var request = new HttpRequestMessage(HttpMethod.Put, url))
             {
+                request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                request.Headers.Authorization = new AuthenticationHeaderValue(authToken);
                 List<byte> byteData = new List<byte>();
                 var jsonSerialization = JsonConvert.SerializeObject(data);
                 Action<double> actionProgress = null;
                 request.Content = new ProgressStringContent(jsonSerialization, System.Text.Encoding.UTF8, "application/json", actionProgress);
-                using (var response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false))
+                using (var response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token.Token).ConfigureAwait(false))
                 {
                     return response.StatusCode;
                 }

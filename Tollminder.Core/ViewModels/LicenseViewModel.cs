@@ -26,6 +26,16 @@ namespace Tollminder.Core.ViewModels
             SelectedVehicleClass = VehicleClasses[firstElement];
 
             backToProfileCommand = new MvxCommand(() => { ShowViewModel<ProfileViewModel>(); });
+            statesWheelCommand = new MvxCommand(() => {
+                if (IsVehicleClassWheelHidden)
+                    IsVehicleClassWheelHidden = false;
+                IsStateWheelHidden = IsStateWheelHidden ? false : true;
+            });
+            vehicleClassesWheelCommand = new MvxCommand(() => { 
+                if (IsStateWheelHidden)
+                    IsStateWheelHidden = false;
+                IsVehicleClassWheelHidden = IsVehicleClassWheelHidden ? false : true; 
+            });
         }
 
         public override void Start()
@@ -35,6 +45,10 @@ namespace Tollminder.Core.ViewModels
 
         private MvxCommand backToProfileCommand;
         public ICommand BackToProfileCommand { get { return backToProfileCommand; } }
+        private MvxCommand statesWheelCommand;
+        public ICommand StatesWheelCommand { get { return statesWheelCommand; } }
+        private MvxCommand vehicleClassesWheelCommand;
+        public ICommand VehicleClassesWheelCommand { get { return vehicleClassesWheelCommand; } }
 
         // States
         private List<StatesData> states;
@@ -84,6 +98,28 @@ namespace Tollminder.Core.ViewModels
             {
                 SetProperty(ref selectedVehicleClass, value);
                 RaisePropertyChanged(() => SelectedVehicleClass);
+            }
+        }
+
+        bool isStateWheelHidden;
+        public bool IsStateWheelHidden
+        {
+            get { return isStateWheelHidden; }
+            set
+            {
+                SetProperty(ref isStateWheelHidden, value);
+                RaisePropertyChanged(() => IsStateWheelHidden);
+            }
+        }
+
+        bool isVehicleClassWheelHidden;
+        public bool IsVehicleClassWheelHidden
+        {
+            get { return isVehicleClassWheelHidden; }
+            set
+            {
+                SetProperty(ref isVehicleClassWheelHidden, value);
+                RaisePropertyChanged(() => IsVehicleClassWheelHidden);
             }
         }
     }

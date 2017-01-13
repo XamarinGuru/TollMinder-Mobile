@@ -25,17 +25,20 @@ namespace Tollminder.Core.ViewModels
             backHomeCommand = new MvxCommand(() => { ShowViewModel<HomeViewModel>(); });
             addLicenseCommand = new MvxCommand(() => { ShowViewModel<LicenseViewModel>(); });
             addCreditCardCommand = new MvxCommand(() => { ShowViewModel<CreditCardViewModel>(); });
+            statesWheelCommand = new MvxCommand(() => { 
+                IsStateWheelHidden = IsStateWheelHidden ? false : true; 
+            });
 
             States = loadResourceData.GetData("Tollminder.Core.states.json");
             SelectedState = States[firstState];
-
-            //synchronisationService.DataSynchronisation();
-            //profileSettingService.GetProfile();
         }
 
         public override void Start()
         {
             base.Start();
+
+            synchronisationService.DataSynchronisation();
+            Profile = profileSettingService.GetProfile();
         }
 
         private MvxCommand backHomeCommand;
@@ -46,6 +49,9 @@ namespace Tollminder.Core.ViewModels
 
         private MvxCommand addCreditCardCommand;
         public ICommand AddCreditCardCommand { get { return addCreditCardCommand; } }
+
+        private MvxCommand statesWheelCommand;
+        public ICommand StatesWheelCommand { get { return statesWheelCommand; } }
 
         private List<StatesData> states;
         public List<StatesData> States
@@ -81,7 +87,18 @@ namespace Tollminder.Core.ViewModels
             {
                 SetProperty(ref profile, value);
                 RaisePropertyChanged(() => Profile);
-                //profileSettingService.SaveProfile(Profile);
+                profileSettingService.SaveProfile(Profile);
+            }
+        }
+
+        bool isStateWheelHidden;
+        public bool IsStateWheelHidden
+        {
+            get { return isStateWheelHidden; }
+            set
+            {
+                SetProperty(ref isStateWheelHidden, value);
+                RaisePropertyChanged(() => IsStateWheelHidden);
             }
         }
     }

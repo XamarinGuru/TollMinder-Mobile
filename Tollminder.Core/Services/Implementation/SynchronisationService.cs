@@ -20,11 +20,11 @@ namespace Tollminder.Core.Services.Implementation
         {
             if(storedSettingsService.IsDataSynchronized)
             {
-                storedSettingsService.Profile = await serverApiService.GetProfile(storedSettingsService.ProfileId);
+                storedSettingsService.Profile = await serverApiService.GetProfile(storedSettingsService.ProfileId, storedSettingsService.AuthToken);
             }
             else
             {
-                var result = await serverApiService.SaveProfile(storedSettingsService.Profile);
+                var result = await serverApiService.SaveProfile(storedSettingsService.ProfileId, storedSettingsService.Profile, storedSettingsService.AuthToken);
                 if (result == System.Net.HttpStatusCode.OK)
                     storedSettingsService.IsDataSynchronized = true;
             }

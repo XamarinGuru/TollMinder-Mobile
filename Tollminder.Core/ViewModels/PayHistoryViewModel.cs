@@ -12,10 +12,13 @@ namespace Tollminder.Core.ViewModels
     public class PayHistoryViewModel : BaseViewModel
     {
         readonly IServerApiService serverApiService;
+        readonly IStoredSettingsService storedSettingsService;
 
         public PayHistoryViewModel()
         {
             serverApiService = Mvx.Resolve<IServerApiService>();
+            storedSettingsService = Mvx.Resolve<IStoredSettingsService>();
+
             GetPayDateFrom = new DateTime(2016, 10, 5);
             GetPayDateTo = DateTime.Now;
 
@@ -31,13 +34,13 @@ namespace Tollminder.Core.ViewModels
             });
 
             downloadHistoryCommand = new MvxCommand(async () => { 
-                GetPdfUrl = await serverApiService.DownloadPayHistory("58625cb651d7202e7dfaa69c", getPayDateFrom, getPayDateTo);
+                GetPdfUrl = await serverApiService.DownloadPayHistory(storedSettingsService.ProfileId, getPayDateFrom, getPayDateTo);
             });
         }
 
         async Task DownloadHistory()
         {
-            History = await serverApiService.GetPayHistory("58625cb651d7202e7dfaa69c", getPayDateFrom, getPayDateTo);
+            History = await serverApiService.GetPayHistory(storedSettingsService.ProfileId, getPayDateFrom, getPayDateTo);
         }
 
         public override void Start()

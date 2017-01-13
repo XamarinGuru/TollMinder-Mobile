@@ -305,10 +305,6 @@
     <Compile Include="Services\TouchCheckerAppFirstLaunch.cs" />
     <Compile Include="Helpers\RoundedButtonManager.cs" />
     <Compile Include="Services\TouchNetworkCheck.cs" />
-    <Compile Include="Views\HomeTestView.cs" />
-    <Compile Include="Views\HomeTestView.designer.cs">
-      <DependentUpon>HomeTestView.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\TollpointsWithDistanceView.cs" />
     <Compile Include="Views\ProfileView.cs" />
     <Compile Include="Services\TouchSheduleNotification.cs" />
@@ -319,6 +315,7 @@
     <Compile Include="Views\LicensePlateView.cs" />
     <Compile Include="Controls\PickerModel.cs" />
     <Compile Include="Views\PayHistoryView.cs" />
+    <Compile Include="Controls\LabelForDataWheel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets')" />
@@ -390,6 +387,7 @@
     <BundleResource Include="Resources\Images\creditCardView\MasterCard.png" />
     <BundleResource Include="Resources\Images\creditCardView\visa.png" />
     <BundleResource Include="Resources\Images\ic_back.png" />
+    <BundleResource Include="Resources\Images\homeView\ic_logout.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="facebookios">
