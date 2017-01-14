@@ -20,6 +20,7 @@ namespace Tollminder.Core.ViewModels
 		readonly IMvxMessenger _messenger;
 		readonly ITrackFacade _track;
         readonly IStoredSettingsService _storedSettingsService;
+        readonly ISynchronisationService synchronisationService;
 		readonly IGeoLocationWatcher _geoWatcher;
 
 		IList<MvxSubscriptionToken> _tokens;
@@ -31,6 +32,7 @@ namespace Tollminder.Core.ViewModels
             _track = track;
             _geoWatcher = geoWatcher;
             _storedSettingsService = storedSettingsService;
+            synchronisationService = Mvx.Resolve<ISynchronisationService>();
             try
             {
                 logoutCommand = new MvxCommand(() =>
@@ -56,6 +58,8 @@ namespace Tollminder.Core.ViewModels
 
             _tokens.Add(_messenger.SubscribeOnMainThread<GeoWatcherStatusMessage>((s) => IsBound = s.Data, MvxReference.Strong));
 
+            synchronisationService.DataSynchronisation();
+            
             IsBound = _geoWatcher.IsBound;
         }
 

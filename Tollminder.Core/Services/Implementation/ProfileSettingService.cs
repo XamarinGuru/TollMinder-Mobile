@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using MvvmCross.Platform;
 using Tollminder.Core.Models;
 
@@ -20,8 +21,15 @@ namespace Tollminder.Core.Services.Implementation
 
         public void SaveProfile(Profile profile)
         {
-            storedSettingsService.Profile = profile;
-            storedSettingsService.IsDataSynchronized = false;
+            try
+            {
+                storedSettingsService.Profile = profile;
+                storedSettingsService.IsDataSynchronized = false;
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex.Message, ex.StackTrace);
+            }
         }
     }
 }

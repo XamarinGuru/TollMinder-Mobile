@@ -21,14 +21,19 @@ namespace Tollminder.Core.ViewModels
             loadStatesData = Mvx.Resolve<ILoadResourceData<StatesData>>();
             profileSettingService = Mvx.Resolve<IProfileSettingService>();
 
+            Profile = new Profile();
+            DriverLicense = new DriverLicense();
             States = loadStatesData.GetData("Tollminder.Core.states.json");
             SelectedState = States[firstElement];
-
+            
             loadVehicleData = Mvx.Resolve<ILoadResourceData<string>>();
             VehicleClasses = loadVehicleData.GetData();
             SelectedVehicleClass = VehicleClasses[firstElement];
 
-            backToProfileCommand = new MvxCommand(() => { ShowViewModel<ProfileViewModel>(); });
+            backToProfileCommand = new MvxCommand(() => {
+                Profile.DriverLicense = DriverLicense;
+                profileSettingService.SaveProfile(Profile);
+                ShowViewModel<ProfileViewModel>(); });
             statesWheelCommand = new MvxCommand(() => {
                 if (IsVehicleClassWheelHidden)
                     IsVehicleClassWheelHidden = false;
@@ -44,6 +49,16 @@ namespace Tollminder.Core.ViewModels
         public override void Start()
         {
             base.Start();
+            Profile = profileSettingService.GetProfile();
+            if(Profile.DriverLicense != null)
+                DriverLicense = Profile.DriverLicense;
+        }
+
+        public override void OnPause()
+        {
+            Profile.DriverLicense = DriverLicense;
+            profileSettingService.SaveProfile(Profile);
+            base.OnPause();
         }
 
         private MvxCommand backToProfileCommand;
@@ -53,7 +68,7 @@ namespace Tollminder.Core.ViewModels
         private MvxCommand vehicleClassesWheelCommand;
         public ICommand VehicleClassesWheelCommand { get { return vehicleClassesWheelCommand; } }
 
-       private Profile profile;
+        private Profile profile;
         public Profile Profile
         {
             get { return profile; }
@@ -61,8 +76,27 @@ namespace Tollminder.Core.ViewModels
             {
                 SetProperty(ref profile, value);
                 RaisePropertyChanged(() => Profile);
-                if (Profile != null)
-                    profileSettingService.SaveProfile(Profile);
+            }
+        }
+
+        private DriverLicense driverLicense;
+        public DriverLicense DriverLicense
+        {
+            get { return driverLicense; }
+            set{
+                SetProperty(ref driverLicense, value);
+                RaisePropertyChanged(() => DriverLicense);
+            }
+        }
+
+        private string licensePlate;
+        public string LicensePlate
+        {
+            get { return DriverLicense.LicensePlate; }
+            set
+            {
+                DriverLicense.LicensePlate = value;
+                RaisePropertyChanged(() => LicensePlate);
             }
         }
 
@@ -81,9 +115,10 @@ namespace Tollminder.Core.ViewModels
         private StatesData selectedState;
         public StatesData SelectedState
         {
-            get { return selectedState; }
+            get { return new StatesData() { Name = DriverLicense.State }; }
             set
             {
+                DriverLicense.State = value.ToString();
                 SetProperty(ref selectedState, value);
                 RaisePropertyChanged(() => StateAbbreviation);
             }
@@ -109,10 +144,11 @@ namespace Tollminder.Core.ViewModels
         private string selectedVehicleClass;
         public string SelectedVehicleClass
         {
-            get { return selectedVehicleClass; }
+            get { return DriverLicense.VehicleClass; }
             set
             {
                 SetProperty(ref selectedVehicleClass, value);
+                DriverLicense.VehicleClass = value;
                 RaisePropertyChanged(() => SelectedVehicleClass);
             }
         }

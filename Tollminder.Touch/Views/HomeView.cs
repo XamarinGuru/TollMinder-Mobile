@@ -150,8 +150,7 @@ namespace Tollminder.Touch.Views
             var set = this.CreateBindingSet<HomeView, HomeViewModel>();
             set.Bind(_trackingButton).To(vm => vm.TrackingCommand);
             set.Bind(_trackingButton.ButtonText).To(vm => vm.TrackingText);
-            set.Bind(_trackingButton).For(x => x.ButtonImage).To(vm => vm.IsBound).
-               WithConversion("GetPathToImage");
+            set.Bind(_trackingButton).For(x => x.ButtonImage).To(vm => vm.IsBound).WithConversion("GetPathToImage");
             set.Bind(_profileButton).To(vm => vm.ProfileCommand);
             set.Bind(_payHistoryButton).To(vm => vm.PayHistoryCommand);
             set.Bind(logoutButton).To(vm => vm.LogoutCommand);

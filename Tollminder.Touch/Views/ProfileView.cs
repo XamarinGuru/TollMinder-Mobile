@@ -241,13 +241,11 @@ namespace Tollminder.Touch.Views
             var set = this.CreateBindingSet<ProfileView, ProfileViewModel>();
             set.Bind(backHomeView).To(vm => vm.BackHomeCommand);
             set.Bind(addLicenseButton).To(vm => vm.AddLicenseCommand);
-            set.Bind(firstNameTextField.TextFieldWithValidator.TextField).To(vm => vm.Profile.FirstName);
-            set.Bind(lastNameTextField.TextFieldWithValidator.TextField).To(vm => vm.Profile.LastName);
-            set.Bind(emailTextField.TextFieldWithValidator.TextField).To(vm => vm.Profile.Email);
-            set.Bind(addressTextField.TextFieldWithValidator.TextField).To(vm => vm.Profile.Address);
-            set.Bind(cityTextField.TextFieldWithValidator.TextField).To(vm => vm.Profile.City);
-
-            set.Bind(stateTextField.TextFieldWithValidator.TextField).To(vm => vm.Profile.State);
+            set.Bind(firstNameTextField.TextFieldWithValidator.TextField).To(vm => vm.FirstName);
+            set.Bind(lastNameTextField.TextFieldWithValidator.TextField).To(vm => vm.LastName);
+            set.Bind(emailTextField.TextFieldWithValidator.TextField).To(vm => vm.Email);
+            set.Bind(addressTextField.TextFieldWithValidator.TextField).To(vm => vm.Address);
+            set.Bind(cityTextField.TextFieldWithValidator.TextField).To(vm => vm.City);
 
             set.Bind(statesPickerViewModel).For(p => p.ItemsSource).To(vm => vm.States);
             set.Bind(statesPickerViewModel).For(p => p.SelectedItem).To(vm => vm.SelectedState);
@@ -257,10 +255,6 @@ namespace Tollminder.Touch.Views
             set.Bind(stateLabel).To(vm => vm.StatesWheelCommand);
 
             set.Bind(zipCodeTextField.TextFieldWithValidator.TextField).To(vm => vm.Profile.ZipCode);
-            //set.Bind(_trackingButton).For(x => x.ButtonImage).To(vm => vm.IsBound).
-            //   WithConversion("GetPathToImage");
-            //set.Bind(_profileButton).To(vm => vm.ProfileCommand);
-            //set.Bind(_callCentergButton.ButtonText).To(vm => vm.SupportText);
             set.Apply();
         }
     }

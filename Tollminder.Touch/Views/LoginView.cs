@@ -26,6 +26,11 @@ namespace Tollminder.Touch.Views
         UIButton _facebookLoginButton;
         UIButton _googlePlusLoginButton;
         UIButton _loginButton;
+        UIButton forgotPasswordButton;
+        UIButton registrationButton;
+        
+        UILabel socialNetworkLabel;
+        UILabel registrationLabel;
 
         public LoginView()
         {
@@ -53,60 +58,79 @@ namespace Tollminder.Touch.Views
             // Hide navigation bar
             NavigationController.SetNavigationBarHidden(true, false);
 
-            View.BackgroundColor = UIColor.FromPatternImage(EnvironmentInfo.GetHomeBackground.Scale(View.Frame.Size));
+            View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile(@"Images/main_background.png").Scale(View.Frame.Size));
             applicationLogo.Frame = new CoreGraphics.CGRect(10, 10, applicationLogo.Image.CGImage.Width, applicationLogo.Image.CGImage.Height);
             topView.AddIfNotNull(applicationLogo);
             topView.AddConstraints(
-                applicationLogo.WithRelativeWidth(topView, 0.8f),
-                applicationLogo.WithRelativeHeight(topView, 0.18f),
+                applicationLogo.WithRelativeWidth(topView, 0.5f),
+                applicationLogo.WithRelativeHeight(topView, 0.25f),
                 applicationLogo.WithSameCenterX(topView),
                 applicationLogo.WithSameCenterY(topView)
             );
 
             _loginTextField = TextFieldInitializer("Login");
             _loginTextField.TextFieldWithValidator.TextField.KeyboardType = UIKeyboardType.EmailAddress;
-                
+            socialNetworkLabel = LabelInitializer("Login With:", UIColor.LightGray);
+            registrationLabel = LabelInitializer("Don't have an account?", UIColor.LightGray);
+
             _passwordTextField = TextFieldInitializer("Password");
 
-            _loginButton = ButtonInitializer(_loginButton, "Login", UIControlState.Normal, Theme.BlueDark.ToUIColor(),
+            _loginButton = ButtonInitializer("Login", UIControlState.Normal, Theme.BlueDark.ToUIColor(),
                               UIColor.White, UIControlState.Normal, null, UIControlState.Disabled);
 
-            _googlePlusLoginButton = ButtonInitializer(_googlePlusLoginButton, null, UIControlState.Disabled, null, null,
+            _googlePlusLoginButton = ButtonInitializer(null, UIControlState.Disabled, null, null,
                               UIControlState.Disabled, @"Images/loginView/google-button.png", UIControlState.Normal);
 
-            _facebookLoginButton = ButtonInitializer(_facebookLoginButton, null, UIControlState.Disabled, null, null,
+            _facebookLoginButton = ButtonInitializer(null, UIControlState.Disabled, null, null,
                               UIControlState.Disabled, @"Images/loginView/facebook_logIn.png", UIControlState.Normal);
 
-            socialNetworksView.AddIfNotNull(_facebookLoginButton, _googlePlusLoginButton);
-            socialNetworksView.AddConstraints(
+            forgotPasswordButton = ButtonInitializer("Forgot your password?", UIControlState.Normal,
+                              null, UIColor.LightGray, UIControlState.Normal, null, UIControlState.Normal);
+            forgotPasswordButton.TitleLabel.Font = UIFont.FromName("Helvetica", 12f);
 
-                _facebookLoginButton.AtTopOf(socialNetworksView),
+            registrationButton = ButtonInitializer("Get Started!", UIControlState.Normal,
+                              null, UIColor.Cyan, UIControlState.Normal, null, UIControlState.Normal);
+            registrationButton.TitleLabel.Font = UIFont.FromName("Helvetica", 12f);
+
+            socialNetworksView.AddIfNotNull(socialNetworkLabel, _facebookLoginButton, _googlePlusLoginButton);
+            socialNetworksView.AddConstraints(
+                socialNetworkLabel.AtTopOf(socialNetworksView),
+                socialNetworkLabel.AtLeftOf(socialNetworksView),
+                socialNetworkLabel.WithSameWidth(socialNetworksView),
+                socialNetworkLabel.WithRelativeHeight(socialNetworksView, 0.2f),
+                socialNetworkLabel.AtBottomOf(socialNetworksView, 10),
+
+                _facebookLoginButton.Below(socialNetworkLabel),
                 _facebookLoginButton.AtLeftOf(socialNetworksView),
                 _facebookLoginButton.WithRelativeWidth(socialNetworksView, 0.48f),
-                _facebookLoginButton.AtBottomOf(socialNetworksView),
 
-                _googlePlusLoginButton.AtTopOf(socialNetworksView),
+                _googlePlusLoginButton.Below(socialNetworkLabel),
                 _googlePlusLoginButton.WithRelativeWidth(socialNetworksView, 0.48f),
-                _googlePlusLoginButton.AtRightOf(socialNetworksView),
-                _googlePlusLoginButton.AtBottomOf(socialNetworksView)
+                _googlePlusLoginButton.AtRightOf(socialNetworksView)
             );
 
             // Central block with text fields and login buttons
-            centerView.Layer.CornerRadius = 5;
-            centerView.AddIfNotNull(_loginTextField, _passwordTextField, _loginButton, socialNetworksView);
+            centerView.Layer.CornerRadius = 10;
+            centerView.AddIfNotNull(_loginTextField, _passwordTextField, forgotPasswordButton, _loginButton, socialNetworksView,
+                                   registrationLabel, registrationButton);
             centerView.BackgroundColor = UIColor.White;
             centerView.AddConstraints(
                 _loginTextField.AtTopOf(centerView, 10),
                 _loginTextField.WithSameCenterX(centerView),
                 _loginTextField.WithSameWidth(centerView),
-                _loginTextField.WithRelativeHeight(centerView, 0.22f),
+                _loginTextField.WithRelativeHeight(centerView, 0.2f),
 
                 _passwordTextField.Below(_loginTextField),
                 _passwordTextField.WithSameCenterX(centerView),
                 _passwordTextField.WithSameWidth(centerView),
-                _passwordTextField.WithRelativeHeight(centerView, 0.22f),
+                _passwordTextField.WithRelativeHeight(centerView, 0.2f),
 
-                _loginButton.Below(_passwordTextField, 30),
+                forgotPasswordButton.Below(_passwordTextField, -10),
+                forgotPasswordButton.AtLeftOf(centerView, 20),
+                forgotPasswordButton.WithRelativeWidth(centerView, 0.5f),
+                forgotPasswordButton.WithRelativeHeight(centerView, 0.07f),
+
+                _loginButton.Below(forgotPasswordButton, 10),
                 _loginButton.AtLeftOf(centerView, 20),
                 _loginButton.AtRightOf(centerView, 20),
                 // make a fat login button
@@ -115,16 +139,26 @@ namespace Tollminder.Touch.Views
                 socialNetworksView.Below(_loginButton, 20),
                 socialNetworksView.AtLeftOf(centerView, 20),
                 socialNetworksView.AtRightOf(centerView, 20),
-                socialNetworksView.WithRelativeHeight(centerView, 0.12f)
+                socialNetworksView.WithRelativeHeight(centerView, 0.2f),
+
+                registrationLabel.Below(socialNetworksView),
+                registrationLabel.AtLeftOf(centerView, 25),
+                registrationLabel.WithRelativeWidth(centerView, 0.5f),
+                registrationLabel.WithRelativeHeight(centerView, 0.07f),
+                
+                registrationButton.Below(socialNetworksView),
+                registrationButton.AtRightOf(centerView, 10),
+                registrationButton.WithRelativeWidth(centerView, 0.5f),
+                registrationButton.WithRelativeHeight(centerView, 0.07f)
             );
 
             // Main view
             View.AddIfNotNull(topView, centerView, bottomView);
             View.AddConstraints(
-                topView.AtTopOf(View),
+                topView.AtTopOf(View, 10),
                 topView.AtLeftOf(View),
                 topView.AtRightOf(View),
-                topView.WithRelativeHeight(View, 0.3f),
+                topView.WithRelativeHeight(View, 0.15f),
 
                 centerView.AtLeftOf(View, 30),
                 centerView.AtRightOf(View, 30),
@@ -156,10 +190,10 @@ namespace Tollminder.Touch.Views
             return textField;
         }
 
-        private UIButton ButtonInitializer(UIButton button, string title, UIControlState titleState, UIColor backgroundColor, 
+        private UIButton ButtonInitializer(string title, UIControlState titleState, UIColor backgroundColor, 
                                            UIColor titleColor, UIControlState colorTitleState, string imagePath, UIControlState imageState)
         {
-            button = new UIButton();
+            UIButton button = new UIButton();
             button.SetTitle(title, titleState);
             if (imagePath != null)
             {
@@ -179,6 +213,15 @@ namespace Tollminder.Touch.Views
             return button;
         }
 
+        private UILabel LabelInitializer(string text, UIColor textColor)
+        {
+            UILabel label = new UILabel();
+            label.Text = text;
+            label.TextColor = textColor;
+            label.Font = UIFont.FromName("Helvetica", 12f);
+            return label;
+        }
+
         protected override void InitializeBindings()
         {
             base.InitializeBindings();
@@ -188,12 +231,15 @@ namespace Tollminder.Touch.Views
             set.Bind(_loginTextField.TextFieldWithValidator).For(v => v.ErrorMessageString).To(vm => vm.Errors["Login"]);
             set.Bind(_passwordTextField.TextFieldWithValidator.TextField).To(vm => vm.PasswordString);
             set.Bind(_passwordTextField.TextFieldWithValidator).For(v => v.ErrorMessageString).To(vm => vm.Errors["Password"]);
+
+            set.Bind(forgotPasswordButton).To(vm => vm.ForgotPasswordCommand);
             set.Bind(_loginButton).To(vm => vm.EmailLoginCommand);
             set.Bind(_loginButton).For(x => x.Enabled).To(vm => vm.IsBusy).WithConversion(new BoolInverseConverter());
             set.Bind(_facebookLoginButton).To(vm => vm.FacebookLoginCommand);
             set.Bind(_facebookLoginButton).For(x => x.Enabled).To(vm => vm.IsBusy).WithConversion(new BoolInverseConverter());
             set.Bind(_googlePlusLoginButton).To(vm => vm.GPlusLoginCommand);
             set.Bind(_googlePlusLoginButton).For(x => x.Enabled).To(vm => vm.IsBusy).WithConversion(new BoolInverseConverter());
+            set.Bind(registrationButton).To(vm => vm.RegistrationCommand);
             set.Apply();
         }
     }

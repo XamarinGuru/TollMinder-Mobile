@@ -192,10 +192,11 @@ namespace Tollminder.Touch.Views
                 var set = this.CreateBindingSet<LicensePlateView, LicenseViewModel>();
                 set.Bind(backHomeView).To(vm => vm.BackToProfileCommand);
 
+                set.Bind(licensePlateTextField.TextFieldWithValidator.TextField).To(vm => vm.LicensePlate);
                 set.Bind(statesPickerViewModel).For(p => p.ItemsSource).To(vm => vm.States);
                 set.Bind(statesPickerViewModel).For(p => p.SelectedItem).To(vm => vm.SelectedState);
                 set.Bind(stateLabel.WheelText).To(vm => vm.SelectedState);
-                set.Bind(stateLabel).For(x => x.Enabled).To(vm => vm.IsBusy).WithConversion(new BoolInverseConverter());
+                //set.Bind(stateLabel).For(x => x.Enabled).To(vm => vm.IsBusy).WithConversion(new BoolInverseConverter());
                 set.Bind(statesPicker).For(x => x.Hidden).To(vm => vm.IsStateWheelHidden).WithConversion(new BoolInverseConverter());
                 set.Bind(stateLabel).To(vm => vm.StatesWheelCommand);
 
