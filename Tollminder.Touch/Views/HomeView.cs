@@ -18,17 +18,22 @@ using Foundation;
 using Tollminder.Touch.Converters;
 using System.Diagnostics;
 using Tollminder.Touch.Services;
+using System.Drawing;
 
 namespace Tollminder.Touch.Views
 {
     public class HomeView : BaseViewController<HomeViewModel>, ISignInUIDelegate, ICleanBackStack
     {
-        RoundedButton _trackingButton;
-        RoundedButton _profileButton;
-        RoundedButton _payButton;
-        RoundedButton _payHistoryButton;
-        RoundedButton _callCentergButton;
+        RoundedButton trackingButton;
+        RoundedButton profileButton;
+        RoundedButton payButton;
+        RoundedButton payHistoryButton;
+        RoundedButton callCentergButton;
         RoundedButton logoutButton;
+
+        UIView buttonContainerView;
+        UIView roadInformationContainerView;
+
         public new HomeViewModel ViewModel { get { return base.ViewModel as HomeViewModel; } }
         
         public HomeView()
@@ -48,7 +53,8 @@ namespace Tollminder.Touch.Views
             base.InitializeObjects();
 
             var topView = new UIView();
-            var centerView = new UIView();
+            buttonContainerView = new UIView();
+            roadInformationContainerView = new UIView();
             var bottomView = new UIView();
             var applicationLogo = new UIImageView(UIImage.FromBundle(@"Images/logo.png"));
             var callCenterLabel = new UILabel();
@@ -73,16 +79,16 @@ namespace Tollminder.Touch.Views
                 logoutButton.WithRelativeHeight(topView, 0.4f)
             );
 
-            _profileButton = RoundedButtonManager.ButtonInitiaziler("PROFILE", UIImage.FromFile(@"Images/homeView/ic_home_profile.png"));
-            _payButton = RoundedButtonManager.ButtonInitiaziler("PAY", UIImage.FromFile(@"Images/homeView/ic_home_pay.png"));
-            _payHistoryButton = RoundedButtonManager.ButtonInitiaziler("PAY HISTORY", UIImage.FromFile(@"Images/homeView/ic_home_pay_history.png"));
-            _trackingButton = RoundedButtonManager.ButtonInitiaziler(EnvironmentInfo.GetTrackingButtonDistanceBetweenTextAndImage);
+            profileButton = RoundedButtonManager.ButtonInitiaziler("PROFILE", UIImage.FromFile(@"Images/homeView/ic_home_profile.png"));
+            payButton = RoundedButtonManager.ButtonInitiaziler("PAY", UIImage.FromFile(@"Images/homeView/ic_home_pay.png"));
+            payHistoryButton = RoundedButtonManager.ButtonInitiaziler("PAY HISTORY", UIImage.FromFile(@"Images/homeView/ic_home_pay_history.png"));
+            trackingButton = RoundedButtonManager.ButtonInitiaziler(EnvironmentInfo.GetTrackingButtonDistanceBetweenTextAndImage);
             
             this.AddLinqBinding(ViewModel, vm => vm.TrackingCommand, (value) =>
             {
-                _trackingButton.BackgroundColor = UIColor.White;
-                _trackingButton.Alpha = 0.7f;
-                _trackingButton.ButtonTextColor = UIColor.FromRGB(3, 117, 27);
+                trackingButton.BackgroundColor = UIColor.White;
+                trackingButton.Alpha = 0.7f;
+                trackingButton.ButtonTextColor = UIColor.FromRGB(3, 117, 27);
             });
             //_callCentergButton = ButtonInitiaziler(null, UIImage.FromFile(@"Images/ic_home_support.png"));
             //_callCentergButton.ButtonText.TextColor = UIColor.LightGray;
@@ -90,52 +96,54 @@ namespace Tollminder.Touch.Views
             //callCenterLabel.Text = "+(1)305 335 85 08";
             //callCenterLabel.TextColor = UIColor.LightGray;
 
+            buttonContainerView.Alpha = 1.0f;
             applicationBoard.Frame = new CoreGraphics.CGRect(10, 10, applicationBoard.Image.CGImage.Width, applicationBoard.Image.CGImage.Height);
-            centerView.AddIfNotNull(applicationBoard, _profileButton, _payButton, _payHistoryButton);
-            centerView.AddConstraints(
-                applicationBoard.WithSameHeight(centerView),
-                applicationBoard.WithSameWidth(centerView),
-                applicationBoard.WithSameCenterX(centerView),
-                applicationBoard.WithSameCenterY(centerView),
+            buttonContainerView.AddIfNotNull(applicationBoard, profileButton, payButton, payHistoryButton);
+            buttonContainerView.AddConstraints(
+                applicationBoard.WithSameHeight(buttonContainerView),
+                applicationBoard.WithSameWidth(buttonContainerView),
+                applicationBoard.WithSameCenterX(buttonContainerView),
+                applicationBoard.WithSameCenterY(buttonContainerView),
 
-                _profileButton.AtTopOf(centerView, 10),
-                _profileButton.AtLeftOf(centerView, 8),
-                _profileButton.WithRelativeWidth(centerView, 0.4f),
-                _profileButton.WithRelativeHeight(centerView, 0.47f),
+                profileButton.AtTopOf(buttonContainerView, 10),
+                profileButton.AtLeftOf(buttonContainerView, 8),
+                profileButton.WithRelativeWidth(buttonContainerView, 0.4f),
+                profileButton.WithRelativeHeight(buttonContainerView, 0.47f),
 
-                _payHistoryButton.AtTopOf(centerView, 10),
-                _payHistoryButton.WithSameCenterX(centerView),
-                _payHistoryButton.WithRelativeWidth(centerView, 0.4f),
-                _payHistoryButton.WithRelativeHeight(centerView, 0.47f),
+                payHistoryButton.AtTopOf(buttonContainerView, 10),
+                payHistoryButton.WithSameCenterX(buttonContainerView),
+                payHistoryButton.WithRelativeWidth(buttonContainerView, 0.4f),
+                payHistoryButton.WithRelativeHeight(buttonContainerView, 0.47f),
 
-                _payButton.AtTopOf(centerView, 10),
-                _payButton.AtRightOf(centerView, 8),
-                _payButton.WithRelativeWidth(centerView, 0.4f),
-                _payButton.WithRelativeHeight(centerView, 0.47f)
+                payButton.AtTopOf(buttonContainerView, 10),
+                payButton.AtRightOf(buttonContainerView, 8),
+                payButton.WithRelativeWidth(buttonContainerView, 0.4f),
+                payButton.WithRelativeHeight(buttonContainerView, 0.47f)
             );
-
-            bottomView.AddIfNotNull(_trackingButton);
+            
+            bottomView.AddIfNotNull(trackingButton);
             bottomView.AddConstraints(
-                _trackingButton.AtTopOf(bottomView),
-                _trackingButton.AtLeftOf(bottomView, 20),
-                _trackingButton.AtRightOf(bottomView, 20),
-                _trackingButton.WithRelativeHeight(bottomView, EnvironmentInfo.GetTrackingButtonHeight),
-                _trackingButton.WithRelativeWidth(bottomView, EnvironmentInfo.GetTrackingButtonWidth)
+                trackingButton.AtTopOf(bottomView),
+                trackingButton.AtLeftOf(bottomView, 20),
+                trackingButton.AtRightOf(bottomView, 20),
+                trackingButton.WithRelativeHeight(bottomView, EnvironmentInfo.GetTrackingButtonHeight),
+                trackingButton.WithRelativeWidth(bottomView, EnvironmentInfo.GetTrackingButtonWidth)
             );
+            var width = View.Frame.Width-30;
+            buttonContainerView.AddConstraint(NSLayoutConstraint.Create(buttonContainerView, NSLayoutAttribute.Width, NSLayoutRelation.Equal, 1f, width));
 
-            View.AddIfNotNull(topView, centerView, bottomView);
+            View.AddIfNotNull(topView, buttonContainerView, bottomView);
             View.AddConstraints(
                 topView.AtTopOf(View),
                 topView.AtLeftOf(View),
                 topView.AtRightOf(View),
                 topView.WithRelativeHeight(View, 0.2f),
 
-                centerView.Below(topView),
-                centerView.AtLeftOf(View, 15),
-                centerView.AtRightOf(View, 15),
-                centerView.WithRelativeHeight(View, 0.43f),
+                buttonContainerView.Below(topView),
+                buttonContainerView.AtLeftOf(View, 15),
+                buttonContainerView.WithRelativeHeight(View, 0.43f),
 
-                bottomView.Below(centerView),
+                bottomView.Below(buttonContainerView),
                 bottomView.WithSameCenterX(topView),
                 bottomView.WithRelativeHeight(View, 0.27f),
                 bottomView.AtBottomOf(View, 30)
@@ -148,11 +156,11 @@ namespace Tollminder.Touch.Views
              base.InitializeBindings();
 
             var set = this.CreateBindingSet<HomeView, HomeViewModel>();
-            set.Bind(_trackingButton).To(vm => vm.TrackingCommand);
-            set.Bind(_trackingButton.ButtonText).To(vm => vm.TrackingText);
-            set.Bind(_trackingButton).For(x => x.ButtonImage).To(vm => vm.IsBound).WithConversion("GetPathToImage");
-            set.Bind(_profileButton).To(vm => vm.ProfileCommand);
-            set.Bind(_payHistoryButton).To(vm => vm.PayHistoryCommand);
+            set.Bind(trackingButton).To(vm => vm.TrackingCommand);
+            set.Bind(trackingButton.ButtonText).To(vm => vm.TrackingText);
+            set.Bind(trackingButton).For(x => x.ButtonImage).To(vm => vm.IsBound).WithConversion("GetPathToImage");
+            set.Bind(profileButton).To(vm => vm.ProfileCommand);
+            set.Bind(payHistoryButton).To(vm => vm.PayHistoryCommand);
             set.Bind(logoutButton).To(vm => vm.LogoutCommand);
 
             set.Apply();
