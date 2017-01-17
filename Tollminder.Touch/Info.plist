@@ -39,7 +39,7 @@
 	<key>XSAppIconAssets</key>
 	<string>Resources/Images.xcassets/AppIcons.appiconset</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.18</string>
+	<string>2.19</string>
 	<key>NSLocationUsageDescription</key>
 	<string>We need to get your location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
@@ -51,7 +51,7 @@
 	<key>NSMotionUsageDescription</key>
 	<string>We need to get motion activity </string>
 	<key>CFBundleVersion</key>
-	<string>18</string>
+	<string>19</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>

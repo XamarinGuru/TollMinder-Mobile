@@ -21,6 +21,7 @@ namespace Tollminder.Droid.Views.Fragments
         ImageButton backToPayHistory;
         CalendarView calendarView;
         AlertDialog dialog;
+        CalendarViewModel model = new CalendarViewModel();
 
         protected Activity CurrentActivity
         {
@@ -51,6 +52,14 @@ namespace Tollminder.Droid.Views.Fragments
                     result.SetResult(date);
                 }
                 dialog.Dismiss();
+            };
+
+            model.PropertyChanged += (sender, args) =>
+            {
+                if (args.PropertyName == "DialogVisible" && !model.DialogVisible)
+                {
+                    dialog.Dismiss();
+                }
             };
 
             return result.Task;

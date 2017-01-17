@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
@@ -53,7 +54,7 @@ namespace Tollminder.Core.ViewModels
             set{
                 SetProperty(ref getPdfUrl, value);
                 RaisePropertyChanged(() => GetPdfUrl);
-                ShowViewModel<PayHistoryPdfViewModel>(new { pdfUrlFromServer = GetPdfUrl });
+                ShowViewModel<PayHistoryPdfViewModel>(new { pdfUrlFromServer = GetPdfUrl,  pdfNameFromDateRange = GetPdfName() });
             }
         }
         private DateTime getPayDateFrom;
@@ -116,6 +117,17 @@ namespace Tollminder.Core.ViewModels
         public string Transaction
         {
             get { return SelectedTransaction.ToString(); }
+        }
+
+        private string GetPdfName()
+        {
+            StringBuilder pdfName = new StringBuilder();
+            pdfName.Append("payhistory_");
+            pdfName.Append(GetPayDateFrom.ToString("u"));
+            pdfName.Append("_");
+            pdfName.Append(GetPayDateTo.ToString("u"));
+
+            return pdfName.ToString();
         }
     }
 }

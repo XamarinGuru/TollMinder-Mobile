@@ -332,12 +332,20 @@
     <Compile Include="Services\PdfWebViewClient.cs" />
     <Compile Include="Services\DownloadManager.cs" />
     <Compile Include="Controls\PdfView.cs" />
+    <Compile Include="Controls\CalendarRangeButton.cs" />
+    <Compile Include="Controls\MvxExpandableList\Adapters\BindableExpandableListAdapter.cs" />
+    <Compile Include="Controls\MvxExpandableList\Adapters\BindableGroupListAdapter.cs" />
+    <Compile Include="Controls\MvxExpandableList\ListViews\BindableGroupListView.cs" />
+    <Compile Include="Controls\MvxExpandableList\ListViews\BindableExpandableListView.cs" />
+    <Compile Include="Controls\MvxExpandableList\AndroidBindingResource.cs" />
+    <Compile Include="Controls\MvxExpandableList\Plugin.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
+    <None Include="ResourcesToCopy\MvxBindingAttributes.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
@@ -353,6 +361,11 @@
     <Folder Include="Resources\mipmap-xxhdpi\" />
     <Folder Include="Resources\mipmap-xxxhdpi\" />
     <Folder Include="Views\Fragments\" />
+    <Folder Include="Controls\MvxExpandableList\" />
+    <Folder Include="Controls\MvxExpandableList\Adapters\" />
+    <Folder Include="Controls\MvxExpandableList\ListViews\" />
+    <Folder Include="ResourcesToCopy\" />
+    <Folder Include="ResourcesToCopy\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\MonoAndroid10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\MonoAndroid10\Xamarin.Insights.targets')" />
@@ -481,9 +494,8 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_logout.png" />
     <AndroidResource Include="Resources\layout\calendar_fragment.axml" />
     <AndroidResource Include="Resources\layout\pay_history_pdf_view.axml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\Nutshell.pdf" />
+    <AndroidResource Include="Resources\layout\data_list_item.axml" />
+    <AndroidResource Include="Resources\layout\list_group.axml" />
   </ItemGroup>
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />
   <Import Project="..\packages\Xamarin.GooglePlayServices.Basement.32.961.0-beta1\build\Xamarin.GooglePlayServices.Basement.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Basement.32.961.0-beta1\build\Xamarin.GooglePlayServices.Basement.targets')" />

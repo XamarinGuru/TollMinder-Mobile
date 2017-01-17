@@ -90,7 +90,7 @@
                     android:layout_width="105dp"
                     android:layout_height="wrap_content"
                     android:textColor="@color/gray_light"
-                    android:text="Login With:"/>
+                    android:text="Login With:" />
                 <LinearLayout
                     android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
@@ -112,7 +112,7 @@
                         android:layout_weight="1"
                         local:MvxBind="Enabled BoolInverseConverter(IsBusy); Click GPlusLoginCommand" />
                 </LinearLayout>
-                <RelativeLayout
+                <android.support.percent.PercentRelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <TextView
@@ -121,7 +121,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/gray_light"
-                        android:text="Don't have an account?"/>
+                        android:text="Don't have an account?" />
                     <TextView
                         android:layout_marginTop="20dp"
                         android:layout_alignParentRight="true"
@@ -130,8 +130,8 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/blue"
                         android:text="Get Started!"
-                        local:MvxBind="Click RegistrationCommand"/>
-                </RelativeLayout>
+                        local:MvxBind="Click RegistrationCommand" />
+                </android.support.percent.PercentRelativeLayout>
             </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>

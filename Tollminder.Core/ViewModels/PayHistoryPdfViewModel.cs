@@ -6,18 +6,20 @@ namespace Tollminder.Core.ViewModels
 {
     public class PayHistoryPdfViewModel : BaseViewModel
     {
-        IDownloadManager downloadManager;
+        IFileManager downloadManager;
 
-        public PayHistoryPdfViewModel(IDownloadManager downloadManager)
+        public PayHistoryPdfViewModel(IFileManager downloadManager)
         {
             this.downloadManager = downloadManager;
             backToPayHistoryCommand = new MvxCommand(() => { ShowViewModel<PayHistoryViewModel>(); });
-            downloadPayHistoryPdfCommand = new MvxCommand(() => { downloadManager.Download(PdfUrl);});
+            downloadPayHistoryPdfCommand = new MvxCommand(() => { downloadManager.Download(PdfUrl, PdfName); });
+            fileOpenInCommand = new MvxCommand(() => { downloadManager.OpenIn(PdfUrl, PdfName);});
         }
 
-        public void Init(string pdfUrlFromServer)
+        public void Init(string pdfUrlFromServer, string pdfNameFromDateRange)
         {
             PdfUrl = pdfUrlFromServer;
+            PdfName = pdfNameFromDateRange;
         }
 
         public override void Start()
@@ -36,10 +38,24 @@ namespace Tollminder.Core.ViewModels
             }
         }
 
+        private string pdfName;
+        public string PdfName
+        {
+            get { return pdfName; }
+            set
+            {
+                SetProperty(ref pdfName, value);
+                RaisePropertyChanged(() => PdfName);
+            }
+        }
+
         private MvxCommand backToPayHistoryCommand;
         public ICommand BackToPayHistoryCommand { get { return backToPayHistoryCommand; } }
 
         private MvxCommand downloadPayHistoryPdfCommand;
         public ICommand DownloadPayHistoryPdfCommand { get { return downloadPayHistoryPdfCommand; } }
+
+        private MvxCommand fileOpenInCommand;
+        public ICommand FileOpenInCommand { get { return fileOpenInCommand; } }
     }
 }

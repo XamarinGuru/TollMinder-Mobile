@@ -9,4 +9,8 @@
 		<attr name="text_profile" format="string" />
 		<attr name="arrow_profile" format="integer" />
 	</declare-styleable>
+	<declare-styleable name="CalendarRangeButton">
+		<attr name="icon_calendar" format="integer" />
+		<attr name="text_calendar_field" format="string" />
+	</declare-styleable>
 </resources>

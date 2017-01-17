@@ -1,7 +1,7 @@
 ﻿using System;
 namespace Tollminder.Core.Services
 {
-    public interface IDownloadManager
+    public interface IFileManager
     {
         /// <summary>
         /// Do Download
@@ -10,5 +10,6 @@ namespace Tollminder.Core.Services
         /// <param name="filename">Name of File</param>
         /// <param name="progressBar">Dialog to show download progress</param>
         void Download(string uri, string filename = null, object progressBar = null);
+        void OpenIn(string _documentUrl, string documentName);
     }
 }

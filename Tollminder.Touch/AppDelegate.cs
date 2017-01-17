@@ -122,7 +122,8 @@ namespace Tollminder.Touch
                 case SocialNetworks.GooglePlus:
                     return SignIn.SharedInstance.HandleUrl(url, sourceApplication, annotation);
             }
-
+            NSNotificationCenter.DefaultCenter.PostNotificationName("OpenUrl", url);
+            
             return base.OpenUrl(application, url, sourceApplication, annotation);
         }
 

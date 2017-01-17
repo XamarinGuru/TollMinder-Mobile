@@ -29,7 +29,7 @@
             android:layout_centerHorizontal="true"
             android:text="License Information"
             android:id="@+id/top_license_label"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white" />
         <TextView
             android:layout_width="250dp"
             android:layout_height="wrap_content"
@@ -37,10 +37,10 @@
             android:layout_below="@id/top_license_label"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:text="Please, Enter the License Palte Number and Other Information for Your Vehicle."
+            android:text="Please, Enter the License Plate Number and Other Information for Your Vehicle."
             android:gravity="center_horizontal"
             android:textSize="15dp"
-            android:textColor="@color/blue"/>
+            android:textColor="@color/blue" />
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"

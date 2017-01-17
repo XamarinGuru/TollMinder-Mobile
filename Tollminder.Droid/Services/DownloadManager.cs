@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net;
 using Android.App;
 using Android.Content;
@@ -6,7 +7,7 @@ using Tollminder.Core.Services;
 
 namespace Tollminder.Droid.Services
 {
-    public class DownloadManager : IDownloadManager
+    public class DownloadManager : IFileManager
     {
         private ProgressDialog progressBar;
 
@@ -25,6 +26,10 @@ namespace Tollminder.Droid.Services
                 var data = e.Result;
                 File.WriteAllBytes(Path.Combine(documentsPathExternalStoragePublicDirectory, localFilename), data);
             };
+        }
+
+        public void OpenIn(string _documentUrl, string documentName)
+        {
         }
 
         private void ShowDownloadedComplete()

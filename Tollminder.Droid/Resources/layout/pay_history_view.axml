@@ -1,40 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:local="http://schemas.android.com/apk/res-auto"
     android:id="@+id/pay_history"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/tab_background">
-    <RelativeLayout
-        android:id="@+id/profile_top_navigation"
+    android:background="@drawable/tab_background"
+    android:orientation="vertical">
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="200dp"
+        android:orientation="vertical"
         android:background="@drawable/profile_top_background">
-        <ImageButton
-            android:id="@+id/back_to_home_view"
-            android:layout_width="45dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="25dp"
-            android:layout_centerVertical="true"
-            android:src="@drawable/icon_back"
-            local:MvxBind="Click BackHomeCommand"
-            android:background="@android:color/transparent"
-            android:focusable="true"
-            android:focusableInTouchMode="true" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="Payment History"
-            android:layout_marginTop="25dp"
-            android:textSize="20dp"
-            android:textColor="@color/white" />
-    </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/profile_top_navigation">
+        <RelativeLayout
+            android:id="@+id/profile_top_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+            <ImageButton
+                android:id="@+id/back_to_home_view"
+                android:layout_width="45dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="25dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/icon_back"
+                local:MvxBind="Click BackHomeCommand"
+                android:background="@android:color/transparent"
+                android:focusable="true"
+                android:focusableInTouchMode="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="Payment History"
+                android:layout_marginTop="25dp"
+                android:textSize="20dp"
+                android:textColor="@color/white" />
+        </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -47,33 +48,22 @@
                 android:background="@color/gray_dark"
                 android:orientation="horizontal"
                 android:layout_marginBottom="2dp">
-                <TextView
-                    android:layout_width="wrap_content"
+                <tollminder.droid.controls.CalendarRangeButton
+                    android:id="@+id/add_license_button"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:layout_marginRight="1dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_centerVertical="true"
-                    android:text="From:"
-                    android:textSize="20dp"
-                    android:textColor="@color/white"
+                    local:text_calendar_field="From:"
                     local:MvxBind="Click OpenCalendarFromCommand;Text DateTimeConverter(GetPayDateFrom, 'd')"
-                    android:background="@drawable/calendar_border"
-                    android:id="@+id/date_from"
-                    local:icon_profile="@drawable/ic_calendar" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    local:icon_calendar="@drawable/ic_calendar" />
+                <tollminder.droid.controls.CalendarRangeButton
+                    android:id="@+id/add_license_button"
+                    android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_marginLeft="1dp"
-                    android:layout_centerVertical="true"
-                    android:text="To:"
-                    android:textSize="20dp"
-                    android:textColor="@color/white"
-                    local:MvxBind="Click OpenCalendarToCommand;Text DateTimeConverter(GetPayDateTo, 'd')"
-                    android:background="@drawable/calendar_border"
-                    android:id="@+id/date_to"
-                    local:icon_profile="@drawable/ic_calendar" />
+                    android:layout_height="match_parent"
+                    local:text_calendar_field="To:"
+                    local:MvxBind="Click OpenCalendarFromCommand;Text DateTimeConverter(GetPayDateFrom, 'd')"
+                    local:icon_calendar="@drawable/ic_calendar" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -85,36 +75,43 @@
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="0.1"
                     android:layout_marginRight="5dp"
                     android:text="Current"
                     android:id="@+id/current" />
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="0.1"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:text="All History"
                     android:id="@+id/all_history" />
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <tollminder.droid.controls.CalendarRangeButton
+                    android:id="@+id/add_license_button"
+                    android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_marginLeft="5dp"
-                    local:text_profile="Download"
+                    android:layout_height="match_parent"
+                    local:text_calendar_field="Download"
                     local:MvxBind="Click DownloadHistoryCommand"
-                    android:src="@drawable/ic_download" />
+                    local:icon_calendar="@drawable/ic_download" />
             </LinearLayout>
-            <MvxListView
-                android:id="@+id/pay_history"
-                android:layout_centerVertical="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="40dp"
-                local:MvxBind="ItemsSource History;SelectedItem SelectedTransaction; Text Transaction"
-                android:background="@drawable/login_card_background"/>
         </LinearLayout>
-    </RelativeLayout>
-</RelativeLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profile_top_navigation"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp">
+        <MvxListView
+            android:id="@+id/pay_history"
+            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="40dp"
+            local:MvxBind="ItemsSource History;SelectedItem SelectedTransaction; Text Transaction"
+            android:background="@drawable/login_card_background"/>
+    </LinearLayout>
+</LinearLayout>

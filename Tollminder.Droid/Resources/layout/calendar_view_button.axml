@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:background="@drawable/calendar_button_background">
     <mvvmcross.binding.droid.views.MvxImageView
-        android:id="@+id/icon_view"
-        app:layout_heightPercent="35%"
-        app:layout_widthPercent="10%"
+        android:id="@+id/icon_range_view"
+        app:layout_heightPercent="75%"
+        app:layout_widthPercent="20%"
         android:layout_marginRight="10dp"
         tools:src="@drawable/ic_calendar" />
     <TextView
-        android:id="@+id/text_view"
-        app:layout_heightPercent="35%"
-        app:layout_widthPercent="70%"
+        android:id="@+id/text_range_view"
+        app:layout_heightPercent="75%"
+        app:layout_widthPercent="80%"
         android:fontFamily="roboto"
-        android:gravity="center_horizontal"
+        android:gravity="center_vertical"
         tools:text="From:"
-        android:textColor="@color/black" />
+        android:textColor="@color/white" />
 </android.support.percent.PercentRelativeLayout>

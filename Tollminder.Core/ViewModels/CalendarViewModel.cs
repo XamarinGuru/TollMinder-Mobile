@@ -8,7 +8,11 @@ namespace Tollminder.Core.ViewModels
     {
         public CalendarViewModel()
         {
-            backToPayHistoryCommand = new MvxCommand(() => { ShowViewModel<PayHistoryViewModel>(); });
+            backToPayHistoryCommand = new MvxCommand(() =>
+            {
+                Close(this);
+                ShowViewModel<PayHistoryViewModel>();
+            });
         }
 
         public override void Start()
@@ -17,6 +21,22 @@ namespace Tollminder.Core.ViewModels
         }
 
         private MvxCommand backToPayHistoryCommand;
-        public ICommand BackToPayHistoryCommand { get { return backToPayHistoryCommand; }}
-    } 
+        public ICommand BackToPayHistoryCommand { 
+            get {
+                DialogVisible = false;
+                return backToPayHistoryCommand; 
+            } 
+        }
+
+        private bool dialogVisible;
+        public bool DialogVisible
+        {
+            get { return dialogVisible; }
+            set
+            {
+                dialogVisible = value;
+                RaisePropertyChanged(() => DialogVisible);
+            }
+        }
+    }
 }

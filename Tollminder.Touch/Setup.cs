@@ -47,6 +47,7 @@ namespace Tollminder.Touch
 			Mvx.LazyConstructAndRegisterSingleton<ISpeechToTextService, TouchSpeechToTextService>();
 			Mvx.LazyConstructAndRegisterSingleton<IStoredSettingsBase, TouchStoredSettingsBase>();
             Mvx.ConstructAndRegisterSingleton<IFacebookLoginService, TouchFacebookLoginService>();
+            Mvx.LazyConstructAndRegisterSingleton<IFileManager, DownloadManager>();
             Mvx.LazyConstructAndRegisterSingleton<IGPlusLoginService, TouchGPlusLoginService>();
             Mvx.LazyConstructAndRegisterSingleton<IHttpClientHandlerService, TouchHttpClientHandlerService>();
 		}

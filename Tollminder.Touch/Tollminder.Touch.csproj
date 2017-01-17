@@ -326,6 +326,8 @@
     <Compile Include="Views\PayHistoryView\PayHistoryHeader.designer.cs">
       <DependentUpon>PayHistoryHeader.cs</DependentUpon>
     </Compile>
+    <Compile Include="Services\DownloadManager.cs" />
+    <Compile Include="Views\PayHistoryPdfView.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets')" />
@@ -389,8 +391,8 @@
     <BundleResource Include="Resources\Images\main_background-640h%402x.png" />
     <BundleResource Include="Resources\Images\main_background-667h%402x.png" />
     <BundleResource Include="Resources\Images\logo.png" />
-    <BundleResource Include="Resources\Images\payHistoryView\Calendar.png" />
-    <BundleResource Include="Resources\Images\payHistoryView\Download.png" />
+    <BundleResource Include="Resources\Images\payHistoryView\ic_calendar.png" />
+    <BundleResource Include="Resources\Images\payHistoryView\ic_download.png" />
     <BundleResource Include="Resources\Images\profileView\ic_card.png" />
     <BundleResource Include="Resources\Images\profileView\ic_license.png" />
     <BundleResource Include="Resources\Images\creditCardView\amex.png" />
@@ -399,6 +401,7 @@
     <BundleResource Include="Resources\Images\creditCardView\visa.png" />
     <BundleResource Include="Resources\Images\ic_back.png" />
     <BundleResource Include="Resources\Images\homeView\ic_logout.png" />
+    <BundleResource Include="Resources\Images\payHistoryView\ic_openIn.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="facebookios">

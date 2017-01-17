@@ -55,55 +55,6 @@ namespace Tollminder.Touch.Views
 
         void ReleaseDesignerOutlets ()
         {
-            if (ActivityLabel != null) {
-                ActivityLabel.Dispose ();
-                ActivityLabel = null;
-            }
-
-            if (GeoLabel != null) {
-                GeoLabel.Dispose ();
-                GeoLabel = null;
-            }
-
-            if (GeoLabelData != null) {
-                GeoLabelData.Dispose ();
-                GeoLabelData = null;
-            }
-
-            if (LogArea != null) {
-                LogArea.Dispose ();
-                LogArea = null;
-            }
-
-            if (LogOut != null) {
-                LogOut.Dispose ();
-                LogOut = null;
-            }
-
-            if (NextWaypointString != null) {
-                NextWaypointString.Dispose ();
-                NextWaypointString = null;
-            }
-
-            if (StartButton != null) {
-                StartButton.Dispose ();
-                StartButton = null;
-            }
-
-            if (StatusLabel != null) {
-                StatusLabel.Dispose ();
-                StatusLabel = null;
-            }
-
-            if (StopButton != null) {
-                StopButton.Dispose ();
-                StopButton = null;
-            }
-
-            if (TollRoadString != null) {
-                TollRoadString.Dispose ();
-                TollRoadString = null;
-            }
         }
     }
 }

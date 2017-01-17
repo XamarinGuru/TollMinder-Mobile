@@ -27,7 +27,7 @@ namespace Tollminder.Droid.Services
                 isLoaded = true;
             }
             else {
-                Mvx.Resolve<IDownloadManager>().Download(url, null, ProgressDialog.Show(context, "Pdf file", "Downloading..."));
+                Mvx.Resolve<IFileManager>().Download(url, null, ProgressDialog.Show(context, "Pdf file", "Downloading..."));
             }
             view.Reload();
             return false;

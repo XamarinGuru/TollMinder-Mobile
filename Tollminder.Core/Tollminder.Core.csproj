@@ -147,7 +147,7 @@
     <Compile Include="Services\Implementation\LicenseDataService.cs" />
     <Compile Include="Models\Rate.cs" />
     <Compile Include="ViewModels\PayHistoryPdfViewModel.cs" />
-    <Compile Include="Services\IDownloadManager.cs" />
+    <Compile Include="Services\IFileManager.cs" />
     <Compile Include="Services\ISynchronisationService.cs" />
     <Compile Include="Services\IProfileSettingService.cs" />
     <Compile Include="Services\Implementation\ProfileSettingService.cs" />
