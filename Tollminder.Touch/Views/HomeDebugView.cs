@@ -14,7 +14,7 @@ namespace Tollminder.Touch.Views
 		public new HomeDebugViewModel ViewModel { get { return base.ViewModel as HomeDebugViewModel; } }
 		#pragma warning restore 108
 
-		public HomeDebugView () : base ("HomeView", null)
+		public HomeDebugView () : base ("HomeDebugView", null)
 		{
 		}
 

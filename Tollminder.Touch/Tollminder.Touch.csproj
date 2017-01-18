@@ -250,7 +250,6 @@
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.xib" />
-    <InterfaceDefinition Include="Views\ProfileView.xib" />
     <InterfaceDefinition Include="Views\PayHistoryView\PayHistoryCell.xib" />
     <InterfaceDefinition Include="Views\PayHistoryView\PayHistoryHeader.xib" />
   </ItemGroup>
@@ -291,10 +290,6 @@
     <Compile Include="Controllers\BaseViewController.cs" />
     <Compile Include="Services\TouchFacebookLoginService.cs" />
     <Compile Include="Services\TouchGPlusLoginService.cs" />
-    <Compile Include="Controls\TextFieldValidatorView.cs" />
-    <Compile Include="Controls\TextFieldHandleText.cs" />
-    <Compile Include="Controls\TextFieldValidationWithImage.cs" />
-    <Compile Include="Controls\TextFieldWithValidator.cs" />
     <Compile Include="Extensions\TouchDrawing.cs" />
     <Compile Include="Interfaces\ICleanBackStack.cs" />
     <Compile Include="Bootstrap\FilePluginBootstrap.cs" />
@@ -307,7 +302,6 @@
     <Compile Include="Services\TouchCheckerAppFirstLaunch.cs" />
     <Compile Include="Helpers\RoundedButtonManager.cs" />
     <Compile Include="Services\TouchNetworkCheck.cs" />
-    <Compile Include="Views\TollpointsWithDistanceView.cs" />
     <Compile Include="Views\ProfileView.cs" />
     <Compile Include="Services\TouchSheduleNotification.cs" />
     <Compile Include="Services\SpeechServices\MyOpenEarsEventsObserverDelegate.cs" />
@@ -315,7 +309,6 @@
     <Compile Include="Controls\ProfileButton.cs" />
     <Compile Include="Helpers\ProfileButtonManager.cs" />
     <Compile Include="Views\LicensePlateView.cs" />
-    <Compile Include="Controls\PickerModel.cs" />
     <Compile Include="Controls\LabelForDataWheel.cs" />
     <Compile Include="Views\PayHistoryView\PayHistoryView.cs" />
     <Compile Include="Views\PayHistoryView\PayHistoryCell.cs" />
@@ -328,6 +321,10 @@
     </Compile>
     <Compile Include="Services\DownloadManager.cs" />
     <Compile Include="Views\PayHistoryPdfView.cs" />
+    <Compile Include="Controls\TextFiled\TextFieldHandleText.cs" />
+    <Compile Include="Controls\TextFiled\TextFieldValidationWithImage.cs" />
+    <Compile Include="Controls\TextFiled\TextFieldValidatorView.cs" />
+    <Compile Include="Controls\TextFiled\TextFieldWithValidator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets')" />
@@ -359,6 +356,7 @@
     <Folder Include="Resources\Images\payHistoryView\" />
     <Folder Include="Resources\Images\creditCardView\" />
     <Folder Include="Views\PayHistoryView\" />
+    <Folder Include="Controls\TextFiled\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\OpenEars1.dic" />
@@ -400,7 +398,9 @@
     <BundleResource Include="Resources\Images\creditCardView\MasterCard.png" />
     <BundleResource Include="Resources\Images\creditCardView\visa.png" />
     <BundleResource Include="Resources\Images\ic_back.png" />
-    <BundleResource Include="Resources\Images\homeView\ic_logout.png" />
+    <BundleResource Include="Resources\Images\homeView\ic_logout.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </BundleResource>
     <BundleResource Include="Resources\Images\payHistoryView\ic_openIn.png" />
   </ItemGroup>
   <ItemGroup>

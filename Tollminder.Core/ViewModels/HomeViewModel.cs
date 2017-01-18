@@ -152,5 +152,66 @@ namespace Tollminder.Core.ViewModels
         {
             get { return _supportText; }
         }
+
+        private GeoLocation _location;
+        public GeoLocation Location
+        {
+            get { return _location; }
+            set
+            {
+                _location = value;
+                RaisePropertyChanged(() => Location);
+                RaisePropertyChanged(() => LocationString);
+            }
+        }
+
+        private string _logText;
+        public string LogText
+        {
+            get { return _logText; }
+            set
+            {
+                _logText = value;
+                RaisePropertyChanged(() => LogText);
+            }
+        }
+
+        private string _tollRoadString;
+        public string TollRoadString
+        {
+            get { return _tollRoadString; }
+            set
+            {
+                _tollRoadString = value;
+                RaisePropertyChanged(() => TollRoadString);
+            }
+        }
+
+        private string _currentWaypointString;
+        public string CurrentWaypointString
+        {
+            get { return _currentWaypointString; }
+            set
+            {
+                _currentWaypointString = value;
+                RaisePropertyChanged(() => CurrentWaypointString);
+            }
+        }
+
+        public string LocationString
+        {
+            get { return _location.ToString(); }
+        }
+
+        string _statusString;
+        public string StatusString
+        {
+            get { return _statusString; }
+            set
+            {
+                _statusString = value;
+                RaisePropertyChanged(() => StatusString);
+            }
+        }
 	}
 }

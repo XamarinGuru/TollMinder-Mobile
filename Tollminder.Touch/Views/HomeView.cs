@@ -36,6 +36,14 @@ namespace Tollminder.Touch.Views
         UIView buttonContainerView;
         UIView roadInformationContainerView;
 
+        // Information for board
+        UILabel activityLabel;
+        UILabel geoLabel;
+        UILabel geoLabelData;
+        UILabel nextWaypointString;
+        UILabel statusLabel;
+        UILabel tollRoadString;
+
         public new HomeViewModel ViewModel { get { return base.ViewModel as HomeViewModel; } }
         
         public HomeView()
@@ -73,7 +81,7 @@ namespace Tollminder.Touch.Views
             buttonContainerView.Frame = new CGRect(0, 0, (boardScrollView.Bounds.Width), (boardScrollView.Bounds.Height * 3));
 
             roadInformationContainerView = new UIView();
-            roadInformationContainerView.Frame = new CGRect(340, 0, boardScrollView.Bounds.Width - 50, (boardScrollView.Bounds.Height * 2.5));
+            roadInformationContainerView.Frame = new CGRect((boardScrollView.Bounds.Width * 0.86), 0, (boardScrollView.Bounds.Width * 0.8), (boardScrollView.Bounds.Height * 2.5));
             
             var bottomView = new UIView();
             var applicationLogo = new UIImageView(UIImage.FromBundle(@"Images/logo.png"));
@@ -120,7 +128,7 @@ namespace Tollminder.Touch.Views
             buttonContainerView.AddIfNotNull(profileButton, payButton, payHistoryButton);
             buttonContainerView.AddConstraints(
                 profileButton.AtTopOf(buttonContainerView, 10),
-                profileButton.AtLeftOf(buttonContainerView, 8),
+                profileButton.AtLeftOf(buttonContainerView, 4),
                 profileButton.WithRelativeWidth(buttonContainerView, 0.4f),
                 profileButton.WithRelativeHeight(buttonContainerView, 0.8f),
 
@@ -130,7 +138,7 @@ namespace Tollminder.Touch.Views
                 payHistoryButton.WithRelativeHeight(buttonContainerView, 0.8f),
 
                 payButton.AtTopOf(buttonContainerView, 10),
-                payButton.AtRightOf(buttonContainerView, 8),
+                payButton.AtRightOf(buttonContainerView, 4),
                 payButton.WithRelativeWidth(buttonContainerView, 0.4f),
                 payButton.WithRelativeHeight(buttonContainerView, 0.8f)
             );
@@ -200,6 +208,12 @@ namespace Tollminder.Touch.Views
             set.Bind(profileButton).To(vm => vm.ProfileCommand);
             set.Bind(payHistoryButton).To(vm => vm.PayHistoryCommand);
             set.Bind(logoutButton).To(vm => vm.LogoutCommand);
+
+            //set.Bind(geoLabelData).To(v => v.LocationString);
+            //set.Bind(activityLabel).To(v => v.MotionTypeString);
+            //set.Bind(statusLabel).To(v => v.StatusString);
+            //set.Bind(tollRoadString).To(v => v.TollRoadString);
+            //set.Bind(nextWaypointString).To(v => v.CurrentWaypointString);
 
             set.Apply();
         }

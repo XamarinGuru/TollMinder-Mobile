@@ -75,7 +75,7 @@
                         android:drawablePadding="10dp"
                         android:padding="10dp"
                         android:singleLine="true"
-                        local:MvxBind="Text FirstNameString;" />
+                        local:MvxBind="Text Profile.FirstName;" />
                 </android.support.design.widget.TextInputLayout>
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="wrap_content"
@@ -95,7 +95,7 @@
                         android:drawablePadding="10dp"
                         android:padding="10dp"
                         android:singleLine="true"
-                        local:MvxBind="Text LastNameString" />
+                        local:MvxBind="Text Profile.LastName" />
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
             <LinearLayout
@@ -113,13 +113,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
-                        android:hint="Login"
+                        android:hint="Email"
                         android:inputType="textNoSuggestions"
                         android:nextFocusDown="@+id/address_editText"
                         android:layout_marginLeft="10dp"
                         android:padding="10dp"
                         android:singleLine="true"
-                        local:MvxBind="Text EmailString;" />
+                        local:MvxBind="Text Profile.Email;" />
                 </android.support.design.widget.TextInputLayout>
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
@@ -138,7 +138,7 @@
                         android:layout_marginLeft="10dp"
                         android:padding="10dp"
                         android:singleLine="true"
-                        local:MvxBind="Text AddressString;" />
+                        local:MvxBind="Text Profile.Address;" />
                 </android.support.design.widget.TextInputLayout>
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
@@ -157,7 +157,7 @@
                         android:layout_marginLeft="10dp"
                         android:padding="10dp"
                         android:singleLine="true"
-                        local:MvxBind="Text CityString;" />
+                        local:MvxBind="Text Profile.City;" />
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
             <LinearLayout
@@ -194,7 +194,7 @@
                         android:layout_marginLeft="10dp"
                         android:padding="10dp"
                         android:singleLine="true"
-                        local:MvxBind="Text ZipCodeString" />
+                        local:MvxBind="Text Profile.ZipCode" />
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
             <LinearLayout

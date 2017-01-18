@@ -19,7 +19,7 @@ namespace Tollminder.Core
                 ShowViewModel<HomeViewModel>();
             }
             else
-                ShowViewModel<PayHistoryViewModel>();
+                ShowViewModel<LoginViewModel>();
         }
     }
 }

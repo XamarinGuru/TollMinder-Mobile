@@ -11,7 +11,7 @@ using UIKit;
 
 namespace Tollminder.Touch.Views
 {
-    [Register ("HomeView")]
+    [Register ("HomeDebugView")]
     partial class HomeDebugView
     {
         [Outlet]

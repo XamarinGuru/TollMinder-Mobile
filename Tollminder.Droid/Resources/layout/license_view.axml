@@ -70,7 +70,7 @@
                     android:layout_marginLeft="10dp"
                     android:padding="10dp"
                     android:singleLine="true"
-                    local:MvxBind="Text LicensePlateString;" />
+                    local:MvxBind="Text DriverLicense.LicensePlate;" />
             </android.support.design.widget.TextInputLayout>
             <MvxSpinner
                 android:layout_width="match_parent"

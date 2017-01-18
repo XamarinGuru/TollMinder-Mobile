@@ -20,9 +20,9 @@ namespace Tollminder.Core.ViewModels
         {
             loadStatesData = Mvx.Resolve<ILoadResourceData<StatesData>>();
             profileSettingService = Mvx.Resolve<IProfileSettingService>();
+            profile = new Profile();
+            driverLicense = new DriverLicense();
 
-            Profile = new Profile();
-            DriverLicense = new DriverLicense();
             States = loadStatesData.GetData("Tollminder.Core.states.json");
             SelectedState = States[firstElement];
             
@@ -75,7 +75,6 @@ namespace Tollminder.Core.ViewModels
             set
             {
                 SetProperty(ref profile, value);
-                RaisePropertyChanged(() => Profile);
             }
         }
 
@@ -85,18 +84,6 @@ namespace Tollminder.Core.ViewModels
             get { return driverLicense; }
             set{
                 SetProperty(ref driverLicense, value);
-                RaisePropertyChanged(() => DriverLicense);
-            }
-        }
-
-        private string licensePlate;
-        public string LicensePlate
-        {
-            get { return DriverLicense.LicensePlate; }
-            set
-            {
-                DriverLicense.LicensePlate = value;
-                RaisePropertyChanged(() => LicensePlate);
             }
         }
 
@@ -129,6 +116,17 @@ namespace Tollminder.Core.ViewModels
             get { return SelectedState.Abbreviation; }
         }
 
+        bool isStateWheelHidden;
+        public bool IsStateWheelHidden
+        {
+            get { return isStateWheelHidden; }
+            set
+            {
+                SetProperty(ref isStateWheelHidden, value);
+                RaisePropertyChanged(() => IsStateWheelHidden);
+            }
+        }
+
         // Vehicle classes
         private List<string> vehicleClasses;
         public List<string> VehicleClasses
@@ -150,17 +148,6 @@ namespace Tollminder.Core.ViewModels
                 SetProperty(ref selectedVehicleClass, value);
                 DriverLicense.VehicleClass = value;
                 RaisePropertyChanged(() => SelectedVehicleClass);
-            }
-        }
-
-        bool isStateWheelHidden;
-        public bool IsStateWheelHidden
-        {
-            get { return isStateWheelHidden; }
-            set
-            {
-                SetProperty(ref isStateWheelHidden, value);
-                RaisePropertyChanged(() => IsStateWheelHidden);
             }
         }
 

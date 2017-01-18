@@ -38,7 +38,6 @@ namespace Tollminder.Touch.Views
         LabelForDataWheel vehicleClassLabel;
         UIPickerView vehicleClassesPicker;
         MvxPickerViewModel vehicleClassesPickerViewModel;
-        UITextField text = new UITextField();
         
         public LicensePlateView()
         {
@@ -85,22 +84,14 @@ namespace Tollminder.Touch.Views
             vehicleClassTextField = TextFieldInitializer("Vehicle Class");
 
             stateLabel = LabelDataWheelInitiaziler("State");
-            statesPicker = new UIPickerView();
+            statesPicker = PickerInitializer();
             statesPickerViewModel = new MvxPickerViewModel(statesPicker);
             statesPicker.Model = statesPickerViewModel;
-            statesPicker.Hidden = true;
-            statesPicker.ShowSelectionIndicator = true;
-            //statesPicker.Model = new PickerModel<StatesData>(stateLabel, statesList);
-            statesPicker.BackgroundColor = UIColor.White;
 
             vehicleClassLabel = LabelDataWheelInitiaziler("Vehicle Class");
-            vehicleClassesPicker = new UIPickerView();
-            vehicleClassesPicker.Hidden = true;
+            vehicleClassesPicker = PickerInitializer();
             vehicleClassesPickerViewModel = new MvxPickerViewModel(vehicleClassesPicker);
             vehicleClassesPicker.Model = vehicleClassesPickerViewModel;
-            vehicleClassesPicker.ShowSelectionIndicator = true;
-            //vehicleClassesPicker.Model = new PickerModel<string>(vehicleClassLabel, vehicleClassList);
-            vehicleClassesPicker.BackgroundColor = UIColor.White;
 
             topTextRowView.AddIfNotNull(licensePlateTextField, stateLabel, vehicleClassLabel);
             topTextRowView.AddConstraints(
@@ -182,28 +173,33 @@ namespace Tollminder.Touch.Views
             return labelWheel;
         }
 
+        private UIPickerView PickerInitializer()
+        {
+            var picker = new UIPickerView();
+            picker.Hidden = true;
+            picker.ShowSelectionIndicator = true;
+            picker.BackgroundColor = UIColor.White;
+            return picker;
+        }
+
         protected override void InitializeBindings()
         {
             base.InitializeBindings();
             try
             {
-                //stateLabel.WheelText.InputView = statesPicker;
-
                 var set = this.CreateBindingSet<LicensePlateView, LicenseViewModel>();
                 set.Bind(backHomeView).To(vm => vm.BackToProfileCommand);
 
-                set.Bind(licensePlateTextField.TextFieldWithValidator.TextField).To(vm => vm.LicensePlate);
+                set.Bind(licensePlateTextField.TextFieldWithValidator.TextField).To(vm => vm.DriverLicense.LicensePlate);
                 set.Bind(statesPickerViewModel).For(p => p.ItemsSource).To(vm => vm.States);
                 set.Bind(statesPickerViewModel).For(p => p.SelectedItem).To(vm => vm.SelectedState);
                 set.Bind(stateLabel.WheelText).To(vm => vm.SelectedState);
-                //set.Bind(stateLabel).For(x => x.Enabled).To(vm => vm.IsBusy).WithConversion(new BoolInverseConverter());
                 set.Bind(statesPicker).For(x => x.Hidden).To(vm => vm.IsStateWheelHidden).WithConversion(new BoolInverseConverter());
                 set.Bind(stateLabel).To(vm => vm.StatesWheelCommand);
 
                 set.Bind(vehicleClassesPickerViewModel).For(p => p.ItemsSource).To(vm => vm.VehicleClasses);
                 set.Bind(vehicleClassesPickerViewModel).For(p => p.SelectedItem).To(vm => vm.SelectedVehicleClass);
                 set.Bind(vehicleClassLabel.WheelText).To(vm => vm.SelectedVehicleClass);
-                set.Bind(vehicleClassLabel).For(x => x.Enabled).To(vm => vm.IsBusy).WithConversion(new BoolInverseConverter());
                 set.Bind(vehicleClassesPicker).For(x => x.Hidden).To(vm => vm.IsVehicleClassWheelHidden).WithConversion(new BoolInverseConverter());
                 set.Bind(vehicleClassLabel).To(vm => vm.VehicleClassesWheelCommand);
                 
