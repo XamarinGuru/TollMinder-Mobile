@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tollminder.Touch", "Tollmin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tollminder.Droid", "Tollminder.Droid\Tollminder.Droid.csproj", "{59A33FEB-A8EE-4426-9907-28C5E62A7FF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvxPagerTabStrip", "MvxPager\PagerTabStrip\MvxPagerTabStrip.csproj", "{B7419C96-4ABA-4863-A9A2-704DECE6A306}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,18 +69,6 @@ Global
 		{59A33FEB-A8EE-4426-9907-28C5E62A7FF3}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{59A33FEB-A8EE-4426-9907-28C5E62A7FF3}.Debug|iPhone.ActiveCfg = Debug|Any CPU
 		{59A33FEB-A8EE-4426-9907-28C5E62A7FF3}.Debug|iPhone.Build.0 = Debug|Any CPU
-		{B7419C96-4ABA-4863-A9A2-704DECE6A306}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B7419C96-4ABA-4863-A9A2-704DECE6A306}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B7419C96-4ABA-4863-A9A2-704DECE6A306}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B7419C96-4ABA-4863-A9A2-704DECE6A306}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B7419C96-4ABA-4863-A9A2-704DECE6A306}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
-		{B7419C96-4ABA-4863-A9A2-704DECE6A306}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
-		{B7419C96-4ABA-4863-A9A2-704DECE6A306}.Release|iPhone.ActiveCfg = Release|Any CPU
-		{B7419C96-4ABA-4863-A9A2-704DECE6A306}.Release|iPhone.Build.0 = Release|Any CPU
-		{B7419C96-4ABA-4863-A9A2-704DECE6A306}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{B7419C96-4ABA-4863-A9A2-704DECE6A306}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
-		{B7419C96-4ABA-4863-A9A2-704DECE6A306}.Debug|iPhone.ActiveCfg = Debug|Any CPU
-		{B7419C96-4ABA-4863-A9A2-704DECE6A306}.Debug|iPhone.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0
