@@ -12,7 +12,7 @@ using Tollminder.Core.ViewModels;
 namespace Tollminder.Droid.Views
 {
     [Activity(Label = "Profile", Theme = "@style/AppTheme", LaunchMode = LaunchMode.SingleTask, ScreenOrientation = ScreenOrientation.Portrait, NoHistory = true)]
-    public class ProfileView : MvxActivity<ProfileViewModel>
+    public class ProfileView : LifeCycleActivity<ProfileViewModel>
     {
         EditText lastEditText;
 

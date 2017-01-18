@@ -12,7 +12,7 @@ using Tollminder.Core.ViewModels;
 namespace Tollminder.Droid.Views
 {
     [Activity(Label = "License", Theme = "@style/AppTheme", LaunchMode = LaunchMode.SingleTask, ScreenOrientation = ScreenOrientation.Portrait, NoHistory = true)]
-    public class LicenseView : MvxActivity<LicenseViewModel>
+    public class LicenseView : LifeCycleActivity<LicenseViewModel>
     {
         Spinner lastField;
 

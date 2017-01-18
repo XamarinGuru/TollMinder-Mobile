@@ -25,7 +25,6 @@ namespace Tollminder.Core.ViewModels
 
 		IList<MvxSubscriptionToken> _tokens;
 
-
         public HomeViewModel(IMvxMessenger messenger, ITrackFacade track, IGeoLocationWatcher geoWatcher, IStoredSettingsService storedSettingsService)
         {
             _messenger = messenger;
@@ -57,10 +56,23 @@ namespace Tollminder.Core.ViewModels
             Task.Run(RefreshToolRoads);
 
             _tokens.Add(_messenger.SubscribeOnMainThread<GeoWatcherStatusMessage>((s) => IsBound = s.Data, MvxReference.Strong));
+            _tokens.Add(_messenger.SubscribeOnThreadPoolThread<LocationMessage>(x => Location = x.Data, MvxReference.Strong));
+            _tokens.Add(_messenger.SubscribeOnThreadPoolThread<StatusMessage>(x => StatusString = x.Data.ToString(), MvxReference.Strong));
+            _tokens.Add(_messenger.SubscribeOnThreadPoolThread<MotionMessage>(x => MotionType = x.Data, MvxReference.Strong));
+            _tokens.Add(_messenger.SubscribeOnMainThread<CurrentTollpointChangedMessage>((s) => CurrentWaypointString = string.Join("\n", s.Data?.Select(x => x.Name)), MvxReference.Strong));
+            _tokens.Add(_messenger.SubscribeOnMainThread<TollRoadChangedMessage>((s) => TollRoadString = s.Data?.Name, MvxReference.Strong));
 
             synchronisationService.DataSynchronisation();
-            
+
             IsBound = _geoWatcher.IsBound;
+            StatusString = _track.TollStatus.ToString();
+            TollRoadString = Mvx.Resolve<IWaypointChecker>().TollRoad?.Name;
+
+            if (_geoWatcher.Location != null)
+                Location = _geoWatcher.Location;
+
+            if (Mvx.Resolve<IWaypointChecker>().TollPointsInRadius != null)
+                CurrentWaypointString = string.Join("\n", Mvx.Resolve<IWaypointChecker>().TollPointsInRadius?.Select(x => x.Name));
         }
 
 		Task RefreshToolRoads()
@@ -147,6 +159,23 @@ namespace Tollminder.Core.ViewModels
             }
         }
 
+        private MotionType _motionType;
+        public MotionType MotionType
+        {
+            get { return _motionType; }
+            set
+            {
+                _motionType = value;
+                RaisePropertyChanged(() => MotionType);
+                RaisePropertyChanged(() => MotionTypeString);
+            }
+        }
+
+        public string MotionTypeString
+        {
+            get { return _motionType.ToString(); }
+        }
+
         string _supportText = $"Call Center:{Environment.NewLine}+(1) 305 335 85 08";
         public string SupportText
         {
@@ -162,17 +191,6 @@ namespace Tollminder.Core.ViewModels
                 _location = value;
                 RaisePropertyChanged(() => Location);
                 RaisePropertyChanged(() => LocationString);
-            }
-        }
-
-        private string _logText;
-        public string LogText
-        {
-            get { return _logText; }
-            set
-            {
-                _logText = value;
-                RaisePropertyChanged(() => LogText);
             }
         }
 

@@ -36,7 +36,7 @@ namespace Tollminder.Touch.Views
         UIView buttonContainerView;
         UIView roadInformationContainerView;
 
-        // Information for board
+        // Information board
         UILabel activityLabel;
         UILabel geoLabel;
         UILabel geoLabelData;
@@ -61,39 +61,16 @@ namespace Tollminder.Touch.Views
         protected override void InitializeObjects()
         {
             base.InitializeObjects();
-
-            nfloat height = 50.0f;
-            nfloat width = 50.0f;
-            nfloat padding = 10.0f;
-            nint n = 25;
-
-            boardScrollView = new UIScrollView{
-                Frame = new CGRect(0, 100, View.Frame.Width, height + 2 * padding),
-                ContentSize = new CGSize((width + padding) * n, height),
-                AutoresizingMask = UIViewAutoresizing.FlexibleWidth
-            };
-            boardScrollView.PagingEnabled = true;
-
-            var topView = new UIView();
-            boardContainerView = new UIView();
-
-            buttonContainerView = new UIView();
-            buttonContainerView.Frame = new CGRect(0, 0, (boardScrollView.Bounds.Width), (boardScrollView.Bounds.Height * 3));
-
-            roadInformationContainerView = new UIView();
-            roadInformationContainerView.Frame = new CGRect((boardScrollView.Bounds.Width * 0.86), 0, (boardScrollView.Bounds.Width * 0.8), (boardScrollView.Bounds.Height * 2.5));
-            
-            var bottomView = new UIView();
+           
+            // Navigation bar
             var applicationLogo = new UIImageView(UIImage.FromBundle(@"Images/logo.png"));
-            var callCenterLabel = new UILabel();
-            var applicationBoard = new UIImageView(UIImage.FromBundle(@"Images/homeView/home_board.png"));
-
+            View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile(@"Images/main_background.png").Scale(View.Frame.Size));
+            applicationLogo.Frame = new CGRect(10, 10, applicationLogo.Image.CGImage.Width, applicationLogo.Image.CGImage.Height);
+            logoutButton = RoundedButtonManager.ButtonInitiaziler("", UIImage.FromFile(@"Images/homeView/ic_logout.png"));
             // Hide navigation bar
             NavigationController.SetNavigationBarHidden(true, false);
-            View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile(@"Images/main_background.png").Scale(View.Frame.Size));
-            applicationLogo.Frame = new CoreGraphics.CGRect(10, 10, applicationLogo.Image.CGImage.Width, applicationLogo.Image.CGImage.Height);
-            logoutButton = RoundedButtonManager.ButtonInitiaziler("", UIImage.FromFile(@"Images/homeView/ic_logout.png"));
             
+            var topView = new UIView();
             topView.AddIfNotNull(applicationLogo, logoutButton);
             topView.AddConstraints(
                 applicationLogo.WithRelativeWidth(topView, 0.5f),
@@ -107,24 +84,20 @@ namespace Tollminder.Touch.Views
                 logoutButton.WithRelativeHeight(topView, 0.4f)
             );
 
+            // Central Board View
+            boardScrollView = CreateSliderBoard(true);
+            buttonContainerView = new UIView();
+            roadInformationContainerView = new UIView();
+
+            buttonContainerView.Frame = new CGRect(0, 0, (boardScrollView.Bounds.Width), (boardScrollView.Bounds.Height * 3));
+            roadInformationContainerView.Frame = new CGRect((boardScrollView.Bounds.Width * 0.86), 0, (boardScrollView.Bounds.Width * 0.8), (boardScrollView.Bounds.Height * 2.5));
+            boardScrollView.ContentSize = new CGSize((buttonContainerView.Bounds.Width + roadInformationContainerView.Bounds.Width - 40), boardScrollView.Frame.Height);
+
+            // Board View - Button Container
             profileButton = RoundedButtonManager.ButtonInitiaziler("PROFILE", UIImage.FromFile(@"Images/homeView/ic_home_profile.png"));
             payButton = RoundedButtonManager.ButtonInitiaziler("PAY", UIImage.FromFile(@"Images/homeView/ic_home_pay.png"));
             payHistoryButton = RoundedButtonManager.ButtonInitiaziler("PAY HISTORY", UIImage.FromFile(@"Images/homeView/ic_home_pay_history.png"));
-            trackingButton = RoundedButtonManager.ButtonInitiaziler(EnvironmentInfo.GetTrackingButtonDistanceBetweenTextAndImage);
-            
-            this.AddLinqBinding(ViewModel, vm => vm.TrackingCommand, (value) =>
-            {
-                trackingButton.BackgroundColor = UIColor.White;
-                trackingButton.Alpha = 0.7f;
-                trackingButton.ButtonTextColor = UIColor.FromRGB(3, 117, 27);
-            });
-            //_callCentergButton = ButtonInitiaziler(null, UIImage.FromFile(@"Images/ic_home_support.png"));
-            //_callCentergButton.ButtonText.TextColor = UIColor.LightGray;
-            //_callCentergButton.ButtonBackgroundColor = null;
-            //callCenterLabel.Text = "+(1)305 335 85 08";
-            //callCenterLabel.TextColor = UIColor.LightGray;
 
-            applicationBoard.Frame = new CoreGraphics.CGRect(10, 10, applicationBoard.Image.CGImage.Width, applicationBoard.Image.CGImage.Height);
             buttonContainerView.AddIfNotNull(profileButton, payButton, payHistoryButton);
             buttonContainerView.AddConstraints(
                 profileButton.AtTopOf(buttonContainerView, 10),
@@ -143,10 +116,9 @@ namespace Tollminder.Touch.Views
                 payButton.WithRelativeHeight(buttonContainerView, 0.8f)
             );
 
-            // Road Information Container
+            // Board View - Road Information Container
             roadInformationContainerView.BackgroundColor = UIColor.Blue;
 
-            boardScrollView.ContentSize = new CGSize((buttonContainerView.Bounds.Width + roadInformationContainerView.Bounds.Width - 40), boardScrollView.Frame.Height);
             boardScrollView.AddIfNotNull(buttonContainerView, roadInformationContainerView);
             boardScrollView.AddConstraints(
                 buttonContainerView.AtTopOf(boardScrollView),
@@ -155,6 +127,9 @@ namespace Tollminder.Touch.Views
                 buttonContainerView.WithRelativeWidth(boardScrollView, 1f)
             );
 
+            var applicationBoard = new UIImageView(UIImage.FromBundle(@"Images/homeView/home_board.png"));
+            applicationBoard.Frame = new CoreGraphics.CGRect(10, 10, applicationBoard.Image.CGImage.Width, applicationBoard.Image.CGImage.Height);
+            boardContainerView = new UIView();
             boardContainerView.AddIfNotNull(applicationBoard, boardScrollView);
             boardContainerView.AddConstraints(
                 applicationBoard.WithSameHeight(boardContainerView),
@@ -168,6 +143,23 @@ namespace Tollminder.Touch.Views
                 boardScrollView.WithRelativeHeight(boardContainerView, 0.55f)
             );
          
+            // Bottom View
+            trackingButton = RoundedButtonManager.ButtonInitiaziler(EnvironmentInfo.GetTrackingButtonDistanceBetweenTextAndImage);
+            this.AddLinqBinding(ViewModel, vm => vm.TrackingCommand, (value) =>
+            {
+                trackingButton.BackgroundColor = UIColor.White;
+                trackingButton.Alpha = 0.7f;
+                trackingButton.ButtonTextColor = UIColor.FromRGB(3, 117, 27);
+            });
+
+            //var callCenterLabel = new UILabel();
+            //_callCentergButton = ButtonInitiaziler(null, UIImage.FromFile(@"Images/ic_home_support.png"));
+            //_callCentergButton.ButtonText.TextColor = UIColor.LightGray;
+            //_callCentergButton.ButtonBackgroundColor = null;
+            //callCenterLabel.Text = "+(1)305 335 85 08";
+            //callCenterLabel.TextColor = UIColor.LightGray;
+
+            var bottomView = new UIView();
             bottomView.AddIfNotNull(trackingButton);
             bottomView.AddConstraints(
                 trackingButton.AtTopOf(bottomView),
@@ -177,6 +169,7 @@ namespace Tollminder.Touch.Views
                 trackingButton.WithRelativeWidth(bottomView, EnvironmentInfo.GetTrackingButtonWidth)
             );
 
+            // View Initialising
             View.AddIfNotNull(topView, boardContainerView, bottomView);
             View.AddConstraints(
                 topView.AtTopOf(View),
@@ -197,6 +190,23 @@ namespace Tollminder.Touch.Views
             SignIn.SharedInstance.UIDelegate = this;
         }
 
+        private UIScrollView CreateSliderBoard(bool showWithPaging)
+        {
+            nfloat height = 50.0f;
+            nfloat width = 50.0f;
+            nfloat padding = 10.0f;
+            nint n = 25;
+
+            var scrollView = new UIScrollView
+            {
+                Frame = new CGRect(0, 100, View.Frame.Width, height + 2 * padding),
+                ContentSize = new CGSize((width + padding) * n, height),
+                AutoresizingMask = UIViewAutoresizing.FlexibleWidth
+            };
+            scrollView.PagingEnabled = showWithPaging;
+            return scrollView;
+        }
+
         protected override void InitializeBindings()
         {
              base.InitializeBindings();
@@ -209,11 +219,12 @@ namespace Tollminder.Touch.Views
             set.Bind(payHistoryButton).To(vm => vm.PayHistoryCommand);
             set.Bind(logoutButton).To(vm => vm.LogoutCommand);
 
-            //set.Bind(geoLabelData).To(v => v.LocationString);
-            //set.Bind(activityLabel).To(v => v.MotionTypeString);
-            //set.Bind(statusLabel).To(v => v.StatusString);
-            //set.Bind(tollRoadString).To(v => v.TollRoadString);
-            //set.Bind(nextWaypointString).To(v => v.CurrentWaypointString);
+            // Information board
+            set.Bind(geoLabelData).To(v => v.LocationString);
+            set.Bind(activityLabel).To(v => v.MotionTypeString);
+            set.Bind(statusLabel).To(v => v.StatusString);
+            set.Bind(tollRoadString).To(v => v.TollRoadString);
+            set.Bind(nextWaypointString).To(v => v.CurrentWaypointString);
 
             set.Apply();
         }

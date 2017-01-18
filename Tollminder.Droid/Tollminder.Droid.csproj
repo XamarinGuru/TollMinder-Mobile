@@ -339,6 +339,7 @@
     <Compile Include="Controls\MvxExpandableList\ListViews\BindableExpandableListView.cs" />
     <Compile Include="Controls\MvxExpandableList\AndroidBindingResource.cs" />
     <Compile Include="Controls\MvxExpandableList\Plugin.cs" />
+    <Compile Include="Views\LifeCycleActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
