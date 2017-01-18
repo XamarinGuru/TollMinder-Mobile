@@ -41,13 +41,11 @@ namespace Tollminder.Droid
 
         public void OnActivityDestroyed(Activity activity)
         {
-            //Debug.
         }
 
         public void OnActivityPaused(Activity activity)
         {
         }
-
 
         public void OnActivityResumed(Activity activity)
         {

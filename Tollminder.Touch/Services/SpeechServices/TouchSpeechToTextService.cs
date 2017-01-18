@@ -28,10 +28,11 @@ namespace Tollminder.Touch.Services.SpeechServices
         AVAudioPlayer _audioPlayer;
         AnswerType _answer;
         Core.Utils.Timer _timer;
+        bool isTimeStarted;
 
         TaskCompletionSource<bool> _recognitionTask;
 
-		UIAlertView _error;
+		UIAlertView _questionAlert;
 
 		string pathToLanguageModel;
 		string pathToDictionary;
@@ -73,61 +74,60 @@ namespace Tollminder.Touch.Services.SpeechServices
 		{
 			_recognitionTask = new TaskCompletionSource<bool>();
 
-            //AskQuestionMethod(question);
+            TimerManager(question);
 
-            _timer = new Core.Utils.Timer((s) => { AskQuestionMethod(question);}, question, new TimeSpan(0, 0, 0), new TimeSpan(0, 0, 15), true);
 			return _recognitionTask.Task;
 		}
 
-        void AskQuestionMethod(string question)
+        async Task AskQuestionMethod(string question)
         {
-            StopListening();
-            
             UIApplication.SharedApplication.InvokeOnMainThread(() =>
             {
-                _error = new UIAlertView(question, "Please, answer after the signal", null, "NO", "Yes");
-                _error.Clicked += (sender, _buttonArgs) =>
+                _questionAlert = new UIAlertView(question, "Please, answer after the signal", null, "NO", "Yes");
+                _questionAlert.Clicked += (sender, _buttonArgs) =>
                 {
-                    StopListening();
-                    _recognitionTask.TrySetResult(_buttonArgs.ButtonIndex != _error.CancelButtonIndex);
+                    TimerManager(question);
+                    _recognitionTask.TrySetResult(_buttonArgs.ButtonIndex != _questionAlert.CancelButtonIndex);
                 };
-                _error.Show();
+                _questionAlert.Show();
             });
-            TextToSpeechService.Speak(question, false).Wait();
-
-            TextToSpeechService.Speak("Please, answer after the signal", false).Wait();
-
-            UIApplication.SharedApplication.InvokeOnMainThread(() =>
+            if (await TextToSpeechService.Speak(question, false))
             {
-                AVAudioSession.SharedInstance().SetCategory(AVAudioSessionCategory.Playback);
-                AVAudioSession.SharedInstance().SetActive(true);
-                //SystemSound notificationSound = SystemSound.FromFile(@"/System/Library/Audio/UISounds/jbl_begin.caf");
-                //notificationSound.AddSystemSoundCompletion(SystemSound.Vibrate.PlaySystemSound);
-                //notificationSound.PlaySystemSound();
+                if (await TextToSpeechService.Speak("Please, answer after the signal", false))
+                {
 
-                _audioPlayer = AVAudioPlayer.FromUrl(NSUrl.FromFilename(Path.Combine("Sounds", "tap.aif")));
-                _audioPlayer.PrepareToPlay();
-                _audioPlayer.Play();
-            });
-             
-            Question = question;
-            StartListening();
+                    UIApplication.SharedApplication.InvokeOnMainThread(() =>
+                    {
+                        AVAudioSession.SharedInstance().SetCategory(AVAudioSessionCategory.Playback);
+                        AVAudioSession.SharedInstance().SetActive(true);
+                    //SystemSound notificationSound = SystemSound.FromFile(@"/System/Library/Audio/UISounds/jbl_begin.caf");
+                    //notificationSound.AddSystemSoundCompletion(SystemSound.Vibrate.PlaySystemSound);
+                    //notificationSound.PlaySystemSound();
+
+                    _audioPlayer = AVAudioPlayer.FromUrl(NSUrl.FromFilename(Path.Combine("Sounds", "tap.aif")));
+                        _audioPlayer.PrepareToPlay();
+                        _audioPlayer.Play();
+                    });
+
+                    Question = question;
+                    StartListening();
+                }
+            }
         }
 
-		public void CheckResult(IList<string> matches)
-		{
-			_answer = MappingService.DetectAnswer(matches);
+        public void CheckResult(IList<string> matches)
+        {
+            TimerManager(Question);
+            _answer = MappingService.DetectAnswer(matches);
 
-			_error.DismissWithClickedButtonIndex(0, true);
-			                                                   
-			if (_answer != AnswerType.Unknown)
-			{
-				TextToSpeechService.Speak($"Your answer is {_answer.ToString()}", false).ConfigureAwait(false);
-				_recognitionTask.TrySetResult(_answer == AnswerType.Positive);
-			}
-			else
-                AskQuestionMethod(Question);
-		}
+            if (_answer != AnswerType.Unknown)
+            {
+                TextToSpeechService.Speak($"Your answer is {_answer.ToString()}", false).ConfigureAwait(false);
+                _recognitionTask.TrySetResult(_answer == AnswerType.Positive);
+            }
+            else
+                TimerManager(Question);
+        }
 
 		public void StartListening()
 		{
@@ -144,11 +144,24 @@ namespace Tollminder.Touch.Services.SpeechServices
 			pocketSphinxController.StopListening();
             UIApplication.SharedApplication.InvokeOnMainThread(() =>
             {
-                _error?.DismissWithClickedButtonIndex(0, true);
+                _questionAlert?.DismissWithClickedButtonIndex(0, true);
             });
-            if (_recognitionTask.Task.IsCompleted)
-                _timer.Cancel();
 		}
+
+        private void TimerManager(string question)
+        {
+            StopListening();
+            if (!isTimeStarted)
+            {
+                isTimeStarted = true;
+                _timer = new Core.Utils.Timer((s) => { AskQuestionMethod(question); }, question, new TimeSpan(0, 0, 0), new TimeSpan(0, 0, 15), true);
+            }
+            else
+            {
+                _timer.Cancel();
+                isTimeStarted = false;
+            }
+        }
 
 		public void SuspendRecognition()
 		{

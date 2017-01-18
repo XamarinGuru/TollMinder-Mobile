@@ -34,15 +34,15 @@ namespace Tollminder.Touch.Views
         UIScrollView boardScrollView;
         UIView boardContainerView;
         UIView buttonContainerView;
-        UIView roadInformationContainerView;
+        UIView roadInformationBoardView;
 
         // Information board
-        UILabel activityLabel;
-        UILabel geoLabel;
-        UILabel geoLabelData;
-        UILabel nextWaypointString;
-        UILabel statusLabel;
-        UILabel tollRoadString;
+        BoardField activityLabel;
+        BoardField geoLabel;
+        BoardField geoLabelData;
+        BoardField nextWaypointString;
+        BoardField statusLabel;
+        BoardField tollRoadString;
 
         public new HomeViewModel ViewModel { get { return base.ViewModel as HomeViewModel; } }
         
@@ -54,7 +54,7 @@ namespace Tollminder.Touch.Views
         {
         }
 
-        public HomeView(string nibName, Foundation.NSBundle bundle) : base(nibName, bundle)
+        public HomeView(string nibName, NSBundle bundle) : base(nibName, bundle)
         {
         }
 
@@ -87,11 +87,11 @@ namespace Tollminder.Touch.Views
             // Central Board View
             boardScrollView = CreateSliderBoard(true);
             buttonContainerView = new UIView();
-            roadInformationContainerView = new UIView();
+            roadInformationBoardView = new UIView();
 
             buttonContainerView.Frame = new CGRect(0, 0, (boardScrollView.Bounds.Width), (boardScrollView.Bounds.Height * 3));
-            roadInformationContainerView.Frame = new CGRect((boardScrollView.Bounds.Width * 0.86), 0, (boardScrollView.Bounds.Width * 0.8), (boardScrollView.Bounds.Height * 2.5));
-            boardScrollView.ContentSize = new CGSize((buttonContainerView.Bounds.Width + roadInformationContainerView.Bounds.Width - 40), boardScrollView.Frame.Height);
+            roadInformationBoardView.Frame = new CGRect((boardScrollView.Bounds.Width * 0.86), 0, (boardScrollView.Bounds.Width * 0.8), (boardScrollView.Bounds.Height * 2.5));
+            boardScrollView.ContentSize = new CGSize((buttonContainerView.Bounds.Width + roadInformationBoardView.Bounds.Width - 40), boardScrollView.Frame.Height);
 
             // Board View - Button Container
             profileButton = RoundedButtonManager.ButtonInitiaziler("PROFILE", UIImage.FromFile(@"Images/homeView/ic_home_profile.png"));
@@ -117,9 +117,10 @@ namespace Tollminder.Touch.Views
             );
 
             // Board View - Road Information Container
-            roadInformationContainerView.BackgroundColor = UIColor.Blue;
+            roadInformationBoardView.BackgroundColor = UIColor.Blue;
 
-            boardScrollView.AddIfNotNull(buttonContainerView, roadInformationContainerView);
+
+            boardScrollView.AddIfNotNull(buttonContainerView, roadInformationBoardView);
             boardScrollView.AddConstraints(
                 buttonContainerView.AtTopOf(boardScrollView),
                 buttonContainerView.AtLeftOf(boardScrollView),
@@ -128,7 +129,7 @@ namespace Tollminder.Touch.Views
             );
 
             var applicationBoard = new UIImageView(UIImage.FromBundle(@"Images/homeView/home_board.png"));
-            applicationBoard.Frame = new CoreGraphics.CGRect(10, 10, applicationBoard.Image.CGImage.Width, applicationBoard.Image.CGImage.Height);
+            applicationBoard.Frame = new CGRect(10, 10, applicationBoard.Image.CGImage.Width, applicationBoard.Image.CGImage.Height);
             boardContainerView = new UIView();
             boardContainerView.AddIfNotNull(applicationBoard, boardScrollView);
             boardContainerView.AddConstraints(

@@ -88,7 +88,8 @@ namespace Tollminder.Core.Services.Implementation
                 //    Log.LogMessage("App launched for the first time!!!!!");
                 //}
                 //Log.LogMessage("App launched not for the first time!!!!!");
-                //DeleteOldTollRoads(tollRoads);
+                DeleteOldTollRoads(tollRoads);
+
                 Connection.InsertOrReplaceAllWithChildren(tollRoads, true);
                 var points = Connection.GetAllWithChildren<TollPoint>();
                 var roads = Connection.GetAllWithChildren<TollRoad>();

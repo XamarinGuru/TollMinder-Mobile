@@ -325,6 +325,8 @@
     <Compile Include="Controls\TextFiled\TextFieldValidationWithImage.cs" />
     <Compile Include="Controls\TextFiled\TextFieldValidatorView.cs" />
     <Compile Include="Controls\TextFiled\TextFieldWithValidator.cs" />
+    <Compile Include="Controls\BoardField.cs" />
+    <Compile Include="Helpers\BoardFieldManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets')" />

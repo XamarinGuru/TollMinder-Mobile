@@ -14,7 +14,7 @@ namespace Tollminder.Core.Models
         public string Id { get; set; }
         [JsonProperty("name")]
 		public string Name { get; set; }
-        //[JsonProperty("_wayPoints")]
+        [JsonProperty("_wayPoints")]
 		[OneToMany(CascadeOperations = CascadeOperation.All)]
         public List<TollRoadWaypoint> WayPoints { get; set; }
         //[JsonProperty("_wayPoints")]

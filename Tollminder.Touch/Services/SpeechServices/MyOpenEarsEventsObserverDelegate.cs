@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using OpenEars;
 
 namespace Tollminder.Touch.Services.SpeechServices
@@ -14,7 +15,7 @@ namespace Tollminder.Touch.Services.SpeechServices
 
         public override void PocketsphinxDidReceiveHypothesisrecognitionScoreutteranceID(string hypothesis, string recognitionScore, string utteranceID)
         {
-            Console.WriteLine($"Heard: {hypothesis}, score {recognitionScore}, id {utteranceID}");
+            Debug.WriteLine($"Heard: {hypothesis}, score {recognitionScore}, id {utteranceID}");
             _service.CheckResult(hypothesis.ToLower().Split(' '));
             _service.StopListening();
         }
