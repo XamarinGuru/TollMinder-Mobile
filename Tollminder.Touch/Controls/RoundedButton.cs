@@ -13,15 +13,23 @@ namespace Tollminder.Touch.Controls
     public class RoundedButton : UIButton
     {
         MvxImageView _imageView;
+        MvxImageView _pointerView;
         UILabel _buttonText;
         UIColor _buttonBackGroundColor;
         UIColor _buttonTextColor;
         nfloat _distanceBetweenTextAndImage;
+        nfloat _distanceBetweenTextAndPointer;
 
         public UIImage ButtonImage
         {
             get { return _imageView.Image; }
             set { _imageView.Image = value; }
+        }
+
+        public UIImage ButtonPointer
+        {
+            get { return _pointerView.Image; }
+            set { _pointerView.Image = value; }
         }
 
         public UILabel ButtonText
@@ -51,6 +59,8 @@ namespace Tollminder.Touch.Controls
         public RoundedButton() : base()
         {
             _distanceBetweenTextAndImage = EnvironmentInfo.GetRoundedButtonDistanceBetweenTextAndImage;
+            _distanceBetweenTextAndPointer = EnvironmentInfo.GetRoundedButtonDistanceBetweenTextAndPointer;
+
             InitObjects();
         }
 
@@ -80,13 +90,13 @@ namespace Tollminder.Touch.Controls
         {
             _buttonText = new UILabel();
             _imageView = new MvxImageView();
+            _pointerView = new MvxImageView();
 
             _buttonText.Font = UIFont.FromName("Helvetica-Bold", 16f);
-            this.AddIfNotNull(_buttonText, _imageView);
             this.Layer.CornerRadius = 30;
             this.UserInteractionEnabled = true;
 
-
+            this.AddIfNotNull(_buttonText, _imageView, _pointerView);
             this.AddConstraints(
                 _imageView.AtTopOf(this, 10),
                 _imageView.WithSameCenterX(this),
@@ -96,7 +106,12 @@ namespace Tollminder.Touch.Controls
                 _buttonText.Below(_imageView),
                 _buttonText.WithSameCenterX(this),
                 _buttonText.Height().EqualTo(20),
-                _buttonText.AtBottomOf(this, _distanceBetweenTextAndImage)
+
+                _pointerView.Below(_buttonText),
+                _pointerView.WithSameCenterX(this),
+                _pointerView.Height().EqualTo(20),
+                _pointerView.WithRelativeWidth(this, 0.3f),
+                _pointerView.AtBottomOf(this)
             );
         }
     }

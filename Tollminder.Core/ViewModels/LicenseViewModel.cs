@@ -31,9 +31,9 @@ namespace Tollminder.Core.ViewModels
             SelectedVehicleClass = VehicleClasses[firstElement];
 
             backToProfileCommand = new MvxCommand(() => {
-                SaveUserBeforeYouLive();
+                SaveDataBeforeYouLive();
                 Close(this);
-                //ShowViewModel<ProfileViewModel>(); 
+                ShowViewModel<ProfileViewModel>(); 
             });
             statesWheelCommand = new MvxCommand(() => {
                 if (IsVehicleClassWheelHidden)
@@ -57,17 +57,17 @@ namespace Tollminder.Core.ViewModels
 
         public override void OnPause()
         {
-            SaveUserBeforeYouLive();
+            SaveDataBeforeYouLive();
             base.OnPause();
         }
 
         public override void OnDestroy()
         {
-            SaveUserBeforeYouLive();
+            SaveDataBeforeYouLive();
             base.OnDestroy();
         }
 
-        private void SaveUserBeforeYouLive()
+        private void SaveDataBeforeYouLive()
         {
             Profile.DriverLicense = DriverLicense;
             profileSettingService.SaveProfile(Profile);

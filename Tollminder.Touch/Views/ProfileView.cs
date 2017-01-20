@@ -24,6 +24,8 @@ namespace Tollminder.Touch.Views
     public class ProfileView : BaseViewController<ProfileViewModel>, ISignInUIDelegate, ICleanBackStack
     {
         UIButton backHomeView;
+        UILabel nameOfPageLabel;
+        UILabel informationAboutPageLabel;
 
         TextFieldValidationWithImage firstNameTextField;
         TextFieldValidationWithImage lastNameTextField;
@@ -62,16 +64,19 @@ namespace Tollminder.Touch.Views
             var centerTextRowView = new UIView();
             var bottomTextRowView = new UIView();
             var bottomView = new UIView();
+            var profileNavigationBarBackground = new UIImageView(UIImage.FromBundle(@"Images/navigation_bar_background.png"));
+            
             backHomeView = UIButton.FromType(UIButtonType.Custom);
             backHomeView.SetImage(UIImage.FromFile(@"Images/ic_back.png"), UIControlState.Normal);
-            var profileNavigationBarBackground = new UIImageView(UIImage.FromBundle(@"Images/navigation_bar_background.png"));
+            nameOfPageLabel = LabelInformationAboutPage(UIColor.White, "Profile", UIFont.BoldSystemFontOfSize(16f));
+            informationAboutPageLabel = LabelInformationAboutPage(UIColor.FromRGB(29, 157, 189), "Profile", UIFont.FromName("Helvetica", 16f));
 
             // Hide navigation bar
             NavigationController.SetNavigationBarHidden(true, false);
             View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile(@"Images/tab_background.png").Scale(View.Frame.Size));
             profileNavigationBarBackground.Frame = new CoreGraphics.CGRect(10, 10, profileNavigationBarBackground.Image.CGImage.Width, profileNavigationBarBackground.Image.CGImage.Height);
 
-            topView.AddIfNotNull(profileNavigationBarBackground, backHomeView);
+            topView.AddIfNotNull(profileNavigationBarBackground, backHomeView, nameOfPageLabel, informationAboutPageLabel);
             topView.AddConstraints(
                 profileNavigationBarBackground.WithSameWidth(topView),
                 profileNavigationBarBackground.WithSameHeight(topView),
@@ -80,7 +85,13 @@ namespace Tollminder.Touch.Views
                 backHomeView.WithSameCenterY(topView),
                 backHomeView.AtLeftOf(topView, 20),
                 backHomeView.WithRelativeWidth(topView,0.1f),
-                backHomeView.WithRelativeHeight(topView, 0.2f)
+                backHomeView.WithRelativeHeight(topView, 0.2f),
+
+                nameOfPageLabel.WithSameCenterY(topView),
+                nameOfPageLabel.WithSameCenterX(topView),
+
+                informationAboutPageLabel.Below(nameOfPageLabel, 5),
+                informationAboutPageLabel.WithSameCenterY(topView)
             );
 
             firstNameTextField = TextFieldInitializer("First Name");
@@ -99,8 +110,8 @@ namespace Tollminder.Touch.Views
             statesPicker.ShowSelectionIndicator = true;
             statesPicker.BackgroundColor = UIColor.White;
             
-            addLicenseButton = ProfileButtonManager.ButtonInitiaziler("Add License Plate", UIImage.FromFile(@"Images/profileView/ic_license.png"));
-            addCreditCardButton = ProfileButtonManager.ButtonInitiaziler("Add Credit Card", UIImage.FromFile(@"Images/profileView/ic_card.png"));
+            addLicenseButton = ProfileButtonManager.ButtonInitiaziler("Add License Plate", UIImage.FromFile(@"Images/ProfileView/ic_license.png"));
+            addCreditCardButton = ProfileButtonManager.ButtonInitiaziler("Add Credit Card", UIImage.FromFile(@"Images/ProfileView/ic_card.png"));
 
             topTextRowView.AddIfNotNull(firstNameTextField, lastNameTextField);
             topTextRowView.AddConstraints(
@@ -231,6 +242,15 @@ namespace Tollminder.Touch.Views
             textField.TextFieldWithValidator.TextField.KeyboardType = UIKeyboardType.Default;
 
             return textField;
+        }
+
+        private UILabel LabelInformationAboutPage(UIColor color, string text, UIFont font)
+        {
+            var labelInformation = new UILabel();
+            labelInformation.TextColor = color;
+            labelInformation.Text = text;
+            labelInformation.Font = font;
+            return labelInformation;
         }
 
         protected override void InitializeBindings()

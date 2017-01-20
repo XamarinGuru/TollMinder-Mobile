@@ -326,7 +326,6 @@
     <Compile Include="Controls\TextFiled\TextFieldValidatorView.cs" />
     <Compile Include="Controls\TextFiled\TextFieldWithValidator.cs" />
     <Compile Include="Controls\BoardField.cs" />
-    <Compile Include="Helpers\BoardFieldManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets')" />
@@ -352,13 +351,14 @@
     <Folder Include="Interfaces\" />
     <Folder Include="Resources\Images\" />
     <Folder Include="Services\SpeechServices\" />
-    <Folder Include="Resources\Images\loginView\" />
-    <Folder Include="Resources\Images\homeView\" />
-    <Folder Include="Resources\Images\profileView\" />
-    <Folder Include="Resources\Images\payHistoryView\" />
-    <Folder Include="Resources\Images\creditCardView\" />
+    <Folder Include="Resources\Images\LoginView\" />
+    <Folder Include="Resources\Images\HomeView\" />
+    <Folder Include="Resources\Images\ProfileView\" />
+    <Folder Include="Resources\Images\PayHistoryView\" />
+    <Folder Include="Resources\Images\CreditCardView\" />
     <Folder Include="Views\PayHistoryView\" />
     <Folder Include="Controls\TextFiled\" />
+    <Folder Include="Resources\Images\HomeView\InformationBoard\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\OpenEars1.dic" />
@@ -376,34 +376,39 @@
     <BundleResource Include="GoogleService-Info.plist" />
     <BundleResource Include="Resources\Images\navigation_bar_background.png" />
     <BundleResource Include="Resources\Images\tab_background.png" />
-    <BundleResource Include="Resources\Images\creditCardView\creditCards.png" />
-    <BundleResource Include="Resources\Images\loginView\facebook_logIn.png" />
-    <BundleResource Include="Resources\Images\loginView\facebook-button.png" />
-    <BundleResource Include="Resources\Images\loginView\google-button.png" />
-    <BundleResource Include="Resources\Images\homeView\home_board.png" />
-    <BundleResource Include="Resources\Images\homeView\ic_home_pay.png" />
-    <BundleResource Include="Resources\Images\homeView\ic_home_pay_history.png" />
-    <BundleResource Include="Resources\Images\homeView\ic_home_profile.png" />
-    <BundleResource Include="Resources\Images\homeView\ic_home_support.png" />
-    <BundleResource Include="Resources\Images\homeView\ic_home_tracking_active.png" />
-    <BundleResource Include="Resources\Images\homeView\ic_home_tracking_default.png" />
+    <BundleResource Include="Resources\Images\CreditCardView\creditCards.png" />
+    <BundleResource Include="Resources\Images\LoginView\facebook_logIn.png" />
+    <BundleResource Include="Resources\Images\LoginView\facebook-button.png" />
+    <BundleResource Include="Resources\Images\LoginView\google-button.png" />
+    <BundleResource Include="Resources\Images\HomeView\home_board.png" />
+    <BundleResource Include="Resources\Images\HomeView\ic_home_pay.png" />
+    <BundleResource Include="Resources\Images\HomeView\ic_home_pay_history.png" />
+    <BundleResource Include="Resources\Images\HomeView\ic_home_profile.png" />
+    <BundleResource Include="Resources\Images\HomeView\ic_home_support.png" />
+    <BundleResource Include="Resources\Images\HomeView\ic_home_tracking_active.png" />
+    <BundleResource Include="Resources\Images\HomeView\ic_home_tracking_default.png" />
     <BundleResource Include="Resources\Images\main_background.png" />
     <BundleResource Include="Resources\Images\main_background-640h%402x.png" />
     <BundleResource Include="Resources\Images\main_background-667h%402x.png" />
     <BundleResource Include="Resources\Images\logo.png" />
-    <BundleResource Include="Resources\Images\payHistoryView\ic_calendar.png" />
-    <BundleResource Include="Resources\Images\payHistoryView\ic_download.png" />
-    <BundleResource Include="Resources\Images\profileView\ic_card.png" />
-    <BundleResource Include="Resources\Images\profileView\ic_license.png" />
-    <BundleResource Include="Resources\Images\creditCardView\amex.png" />
-    <BundleResource Include="Resources\Images\creditCardView\discover.png" />
-    <BundleResource Include="Resources\Images\creditCardView\MasterCard.png" />
-    <BundleResource Include="Resources\Images\creditCardView\visa.png" />
+    <BundleResource Include="Resources\Images\PayHistoryView\ic_calendar.png" />
+    <BundleResource Include="Resources\Images\PayHistoryView\ic_download.png" />
+    <BundleResource Include="Resources\Images\ProfileView\ic_card.png" />
+    <BundleResource Include="Resources\Images\ProfileView\ic_license.png" />
+    <BundleResource Include="Resources\Images\CreditCardView\amex.png" />
+    <BundleResource Include="Resources\Images\CreditCardView\discover.png" />
+    <BundleResource Include="Resources\Images\CreditCardView\MasterCard.png" />
+    <BundleResource Include="Resources\Images\CreditCardView\visa.png" />
     <BundleResource Include="Resources\Images\ic_back.png" />
-    <BundleResource Include="Resources\Images\homeView\ic_logout.png">
+    <BundleResource Include="Resources\Images\HomeView\ic_logout.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BundleResource>
-    <BundleResource Include="Resources\Images\payHistoryView\ic_openIn.png" />
+    <BundleResource Include="Resources\Images\PayHistoryView\ic_openIn.png" />
+    <BundleResource Include="Resources\Images\HomeView\InformationBoard\ic_location.png" />
+    <BundleResource Include="Resources\Images\HomeView\InformationBoard\ic_nearest_point.png" />
+    <BundleResource Include="Resources\Images\HomeView\InformationBoard\ic_pointer.png" />
+    <BundleResource Include="Resources\Images\HomeView\InformationBoard\ic_status.png" />
+    <BundleResource Include="Resources\Images\HomeView\InformationBoard\ic_tollroad.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="facebookios">

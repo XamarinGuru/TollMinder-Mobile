@@ -16,7 +16,7 @@ namespace Tollminder.Touch.Controls
         UILabel labelText;
         UIColor labelTextColor;
         nfloat distanceBetweenIconAndLabel;
-        UITextView valueText;
+        UILabel valueText;
         UIColor valueTextColor;
         nfloat distanceBetweenLabelAndValue;
 
@@ -41,7 +41,7 @@ namespace Tollminder.Touch.Controls
             }
         }
 
-        public UITextView ValueText
+        public UILabel ValueText
         {
             get { return valueText; }
             set { valueText = value; }
@@ -67,8 +67,7 @@ namespace Tollminder.Touch.Controls
         {
             this.distanceBetweenIconAndLabel = distanceBetweenImageAndLabel == 0 ? EnvironmentInfo.GetProfileButtonDistanceBetweenTextAndIcon
                                                                             : distanceBetweenImageAndLabel;
-            this.distanceBetweenLabelAndValue = distanceBetweenLabelAndValue == 0 ? EnvironmentInfo.GetProfileButtonDistanceBetweenTextAndIcon
-                                                                            : distanceBetweenLabelAndValue;
+            this.distanceBetweenLabelAndValue = distanceBetweenLabelAndValue;
             InitObjects();
         }
 
@@ -91,27 +90,27 @@ namespace Tollminder.Touch.Controls
         {
             iconView = new MvxImageView();
             labelText = new UILabel();
-            valueText = new UITextView();
+            valueText = new UILabel();
             
-            labelText.Font = UIFont.FromName("Helvetica", 12f);
+            labelText.Font = UIFont.BoldSystemFontOfSize(14f);
             this.AddIfNotNull(iconView, labelText, valueText);
 
             this.AddConstraints(
                 iconView.WithSameCenterY(this),
                 iconView.AtLeftOf(this, 20),
-                iconView.WithRelativeWidth(this, 0.1f),
-                iconView.WithRelativeHeight(this, 0.3f),
+                iconView.WithRelativeWidth(this, 0.06f),
+                iconView.WithRelativeHeight(this, 0.5f),
 
                 labelText.WithSameCenterX(this),
                 labelText.WithSameCenterY(this),
                 labelText.AtLeftOf(iconView, distanceBetweenIconAndLabel),
-                labelText.WithRelativeWidth(this, 0.8f),
+                labelText.WithRelativeWidth(this, 0.6f),
                 labelText.WithRelativeHeight(this, 0.4f),
 
                 valueText.WithSameCenterY(this),
-                valueText.AtRightOf(this, 20),
-                valueText.WithRelativeWidth(this, 0.1f),
-                valueText.WithRelativeHeight(this, 0.3f)
+                valueText.AtLeftOf(labelText, distanceBetweenLabelAndValue),
+                //valueText.WithRelativeWidth(this, 0.1f),
+                valueText.WithRelativeHeight(this, 0.5f)
             );
         }
     }

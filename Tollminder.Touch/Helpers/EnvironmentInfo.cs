@@ -46,6 +46,11 @@ namespace Tollminder.Touch
             get { return GetScreenSize > 640 ? 25 : 20; }
         }
 
+        public static nfloat GetRoundedButtonDistanceBetweenTextAndPointer
+        {
+            get { return GetScreenSize > 640 ? 0.001f : 10; }
+        }
+
         public static nfloat GetRoundedButtonDistanceBetweenTextAndImage
         {
             get { return GetScreenSize > 640 ? 20 : 15; }

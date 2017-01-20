@@ -95,22 +95,24 @@ namespace Tollminder.Touch.Services.SpeechServices
             {
                 if (await TextToSpeechService.Speak("Please, answer after the signal", false))
                 {
-
-                    UIApplication.SharedApplication.InvokeOnMainThread(() =>
+                    if (isTimeStarted)
                     {
-                        AVAudioSession.SharedInstance().SetCategory(AVAudioSessionCategory.Playback);
-                        AVAudioSession.SharedInstance().SetActive(true);
-                    //SystemSound notificationSound = SystemSound.FromFile(@"/System/Library/Audio/UISounds/jbl_begin.caf");
-                    //notificationSound.AddSystemSoundCompletion(SystemSound.Vibrate.PlaySystemSound);
-                    //notificationSound.PlaySystemSound();
+                        UIApplication.SharedApplication.InvokeOnMainThread(() =>
+                        {
+                            AVAudioSession.SharedInstance().SetCategory(AVAudioSessionCategory.Playback);
+                            AVAudioSession.SharedInstance().SetActive(true);
+                        //SystemSound notificationSound = SystemSound.FromFile(@"/System/Library/Audio/UISounds/jbl_begin.caf");
+                        //notificationSound.AddSystemSoundCompletion(SystemSound.Vibrate.PlaySystemSound);
+                        //notificationSound.PlaySystemSound();
 
-                    _audioPlayer = AVAudioPlayer.FromUrl(NSUrl.FromFilename(Path.Combine("Sounds", "tap.aif")));
-                        _audioPlayer.PrepareToPlay();
-                        _audioPlayer.Play();
-                    });
+                        _audioPlayer = AVAudioPlayer.FromUrl(NSUrl.FromFilename(Path.Combine("Sounds", "tap.aif")));
+                            _audioPlayer.PrepareToPlay();
+                            _audioPlayer.Play();
+                        });
 
-                    Question = question;
-                    StartListening();
+                        Question = question;
+                        StartListening();
+                    }
                 }
             }
         }

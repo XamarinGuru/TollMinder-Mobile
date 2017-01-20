@@ -26,8 +26,8 @@ namespace Tollminder.Core.ViewModels
 
             backHomeCommand = new MvxCommand(() => {
                 synchronisationService.DataSynchronisation();
+                Close(this);
                 ShowViewModel<HomeViewModel>(); 
-                //Close(this);
             });
             addLicenseCommand = new MvxCommand(() => { ShowViewModel<LicenseViewModel>(); });
             addCreditCardCommand = new MvxCommand(() => { ShowViewModel<CreditCardViewModel>(); });

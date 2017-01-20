@@ -66,7 +66,7 @@ namespace Tollminder.Touch.Views
             var applicationLogo = new UIImageView(UIImage.FromBundle(@"Images/logo.png"));
             View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile(@"Images/main_background.png").Scale(View.Frame.Size));
             applicationLogo.Frame = new CGRect(10, 10, applicationLogo.Image.CGImage.Width, applicationLogo.Image.CGImage.Height);
-            logoutButton = RoundedButtonManager.ButtonInitiaziler("", UIImage.FromFile(@"Images/homeView/ic_logout.png"));
+            logoutButton = RoundedButtonManager.ButtonInitiaziler("", UIImage.FromFile(@"Images/HomeView/ic_logout.png"));
             // Hide navigation bar
             NavigationController.SetNavigationBarHidden(true, false);
             
@@ -89,46 +89,70 @@ namespace Tollminder.Touch.Views
             buttonContainerView = new UIView();
             roadInformationBoardView = new UIView();
 
-            buttonContainerView.Frame = new CGRect(0, 0, (boardScrollView.Bounds.Width), (boardScrollView.Bounds.Height * 3));
-            roadInformationBoardView.Frame = new CGRect((boardScrollView.Bounds.Width * 0.86), 0, (boardScrollView.Bounds.Width * 0.8), (boardScrollView.Bounds.Height * 2.5));
-            boardScrollView.ContentSize = new CGSize((buttonContainerView.Bounds.Width + roadInformationBoardView.Bounds.Width - 40), boardScrollView.Frame.Height);
+            buttonContainerView.Frame = new CGRect(0, 0, (boardScrollView.Bounds.Width * 0.8), (boardScrollView.Bounds.Height * 3));
+            roadInformationBoardView.Frame = new CGRect((boardScrollView.Bounds.Width * 0.76), 0, (boardScrollView.Bounds.Width * 0.8), (boardScrollView.Bounds.Height * 2.5));
+            boardScrollView.ContentSize = new CGSize((buttonContainerView.Bounds.Width + roadInformationBoardView.Bounds.Width), boardScrollView.Frame.Height);
 
             // Board View - Button Container
-            profileButton = RoundedButtonManager.ButtonInitiaziler("PROFILE", UIImage.FromFile(@"Images/homeView/ic_home_profile.png"));
-            payButton = RoundedButtonManager.ButtonInitiaziler("PAY", UIImage.FromFile(@"Images/homeView/ic_home_pay.png"));
-            payHistoryButton = RoundedButtonManager.ButtonInitiaziler("PAY HISTORY", UIImage.FromFile(@"Images/homeView/ic_home_pay_history.png"));
+            profileButton = RoundedButtonManager.ButtonInitiaziler("PROFILE", UIImage.FromFile(@"Images/HomeView/ic_home_profile.png"), UIImage.FromFile(@"Images/HomeView/InformationBoard/ic_pointer.png"));
+            payButton = RoundedButtonManager.ButtonInitiaziler("PAY", UIImage.FromFile(@"Images/HomeView/ic_home_pay.png"), UIImage.FromFile(@"Images/HomeView/InformationBoard/ic_pointer.png"));
+            payHistoryButton = RoundedButtonManager.ButtonInitiaziler("PAY HISTORY", UIImage.FromFile(@"Images/HomeView/ic_home_pay_history.png"), UIImage.FromFile(@"Images/HomeView/InformationBoard/ic_pointer.png"));
 
             buttonContainerView.AddIfNotNull(profileButton, payButton, payHistoryButton);
             buttonContainerView.AddConstraints(
                 profileButton.AtTopOf(buttonContainerView, 10),
-                profileButton.AtLeftOf(buttonContainerView, 4),
+                profileButton.AtLeftOf(buttonContainerView),
                 profileButton.WithRelativeWidth(buttonContainerView, 0.4f),
-                profileButton.WithRelativeHeight(buttonContainerView, 0.8f),
+                profileButton.WithRelativeHeight(buttonContainerView, 0.6f),
 
                 payHistoryButton.AtTopOf(buttonContainerView, 10),
                 payHistoryButton.WithSameCenterX(buttonContainerView),
                 payHistoryButton.WithRelativeWidth(buttonContainerView, 0.4f),
-                payHistoryButton.WithRelativeHeight(buttonContainerView, 0.8f),
+                payHistoryButton.WithRelativeHeight(buttonContainerView, 0.6f),
 
                 payButton.AtTopOf(buttonContainerView, 10),
-                payButton.AtRightOf(buttonContainerView, 4),
+                payButton.AtRightOf(buttonContainerView),
                 payButton.WithRelativeWidth(buttonContainerView, 0.4f),
-                payButton.WithRelativeHeight(buttonContainerView, 0.8f)
+                payButton.WithRelativeHeight(buttonContainerView, 0.6f)
             );
 
             // Board View - Road Information Container
-            roadInformationBoardView.BackgroundColor = UIColor.Blue;
+            nextWaypointString = BoardFieldInitializer(UIImage.FromFile(@"Images/HomeView/InformationBoard/ic_nearest_point.png"), "Distance to nearest point:", (roadInformationBoardView.Bounds.Width * 0.6f));
+            geoLabelData= BoardFieldInitializer(UIImage.FromFile(@"Images/HomeView/InformationBoard/ic_location.png"), "Geolocation:", (roadInformationBoardView.Bounds.Width * 0.3f));
+            tollRoadString = BoardFieldInitializer(UIImage.FromFile(@"Images/HomeView/InformationBoard/ic_tollroad.png"), "Tollroad:", (roadInformationBoardView.Bounds.Width * 0.2f));
+            statusLabel = BoardFieldInitializer(UIImage.FromFile(@"Images/HomeView/InformationBoard/ic_status.png"), "Status:", (roadInformationBoardView.Bounds.Width * 0.17f));
 
+            roadInformationBoardView.AddIfNotNull(nextWaypointString, geoLabelData, tollRoadString, statusLabel);
+            roadInformationBoardView.AddConstraints(
+                nextWaypointString.AtTopOf(roadInformationBoardView, 10),
+                nextWaypointString.AtLeftOf(roadInformationBoardView, 10),
+                nextWaypointString.WithSameWidth(roadInformationBoardView),
+                nextWaypointString.WithRelativeHeight(roadInformationBoardView, 0.2f),
 
-            boardScrollView.AddIfNotNull(buttonContainerView, roadInformationBoardView);
-            boardScrollView.AddConstraints(
-                buttonContainerView.AtTopOf(boardScrollView),
-                buttonContainerView.AtLeftOf(boardScrollView),
-                buttonContainerView.WithSameHeight(boardScrollView),
-                buttonContainerView.WithRelativeWidth(boardScrollView, 1f)
+                geoLabelData.Below(nextWaypointString),
+                geoLabelData.AtLeftOf(roadInformationBoardView, 10),
+                geoLabelData.WithSameWidth(roadInformationBoardView),
+                geoLabelData.WithRelativeHeight(roadInformationBoardView, 0.2f),
+
+                tollRoadString.Below(geoLabelData),
+                tollRoadString.AtLeftOf(roadInformationBoardView, 10),
+                tollRoadString.WithSameWidth(roadInformationBoardView),
+                tollRoadString.WithRelativeHeight(roadInformationBoardView, 0.2f),
+
+                statusLabel.Below(tollRoadString),
+                statusLabel.AtLeftOf(roadInformationBoardView, 10),
+                statusLabel.WithSameWidth(roadInformationBoardView),
+                statusLabel.WithRelativeHeight(roadInformationBoardView, 0.2f)
             );
 
-            var applicationBoard = new UIImageView(UIImage.FromBundle(@"Images/homeView/home_board.png"));
+            boardScrollView.AddSubviews(buttonContainerView, roadInformationBoardView);
+            boardScrollView.Scrolled+= (sender, e) => {
+                Debug.WriteLine(((UIScrollView)sender).ContentOffset.X);
+
+            };
+
+            // Slider container
+            var applicationBoard = new UIImageView(UIImage.FromBundle(@"Images/HomeView/home_board.png"));
             applicationBoard.Frame = new CGRect(10, 10, applicationBoard.Image.CGImage.Width, applicationBoard.Image.CGImage.Height);
             boardContainerView = new UIView();
             boardContainerView.AddIfNotNull(applicationBoard, boardScrollView);
@@ -139,8 +163,8 @@ namespace Tollminder.Touch.Views
                 applicationBoard.WithSameCenterY(boardContainerView),
 
                 boardScrollView.AtTopOf(boardContainerView, 10),
-                boardScrollView.AtLeftOf(boardContainerView, 8),
-                boardScrollView.AtRightOf(boardContainerView, 8),
+                boardScrollView.AtLeftOf(boardContainerView, 25),
+                boardScrollView.AtRightOf(boardContainerView, 25),
                 boardScrollView.WithRelativeHeight(boardContainerView, 0.55f)
             );
          
@@ -208,10 +232,22 @@ namespace Tollminder.Touch.Views
             return scrollView;
         }
 
+        private BoardField BoardFieldInitializer(UIImage icon, string labelText, nfloat distanceBetweenLabelAndValue, string valueText = null)
+        {
+            BoardField boardField = new BoardField(30, distanceBetweenLabelAndValue);
+            boardField.FieldIcon = icon;
+            boardField.LabelText.Text = labelText;
+            boardField.LabelTextColor = UIColor.White;
+            boardField.ValueText.Text = "dfgh";
+            boardField.ValueText.Font = UIFont.BoldSystemFontOfSize(14f);
+            boardField.ValueTextColor = UIColor.FromRGB(1, 94, 76);
+            return boardField;
+        }
+
         protected override void InitializeBindings()
         {
-             base.InitializeBindings();
-
+            base.InitializeBindings();
+            boardScrollView.ContentOffset = new CGPoint((boardScrollView.Bounds.Width * 0.76), 0);
             var set = this.CreateBindingSet<HomeView, HomeViewModel>();
             set.Bind(trackingButton).To(vm => vm.TrackingCommand);
             set.Bind(trackingButton.ButtonText).To(vm => vm.TrackingText);
@@ -221,11 +257,10 @@ namespace Tollminder.Touch.Views
             set.Bind(logoutButton).To(vm => vm.LogoutCommand);
 
             // Information board
-            set.Bind(geoLabelData).To(v => v.LocationString);
-            set.Bind(activityLabel).To(v => v.MotionTypeString);
-            set.Bind(statusLabel).To(v => v.StatusString);
-            set.Bind(tollRoadString).To(v => v.TollRoadString);
-            set.Bind(nextWaypointString).To(v => v.CurrentWaypointString);
+            set.Bind(geoLabelData.ValueText).To(v => v.LocationString);
+            set.Bind(statusLabel.ValueText).To(v => v.StatusString);
+            set.Bind(tollRoadString.ValueText).To(v => v.TollRoadString);
+            set.Bind(nextWaypointString.ValueText).To(v => v.CurrentWaypointString);
 
             set.Apply();
         }

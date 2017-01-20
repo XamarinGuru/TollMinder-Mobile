@@ -27,6 +27,7 @@ namespace Tollminder.Touch.Views
         UIButton backHomeView;
 		UITableView tableView;
         ProfileButton dowloadHistoryButton;
+        UILabel informationLabel;
         
         public PayHistoryView()
         {
@@ -47,6 +48,11 @@ namespace Tollminder.Touch.Views
             var topView = new UIView();
             var scrollView = new UIView();
             var bottomView = new UIView();
+
+            informationLabel = new UILabel();
+            informationLabel.TextColor = UIColor.White;
+            informationLabel.Text = "Payment History";
+            informationLabel.Font = UIFont.BoldSystemFontOfSize(16f);
             backHomeView = UIButton.FromType(UIButtonType.Custom);
             backHomeView.SetImage(UIImage.FromFile(@"Images/ic_back.png"), UIControlState.Normal);
             var profileNavigationBarBackground = new UIImageView(UIImage.FromBundle(@"Images/navigation_bar_background.png"));
@@ -56,7 +62,7 @@ namespace Tollminder.Touch.Views
             View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile(@"Images/tab_background.png").Scale(View.Frame.Size));//EnvironmentInfo.CheckDevice().Scale(View.Frame.Size));
             profileNavigationBarBackground.Frame = new CoreGraphics.CGRect(10, 10, profileNavigationBarBackground.Image.CGImage.Width, profileNavigationBarBackground.Image.CGImage.Height);
 
-            topView.AddIfNotNull(profileNavigationBarBackground, backHomeView);
+            topView.AddIfNotNull(profileNavigationBarBackground, backHomeView, informationLabel);
             topView.AddConstraints(
                 profileNavigationBarBackground.WithSameWidth(topView),
                 profileNavigationBarBackground.WithSameHeight(topView),
@@ -64,11 +70,14 @@ namespace Tollminder.Touch.Views
 
                 backHomeView.WithSameCenterY(topView),
                 backHomeView.AtLeftOf(topView, 20),
-                backHomeView.WithRelativeWidth(topView,0.1f),
-                backHomeView.WithRelativeHeight(topView, 0.2f)
+                backHomeView.WithRelativeWidth(topView, 0.1f),
+                backHomeView.WithRelativeHeight(topView, 0.2f),
+
+                informationLabel.WithSameCenterY(topView),
+                informationLabel.WithSameCenterX(topView)
             );
             
-            dowloadHistoryButton = ProfileButtonManager.ButtonInitiaziler("Download History", UIImage.FromFile(@"Images/profileView/ic_license.png"));
+            dowloadHistoryButton = ProfileButtonManager.ButtonInitiaziler("Download History", UIImage.FromFile(@"Images/ProfileView/ic_license.png"));
             tableView = new UITableView();
 
             bottomView.AddIfNotNull(dowloadHistoryButton,tableView);
@@ -93,7 +102,7 @@ namespace Tollminder.Touch.Views
                 bottomView.AtBottomOf(scrollView),
                 bottomView.WithRelativeHeight(scrollView, 0.9f)
             );
-			scrollView.BackgroundColor = UIColor.Red;
+
             View.AddIfNotNull(topView, scrollView);
 			View.AddConstraints(
 				topView.AtTopOf(View),

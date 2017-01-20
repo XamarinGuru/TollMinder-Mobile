@@ -37,8 +37,8 @@ namespace Tollminder.Touch.Views
             backToPayHistoryViewButton = UIButton.FromType(UIButtonType.Custom);
             backToPayHistoryViewButton.SetImage(UIImage.FromFile(@"Images/ic_back.png"), UIControlState.Normal);
 
-            downloadPdfButton = ProfileButtonManager.ButtonInitiaziler("Download", UIImage.FromFile(@"Images/payHistoryView/ic_download.png"));
-            openInButton = ProfileButtonManager.ButtonInitiaziler("Pdf open in", UIImage.FromFile(@"Images/payHistoryView/ic_openIn.png"));
+            downloadPdfButton = ProfileButtonManager.ButtonInitiaziler("Download", UIImage.FromFile(@"Images/PayHistoryView/ic_download.png"));
+            openInButton = ProfileButtonManager.ButtonInitiaziler("Pdf open in", UIImage.FromFile(@"Images/PayHistoryView/ic_openIn.png"));
 
             urlLabel = LabelDataWheelInitiaziler("Pdf url");
             pdfWebView = new UIWebView(View.Bounds);
