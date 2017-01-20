@@ -37,51 +37,28 @@
         android:minWidth="25px"
         android:minHeight="25px"
         android:layout_weight="0.8">
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/button_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:background="@drawable/home_board"
             android:layout_marginTop="30dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginBottom="10dp">
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true">
-                <tollminder.droid.controls.RoundedRectangleButton
-                    android:layout_width="0dp"
-                    android:layout_height="95dp"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="30dp"
-                    android:id="@+id/button_profile"
-                    app:MvxBind="Click ProfileCommand"
-                    app:image="@drawable/ic_home_profile"
-                    app:text="Profile" />
-                <tollminder.droid.controls.RoundedRectangleButton
-                    android:layout_width="0dp"
-                    android:layout_height="95dp"
-                    android:layout_weight="1"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:id="@+id/button_pay_history"
-                    app:MvxBind="Click PayHistoryCommand"
-                    app:image="@drawable/ic_home_pay_history"
-                    app:text="Pay History" />
-                <tollminder.droid.controls.RoundedRectangleButton
-                    android:layout_width="0dp"
-                    android:layout_height="95dp"
-                    android:layout_weight="1"
-                    android:layout_marginRight="30dp"
-                    android:id="@+id/button_pay"
-                    app:MvxBind="Click PayCommand"
-                    app:image="@drawable/ic_home_pay"
-                    app:text="Pay" />
-            </LinearLayout>
-        </LinearLayout>
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="10dp">
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/boardPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"/>
+            </RelativeLayout>
+        </RelativeLayout>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"

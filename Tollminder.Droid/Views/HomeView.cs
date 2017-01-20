@@ -1,42 +1,49 @@
 using Android.App;
 using Android.OS;
-using MvvmCross.Droid.Views;
-using MvvmCross.Platform;
 using Tollminder.Core.ViewModels;
 using Plugin.Permissions;
 using Android.Content.PM;
-using Android.Widget;
-using Tollminder.Core.Helpers;
-using MvvmCross.Plugins.Messenger;
-using Tollminder.Core.Models;
-using System;
-using Tollminder.Droid.AndroidServices;
-using Android.Content;
-using Android.Graphics;
-using Android.Views;
-using Android.Graphics.Drawables;
-using Android.Util;
+using Android.Support.V4.View;
+using Tollminder.Droid.Adapters;
+using System.Collections.Generic;
+using Tollminder.Droid.Views.Fragments;
+using MvvmCross.Droid.Support.V4;
 
 namespace Tollminder.Droid.Views
 {
     [Activity(Label = "Home", Theme = "@style/AppTheme", LaunchMode = LaunchMode.SingleTask, ScreenOrientation = ScreenOrientation.Portrait, NoHistory = true)]
-    public class HomeView : MvxActivity<HomeViewModel>
+    public class HomeView : MvxFragmentActivity
     {
+        private ViewPager _viewPager;
+        private MvxViewPagerFragmentAdapter _adapter;
+
+        public new HomeViewModel ViewModel
+        {
+            get { return (HomeViewModel)base.ViewModel; }
+            set { base.ViewModel = value; }
+        }
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            Display display = WindowManager.DefaultDisplay;
-            //DisplayMetrics outMetrics = new DisplayMetrics();
-            //display.GetMetrics(outMetrics);
-
-            DisplayMetrics displayMetrics = Resources.DisplayMetrics;
-            float dpHeight = displayMetrics.HeightPixels / displayMetrics.Density;
-            float dpWidth = displayMetrics.WidthPixels / displayMetrics.Density;
-            Point size = new Point();
-            display.GetSize(size);
-            int width = size.X;
-            int height = size.Y;
             SetContentView(Resource.Layout.home_view);
+
+            var fragments = new List<MvxViewPagerFragmentAdapter.FragmentInfo>
+              {
+                new MvxViewPagerFragmentAdapter.FragmentInfo
+                {
+                  FragmentType = typeof(ButtonContainerFragment),
+                  ViewModel = ViewModel
+                },
+                new MvxViewPagerFragmentAdapter.FragmentInfo
+                {
+                  FragmentType = typeof(RoadInformationFragment),
+                  ViewModel = ViewModel
+                }
+              };
+
+            _viewPager = FindViewById<ViewPager>(Resource.Id.boardPager);
+            _adapter = new MvxViewPagerFragmentAdapter(this, SupportFragmentManager, fragments);
+            _viewPager.Adapter = _adapter;
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)

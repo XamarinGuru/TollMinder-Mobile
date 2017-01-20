@@ -340,9 +340,12 @@
     <Compile Include="Controls\MvxExpandableList\AndroidBindingResource.cs" />
     <Compile Include="Controls\MvxExpandableList\Plugin.cs" />
     <Compile Include="Views\LifeCycleActivity.cs" />
+    <Compile Include="Adapters\MvxViewPagerFragmentAdapter.cs" />
+    <Compile Include="Views\Fragments\ButtonContainerFragment.cs" />
+    <Compile Include="Controls\BoardInformationLabel.cs" />
+    <Compile Include="Views\Fragments\RoadInformationFragment.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
@@ -367,6 +370,7 @@
     <Folder Include="Controls\MvxExpandableList\ListViews\" />
     <Folder Include="ResourcesToCopy\" />
     <Folder Include="ResourcesToCopy\" />
+    <Folder Include="Adapters\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\MonoAndroid10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\MonoAndroid10\Xamarin.Insights.targets')" />
@@ -498,6 +502,43 @@
     <AndroidResource Include="Resources\layout\data_list_item.axml" />
     <AndroidResource Include="Resources\layout\list_group.axml" />
     <AndroidResource Include="Resources\drawable\logout_button_style.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\banner.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\banner.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\banner.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\banner.9.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\banner.9.png" />
+    <AndroidResource Include="Resources\layout\button_container_fragment.axml" />
+    <AndroidResource Include="Resources\layout\board_information_label_view.axml" />
+    <AndroidResource Include="Resources\drawable\profile_view_button.axml" />
+    <AndroidResource Include="Resources\layout\road_information_fragment.axml" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_location.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_nearest_point.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_pointer.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_status.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_tollroad.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_location.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_nearest_point.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_pointer.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_status.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_tollroad.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_location.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_nearest_point.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_pointer.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_status.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_tollroad.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_location.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_nearest_point.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_pointer.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_status.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_tollroad.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_location.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_nearest_point.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_pointer.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_status.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_tollroad.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProguardConfiguration Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />
   <Import Project="..\packages\Xamarin.GooglePlayServices.Basement.32.961.0-beta1\build\Xamarin.GooglePlayServices.Basement.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Basement.32.961.0-beta1\build\Xamarin.GooglePlayServices.Basement.targets')" />

@@ -32,7 +32,6 @@ namespace Tollminder.Core.ViewModels
 
             backToProfileCommand = new MvxCommand(() => {
                 SaveDataBeforeYouLive();
-                Close(this);
                 ShowViewModel<ProfileViewModel>(); 
             });
             statesWheelCommand = new MvxCommand(() => {

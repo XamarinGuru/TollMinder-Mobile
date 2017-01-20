@@ -1,5 +1,4 @@
-﻿using System;
-using Android.Content;
+﻿using Android.Content;
 using Android.Runtime;
 using Android.Support.Percent;
 using Android.Util;
@@ -9,11 +8,11 @@ using MvvmCross.Binding.Droid.Views;
 
 namespace Tollminder.Droid.Controls
 {
-    [Register("tollminder.droid.controls.ProfileButton")]
-    public class ProfileButton : PercentRelativeLayout
+    [Register("tollminder.droid.controls.BoardInformationLabel")]
+    public class BoardInformationLabel : PercentRelativeLayout
     {
         MvxImageView iconView;
-        MvxImageView arrowView;
+        TextView labelView;
         TextView textView;
 
         int icon = 0;
@@ -36,24 +35,14 @@ namespace Tollminder.Droid.Controls
             set { iconView.ImageUrl = value; }
         }
 
-        int arrow = 0;
-        public int Arrow
+        public string Label
         {
-            get { return arrow; }
+            get { return labelView?.Text; }
             set
             {
-                if (arrow != value)
-                {
-                    arrow = value;
-                    iconView.SetImageResource(arrow);
-                }
+                if (labelView != null && labelView.Text != value)
+                    labelView.Text = value;
             }
-        }
-
-        public string ArrowUrl
-        {
-            get { return arrowView.ImageUrl; }
-            set { arrowView.ImageUrl = value; }
         }
 
         public string Text
@@ -66,12 +55,12 @@ namespace Tollminder.Droid.Controls
             }
         }
 
-        public ProfileButton(Context context, IAttributeSet attrs) : base(context, attrs)
+        public BoardInformationLabel(Context context, IAttributeSet attrs) : base(context, attrs)
         {
             Init(context, attrs);
         }
 
-        public ProfileButton(Context context, IAttributeSet attrs, int defStyleAttr) : base(context, attrs, defStyleAttr)
+        public BoardInformationLabel(Context context, IAttributeSet attrs, int defStyleAttr) : base(context, attrs, defStyleAttr)
         {
             Init(context, attrs);
         }
@@ -79,18 +68,18 @@ namespace Tollminder.Droid.Controls
         void Init(Context context, IAttributeSet attrs)
         {
             var inflater = LayoutInflater.FromContext(context);
-            inflater.Inflate(Resource.Layout.profile_view_button, this);
+            inflater.Inflate(Resource.Layout.board_information_label_view, this);
 
-            iconView = FindViewById<MvxImageView>(Resource.Id.icon_view);
-            textView = FindViewById<TextView>(Resource.Id.text_view);
-            //arrowView = FindViewById<MvxImageView>(Resource.Id.arrow_view);
+            iconView = FindViewById<MvxImageView>(Resource.Id.icon_board_view);
+            textView = FindViewById<TextView>(Resource.Id.text_board_view);
+            labelView = FindViewById<TextView>(Resource.Id.label_board_view);
 
             var attr = context.ObtainStyledAttributes(attrs, Resource.Styleable.BoardInformationLabel);
 
-            iconView?.SetImageDrawable(attr.GetDrawable(Resource.Styleable.ProfileButton_icon_profile));
-            //arrowView?.SetImageDrawable(attr.GetDrawable(Resource.Styleable.ProfileButton_arrow_profile));
+            iconView?.SetImageDrawable(attr.GetDrawable(Resource.Styleable.BoardInformationLabel_iconBoard));
 
-            Text = attr.GetString(Resource.Styleable.ProfileButton_text_profile);
+            Text = attr.GetString(Resource.Styleable.BoardInformationLabel_textBoard);
+            Label = attr.GetString(Resource.Styleable.BoardInformationLabel_labelBoard);
 
             attr.Recycle();
         }

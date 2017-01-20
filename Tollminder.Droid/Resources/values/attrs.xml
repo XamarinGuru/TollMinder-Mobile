@@ -13,4 +13,9 @@
 		<attr name="icon_calendar" format="integer" />
 		<attr name="text_calendar_field" format="string" />
 	</declare-styleable>
+	<declare-styleable name="BoardInformationLabel">
+		<attr name="iconBoard" format="integer" />
+		<attr name="textBoard" format="string" />
+		<attr name="labelBoard" format="string" />
+	</declare-styleable>
 </resources>

@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp">
+        <tollminder.droid.controls.RoundedRectangleButton
+            android:layout_width="0dp"
+            android:layout_height="95dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/button_profile"
+            app:MvxBind="Click ProfileCommand"
+            app:image="@drawable/ic_home_profile"
+            app:text="Profile" />
+        <tollminder.droid.controls.RoundedRectangleButton
+            android:layout_width="0dp"
+            android:layout_height="95dp"
+            android:layout_weight="1"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/button_pay_history"
+            app:MvxBind="Click PayHistoryCommand"
+            app:image="@drawable/ic_home_pay_history"
+            app:text="Pay History" />
+        <tollminder.droid.controls.RoundedRectangleButton
+            android:layout_width="0dp"
+            android:layout_height="95dp"
+            android:layout_weight="1"
+            android:layout_marginRight="10dp"
+            android:id="@+id/button_pay"
+            app:MvxBind="Click PayCommand"
+            app:image="@drawable/ic_home_pay"
+            app:text="Pay" />
+    </LinearLayout>
+</RelativeLayout>
