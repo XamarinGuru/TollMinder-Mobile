@@ -72,7 +72,7 @@
                         android:hint="First Name"
                         android:inputType="textNoSuggestions"
                         android:nextFocusDown="@+id/lastName_editText"
-                        android:drawablePadding="10dp"
+                        android:drawablePadding="5dp"
                         android:padding="10dp"
                         android:singleLine="true"
                         local:MvxBind="Text Profile.FirstName;" />
@@ -92,7 +92,7 @@
                         android:hint="Last Name"
                         android:inputType="textNoSuggestions"
                         android:nextFocusDown="@+id/email_editText"
-                        android:drawablePadding="10dp"
+                        android:drawablePadding="55dp"
                         android:padding="10dp"
                         android:singleLine="true"
                         local:MvxBind="Text Profile.LastName" />

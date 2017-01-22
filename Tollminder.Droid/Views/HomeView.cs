@@ -32,7 +32,7 @@ namespace Tollminder.Droid.Views
                 new MvxViewPagerFragmentAdapter.FragmentInfo
                 {
                   FragmentType = typeof(ButtonContainerFragment),
-                  ViewModel = ViewModel
+                    ViewModel = ViewModel
                 },
                 new MvxViewPagerFragmentAdapter.FragmentInfo
                 {

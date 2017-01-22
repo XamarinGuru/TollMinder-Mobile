@@ -52,6 +52,7 @@
                     android:id="@+id/add_license_button"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     local:text_calendar_field="From:"
                     local:MvxBind="Click OpenCalendarFromCommand;Text DateTimeConverter(GetPayDateFrom, 'd')"
@@ -61,8 +62,9 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
                     local:text_calendar_field="To:"
-                    local:MvxBind="Click OpenCalendarFromCommand;Text DateTimeConverter(GetPayDateFrom, 'd')"
+                    local:MvxBind="Click OpenCalendarFromCommand;Text DateTimeConverter(GetPayDateTo, 'd')"
                     local:icon_calendar="@drawable/ic_calendar" />
             </LinearLayout>
             <LinearLayout
@@ -74,14 +76,15 @@
                 android:layout_marginBottom="2dp">
                 <RadioButton
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="0.1"
                     android:layout_marginRight="5dp"
+                    android:layout_centerVertical="true"
                     android:text="Current"
                     android:id="@+id/current" />
                 <RadioButton
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="0.1"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"

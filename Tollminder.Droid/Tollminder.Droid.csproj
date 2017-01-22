@@ -536,6 +536,11 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_pointer.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_status.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_tollroad.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\home_board_new.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\home_board_new.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\home_board_new.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\home_board_new.9.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\home_board_new.9.png" />
   </ItemGroup>
   <ItemGroup>
     <ProguardConfiguration Include="Properties\AndroidManifest.xml" />

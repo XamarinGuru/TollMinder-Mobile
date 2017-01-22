@@ -85,7 +85,7 @@ namespace Tollminder.Droid.Controls
             textView = FindViewById<TextView>(Resource.Id.text_view);
             //arrowView = FindViewById<MvxImageView>(Resource.Id.arrow_view);
 
-            var attr = context.ObtainStyledAttributes(attrs, Resource.Styleable.BoardInformationLabel);
+            var attr = context.ObtainStyledAttributes(attrs, Resource.Styleable.ProfileButton);
 
             iconView?.SetImageDrawable(attr.GetDrawable(Resource.Styleable.ProfileButton_icon_profile));
             //arrowView?.SetImageDrawable(attr.GetDrawable(Resource.Styleable.ProfileButton_arrow_profile));
@@ -95,5 +95,4 @@ namespace Tollminder.Droid.Controls
             attr.Recycle();
         }
     }
-
 }

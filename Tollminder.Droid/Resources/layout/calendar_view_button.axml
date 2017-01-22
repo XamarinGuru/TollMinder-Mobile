@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.percent.PercentRelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:background="@drawable/calendar_button_background">
+    android:layout_height="30dp"
+    android:layout_centerVertical="true"
+    android:orientation="horizontal">
     <mvvmcross.binding.droid.views.MvxImageView
         android:id="@+id/icon_range_view"
-        app:layout_heightPercent="75%"
-        app:layout_widthPercent="20%"
+        android:layout_marginTop="5dp"
+        android:layout_width="20dp"
         android:layout_marginRight="10dp"
-        tools:src="@drawable/ic_calendar" />
+        android:layout_height="wrap_content"
+        app:src="@drawable/ic_calendar" />
     <TextView
         android:id="@+id/text_range_view"
-        app:layout_heightPercent="75%"
-        app:layout_widthPercent="80%"
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:fontFamily="roboto"
-        android:gravity="center_vertical"
-        tools:text="From:"
+        app:text="From:"
         android:textColor="@color/white" />
-</android.support.percent.PercentRelativeLayout>
+</LinearLayout>

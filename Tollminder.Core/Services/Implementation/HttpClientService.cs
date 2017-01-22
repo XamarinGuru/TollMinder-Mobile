@@ -11,6 +11,7 @@ using Tollminder.Core.Models;
 using Tollminder.Core.Helpers.HttpHelpers;
 using System.Net.Http.Headers;
 using System.Linq;
+using System.Diagnostics;
 
 namespace Tollminder.Core.Services.Implementation
 {
@@ -82,64 +83,72 @@ namespace Tollminder.Core.Services.Implementation
         #region SendMethods
         public virtual async Task<TResponse> SendAsync<TRequest, TResponse>(TRequest data, string url, IProgress<ProgressCompleted> progress, CancellationToken token)
         {
-            using (var request = new HttpRequestMessage(HttpMethod.Post, url))
+            try
             {
-                List<byte> byteData = new List<byte>();
-                var jsonSerialization = JsonConvert.SerializeObject(data);
-                Action<double> actionProgress = null;
-                if (progress != null)
+                using (var request = new HttpRequestMessage(HttpMethod.Post, url))
                 {
-                    actionProgress = (progressValue) => progress.Report(new ProgressCompleted(progressValue));
-                }
-                request.Content = new ProgressStringContent(jsonSerialization, System.Text.Encoding.UTF8, "application/json", actionProgress);
-                using (var response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false))
-                {
-                    var total = response.Content.Headers.ContentLength.HasValue ? response.Content.Headers.ContentLength.Value : -1L;
-                    var canReportProgress = total != -1 && progress != null;
-                    if (!response.IsSuccessStatusCode)
+                    List<byte> byteData = new List<byte>();
+                    var jsonSerialization = JsonConvert.SerializeObject(data);
+                    Action<double> actionProgress = null;
+                    if (progress != null)
                     {
-                        var stringJson = await response.Content.ReadAsStringAsync();
-
-                        var error = JsonConvert.DeserializeObject<ErrorApiResponse>(stringJson);
-
-                        HttpExceptionHandler.Handle(response.StatusCode, error.Message);
+                        actionProgress = (progressValue) => progress.Report(new ProgressCompleted(progressValue));
                     }
-                    using (var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                    request.Content = new ProgressStringContent(jsonSerialization, System.Text.Encoding.UTF8, "application/json", actionProgress);
+                    using (var response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false))
                     {
-                        var totalRead = 0L;
-                        var buffer = new byte[BufferSize];
-                        var isMoreToRead = true;
-                        do
+                        var total = response.Content.Headers.ContentLength.HasValue ? response.Content.Headers.ContentLength.Value : -1L;
+                        var canReportProgress = total != -1 && progress != null;
+                        if (!response.IsSuccessStatusCode)
                         {
-                            token.ThrowIfCancellationRequested();
-                            var read = await stream.ReadAsync(buffer, 0, buffer.Length, token).ConfigureAwait(false);
-                            if (read == 0)
+                            var stringJson = await response.Content.ReadAsStringAsync();
+
+                            var error = JsonConvert.DeserializeObject<ErrorApiResponse>(stringJson);
+
+                            HttpExceptionHandler.Handle(response.StatusCode, error.Message);
+                        }
+                        using (var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                        {
+                            var totalRead = 0L;
+                            var buffer = new byte[BufferSize];
+                            var isMoreToRead = true;
+                            do
                             {
-                                isMoreToRead = false;
-                            }
-                            else
-                            {
-                                if (read != buffer.Length)
+                                token.ThrowIfCancellationRequested();
+                                var read = await stream.ReadAsync(buffer, 0, buffer.Length, token).ConfigureAwait(false);
+                                if (read == 0)
                                 {
-                                    byte[] cpArray = new byte[read];
-                                    Array.Copy(buffer, cpArray, read);
-                                    byteData.AddRange(cpArray);
+                                    isMoreToRead = false;
                                 }
-                                else {
-                                    byteData.AddRange(buffer);
-                                }
-                                totalRead += read;
-                                if (canReportProgress)
+                                else
                                 {
-                                    progress.Report(new ProgressCompleted((double)totalRead / total * 100));
+                                    if (read != buffer.Length)
+                                    {
+                                        byte[] cpArray = new byte[read];
+                                        Array.Copy(buffer, cpArray, read);
+                                        byteData.AddRange(cpArray);
+                                    }
+                                    else {
+                                        byteData.AddRange(buffer);
+                                    }
+                                    totalRead += read;
+                                    if (canReportProgress)
+                                    {
+                                        progress.Report(new ProgressCompleted((double)totalRead / total * 100));
+                                    }
                                 }
-                            }
-                        } while (isMoreToRead);
+                            } while (isMoreToRead);
+                        }
+                        var responseJson = System.Text.Encoding.UTF8.GetString(byteData.ToArray(), 0, byteData.Count);
+                        var returnObject = JsonConvert.DeserializeObject<TResponse>(responseJson);
+                        return returnObject;
                     }
-                    var responseJson = System.Text.Encoding.UTF8.GetString(byteData.ToArray(), 0, byteData.Count);
-                    var returnObject = JsonConvert.DeserializeObject<TResponse>(responseJson);
-                    return returnObject;
                 }
+            }
+            catch(Exception ex)
+            {
+                 Debug.WriteLine(ex.Message, ex.StackTrace);
+                return default(TResponse);
             }
         }
         public virtual Task<TResponse> SendAsync<TRequest, TResponse>(TRequest data, string url, IProgress<ProgressCompleted> progress)
