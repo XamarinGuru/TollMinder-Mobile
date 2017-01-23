@@ -49,11 +49,12 @@ namespace Tollminder.Core.ViewModels
             _tokens = new List<MvxSubscriptionToken>();
         }
 
-		public override void Start()
+		public async override void Start()
         {
             base.Start();
 
-            Task.Run(RefreshToolRoads);
+            if(await synchronisationService.AuthorizeTokenSynchronisation())
+                Task.Run(RefreshToolRoads);
 
             _tokens.Add(_messenger.SubscribeOnMainThread<GeoWatcherStatusMessage>((s) => IsBound = s.Data, MvxReference.Strong));
             _tokens.Add(_messenger.SubscribeOnThreadPoolThread<LocationMessage>(x => Location = x.Data, MvxReference.Strong));

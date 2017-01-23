@@ -79,7 +79,7 @@ namespace Tollminder.Core.Services.Implementation
 
         public Task<string> GetValidAuthorizeToken(string userId, string authToken)
         {
-            return GetAsync<string>($"{BaseApiUrl}user/{userId}", authToken);
+            return GetAsync<string>($"{BaseApiUrl}user/{userId}/token", authToken);
         }
     }
 }

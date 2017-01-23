@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using Cirrious.FluentLayouts.Touch;
@@ -59,16 +60,18 @@ namespace Tollminder.Touch.Views
                 backToPayHistoryViewButton.WithRelativeHeight(topView, 0.2f)
             );
 
-            downloadRowView.AddIfNotNull(downloadPdfButton, openInButton);
+            downloadRowView.AddIfNotNull(openInButton); //downloadPdfButton, 
             downloadRowView.AddConstraints(
-                downloadPdfButton.AtTopOf(downloadRowView),
-                downloadPdfButton.AtLeftOf(downloadRowView),
-                downloadPdfButton.WithRelativeWidth(downloadRowView, 0.47f),
-                downloadPdfButton.WithSameHeight(downloadRowView),
+                //downloadPdfButton.AtTopOf(downloadRowView),
+                //downloadPdfButton.AtLeftOf(downloadRowView),
+                //downloadPdfButton.WithRelativeWidth(downloadRowView, 0.47f),
+                //downloadPdfButton.WithSameHeight(downloadRowView),
 
                 openInButton.AtTopOf(downloadRowView),
-                openInButton.AtRightOf(downloadRowView),
-                openInButton.WithRelativeWidth(downloadRowView, 0.5f),
+                openInButton.WithSameWidth(downloadRowView),
+                openInButton.WithSameCenterX(downloadRowView),
+                //openInButton.AtRightOf(downloadRowView),
+                //openInButton.WithRelativeWidth(downloadRowView, 0.5f),
                 openInButton.WithSameHeight(downloadRowView)
             );
 
@@ -93,14 +96,20 @@ namespace Tollminder.Touch.Views
         protected override void InitializeBindings()
         {
             base.InitializeBindings();
-
-            var set = this.CreateBindingSet<PayHistoryPdfView, PayHistoryPdfViewModel>();
-            set.Bind(urlLabel.WheelText).To(vm => vm.PdfUrl);
-            set.Bind(backToPayHistoryViewButton).To(vm => vm.BackToPayHistoryCommand);
-            set.Bind(downloadPdfButton).To(vm => vm.DownloadPayHistoryPdfCommand);
-            set.Bind(openInButton).To(vm => vm.FileOpenInCommand);
-            set.Apply();
-            pdfWebView.LoadRequest(new NSUrlRequest(new NSUrl(urlLabel.WheelText.Text)));
+            try
+            {
+                var set = this.CreateBindingSet<PayHistoryPdfView, PayHistoryPdfViewModel>();
+                set.Bind(urlLabel.WheelText).To(vm => vm.PdfUrl);
+                set.Bind(backToPayHistoryViewButton).To(vm => vm.BackToPayHistoryCommand);
+                //set.Bind(downloadPdfButton).To(vm => vm.DownloadPayHistoryPdfCommand);
+                set.Bind(openInButton).To(vm => vm.FileOpenInCommand);
+                set.Apply();
+                pdfWebView.LoadRequest(new NSUrlRequest(new NSUrl(urlLabel.WheelText.Text)));
+        }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex.Message, ex.StackTrace);
+            }
         }
 
         private LabelForDataWheel LabelDataWheelInitiaziler(string fieldName)

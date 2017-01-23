@@ -41,16 +41,6 @@
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:orientation="vertical">
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:id="@+id/download_pdf"
-                local:text_profile="Download"
-                local:MvxBind="Click DownloadPayHistoryPdfCommand"
-                android:src="@drawable/ic_download"
-                android:layout_x="748dp"
-                android:layout_y="10dp" />
             <PdfView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

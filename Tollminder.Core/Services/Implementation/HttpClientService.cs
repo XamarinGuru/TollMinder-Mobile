@@ -194,23 +194,31 @@ namespace Tollminder.Core.Services.Implementation
         }
         public virtual async Task<TResponse> GetAsync<TResponse>(string url, CancellationToken token, string authToken = null)
         {
-            using (var requestMessage = new HttpRequestMessage(HttpMethod.Get, url))
+            try
             {
-                if (!string.IsNullOrEmpty(authToken)) 
-                    requestMessage.Headers.Authorization = new AuthenticationHeaderValue(authToken);
-                
-                using (var response = await Client.SendAsync(requestMessage, token).ConfigureAwait(false))
+                using (var requestMessage = new HttpRequestMessage(HttpMethod.Get, url))
                 {
-                    var responseJson = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    if (!string.IsNullOrEmpty(authToken))
+                        requestMessage.Headers.Authorization = new AuthenticationHeaderValue(authToken);
 
-                    if (!response.IsSuccessStatusCode)
+                    using (var response = await Client.SendAsync(requestMessage, token).ConfigureAwait(false))
                     {
-                        var error = JsonConvert.DeserializeObject<ErrorApiResponse>(responseJson);
-                        HttpExceptionHandler.Handle(response.StatusCode, error.Message);
+                        var responseJson = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                        if (!response.IsSuccessStatusCode)
+                        {
+                            var error = JsonConvert.DeserializeObject<ErrorApiResponse>(responseJson);
+                            HttpExceptionHandler.Handle(response.StatusCode, error.Message);
+                        }
+                        var returnObject = JsonConvert.DeserializeObject<TResponse>(responseJson);
+                        return returnObject;
                     }
-                    var returnObject = JsonConvert.DeserializeObject<TResponse>(responseJson);
-                    return returnObject;
                 }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message, ex.StackTrace);
+                return default(TResponse);
             }
         }
         #endregion

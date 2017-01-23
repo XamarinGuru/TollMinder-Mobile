@@ -12,7 +12,7 @@ namespace Tollminder.Core.ViewModels
         {
             this.downloadManager = downloadManager;
             backToPayHistoryCommand = new MvxCommand(() => { ShowViewModel<PayHistoryViewModel>(); });
-            downloadPayHistoryPdfCommand = new MvxCommand(() => { downloadManager.Download(PdfUrl, PdfName); });
+            //downloadPayHistoryPdfCommand = new MvxCommand(() => { downloadManager.Download(PdfUrl, PdfName); });
             fileOpenInCommand = new MvxCommand(() => { downloadManager.OpenIn(PdfUrl, PdfName);});
         }
 
@@ -25,6 +25,8 @@ namespace Tollminder.Core.ViewModels
         public override void Start()
         {
             base.Start();
+            // need to test it
+            //downloadManager.Download(PdfUrl, PdfName);
         }
 
         private string pdfUrl;
@@ -52,8 +54,8 @@ namespace Tollminder.Core.ViewModels
         private MvxCommand backToPayHistoryCommand;
         public ICommand BackToPayHistoryCommand { get { return backToPayHistoryCommand; } }
 
-        private MvxCommand downloadPayHistoryPdfCommand;
-        public ICommand DownloadPayHistoryPdfCommand { get { return downloadPayHistoryPdfCommand; } }
+        //private MvxCommand downloadPayHistoryPdfCommand;
+        //public ICommand DownloadPayHistoryPdfCommand { get { return downloadPayHistoryPdfCommand; } }
 
         private MvxCommand fileOpenInCommand;
         public ICommand FileOpenInCommand { get { return fileOpenInCommand; } }
