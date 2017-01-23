@@ -74,7 +74,9 @@ namespace Tollminder.Touch.Views
                 backHomeView.WithRelativeHeight(topView, 0.2f),
 
                 informationLabel.WithSameCenterY(topView),
-                informationLabel.WithSameCenterX(topView)
+                informationLabel.WithSameCenterX(topView),
+                informationLabel.WithRelativeWidth(topView, 0.4f),
+                informationLabel.WithRelativeHeight(topView, 0.3f)
             );
             
             dowloadHistoryButton = ProfileButtonManager.ButtonInitiaziler("Download History", UIImage.FromFile(@"Images/ProfileView/ic_license.png"));

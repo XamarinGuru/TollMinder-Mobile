@@ -247,7 +247,7 @@ namespace Tollminder.Touch.Views
         protected override void InitializeBindings()
         {
             base.InitializeBindings();
-            boardScrollView.ContentOffset = new CGPoint((boardScrollView.Bounds.Width * 0.76), 0);
+            //boardScrollView.ContentOffset = new CGPoint((boardScrollView.Bounds.Width * 0.76), 0);
             var set = this.CreateBindingSet<HomeView, HomeViewModel>();
             set.Bind(trackingButton).To(vm => vm.TrackingCommand);
             set.Bind(trackingButton.ButtonText).To(vm => vm.TrackingText);

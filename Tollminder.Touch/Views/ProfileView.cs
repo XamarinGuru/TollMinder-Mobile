@@ -69,14 +69,31 @@ namespace Tollminder.Touch.Views
             backHomeView = UIButton.FromType(UIButtonType.Custom);
             backHomeView.SetImage(UIImage.FromFile(@"Images/ic_back.png"), UIControlState.Normal);
             nameOfPageLabel = LabelInformationAboutPage(UIColor.White, "Profile", UIFont.BoldSystemFontOfSize(16f));
-            informationAboutPageLabel = LabelInformationAboutPage(UIColor.FromRGB(29, 157, 189), "Profile", UIFont.FromName("Helvetica", 16f));
+            informationAboutPageLabel = LabelInformationAboutPage(UIColor.FromRGB(29, 157, 189), "Please, Enter Your Personal Information.", UIFont.FromName("Helvetica", 14f));
 
             // Hide navigation bar
             NavigationController.SetNavigationBarHidden(true, false);
             View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile(@"Images/tab_background.png").Scale(View.Frame.Size));
-            profileNavigationBarBackground.Frame = new CoreGraphics.CGRect(10, 10, profileNavigationBarBackground.Image.CGImage.Width, profileNavigationBarBackground.Image.CGImage.Height);
+            profileNavigationBarBackground.Frame = new CGRect(10, 10, profileNavigationBarBackground.Image.CGImage.Width, profileNavigationBarBackground.Image.CGImage.Height);
+            var s = UIScreen.MainScreen.Bounds.Width;
 
-            topView.AddIfNotNull(profileNavigationBarBackground, backHomeView, nameOfPageLabel, informationAboutPageLabel);
+            var labelView = new UIView();
+            labelView.AddIfNotNull(nameOfPageLabel, informationAboutPageLabel);
+            labelView.AddConstraints(
+                nameOfPageLabel.AtTopOf(labelView, 20),
+                nameOfPageLabel.WithSameCenterX(labelView),
+                nameOfPageLabel.WithSameCenterY(labelView),
+                nameOfPageLabel.WithRelativeWidth(labelView, 0.3f),
+                nameOfPageLabel.WithRelativeHeight(labelView, 0.3f),
+
+                informationAboutPageLabel.Below(nameOfPageLabel, 5),
+                informationAboutPageLabel.AtLeftOf(labelView, EnvironmentInfo.GetValueForProfileViewLabel),
+                informationAboutPageLabel.WithRelativeWidth(labelView, 1f),
+                informationAboutPageLabel.WithSameCenterX(labelView),
+                informationAboutPageLabel.WithRelativeHeight(labelView, 0.3f)
+            );
+
+            topView.AddIfNotNull(profileNavigationBarBackground, backHomeView, labelView);
             topView.AddConstraints(
                 profileNavigationBarBackground.WithSameWidth(topView),
                 profileNavigationBarBackground.WithSameHeight(topView),
@@ -87,11 +104,10 @@ namespace Tollminder.Touch.Views
                 backHomeView.WithRelativeWidth(topView,0.1f),
                 backHomeView.WithRelativeHeight(topView, 0.2f),
 
-                nameOfPageLabel.WithSameCenterY(topView),
-                nameOfPageLabel.WithSameCenterX(topView),
-
-                informationAboutPageLabel.Below(nameOfPageLabel, 5),
-                informationAboutPageLabel.WithSameCenterY(topView)
+                labelView.WithSameCenterX(topView),
+                labelView.WithSameCenterY(topView),
+                labelView.WithRelativeWidth(topView, 0.8f),
+                labelView.WithRelativeHeight(topView, 0.6f)
             );
 
             firstNameTextField = TextFieldInitializer("First Name");
