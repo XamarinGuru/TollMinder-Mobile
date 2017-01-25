@@ -260,7 +260,7 @@ namespace Tollminder.Touch.Views
             set.Bind(geoLabelData.ValueText).To(v => v.LocationString);
             set.Bind(statusLabel.ValueText).To(v => v.StatusString);
             set.Bind(tollRoadString.ValueText).To(v => v.TollRoadString);
-            set.Bind(nextWaypointString.ValueText).To(v => v.CurrentWaypointString);
+            set.Bind(nextWaypointString.ValueText).To(v => v.DistanceToNearestTollpoint);
 
             set.Apply();
         }

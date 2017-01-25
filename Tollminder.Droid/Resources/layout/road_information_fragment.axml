@@ -12,7 +12,6 @@
         <tollminder.droid.controls.BoardInformationLabel
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:id="@+id/button_profile"
             app:MvxBind="Text TollRoadString"
             app:iconBoard="@drawable/ic_nearest_point"

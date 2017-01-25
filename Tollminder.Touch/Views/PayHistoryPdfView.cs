@@ -20,6 +20,7 @@ namespace Tollminder.Touch.Views
         private NSUrl _documentUrl;
         private string pdfPath;
         UIWebView pdfWebView;
+        UILabel informationLabel;
         LabelForDataWheel urlLabel;
         UIButton backToPayHistoryViewButton;
         ProfileButton downloadPdfButton;
@@ -41,6 +42,11 @@ namespace Tollminder.Touch.Views
             downloadPdfButton = ProfileButtonManager.ButtonInitiaziler("Download", UIImage.FromFile(@"Images/PayHistoryView/ic_download.png"));
             openInButton = ProfileButtonManager.ButtonInitiaziler("Pdf open in", UIImage.FromFile(@"Images/PayHistoryView/ic_openIn.png"));
 
+            informationLabel = new UILabel();
+            informationLabel.TextColor = UIColor.White;
+            informationLabel.Text = "Payment History";
+            informationLabel.Font = UIFont.BoldSystemFontOfSize(16f);
+
             urlLabel = LabelDataWheelInitiaziler("Pdf url");
             pdfWebView = new UIWebView(View.Bounds);
 
@@ -48,7 +54,7 @@ namespace Tollminder.Touch.Views
             NavigationController.SetNavigationBarHidden(true, false);
             View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile(@"Images/tab_background.png").Scale(View.Frame.Size));
 
-            topView.AddIfNotNull(profileNavigationBarBackground, backToPayHistoryViewButton);
+            topView.AddIfNotNull(profileNavigationBarBackground, backToPayHistoryViewButton, informationLabel);
             topView.AddConstraints(
                 profileNavigationBarBackground.WithSameWidth(topView),
                 profileNavigationBarBackground.WithSameHeight(topView),
@@ -57,7 +63,12 @@ namespace Tollminder.Touch.Views
                 backToPayHistoryViewButton.WithSameCenterY(topView),
                 backToPayHistoryViewButton.AtLeftOf(topView, 20),
                 backToPayHistoryViewButton.WithRelativeWidth(topView, 0.1f),
-                backToPayHistoryViewButton.WithRelativeHeight(topView, 0.2f)
+                backToPayHistoryViewButton.WithRelativeHeight(topView, 0.2f),
+
+                informationLabel.WithSameCenterY(topView),
+                informationLabel.WithSameCenterX(topView),
+                informationLabel.WithRelativeWidth(topView, 0.4f),
+                informationLabel.WithRelativeHeight(topView, 0.3f)
             );
 
             downloadRowView.AddIfNotNull(openInButton); //downloadPdfButton, 

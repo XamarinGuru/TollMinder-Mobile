@@ -74,26 +74,36 @@
                 android:background="@color/gray_dark"
                 android:id="@+id/radio_button_container"
                 android:layout_marginBottom="2dp">
-                <RadioButton
-                    android:layout_width="wrap_content"
+
+                <RadioGroup
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.1"
-                    android:layout_marginRight="5dp"
-                    android:layout_centerVertical="true"
-                    android:text="Current"
-                    android:id="@+id/current" />
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.1"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:text="All History"
-                    android:id="@+id/all_history" />
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginRight="5dp"
+                        android:layout_centerVertical="true"
+                        android:text="Current"
+                        android:id="@+id/current" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:text="All History"
+                        android:id="@+id/all_history" />
+                </RadioGroup>
+
                 <tollminder.droid.controls.CalendarRangeButton
                     android:id="@+id/add_license_button"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_weight="0.5"
                     android:layout_height="match_parent"
                     local:text_calendar_field="Download"
                     local:MvxBind="Click DownloadHistoryCommand"

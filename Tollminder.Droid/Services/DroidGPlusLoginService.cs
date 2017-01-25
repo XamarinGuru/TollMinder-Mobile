@@ -52,7 +52,7 @@ namespace Tollminder.Droid.Services
 
             Intent signInIntent = Auth.GoogleSignInApi.GetSignInIntent(googleApiClient);
             Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity.StartActivityForResult(signInIntent, googleSignInRequestCode);
-            Auth.GoogleSignInApi.SignOut(googleApiClient);
+            //Auth.GoogleSignInApi.SignOut(googleApiClient);
             return _gPlusTask.Task;
         }
 

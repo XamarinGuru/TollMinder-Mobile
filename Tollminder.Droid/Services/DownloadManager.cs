@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using Android.App;
 using Android.Content;
+using Plugin.CurrentActivity;
 using Tollminder.Core.Services;
 
 namespace Tollminder.Droid.Services
@@ -34,6 +35,11 @@ namespace Tollminder.Droid.Services
 
         private void ShowDownloadedComplete()
         {
+            //ActivityManager am = (ActivityManager)Context.GetSystemService(Context.ActivityService);
+            //ComponentName cn = am.GetRunningTasks(1).Get(0).topActivity;
+            if(progressBar == null)
+                progressBar = new ProgressDialog(CrossCurrentActivity.Current.Activity);
+
             if (progressBar.IsShowing)
                 progressBar.Dismiss();
 

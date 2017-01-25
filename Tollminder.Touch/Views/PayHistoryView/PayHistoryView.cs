@@ -75,7 +75,7 @@ namespace Tollminder.Touch.Views
 
                 informationLabel.WithSameCenterY(topView),
                 informationLabel.WithSameCenterX(topView),
-                informationLabel.WithRelativeWidth(topView, 0.4f),
+                informationLabel.WithRelativeWidth(topView, 0.3f),
                 informationLabel.WithRelativeHeight(topView, 0.3f)
             );
             

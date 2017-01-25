@@ -59,9 +59,8 @@ namespace Tollminder.Core.ViewModels
             _tokens.Add(_messenger.SubscribeOnMainThread<GeoWatcherStatusMessage>((s) => IsBound = s.Data, MvxReference.Strong));
             _tokens.Add(_messenger.SubscribeOnThreadPoolThread<LocationMessage>(x => Location = x.Data, MvxReference.Strong));
             _tokens.Add(_messenger.SubscribeOnThreadPoolThread<StatusMessage>(x => StatusString = x.Data.ToString(), MvxReference.Strong));
-            _tokens.Add(_messenger.SubscribeOnThreadPoolThread<MotionMessage>(x => MotionType = x.Data, MvxReference.Strong));
-            _tokens.Add(_messenger.SubscribeOnMainThread<CurrentTollpointChangedMessage>((s) => CurrentWaypointString = string.Join("\n", s.Data?.Select(x => x.Name)), MvxReference.Strong));
             _tokens.Add(_messenger.SubscribeOnMainThread<TollRoadChangedMessage>((s) => TollRoadString = s.Data?.Name, MvxReference.Strong));
+            _tokens.Add(_messenger.SubscribeOnMainThread<DistanceToNearestTollpoint>((s) => DistanceToNearestTollpoint = s.Data, MvxReference.Strong));
 
             synchronisationService.DataSynchronisation();
 
@@ -72,8 +71,8 @@ namespace Tollminder.Core.ViewModels
             if (_geoWatcher.Location != null)
                 Location = _geoWatcher.Location;
 
-            if (Mvx.Resolve<IWaypointChecker>().TollPointsInRadius != null)
-                CurrentWaypointString = string.Join("\n", Mvx.Resolve<IWaypointChecker>().TollPointsInRadius?.Select(x => x.Name));
+            //if (Mvx.Resolve<IWaypointChecker>().TollPointsInRadius != null)
+            //    DistanceToNearestTollpoint = string.Join("\n", Mvx.Resolve<IWaypointChecker>().TollPointsInRadius?.Select(x => x.Name));
         }
 
 		Task RefreshToolRoads()
@@ -160,23 +159,6 @@ namespace Tollminder.Core.ViewModels
             }
         }
 
-        private MotionType _motionType;
-        public MotionType MotionType
-        {
-            get { return _motionType; }
-            set
-            {
-                _motionType = value;
-                RaisePropertyChanged(() => MotionType);
-                RaisePropertyChanged(() => MotionTypeString);
-            }
-        }
-
-        public string MotionTypeString
-        {
-            get { return _motionType.ToString(); }
-        }
-
         string _supportText = $"Call Center:{Environment.NewLine}+(1) 305 335 85 08";
         public string SupportText
         {
@@ -206,14 +188,14 @@ namespace Tollminder.Core.ViewModels
             }
         }
 
-        private string _currentWaypointString;
-        public string CurrentWaypointString
+        private double _distanceToNearestTollpoint;
+        public double DistanceToNearestTollpoint
         {
-            get { return _currentWaypointString; }
+            get { return _distanceToNearestTollpoint; }
             set
             {
-                _currentWaypointString = value;
-                RaisePropertyChanged(() => CurrentWaypointString);
+                _distanceToNearestTollpoint = value;
+                RaisePropertyChanged(() => DistanceToNearestTollpoint);
             }
         }
 

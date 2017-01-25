@@ -26,7 +26,7 @@ namespace Tollminder.Core.ViewModels
         {
             base.Start();
             // need to test it
-            //downloadManager.Download(PdfUrl, PdfName);
+            downloadManager.Download(PdfUrl, PdfName);
         }
 
         private string pdfUrl;

@@ -446,9 +446,9 @@
     <AndroidResource Include="Resources\mipmap-xhdpi\ic_launcher.png" />
     <AndroidResource Include="Resources\mipmap-xxhdpi\ic_launcher.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher.png" />
-    <AndroidResource Include="Resources\drawable-hdpi\home_board.png" />
-    <AndroidResource Include="Resources\drawable-mdpi\home_board.png" />
-    <AndroidResource Include="Resources\drawable-xhdpi\home_board.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\home_board_.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\home_board_.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\home_board_.png" />
     <AndroidResource Include="Resources\layout\profile_view.axml" />
     <AndroidResource Include="Resources\drawable-hdpi\tab_background.png" />
     <AndroidResource Include="Resources\drawable-mdpi\tab_background.png" />
@@ -461,8 +461,8 @@
     <AndroidResource Include="Resources\layout\credit_card_view.axml" />
     <AndroidResource Include="Resources\drawable\creditCards.png" />
     <AndroidResource Include="Resources\drawable\button_style.xml" />
-    <AndroidResource Include="Resources\drawable-xxhdpi\home_board.png" />
-    <AndroidResource Include="Resources\drawable-xxxhdpi\home_board.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\home_board_.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\home_board_.png" />
     <AndroidResource Include="Resources\layout\profile_view_button.axml" />
     <AndroidResource Include="Resources\drawable\profile_view_button_background.xml" />
     <AndroidResource Include="Resources\drawable-hdpi\ic_calendar.png" />
@@ -541,6 +541,11 @@
     <AndroidResource Include="Resources\drawable-xhdpi\home_board_new.9.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\home_board_new.9.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\home_board_new.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\home_board.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\home_board.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\home_board.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\home_board.9.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\home_board.9.png" />
   </ItemGroup>
   <ItemGroup>
     <ProguardConfiguration Include="Properties\AndroidManifest.xml" />
