@@ -117,7 +117,7 @@ namespace Tollminder.Touch.Views
             );
 
             // Board View - Road Information Container
-            nextWaypointString = BoardFieldInitializer(UIImage.FromFile(@"Images/HomeView/InformationBoard/ic_nearest_point.png"), "Distance to nearest point:", (roadInformationBoardView.Bounds.Width * 0.6f));
+            nextWaypointString = BoardFieldInitializer(UIImage.FromFile(@"Images/HomeView/InformationBoard/ic_nearest_point.png"), "Nearest point in(ml):", (roadInformationBoardView.Bounds.Width * 0.6f));
             geoLabelData= BoardFieldInitializer(UIImage.FromFile(@"Images/HomeView/InformationBoard/ic_location.png"), "Geolocation:", (roadInformationBoardView.Bounds.Width * 0.3f));
             tollRoadString = BoardFieldInitializer(UIImage.FromFile(@"Images/HomeView/InformationBoard/ic_tollroad.png"), "Tollroad:", (roadInformationBoardView.Bounds.Width * 0.2f));
             statusLabel = BoardFieldInitializer(UIImage.FromFile(@"Images/HomeView/InformationBoard/ic_status.png"), "Status:", (roadInformationBoardView.Bounds.Width * 0.17f));

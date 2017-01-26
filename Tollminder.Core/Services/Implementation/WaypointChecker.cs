@@ -163,7 +163,7 @@ namespace Tollminder.Core.Services.Implementation
                 Log.LogMessage($"Distance to {item.Name} waypoint is {distance}");
                 if (distance - SettingsService.WaypointSmallRadius < double.Epsilon)
                 {
-                    DistanceToNearestTollpoint = distance * 1000;
+                    DistanceToNearestTollpoint = distance * 1000 / 1.609344;
                     return item;
                 }
             }

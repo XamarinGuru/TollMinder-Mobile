@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using MvvmCross.Platform;
 using SQLite;
 using SQLiteNetExtensions.Attributes;
@@ -50,14 +51,21 @@ namespace Tollminder.Core.Models
             try
             {
                 var coords = location.Split(',');
-                Latitude = double.Parse(coords[0], System.Globalization.CultureInfo.InvariantCulture);
-                Longitude = double.Parse(coords[1], System.Globalization.CultureInfo.InvariantCulture);
+                Latitude = CutStringToThreeSymbols(coords[0]);
+                Longitude = CutStringToThreeSymbols(coords[1]);//double.Parse(coords[1], System.Globalization.CultureInfo.InvariantCulture);
             }
             catch (Exception ex)
             {
                 Log.LogMessage($"Wrong dummy location: {location}, ex {ex.Message + ex.StackTrace}");
                 throw new Exception("Wrong location data");
             }
+        }
+
+        private double CutStringToThreeSymbols(string location)
+        {
+            string pattern = @"\d+(?:\.\d{1,3})?";
+            var match = Regex.Match(location, pattern);
+            return double.Parse(match.Value);
         }
 
 		// does this equal another location?
@@ -70,6 +78,8 @@ namespace Tollminder.Core.Models
 
 		public override string ToString()
 		{
+            Latitude = CutStringToThreeSymbols(Latitude.ToString());
+            Longitude = CutStringToThreeSymbols(Longitude.ToString());
 			return string.Format("{0},{1}", Latitude, Longitude);
 		}
 	}
