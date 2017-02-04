@@ -21,7 +21,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <MtouchArch>i386</MtouchArch>
+    <MtouchArch>x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
     <MtouchUseRefCounting>true</MtouchUseRefCounting>
     <MtouchUseSGen>true</MtouchUseSGen>
@@ -83,7 +83,7 @@
     <ConsolePause>false</ConsolePause>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <MtouchFloat32>true</MtouchFloat32>
+    <MtouchFloat32>false</MtouchFloat32>
     <CodesignKey>iPhone Developer</CodesignKey>
     <DeviceSpecificBuild>true</DeviceSpecificBuild>
     <MtouchDebug>true</MtouchDebug>
@@ -400,15 +400,13 @@
     <BundleResource Include="Resources\Images\CreditCardView\MasterCard.png" />
     <BundleResource Include="Resources\Images\CreditCardView\visa.png" />
     <BundleResource Include="Resources\Images\ic_back.png" />
-    <BundleResource Include="Resources\Images\HomeView\ic_logout.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </BundleResource>
     <BundleResource Include="Resources\Images\PayHistoryView\ic_openIn.png" />
     <BundleResource Include="Resources\Images\HomeView\InformationBoard\ic_location.png" />
     <BundleResource Include="Resources\Images\HomeView\InformationBoard\ic_nearest_point.png" />
     <BundleResource Include="Resources\Images\HomeView\InformationBoard\ic_pointer.png" />
     <BundleResource Include="Resources\Images\HomeView\InformationBoard\ic_status.png" />
     <BundleResource Include="Resources\Images\HomeView\InformationBoard\ic_tollroad.png" />
+    <BundleResource Include="Resources\Images\HomeView\ic_logout.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="facebookios">

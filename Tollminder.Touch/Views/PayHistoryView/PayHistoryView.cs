@@ -53,6 +53,8 @@ namespace Tollminder.Touch.Views
             informationLabel.TextColor = UIColor.White;
             informationLabel.Text = "Payment History";
             informationLabel.Font = UIFont.BoldSystemFontOfSize(16f);
+            informationLabel.TextAlignment = UITextAlignment.Center;
+
             backHomeView = UIButton.FromType(UIButtonType.Custom);
             backHomeView.SetImage(UIImage.FromFile(@"Images/ic_back.png"), UIControlState.Normal);
             var profileNavigationBarBackground = new UIImageView(UIImage.FromBundle(@"Images/navigation_bar_background.png"));
@@ -75,7 +77,7 @@ namespace Tollminder.Touch.Views
 
                 informationLabel.WithSameCenterY(topView),
                 informationLabel.WithSameCenterX(topView),
-                informationLabel.WithRelativeWidth(topView, 0.3f),
+                informationLabel.WithSameWidth(topView),
                 informationLabel.WithRelativeHeight(topView, 0.3f)
             );
             

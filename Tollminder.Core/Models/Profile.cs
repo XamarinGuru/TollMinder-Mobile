@@ -10,9 +10,9 @@ namespace Tollminder.Core.Models
         [PrimaryKey]
         [JsonProperty(PropertyName = "_id")]
         public string Id { get; set; }
-        [JsonProperty(PropertyName = "firstName")]
+        [JsonProperty(PropertyName = "firstname")]
         public string FirstName { get; set; }
-        [JsonProperty(PropertyName = "lastName")]
+        [JsonProperty(PropertyName = "lastname")]
         public string LastName { get; set; }
         [JsonProperty(PropertyName = "email")]
         public string Email { get; set; }

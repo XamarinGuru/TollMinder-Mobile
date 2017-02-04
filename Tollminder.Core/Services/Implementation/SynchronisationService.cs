@@ -18,23 +18,19 @@ namespace Tollminder.Core.Services.Implementation
 
         public async Task<bool> AuthorizeTokenSynchronisation()
         {
-            string result = await serverApiService.GetValidAuthorizeToken(storedSettingsService.ProfileId, storedSettingsService.AuthToken);
+            if (storedSettingsService.ProfileId == null || storedSettingsService.AuthToken == null)
+                return false;
+            else {
+                string result = await serverApiService.GetValidAuthorizeToken(storedSettingsService.ProfileId, storedSettingsService.AuthToken);
 
-            //if (storedSettingsService.AuthToken.Equals(result))
-            //{
-            //    return storedSettingsService.IsAuthorized;
-            //}
-            //else
-            //{
-            //    storedSettingsService.IsAuthorized = false;
                 storedSettingsService.AuthToken = result;
                 return storedSettingsService.IsAuthorized;
-            //}
+            }
         }
 
         public async Task DataSynchronisation()
         {
-            if(storedSettingsService.IsDataSynchronized)
+            if(storedSettingsService.IsDataSynchronized || storedSettingsService.Profile == null)
             {
                 storedSettingsService.Profile = await serverApiService.GetProfile(storedSettingsService.ProfileId, storedSettingsService.AuthToken);
             }

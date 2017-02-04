@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using CoreGraphics;
 using Facebook.CoreKit;
@@ -27,10 +29,17 @@ namespace Tollminder.Touch.Services
         public void Initialize()
         {
             Facebook.CoreKit.Profile.EnableUpdatesOnAccessTokenChange(true);
-            Settings.AppID = "194561500997971";
-            Settings.DisplayName = "TollMinder";
+            Settings.AppID = "357633207963143";//"194561500997971";
+            Settings.DisplayName = "Tollminder";
             manager = new LoginManager();
-            manager.LoginBehavior = LoginBehavior.Native;
+            manager.LoginBehavior = LoginBehavior.Browser;
+            Facebook.CoreKit.Profile.Notifications.ObserveDidChange((sender, e) =>
+            {
+                if (e.NewProfile == null)
+                    return;
+
+                Debug.WriteLine(e.NewProfile.Name);
+            });
         }
 
         public void ReleaseResources()
@@ -41,6 +50,7 @@ namespace Tollminder.Touch.Services
         public Task<SocialData> GetPersonData()
         {
             _facebookTask = new TaskCompletionSource<SocialData>();
+            CancellationToken canellationToken = new CancellationToken(true);
 
             manager.LogInWithReadPermissions(readPermissions.ToArray(), (res, e) => 
             {
@@ -51,11 +61,20 @@ namespace Tollminder.Touch.Services
                     return;
                 }
 
-                if (AccessToken.CurrentAccessToken == null)
+                try
                 {
-                    Mvx.Trace($"Empty token");
-                    _facebookTask.TrySetResult(null);
-                    return;
+                    if (AccessToken.CurrentAccessToken == null)
+                    {
+                        Mvx.Trace($"Empty token");
+                        manager.LogOut();
+                        _facebookTask.TrySetCanceled(canellationToken);
+                        //GetPersonData();
+                        return;
+                    }
+                }
+                catch(Exception ex)
+                { 
+                    Debug.WriteLine(ex.Message, ex.StackTrace);
                 }
 
                 GraphRequest request = new GraphRequest("/me", new NSDictionary("fields", "name,picture,email"), AccessToken.CurrentAccessToken.TokenString, null, "GET");
@@ -73,15 +92,14 @@ namespace Tollminder.Touch.Services
                         Mvx.Trace($"Profile: {acct.Name}, {acct.Email}, {acct.PhotoUrl}");
                         _facebookTask.TrySetResult(new SocialData()
                         {
-                            Email = acct.Name,
-                            Name = acct.Name,
+                            Email = acct.Email,
+                            FirstName = acct.Name,
                             Photo = acct.PhotoUrl,
                             Source = AuthorizationType.Facebook
                         });
                     }
                 }));
             });
-
             return _facebookTask.Task;
         }
     }

@@ -51,18 +51,19 @@ namespace Tollminder.Core.ViewModels
 
 		public async override void Start()
         {
+            if (await synchronisationService.AuthorizeTokenSynchronisation())
+                await Task.Run(RefreshToolRoads);
+            else
+                ShowViewModel<LoginViewModel>();
+            
             base.Start();
-
-            if(await synchronisationService.AuthorizeTokenSynchronisation())
-                Task.Run(RefreshToolRoads);
-
             _tokens.Add(_messenger.SubscribeOnMainThread<GeoWatcherStatusMessage>((s) => IsBound = s.Data, MvxReference.Strong));
             _tokens.Add(_messenger.SubscribeOnThreadPoolThread<LocationMessage>(x => Location = x.Data, MvxReference.Strong));
             _tokens.Add(_messenger.SubscribeOnThreadPoolThread<StatusMessage>(x => StatusString = x.Data.ToString(), MvxReference.Strong));
             _tokens.Add(_messenger.SubscribeOnMainThread<TollRoadChangedMessage>((s) => TollRoadString = s.Data?.Name, MvxReference.Strong));
             _tokens.Add(_messenger.SubscribeOnMainThread<DistanceToNearestTollpoint>((s) => DistanceToNearestTollpoint = s.Data, MvxReference.Strong));
 
-            synchronisationService.DataSynchronisation();
+            await synchronisationService.DataSynchronisation();
 
             IsBound = _geoWatcher.IsBound;
             StatusString = _track.TollStatus.ToString();

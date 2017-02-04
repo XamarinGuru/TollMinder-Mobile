@@ -25,7 +25,6 @@ namespace Tollminder.Core.ViewModels
             profile = new Profile();
 
             backHomeCommand = new MvxCommand(() => {
-                synchronisationService.DataSynchronisation();
                 ShowViewModel<HomeViewModel>(); 
             });
             addLicenseCommand = new MvxCommand(() => { ShowViewModel<LicenseViewModel>(); });
@@ -42,8 +41,6 @@ namespace Tollminder.Core.ViewModels
         {
             base.Start();
 
-            if(storedSettingsService.IsDataSynchronized)
-                synchronisationService.DataSynchronisation();
             var result = profileSettingService.GetProfile();
             if (result != null)
                 Profile = result;

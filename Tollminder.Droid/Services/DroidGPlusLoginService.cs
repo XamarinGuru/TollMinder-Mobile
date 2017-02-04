@@ -75,7 +75,8 @@ namespace Tollminder.Droid.Services
                         _gPlusTask.TrySetResult(new SocialData()
                         {
                             Email = acct.Email,
-                            Name = acct.DisplayName,
+                            FirstName = acct.GivenName,
+                            LastName = acct.FamilyName,
                             Photo = acct.PhotoUrl?.ToString(),
                             Source = AuthorizationType.GPlus
                         });

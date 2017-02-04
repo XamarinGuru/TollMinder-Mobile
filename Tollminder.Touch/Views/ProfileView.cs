@@ -3,10 +3,7 @@ using Cirrious.FluentLayouts.Touch;
 using CoreGraphics;
 using Google.SignIn;
 using MvvmCross.Binding.BindingContext;
-using MvvmCross.iOS.Views;
-using Tollminder.Core;
 using Tollminder.Core.Converters;
-using Tollminder.Core.Helpers;
 using Tollminder.Core.ViewModels;
 using Tollminder.Touch.Controllers;
 using Tollminder.Touch.Controls;
@@ -14,8 +11,6 @@ using Tollminder.Touch.Extensions;
 using Tollminder.Touch.Helpers;
 using Tollminder.Touch.Interfaces;
 using UIKit;
-using Foundation;
-using Tollminder.Touch.Converters;
 using System.Diagnostics;
 using MvvmCross.Binding.iOS.Views;
 
@@ -83,12 +78,11 @@ namespace Tollminder.Touch.Views
                 nameOfPageLabel.AtTopOf(labelView, 20),
                 nameOfPageLabel.WithSameCenterX(labelView),
                 nameOfPageLabel.WithSameCenterY(labelView),
-                nameOfPageLabel.WithRelativeWidth(labelView, 0.3f),
+                nameOfPageLabel.WithSameWidth(labelView),
                 nameOfPageLabel.WithRelativeHeight(labelView, 0.3f),
 
                 informationAboutPageLabel.Below(nameOfPageLabel, 5),
-                informationAboutPageLabel.AtLeftOf(labelView, EnvironmentInfo.GetValueForProfileViewLabel),
-                informationAboutPageLabel.WithRelativeWidth(labelView, 1f),
+                informationAboutPageLabel.WithSameWidth(labelView),
                 informationAboutPageLabel.WithSameCenterX(labelView),
                 informationAboutPageLabel.WithRelativeHeight(labelView, 0.3f)
             );
@@ -266,6 +260,7 @@ namespace Tollminder.Touch.Views
             labelInformation.TextColor = color;
             labelInformation.Text = text;
             labelInformation.Font = font;
+            labelInformation.TextAlignment = UITextAlignment.Center;
             return labelInformation;
         }
 

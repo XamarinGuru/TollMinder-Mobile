@@ -46,7 +46,8 @@ namespace Tollminder.Touch.Views
             informationLabel.TextColor = UIColor.White;
             informationLabel.Text = "Payment History";
             informationLabel.Font = UIFont.BoldSystemFontOfSize(16f);
-
+            informationLabel.TextAlignment = UITextAlignment.Center;
+            
             urlLabel = LabelDataWheelInitiaziler("Pdf url");
             pdfWebView = new UIWebView(View.Bounds);
 
@@ -67,7 +68,7 @@ namespace Tollminder.Touch.Views
 
                 informationLabel.WithSameCenterY(topView),
                 informationLabel.WithSameCenterX(topView),
-                informationLabel.WithRelativeWidth(topView, 0.4f),
+                informationLabel.WithSameWidth(topView),
                 informationLabel.WithRelativeHeight(topView, 0.3f)
             );
 

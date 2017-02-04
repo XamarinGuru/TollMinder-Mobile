@@ -26,6 +26,8 @@ namespace Tollminder.Touch.Views
     public class LicensePlateView : BaseViewController<LicenseViewModel>, ISignInUIDelegate, ICleanBackStack
     {
         UIButton backHomeView;
+        UILabel nameOfPageLabel;
+        UILabel informationAboutPageLabel;
 
         TextFieldValidationWithImage licensePlateTextField;
         TextFieldValidationWithImage stateTextField;
@@ -61,13 +63,30 @@ namespace Tollminder.Touch.Views
             backHomeView = UIButton.FromType(UIButtonType.Custom);
             backHomeView.SetImage(UIImage.FromFile(@"Images/ic_back.png"), UIControlState.Normal);
             var profileNavigationBarBackground = new UIImageView(UIImage.FromBundle(@"Images/navigation_bar_background.png"));
+            nameOfPageLabel = LabelInformationAboutPage(UIColor.White, "License Information", UIFont.BoldSystemFontOfSize(16f));
+            informationAboutPageLabel = LabelInformationAboutPage(UIColor.FromRGB(29, 157, 189), "Please, Enter the License Plate Number and Other Information for Your Vehicle.", UIFont.FromName("Helvetica", 14f));
 
             // Hide navigation bar
             NavigationController.SetNavigationBarHidden(true, false);
             View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile(@"Images/tab_background.png").Scale(View.Frame.Size));//EnvironmentInfo.CheckDevice().Scale(View.Frame.Size));
             profileNavigationBarBackground.Frame = new CoreGraphics.CGRect(10, 10, profileNavigationBarBackground.Image.CGImage.Width, profileNavigationBarBackground.Image.CGImage.Height);
 
-            topView.AddIfNotNull(profileNavigationBarBackground, backHomeView);
+            var labelView = new UIView();
+            labelView.AddIfNotNull(nameOfPageLabel, informationAboutPageLabel);
+            labelView.AddConstraints(
+                nameOfPageLabel.AtTopOf(labelView, 20),
+                nameOfPageLabel.WithSameCenterX(labelView),
+                nameOfPageLabel.WithSameCenterY(labelView),
+                nameOfPageLabel.WithSameWidth(labelView),
+                nameOfPageLabel.WithRelativeHeight(labelView, 0.3f),
+
+                informationAboutPageLabel.Below(nameOfPageLabel, 5),
+                informationAboutPageLabel.WithSameWidth(labelView),
+                informationAboutPageLabel.WithSameCenterX(labelView),
+                informationAboutPageLabel.WithRelativeHeight(labelView, 0.6f)
+            );
+
+            topView.AddIfNotNull(profileNavigationBarBackground, backHomeView, labelView);
             topView.AddConstraints(
                 profileNavigationBarBackground.WithSameWidth(topView),
                 profileNavigationBarBackground.WithSameHeight(topView),
@@ -76,7 +95,12 @@ namespace Tollminder.Touch.Views
                 backHomeView.WithSameCenterY(topView),
                 backHomeView.AtLeftOf(topView, 20),
                 backHomeView.WithRelativeWidth(topView,0.1f),
-                backHomeView.WithRelativeHeight(topView, 0.2f)
+                backHomeView.WithRelativeHeight(topView, 0.2f),
+
+                labelView.WithSameCenterX(topView),
+                labelView.WithSameCenterY(topView),
+                labelView.WithRelativeWidth(topView, 0.8f),
+                labelView.WithRelativeHeight(topView, 0.6f)
             );
 
             licensePlateTextField = TextFieldInitializer("LicensePlate");
@@ -160,6 +184,18 @@ namespace Tollminder.Touch.Views
             textField.TextFieldWithValidator.TextField.KeyboardType = UIKeyboardType.Default;
 
             return textField;
+        }
+
+        private UILabel LabelInformationAboutPage(UIColor color, string text, UIFont font)
+        {
+            var labelInformation = new UILabel();
+            labelInformation.TextColor = color;
+            labelInformation.Text = text;
+            labelInformation.Font = font;
+            labelInformation.TextAlignment = UITextAlignment.Center;
+            labelInformation.LineBreakMode = UILineBreakMode.WordWrap;
+            labelInformation.Lines = 0;
+            return labelInformation;
         }
 
         private LabelForDataWheel LabelDataWheelInitiaziler(string fieldName)

@@ -74,7 +74,7 @@ namespace Tollminder.Droid.Services
                 _facebookTask.TrySetResult(new SocialData()
                 {
                     Email = acct.Email,
-                    Name = acct.Name,
+                    FirstName = acct.Name,
                     Photo = acct.PhotoUrl,
                     Source = AuthorizationType.Facebook
                 });

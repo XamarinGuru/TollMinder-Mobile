@@ -121,22 +121,31 @@ namespace Tollminder.Core.ViewModels
 
             var success = false;
             var result = default(Profile);
-
+            var _serverApiService = Mvx.Resolve<IServerApiService>();
+            
             switch (data.Source)
             {
                 case AuthorizationType.Email:
                     if (Validate())
                     {
-                        var _serverApiService = Mvx.Resolve<IServerApiService>();
-
                         result = await _serverApiService.SignIn(LoginString, PasswordString);
                         success = result != null;
                     }
-                    success = true;
                     break;
                 case AuthorizationType.Facebook:
+                    result = await _serverApiService.SocialSignIn(data.Email, data.Source.ToString());
+                    success = result != null;
+                    break;
                 case AuthorizationType.GPlus:
-                    success = true;
+                    result = await _serverApiService.SocialSignIn(data.Email, data.Source.ToString());
+                    //Profile
+                    //{
+                    //    FirstName = data.FirstName,
+                    //    LastName = data.LastName,
+                    //    Email = data.Email,
+                    //    Source = data.Source.ToString()
+                    //};
+                    success = result != null;
                     break;
             }
 

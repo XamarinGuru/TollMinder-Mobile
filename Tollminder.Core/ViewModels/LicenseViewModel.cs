@@ -30,7 +30,6 @@ namespace Tollminder.Core.ViewModels
             SelectedVehicleClass = VehicleClasses[firstElement];
 
             backToProfileCommand = new MvxCommand(() => {
-                //SaveDataBeforeYouLive();
                 ShowViewModel<ProfileViewModel>(); 
             });
             statesWheelCommand = new MvxCommand(() => {
@@ -48,10 +47,10 @@ namespace Tollminder.Core.ViewModels
         public override void Start()
         {
             base.Start();
-            Profile = profileSettingService.GetProfile();
+            profile = profileSettingService.GetProfile();
             if (Profile.DriverLicense != null)
             {
-                DriverLicense = Profile.DriverLicense;
+                driverLicense = Profile.DriverLicense;
                 SelectedState.Name = DriverLicense.State;
             }
             else
@@ -62,12 +61,6 @@ namespace Tollminder.Core.ViewModels
         {
             SaveDataBeforeYouLive();
             base.OnPause();
-        }
-
-        public override void OnDestroy()
-        {
-            //SaveDataBeforeYouLive();
-            base.OnDestroy();
         }
 
         private void SaveDataBeforeYouLive()

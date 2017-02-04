@@ -91,7 +91,6 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
             bool isGranted = await Mvx.Resolve<IPermissionsService>().CheckPermissionsAccesGrantedAsync();
             if (!IsBound && isGranted)
             {
-
                 Log.LogMessage(string.Format("FACADE HAS STARTED AT {0}", DateTime.Now));
 
                 _textToSpeech.IsEnabled = true;

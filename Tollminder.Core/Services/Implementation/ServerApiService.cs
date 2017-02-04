@@ -40,6 +40,23 @@ namespace Tollminder.Core.Services.Implementation
             return SendAsync<Dictionary<string, object>, Profile>(parameters, $"{BaseApiUrl}user/signin");
         }
 
+        /// <summary>
+        /// Sign in using social networks.
+        /// </summary>
+        /// <returns>Profile</returns>
+        /// <param name="email">Email - user email from social network.</param>
+        /// <param name="source">Source - what kind of social network user choose.</param>
+        public Task<Profile> SocialSignIn(string email, string source)
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                ["email"] = email,
+                ["source"] = source
+            };
+
+            return SendAsync<Dictionary<string, object>, Profile>(parameters, $"{BaseApiUrl}user/oauth");
+        }
+
         public Task<string> DownloadPayHistory(string userId, DateTime dateFrom, DateTime dateTo)
         {
             var parameters = new

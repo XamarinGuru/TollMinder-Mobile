@@ -25,7 +25,8 @@ namespace Tollminder.Touch.Services
                 _gPlusTask.TrySetResult(new SocialData()
                 {
                     Email = user?.Profile.Email,
-                    Name = user?.Profile.Name,
+                    FirstName = user?.Profile.GivenName,
+                    LastName = user?.Profile.FamilyName,
                     Photo = user?.Profile.GetImageUrl(200)?.AbsoluteString,
                     Source = AuthorizationType.GPlus
                 });

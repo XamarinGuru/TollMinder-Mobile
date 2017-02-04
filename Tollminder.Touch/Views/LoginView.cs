@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using Cirrious.FluentLayouts.Touch;
 using CoreGraphics;
+using Facebook.CoreKit;
+using Facebook.LoginKit;
 using Google.SignIn;
 using MvvmCross.Binding.BindingContext;
 using Tollminder.Core;
@@ -31,6 +35,8 @@ namespace Tollminder.Touch.Views
         
         UILabel socialNetworkLabel;
         UILabel registrationLabel;
+
+        List<string> readPermissions = new List<string> { "public_profile" };
 
         public LoginView()
         {
@@ -81,8 +87,19 @@ namespace Tollminder.Touch.Views
             _googlePlusLoginButton = ButtonInitializer(null, UIControlState.Disabled, null, null,
                               UIControlState.Disabled, @"Images/loginView/google-button.png", UIControlState.Normal);
 
+            var sloginView = new LoginButton(new CGRect(51, 0, 218, 46))
+            {
+                LoginBehavior = LoginBehavior.Native,
+                ReadPermissions = readPermissions.ToArray()
+            }; 
             _facebookLoginButton = ButtonInitializer(null, UIControlState.Disabled, null, null,
-                              UIControlState.Disabled, @"Images/loginView/facebook_logIn.png", UIControlState.Normal);
+                              UIControlState.Disabled, null, UIControlState.Normal);
+            _facebookLoginButton.SetImage(sloginView.CurrentImage, UIControlState.Normal);
+            _facebookLoginButton.SetTitle(sloginView.CurrentTitle, UIControlState.Normal);
+            _facebookLoginButton.SetTitleColor(sloginView.CurrentTitleColor, UIControlState.Normal);
+            _facebookLoginButton.SetBackgroundImage(sloginView.CurrentBackgroundImage, UIControlState.Normal);
+            _facebookLoginButton.Font = UIFont.FromName("Helvetica", 14f);
+            _facebookLoginButton.ImageEdgeInsets = new UIEdgeInsets(0, 0, 0, 40);
 
             forgotPasswordButton = ButtonInitializer("Forgot your password?", UIControlState.Normal,
                               null, UIColor.LightGray, UIControlState.Normal, null, UIControlState.Normal);
@@ -91,6 +108,40 @@ namespace Tollminder.Touch.Views
             registrationButton = ButtonInitializer("Get Started!", UIControlState.Normal,
                               null, UIColor.Cyan, UIControlState.Normal, null, UIControlState.Normal);
             registrationButton.TitleLabel.Font = UIFont.FromName("Helvetica", 12f);
+
+            // Handle actions once the user is logged in
+            sloginView.Completed += (sender, e) =>
+            {
+                if (e.Error != null)
+                {
+                    // Handle if there was an error
+                }
+
+                if (e.Result.IsCancelled)
+                {
+                    // Handle if the user cancelled the login request
+                    new LoginManager().LogOut();
+                    Profile.CurrentProfile = null;
+                }
+
+                // Handle your successful login
+            };
+
+            // Handle actions once the user is logged out
+            sloginView.LoggedOut += (sender, e) =>
+            {
+                // Handle your logout
+                new LoginManager().LogOut();
+                Profile.CurrentProfile = null;
+
+            };
+            Facebook.CoreKit.Profile.Notifications.ObserveDidChange((sender, e) =>
+            {
+                if (e.NewProfile == null)
+                    return;
+
+                Debug.WriteLine(e.NewProfile.Name);
+            });
 
             socialNetworksView.AddIfNotNull(socialNetworkLabel, _facebookLoginButton, _googlePlusLoginButton);
             socialNetworksView.AddConstraints(
@@ -103,6 +154,7 @@ namespace Tollminder.Touch.Views
                 _facebookLoginButton.Below(socialNetworkLabel),
                 _facebookLoginButton.AtLeftOf(socialNetworksView),
                 _facebookLoginButton.WithRelativeWidth(socialNetworksView, 0.48f),
+                _facebookLoginButton.WithRelativeHeight(socialNetworksView, 0.4f),
 
                 _googlePlusLoginButton.Below(socialNetworkLabel),
                 _googlePlusLoginButton.WithRelativeWidth(socialNetworksView, 0.48f),
@@ -152,8 +204,9 @@ namespace Tollminder.Touch.Views
                 registrationButton.WithRelativeHeight(centerView, 0.07f)
             );
 
-            // Main view
-            View.AddIfNotNull(topView, centerView, bottomView);
+
+        // Main view
+        View.AddIfNotNull(topView, centerView, bottomView);
             View.AddConstraints(
                 topView.AtTopOf(View, 10),
                 topView.AtLeftOf(View),

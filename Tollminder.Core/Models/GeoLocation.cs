@@ -80,7 +80,7 @@ namespace Tollminder.Core.Models
 		{
             Latitude = CutStringToThreeSymbols(Latitude.ToString());
             Longitude = CutStringToThreeSymbols(Longitude.ToString());
-			return string.Format("{0},{1}", Latitude, Longitude);
+			return string.Format("{0}, {1}", Latitude, Longitude);
 		}
 	}
 }

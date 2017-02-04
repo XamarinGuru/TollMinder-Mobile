@@ -10,6 +10,13 @@ namespace Tollminder.Core.Services
 	{
         Task<IList<TollRoad>> RefreshTollRoads (long lastSyncDateTime, CancellationToken token);
         Task<Profile> SignIn(string phone, string password);
+        /// <summary>
+        /// Sign in using social networks.
+        /// </summary>
+        /// <returns>Profile</returns>
+        /// <param name="email">Email - user email from social network.</param>
+        /// <param name="source">Source - what kind of social network user choose.</param>
+        Task<Profile> SocialSignIn(string email, string source);
         Task<Profile> GetProfile(string userId, string authToken = null);
         Task<List<PayHistory>> GetPayHistory(string userId, DateTime dateFrom, DateTime dateTo);
         Task<string> DownloadPayHistory(string userId, DateTime dateFrom, DateTime dateTo);
