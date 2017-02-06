@@ -54,7 +54,7 @@ namespace Tollminder.Core.Services.Implementation
                 ["source"] = source
             };
 
-            return SendAsync<Dictionary<string, object>, Profile>(parameters, $"{BaseApiUrl}user/oauth");
+            return CheckProfile<Dictionary<string, object>, Profile>(parameters, $"{BaseApiUrl}user/oauth");
         }
 
         public Task<string> DownloadPayHistory(string userId, DateTime dateFrom, DateTime dateTo)

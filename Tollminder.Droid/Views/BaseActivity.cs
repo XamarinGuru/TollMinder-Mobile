@@ -7,6 +7,7 @@ namespace Tollminder.Droid.Views
     public abstract class BaseActivity<TViewModel> : MvxAppCompatActivity<TViewModel> where TViewModel : BaseViewModel
     {
         protected abstract int LayoutId { get; }
+        protected abstract bool GoOnDestroy { get; }
 
         protected override void OnCreate(Android.OS.Bundle bundle)
         {

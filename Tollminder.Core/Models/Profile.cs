@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using Newtonsoft.Json;
 using SQLite;
 
@@ -43,6 +44,8 @@ namespace Tollminder.Core.Models
         public string ZipCode { get; set; }
         [JsonProperty(PropertyName = "driverLicense")]
         public DriverLicense DriverLicense { get; set; }
+        // For social network, to check is there user like this one
+        public HttpStatusCode StatusCode { get; set;}
         // Here could be your credit cards
     }
 }

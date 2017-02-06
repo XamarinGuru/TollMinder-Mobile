@@ -5,6 +5,6 @@ namespace Tollminder.Core.Services
 {
     public interface ICalendarDialog
     {
-        Task<DateTime> ShowDialog();
+        Task<DateTime> ShowDialog(DateTime currentValue);
     }
 }

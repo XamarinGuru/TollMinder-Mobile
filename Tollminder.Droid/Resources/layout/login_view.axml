@@ -104,7 +104,7 @@
                         android:layout_weight="1"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
-                        local:MvxBind="Enabled BoolInverseConverter(IsBusy); Click FacebookLoginCommand" />
+                         />
                     <com.google.android.gms.common.SignInButton
                         android:id="@+id/sign_in_button"
                         android:layout_width="0dp"

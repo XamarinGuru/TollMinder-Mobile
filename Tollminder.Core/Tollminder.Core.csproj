@@ -151,6 +151,7 @@
     <Compile Include="Services\IProfileSettingService.cs" />
     <Compile Include="Services\Implementation\ProfileSettingService.cs" />
     <Compile Include="Services\Implementation\SynchronisationService.cs" />
+    <Compile Include="ViewModels\RegistrationViewModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>

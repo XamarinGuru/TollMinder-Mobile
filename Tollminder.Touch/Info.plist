@@ -68,6 +68,8 @@
 			</array>
 			<key>CFBundleURLName</key>
 			<string>Facebook</string>
+			<key>CFBundleURLTypes</key>
+			<string>Editor</string>
 		</dict>
 		<dict>
 			<key>CFBundleURLName</key>

@@ -27,11 +27,11 @@ namespace Tollminder.Core.ViewModels
             backToPayHistoryCommand = new MvxCommand(() => { ShowViewModel<PayHistoryViewModel>(); });
 
             openCalendarFromCommand = new MvxCommand(async () => {
-                GetPayDateFrom = await Mvx.Resolve<ICalendarDialog>().ShowDialog();
+                GetPayDateFrom = await Mvx.Resolve<ICalendarDialog>().ShowDialog(GetPayDateFrom);
             });
             openCalendarToCommand = new MvxCommand(async () =>
             {
-                GetPayDateTo = await Mvx.Resolve<ICalendarDialog>().ShowDialog();
+                GetPayDateTo = await Mvx.Resolve<ICalendarDialog>().ShowDialog(GetPayDateTo);
             });
 
             downloadHistoryCommand = new MvxCommand(async () => { 

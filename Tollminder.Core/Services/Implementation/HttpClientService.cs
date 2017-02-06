@@ -12,6 +12,7 @@ using Tollminder.Core.Helpers.HttpHelpers;
 using System.Net.Http.Headers;
 using System.Linq;
 using System.Diagnostics;
+using System.Net;
 
 namespace Tollminder.Core.Services.Implementation
 {
@@ -19,6 +20,8 @@ namespace Tollminder.Core.Services.Implementation
     {
         private readonly HttpClient _client;
         private static readonly int BufferSize = 1024;
+        private HttpStatusCode statusCode;
+
         public HttpClientService()
         {
             _client = new HttpClient(Mvx.Resolve<IHttpClientHandlerService>() as HttpClientHandler);
@@ -97,6 +100,11 @@ namespace Tollminder.Core.Services.Implementation
                     request.Content = new ProgressStringContent(jsonSerialization, System.Text.Encoding.UTF8, "application/json", actionProgress);
                     using (var response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false))
                     {
+                        if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                        {
+                            statusCode = response.StatusCode;
+                            return default(TResponse);
+                        }
                         var total = response.Content.Headers.ContentLength.HasValue ? response.Content.Headers.ContentLength.Value : -1L;
                         var canReportProgress = total != -1 && progress != null;
                         if (!response.IsSuccessStatusCode)
@@ -147,7 +155,7 @@ namespace Tollminder.Core.Services.Implementation
             }
             catch(Exception ex)
             {
-                 Debug.WriteLine(ex.Message, ex.StackTrace);
+                Debug.WriteLine(ex.Message, ex.StackTrace);
                 return default(TResponse);
             }
         }
@@ -160,6 +168,18 @@ namespace Tollminder.Core.Services.Implementation
             return SendAsync<TRequest, TResponse>(data, url, null);
         }
 
+        public async Task<Profile> CheckProfile<TRequest, TResponse>(TRequest data, string url)
+        {
+            var result = await SendAsync<TRequest, Profile>(data, url);
+            if (result == null)
+                return new Tollminder.Core.Models.Profile() { StatusCode = statusCode };
+            else
+            {
+                result.StatusCode = statusCode;
+                return result;
+            }
+        }
+
         /// <summary>
         /// Sends the async.
         /// </summary>
@@ -167,8 +187,6 @@ namespace Tollminder.Core.Services.Implementation
         /// <param name="data">Data.</param>
         /// <param name="url">URL.</param>
         /// <param name="token">Token.</param>
-        /// <typeparam name="TRequest">The 1st type parameter.</typeparam>
-        /// <typeparam name="TResponse">The 2nd type parameter.</typeparam>
         public virtual async Task<System.Net.HttpStatusCode> SendAsync<TRequest>(TRequest data, string url, CancellationTokenSource token, string authToken)
         {
             using (var request = new HttpRequestMessage(HttpMethod.Put, url))

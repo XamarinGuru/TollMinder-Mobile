@@ -134,18 +134,11 @@ namespace Tollminder.Core.ViewModels
                     break;
                 case AuthorizationType.Facebook:
                     result = await _serverApiService.SocialSignIn(data.Email, data.Source.ToString());
-                    success = result != null;
+                    success = CheckHttpStatuseCode(result.StatusCode);
                     break;
                 case AuthorizationType.GPlus:
                     result = await _serverApiService.SocialSignIn(data.Email, data.Source.ToString());
-                    //Profile
-                    //{
-                    //    FirstName = data.FirstName,
-                    //    LastName = data.LastName,
-                    //    Email = data.Email,
-                    //    Source = data.Source.ToString()
-                    //};
-                    success = result != null;
+                    success = CheckHttpStatuseCode(result.StatusCode);
                     break;
             }
 
@@ -160,6 +153,25 @@ namespace Tollminder.Core.ViewModels
                 ShowViewModel<HomeViewModel>();
             }
         }
+
+        bool CheckHttpStatuseCode(System.Net.HttpStatusCode statusCode)
+        {
+            switch (statusCode)
+            {
+                case System.Net.HttpStatusCode.NotFound:
+                    Close(this);
+                    ShowViewModel<RegistrationViewModel>();
+                    break;
+                case System.Net.HttpStatusCode.OK:
+                    return true;
+                case System.Net.HttpStatusCode.BadRequest:
+                    return false;
+                case System.Net.HttpStatusCode.Unauthorized:
+                    return false;
+            }
+            return false;
+        }
+
 
         MvxCommand _registrationCommand;
         public ICommand RegistrationCommand

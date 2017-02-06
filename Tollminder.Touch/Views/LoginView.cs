@@ -110,38 +110,38 @@ namespace Tollminder.Touch.Views
             registrationButton.TitleLabel.Font = UIFont.FromName("Helvetica", 12f);
 
             // Handle actions once the user is logged in
-            sloginView.Completed += (sender, e) =>
-            {
-                if (e.Error != null)
-                {
-                    // Handle if there was an error
-                }
+            //sloginView.Completed += (sender, e) =>
+            //{
+            //    if (e.Error != null)
+            //    {
+            //        // Handle if there was an error
+            //    }
 
-                if (e.Result.IsCancelled)
-                {
-                    // Handle if the user cancelled the login request
-                    new LoginManager().LogOut();
-                    Profile.CurrentProfile = null;
-                }
+            //    if (e.Result.IsCancelled)
+            //    {
+            //        // Handle if the user cancelled the login request
+            //        new LoginManager().LogOut();
+            //        Profile.CurrentProfile = null;
+            //    }
 
-                // Handle your successful login
-            };
+            //    // Handle your successful login
+            //};
 
-            // Handle actions once the user is logged out
-            sloginView.LoggedOut += (sender, e) =>
-            {
-                // Handle your logout
-                new LoginManager().LogOut();
-                Profile.CurrentProfile = null;
+            //// Handle actions once the user is logged out
+            //sloginView.LoggedOut += (sender, e) =>
+            //{
+            //    // Handle your logout
+            //    new LoginManager().LogOut();
+            //    Profile.CurrentProfile = null;
 
-            };
-            Facebook.CoreKit.Profile.Notifications.ObserveDidChange((sender, e) =>
-            {
-                if (e.NewProfile == null)
-                    return;
+            //};
+            //Facebook.CoreKit.Profile.Notifications.ObserveDidChange((sender, e) =>
+            //{
+            //    if (e.NewProfile == null)
+            //        return;
 
-                Debug.WriteLine(e.NewProfile.Name);
-            });
+            //    Debug.WriteLine(e.NewProfile.Name);
+            //});
 
             socialNetworksView.AddIfNotNull(socialNetworkLabel, _facebookLoginButton, _googlePlusLoginButton);
             socialNetworksView.AddConstraints(
