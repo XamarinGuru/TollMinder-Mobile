@@ -11,6 +11,6 @@ namespace Tollminder.Core.Models
         public string Photo { get; set; }
         public string Token { get; set; }
         public AuthorizationType Source { get; set; }
-        public string Id { get; internal set; }
+        public string Id { get; set; }
     }
 }

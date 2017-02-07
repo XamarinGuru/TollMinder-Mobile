@@ -20,18 +20,18 @@ namespace Tollminder.Droid.Services.FacebookTools
 
         public void OnSuccess(Java.Lang.Object obj)
         {
-            owner.UpdateUI();
+            //owner.UpdateUI();
         }
 
         public void OnCancel()
         {
-            owner.UpdateUI();
+            //owner.UpdateUI();
         }
 
         public void OnError(FacebookException fbException)
         {
             Debug.WriteLine(fbException.Message);
-            owner.UpdateUI();
+            //owner.UpdateUI();
         }
 
         private void ShowAlert()

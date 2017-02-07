@@ -46,7 +46,18 @@ namespace Tollminder.Core.Services.Implementation
         /// <returns>Profile</returns>
         /// <param name="email">Email - user email from social network.</param>
         /// <param name="source">Source - what kind of social network user choose.</param>
-        public Task<Profile> SocialSignIn(string email, string source)
+        public Task<Profile> FacebookSignIn(string facebookId, string source)
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                ["facebookId"] = facebookId,
+                ["source"] = source
+            };
+
+            return CheckProfile<Dictionary<string, object>, Profile>(parameters, $"{BaseApiUrl}user/oauth");
+        }
+
+        public Task<Profile> GooglePlusSignIn(string email, string source)
         {
             var parameters = new Dictionary<string, object>
             {

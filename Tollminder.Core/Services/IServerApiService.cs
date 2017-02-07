@@ -16,7 +16,8 @@ namespace Tollminder.Core.Services
         /// <returns>Profile</returns>
         /// <param name="email">Email - user email from social network.</param>
         /// <param name="source">Source - what kind of social network user choose.</param>
-        Task<Profile> SocialSignIn(string email, string source);
+        Task<Profile> GooglePlusSignIn(string email, string source);
+        Task<Profile> FacebookSignIn(string facebookId, string source);
         Task<Profile> GetProfile(string userId, string authToken = null);
         Task<List<PayHistory>> GetPayHistory(string userId, DateTime dateFrom, DateTime dateTo);
         Task<string> DownloadPayHistory(string userId, DateTime dateFrom, DateTime dateTo);

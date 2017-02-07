@@ -15,7 +15,7 @@ namespace Tollminder.Droid.Services.FacebookTools
 
         protected override void OnCurrentProfileChanged(Profile oldProfile, Profile newProfile)
         {
-            owner.UpdateUI();
+            //owner.UpdateUI();
         }
     }
 }

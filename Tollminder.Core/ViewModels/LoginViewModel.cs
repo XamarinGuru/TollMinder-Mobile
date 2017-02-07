@@ -24,10 +24,10 @@ namespace Tollminder.Core.ViewModels
             _storedSettingsService = Mvx.Resolve<IStoredSettingsService>();
             _facebookLoginService = Mvx.Resolve<IFacebookLoginService>();
             _gPlusLoginService = Mvx.Resolve<IGPlusLoginService>();
-            //_emailLoginCommand = new MvxCommand(async () => await ServerCommandWrapper(async () => await LoginTask(EmailLoginData)));
-            _facebookLoginCommand = new MvxCommand(async () => await ServerCommandWrapper(async () => await LoginTask(new SocialData(){Source=AuthorizationType.Facebook})));//await _facebookLoginService.GetPersonData()
-            //_gPlusLoginCommand = new MvxCommand(async () => await ServerCommandWrapper(async () => await LoginTask(await _gPlusLoginService.GetPersonData())));
-            _registrationCommand = new MvxCommand(() =>{});
+            _emailLoginCommand = new MvxCommand(async () => await ServerCommandWrapper(async () => await LoginTask(EmailLoginData)));
+            _facebookLoginCommand = new MvxCommand(async () => await ServerCommandWrapper(async () => await LoginTask(await _facebookLoginService.GetPersonData())));
+            _gPlusLoginCommand = new MvxCommand(async () => await ServerCommandWrapper(async () => await LoginTask(await _gPlusLoginService.GetPersonData())));
+            _registrationCommand = new MvxCommand(() => { });
             _forgotPasswordCommand = new MvxCommand(() => { });
         }
 
@@ -43,7 +43,7 @@ namespace Tollminder.Core.ViewModels
         {
             base.Start();
 
-           _facebookLoginService.Initialize();
+           //_facebookLoginService.Initialize();
            _gPlusLoginService.Initialize();
         }
 
@@ -118,11 +118,11 @@ namespace Tollminder.Core.ViewModels
                     }
                     break;
                 case AuthorizationType.Facebook:
-                    result = await _serverApiService.SocialSignIn(data.Email, data.Source.ToString());
+                    result = await _serverApiService.FacebookSignIn(data.Id, data.Source.ToString().ToLower());
                     success = CheckHttpStatuseCode(result.StatusCode);
                     break;
                 case AuthorizationType.GPlus:
-                    result = await _serverApiService.SocialSignIn(data.Email, data.Source.ToString());
+                    result = await _serverApiService.GooglePlusSignIn(data.Email, data.Source.ToString().ToLower());
                     success = CheckHttpStatuseCode(result.StatusCode);
                     break;
             }
