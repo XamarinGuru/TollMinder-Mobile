@@ -15,30 +15,58 @@ namespace Tollminder.Core.ViewModels
         const string Login = "380000000000";
         const string Password = "123456789";
         private DataBaseService _dataBaseService;
+        IStoredSettingsService _storedSettingsService;
+        IFacebookLoginService _facebookLoginService;
+        IGPlusLoginService _gPlusLoginService;
+
+        public LoginViewModel()
+        {
+            _storedSettingsService = Mvx.Resolve<IStoredSettingsService>();
+            _facebookLoginService = Mvx.Resolve<IFacebookLoginService>();
+            _gPlusLoginService = Mvx.Resolve<IGPlusLoginService>();
+            //_emailLoginCommand = new MvxCommand(async () => await ServerCommandWrapper(async () => await LoginTask(EmailLoginData)));
+            _facebookLoginCommand = new MvxCommand(async () => await ServerCommandWrapper(async () => await LoginTask(new SocialData(){Source=AuthorizationType.Facebook})));//await _facebookLoginService.GetPersonData()
+            //_gPlusLoginCommand = new MvxCommand(async () => await ServerCommandWrapper(async () => await LoginTask(await _gPlusLoginService.GetPersonData())));
+            _registrationCommand = new MvxCommand(() =>{});
+            _forgotPasswordCommand = new MvxCommand(() => { });
+        }
+
+        public override void Init()
+        {
+            base.Init();
+            LoginString = Login;
+            PasswordString = Password;
+            _dataBaseService = new DataBaseService();
+        }
+
+        public override void Start()
+        {
+            base.Start();
+
+           _facebookLoginService.Initialize();
+           _gPlusLoginService.Initialize();
+        }
+
+        MvxCommand _emailLoginCommand;
+        public ICommand EmailLoginCommand { get { return _emailLoginCommand; } }
+
+        MvxCommand _facebookLoginCommand;
+        public ICommand FacebookLoginCommand { get { return _facebookLoginCommand; } }
+
+        MvxCommand _gPlusLoginCommand;
+        public ICommand GPlusLoginCommand { get { return _gPlusLoginCommand; } }
+
+        MvxCommand _registrationCommand;
+        public ICommand RegistrationCommand { get { return _registrationCommand; } }
+
+        MvxCommand _forgotPasswordCommand;
+        public ICommand ForgotPasswordCommand { get { return _forgotPasswordCommand; } }
 
         string _loginString;
         public string LoginString
         {
             get { return _loginString; }
             set { SetProperty(ref _loginString, value); }
-        }
-
-        IStoredSettingsService _storedSettingsService;
-        public IStoredSettingsService StoredSettingsService
-        {
-            get { return _storedSettingsService ?? (_storedSettingsService = Mvx.Resolve<IStoredSettingsService>()); }
-        }
-
-        IFacebookLoginService _facebookLoginService;
-        public IFacebookLoginService FacebookLoginService
-        {
-            get { return _facebookLoginService ?? (_facebookLoginService = Mvx.Resolve<IFacebookLoginService>()); }
-        }
-
-        IGPlusLoginService _gPlusLoginService;
-        public IGPlusLoginService GPlusLoginService
-        {
-            get { return _gPlusLoginService ?? (_gPlusLoginService = Mvx.Resolve<IGPlusLoginService>()); }
         }
 
         string _passwordString;
@@ -61,54 +89,11 @@ namespace Tollminder.Core.ViewModels
             }
         }
 
-        public override void Init()
-        {
-            base.Init();
-            LoginString = Login;
-            PasswordString = Password;
-            _dataBaseService = new DataBaseService();
-        }
-
-        public override void Start()
-        {
-            base.Start();
-
-            FacebookLoginService.Initialize();
-            GPlusLoginService.Initialize();
-        }
-
         protected override void SetValidators()
         {
             Validators.Add(new Validator("Login", "Field can't' be empty", () => string.IsNullOrEmpty(LoginString)));
             //Validators.Add(new Validator("Login", "E-mail is not correct", () => !LoginString.ValidateRegExpression(RegularExpressionHelper.EmailRegexpr)));
             Validators.Add(new Validator("Password", "Field can't' be empty", () => string.IsNullOrEmpty(PasswordString)));
-        }
-
-        MvxCommand _emailLoginCommand;
-        public ICommand EmailLoginCommand
-        {
-            get
-            {
-                return _emailLoginCommand ?? (_emailLoginCommand = new MvxCommand(async () => await ServerCommandWrapper(async () => await LoginTask(EmailLoginData))));
-            }
-        }
-
-        MvxCommand _facebookLoginCommand;
-        public ICommand FacebookLoginCommand
-        {
-            get
-            {
-                return _facebookLoginCommand ?? (_facebookLoginCommand = new MvxCommand(async () => await ServerCommandWrapper(async () => await LoginTask(await FacebookLoginService.GetPersonData()))));
-            }
-        }
-
-        MvxCommand _gPlusLoginCommand;
-        public ICommand GPlusLoginCommand
-        {
-            get
-            {
-                return _gPlusLoginCommand ?? (_gPlusLoginCommand = new MvxCommand(async () => await ServerCommandWrapper(async () => await LoginTask(await GPlusLoginService.GetPersonData()))));
-            }
         }
 
         async Task LoginTask(SocialData data)
@@ -145,10 +130,10 @@ namespace Tollminder.Core.ViewModels
             if (success)
             {
                 //_dataBaseService.SetUser(result);
-                StoredSettingsService.Profile = result;
-                StoredSettingsService.IsAuthorized = true;
-                StoredSettingsService.ProfileId = result.Id;
-                StoredSettingsService.AuthToken = result.Token;
+                _storedSettingsService.Profile = result;
+                _storedSettingsService.IsAuthorized = true;
+                _storedSettingsService.ProfileId = result.Id;
+                _storedSettingsService.AuthToken = result.Token;
                 Close(this);
                 ShowViewModel<HomeViewModel>();
             }
@@ -172,36 +157,11 @@ namespace Tollminder.Core.ViewModels
             return false;
         }
 
-
-        MvxCommand _registrationCommand;
-        public ICommand RegistrationCommand
-        {
-            get
-            {
-                return _registrationCommand ?? (_registrationCommand = new MvxCommand(() =>
-                {
-
-                }));
-            }
-        }
-
-        MvxCommand _forgotPasswordCommand;
-        public ICommand ForgotPasswordCommand
-        {
-            get
-            {
-                return _forgotPasswordCommand ?? (_forgotPasswordCommand = new MvxCommand(() =>
-                {
-
-                }));
-            }
-        }
-
         public override void OnDestroy()
         {
             base.OnDestroy();
-            FacebookLoginService.ReleaseResources();
-            GPlusLoginService.ReleaseResources();
+            _facebookLoginService.ReleaseResources();
+            _gPlusLoginService.ReleaseResources();
         }
     }
 }

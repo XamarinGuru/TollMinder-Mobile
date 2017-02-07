@@ -84,7 +84,9 @@
                     android:fontFamily="roboto"
                     android:text="LOGIN"
                     android:textColor="@color/white"
-                    local:MvxBind="Enabled BoolInverseConverter(IsBusy); Click EmailLoginCommand" />
+                    local:com_facebook_confirm_logout="false"
+                    local:com_facebook_tooltip_mode="never_display"
+                    local:MvxBind="Enabled BoolInverseConverter(IsBusy); Click FacebookLoginCommand" />
                 <TextView
                     android:layout_marginTop="10dp"
                     android:layout_width="105dp"
@@ -96,15 +98,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-                    <com.facebook.login.widget.LoginButton
-                        android:id="@+id/login_button"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_weight="1"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                         />
                     <com.google.android.gms.common.SignInButton
                         android:id="@+id/sign_in_button"
                         android:layout_width="0dp"
