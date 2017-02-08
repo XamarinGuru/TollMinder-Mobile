@@ -59,20 +59,22 @@
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
                     android:theme="@style/TextInput"
-                    android:layout_marginBottom="10dp"
                     local:MvxBind="Error Errors['PhoneNumber']">
                     <EditText
-                        android:id="@+id/phone_number_editText"
+                        android:id="@+id/firstName_editText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
-                        android:hint="Phone Number"
+                        android:hint="(000) 000-0000"
                         android:inputType="phone"
-                        android:layout_marginLeft="10dp"
+                        android:maxLength="10"
+                        android:nextFocusDown="@+id/lastName_editText"
+                        android:drawablePadding="5dp"
                         android:padding="10dp"
                         android:singleLine="true"
-                        local:MvxBind="Text Profile.Email;" />
+                        local:MvxBind="Text PhoneNumber" />
                 </android.support.design.widget.TextInputLayout>
                 <Button
                     android:layout_marginTop="10dp"
@@ -83,7 +85,7 @@
                     android:fontFamily="roboto"
                     android:text="Registration"
                     android:textColor="@color/white"
-                    local:MvxBind="Enabled BoolInverseConverter(IsBusy); Click EmailLoginCommand" />
+                    local:MvxBind="Enabled BoolInverseConverter(IsBusy); Click RegistrationCommand" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

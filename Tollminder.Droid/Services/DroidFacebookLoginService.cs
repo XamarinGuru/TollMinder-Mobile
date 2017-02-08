@@ -1,30 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Android.App;
 using Android.Content;
-using Android.OS;
-using Java.Lang;
 using MvvmCross.Platform;
 using MvvmCross.Platform.Droid.Platform;
 using Newtonsoft.Json;
-using Org.Json;
 using Tollminder.Core.Models;
 using Tollminder.Core.Services;
-using Tollminder.Droid.Inerfaces;
-using Tollminder.Droid.Services.FacebookTools;
 using Tollminder.Droid.Views;
 using Xamarin.Auth;
-using Xamarin.Facebook;
-using Xamarin.Facebook.Login;
 
 namespace Tollminder.Droid.Services
 {
     public class DroidFacebookLoginService : IFacebookLoginService
     {
         private Context context;
+        bool isLogin = false;
         Intent loginViewIntent;
-        ProgressDialog progressDialog;
         TaskCompletionSource<SocialData> _facebookTask;
 
         public Task<SocialData> GetPersonData()
@@ -37,7 +29,7 @@ namespace Tollminder.Droid.Services
         private void LoginToFacebook()
         {
             var auth = new OAuth2Authenticator(
-                clientId: "357633207963143",
+                clientId: context.Resources.GetString(Resource.String.app_id),
                 scope: "email",
                 authorizeUrl: new Uri("https://m.facebook.com/dialog/oauth/"),
                 redirectUrl: new Uri("http://www.facebook.com/connect/login_success.html"));
@@ -53,11 +45,13 @@ namespace Tollminder.Droid.Services
                 System.Diagnostics.Debug.WriteLine("Not Authorised");
                 return;
             }
-
-            var accessToken = e.Account.Properties["access_token"].ToString();
+            isLogin = true;
+            var accessToken = e.Account.Properties["access_token"];
             var expiresIn = Convert.ToDouble(e.Account.Properties["expires_in"]);
             var expiryDate = DateTime.Now + TimeSpan.FromSeconds(expiresIn);
+
             await GetAccountInformation(e.Account);
+            Mvx.Resolve<IProgressDialogManager>().ShowProgressDialog("Please wait!", "Facebook authorization. Data loading...");
         }
 
         private async Task GetAccountInformation(Account account)
@@ -65,8 +59,6 @@ namespace Tollminder.Droid.Services
             await new OAuth2Request("GET", new Uri("https://graph.facebook.com/me"), null, account).GetResponseAsync().ContinueWith(async responseAsync =>
             {
                 context.StartActivity(loginViewIntent);
-                progressDialog.Show();
-                
                 var responseName = await responseAsync;
 
                 Dictionary<string, string> responseNameValues = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseName.GetResponseText());
@@ -81,11 +73,11 @@ namespace Tollminder.Droid.Services
                     {
                         Id = GetValue("id", responseEmailValues),
                         Email = GetValue("email", responseEmailValues),
-                        FirstName = name.Remove(0, name.IndexOf(' ')),
+                        FullName = name,
+                        FirstName = name.Substring(0, name.IndexOf(' ')),
                         LastName = name.Substring(name.IndexOf(' ') + 1),
                         Source = AuthorizationType.Facebook
                     });
-                    progressDialog.Dismiss();
                 });
             });
         }
@@ -101,21 +93,13 @@ namespace Tollminder.Droid.Services
             return value;
         }
 
-        private void ShowDialog()
-        {
-            progressDialog = new ProgressDialog(context);
-            progressDialog.SetTitle("Facebook authorization");
-            progressDialog.SetMessage("Please wait! Loading...");
-            progressDialog.Show();
-        }
-
         public void Initialize()
         {
-            context = Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity;
-            loginViewIntent = new Intent(context, typeof(LoginView));
-            progressDialog = new ProgressDialog(context);
-            progressDialog.SetTitle("Facebook authorization");
-            progressDialog.SetMessage("Please wait! Loading...");
+            if (!isLogin)
+            {
+                context = Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity;
+                loginViewIntent = new Intent(context, typeof(LoginView));
+            }
         }
 
         public void ReleaseResources()

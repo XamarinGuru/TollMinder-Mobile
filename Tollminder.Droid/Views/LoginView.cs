@@ -17,20 +17,5 @@ namespace Tollminder.Droid.Views
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.login_view);
         }
-
-        protected override void OnSaveInstanceState(Bundle outState)
-        {
-            base.OnSaveInstanceState(outState);
-        }
-
-        public override void OnRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState)
-        {
-            base.OnRestoreInstanceState(savedInstanceState, persistentState);
-        }
-
-        protected override void OnPause()
-        {
-            base.OnPause();
-        }
     }
 }

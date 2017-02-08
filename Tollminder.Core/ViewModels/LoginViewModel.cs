@@ -18,6 +18,7 @@ namespace Tollminder.Core.ViewModels
         IStoredSettingsService _storedSettingsService;
         IFacebookLoginService _facebookLoginService;
         IGPlusLoginService _gPlusLoginService;
+        private string userName;
 
         public LoginViewModel()
         {
@@ -43,7 +44,7 @@ namespace Tollminder.Core.ViewModels
         {
             base.Start();
 
-           //_facebookLoginService.Initialize();
+           _facebookLoginService.Initialize();
            _gPlusLoginService.Initialize();
         }
 
@@ -119,7 +120,11 @@ namespace Tollminder.Core.ViewModels
                     break;
                 case AuthorizationType.Facebook:
                     result = await _serverApiService.FacebookSignIn(data.Id, data.Source.ToString().ToLower());
-                    success = CheckHttpStatuseCode(result.StatusCode);
+                    if (result != null)
+                    {
+                        userName = data.FullName;
+                        success = CheckHttpStatuseCode(result.StatusCode);
+                    }
                     break;
                 case AuthorizationType.GPlus:
                     result = await _serverApiService.GooglePlusSignIn(data.Email, data.Source.ToString().ToLower());
@@ -142,10 +147,10 @@ namespace Tollminder.Core.ViewModels
         bool CheckHttpStatuseCode(System.Net.HttpStatusCode statusCode)
         {
             switch (statusCode)
-            {
+                {
                 case System.Net.HttpStatusCode.NotFound:
                     Close(this);
-                    ShowViewModel<RegistrationViewModel>();
+                    ShowViewModel<RegistrationViewModel>(new { name = userName });
                     break;
                 case System.Net.HttpStatusCode.OK:
                     return true;

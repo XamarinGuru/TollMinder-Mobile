@@ -75,7 +75,7 @@
                         android:drawablePadding="5dp"
                         android:padding="10dp"
                         android:singleLine="true"
-                        local:MvxBind="Text Profile.FirstName;" />
+                        local:MvxBind="Text Profile.FirstName" />
                 </android.support.design.widget.TextInputLayout>
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="wrap_content"

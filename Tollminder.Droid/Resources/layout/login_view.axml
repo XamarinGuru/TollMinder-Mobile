@@ -98,6 +98,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
+                    <tollminder.droid.controls.ProfileButton
+                        android:id="@+id/facebook_login"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:textColor="@color/white"
+                        android:background="@color/blue_dark"
+                        local:text_profile="Log in"
+                        local:MvxBind="Enabled BoolInverseConverter(IsBusy); Click FacebookLoginCommand"
+                        local:icon_profile="@drawable/ic_facebook" />
                     <com.google.android.gms.common.SignInButton
                         android:id="@+id/sign_in_button"
                         android:layout_width="0dp"
