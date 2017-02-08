@@ -12,7 +12,6 @@ namespace Tollminder.Core.ViewModels
     {
         private Profile profileData;
         private string phoneCode;
-        private bool success;
         IStoredSettingsService storedSettingsService;
         IServerApiService serverApiService;
 
@@ -22,7 +21,7 @@ namespace Tollminder.Core.ViewModels
             serverApiService = Mvx.Resolve<IServerApiService>();
 
             backToLoginViewCommand = new MvxCommand(() => { ShowViewModel<LoginViewModel>(); });
-            registrationCommand = new MvxCommand(async() => await ServerCommandWrapper(async () => await Registration()));
+            registrationCommand = new MvxCommand(async () => await ServerCommandWrapper(async () => await Registration()));
             validateCommand = new MvxCommand(() => ComparePhoneCode());
         }
 
@@ -65,10 +64,20 @@ namespace Tollminder.Core.ViewModels
             set { SetProperty(ref smsCode, value); }
         }
 
+        bool isSmsValidationHidden;
+        public bool IsSmsValidationHidden
+        {
+            get { return isSmsValidationHidden; }
+            set
+            {
+                SetProperty(ref isSmsValidationHidden, value);
+                RaisePropertyChanged(() => IsSmsValidationHidden);
+            }
+        }
+
         void ComparePhoneCode()
         {
-            success = SmsCode == profileData.PhoneCode ? true : false;
-            if(success)
+            if(SmsCode == profileData.PhoneCode ? true : false)
             {
                 storedSettingsService.Profile = profileData;
                 storedSettingsService.IsAuthorized = true;
@@ -88,9 +97,12 @@ namespace Tollminder.Core.ViewModels
             profileData.Phone = PhoneNumber;
 
             var result = await serverApiService.SignUp(profileData);
-            success = CheckHttpStatuseCode(result.StatusCode);
-            if (success)
+            if (CheckHttpStatuseCode(result.StatusCode))
+            {
+                Mvx.Resolve<IProgressDialogManager>().CloseProgressDialog();
+                IsSmsValidationHidden = true;
                 profileData = result;
+            }
         }
 
         bool CheckHttpStatuseCode(System.Net.HttpStatusCode statusCode)

@@ -46,12 +46,6 @@ namespace Tollminder.Droid.Services
 
         public void ShowSmsConfirmation()
         {
-            View view = Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity.LayoutInflater.Inflate(Resource.Layout.calendar_fragment, null);
-            AlertDialog dialog = NotificationView("Please input code from SMS", null);
-            dialog.SetView(view);
-            dialog.Show();
-
-
         }
 
         public void CloseProgressDialog()

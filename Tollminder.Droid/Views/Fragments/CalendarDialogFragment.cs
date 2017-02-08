@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using Android.App;
-using Android.Content;
-using Android.OS;
 using Android.Views;
 using Android.Widget;
-using MvvmCross.Binding.BindingContext;
-using MvvmCross.Binding.Droid.BindingContext;
-using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platform;
 using MvvmCross.Platform.Droid.Platform;
 using Tollminder.Core.Services;
