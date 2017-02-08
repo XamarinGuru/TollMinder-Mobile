@@ -1,5 +1,8 @@
 ﻿using System;
 using Android.App;
+using Android.Views;
+using MvvmCross.Platform;
+using MvvmCross.Platform.Droid.Platform;
 using Plugin.CurrentActivity;
 using Tollminder.Core.Services;
 
@@ -21,19 +24,34 @@ namespace Tollminder.Droid.Services
                 if (progressDialog.IsShowing)
                     progressDialog.Dismiss();
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(CrossCurrentActivity.Current.Activity);
-                AlertDialog dialog = null;
-
-                builder.SetTitle(title);
-                builder.SetMessage(message);
-                builder.SetCancelable(true);
-                builder.SetPositiveButton("Ok", delegate
-                {
-                    dialog.Dismiss();
-                });
-                dialog = builder.Create();
-                dialog.Show();
+                NotificationView(title, message).Show();
             }
+        }
+
+        private AlertDialog NotificationView(string title, string message)
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(CrossCurrentActivity.Current.Activity);
+            AlertDialog dialog = null;
+
+            builder.SetTitle(title);
+            builder.SetMessage(message);
+            builder.SetCancelable(true);
+            builder.SetPositiveButton("Ok", delegate
+            {
+                dialog.Dismiss();
+            });
+            dialog = builder.Create();
+            return dialog;
+        }
+
+        public void ShowSmsConfirmation()
+        {
+            View view = Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity.LayoutInflater.Inflate(Resource.Layout.calendar_fragment, null);
+            AlertDialog dialog = NotificationView("Please input code from SMS", null);
+            dialog.SetView(view);
+            dialog.Show();
+
+
         }
 
         public void CloseProgressDialog()

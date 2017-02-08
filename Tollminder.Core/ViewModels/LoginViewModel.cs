@@ -19,6 +19,7 @@ namespace Tollminder.Core.ViewModels
         IFacebookLoginService _facebookLoginService;
         IGPlusLoginService _gPlusLoginService;
         private string userName;
+        private Profile profileData;
 
         public LoginViewModel()
         {
@@ -43,7 +44,7 @@ namespace Tollminder.Core.ViewModels
         public override void Start()
         {
             base.Start();
-
+            
            _facebookLoginService.Initialize();
            _gPlusLoginService.Initialize();
         }
@@ -92,9 +93,9 @@ namespace Tollminder.Core.ViewModels
 
         protected override void SetValidators()
         {
-            Validators.Add(new Validator("Login", "Field can't' be empty", () => string.IsNullOrEmpty(LoginString)));
+            Validators.Add(new Validator("Login", "Field can't' be empty.", () => string.IsNullOrEmpty(LoginString)));
             //Validators.Add(new Validator("Login", "E-mail is not correct", () => !LoginString.ValidateRegExpression(RegularExpressionHelper.EmailRegexpr)));
-            Validators.Add(new Validator("Password", "Field can't' be empty", () => string.IsNullOrEmpty(PasswordString)));
+            Validators.Add(new Validator("Password", "Field can't' be empty.", () => string.IsNullOrEmpty(PasswordString)));
         }
 
         async Task LoginTask(SocialData data)
@@ -123,6 +124,7 @@ namespace Tollminder.Core.ViewModels
                     if (result != null)
                     {
                         userName = data.FullName;
+                        profileData = GetProfileFromResponse(result, data);
                         success = CheckHttpStatuseCode(result.StatusCode);
                     }
                     break;
@@ -144,19 +146,30 @@ namespace Tollminder.Core.ViewModels
             }
         }
 
+        private Profile GetProfileFromResponse(Profile profileFromResponse, SocialData data)
+        {
+            if (profileFromResponse.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                profileFromResponse.Id = data.Id;
+                profileFromResponse.FirstName = data.FirstName;
+                profileFromResponse.LastName = data.LastName;
+                profileFromResponse.Email = data.Email;
+            }
+            return profileFromResponse;
+        }
+
         bool CheckHttpStatuseCode(System.Net.HttpStatusCode statusCode)
         {
             switch (statusCode)
                 {
+                case System.Net.HttpStatusCode.Unauthorized:
                 case System.Net.HttpStatusCode.NotFound:
                     Close(this);
-                    ShowViewModel<RegistrationViewModel>(new { name = userName });
+                    ShowViewModel<RegistrationViewModel>(new { name = userName, profile = profileData });
                     break;
                 case System.Net.HttpStatusCode.OK:
                     return true;
                 case System.Net.HttpStatusCode.BadRequest:
-                    return false;
-                case System.Net.HttpStatusCode.Unauthorized:
                     return false;
             }
             return false;

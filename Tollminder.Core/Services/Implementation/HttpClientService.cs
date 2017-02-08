@@ -100,10 +100,13 @@ namespace Tollminder.Core.Services.Implementation
                     request.Content = new ProgressStringContent(jsonSerialization, System.Text.Encoding.UTF8, "application/json", actionProgress);
                     using (var response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false))
                     {
-                        if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                        statusCode = response.StatusCode;
+                        switch (response.StatusCode)
                         {
-                            statusCode = response.StatusCode;
-                            return default(TResponse);
+                            case System.Net.HttpStatusCode.Unauthorized:
+                            case System.Net.HttpStatusCode.NotFound:
+                            case System.Net.HttpStatusCode.Found:
+                                return default(TResponse);
                         }
                         var total = response.Content.Headers.ContentLength.HasValue ? response.Content.Headers.ContentLength.Value : -1L;
                         var canReportProgress = total != -1 && progress != null;
@@ -168,7 +171,7 @@ namespace Tollminder.Core.Services.Implementation
             return SendAsync<TRequest, TResponse>(data, url, null);
         }
 
-        public async Task<Profile> CheckProfile<TRequest, TResponse>(TRequest data, string url)
+        public async Task<Profile> CheckProfile<TRequest>(TRequest data, string url)
         {
             var result = await SendAsync<TRequest, Profile>(data, url);
             if (result == null)

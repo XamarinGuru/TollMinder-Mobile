@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:local="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+    <RelativeLayout
+        android:id="@+id/profile_top_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="20dp"
+            android:textSize="20dp"
+            android:layout_centerHorizontal="true"
+            android:text="Please input code from SMS"
+            android:id="@+id/top_profile_label"
+            android:textColor="@color/gray_dark" />
+        <EditText
+            android:layout_width="match_parent"
+            android:id="@+id/sms_code_editText"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:hint="XXXX"
+            android:inputType="numberPassword"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="20dp"
+            android:maxLength="4"
+            android:padding="10dp"
+            android:layout_below="@id/top_profile_label"
+            android:layout_centerVertical="true"
+            android:theme="@style/TextInput"
+            android:singleLine="true"
+            local:MvxBind="Text SmsCode; Error Errors['SmsCode']" />
+        <Button
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/sms_code_editText"
+            android:id="@+id/registration_btn"
+            android:layout_width="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/login_button_background"
+            android:fontFamily="roboto"
+            android:text="Validate"
+            android:textColor="@color/white"
+            local:MvxBind="Enabled BoolInverseConverter(IsBusy); Click ValidateCommand" />
+    </RelativeLayout>
+</RelativeLayout>

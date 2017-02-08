@@ -3,6 +3,8 @@ using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using MvvmCross.Droid.Support.V4;
+using MvvmCross.Platform;
+using Tollminder.Core.Services;
 using Tollminder.Core.ViewModels;
 
 [assembly: MetaData("com.facebook.sdk.ApplicationId", Value = "@string/app_id")]

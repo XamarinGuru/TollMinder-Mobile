@@ -352,6 +352,7 @@
     <Compile Include="Views\Fragments\RoadInformationFragment.cs" />
     <Compile Include="Views\SocialRegistrationView.cs" />
     <Compile Include="Services\DroidProgressDialogManager.cs" />
+    <Compile Include="Views\Fragments\SmsConfirmationFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AboutAssets.txt" />
@@ -565,6 +566,7 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_facebook.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_facebook.png" />
     <AndroidResource Include="Resources\drawable\facebook_button_style.xml" />
+    <AndroidResource Include="Resources\layout\sms_confirmation_view.axml" />
   </ItemGroup>
   <ItemGroup>
     <ProguardConfiguration Include="Properties\AndroidManifest.xml" />

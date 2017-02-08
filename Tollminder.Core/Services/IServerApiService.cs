@@ -10,6 +10,7 @@ namespace Tollminder.Core.Services
 	{
         Task<IList<TollRoad>> RefreshTollRoads (long lastSyncDateTime, CancellationToken token);
         Task<Profile> SignIn(string phone, string password);
+        Task<Profile> SignUp(Profile profile);
         /// <summary>
         /// Sign in using social networks.
         /// </summary>

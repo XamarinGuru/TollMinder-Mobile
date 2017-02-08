@@ -54,7 +54,12 @@ namespace Tollminder.Core.Services.Implementation
                 ["source"] = source
             };
 
-            return CheckProfile<Dictionary<string, object>, Profile>(parameters, $"{BaseApiUrl}user/oauth");
+            return CheckProfile<Dictionary<string, object>>(parameters, $"{BaseApiUrl}user/oauth");
+        }
+
+        public Task<Profile> SignUp(Profile profile)
+        {
+            return CheckProfile<Profile>(profile, $"{BaseApiUrl}user/signup");
         }
 
         public Task<Profile> GooglePlusSignIn(string email, string source)
@@ -65,7 +70,7 @@ namespace Tollminder.Core.Services.Implementation
                 ["source"] = source
             };
 
-            return CheckProfile<Dictionary<string, object>, Profile>(parameters, $"{BaseApiUrl}user/oauth");
+            return CheckProfile<Dictionary<string, object>>(parameters, $"{BaseApiUrl}user/oauth");
         }
 
         public Task<string> DownloadPayHistory(string userId, DateTime dateFrom, DateTime dateTo)
