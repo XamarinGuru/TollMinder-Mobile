@@ -559,6 +559,12 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\home_board.9.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\home_board.9.png" />
     <AndroidResource Include="Resources\layout\social_registration_view.axml" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_facebook.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_facebook.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_facebook.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_facebook.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_facebook.png" />
+    <AndroidResource Include="Resources\drawable\facebook_button_style.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProguardConfiguration Include="Properties\AndroidManifest.xml" />

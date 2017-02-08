@@ -6,12 +6,8 @@ using SQLiteNetExtensions.Attributes;
 namespace Tollminder.Core.Models
 {
     [Table("DriverLicense")]
-    public class DriverLicense //: IDatabaseEntry
+    public class DriverLicense
     {
-        //[PrimaryKey]
-        //public string Id { get; set; }
-        //[ForeignKey(typeof(Profile))]
-        //public string ProfileId { get; set; }
         [JsonProperty(PropertyName = "licensePlate")]
         public string LicensePlate { get; set; }
         [JsonProperty(PropertyName = "state")]

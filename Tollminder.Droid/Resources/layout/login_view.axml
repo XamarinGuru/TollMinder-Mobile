@@ -84,9 +84,7 @@
                     android:fontFamily="roboto"
                     android:text="LOGIN"
                     android:textColor="@color/white"
-                    local:com_facebook_confirm_logout="false"
-                    local:com_facebook_tooltip_mode="never_display"
-                    local:MvxBind="Enabled BoolInverseConverter(IsBusy); Click FacebookLoginCommand" />
+                    local:MvxBind="Enabled BoolInverseConverter(IsBusy); Click EmailLoginCommand" />
                 <TextView
                     android:layout_marginTop="10dp"
                     android:layout_width="105dp"
@@ -98,16 +96,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-                    <tollminder.droid.controls.ProfileButton
+                    <Button
                         android:id="@+id/facebook_login"
+						android:layout_marginTop="3dp"
                         android:layout_width="0dp"
-                        android:layout_height="30dp"
+                        android:layout_height="43dp"
                         android:layout_weight="1"
                         android:textColor="@color/white"
-                        android:background="@color/blue_dark"
-                        local:text_profile="Log in"
-                        local:MvxBind="Enabled BoolInverseConverter(IsBusy); Click FacebookLoginCommand"
-                        local:icon_profile="@drawable/ic_facebook" />
+                        android:background="@drawable/facebook_button_style"
+                        android:drawableLeft="@drawable/ic_facebook"
+                        android:drawablePadding="20dp"
+                        android:gravity="left|center"
+                        android:padding="6dp"
+                        android:text="Log in"
+						android:textAllCaps="false"
+                        local:MvxBind="Enabled BoolInverseConverter(IsBusy); Click FacebookLoginCommand" />
                     <com.google.android.gms.common.SignInButton
                         android:id="@+id/sign_in_button"
                         android:layout_width="0dp"

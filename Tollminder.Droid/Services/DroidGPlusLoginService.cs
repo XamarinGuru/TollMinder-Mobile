@@ -47,8 +47,8 @@ namespace Tollminder.Droid.Services
                 .AddConnectionCallbacks(this)
                 .AddOnConnectionFailedListener(this)
                 .AddApi(PlusClass.API)
-                                                 .AddScope(PlusClass.ScopePlusLogin)
-                                                 .AddScope(PlusClass.ScopePlusProfile)
+                .AddScope(PlusClass.ScopePlusLogin)
+                .AddScope(PlusClass.ScopePlusProfile)
                 .Build();
             //gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
             //   .RequestEmail()
