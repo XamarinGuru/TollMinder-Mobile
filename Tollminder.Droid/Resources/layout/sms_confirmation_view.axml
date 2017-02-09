@@ -3,11 +3,15 @@
     xmlns:local="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:background="@drawable/tab_background">
     <RelativeLayout
         android:id="@+id/profile_top_navigation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:background="@color/white">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,7 +32,6 @@
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             android:layout_marginBottom="20dp"
-            android:maxLength="4"
             android:padding="10dp"
             android:layout_below="@id/top_profile_label"
             android:layout_centerVertical="true"
@@ -44,6 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
+            android:layout_marginBottom="50dp"
             android:background="@drawable/login_button_background"
             android:fontFamily="roboto"
             android:text="Validate"

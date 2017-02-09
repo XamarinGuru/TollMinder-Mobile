@@ -6,6 +6,6 @@ namespace Tollminder.Core.Services
         void ShowProgressDialog(string title, string message);
         void CloseProgressDialog();
         void CloseAndShowMessage(string title, string message);
-        void ShowSmsConfirmation();
+        void ShowMessage(string title, string message);
     }
 }

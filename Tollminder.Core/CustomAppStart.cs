@@ -13,13 +13,13 @@ namespace Tollminder.Core
         {
             var storedSettings = Mvx.Resolve<IStoredSettingsService>();
 
-            //if (storedSettings.IsAuthorized)
-            //{
-            //    ShowViewModel<HomeViewModel>();
-            //}
-            //else
-            //    ShowViewModel<LoginViewModel>();
-            ShowViewModel<RegistrationViewModel>();
+            if (storedSettings.IsAuthorized)
+            {
+                ShowViewModel<HomeViewModel>();
+            }
+            else
+                ShowViewModel<LoginViewModel>();
+            //ShowViewModel<HomeViewModel>();
         }
     }
 }

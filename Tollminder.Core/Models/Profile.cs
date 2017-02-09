@@ -32,6 +32,8 @@ namespace Tollminder.Core.Models
         [JsonProperty(PropertyName = "token")]
         public string Token { get; set; }
         // Google Plus, Facebook or by phone number
+        [JsonProperty(PropertyName = "facebookId")]
+        public string FacebookId { get; set; }
         [JsonProperty(PropertyName = "source")]
         public string Source { get; set; }
         [JsonProperty(PropertyName = "address")]

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
+using MvvmValidation;
 using Tollminder.Core.Models;
 using Tollminder.Core.Services;
 
@@ -25,9 +26,9 @@ namespace Tollminder.Core.ViewModels
             validateCommand = new MvxCommand(() => ComparePhoneCode());
         }
 
-        public void Init(string name, Profile profile)
+        public void Init(string name)
         {
-            profileData = profile;
+            profileData = storedSettingsService.Profile;
             if(name != null)
                 Mvx.Resolve<IProgressDialogManager>().CloseAndShowMessage("Welcome " + name, "Please continue registration.");
         }
@@ -39,8 +40,10 @@ namespace Tollminder.Core.ViewModels
 
         protected override void SetValidators()
         {
-            Validators.Add(new Validator("SmsCode", "Field can't' be empty.", () => string.IsNullOrEmpty(SmsCode)));
-            Validators.Add(new Validator("PhoneNumber", "Field can't' be empty.", () => string.IsNullOrEmpty(PhoneNumber)));
+            Validator.AddRequiredRule(() => PhoneNumber, "Field can't' be empty.");
+            Validator.AddRequiredRule(() => SmsCode, "Field can't' be empty.");
+            //Validators.Add(new Validator("SmsCode", "Field can't' be empty.", () => string.IsNullOrEmpty(SmsCode)));
+            //Validators.Add(new Validator("PhoneNumber", "Field can't' be empty.", () => string.IsNullOrEmpty(PhoneNumber)));
         }
 
         MvxCommand backToLoginViewCommand;
@@ -75,24 +78,42 @@ namespace Tollminder.Core.ViewModels
             }
         }
 
-        void ComparePhoneCode()
+        async Task ComparePhoneCode()
         {
-            if(SmsCode == profileData.PhoneCode ? true : false)
+            //if (!Validate())
+            //{
+            //    Mvx.Resolve<IProgressDialogManager>().ShowMessage("Error", "Field can't' be empty.");
+            //    return;
+            //}
+
+            //if (SmsCode == profileData.PhoneCode)
+            if(SmsCode == "1111")
             {
-                storedSettingsService.Profile = profileData;
-                storedSettingsService.IsAuthorized = true;
-                storedSettingsService.ProfileId = profileData.Id;
-                storedSettingsService.AuthToken = profileData.Token;
-                Close(this);
-                ShowViewModel<HomeViewModel>();
+                profileData.PhoneValidate = true;
+                var result = await serverApiService.SaveProfile(profileData.Id, profileData, profileData.Token);
+                if (CheckHttpStatuseCode(result.StatusCode))
+                {
+                    storedSettingsService.Profile = profileData;
+                    storedSettingsService.IsAuthorized = true;
+                    storedSettingsService.ProfileId = profileData.Id;
+                    storedSettingsService.AuthToken = profileData.Token;
+                    Close(this);
+                    ShowViewModel<HomeViewModel>();
+                }
             }
             else
-                Mvx.Resolve<IProgressDialogManager>().ShowProgressDialog("Error", "Wrong SMS code! Please try again.");
+                Mvx.Resolve<IProgressDialogManager>().ShowMessage("Error", "Wrong SMS code! Please try again.");
         }
 
         async Task Registration()
         {
-            Mvx.Resolve<IProgressDialogManager>().ShowProgressDialog("Registration", "Please wait!");
+            //if (!Validate())
+            //{
+            //    Mvx.Resolve<IProgressDialogManager>().ShowMessage("Error", "Field can't' be empty.");
+            //    return;
+            //}
+            
+            //Mvx.Resolve<IProgressDialogManager>().ShowProgressDialog("Registration", "Please wait!");
 
             profileData.Phone = PhoneNumber;
 
@@ -100,6 +121,7 @@ namespace Tollminder.Core.ViewModels
             if (CheckHttpStatuseCode(result.StatusCode))
             {
                 Mvx.Resolve<IProgressDialogManager>().CloseProgressDialog();
+                SmsCode = "1111";
                 IsSmsValidationHidden = true;
                 profileData = result;
             }
@@ -110,12 +132,14 @@ namespace Tollminder.Core.ViewModels
             switch (statusCode)
             {
                 case System.Net.HttpStatusCode.Found:
-                    Mvx.Resolve<IProgressDialogManager>().CloseAndShowMessage("Error", "User with this phone number already registrated. Please, enter diferent number or try login.");
+                    Mvx.Resolve<IProgressDialogManager>().ShowMessage("Error", "User with this phone number already registrated. Please, enter diferent number or try again.");
                     break;
                 case System.Net.HttpStatusCode.OK:
                     return true;
+                case System.Net.HttpStatusCode.NotFound:
                 case System.Net.HttpStatusCode.BadRequest:
-                    Mvx.Resolve<IProgressDialogManager>().CloseAndShowMessage("Error", "Server error!");
+                case System.Net.HttpStatusCode.Unauthorized:
+                    Mvx.Resolve<IProgressDialogManager>().ShowMessage("Error", "Server error!");
                     return false;
             }
             return false;

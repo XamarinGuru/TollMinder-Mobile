@@ -52,49 +52,46 @@
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:orientation="vertical">
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
                 <android.support.design.widget.TextInputLayout
+                    android:id="@+id/phoneNumber_editText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
+                    android:layout_centerHorizontal="true"
                     android:theme="@style/TextInput"
                     local:MvxBind="Error Errors['PhoneNumber']">
                     <EditText
-                        android:id="@+id/firstName_editText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
                         android:hint="(000) 000-0000"
                         android:inputType="phone"
                         android:maxLength="10"
-                        android:nextFocusDown="@+id/lastName_editText"
                         android:drawablePadding="5dp"
                         android:padding="10dp"
                         android:singleLine="true"
                         local:MvxBind="Text PhoneNumber" />
                 </android.support.design.widget.TextInputLayout>
                 <Button
+                    android:layout_below="@id/phoneNumber_editText"
                     android:layout_marginTop="10dp"
                     android:id="@+id/registration_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
                     android:background="@drawable/login_button_background"
                     android:fontFamily="roboto"
                     android:text="Registration"
                     android:textColor="@color/white"
                     local:MvxBind="Enabled BoolInverseConverter(IsBusy); Click RegistrationCommand" />
-            </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="240dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp">
+        android:layout_height="match_parent">
         <android.support.v4.view.ViewPager
             android:id="@+id/boardPager"
             android:layout_width="match_parent"

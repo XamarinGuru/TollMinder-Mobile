@@ -7,6 +7,8 @@ using Chance.MvvmCross.Plugins.UserInteraction;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using MvvmCross.Plugins.Messenger;
+using MvvmValidation;
+using Tollminder.Core.Extensions.FieldValidator;
 using Tollminder.Core.Models;
 using Tollminder.Core.Services;
 
@@ -18,12 +20,28 @@ namespace Tollminder.Core.ViewModels
 
         protected List<MvxSubscriptionToken> _subscriptions = new List<MvxSubscriptionToken>();
 
-        Dictionary<string, string> _errors = new Dictionary<string, string>();
-        public Dictionary<string, string> Errors
+        //Dictionary<string, string> _errors = new Dictionary<string, string>();
+        ValidationHelper validator;
+        public ValidationHelper Validator
         {
-            get { return _errors; }
-            set { _errors = value; RaisePropertyChanged(() => Errors); }
+            get { return validator; }
+            set { 
+                validator = value;
+                RaisePropertyChanged(() => Validator);
+            }
         }
+
+        ObservableDictionary<string, string> errors;
+        public ObservableDictionary<string, string> Errors
+        {
+            get { return errors; }
+            set { errors = value; RaisePropertyChanged(() => Errors); }
+        }
+        //public Dictionary<string, string> Errors
+        //{
+        //    get { return _errors; }
+        //    set { _errors = value; RaisePropertyChanged(() => Errors); }
+        //}
 
         List<Validator> _validators = new List<Validator>();
         public List<Validator> Validators
@@ -62,6 +80,7 @@ namespace Tollminder.Core.ViewModels
 
         public BaseViewModel()
         {
+            validator = new ValidationHelper();
             _insightsService = Mvx.Resolve<IInsightsService>();
         }
 
@@ -76,10 +95,15 @@ namespace Tollminder.Core.ViewModels
 
         protected bool Validate()
         {
-            foreach (var item in Validators)
-                UpdateError(item.Validate());
+            var result = Validator.ValidateAll();
 
-            return Errors.Count == 0;
+            Errors = result.AsObservableDictionary();
+
+            return result.IsValid;
+            //foreach (var item in Validators)
+            //    UpdateError(item.Validate());
+
+            //return Errors.Count == 0;
         }
 
         protected virtual async Task ServerCommandWrapperParrallel(Func<Task> action)

@@ -461,7 +461,6 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher.png" />
     <AndroidResource Include="Resources\drawable-hdpi\home_board_.png" />
     <AndroidResource Include="Resources\drawable-mdpi\home_board_.png" />
-    <AndroidResource Include="Resources\drawable-xhdpi\home_board_.png" />
     <AndroidResource Include="Resources\layout\profile_view.axml" />
     <AndroidResource Include="Resources\drawable-hdpi\tab_background.png" />
     <AndroidResource Include="Resources\drawable-mdpi\tab_background.png" />
@@ -474,8 +473,6 @@
     <AndroidResource Include="Resources\layout\credit_card_view.axml" />
     <AndroidResource Include="Resources\drawable\creditCards.png" />
     <AndroidResource Include="Resources\drawable\button_style.xml" />
-    <AndroidResource Include="Resources\drawable-xxhdpi\home_board_.png" />
-    <AndroidResource Include="Resources\drawable-xxxhdpi\home_board_.png" />
     <AndroidResource Include="Resources\layout\profile_view_button.axml" />
     <AndroidResource Include="Resources\drawable\profile_view_button_background.xml" />
     <AndroidResource Include="Resources\drawable-hdpi\ic_calendar.png" />
@@ -517,9 +514,6 @@
     <AndroidResource Include="Resources\drawable\logout_button_style.xml" />
     <AndroidResource Include="Resources\drawable-hdpi\banner.9.png" />
     <AndroidResource Include="Resources\drawable-mdpi\banner.9.png" />
-    <AndroidResource Include="Resources\drawable-xhdpi\banner.9.png" />
-    <AndroidResource Include="Resources\drawable-xxhdpi\banner.9.png" />
-    <AndroidResource Include="Resources\drawable-xxxhdpi\banner.9.png" />
     <AndroidResource Include="Resources\layout\button_container_fragment.axml" />
     <AndroidResource Include="Resources\layout\board_information_label_view.axml" />
     <AndroidResource Include="Resources\drawable\profile_view_button.axml" />
@@ -551,9 +545,6 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_tollroad.png" />
     <AndroidResource Include="Resources\drawable-hdpi\home_board_new.9.png" />
     <AndroidResource Include="Resources\drawable-mdpi\home_board_new.9.png" />
-    <AndroidResource Include="Resources\drawable-xhdpi\home_board_new.9.png" />
-    <AndroidResource Include="Resources\drawable-xxhdpi\home_board_new.9.png" />
-    <AndroidResource Include="Resources\drawable-xxxhdpi\home_board_new.9.png" />
     <AndroidResource Include="Resources\drawable-hdpi\home_board.9.png" />
     <AndroidResource Include="Resources\drawable-mdpi\home_board.9.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\home_board.9.png" />

@@ -44,8 +44,9 @@ namespace Tollminder.Droid.Services
             return dialog;
         }
 
-        public void ShowSmsConfirmation()
+        public void ShowMessage(string title, string message)
         {
+            CloseAndShowMessage(title, message);
         }
 
         public void CloseProgressDialog()
@@ -59,13 +60,16 @@ namespace Tollminder.Droid.Services
 
         public void ShowProgressDialog(string title, string message)
         {
-            if (progressDialog != null)
+            if (!CrossCurrentActivity.Current.Activity.IsFinishing)
             {
-                if (!progressDialog.IsShowing)
+                if (progressDialog != null)
                 {
-                    progressDialog.SetTitle(title);
-                    progressDialog.SetMessage(message);
-                    progressDialog.Show();
+                    if (!progressDialog.IsShowing)
+                    {
+                        progressDialog.SetTitle(title);
+                        progressDialog.SetMessage(message);
+                        progressDialog.Show();
+                    }
                 }
             }
         }

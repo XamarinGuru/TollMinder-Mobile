@@ -105,7 +105,7 @@ namespace Tollminder.Core.Services.Implementation
             return GetAsync<Profile>($"{BaseApiUrl}user/{userId}", authToken);
         }
 
-        public Task<System.Net.HttpStatusCode> SaveProfile(string userId, Profile profile, string authToken)
+        public Task<Profile> SaveProfile(string userId, Profile profile, string authToken)
         {
             return SendAsync<Profile>(profile, $"{BaseApiUrl}user/{userId}", new CancellationTokenSource(), authToken);
         }

@@ -70,5 +70,10 @@ namespace Tollminder.Droid
 
             //registry.AddOrOverwrite("BoolInverseConverter", new BoolInverseConverter());
 		}
+
+        protected override void FillTargetFactories(MvvmCross.Binding.Bindings.Target.Construction.IMvxTargetBindingFactoryRegistry registry)
+        {
+            base.FillTargetFactories(registry);
+        }
     }
 }

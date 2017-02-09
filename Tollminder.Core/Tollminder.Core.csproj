@@ -153,6 +153,8 @@
     <Compile Include="Services\Implementation\SynchronisationService.cs" />
     <Compile Include="ViewModels\RegistrationViewModel.cs" />
     <Compile Include="Services\IProgressDialogManager.cs" />
+    <Compile Include="Extensions\FieldValidator\ValidationResultExtension.cs" />
+    <Compile Include="Extensions\FieldValidator\ObservableDictionary.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
@@ -174,6 +176,7 @@
     <Folder Include="Exceptions\Interfaces\" />
     <Folder Include="Helpers\HttpHelpers\" />
     <Folder Include="Utils\Slack\" />
+    <Folder Include="Extensions\FieldValidator\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="ModernHttpClient">
@@ -256,6 +259,12 @@
     </Reference>
     <Reference Include="Xamarin.Forms.Xaml">
       <HintPath>..\packages\Xamarin.Forms.2.3.3.175\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.Xaml.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmValidation">
+      <HintPath>..\packages\MvvmValidation.3.0.0\lib\netstandard1.0\MvvmValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Plugins.Validation">
+      <HintPath>..\packages\MvvmCross.Plugins.Validation.2.1.2\lib\portable-net45+netcore45+wpa81\MvvmCross.Plugins.Validation.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

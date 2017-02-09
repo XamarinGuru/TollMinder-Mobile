@@ -22,7 +22,7 @@ namespace Tollminder.Core.Services
         Task<Profile> GetProfile(string userId, string authToken = null);
         Task<List<PayHistory>> GetPayHistory(string userId, DateTime dateFrom, DateTime dateTo);
         Task<string> DownloadPayHistory(string userId, DateTime dateFrom, DateTime dateTo);
-        Task<System.Net.HttpStatusCode> SaveProfile(string userId, Profile profile, string authToken);
+        Task<Profile> SaveProfile(string userId, Profile profile, string authToken);
         Task<string> GetValidAuthorizeToken(string userId, string authToken);
 	}
 }

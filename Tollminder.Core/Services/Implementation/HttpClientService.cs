@@ -90,7 +90,6 @@ namespace Tollminder.Core.Services.Implementation
             {
                 using (var request = new HttpRequestMessage(HttpMethod.Post, url))
                 {
-                    List<byte> byteData = new List<byte>();
                     var jsonSerialization = JsonConvert.SerializeObject(data);
                     Action<double> actionProgress = null;
                     if (progress != null)
@@ -100,58 +99,10 @@ namespace Tollminder.Core.Services.Implementation
                     request.Content = new ProgressStringContent(jsonSerialization, System.Text.Encoding.UTF8, "application/json", actionProgress);
                     using (var response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false))
                     {
-                        statusCode = response.StatusCode;
-                        switch (response.StatusCode)
-                        {
-                            case System.Net.HttpStatusCode.Unauthorized:
-                            case System.Net.HttpStatusCode.NotFound:
-                            case System.Net.HttpStatusCode.Found:
-                                return default(TResponse);
-                        }
-                        var total = response.Content.Headers.ContentLength.HasValue ? response.Content.Headers.ContentLength.Value : -1L;
-                        var canReportProgress = total != -1 && progress != null;
-                        if (!response.IsSuccessStatusCode)
-                        {
-                            var stringJson = await response.Content.ReadAsStringAsync();
-
-                            var error = JsonConvert.DeserializeObject<ErrorApiResponse>(stringJson);
-
-                            HttpExceptionHandler.Handle(response.StatusCode, error.Message);
-                        }
-                        using (var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                        {
-                            var totalRead = 0L;
-                            var buffer = new byte[BufferSize];
-                            var isMoreToRead = true;
-                            do
-                            {
-                                token.ThrowIfCancellationRequested();
-                                var read = await stream.ReadAsync(buffer, 0, buffer.Length, token).ConfigureAwait(false);
-                                if (read == 0)
-                                {
-                                    isMoreToRead = false;
-                                }
-                                else
-                                {
-                                    if (read != buffer.Length)
-                                    {
-                                        byte[] cpArray = new byte[read];
-                                        Array.Copy(buffer, cpArray, read);
-                                        byteData.AddRange(cpArray);
-                                    }
-                                    else {
-                                        byteData.AddRange(buffer);
-                                    }
-                                    totalRead += read;
-                                    if (canReportProgress)
-                                    {
-                                        progress.Report(new ProgressCompleted((double)totalRead / total * 100));
-                                    }
-                                }
-                            } while (isMoreToRead);
-                        }
-                        var responseJson = System.Text.Encoding.UTF8.GetString(byteData.ToArray(), 0, byteData.Count);
-                        var returnObject = JsonConvert.DeserializeObject<TResponse>(responseJson);
+                        if (!CheckStatusCode(response))
+                            return default(TResponse);
+                        
+                        var returnObject = JsonConvert.DeserializeObject<TResponse>(await ParseJson(response, progress, token));
                         return returnObject;
                     }
                 }
@@ -190,7 +141,7 @@ namespace Tollminder.Core.Services.Implementation
         /// <param name="data">Data.</param>
         /// <param name="url">URL.</param>
         /// <param name="token">Token.</param>
-        public virtual async Task<System.Net.HttpStatusCode> SendAsync<TRequest>(TRequest data, string url, CancellationTokenSource token, string authToken)
+        public virtual async Task<Profile> SendAsync<TRequest>(TRequest data, string url, CancellationTokenSource token, string authToken)
         {
             using (var request = new HttpRequestMessage(HttpMethod.Put, url))
             {
@@ -202,9 +153,75 @@ namespace Tollminder.Core.Services.Implementation
                 request.Content = new ProgressStringContent(jsonSerialization, System.Text.Encoding.UTF8, "application/json", actionProgress);
                 using (var response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token.Token).ConfigureAwait(false))
                 {
-                    return response.StatusCode;
+                    if (!CheckStatusCode(response))
+                        return default(Profile);
+
+                    var returnObject = JsonConvert.DeserializeObject<Profile>(await ParseJson(response, null, token.Token));
+                    returnObject.StatusCode = statusCode;
+                    return returnObject;
                 }
             }
+        }
+
+        private bool CheckStatusCode(HttpResponseMessage response)
+        {
+            statusCode = response.StatusCode;
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.Unauthorized:
+                case HttpStatusCode.NotFound:
+                case HttpStatusCode.Found:
+                    return false;
+            }
+            return true;
+        }
+
+        private async Task<string> ParseJson(HttpResponseMessage response, IProgress<ProgressCompleted> progress, CancellationToken token)
+        {
+            List<byte> byteData = new List<byte>();
+            var total = response.Content.Headers.ContentLength.HasValue ? response.Content.Headers.ContentLength.Value : -1L;
+            var canReportProgress = total != -1 && progress != null;
+            if (!response.IsSuccessStatusCode)
+            {
+                var stringJson = await response.Content.ReadAsStringAsync();
+
+                var error = JsonConvert.DeserializeObject<ErrorApiResponse>(stringJson);
+
+                HttpExceptionHandler.Handle(response.StatusCode, error.Message);
+            }
+            using (var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+            {
+                var totalRead = 0L;
+                var buffer = new byte[BufferSize];
+                var isMoreToRead = true;
+                do
+                {
+                    token.ThrowIfCancellationRequested();
+                    var read = await stream.ReadAsync(buffer, 0, buffer.Length, token).ConfigureAwait(false);
+                    if (read == 0)
+                    {
+                        isMoreToRead = false;
+                    }
+                    else
+                    {
+                        if (read != buffer.Length)
+                        {
+                            byte[] cpArray = new byte[read];
+                            Array.Copy(buffer, cpArray, read);
+                            byteData.AddRange(cpArray);
+                        }
+                        else {
+                            byteData.AddRange(buffer);
+                        }
+                        totalRead += read;
+                        if (canReportProgress)
+                        {
+                            progress.Report(new ProgressCompleted((double)totalRead / total * 100));
+                        }
+                    }
+                } while (isMoreToRead);
+            }
+            return System.Text.Encoding.UTF8.GetString(byteData.ToArray(), 0, byteData.Count);
         }
 
         #endregion

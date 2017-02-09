@@ -18,7 +18,6 @@ namespace Tollminder.Core.ViewModels
         IFacebookLoginService _facebookLoginService;
         IGPlusLoginService _gPlusLoginService;
         private string userName;
-        private Profile profileData;
 
         public LoginViewModel()
         {
@@ -123,7 +122,7 @@ namespace Tollminder.Core.ViewModels
                     if (result != null)
                     {
                         userName = data.FullName;
-                        profileData = GetProfileFromResponse(result, data);
+                        _storedSettingsService.Profile = GetProfileFromResponse(result, data);
                         success = CheckHttpStatuseCode(result.StatusCode);
                     }
                     break;
@@ -149,10 +148,11 @@ namespace Tollminder.Core.ViewModels
         {
             if (profileFromResponse.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
-                profileFromResponse.Id = data.Id;
                 profileFromResponse.FirstName = data.FirstName;
                 profileFromResponse.LastName = data.LastName;
                 profileFromResponse.Email = data.Email;
+                profileFromResponse.FacebookId = data.Id;
+                profileFromResponse.Source = data.Source.ToString().ToLower();
             }
             return profileFromResponse;
         }
@@ -164,7 +164,7 @@ namespace Tollminder.Core.ViewModels
                 case System.Net.HttpStatusCode.Unauthorized:
                 case System.Net.HttpStatusCode.NotFound:
                     Close(this);
-                    ShowViewModel<RegistrationViewModel>(new { name = userName, profile = profileData });
+                    ShowViewModel<RegistrationViewModel>(new { name = userName });
                     break;
                 case System.Net.HttpStatusCode.OK:
                     return true;

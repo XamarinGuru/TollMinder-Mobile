@@ -37,7 +37,7 @@ namespace Tollminder.Core.Services.Implementation
             else
             {
                 var result = await serverApiService.SaveProfile(storedSettingsService.ProfileId, storedSettingsService.Profile, storedSettingsService.AuthToken);
-                if (result == System.Net.HttpStatusCode.OK)
+                if (result.StatusCode == System.Net.HttpStatusCode.OK)
                     storedSettingsService.IsDataSynchronized = true;
             }
         }

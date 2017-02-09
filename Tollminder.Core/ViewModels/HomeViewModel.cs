@@ -54,7 +54,11 @@ namespace Tollminder.Core.ViewModels
             if (await synchronisationService.AuthorizeTokenSynchronisation())
                 await Task.Run(RefreshToolRoads);
             else
+            {
+                Close(this);
                 ShowViewModel<LoginViewModel>();
+                return;
+            }
             
             base.Start();
             _tokens.Add(_messenger.SubscribeOnMainThread<GeoWatcherStatusMessage>((s) => IsBound = s.Data, MvxReference.Strong));
