@@ -31,22 +31,33 @@ namespace Tollminder.Core.ViewModels
             _track = track;
             _geoWatcher = geoWatcher;
             _storedSettingsService = storedSettingsService;
+
             synchronisationService = Mvx.Resolve<ISynchronisationService>();
-            try
+
+            logoutCommand = new MvxCommand(() =>
             {
-                logoutCommand = new MvxCommand(() =>
-                {
-                    _track.StopServices();
-                    _storedSettingsService.IsAuthorized = false;
-                    ShowViewModel<LoginViewModel>();
-                });
-            }
-            catch(Exception ex)
+                _track.StopServices();
+                _storedSettingsService.IsAuthorized = false;
+                Close(this);
+                ShowViewModel<LoginViewModel>();
+            });
+            _profileCommand = new MvxCommand(() => { ShowViewModel<ProfileViewModel>(); });
+            _payCommand = new MvxCommand(() => { });
+            _payHistoryCommand = new MvxCommand(() => { ShowViewModel<PayHistoryViewModel>(); });
+            _trackingCommand = new MvxCommand(async () =>
             {
-                Debug.WriteLine(ex.Message, ex.StackTrace);
-            }
+                var result = IsBound ? _track.StopServices() : await _track.StartServices();
+                if (result)
+                    IsBound = _geoWatcher.IsBound;
+            });
 
             _tokens = new List<MvxSubscriptionToken>();
+        }
+
+        public void Init(string name, string message)
+        {
+            if (name != null)
+                Mvx.Resolve<IProgressDialogManager>().CloseAndShowMessage(message + name, "");
         }
 
 		public async override void Start()
@@ -85,6 +96,21 @@ namespace Tollminder.Core.ViewModels
             return ServerCommandWrapper(() => Mvx.Resolve<IGeoDataService>().RefreshTollRoads(CancellationToken.None));
         }
 
+        MvxCommand _trackingCommand;
+        public ICommand TrackingCommand { get { return _trackingCommand; } }
+
+        MvxCommand _profileCommand;
+        public ICommand ProfileCommand{ get { return _profileCommand; } }
+
+        MvxCommand _payCommand;
+        public ICommand PayCommand{ get { return _payCommand; } }
+
+        MvxCommand _payHistoryCommand;
+        public ICommand PayHistoryCommand{ get { return _payHistoryCommand; } }
+
+        MvxCommand logoutCommand;
+        public ICommand LogoutCommand{ get { return logoutCommand; } }
+
         bool _isBound;
         public bool IsBound
         {
@@ -99,69 +125,6 @@ namespace Tollminder.Core.ViewModels
         public string TrackingText
         {
             get { return IsBound ? "TRACKING IS ON" : "TRACKING IS OFF"; }
-        }
-
-        MvxCommand _trackingCommand;
-        public ICommand TrackingCommand
-        {
-            get
-            {
-                return _trackingCommand ?? (_trackingCommand = new MvxCommand(async () =>
-                {
-                    var result = false;
-                        result = IsBound? 
-                        _track.StopServices(): await _track.StartServices();
-                    
-                    if (result)
-                        IsBound = _geoWatcher.IsBound;
-                }));
-            }
-        }
-
-        //Now works as logout
-        MvxCommand _profileCommand;
-        public ICommand ProfileCommand
-        {
-            get
-            {
-                return _profileCommand ?? (_profileCommand = new MvxCommand(() =>
-                {
-                    ShowViewModel<ProfileViewModel>();
-                }));
-            }
-        }
-
-        MvxCommand _payCommand;
-        public ICommand PayCommand
-        {
-            get
-            {
-                return _payCommand ?? (_payCommand = new MvxCommand(() =>
-                {
-                    return;
-                }));
-            }
-        }
-
-        MvxCommand _payHistoryCommand;
-        public ICommand PayHistoryCommand
-        {
-            get
-            {
-                return _payHistoryCommand ?? (_payHistoryCommand = new MvxCommand(() =>
-                {
-                    ShowViewModel<PayHistoryViewModel>();
-                }));
-            }
-        }
-
-        MvxCommand logoutCommand;
-        public ICommand LogoutCommand
-        {
-            get
-            {
-                return logoutCommand;
-            }
         }
 
         string _supportText = $"Call Center:{Environment.NewLine}+(1) 305 335 85 08";

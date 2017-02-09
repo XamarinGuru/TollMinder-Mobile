@@ -27,7 +27,7 @@ namespace Tollminder.Core.ViewModels
             _emailLoginCommand = new MvxCommand(async () => await ServerCommandWrapper(async () => await LoginTask(EmailLoginData)));
             _facebookLoginCommand = new MvxCommand(async () => await ServerCommandWrapper(async () => await LoginTask(await _facebookLoginService.GetPersonData())));
             _gPlusLoginCommand = new MvxCommand(async () => await ServerCommandWrapper(async () => await LoginTask(await _gPlusLoginService.GetPersonData())));
-            _registrationCommand = new MvxCommand(() => { });
+            _registrationCommand = new MvxCommand(() => { SettingsService.SocialRegistartionSource = true; ShowViewModel<RegistrationViewModel>();});
             _forgotPasswordCommand = new MvxCommand(() => { });
         }
 
@@ -123,12 +123,19 @@ namespace Tollminder.Core.ViewModels
                     {
                         userName = data.FullName;
                         _storedSettingsService.Profile = GetProfileFromResponse(result, data);
+                        SettingsService.SocialRegistartionSource = true;
                         success = CheckHttpStatuseCode(result.StatusCode);
                     }
                     break;
                 case AuthorizationType.GPlus:
                     result = await _serverApiService.GooglePlusSignIn(data.Email, data.Source.ToString().ToLower());
-                    success = CheckHttpStatuseCode(result.StatusCode);
+                    if (result != null)
+                    {
+                        userName = data.FullName;
+                        _storedSettingsService.Profile = GetProfileFromResponse(result, data);
+                        success = CheckHttpStatuseCode(result.StatusCode);
+                        SettingsService.SocialRegistartionSource = true;
+                    }
                     break;
             }
 
@@ -140,7 +147,7 @@ namespace Tollminder.Core.ViewModels
                 _storedSettingsService.ProfileId = result.Id;
                 _storedSettingsService.AuthToken = result.Token;
                 Close(this);
-                ShowViewModel<HomeViewModel>();
+                ShowViewModel<HomeViewModel>(new { name = result.FirstName, message = "Welcome back, "});
             }
         }
 

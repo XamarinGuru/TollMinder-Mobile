@@ -14,6 +14,7 @@ namespace Tollminder.Core.ViewModels
     {
         readonly IServerApiService serverApiService;
         readonly IStoredSettingsService storedSettingsService;
+        bool isPayHistoryAwailableForUser;
 
         public PayHistoryViewModel()
         {
@@ -34,27 +35,45 @@ namespace Tollminder.Core.ViewModels
                 GetPayDateTo = await Mvx.Resolve<ICalendarDialog>().ShowDialog(GetPayDateTo);
             });
 
-            downloadHistoryCommand = new MvxCommand(async () => { 
-                GetPdfUrl = await serverApiService.DownloadPayHistory(storedSettingsService.ProfileId, getPayDateFrom, getPayDateTo);
-            });
+            downloadHistoryCommand = new MvxCommand(async () => await ServerCommandWrapper(async () => await DownloadPdf()));
         }
 
-        async Task DownloadHistory()
+        public async override void Start()
         {
-            History = await serverApiService.GetPayHistory(storedSettingsService.ProfileId, getPayDateFrom, getPayDateTo);
-        }
-
-        public override void Start()
-        {
-            DownloadHistory();
+            await LoadHistory();
             base.Start();
         }
+
+        async Task LoadHistory()
+        {
+            Mvx.Resolve<IProgressDialogManager>().ShowProgressDialog("Please wait!", "Pay history is loading...");
+            History = await serverApiService.GetPayHistory(storedSettingsService.ProfileId, getPayDateFrom, getPayDateTo);
+            if (History != null)
+            {
+                Mvx.Resolve<IProgressDialogManager>().CloseProgressDialog();
+                isPayHistoryAwailableForUser = true;
+            }
+            else
+                Mvx.Resolve<IProgressDialogManager>().CloseAndShowMessage("Error", "Sorry, there is no pay history for now.");
+        }
+
+        async Task DownloadPdf()
+        {
+            if (isPayHistoryAwailableForUser)
+            {
+                string result = await serverApiService.DownloadPayHistory(storedSettingsService.ProfileId, getPayDateFrom, getPayDateTo);
+                if (result != null)
+                    ShowViewModel<PayHistoryPdfViewModel>(new { pdfUrlFromServer = result, pdfNameFromDateRange = GetPdfName() });
+            }
+            else
+                Mvx.Resolve<IProgressDialogManager>().CloseAndShowMessage("Error", "Sorry, there is no pay history for now.");
+        }
+
         private string getPdfUrl;
         public string GetPdfUrl { get { return getPdfUrl;} 
             set{
                 SetProperty(ref getPdfUrl, value);
                 RaisePropertyChanged(() => GetPdfUrl);
-                ShowViewModel<PayHistoryPdfViewModel>(new { pdfUrlFromServer = GetPdfUrl,  pdfNameFromDateRange = GetPdfName() });
             }
         }
         private DateTime getPayDateFrom;

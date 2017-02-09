@@ -38,26 +38,20 @@ namespace Tollminder.Droid.Services
 
         public void Initialize()
         {
-            Initialize(Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity as FragmentActivity);
-        }
+            // Configure sign-in to request the user's ID, email address, and basic profile. ID and
+            // basic profile are included in DEFAULT_SIGN_IN.
+            gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
+                .RequestProfile()
+                .Build();
 
-        public void Initialize(FragmentActivity activity)
-        {
-            googleApiClient = new GoogleApiClient.Builder(activity)
+            // Build a GoogleApiClient with access to GoogleSignIn.API and the options above.
+            googleApiClient = new GoogleApiClient.Builder(Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity as FragmentActivity)
                 .AddConnectionCallbacks(this)
                 .AddOnConnectionFailedListener(this)
-                .AddApi(PlusClass.API)
-                .AddScope(PlusClass.ScopePlusLogin)
-                .AddScope(PlusClass.ScopePlusProfile)
+                .AddApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                //.AddScope(PlusClass.ScopePlusLogin)
+                //.AddScope(PlusClass.ScopePlusProfile)
                 .Build();
-            //gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
-            //   .RequestEmail()
-            //   .Build();
-            //googleApiClient = new GoogleApiClient.Builder(Application.Context)
-            //   .EnableAutoManage(activity, this)
-            //   .AddApi(Auth.GOOGLE_SIGN_IN_API, gso)
-            //   .Build();
-
         }
 
         public Task<SocialData> GetPersonData()
@@ -69,10 +63,10 @@ namespace Tollminder.Droid.Services
             }
             _gPlusTask = new TaskCompletionSource<SocialData>();
 
-            //Intent signInIntent = Auth.GoogleSignInApi.GetSignInIntent(googleApiClient);
-            //Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity.StartActivityForResult(signInIntent, googleSignInRequestCode);
+            Intent signInIntent = Auth.GoogleSignInApi.GetSignInIntent(googleApiClient);
+            Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity.StartActivityForResult(signInIntent, googleSignInRequestCode);
             //Auth.GoogleSignInApi.SignOut(googleApiClient);
-            googleApiClient.Connect();
+            //googleApiClient.Connect();
             return _gPlusTask.Task;
         }
 

@@ -331,7 +331,7 @@
     <Compile Include="Views\CreditCardView.cs" />
     <Compile Include="Controls\ProfileButton.cs" />
     <Compile Include="Views\PayHistoryView.cs" />
-    <Compile Include="Views\Fragments\CalendarDialogFragment.cs" />
+    <Compile Include="Views\Fragments\CalendarViewFragment.cs" />
     <Compile Include="Services\CalendarService.cs" />
     <Compile Include="Converters\DateTimeConverter.cs" />
     <Compile Include="Views\PayHistoryPdfView.cs" />
@@ -350,9 +350,10 @@
     <Compile Include="Views\Fragments\ButtonContainerFragment.cs" />
     <Compile Include="Controls\BoardInformationLabel.cs" />
     <Compile Include="Views\Fragments\RoadInformationFragment.cs" />
-    <Compile Include="Views\SocialRegistrationView.cs" />
+    <Compile Include="Views\RegistrationView.cs" />
     <Compile Include="Services\DroidProgressDialogManager.cs" />
     <Compile Include="Views\Fragments\SmsConfirmationFragment.cs" />
+    <Compile Include="AndroidServices\FieldsService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AboutAssets.txt" />
@@ -550,7 +551,7 @@
     <AndroidResource Include="Resources\drawable-xhdpi\home_board.9.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\home_board.9.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\home_board.9.png" />
-    <AndroidResource Include="Resources\layout\social_registration_view.axml" />
+    <AndroidResource Include="Resources\layout\registration_view.axml" />
     <AndroidResource Include="Resources\drawable-hdpi\ic_facebook.png" />
     <AndroidResource Include="Resources\drawable-mdpi\ic_facebook.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\ic_facebook.png" />

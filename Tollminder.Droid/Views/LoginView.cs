@@ -2,7 +2,10 @@
 using Android.Content.PM;
 using Android.OS;
 using MvvmCross.Droid.Support.V4;
+using MvvmCross.Platform;
+using Tollminder.Core.Services;
 using Tollminder.Core.ViewModels;
+using Tollminder.Droid.Inerfaces;
 
 [assembly: MetaData("com.facebook.sdk.ApplicationId", Value = "@string/app_id")]
 [assembly: MetaData("com.facebook.sdk.ApplicationName", Value = "@string/app_name")]
@@ -15,6 +18,12 @@ namespace Tollminder.Droid.Views
         {
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.login_view);
+        }
+
+        protected override void OnActivityResult(int requestCode, Result resultCode, Android.Content.Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+            (Mvx.Resolve<IGPlusLoginService>() as IDroidSocialLogin).OnActivityResult(requestCode, resultCode, data);
         }
     }
 }

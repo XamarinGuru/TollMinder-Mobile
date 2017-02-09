@@ -18,18 +18,6 @@ namespace Tollminder.Droid.Views.Fragments
         CalendarViewModel model = new CalendarViewModel();
         View view;
 
-        //public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-        //{
-        //    //backToPayHistory = view.FindViewById<ImageButton>(Resource.Id.calendar_btn_back_to_payhistory);
-           
-        //    //var set = this.CreateBindingSet<CalendarDialog, PayHistoryViewModel>();
-        //    //set.Bind(backToPayHistory).To(vm => vm.BackToPayHistoryCommand);
-        //    //set.Apply(); 
-        //    //return base.OnCreateView(inflater, container, savedInstanceState);
-        //    var ignored = base.OnCreateView(inflater, container, savedInstanceState);
-        //    return this.BindingInflate(Resource.Layout.ChildView, null);
-        //}
-
         protected Activity CurrentActivity
         {
             get { return Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity; }
@@ -43,7 +31,8 @@ namespace Tollminder.Droid.Views.Fragments
             builder.Create();
             dialog = builder.Show();
 
-            calendarView = view.FindViewById<CalendarView>(Resource.Id.calendarView);
+            calendarView = view.FindViewById<CalendarView>(Resource.Id.calendarView); 
+            backToPayHistory = view.FindViewById<ImageButton>(Resource.Id.calendar_btn_back_to_payhistory);
             var result = new TaskCompletionSource<DateTime>();
             System.Diagnostics.Debug.WriteLine(calendarView.Date);
 
@@ -58,6 +47,11 @@ namespace Tollminder.Droid.Views.Fragments
                 {
                     result.SetResult(date);
                 }
+                dialog.Dismiss();
+            };
+
+            backToPayHistory.Click+= (sender, e) => 
+            {
                 dialog.Dismiss();
             };
 
