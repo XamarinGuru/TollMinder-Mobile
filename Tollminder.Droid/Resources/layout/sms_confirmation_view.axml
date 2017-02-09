@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:local="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@drawable/tab_background">
     <RelativeLayout
         android:id="@+id/profile_top_navigation"
@@ -53,5 +53,10 @@
             android:text="Validate"
             android:textColor="@color/white"
             local:MvxBind="Enabled BoolInverseConverter(IsBusy); Click ValidateCommand" />
+        <Button
+            android:layout_below="@id/registration_btn"
+            android:layout_width="match_parent"
+            android:visibility="invisible"
+            android:layout_height="1dp"/>
     </RelativeLayout>
 </RelativeLayout>

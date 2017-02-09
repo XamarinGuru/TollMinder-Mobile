@@ -107,8 +107,6 @@ namespace Tollminder.Core.ViewModels
             //}
 
             //if (SmsCode == profileData.PhoneCode)
-            IsBusy = true;
-
             if(SmsCode == "1111")
             {
                 profileData.PhoneValidate = true;
@@ -125,8 +123,6 @@ namespace Tollminder.Core.ViewModels
             }
             else
                 Mvx.Resolve<IProgressDialogManager>().ShowMessage("Error", "Wrong SMS code! Please try again.");
-
-            IsBusy = false;
         }
 
         async Task Registration()
@@ -138,7 +134,6 @@ namespace Tollminder.Core.ViewModels
             //}
 
             //Mvx.Resolve<IProgressDialogManager>().ShowProgressDialog("Registration", "Please wait!");
-            IsBusy = true;
             
             profileData.Phone = PhoneNumber;
 
@@ -150,7 +145,6 @@ namespace Tollminder.Core.ViewModels
                 IsSmsValidationHidden = true;
                 profileData = result;
             }
-            IsBusy = true;
         }
 
         bool CheckHttpStatuseCode(System.Net.HttpStatusCode statusCode)
@@ -158,7 +152,7 @@ namespace Tollminder.Core.ViewModels
             switch (statusCode)
             {
                 case System.Net.HttpStatusCode.Found:
-                    Mvx.Resolve<IProgressDialogManager>().ShowMessage("Error", "User with this phone number already registrated. Please, enter diferent number or try again.");
+                    Mvx.Resolve<IProgressDialogManager>().ShowMessage("Error", "User with this phone number already registrated. Please, enter diferent number and try again.");
                     break;
                 case System.Net.HttpStatusCode.OK:
                     return true;
