@@ -29,10 +29,12 @@ namespace Tollminder.Core.ViewModels
 
             openCalendarFromCommand = new MvxCommand(async () => {
                 GetPayDateFrom = await Mvx.Resolve<ICalendarDialog>().ShowDialog(GetPayDateFrom);
+                await LoadHistory();
             });
             openCalendarToCommand = new MvxCommand(async () =>
             {
                 GetPayDateTo = await Mvx.Resolve<ICalendarDialog>().ShowDialog(GetPayDateTo);
+                await LoadHistory();
             });
 
             downloadHistoryCommand = new MvxCommand(async () => await ServerCommandWrapper(async () => await DownloadPdf()));
@@ -47,7 +49,7 @@ namespace Tollminder.Core.ViewModels
         async Task LoadHistory()
         {
             Mvx.Resolve<IProgressDialogManager>().ShowProgressDialog("Please wait!", "Pay history is loading...");
-            History = await serverApiService.GetPayHistory(storedSettingsService.ProfileId, getPayDateFrom, getPayDateTo);
+            History = await serverApiService.GetPayHistory(storedSettingsService.ProfileId, GetPayDateFrom, GetPayDateTo);
             if (History != null)
             {
                 Mvx.Resolve<IProgressDialogManager>().CloseProgressDialog();

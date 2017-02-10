@@ -41,7 +41,7 @@ namespace Tollminder.Droid.Services
             // Configure sign-in to request the user's ID, email address, and basic profile. ID and
             // basic profile are included in DEFAULT_SIGN_IN.
             gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
-                .RequestProfile()
+                                         .RequestEmail()
                 .Build();
 
             // Build a GoogleApiClient with access to GoogleSignIn.API and the options above.
@@ -49,6 +49,7 @@ namespace Tollminder.Droid.Services
                 .AddConnectionCallbacks(this)
                 .AddOnConnectionFailedListener(this)
                 .AddApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .EnableAutoManage(Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity as FragmentActivity, this)
                 //.AddScope(PlusClass.ScopePlusLogin)
                 //.AddScope(PlusClass.ScopePlusProfile)
                 .Build();
@@ -66,7 +67,7 @@ namespace Tollminder.Droid.Services
             Intent signInIntent = Auth.GoogleSignInApi.GetSignInIntent(googleApiClient);
             Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity.StartActivityForResult(signInIntent, googleSignInRequestCode);
             //Auth.GoogleSignInApi.SignOut(googleApiClient);
-            //googleApiClient.Connect();
+            googleApiClient.Connect();
             return _gPlusTask.Task;
         }
 

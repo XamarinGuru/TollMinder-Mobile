@@ -17,5 +17,11 @@ namespace Tollminder.Droid
             : base(Resource.Layout.SplashScreen)
         {
         }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            Dispose();
+        }
     }
 }

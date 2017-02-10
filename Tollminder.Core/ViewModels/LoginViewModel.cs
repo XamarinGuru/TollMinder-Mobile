@@ -27,7 +27,7 @@ namespace Tollminder.Core.ViewModels
             _emailLoginCommand = new MvxCommand(async () => await ServerCommandWrapper(async () => await LoginTask(EmailLoginData)));
             _facebookLoginCommand = new MvxCommand(async () => await ServerCommandWrapper(async () => await LoginTask(await _facebookLoginService.GetPersonData())));
             _gPlusLoginCommand = new MvxCommand(async () => await ServerCommandWrapper(async () => await LoginTask(await _gPlusLoginService.GetPersonData())));
-            _registrationCommand = new MvxCommand(() => { SettingsService.SocialRegistartionSource = true; ShowViewModel<RegistrationViewModel>();});
+            _registrationCommand = new MvxCommand(() => { ShowViewModel<RegistrationViewModel>();});
             _forgotPasswordCommand = new MvxCommand(() => { });
         }
 
