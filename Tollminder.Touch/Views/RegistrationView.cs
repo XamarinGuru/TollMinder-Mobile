@@ -14,6 +14,8 @@ using UIKit;
 using System.Diagnostics;
 using MvvmCross.Binding.iOS.Views;
 using Tollminder.Core;
+using System.Drawing;
+using Foundation;
 
 namespace Tollminder.Touch.Views
 {
@@ -23,7 +25,7 @@ namespace Tollminder.Touch.Views
         UILabel nameOfPageLabel;
         UILabel informationAboutPageLabel;
         UIView centerTextRowView;
-        
+
         TextFieldValidationWithImage firstNameTextField;
         TextFieldValidationWithImage lastNameTextField;
         TextFieldValidationWithImage emailTextField;
@@ -32,7 +34,7 @@ namespace Tollminder.Touch.Views
         TextFieldValidationWithImage phoneNumberTextField;
 
         UIButton registrationButton;
-        
+
         public RegistrationView()
         {
         }
@@ -56,7 +58,7 @@ namespace Tollminder.Touch.Views
             centerTextRowView = new UIView();
             var bottomView = new UIView();
             var profileNavigationBarBackground = new UIImageView(UIImage.FromBundle(@"Images/navigation_bar_background.png"));
-            
+
             backHomeView = UIButton.FromType(UIButtonType.Custom);
             backHomeView.SetImage(UIImage.FromFile(@"Images/ic_back.png"), UIControlState.Normal);
             nameOfPageLabel = LabelInformationAboutPage(UIColor.White, "Registration", UIFont.BoldSystemFontOfSize(16f));
@@ -91,7 +93,7 @@ namespace Tollminder.Touch.Views
 
                 backHomeView.WithSameCenterY(topView),
                 backHomeView.AtLeftOf(topView, 20),
-                backHomeView.WithRelativeWidth(topView,0.1f),
+                backHomeView.WithRelativeWidth(topView, 0.1f),
                 backHomeView.WithRelativeHeight(topView, 0.2f),
 
                 labelView.WithSameCenterX(topView),
@@ -106,12 +108,6 @@ namespace Tollminder.Touch.Views
             passwordTextField = TextFieldInitializer("Password *");
             confirmPasswordTextField = TextFieldInitializer("Confirm Password *");
             phoneNumberTextField = TextFieldInitializer("(000) 000-0000 *");
-            phoneNumberTextField.TextFieldWithValidator.TextField.KeyboardType = UIKeyboardType.PhonePad;
-            phoneNumberTextField.TextFieldWithValidator.TextField.ShouldChangeCharacters = (textField, range, replacementString) =>
-            {
-                var newLength = textField.Text.Length + replacementString.Length - range.Length;
-                return newLength <= 10;
-            };
 
             registrationButton = ButtonInitializer("Registration", UIControlState.Normal, Theme.BlueDark.ToUIColor(),
                               UIColor.White, UIControlState.Normal, null, UIControlState.Disabled);
@@ -209,6 +205,107 @@ namespace Tollminder.Touch.Views
 
             EnableNextKeyForTextFields(firstNameTextField.TextFieldWithValidator.TextField, lastNameTextField.TextFieldWithValidator.TextField, emailTextField.TextFieldWithValidator.TextField,
                                        passwordTextField.TextFieldWithValidator.TextField, confirmPasswordTextField.TextFieldWithValidator.TextField, phoneNumberTextField.TextFieldWithValidator.TextField);
+
+        }
+       
+        public override void ViewDidLoad()
+        {
+            base.ViewDidLoad();
+
+            var g = new UITapGestureRecognizer(() =>
+            {
+                firstNameTextField.TextFieldWithValidator.TextField.ResignFirstResponder();
+                lastNameTextField.TextFieldWithValidator.TextField.ResignFirstResponder();
+                emailTextField.TextFieldWithValidator.TextField.ResignFirstResponder();
+                passwordTextField.TextFieldWithValidator.TextField.ResignFirstResponder();
+                confirmPasswordTextField.TextFieldWithValidator.TextField.ResignFirstResponder();
+                phoneNumberTextField.TextFieldWithValidator.TextField.ResignFirstResponder();
+            });
+            View.AddGestureRecognizer(g);
+            AddDoneButtonOnKeyBoard();
+            RegisterForKeyboardNotifications();
+        }
+
+        public override void ViewDidUnload()
+        {
+            base.ViewDidUnload();
+
+            UnregisterKeyboardNotifications();
+        }
+
+        NSObject _keyboardObserverWillShow;
+        NSObject _keyboardObserverWillHide;
+
+        protected virtual void RegisterForKeyboardNotifications()
+        {
+            _keyboardObserverWillShow = NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillShowNotification, KeyboardWillShowNotification);
+            _keyboardObserverWillHide = NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillHideNotification, KeyboardWillHideNotification);
+        }
+
+        protected virtual void UnregisterKeyboardNotifications()
+        {
+            NSNotificationCenter.DefaultCenter.RemoveObserver(_keyboardObserverWillShow);
+            NSNotificationCenter.DefaultCenter.RemoveObserver(_keyboardObserverWillHide);
+        }
+
+        /// <summary>
+        /// Gets the UIView that represents the &quot;active&quot; user input control (e.g. textfield, or button under a text field)
+        /// </summary>
+        /// <returns>The get active view.</returns>
+        protected virtual UIView KeyboardGetActiveView()
+        {
+            return this.View.FindFirstResponder();
+        }
+
+        protected virtual void KeyboardWillShowNotification(NSNotification notification)
+        {
+            UIView activeView = KeyboardGetActiveView();
+            if (activeView == null)
+                return;
+
+            UIScrollView scrollView = activeView.FindSuperviewOfType(this.View, typeof(UIScrollView)) as UIScrollView;
+            if (scrollView == null)
+                return;
+
+            RectangleF keyboardBounds = (System.Drawing.RectangleF)UIKeyboard.FrameBeginFromNotification(notification);
+
+            UIEdgeInsets contentInsets = new UIEdgeInsets(0.0f, 0.0f, keyboardBounds.Size.Height, 0.0f);
+            scrollView.ContentInset = contentInsets;
+            scrollView.ScrollIndicatorInsets = contentInsets;
+
+            // If activeField is hidden by keyboard, scroll it so it’s visible
+            RectangleF viewRectAboveKeyboard = new RectangleF((System.Drawing.PointF)this.View.Frame.Location, new SizeF((float)this.View.Frame.Width, (float)(this.View.Frame.Size.Height - keyboardBounds.Size.Height * 0.5f)));
+
+            RectangleF activeFieldAbsoluteFrame = (System.Drawing.RectangleF)activeView.Superview.ConvertRectToView(activeView.Frame, this.View);
+            // activeFieldAbsoluteFrame is relative to this.View so does not include any scrollView.ContentOffset
+
+            // Check if the activeField will be partially or entirely covered by the keyboard
+            if (!viewRectAboveKeyboard.Contains(activeFieldAbsoluteFrame))
+            {
+                // Scroll to the activeField Y position + activeField.Height + current scrollView.ContentOffset.Y – the keyboard Height
+                PointF scrollPoint = new PointF(0.0f, activeFieldAbsoluteFrame.Location.Y - viewRectAboveKeyboard.Height * 1f);
+                scrollView.SetContentOffset(scrollPoint, true);
+            }
+        }
+
+        protected virtual void KeyboardWillHideNotification(NSNotification notification)
+        {
+            UIView activeView = KeyboardGetActiveView();
+            if (activeView == null)
+                return;
+
+            UIScrollView scrollView = activeView.FindSuperviewOfType(this.View, typeof(UIScrollView)) as UIScrollView;
+            if (scrollView == null)
+                return;
+
+            // Reset the content inset of the scrollView and animate using the current keyboard animation duration
+            double animationDuration = UIKeyboard.AnimationDurationFromNotification(notification);
+            UIEdgeInsets contentInsets = new UIEdgeInsets(0.0f, 0.0f, 0.0f, 0.0f);
+            UIView.Animate(animationDuration, delegate
+            {
+                scrollView.ContentInset = contentInsets;
+                scrollView.ScrollIndicatorInsets = contentInsets;
+            });
         }
 
         private TextFieldValidationWithImage TextFieldInitializer(string placeholder)
@@ -233,6 +330,33 @@ namespace Tollminder.Touch.Views
             labelInformation.Font = font;
             labelInformation.TextAlignment = UITextAlignment.Center;
             return labelInformation;
+        }
+
+        void AddDoneButtonOnKeyBoard()
+        {
+            firstNameTextField.TextFieldWithValidator.TextField.InputAccessoryView = new EnhancedToolbar(firstNameTextField.TextFieldWithValidator.TextField, 
+                                                                                                         null, lastNameTextField.TextFieldWithValidator.TextField);
+            lastNameTextField.TextFieldWithValidator.TextField.InputAccessoryView = new EnhancedToolbar(lastNameTextField.TextFieldWithValidator.TextField,
+                                                                                                         firstNameTextField.TextFieldWithValidator.TextField, 
+                                                                                                        emailTextField.TextFieldWithValidator.TextField);
+            emailTextField.TextFieldWithValidator.TextField.InputAccessoryView = new EnhancedToolbar(emailTextField.TextFieldWithValidator.TextField,
+                                                                                                     lastNameTextField.TextFieldWithValidator.TextField, 
+                                                                                                     passwordTextField.TextFieldWithValidator.TextField);
+            passwordTextField.TextFieldWithValidator.TextField.InputAccessoryView = new EnhancedToolbar(passwordTextField.TextFieldWithValidator.TextField,
+                                                                                                        emailTextField.TextFieldWithValidator.TextField, 
+                                                                                                        confirmPasswordTextField.TextFieldWithValidator.TextField);
+            confirmPasswordTextField.TextFieldWithValidator.TextField.InputAccessoryView = new EnhancedToolbar(confirmPasswordTextField.TextFieldWithValidator.TextField, 
+                                                                                                               passwordTextField.TextFieldWithValidator.TextField,
+                                                                                                               phoneNumberTextField.TextFieldWithValidator.TextField);
+            phoneNumberTextField.TextFieldWithValidator.TextField.InputAccessoryView = new EnhancedToolbar(phoneNumberTextField.TextFieldWithValidator.TextField, 
+                                                                                                           confirmPasswordTextField.TextFieldWithValidator.TextField,
+                                                                                                            null);
+            phoneNumberTextField.TextFieldWithValidator.TextField.KeyboardType = UIKeyboardType.NumberPad;
+            phoneNumberTextField.TextFieldWithValidator.TextField.ShouldChangeCharacters = (textField, range, replacementString) =>
+            {
+                var newLength = textField.Text.Length + replacementString.Length - range.Length;
+                return newLength <= 10;
+            };
         }
 
         private UIButton ButtonInitializer(string title, UIControlState titleState, UIColor backgroundColor,

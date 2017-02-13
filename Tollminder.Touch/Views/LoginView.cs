@@ -86,12 +86,12 @@ namespace Tollminder.Touch.Views
 
             _googlePlusLoginButton = ButtonInitializer(null, UIControlState.Disabled, null, null,
                               UIControlState.Disabled, @"Images/loginView/google-button.png", UIControlState.Normal);
-
             var sloginView = new LoginButton(new CGRect(51, 0, 218, 46))
             {
                 LoginBehavior = LoginBehavior.Native,
                 ReadPermissions = readPermissions.ToArray()
-            }; 
+            };
+            Google.SignIn.SignInButton google = new SignInButton();
             _facebookLoginButton = ButtonInitializer(null, UIControlState.Disabled, null, null,
                               UIControlState.Disabled, null, UIControlState.Normal);
             _facebookLoginButton.SetImage(sloginView.CurrentImage, UIControlState.Normal);
@@ -143,7 +143,7 @@ namespace Tollminder.Touch.Views
             //    Debug.WriteLine(e.NewProfile.Name);
             //});
 
-            socialNetworksView.AddIfNotNull(socialNetworkLabel, _facebookLoginButton, _googlePlusLoginButton);
+            socialNetworksView.AddIfNotNull(socialNetworkLabel, _facebookLoginButton, google);
             socialNetworksView.AddConstraints(
                 socialNetworkLabel.AtTopOf(socialNetworksView),
                 socialNetworkLabel.AtLeftOf(socialNetworksView),
@@ -156,9 +156,9 @@ namespace Tollminder.Touch.Views
                 _facebookLoginButton.WithRelativeWidth(socialNetworksView, 0.48f),
                 _facebookLoginButton.WithRelativeHeight(socialNetworksView, 0.4f),
 
-                _googlePlusLoginButton.Below(socialNetworkLabel),
-                _googlePlusLoginButton.WithRelativeWidth(socialNetworksView, 0.48f),
-                _googlePlusLoginButton.AtRightOf(socialNetworksView)
+                google.Below(socialNetworkLabel),
+                google.WithRelativeWidth(socialNetworksView, 0.48f),
+                google.AtRightOf(socialNetworksView)
             );
 
             // Central block with text fields and login buttons
