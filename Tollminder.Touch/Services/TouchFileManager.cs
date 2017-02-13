@@ -10,7 +10,7 @@ using UIKit;
 
 namespace Tollminder.Touch.Services
 {
-    public class DownloadManager : IFileManager
+    public class TouchFileManager : IFileManager
     {
         UINavigationController NavigationController;
 
@@ -35,7 +35,6 @@ namespace Tollminder.Touch.Services
 
         public void OpenIn(string _documentUrl, string documentName)
         {
-            
             var topViewController = UIApplication.SharedApplication.KeyWindow;
             var currentViewController = topViewController.RootViewController;
             UIActivityViewController activityVC = new UIActivityViewController(

@@ -1,8 +1,5 @@
 ﻿using System;
 using Android.App;
-using Android.Views;
-using MvvmCross.Platform;
-using MvvmCross.Platform.Droid.Platform;
 using Plugin.CurrentActivity;
 using Tollminder.Core.Services;
 

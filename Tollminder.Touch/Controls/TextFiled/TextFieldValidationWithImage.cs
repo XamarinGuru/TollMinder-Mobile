@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using Cirrious.FluentLayouts.Touch;
 using CoreGraphics;
 using Foundation;
@@ -7,7 +8,7 @@ using UIKit;
 
 namespace Tollminder.Touch.Controls
 {
-    [Register("TextFieldValidationWithImage")]
+    [Register("TextFieldValidationWithImage"), DesignTimeVisible(true)]
     public class TextFieldValidationWithImage : UIView
     {
         UITapGestureRecognizer _clickAction;

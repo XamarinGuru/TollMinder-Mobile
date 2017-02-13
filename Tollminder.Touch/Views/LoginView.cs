@@ -258,7 +258,7 @@ namespace Tollminder.Touch.Views
             button.SetTitleColor(titleColor, colorTitleState);
             button.ImageView.ContentMode = UIViewContentMode.ScaleToFill;
             button.ClipsToBounds = false;
-            button.Layer.CornerRadius = 5;
+            button.Layer.CornerRadius = 10;
             button.Layer.ShadowColor = UIColor.Black.CGColor;
             button.Layer.ShadowOpacity = 0.1f;
             button.Layer.ShadowRadius = 1;

@@ -22,7 +22,7 @@ using System.Drawing;
 
 namespace Tollminder.Touch.Views
 {
-    public class HomeView : BaseViewController<HomeViewModel>, ISignInUIDelegate, ICleanBackStack
+    public class HomeView : BaseViewController<HomeViewModel>, ICleanBackStack
     {
         RoundedButton trackingButton;
         RoundedButton profileButton;
@@ -212,7 +212,6 @@ namespace Tollminder.Touch.Views
                 bottomView.WithRelativeHeight(View, 0.27f),
                 bottomView.AtBottomOf(View, 30)
             );
-            SignIn.SharedInstance.UIDelegate = this;
         }
 
         private UIScrollView CreateSliderBoard(bool showWithPaging)

@@ -13,39 +13,35 @@ using Tollminder.Touch.Interfaces;
 using UIKit;
 using System.Diagnostics;
 using MvvmCross.Binding.iOS.Views;
+using Tollminder.Core;
 
 namespace Tollminder.Touch.Views
 {
-    public class ProfileView : BaseViewController<ProfileViewModel>, ICleanBackStack
+    public class RegistrationView : BaseViewController<RegistrationViewModel>, ICleanBackStack
     {
         UIButton backHomeView;
         UILabel nameOfPageLabel;
         UILabel informationAboutPageLabel;
-
+        UIView centerTextRowView;
+        
         TextFieldValidationWithImage firstNameTextField;
         TextFieldValidationWithImage lastNameTextField;
         TextFieldValidationWithImage emailTextField;
-        TextFieldValidationWithImage addressTextField;
-        TextFieldValidationWithImage cityTextField;
-        TextFieldValidationWithImage stateTextField;
-        TextFieldValidationWithImage zipCodeTextField;
+        TextFieldValidationWithImage passwordTextField;
+        TextFieldValidationWithImage confirmPasswordTextField;
+        TextFieldValidationWithImage phoneNumberTextField;
 
-        LabelForDataWheel stateLabel;
-        UIPickerView statesPicker;
-        MvxPickerViewModel statesPickerViewModel;
-
-        ProfileButton addLicenseButton;
-        ProfileButton addCreditCardButton;
+        UIButton registrationButton;
         
-        public ProfileView()
+        public RegistrationView()
         {
         }
 
-        public ProfileView(IntPtr handle) : base(handle)
+        public RegistrationView(IntPtr handle) : base(handle)
         {
         }
 
-        public ProfileView(string nibName, Foundation.NSBundle bundle) : base(nibName, bundle)
+        public RegistrationView(string nibName, Foundation.NSBundle bundle) : base(nibName, bundle)
         {
         }
 
@@ -56,15 +52,15 @@ namespace Tollminder.Touch.Views
             var topView = new UIView();
             var scrollView = new UIScrollView();
             var topTextRowView = new UIView();
-            var centerTextRowView = new UIView();
             var bottomTextRowView = new UIView();
+            centerTextRowView = new UIView();
             var bottomView = new UIView();
             var profileNavigationBarBackground = new UIImageView(UIImage.FromBundle(@"Images/navigation_bar_background.png"));
             
             backHomeView = UIButton.FromType(UIButtonType.Custom);
             backHomeView.SetImage(UIImage.FromFile(@"Images/ic_back.png"), UIControlState.Normal);
-            nameOfPageLabel = LabelInformationAboutPage(UIColor.White, "Profile", UIFont.BoldSystemFontOfSize(16f));
-            informationAboutPageLabel = LabelInformationAboutPage(UIColor.FromRGB(29, 157, 189), "Please, Enter Your Personal Information.", UIFont.FromName("Helvetica", 14f));
+            nameOfPageLabel = LabelInformationAboutPage(UIColor.White, "Registration", UIFont.BoldSystemFontOfSize(16f));
+            informationAboutPageLabel = LabelInformationAboutPage(UIColor.FromRGB(29, 157, 189), "", UIFont.FromName("Helvetica", 14f));
 
             // Hide navigation bar
             NavigationController.SetNavigationBarHidden(true, false);
@@ -107,21 +103,19 @@ namespace Tollminder.Touch.Views
             firstNameTextField = TextFieldInitializer("First Name");
             lastNameTextField = TextFieldInitializer("Last Name");
             emailTextField = TextFieldInitializer("Email");
-            addressTextField = TextFieldInitializer("Address");
-            cityTextField = TextFieldInitializer("City");
-            stateTextField = TextFieldInitializer("State");
-            zipCodeTextField = TextFieldInitializer("Zip Code");
+            passwordTextField = TextFieldInitializer("Password *");
+            confirmPasswordTextField = TextFieldInitializer("Confirm Password *");
+            phoneNumberTextField = TextFieldInitializer("(000) 000-0000 *");
+            phoneNumberTextField.TextFieldWithValidator.TextField.KeyboardType = UIKeyboardType.PhonePad;
+            phoneNumberTextField.TextFieldWithValidator.TextField.ShouldChangeCharacters = (textField, range, replacementString) =>
+            {
+                var newLength = textField.Text.Length + replacementString.Length - range.Length;
+                return newLength <= 10;
+            };
 
-            stateLabel = LabelDataWheelInitiaziler("State");
-            statesPicker = new UIPickerView();
-            statesPickerViewModel = new MvxPickerViewModel(statesPicker);
-            statesPicker.Model = statesPickerViewModel;
-            statesPicker.Hidden = true;
-            statesPicker.ShowSelectionIndicator = true;
-            statesPicker.BackgroundColor = UIColor.White;
-            
-            addLicenseButton = ProfileButtonManager.ButtonInitiaziler("Add License Plate", UIImage.FromFile(@"Images/ProfileView/ic_license.png"));
-            addCreditCardButton = ProfileButtonManager.ButtonInitiaziler("Add Credit Card", UIImage.FromFile(@"Images/ProfileView/ic_card.png"));
+            registrationButton = ButtonInitializer("Registration", UIControlState.Normal, Theme.BlueDark.ToUIColor(),
+                              UIColor.White, UIControlState.Normal, null, UIControlState.Disabled);
+            //addCreditCardButton = ProfileButtonManager.ButtonInitiaziler("Add Credit Card", UIImage.FromFile(@"Images/ProfileView/ic_card.png"));
 
             topTextRowView.AddIfNotNull(firstNameTextField, lastNameTextField);
             topTextRowView.AddConstraints(
@@ -136,51 +130,51 @@ namespace Tollminder.Touch.Views
                 lastNameTextField.WithSameHeight(topTextRowView)
             );
 
-            centerTextRowView.AddIfNotNull(emailTextField, addressTextField, cityTextField);
+            centerTextRowView.AddIfNotNull(emailTextField, passwordTextField, confirmPasswordTextField);
             centerTextRowView.AddConstraints(
                 emailTextField.AtTopOf(centerTextRowView),
                 emailTextField.WithSameCenterX(centerTextRowView),
                 emailTextField.WithSameWidth(centerTextRowView),
                 emailTextField.WithRelativeHeight(centerTextRowView, 0.3f),
 
-                addressTextField.Below(emailTextField, 10),
-                addressTextField.WithSameCenterX(centerTextRowView),
-                addressTextField.WithSameWidth(centerTextRowView),
-                addressTextField.WithRelativeHeight(centerTextRowView, 0.3f),
+                passwordTextField.Below(emailTextField, 10),
+                passwordTextField.WithSameCenterX(centerTextRowView),
+                passwordTextField.WithSameWidth(centerTextRowView),
+                passwordTextField.WithRelativeHeight(centerTextRowView, 0.3f),
 
-                cityTextField.Below(addressTextField, 10),
-                cityTextField.WithSameCenterX(centerTextRowView),
-                cityTextField.WithSameWidth(centerTextRowView),
-                cityTextField.WithRelativeHeight(centerTextRowView, 0.3f)
+                confirmPasswordTextField.Below(passwordTextField, 10),
+                confirmPasswordTextField.WithSameCenterX(centerTextRowView),
+                confirmPasswordTextField.WithSameWidth(centerTextRowView),
+                confirmPasswordTextField.WithRelativeHeight(centerTextRowView, 0.3f)
             );
 
-            bottomTextRowView.AddIfNotNull(stateLabel, zipCodeTextField);
-            bottomTextRowView.AddConstraints(
-                stateLabel.AtTopOf(bottomTextRowView),
-                stateLabel.AtLeftOf(bottomTextRowView),
-                stateLabel.WithRelativeWidth(bottomTextRowView, 0.475f),
-                stateLabel.WithSameHeight(bottomTextRowView),
+            //bottomTextRowView.AddIfNotNull(stateLabel, zipCodeTextField);
+            //bottomTextRowView.AddConstraints(
+            //    stateLabel.AtTopOf(bottomTextRowView),
+            //    stateLabel.AtLeftOf(bottomTextRowView),
+            //    stateLabel.WithRelativeWidth(bottomTextRowView, 0.475f),
+            //    stateLabel.WithSameHeight(bottomTextRowView),
 
-                zipCodeTextField.AtTopOf(bottomTextRowView),
-                zipCodeTextField.AtRightOf(bottomTextRowView),
-                zipCodeTextField.WithRelativeWidth(bottomTextRowView, 0.475f),
-                zipCodeTextField.WithSameHeight(bottomTextRowView)
-            );
+            //    zipCodeTextField.AtTopOf(bottomTextRowView),
+            //    zipCodeTextField.AtRightOf(bottomTextRowView),
+            //    zipCodeTextField.WithRelativeWidth(bottomTextRowView, 0.475f),
+            //    zipCodeTextField.WithSameHeight(bottomTextRowView)
+            //);
 
-            bottomView.AddIfNotNull(addLicenseButton, addCreditCardButton);
+            bottomView.AddIfNotNull(registrationButton, phoneNumberTextField);
             bottomView.AddConstraints(
-                addLicenseButton.AtTopOf(bottomView),
-                addLicenseButton.WithSameCenterX(bottomView),
-                addLicenseButton.WithSameWidth(bottomView),
-                addLicenseButton.WithRelativeHeight(bottomView, 0.4f), 
+                phoneNumberTextField.AtTopOf(bottomView),
+                phoneNumberTextField.WithSameCenterX(bottomView),
+                phoneNumberTextField.WithSameWidth(bottomView),
+                phoneNumberTextField.WithRelativeHeight(bottomView, 0.4f),
 
-                addCreditCardButton.Below(addLicenseButton, 10),
-                addCreditCardButton.WithSameCenterX(bottomView),
-                addCreditCardButton.WithSameWidth(bottomView),
-                addCreditCardButton.WithRelativeHeight(bottomView, 0.4f)
+                registrationButton.Below(phoneNumberTextField, 10),
+                registrationButton.WithSameCenterX(bottomView),
+                registrationButton.WithSameWidth(bottomView),
+                registrationButton.WithRelativeHeight(bottomView, 0.4f)
             );
 
-            scrollView.AddIfNotNull(topTextRowView, centerTextRowView, bottomTextRowView, bottomView);
+            scrollView.AddIfNotNull(topTextRowView, centerTextRowView, bottomView);
             scrollView.AddConstraints(
                 topTextRowView.AtTopOf(scrollView, 30),
                 topTextRowView.WithSameWidth(scrollView),
@@ -193,12 +187,7 @@ namespace Tollminder.Touch.Views
                 centerTextRowView.AtRightOf(scrollView),
                 centerTextRowView.WithRelativeHeight(scrollView, 0.4f),
 
-                bottomTextRowView.Below(centerTextRowView, 10),
-                bottomTextRowView.WithSameWidth(scrollView),
-                bottomTextRowView.WithSameCenterX(scrollView),
-                bottomTextRowView.WithRelativeHeight(scrollView, 0.12f),
-
-                bottomView.Below(bottomTextRowView, 10),
+                bottomView.Below(centerTextRowView, 10),
                 bottomView.WithSameWidth(scrollView),
                 bottomView.AtLeftOf(scrollView),
                 bottomView.AtRightOf(scrollView),
@@ -206,7 +195,7 @@ namespace Tollminder.Touch.Views
                 bottomView.WithRelativeHeight(scrollView, 0.27f)
             );
 
-            View.AddIfNotNull(topView, scrollView, statesPicker);
+            View.AddIfNotNull(topView, scrollView);
             View.AddConstraints(
                 topView.AtTopOf(View),
                 topView.WithSameWidth(View),
@@ -215,28 +204,11 @@ namespace Tollminder.Touch.Views
                 scrollView.Below(topView, 30),
                 scrollView.AtLeftOf(View, 30),
                 scrollView.AtRightOf(View, 30),
-                scrollView.WithRelativeHeight(View, 0.8f),
-
-                statesPicker.AtBottomOf(View),
-                statesPicker.AtLeftOf(View),
-                statesPicker.AtRightOf(View),
-                statesPicker.WithSameWidth(View),
-                statesPicker.WithRelativeHeight(View, 0.2f)
+                scrollView.WithRelativeHeight(View, 0.8f)
             );
 
             EnableNextKeyForTextFields(firstNameTextField.TextFieldWithValidator.TextField, lastNameTextField.TextFieldWithValidator.TextField, emailTextField.TextFieldWithValidator.TextField,
-                                       addressTextField.TextFieldWithValidator.TextField, cityTextField.TextFieldWithValidator.TextField, zipCodeTextField.TextFieldWithValidator.TextField);
-        }
-
-        private LabelForDataWheel LabelDataWheelInitiaziler(string fieldName)
-        {
-            LabelForDataWheel labelWheel = new LabelForDataWheel();
-            labelWheel.PlaceHolderText = fieldName;
-            labelWheel.LabelTextColor = UIColor.Black;
-            labelWheel.WheelTextColor = UIColor.Cyan;
-            labelWheel.BackgroundColor = UIColor.White;
-            labelWheel.Layer.CornerRadius = 10;
-            return labelWheel;
+                                       passwordTextField.TextFieldWithValidator.TextField, confirmPasswordTextField.TextFieldWithValidator.TextField, phoneNumberTextField.TextFieldWithValidator.TextField);
         }
 
         private TextFieldValidationWithImage TextFieldInitializer(string placeholder)
@@ -263,27 +235,48 @@ namespace Tollminder.Touch.Views
             return labelInformation;
         }
 
+        private UIButton ButtonInitializer(string title, UIControlState titleState, UIColor backgroundColor,
+                                           UIColor titleColor, UIControlState colorTitleState, string imagePath, UIControlState imageState)
+        {
+            UIButton button = new UIButton();
+            button.SetTitle(title, titleState);
+            if (imagePath != null)
+            {
+                button.SetImage(UIImage.FromFile(imagePath), imageState);
+                button.HorizontalAlignment = UIControlContentHorizontalAlignment.Fill;
+                button.VerticalAlignment = UIControlContentVerticalAlignment.Fill;
+            }
+            button.BackgroundColor = backgroundColor;
+            button.SetTitleColor(titleColor, colorTitleState);
+            button.ImageView.ContentMode = UIViewContentMode.ScaleToFill;
+            button.ClipsToBounds = false;
+            button.Layer.CornerRadius = 10;
+            button.Layer.ShadowColor = UIColor.Black.CGColor;
+            button.Layer.ShadowOpacity = 0.1f;
+            button.Layer.ShadowRadius = 1;
+            button.Layer.ShadowOffset = new CGSize(1, 1);
+            return button;
+        }
+
         protected override void InitializeBindings()
         {
              base.InitializeBindings();
 
-            var set = this.CreateBindingSet<ProfileView, ProfileViewModel>();
-            set.Bind(backHomeView).To(vm => vm.BackHomeCommand);
-            set.Bind(addLicenseButton).To(vm => vm.AddLicenseCommand);
+            var set = this.CreateBindingSet<RegistrationView, RegistrationViewModel>();
+            set.Bind(informationAboutPageLabel).To(vm => vm.ViewInformation);
+            set.Bind(backHomeView).To(vm => vm.BackToLoginViewCommand);
 
+            set.Bind(centerTextRowView).For(x => x.Hidden).To(vm => vm.IsSocialRegistrationHidden).WithConversion(new BoolInverseConverter());
             set.Bind(firstNameTextField.TextFieldWithValidator.TextField).To(vm => vm.Profile.FirstName);
             set.Bind(lastNameTextField.TextFieldWithValidator.TextField).To(vm => vm.Profile.LastName);
             set.Bind(emailTextField.TextFieldWithValidator.TextField).To(vm => vm.Profile.Email);
-            set.Bind(addressTextField.TextFieldWithValidator.TextField).To(vm => vm.Profile.Address);
-            set.Bind(cityTextField.TextFieldWithValidator.TextField).To(vm => vm.Profile.City);
-            set.Bind(zipCodeTextField.TextFieldWithValidator.TextField).To(vm => vm.Profile.ZipCode);
-            
-            set.Bind(statesPickerViewModel).For(p => p.ItemsSource).To(vm => vm.States);
-            set.Bind(statesPickerViewModel).For(p => p.SelectedItem).To(vm => vm.SelectedState);
-            set.Bind(stateLabel.WheelText).To(vm => vm.SelectedState);
-            set.Bind(statesPicker).For(x => x.Hidden).To(vm => vm.IsStateWheelHidden).WithConversion(new BoolInverseConverter());
-            set.Bind(stateLabel).To(vm => vm.StatesWheelCommand);
+            set.Bind(passwordTextField.TextFieldWithValidator.TextField).To(vm => vm.Profile.Password);
+            set.Bind(confirmPasswordTextField.TextFieldWithValidator.TextField).To(vm => vm.ConfirmPassword);
 
+            set.Bind(phoneNumberTextField.TextFieldWithValidator.TextField).To(vm => vm.Profile.Phone);
+            set.Bind(registrationButton).To(vm => vm.RegistrationCommand);
+            set.Bind(registrationButton).For(x => x.Enabled).To(vm => vm.IsBusy).WithConversion(new BoolInverseConverter());
+           
             set.Apply();
         }
     }

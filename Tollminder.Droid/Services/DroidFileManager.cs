@@ -8,7 +8,7 @@ using Tollminder.Core.Services;
 
 namespace Tollminder.Droid.Services
 {
-    public class DownloadManager : IFileManager
+    public class DroidFileManager : IFileManager
     {
         private ProgressDialog progressBar;
 

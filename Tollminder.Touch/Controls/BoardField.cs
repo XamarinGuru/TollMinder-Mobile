@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using Cirrious.FluentLayouts.Touch;
 using CoreGraphics;
 using Foundation;
@@ -9,7 +10,7 @@ using UIKit;
 
 namespace Tollminder.Touch.Controls
 {
-    [Register("BoardField")]
+    [Register("BoardField"), DesignTimeVisible(true)]
     public class BoardField : UIView
     {
         MvxImageView iconView;

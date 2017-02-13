@@ -23,7 +23,7 @@ using MvvmCross.Binding.iOS.Views;
 
 namespace Tollminder.Touch.Views
 {
-    public class LicensePlateView : BaseViewController<LicenseViewModel>, ISignInUIDelegate, ICleanBackStack
+    public class LicensePlateView : BaseViewController<LicenseViewModel>, ICleanBackStack
     {
         UIButton backHomeView;
         UILabel nameOfPageLabel;
@@ -168,7 +168,6 @@ namespace Tollminder.Touch.Views
                 vehicleClassesPicker.WithRelativeHeight(View, 0.2f)
             );
 
-            SignIn.SharedInstance.UIDelegate = this;
             EnableNextKeyForTextFields(licensePlateTextField.TextFieldWithValidator.TextField);
         }
 

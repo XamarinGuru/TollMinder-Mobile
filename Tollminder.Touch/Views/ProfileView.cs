@@ -16,7 +16,7 @@ using MvvmCross.Binding.iOS.Views;
 
 namespace Tollminder.Touch.Views
 {
-    public class ProfileView : BaseViewController<ProfileViewModel>, ISignInUIDelegate, ICleanBackStack
+    public class ProfileView : BaseViewController<ProfileViewModel>, ICleanBackStack
     {
         UIButton backHomeView;
         UILabel nameOfPageLabel;
@@ -224,7 +224,6 @@ namespace Tollminder.Touch.Views
                 statesPicker.WithRelativeHeight(View, 0.2f)
             );
 
-            SignIn.SharedInstance.UIDelegate = this;
             EnableNextKeyForTextFields(firstNameTextField.TextFieldWithValidator.TextField, lastNameTextField.TextFieldWithValidator.TextField, emailTextField.TextFieldWithValidator.TextField,
                                        addressTextField.TextFieldWithValidator.TextField, cityTextField.TextFieldWithValidator.TextField, zipCodeTextField.TextFieldWithValidator.TextField);
         }

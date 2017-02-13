@@ -12,7 +12,6 @@ namespace Tollminder.Core.ViewModels
 {
     public class RegistrationViewModel: BaseViewModel
     {
-        private Profile profileData;
         private string phoneCode;
         IStoredSettingsService storedSettingsService;
         IServerApiService serverApiService;
@@ -29,7 +28,7 @@ namespace Tollminder.Core.ViewModels
 
         public void Init(string name)
         {
-            profileData = storedSettingsService.Profile;
+            profile = storedSettingsService.Profile != null ? storedSettingsService.Profile : new Profile();
             if (SettingsService.SocialRegistartionSource)
                 IsSocialRegistrationHidden = false;
             if(name != null)
@@ -43,7 +42,7 @@ namespace Tollminder.Core.ViewModels
 
         protected override void SetValidators()
         {
-            Validator.AddRequiredRule(() => PhoneNumber, "Field can't' be empty.");
+            Validator.AddRequiredRule(() => Profile.Phone, "Field can't' be empty.");
             Validator.AddRequiredRule(() => SmsCode, "Field can't' be empty.");
             //Validators.Add(new Validator("SmsCode", "Field can't' be empty.", () => string.IsNullOrEmpty(SmsCode)));
             //Validators.Add(new Validator("PhoneNumber", "Field can't' be empty.", () => string.IsNullOrEmpty(PhoneNumber)));
@@ -56,11 +55,11 @@ namespace Tollminder.Core.ViewModels
         MvxCommand validateCommand;
         public ICommand ValidateCommand { get { return validateCommand; } }
 
-        string phoneNumber;
-        public string PhoneNumber
+        Profile profile;
+        public Profile Profile
         {
-            get { return phoneNumber; }
-            set { SetProperty(ref phoneNumber, value); }
+            get{ return profile; }
+            set{ SetProperty(ref profile, value); }
         }
 
         string smsCode;
@@ -68,6 +67,13 @@ namespace Tollminder.Core.ViewModels
         {
             get { return smsCode; }
             set { SetProperty(ref smsCode, value); }
+        }
+
+        string confirmPassword;
+        public string ConfirmPassword
+        {
+            get { return confirmPassword; }
+            set { SetProperty(ref confirmPassword, value); }
         }
 
         public string ViewInformation
@@ -109,14 +115,14 @@ namespace Tollminder.Core.ViewModels
             //if (SmsCode == profileData.PhoneCode)
             if(SmsCode == "1111")
             {
-                profileData.PhoneValidate = true;
-                var result = await serverApiService.SaveProfile(profileData.Id, profileData, profileData.Token);
+                profile.PhoneValidate = true;
+                var result = await serverApiService.SaveProfile(profile.Id, profile, profile.Token);
                 if (CheckHttpStatuseCode(result.StatusCode))
                 {
-                    storedSettingsService.Profile = profileData;
+                    storedSettingsService.Profile = profile;
                     storedSettingsService.IsAuthorized = true;
-                    storedSettingsService.ProfileId = profileData.Id;
-                    storedSettingsService.AuthToken = profileData.Token;
+                    storedSettingsService.ProfileId = profile.Id;
+                    storedSettingsService.AuthToken = profile.Token;
                     Close(this);
                     ShowViewModel<HomeViewModel>(new { name = result.FirstName, message = "Welcome, " });
                 }
@@ -134,17 +140,50 @@ namespace Tollminder.Core.ViewModels
             //}
 
             //Mvx.Resolve<IProgressDialogManager>().ShowProgressDialog("Registration", "Please wait!");
-            
-            profileData.Phone = PhoneNumber;
-
-            var result = await serverApiService.SignUp(profileData);
-            if (CheckHttpStatuseCode(result.StatusCode))
+            if (IsSocialRegistrationHidden)
             {
-                Mvx.Resolve<IProgressDialogManager>().CloseProgressDialog();
-                SmsCode = "1111";
-                IsSmsValidationHidden = true;
-                profileData = result;
+                if (!CheckFields())
+                    return;
             }
+
+            if (CheckField("Phone number", Profile.Phone))
+            {
+                var result = await serverApiService.SignUp(profile);
+                if (CheckHttpStatuseCode(result.StatusCode))
+                {
+                    Mvx.Resolve<IProgressDialogManager>().CloseProgressDialog();
+                    SmsCode = "1111";
+                    IsSmsValidationHidden = true;
+                    profile = result;
+                }
+            }
+        }
+
+        bool CheckFields()
+        {
+            if (string.IsNullOrEmpty(ConfirmPassword) && string.IsNullOrEmpty(Profile.Phone) && string.IsNullOrEmpty(Profile.Password))
+            {
+                Mvx.Resolve<IProgressDialogManager>().ShowMessage("Error", "Please fill out the required fields.");
+                return false;
+            }
+            if (!CheckField("Password", Profile.Password) || !CheckField("ConfirmPassword", ConfirmPassword))
+                return false;
+            if (confirmPassword != profile.Password)
+            {
+                Mvx.Resolve<IProgressDialogManager>().ShowMessage("Error", "Passwords not equal. Please try again.");
+                return false;
+            }
+            return true;
+        }
+
+        bool CheckField(string fieldName, string fieldValue)
+        {
+            if (string.IsNullOrEmpty(fieldValue))
+            {
+                Mvx.Resolve<IProgressDialogManager>().ShowMessage("Error", fieldName + " number can't be null.");
+                return false;
+            }
+            return true;
         }
 
         bool CheckHttpStatuseCode(System.Net.HttpStatusCode statusCode)

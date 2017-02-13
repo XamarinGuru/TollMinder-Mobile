@@ -319,13 +319,16 @@
     <Compile Include="Views\PayHistoryView\PayHistoryHeader.designer.cs">
       <DependentUpon>PayHistoryHeader.cs</DependentUpon>
     </Compile>
-    <Compile Include="Services\DownloadManager.cs" />
+    <Compile Include="Services\TouchFileManager.cs" />
     <Compile Include="Views\PayHistoryPdfView.cs" />
     <Compile Include="Controls\TextFiled\TextFieldHandleText.cs" />
     <Compile Include="Controls\TextFiled\TextFieldValidationWithImage.cs" />
     <Compile Include="Controls\TextFiled\TextFieldValidatorView.cs" />
     <Compile Include="Controls\TextFiled\TextFieldWithValidator.cs" />
     <Compile Include="Controls\BoardField.cs" />
+    <Compile Include="Views\RegistrationView.cs" />
+    <Compile Include="Services\TouchProgressDialogManager.cs" />
+    <Compile Include="Controls\LoadingOverlay.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets')" />
@@ -407,6 +410,7 @@
     <BundleResource Include="Resources\Images\HomeView\InformationBoard\ic_status.png" />
     <BundleResource Include="Resources\Images\HomeView\InformationBoard\ic_tollroad.png" />
     <BundleResource Include="Resources\Images\HomeView\ic_logout.png" />
+    <BundleResource Include="Resources\Images\splash.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="facebookios">

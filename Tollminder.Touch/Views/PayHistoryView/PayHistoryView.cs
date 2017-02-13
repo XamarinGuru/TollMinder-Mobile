@@ -22,7 +22,7 @@ using MvvmCross.Binding.iOS.Views;
 
 namespace Tollminder.Touch.Views
 {
-    public class PayHistoryView : BaseViewController<PayHistoryViewModel>, ISignInUIDelegate, ICleanBackStack
+    public class PayHistoryView : BaseViewController<PayHistoryViewModel>, ICleanBackStack
     {
         UIButton backHomeView;
 		UITableView tableView;
@@ -118,8 +118,6 @@ namespace Tollminder.Touch.Views
                 scrollView.AtRightOf(View, 30),
                 scrollView.WithRelativeHeight(View, 0.8f)
             );
-
-            SignIn.SharedInstance.UIDelegate = this;
         }
 
         protected override void InitializeBindings()

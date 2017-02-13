@@ -74,7 +74,7 @@ namespace Tollminder.Touch
                 }
             }
 
-            return Facebook.CoreKit.ApplicationDelegate.SharedInstance.FinishedLaunching(application, launchOptions);
+            return true;//Facebook.CoreKit.ApplicationDelegate.SharedInstance.FinishedLaunching(application, launchOptions);
 
         }
 
@@ -187,5 +187,3 @@ namespace Tollminder.Touch
         }
     }
 }
-
-

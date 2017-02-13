@@ -20,7 +20,7 @@
     <XamarinInsightsApiKey>2b455f0ac1fe12ddfc5b5ffae045c69e33a79c33</XamarinInsightsApiKey>
     <AndroidLinkMode>None</AndroidLinkMode>
     <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
-    <JavaMaximumHeapSize>2G</JavaMaximumHeapSize>
+    <JavaMaximumHeapSize>3G</JavaMaximumHeapSize>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -336,7 +336,7 @@
     <Compile Include="Converters\DateTimeConverter.cs" />
     <Compile Include="Views\PayHistoryPdfView.cs" />
     <Compile Include="Services\PdfWebViewClient.cs" />
-    <Compile Include="Services\DownloadManager.cs" />
+    <Compile Include="Services\DroidFileManager.cs" />
     <Compile Include="Controls\PdfView.cs" />
     <Compile Include="Controls\CalendarRangeButton.cs" />
     <Compile Include="Controls\MvxExpandableList\Adapters\BindableExpandableListAdapter.cs" />

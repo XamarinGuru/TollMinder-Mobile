@@ -138,7 +138,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@android:color/transparent"
-                            android:hint="Password"
+                            android:hint="Password *"
                             android:inputType="textPassword"
                             android:nextFocusDown="@+id/password_confirm_editText"
                             android:layout_marginLeft="10dp"
@@ -157,7 +157,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@android:color/transparent"
-                            android:hint="Confirm Password"
+                            android:hint="Confirm Password *"
                             android:inputType="textPassword"
                             android:nextFocusDown="@+id/password_confirm_editText"
                             android:layout_marginLeft="10dp"
@@ -180,14 +180,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
-                        android:hint="(000) 000-0000"
+                        android:hint="(000) 000-0000 *"
                         android:inputType="phone"
                         android:maxLength="10"
                         android:nextFocusDown="@+id/registration_btn"
                         android:layout_marginLeft="10dp"
                         android:padding="10dp"
                         android:singleLine="true"
-                        local:MvxBind="Text PhoneNumber" />
+                        local:MvxBind="Text Profile.Phone" />
                 </android.support.design.widget.TextInputLayout>
                 <Button
                     android:layout_below="@id/phoneNumber_container"
@@ -212,6 +212,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
-            local:MvxBind="Hidden BoolInverseConverter(IsSmsValidationHidden)"/>
+            local:MvxBind="Hidden BoolInverseConverter(IsSmsValidationHidden)" />
     </RelativeLayout>
 </RelativeLayout>
