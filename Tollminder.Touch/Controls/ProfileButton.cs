@@ -63,8 +63,8 @@ namespace Tollminder.Touch.Controls
         {
             distanceBetweenTextAndIcon = EnvironmentInfo.GetProfileButtonDistanceBetweenTextAndIcon;
             iconMarginLeft = 20;
-            iconHeight = 0.1f;
-            iconWidth = 0.3f;
+            iconHeight = 0.3f;
+            iconWidth = 0.1f;
             textHeight = 0.4f;
 
             InitObjects();
@@ -75,7 +75,7 @@ namespace Tollminder.Touch.Controls
             distanceBetweenTextAndIcon = distanceBetweenTextAndImage == 0 ? EnvironmentInfo.GetProfileButtonDistanceBetweenTextAndIcon
                                                                             : distanceBetweenTextAndImage;
             this.iconMarginLeft = iconMarginLeft == 0 ? 20 : iconMarginLeft;
-            this.iconHeight = iconHeight == 0 ? 0.4f : iconHeight;
+            this.iconHeight = iconHeight == 0 ? 0.3f : iconHeight;
             this.iconWidth = iconWidth == 0 ? 0.1f : iconWidth;
             this.textHeight = textHeight == 0 ? 0.4f : textHeight;
 

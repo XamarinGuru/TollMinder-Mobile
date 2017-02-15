@@ -352,7 +352,6 @@
     <Compile Include="Views\Fragments\RoadInformationFragment.cs" />
     <Compile Include="Views\RegistrationView.cs" />
     <Compile Include="Services\DroidProgressDialogManager.cs" />
-    <Compile Include="Views\Fragments\SmsConfirmationFragment.cs" />
     <Compile Include="AndroidServices\FieldsService.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -367,7 +366,6 @@
     <Folder Include="Inerfaces\" />
     <Folder Include="BroadcastReceivers\" />
     <Folder Include="Converters\" />
-    <Folder Include="Models\" />
     <Folder Include="Controls\" />
     <Folder Include="Resources\mipmap-hdpi\" />
     <Folder Include="Resources\mipmap-mdpi\" />
@@ -558,7 +556,6 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_facebook.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_facebook.png" />
     <AndroidResource Include="Resources\drawable\facebook_button_style.xml" />
-    <AndroidResource Include="Resources\layout\sms_confirmation_view.axml" />
   </ItemGroup>
   <ItemGroup>
     <ProguardConfiguration Include="Properties\AndroidManifest.xml" />

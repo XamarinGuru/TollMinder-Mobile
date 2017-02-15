@@ -17,14 +17,12 @@ namespace Tollminder.Touch.Views
 {
     public class PayHistoryPdfView : BaseViewController<PayHistoryPdfViewModel>
     {
-        private NSUrl _documentUrl;
-        private string pdfPath;
         UIWebView pdfWebView;
         UILabel informationLabel;
         LabelForDataWheel urlLabel;
+
         UIButton backToPayHistoryViewButton;
-        ProfileButton downloadPdfButton;
-        ProfileButton openInButton;
+        UIButton openInButton;
 
         protected override void InitializeObjects()
         {
@@ -32,15 +30,14 @@ namespace Tollminder.Touch.Views
 
             View.BackgroundColor = UIColor.LightGray;
             var topView = new UIView();
-            var downloadRowView = new UIView();
             var profileNavigationBarBackground = new UIImageView(UIImage.FromBundle(@"Images/navigation_bar_background.png"));
             profileNavigationBarBackground.Frame = new CoreGraphics.CGRect(10, 10, profileNavigationBarBackground.Image.CGImage.Width, profileNavigationBarBackground.Image.CGImage.Height);
 
             backToPayHistoryViewButton = UIButton.FromType(UIButtonType.Custom);
             backToPayHistoryViewButton.SetImage(UIImage.FromFile(@"Images/ic_back.png"), UIControlState.Normal);
 
-            downloadPdfButton = ProfileButtonManager.ButtonInitiaziler("Download", UIImage.FromFile(@"Images/PayHistoryView/ic_download.png"));
-            openInButton = ProfileButtonManager.ButtonInitiaziler("Pdf open in", UIImage.FromFile(@"Images/PayHistoryView/ic_openIn.png"));
+            openInButton = UIButton.FromType(UIButtonType.Custom);
+            openInButton.SetImage(UIImage.FromFile(@"Images/PayHistoryView/ic_openIn.png"), UIControlState.Normal);
 
             informationLabel = new UILabel();
             informationLabel.TextColor = UIColor.White;
@@ -55,7 +52,7 @@ namespace Tollminder.Touch.Views
             NavigationController.SetNavigationBarHidden(true, false);
             View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile(@"Images/tab_background.png").Scale(View.Frame.Size));
 
-            topView.AddIfNotNull(profileNavigationBarBackground, backToPayHistoryViewButton, informationLabel);
+            topView.AddIfNotNull(profileNavigationBarBackground, backToPayHistoryViewButton, informationLabel, openInButton);
             topView.AddConstraints(
                 profileNavigationBarBackground.WithSameWidth(topView),
                 profileNavigationBarBackground.WithSameHeight(topView),
@@ -69,36 +66,21 @@ namespace Tollminder.Touch.Views
                 informationLabel.WithSameCenterY(topView),
                 informationLabel.WithSameCenterX(topView),
                 informationLabel.WithSameWidth(topView),
-                informationLabel.WithRelativeHeight(topView, 0.3f)
+                informationLabel.WithRelativeHeight(topView, 0.3f),
+
+                openInButton.WithSameCenterY(topView),
+                openInButton.AtRightOf(topView, 20),
+                openInButton.WithRelativeWidth(topView, 0.1f),
+                openInButton.WithRelativeHeight(topView, 0.2f)
             );
 
-            downloadRowView.AddIfNotNull(openInButton); //downloadPdfButton, 
-            downloadRowView.AddConstraints(
-                //downloadPdfButton.AtTopOf(downloadRowView),
-                //downloadPdfButton.AtLeftOf(downloadRowView),
-                //downloadPdfButton.WithRelativeWidth(downloadRowView, 0.47f),
-                //downloadPdfButton.WithSameHeight(downloadRowView),
-
-                openInButton.AtTopOf(downloadRowView),
-                openInButton.WithSameWidth(downloadRowView),
-                openInButton.WithSameCenterX(downloadRowView),
-                //openInButton.AtRightOf(downloadRowView),
-                //openInButton.WithRelativeWidth(downloadRowView, 0.5f),
-                openInButton.WithSameHeight(downloadRowView)
-            );
-
-            View.AddIfNotNull(topView, downloadRowView, pdfWebView);
+            View.AddIfNotNull(topView, pdfWebView);
             View.AddConstraints(
                 topView.AtTopOf(View),
                 topView.WithSameWidth(View),
                 topView.WithRelativeHeight(View, 0.2f),
 
-                downloadRowView.Below(topView, 10),
-                downloadRowView.AtLeftOf(View, 30),
-                downloadRowView.AtRightOf(View, 30),
-                downloadRowView.WithRelativeHeight(View, 0.06f),
-
-                pdfWebView.Below(downloadRowView, 10),
+                pdfWebView.Below(topView, 10),
                 pdfWebView.AtLeftOf(View, 30),
                 pdfWebView.AtRightOf(View, 30),
                 pdfWebView.WithRelativeHeight(View, 0.8f)
@@ -113,7 +95,6 @@ namespace Tollminder.Touch.Views
                 var set = this.CreateBindingSet<PayHistoryPdfView, PayHistoryPdfViewModel>();
                 set.Bind(urlLabel.WheelText).To(vm => vm.PdfUrl);
                 set.Bind(backToPayHistoryViewButton).To(vm => vm.BackToPayHistoryCommand);
-                //set.Bind(downloadPdfButton).To(vm => vm.DownloadPayHistoryPdfCommand);
                 set.Bind(openInButton).To(vm => vm.FileOpenInCommand);
                 set.Apply();
                 pdfWebView.LoadRequest(new NSUrlRequest(new NSUrl(urlLabel.WheelText.Text)));

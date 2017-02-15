@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -37,7 +38,7 @@ namespace Tollminder.Core.ViewModels
                 await LoadHistory();
             });
 
-            downloadHistoryCommand = new MvxCommand(async () => await ServerCommandWrapper(async () => await DownloadPdf()));
+            downloadHistoryCommand = new MvxCommand( () => ServerCommandWrapper(() => DownloadPdf()));
         }
 
         public async override void Start()
@@ -50,13 +51,21 @@ namespace Tollminder.Core.ViewModels
         {
             Mvx.Resolve<IProgressDialogManager>().ShowProgressDialog("Please wait!", "Pay history is loading...");
             History = await serverApiService.GetPayHistory(storedSettingsService.ProfileId, GetPayDateFrom, GetPayDateTo);
-            if (History != null)
+            try
             {
-                Mvx.Resolve<IProgressDialogManager>().CloseProgressDialog();
-                isPayHistoryAwailableForUser = true;
+                if (History.Count != 0)
+                {
+                    Mvx.Resolve<IProgressDialogManager>().CloseProgressDialog();
+                    isPayHistoryAwailableForUser = true;
+                }
+                else
+                    Mvx.Resolve<IProgressDialogManager>().CloseAndShowMessage("Error", "Sorry, there is no pay history for now.");
             }
-            else
+            catch (NullReferenceException ex)
+            {
+                Debug.WriteLine(ex.Message);
                 Mvx.Resolve<IProgressDialogManager>().CloseAndShowMessage("Error", "Sorry, there is no pay history for now.");
+            }
         }
 
         async Task DownloadPdf()
@@ -72,14 +81,17 @@ namespace Tollminder.Core.ViewModels
         }
 
         private string getPdfUrl;
-        public string GetPdfUrl { get { return getPdfUrl;} 
+        public string GetPdfUrl 
+        { 
+            get { return getPdfUrl;} 
             set{
                 SetProperty(ref getPdfUrl, value);
                 RaisePropertyChanged(() => GetPdfUrl);
             }
         }
         private DateTime getPayDateFrom;
-        public DateTime GetPayDateFrom { 
+        public DateTime GetPayDateFrom 
+        { 
             get { return getPayDateFrom; } 
             set 
             {
@@ -89,7 +101,8 @@ namespace Tollminder.Core.ViewModels
         }
 
         private DateTime getPayDateTo;
-        public DateTime GetPayDateTo { 
+        public DateTime GetPayDateTo 
+        { 
             get { return getPayDateTo; }
             set
             {

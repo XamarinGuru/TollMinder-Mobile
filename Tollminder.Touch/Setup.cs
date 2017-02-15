@@ -55,13 +55,6 @@ namespace Tollminder.Touch
             Mvx.LazyConstructAndRegisterSingleton<IProgressDialogManager, TouchProgressDialogManager>();
 		}
 
-        protected override void FillTargetFactories(IMvxTargetBindingFactoryRegistry registry)
-        {
-            base.FillTargetFactories(registry);
-
-            registry.RegisterFactory(new MvxCustomBindingFactory<MvxAlertAction>("Click", click => new MvxAlertActionBinding(click, null)));
-        }
-
         //protected override void FillValueConverters(IMvxValueConverterRegistry registry)
         //{
         //    registry.AddOrOverwrite("GetPathToImageConverter", new GetPathToImageConverter());

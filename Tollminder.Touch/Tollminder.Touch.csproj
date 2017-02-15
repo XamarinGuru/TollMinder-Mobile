@@ -331,8 +331,6 @@
     <Compile Include="Controls\LoadingOverlay.cs" />
     <Compile Include="Controls\EnhancedToolbar.cs" />
     <Compile Include="Helpers\KeyboardHandler.cs" />
-    <Compile Include="Helpers\MvxAlertActionHelpers\MvxAlertAction.cs" />
-    <Compile Include="Helpers\MvxAlertActionHelpers\MvxAlertActionBinding.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets')" />
@@ -366,7 +364,6 @@
     <Folder Include="Views\PayHistoryView\" />
     <Folder Include="Controls\TextFiled\" />
     <Folder Include="Resources\Images\HomeView\InformationBoard\" />
-    <Folder Include="Helpers\MvxAlertActionHelpers\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\OpenEars1.dic" />

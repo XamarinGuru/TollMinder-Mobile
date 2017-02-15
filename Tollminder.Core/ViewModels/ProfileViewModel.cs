@@ -11,17 +11,13 @@ namespace Tollminder.Core.ViewModels
     public class ProfileViewModel : BaseViewModel
     {
         readonly ILoadResourceData<StatesData> loadResourceData;
-        readonly ISynchronisationService synchronisationService;
         readonly IProfileSettingService profileSettingService;
-        readonly IStoredSettingsService storedSettingsService;
         readonly int firstState = 0;
 
         public ProfileViewModel()
         {
             loadResourceData = Mvx.Resolve<ILoadResourceData<StatesData>>();
-            storedSettingsService = Mvx.Resolve<IStoredSettingsService>();
             profileSettingService = Mvx.Resolve<IProfileSettingService>();
-            synchronisationService = Mvx.Resolve<ISynchronisationService>();
             profile = new Profile();
 
             backHomeCommand = new MvxCommand(() => {

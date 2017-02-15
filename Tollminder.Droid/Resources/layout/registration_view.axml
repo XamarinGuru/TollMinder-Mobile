@@ -204,14 +204,4 @@
             </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <android.support.v4.view.ViewPager
-            android:id="@+id/sms_confirmation_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            local:MvxBind="Hidden BoolInverseConverter(IsSmsValidationHidden)" />
-    </RelativeLayout>
 </RelativeLayout>

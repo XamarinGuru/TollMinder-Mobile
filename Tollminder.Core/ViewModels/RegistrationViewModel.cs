@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Chance.MvvmCross.Plugins.UserInteraction;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using MvvmValidation;
@@ -22,7 +23,7 @@ namespace Tollminder.Core.ViewModels
             serverApiService = Mvx.Resolve<IServerApiService>();
 
             backToLoginViewCommand = new MvxCommand(() => { ShowViewModel<LoginViewModel>(); });
-            registrationCommand = new MvxCommand(async () => await ServerCommandWrapper(async () => await Registration()));
+            registrationCommand = new MvxCommand(() => ServerCommandWrapper(() =>  Registration()));
             validateCommand = new MvxCommand(() => ComparePhoneCode());
         }
 
@@ -81,18 +82,6 @@ namespace Tollminder.Core.ViewModels
             get { return !IsSocialRegistrationHidden ? "Please, Enter Your Phone Number." : "Please, Fill Next Fields."; }
         }
 
-        bool isSmsValidationHidden;
-        public bool IsSmsValidationHidden
-        {
-            get { return isSmsValidationHidden; }
-            set
-            {
-                SetProperty(ref isSmsValidationHidden, value);
-                RaisePropertyChanged(() => IsSmsValidationHidden);
-                RaisePropertyChanged(() => ViewInformation);
-            }
-        }
-
         bool isSocialRegistrationHidden = true;
         public bool IsSocialRegistrationHidden
         {
@@ -113,6 +102,7 @@ namespace Tollminder.Core.ViewModels
             //}
 
             //if (SmsCode == profileData.PhoneCode)
+
             if(SmsCode == "1111")
             {
                 profile.PhoneValidate = true;
@@ -138,9 +128,7 @@ namespace Tollminder.Core.ViewModels
             //    Mvx.Resolve<IProgressDialogManager>().ShowMessage("Error", "Field can't' be empty.");
             //    return;
             //}
-            Mvx.Resolve<IProgressDialogManager>().SmsConfirmation("sadasd", "");
             
-            //Mvx.Resolve<IProgressDialogManager>().ShowProgressDialog("Registration", "Please wait!");
             if (IsSocialRegistrationHidden)
             {
                 if (!CheckFields())
@@ -154,7 +142,8 @@ namespace Tollminder.Core.ViewModels
                 {
                     Mvx.Resolve<IProgressDialogManager>().CloseProgressDialog();
                     SmsCode = "1111";
-                    IsSmsValidationHidden = true;
+                    var inputResult = await Mvx.Resolve<IUserInteraction>().InputAsync("Please input code from SMS", "XXXX", null, "Validate", null, SmsCode);
+                    SmsCode = inputResult.Text;
                     profile = result;
                 }
             }

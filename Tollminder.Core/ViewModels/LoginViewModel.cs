@@ -24,9 +24,9 @@ namespace Tollminder.Core.ViewModels
             _storedSettingsService = Mvx.Resolve<IStoredSettingsService>();
             _facebookLoginService = Mvx.Resolve<IFacebookLoginService>();
             _gPlusLoginService = Mvx.Resolve<IGPlusLoginService>();
-            _emailLoginCommand = new MvxCommand(async () => await ServerCommandWrapper(async () => await LoginTask(EmailLoginData)));
-            _facebookLoginCommand = new MvxCommand(async () => await ServerCommandWrapper(async () => await LoginTask(await _facebookLoginService.GetPersonData())));
-            _gPlusLoginCommand = new MvxCommand(async () => await ServerCommandWrapper(async () => await LoginTask(await _gPlusLoginService.GetPersonData())));
+            _emailLoginCommand = new MvxCommand(() => ServerCommandWrapper(() => LoginTask(EmailLoginData)));
+            _facebookLoginCommand = new MvxCommand(() => ServerCommandWrapper(async () => await LoginTask(await _facebookLoginService.GetPersonData())));
+            _gPlusLoginCommand = new MvxCommand(() => ServerCommandWrapper(async () => await LoginTask(await _gPlusLoginService.GetPersonData())));
             _registrationCommand = new MvxCommand(() => { ShowViewModel<RegistrationViewModel>();});
             _forgotPasswordCommand = new MvxCommand(() => { });
         }
