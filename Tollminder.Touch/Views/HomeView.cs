@@ -66,7 +66,7 @@ namespace Tollminder.Touch.Views
             var applicationLogo = new UIImageView(UIImage.FromBundle(@"Images/logo.png"));
             View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile(@"Images/main_background.png").Scale(View.Frame.Size));
             applicationLogo.Frame = new CGRect(10, 10, applicationLogo.Image.CGImage.Width, applicationLogo.Image.CGImage.Height);
-            logoutButton = RoundedButtonManager.ButtonInitiaziler("", UIImage.FromFile(@"Images/HomeView/ic_log_out.png"));
+            logoutButton = RoundedButtonManager.ButtonInitiaziler("", UIImage.FromFile(@"Images/HomeView/ic_logout.png"));
             // Hide navigation bar
             NavigationController.SetNavigationBarHidden(true, false);
             

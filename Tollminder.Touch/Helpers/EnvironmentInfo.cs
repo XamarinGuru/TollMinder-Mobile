@@ -66,6 +66,11 @@ namespace Tollminder.Touch
             get { return GetScreenHeight > 640 ? 60 : 50; }
         }
 
+        public static nfloat GetGoogleButtonDistanceBetweenTextAndIcon
+        {
+            get { return GetScreenHeight > 640 ? 50 : 40; }
+        }
+
         public static nfloat GetLabelDataWheelDistanceBetweenPlaceholderAndWheelText
         {
             get { return GetScreenHeight > 640 ? 3 : 2; }

@@ -18,6 +18,10 @@ namespace Tollminder.Touch.Controls
         UIColor buttonBackGroundColor;
         UIColor buttonTextColor;
         nfloat distanceBetweenTextAndIcon;
+        nfloat iconHeight;
+        nfloat iconWidth;
+        nfloat textHeight;
+        nfloat iconMarginLeft;
 
         public UIImage ButtonIcon
         {
@@ -58,13 +62,23 @@ namespace Tollminder.Touch.Controls
         public ProfileButton() : base()
         {
             distanceBetweenTextAndIcon = EnvironmentInfo.GetProfileButtonDistanceBetweenTextAndIcon;
+            iconMarginLeft = 20;
+            iconHeight = 0.1f;
+            iconWidth = 0.3f;
+            textHeight = 0.4f;
+
             InitObjects();
         }
 
-        public ProfileButton(nfloat distanceBetweenTextAndImage) : base()
+        public ProfileButton(nfloat distanceBetweenTextAndImage, nfloat iconMarginLeft, nfloat iconHeight, nfloat iconWidth, nfloat textHeight) : base()
         {
             distanceBetweenTextAndIcon = distanceBetweenTextAndImage == 0 ? EnvironmentInfo.GetProfileButtonDistanceBetweenTextAndIcon
                                                                             : distanceBetweenTextAndImage;
+            this.iconMarginLeft = iconMarginLeft == 0 ? 20 : iconMarginLeft;
+            this.iconHeight = iconHeight == 0 ? 0.4f : iconHeight;
+            this.iconWidth = iconWidth == 0 ? 0.1f : iconWidth;
+            this.textHeight = textHeight == 0 ? 0.4f : textHeight;
+
             InitObjects();
         }
 
@@ -96,15 +110,15 @@ namespace Tollminder.Touch.Controls
 
             this.AddConstraints(
                 iconView.WithSameCenterY(this),
-                iconView.AtLeftOf(this, 20),
-                iconView.WithRelativeWidth(this, 0.1f),
-                iconView.WithRelativeHeight(this, 0.3f),
+                iconView.AtLeftOf(this, iconMarginLeft),
+                iconView.WithRelativeWidth(this, iconWidth),
+                iconView.WithRelativeHeight(this, iconHeight),
 
                 buttonText.WithSameCenterX(this),
                 buttonText.WithSameCenterY(this),
                 buttonText.AtLeftOf(iconView, distanceBetweenTextAndIcon),
                 buttonText.WithRelativeWidth(this, 0.8f),
-                buttonText.WithRelativeHeight(this, 0.4f),
+                buttonText.WithRelativeHeight(this, textHeight),
 
                 arrowView.WithSameCenterY(this),
                 arrowView.AtRightOf(this, 20),

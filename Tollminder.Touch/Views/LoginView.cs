@@ -13,6 +13,7 @@ using Tollminder.Core.ViewModels;
 using Tollminder.Touch.Controllers;
 using Tollminder.Touch.Controls;
 using Tollminder.Touch.Extensions;
+using Tollminder.Touch.Helpers;
 using Tollminder.Touch.Interfaces;
 using UIKit;
 
@@ -28,7 +29,7 @@ namespace Tollminder.Touch.Views
         TextFieldValidationWithImage _passwordTextField;
 
         UIButton _facebookLoginButton;
-        UIButton _googlePlusLoginButton;
+        ProfileButton _googlePlusLoginButton;
         UIButton _loginButton;
         UIButton forgotPasswordButton;
         UIButton registrationButton;
@@ -65,7 +66,7 @@ namespace Tollminder.Touch.Views
             NavigationController.SetNavigationBarHidden(true, false);
 
             View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile(@"Images/main_background.png").Scale(View.Frame.Size));
-            applicationLogo.Frame = new CoreGraphics.CGRect(10, 10, applicationLogo.Image.CGImage.Width, applicationLogo.Image.CGImage.Height);
+            applicationLogo.Frame = new CGRect(10, 10, applicationLogo.Image.CGImage.Width, applicationLogo.Image.CGImage.Height);
             topView.AddIfNotNull(applicationLogo);
             topView.AddConstraints(
                 applicationLogo.WithRelativeWidth(topView, 0.5f),
@@ -84,19 +85,16 @@ namespace Tollminder.Touch.Views
             _loginButton = ButtonInitializer("Login", UIControlState.Normal, Theme.BlueDark.ToUIColor(),
                               UIColor.White, UIControlState.Normal, null, UIControlState.Disabled);
 
-            _googlePlusLoginButton = ButtonInitializer(null, UIControlState.Disabled, null, null,
-                              UIControlState.Disabled, @"Images/loginView/google-button.png", UIControlState.Normal);
+            _googlePlusLoginButton = CreateGoogleButton();
+
             var sloginView = new LoginButton(new CGRect(51, 0, 218, 46))
             {
                 LoginBehavior = LoginBehavior.Native,
                 ReadPermissions = readPermissions.ToArray()
             };
-            Google.SignIn.SignInButton google = new SignInButton();
-            _facebookLoginButton = ButtonInitializer(null, UIControlState.Disabled, null, null,
-                              UIControlState.Disabled, null, UIControlState.Normal);
-            _facebookLoginButton.SetImage(sloginView.CurrentImage, UIControlState.Normal);
-            _facebookLoginButton.SetTitle(sloginView.CurrentTitle, UIControlState.Normal);
-            _facebookLoginButton.SetTitleColor(sloginView.CurrentTitleColor, UIControlState.Normal);
+
+            _facebookLoginButton = ButtonInitializer(sloginView.CurrentTitle, UIControlState.Normal, null, sloginView.CurrentTitleColor,
+                                                     UIControlState.Normal, sloginView.CurrentImage, UIControlState.Normal);
             _facebookLoginButton.SetBackgroundImage(sloginView.CurrentBackgroundImage, UIControlState.Normal);
             _facebookLoginButton.Font = UIFont.FromName("Helvetica", 14f);
             _facebookLoginButton.ImageEdgeInsets = new UIEdgeInsets(0, 0, 0, 40);
@@ -109,41 +107,7 @@ namespace Tollminder.Touch.Views
                               null, UIColor.Cyan, UIControlState.Normal, null, UIControlState.Normal);
             registrationButton.TitleLabel.Font = UIFont.FromName("Helvetica", 12f);
 
-            // Handle actions once the user is logged in
-            //sloginView.Completed += (sender, e) =>
-            //{
-            //    if (e.Error != null)
-            //    {
-            //        // Handle if there was an error
-            //    }
-
-            //    if (e.Result.IsCancelled)
-            //    {
-            //        // Handle if the user cancelled the login request
-            //        new LoginManager().LogOut();
-            //        Profile.CurrentProfile = null;
-            //    }
-
-            //    // Handle your successful login
-            //};
-
-            //// Handle actions once the user is logged out
-            //sloginView.LoggedOut += (sender, e) =>
-            //{
-            //    // Handle your logout
-            //    new LoginManager().LogOut();
-            //    Profile.CurrentProfile = null;
-
-            //};
-            //Facebook.CoreKit.Profile.Notifications.ObserveDidChange((sender, e) =>
-            //{
-            //    if (e.NewProfile == null)
-            //        return;
-
-            //    Debug.WriteLine(e.NewProfile.Name);
-            //});
-
-            socialNetworksView.AddIfNotNull(socialNetworkLabel, _facebookLoginButton, google);
+            socialNetworksView.AddIfNotNull(socialNetworkLabel, _facebookLoginButton, _googlePlusLoginButton);
             socialNetworksView.AddConstraints(
                 socialNetworkLabel.AtTopOf(socialNetworksView),
                 socialNetworkLabel.AtLeftOf(socialNetworksView),
@@ -156,9 +120,10 @@ namespace Tollminder.Touch.Views
                 _facebookLoginButton.WithRelativeWidth(socialNetworksView, 0.48f),
                 _facebookLoginButton.WithRelativeHeight(socialNetworksView, 0.4f),
 
-                google.Below(socialNetworkLabel),
-                google.WithRelativeWidth(socialNetworksView, 0.48f),
-                google.AtRightOf(socialNetworksView)
+                _googlePlusLoginButton.Below(socialNetworkLabel),
+                _googlePlusLoginButton.WithRelativeWidth(socialNetworksView, 0.48f),
+                _googlePlusLoginButton.WithRelativeHeight(socialNetworksView, 0.4f),
+                _googlePlusLoginButton.AtRightOf(socialNetworksView)
             );
 
             // Central block with text fields and login buttons
@@ -243,20 +208,27 @@ namespace Tollminder.Touch.Views
             return textField;
         }
 
+        private ProfileButton CreateGoogleButton()
+        {
+            var socialNetworkButton= ProfileButtonManager.ButtonInitiaziler(EnvironmentInfo.GetGoogleButtonDistanceBetweenTextAndIcon, 0.1f, 0.6f, 0.3f, 0.5f, "Sign in",
+                                                                            UIImage.FromFile(@"Images/LoginView/ic_google.png"), UIColor.DarkGray, UIColor.White);
+            socialNetworkButton.Layer.CornerRadius = 5;
+            socialNetworkButton.Layer.ShadowColor = UIColor.Black.CGColor;
+            socialNetworkButton.Layer.ShadowOpacity = 0.1f;
+            socialNetworkButton.Layer.ShadowRadius = 1;
+            socialNetworkButton.Layer.ShadowOffset = new CGSize(1, 1);
+            return socialNetworkButton;
+        }
+
         private UIButton ButtonInitializer(string title, UIControlState titleState, UIColor backgroundColor, 
-                                           UIColor titleColor, UIControlState colorTitleState, string imagePath, UIControlState imageState)
+                                           UIColor titleColor, UIControlState colorTitleState, UIImage image, UIControlState imageState)
         {
             UIButton button = new UIButton();
             button.SetTitle(title, titleState);
-            if (imagePath != null)
-            {
-                button.SetImage(UIImage.FromFile(imagePath), imageState);
-                button.HorizontalAlignment = UIControlContentHorizontalAlignment.Fill;
-                button.VerticalAlignment = UIControlContentVerticalAlignment.Fill;
-            }
+            if (image != null)
+                button.SetImage(image, imageState);
             button.BackgroundColor = backgroundColor;
             button.SetTitleColor(titleColor, colorTitleState);
-            button.ImageView.ContentMode = UIViewContentMode.ScaleToFill;
             button.ClipsToBounds = false;
             button.Layer.CornerRadius = 10;
             button.Layer.ShadowColor = UIColor.Black.CGColor;

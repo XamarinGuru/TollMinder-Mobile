@@ -16,6 +16,8 @@ using MvvmCross.Binding.iOS.Views;
 using Tollminder.Core;
 using System.Drawing;
 using Foundation;
+using System.Threading.Tasks;
+using Tollminder.Touch.Helpers.MvxAlertActionHelpers;
 
 namespace Tollminder.Touch.Views
 {
@@ -24,7 +26,12 @@ namespace Tollminder.Touch.Views
         UIButton backHomeView;
         UILabel nameOfPageLabel;
         UILabel informationAboutPageLabel;
+        UIView topTextRowView;
         UIView centerTextRowView;
+        UITextField smsInputTextField;
+        UIAlertController smsConfirmationAlertController;
+        TaskCompletionSource<string> smsConfirmationTask;
+        MvxAlertAction smsValidateButton;
 
         TextFieldValidationWithImage firstNameTextField;
         TextFieldValidationWithImage lastNameTextField;
@@ -53,9 +60,9 @@ namespace Tollminder.Touch.Views
 
             var topView = new UIView();
             var scrollView = new UIScrollView();
-            var topTextRowView = new UIView();
-            var bottomTextRowView = new UIView();
+            topTextRowView = new UIView();
             centerTextRowView = new UIView();
+            var bottomTextRowView = new UIView();
             var bottomView = new UIView();
             var profileNavigationBarBackground = new UIImageView(UIImage.FromBundle(@"Images/navigation_bar_background.png"));
 
@@ -111,7 +118,6 @@ namespace Tollminder.Touch.Views
 
             registrationButton = ButtonInitializer("Registration", UIControlState.Normal, Theme.BlueDark.ToUIColor(),
                               UIColor.White, UIControlState.Normal, null, UIControlState.Disabled);
-            //addCreditCardButton = ProfileButtonManager.ButtonInitiaziler("Add Credit Card", UIImage.FromFile(@"Images/ProfileView/ic_card.png"));
 
             topTextRowView.AddIfNotNull(firstNameTextField, lastNameTextField);
             topTextRowView.AddConstraints(
@@ -143,19 +149,6 @@ namespace Tollminder.Touch.Views
                 confirmPasswordTextField.WithSameWidth(centerTextRowView),
                 confirmPasswordTextField.WithRelativeHeight(centerTextRowView, 0.3f)
             );
-
-            //bottomTextRowView.AddIfNotNull(stateLabel, zipCodeTextField);
-            //bottomTextRowView.AddConstraints(
-            //    stateLabel.AtTopOf(bottomTextRowView),
-            //    stateLabel.AtLeftOf(bottomTextRowView),
-            //    stateLabel.WithRelativeWidth(bottomTextRowView, 0.475f),
-            //    stateLabel.WithSameHeight(bottomTextRowView),
-
-            //    zipCodeTextField.AtTopOf(bottomTextRowView),
-            //    zipCodeTextField.AtRightOf(bottomTextRowView),
-            //    zipCodeTextField.WithRelativeWidth(bottomTextRowView, 0.475f),
-            //    zipCodeTextField.WithSameHeight(bottomTextRowView)
-            //);
 
             bottomView.AddIfNotNull(registrationButton, phoneNumberTextField);
             bottomView.AddConstraints(
@@ -206,13 +199,37 @@ namespace Tollminder.Touch.Views
             EnableNextKeyForTextFields(firstNameTextField.TextFieldWithValidator.TextField, lastNameTextField.TextFieldWithValidator.TextField, emailTextField.TextFieldWithValidator.TextField,
                                        passwordTextField.TextFieldWithValidator.TextField, confirmPasswordTextField.TextFieldWithValidator.TextField, phoneNumberTextField.TextFieldWithValidator.TextField);
 
+            registrationButton.TouchDown += (object sender, EventArgs e) => 
+            {
+                //SmsConfirmation("Please input code from SMS", "");
+                //return smsConfirmationTask.Task;
+            };
+        }
+
+        public void SmsConfirmation(string title, string message)
+        {
+            smsConfirmationAlertController = UIAlertController.Create(title, message, UIAlertControllerStyle.Alert);
+
+            smsConfirmationAlertController.AddTextField((textField) =>
+            {
+                smsInputTextField = textField;
+                smsInputTextField.Placeholder = "XXXX";
+                smsInputTextField.SecureTextEntry = true;
+            });
+            smsConfirmationAlertController.AddAction(smsValidateButton.AlertAction);
+
+            // Display the alert
+            this.PresentViewController(smsConfirmationAlertController, true, null);
         }
        
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
 
-            var g = new UITapGestureRecognizer(() =>
+            //smsConfirmationTask = new TaskCompletionSource<string>();
+            //smsValidateButton = new MvxAlertAction("Validate", UIAlertActionStyle.Default);
+            
+            var gestureRecognizer = new UITapGestureRecognizer(() =>
             {
                 firstNameTextField.TextFieldWithValidator.TextField.ResignFirstResponder();
                 lastNameTextField.TextFieldWithValidator.TextField.ResignFirstResponder();
@@ -221,7 +238,7 @@ namespace Tollminder.Touch.Views
                 confirmPasswordTextField.TextFieldWithValidator.TextField.ResignFirstResponder();
                 phoneNumberTextField.TextFieldWithValidator.TextField.ResignFirstResponder();
             });
-            View.AddGestureRecognizer(g);
+            View.AddGestureRecognizer(gestureRecognizer);
             AddDoneButtonOnKeyBoard();
             RegisterForKeyboardNotifications();
         }
@@ -390,6 +407,7 @@ namespace Tollminder.Touch.Views
             set.Bind(informationAboutPageLabel).To(vm => vm.ViewInformation);
             set.Bind(backHomeView).To(vm => vm.BackToLoginViewCommand);
 
+            set.Bind(topTextRowView).For(x => x.Hidden).To(vm => vm.IsSocialRegistrationHidden).WithConversion(new BoolInverseConverter());
             set.Bind(centerTextRowView).For(x => x.Hidden).To(vm => vm.IsSocialRegistrationHidden).WithConversion(new BoolInverseConverter());
             set.Bind(firstNameTextField.TextFieldWithValidator.TextField).To(vm => vm.Profile.FirstName);
             set.Bind(lastNameTextField.TextFieldWithValidator.TextField).To(vm => vm.Profile.LastName);
@@ -401,6 +419,8 @@ namespace Tollminder.Touch.Views
             set.Bind(registrationButton).To(vm => vm.RegistrationCommand);
             set.Bind(registrationButton).For(x => x.Enabled).To(vm => vm.IsBusy).WithConversion(new BoolInverseConverter());
            
+            set.Bind(smsInputTextField).To(vm => vm.SmsCode);
+            set.Bind(smsValidateButton).For("Click").To(vm => vm.ValidateCommand);
             set.Apply();
         }
     }

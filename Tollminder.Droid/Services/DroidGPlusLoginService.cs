@@ -67,7 +67,7 @@ namespace Tollminder.Droid.Services
             Intent signInIntent = Auth.GoogleSignInApi.GetSignInIntent(googleApiClient);
             Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity.StartActivityForResult(signInIntent, googleSignInRequestCode);
             //Auth.GoogleSignInApi.SignOut(googleApiClient);
-            googleApiClient.Connect();
+            //googleApiClient.Connect();
             return _gPlusTask.Task;
         }
 
@@ -137,11 +137,11 @@ namespace Tollminder.Droid.Services
             // successfule log in
             signInClicked = false;
 
-            if(PlusClass.PeopleApi.GetCurrentPerson(googleApiClient) != null)
-            {
-                Android.Gms.Plus.Model.People.IPerson plusUser = PlusClass.PeopleApi.GetCurrentPerson(googleApiClient);
-                System.Diagnostics.Debug.WriteLine(plusUser.DisplayName);
-            }
+            //if(PlusClass.PeopleApi.GetCurrentPerson(googleApiClient) != null)
+            //{
+            //    Android.Gms.Plus.Model.People.IPerson plusUser = PlusClass.PeopleApi.GetCurrentPerson(googleApiClient);
+            //    System.Diagnostics.Debug.WriteLine(plusUser.DisplayName);
+            //}
 
             System.Diagnostics.Debug.WriteLine("onConnected:" + connectionHint);
         }

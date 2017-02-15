@@ -2,7 +2,6 @@
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using Tollminder.Core.Services;
-using Tollminder.Core.Services.Implementation;
 using Tollminder.Core.ViewModels;
 
 namespace Tollminder.Core

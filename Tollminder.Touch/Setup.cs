@@ -9,6 +9,8 @@ using MvvmCross.Platform;
 using MvvmCross.Platform.Converters;
 using Tollminder.Touch.Converters;
 using Tollminder.Touch.Services.SpeechServices;
+using MvvmCross.Binding.Bindings.Target.Construction;
+using Tollminder.Touch.Helpers.MvxAlertActionHelpers;
 
 namespace Tollminder.Touch
 {
@@ -52,6 +54,13 @@ namespace Tollminder.Touch
             Mvx.LazyConstructAndRegisterSingleton<IHttpClientHandlerService, TouchHttpClientHandlerService>();
             Mvx.LazyConstructAndRegisterSingleton<IProgressDialogManager, TouchProgressDialogManager>();
 		}
+
+        protected override void FillTargetFactories(IMvxTargetBindingFactoryRegistry registry)
+        {
+            base.FillTargetFactories(registry);
+
+            registry.RegisterFactory(new MvxCustomBindingFactory<MvxAlertAction>("Click", click => new MvxAlertActionBinding(click, null)));
+        }
 
         //protected override void FillValueConverters(IMvxValueConverterRegistry registry)
         //{

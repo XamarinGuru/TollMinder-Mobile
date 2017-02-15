@@ -138,14 +138,15 @@ namespace Tollminder.Core.ViewModels
             //    Mvx.Resolve<IProgressDialogManager>().ShowMessage("Error", "Field can't' be empty.");
             //    return;
             //}
-
+            Mvx.Resolve<IProgressDialogManager>().SmsConfirmation("sadasd", "");
+            
             //Mvx.Resolve<IProgressDialogManager>().ShowProgressDialog("Registration", "Please wait!");
             if (IsSocialRegistrationHidden)
             {
                 if (!CheckFields())
                     return;
             }
-
+            
             if (CheckField("Phone number", Profile.Phone))
             {
                 var result = await serverApiService.SignUp(profile);
