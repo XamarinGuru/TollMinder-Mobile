@@ -15,6 +15,7 @@ using MvvmCross.Platform.Droid.Platform;
 using Tollminder.Core.Models;
 using Tollminder.Core.Services;
 using Tollminder.Droid.Inerfaces;
+using Xamarin.Auth;
 
 namespace Tollminder.Droid.Services
 {
@@ -30,10 +31,36 @@ namespace Tollminder.Droid.Services
         private bool signInClicked;
         private bool infoPopulated;
 
+
+        private Context context;
+        bool isLogin = false;
+        Intent loginViewIntent;
         TaskCompletionSource<SocialData> _gPlusTask;
 
         public DroidGPlusLoginService()
         {
+        }
+
+        public Task<SocialData> GetPersonData()
+        {
+            if (!googleApiClient.IsConnecting)
+            {
+                signInClicked = true;
+                ResolveSignInError();
+            }
+            _gPlusTask = new TaskCompletionSource<SocialData>();
+
+            Intent signInIntent = Auth.GoogleSignInApi.GetSignInIntent(googleApiClient);
+            //AlertDialog.Builder builder = new AlertDialog.Builder(Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity);
+            //builder.SetView(signInIntent);
+            //builder.Create();
+            //dialog = builder.Show();
+            //Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity.StartIntentSenderForResult(connectionResult.Resolution.IntentSender, 0, null, 0, 0, 0);
+            Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity.StartActivityForResult(signInIntent, googleSignInRequestCode);
+            //Auth.GoogleSignInApi.SignOut(googleApiClient);
+            //googleApiClient.Connect();
+            //LoginToGoogle();
+            return _gPlusTask.Task;
         }
 
         public void Initialize()
@@ -41,34 +68,45 @@ namespace Tollminder.Droid.Services
             // Configure sign-in to request the user's ID, email address, and basic profile. ID and
             // basic profile are included in DEFAULT_SIGN_IN.
             gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
-                                         .RequestEmail()
+                .RequestEmail()
                 .Build();
-
+            View view = Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity.LayoutInflater.Inflate(Resource.Layout.calendar_fragment, null);
             // Build a GoogleApiClient with access to GoogleSignIn.API and the options above.
             googleApiClient = new GoogleApiClient.Builder(Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity as FragmentActivity)
                 .AddConnectionCallbacks(this)
                 .AddOnConnectionFailedListener(this)
+                                                 .SetViewForPopups(view)
                 .AddApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .EnableAutoManage(Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity as FragmentActivity, this)
-                //.AddScope(PlusClass.ScopePlusLogin)
-                //.AddScope(PlusClass.ScopePlusProfile)
                 .Build();
         }
 
-        public Task<SocialData> GetPersonData()
+        private void LoginToGoogle()
         {
-            if(!googleApiClient.IsConnecting)
-            {
-                signInClicked = true;
-                //ResolveSignInError();
-            }
-            _gPlusTask = new TaskCompletionSource<SocialData>();
+            var auth = new OAuth2Authenticator(
+                clientId: "382677639037-husbvvt31q4ik2mbfrinmsdu2stljhot.apps.googleusercontent.com",//context.Resources.GetString(Resource.String.server_client_id),
+                scope: "https://www.googleapis.com/auth/userinfo.email",
+                authorizeUrl: new Uri("https://accounts.google.com/o/oauth2/auth"),
+                redirectUrl: new Uri("https://www.googleapis.com/plus/v1/people/me"),
+                getUsernameAsync: null);
+            auth.Completed += LoginComplete;
+            Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity.StartActivity(auth.GetUI(Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity));
+        }
 
-            Intent signInIntent = Auth.GoogleSignInApi.GetSignInIntent(googleApiClient);
-            Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity.StartActivityForResult(signInIntent, googleSignInRequestCode);
-            //Auth.GoogleSignInApi.SignOut(googleApiClient);
-            //googleApiClient.Connect();
-            return _gPlusTask.Task;
+        public async void LoginComplete(object sender, AuthenticatorCompletedEventArgs e)
+        {
+            if (!e.IsAuthenticated)
+            {
+                System.Diagnostics.Debug.WriteLine("Not Authorised");
+                return;
+            }
+            isLogin = true;
+            var accessToken = e.Account.Properties["access_token"];
+            var expiresIn = Convert.ToDouble(e.Account.Properties["expires_in"]);
+            var expiryDate = DateTime.Now + TimeSpan.FromSeconds(expiresIn);
+
+            //await GetAccountInformation(e.Account);
+            //Mvx.Resolve<IProgressDialogManager>().ShowProgressDialog("Please wait!", "Facebook authorization. Data loading...");
         }
 
         private void ResolveSignInError()

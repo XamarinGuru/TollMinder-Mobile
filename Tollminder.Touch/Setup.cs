@@ -10,7 +10,6 @@ using MvvmCross.Platform.Converters;
 using Tollminder.Touch.Converters;
 using Tollminder.Touch.Services.SpeechServices;
 using MvvmCross.Binding.Bindings.Target.Construction;
-using Tollminder.Touch.Helpers.MvxAlertActionHelpers;
 
 namespace Tollminder.Touch
 {

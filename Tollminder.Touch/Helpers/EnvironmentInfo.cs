@@ -80,6 +80,26 @@ namespace Tollminder.Touch
         {
             get { return GetScreenWidth > 320 ? 20 : 10; }
         }
+
+        public static nfloat GetDistanceForButtonOnInformationBoard
+        {
+            get { return GetScreenHeight > 640 ? 15 : -5; }
+        }
+
+        public static nfloat GetDistanceBetweenButtonsOnInformationBoard
+        {
+            get { return GetScreenWidth > 320 ? 0 : -10; }
+        }
+
+        public static nfloat GetLeftMarginForInformationBoard
+        {
+            get { return GetScreenWidth > 320 ? 10 : -15; }
+        }
+
+        public static nfloat GetSizeValueForButtonsContainer
+        {
+            get { return GetScreenWidth > 320 ? 0.8f : 0.75f; }
+        }
 	}
 }
 

@@ -87,8 +87,8 @@ namespace Tollminder.Core.ViewModels
             if (_geoWatcher.Location != null)
                 Location = _geoWatcher.Location;
 
-            if (Mvx.Resolve<IWaypointChecker>().TollPointsInRadius != null)
-                DistanceToNearestTollpoint = double.Parse(string.Join("\n", Mvx.Resolve<IWaypointChecker>().TollPointsInRadius?.Select(x => x.Name)));
+            //if (Mvx.Resolve<IWaypointChecker>().TollPointsInRadius != null)
+            //    DistanceToNearestTollpoint = double.Parse(string.Join("\n", Mvx.Resolve<IWaypointChecker>().TollPointsInRadius?.Select(x => x.Name)));
         }
 
 		Task RefreshToolRoads()
