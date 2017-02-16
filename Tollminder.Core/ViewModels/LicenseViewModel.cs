@@ -80,7 +80,7 @@ namespace Tollminder.Core.ViewModels
             }
         }
 
-        private DriverLicense driverLicense;
+        private DriverLicense driverLicense; 
         public DriverLicense DriverLicense
         {
             get { return driverLicense; }

@@ -49,7 +49,14 @@ namespace Tollminder.Core.ViewModels
 
         async Task LoadHistory()
         {
-            Mvx.Resolve<IProgressDialogManager>().ShowProgressDialog("Please wait!", "Pay history is loading...");
+            try
+            {
+                Mvx.Resolve<IProgressDialogManager>().ShowProgressDialog("Please wait!", "Pay history is loading...");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
             History = await serverApiService.GetPayHistory(storedSettingsService.ProfileId, GetPayDateFrom, GetPayDateTo);
             try
             {
@@ -65,6 +72,10 @@ namespace Tollminder.Core.ViewModels
             {
                 Debug.WriteLine(ex.Message);
                 Mvx.Resolve<IProgressDialogManager>().CloseAndShowMessage("Error", "Sorry, there is no pay history for now.");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
             }
         }
 

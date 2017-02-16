@@ -34,7 +34,9 @@ namespace Tollminder.Droid.Views.Fragments
             calendarView = view.FindViewById<CalendarView>(Resource.Id.calendarView); 
             backToPayHistory = view.FindViewById<ImageButton>(Resource.Id.calendar_btn_back_to_payhistory);
             var result = new TaskCompletionSource<DateTime>();
-            System.Diagnostics.Debug.WriteLine(calendarView.Date);
+            var unixTime = currentValue.ToUniversalTime() -
+                new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            calendarView.Date = (long)unixTime.TotalMilliseconds;
 
             calendarView.DateChange += (sim, args) =>
             {

@@ -64,7 +64,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     local:text_calendar_field="To:"
-                    local:MvxBind="Click OpenCalendarFromCommand;Text DateTimeConverter(GetPayDateTo, 'd')"
+                    local:MvxBind="Click OpenCalendarToCommand;Text DateTimeConverter(GetPayDateTo, 'd')"
                     local:icon_calendar="@drawable/ic_calendar" />
             </LinearLayout>
             <LinearLayout
@@ -74,13 +74,11 @@
                 android:background="@color/gray_dark"
                 android:id="@+id/radio_button_container"
                 android:layout_marginBottom="2dp">
-
                 <RadioGroup
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:orientation="horizontal">
-
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -89,7 +87,6 @@
                         android:layout_centerVertical="true"
                         android:text="Current"
                         android:id="@+id/current" />
-
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -99,7 +96,6 @@
                         android:text="All History"
                         android:id="@+id/all_history" />
                 </RadioGroup>
-
                 <tollminder.droid.controls.CalendarRangeButton
                     android:id="@+id/add_license_button"
                     android:layout_width="0dp"
@@ -125,6 +121,6 @@
             android:layout_weight="1"
             android:textSize="40dp"
             local:MvxBind="ItemsSource History;SelectedItem SelectedTransaction; Text Transaction"
-            android:background="@drawable/login_card_background"/>
+            android:background="@drawable/login_card_background" />
     </LinearLayout>
 </LinearLayout>
