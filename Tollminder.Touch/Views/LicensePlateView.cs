@@ -30,14 +30,12 @@ namespace Tollminder.Touch.Views
         UILabel informationAboutPageLabel;
 
         TextFieldValidationWithImage licensePlateTextField;
-        TextFieldValidationWithImage stateTextField;
-        TextFieldValidationWithImage vehicleClassTextField;
 
-        LabelForDataWheel stateLabel;
+        TextFieldValidationWithImage stateTextField;
         UIPickerView statesPicker;
         MvxPickerViewModel statesPickerViewModel;
 
-        LabelForDataWheel vehicleClassLabel;
+        TextFieldValidationWithImage vehicleClassTextField;
         UIPickerView vehicleClassesPicker;
         MvxPickerViewModel vehicleClassesPickerViewModel;
         
@@ -104,35 +102,33 @@ namespace Tollminder.Touch.Views
             );
 
             licensePlateTextField = TextFieldInitializer("LicensePlate");
-            stateTextField = TextFieldInitializer("State");
-            vehicleClassTextField = TextFieldInitializer("Vehicle Class");
 
-            stateLabel = LabelDataWheelInitiaziler("State");
+            stateTextField = TextFieldInitializer("State");
             statesPicker = PickerInitializer();
             statesPickerViewModel = new MvxPickerViewModel(statesPicker);
             statesPicker.Model = statesPickerViewModel;
 
-            vehicleClassLabel = LabelDataWheelInitiaziler("Vehicle Class");
+            vehicleClassTextField = TextFieldInitializer("Vehicle Class");
             vehicleClassesPicker = PickerInitializer();
             vehicleClassesPickerViewModel = new MvxPickerViewModel(vehicleClassesPicker);
             vehicleClassesPicker.Model = vehicleClassesPickerViewModel;
 
-            topTextRowView.AddIfNotNull(licensePlateTextField, stateLabel, vehicleClassLabel);
+            topTextRowView.AddIfNotNull(licensePlateTextField, stateTextField, vehicleClassTextField);
             topTextRowView.AddConstraints(
                 licensePlateTextField.AtTopOf(topTextRowView),
                 licensePlateTextField.WithSameCenterX(topTextRowView),
                 licensePlateTextField.WithSameWidth(topTextRowView),
                 licensePlateTextField.WithRelativeHeight(topTextRowView, 0.3f),
 
-                stateLabel.Below(licensePlateTextField, 10),
-                stateLabel.WithSameCenterX(topTextRowView),
-                stateLabel.WithSameWidth(topTextRowView),
-                stateLabel.WithRelativeHeight(topTextRowView, 0.3f),
+                stateTextField.Below(licensePlateTextField, 10),
+                stateTextField.WithSameCenterX(topTextRowView),
+                stateTextField.WithSameWidth(topTextRowView),
+                stateTextField.WithRelativeHeight(topTextRowView, 0.3f),
 
-                vehicleClassLabel.Below(stateLabel, 10),
-                vehicleClassLabel.WithSameCenterX(topTextRowView),
-                vehicleClassLabel.WithSameWidth(topTextRowView),
-                vehicleClassLabel.WithRelativeHeight(topTextRowView, 0.3f)
+                vehicleClassTextField.Below(stateTextField, 10),
+                vehicleClassTextField.WithSameCenterX(topTextRowView),
+                vehicleClassTextField.WithSameWidth(topTextRowView),
+                vehicleClassTextField.WithRelativeHeight(topTextRowView, 0.3f)
             );
 
             scrollView.AddIfNotNull(topTextRowView);
@@ -144,7 +140,7 @@ namespace Tollminder.Touch.Views
                 topTextRowView.WithRelativeHeight(scrollView, 0.4f)
             );
 
-            View.AddIfNotNull(topView, scrollView, statesPicker, vehicleClassesPicker);
+            View.AddIfNotNull(topView, scrollView);
             View.AddConstraints(
                 topView.AtTopOf(View),
                 topView.WithSameWidth(View),
@@ -153,22 +149,25 @@ namespace Tollminder.Touch.Views
                 scrollView.Below(topView, 30),
                 scrollView.AtLeftOf(View, 30),
                 scrollView.AtRightOf(View, 30),
-                scrollView.WithRelativeHeight(View, 0.8f),
-
-                statesPicker.AtBottomOf(View),
-                statesPicker.AtLeftOf(View),
-                statesPicker.AtRightOf(View),
-                statesPicker.WithSameWidth(View),
-                statesPicker.WithRelativeHeight(View, 0.2f),
-
-                vehicleClassesPicker.AtBottomOf(View),
-                vehicleClassesPicker.AtLeftOf(View),
-                vehicleClassesPicker.AtRightOf(View),
-                vehicleClassesPicker.WithSameWidth(View),
-                vehicleClassesPicker.WithRelativeHeight(View, 0.2f)
+                scrollView.WithRelativeHeight(View, 0.8f)
             );
 
-            EnableNextKeyForTextFields(licensePlateTextField.TextFieldWithValidator.TextField);
+            EnableNextKeyForTextFields(licensePlateTextField.TextFieldWithValidator.TextField, stateTextField.TextFieldWithValidator.TextField, vehicleClassTextField.TextFieldWithValidator.TextField);
+        }
+
+        public override void ViewDidLoad()
+        {
+            base.ViewDidLoad();
+
+            var gestureRecognizer = new UITapGestureRecognizer(() =>
+            {
+                licensePlateTextField.TextFieldWithValidator.TextField.ResignFirstResponder();
+                stateTextField.TextFieldWithValidator.TextField.ResignFirstResponder();
+                vehicleClassTextField.TextFieldWithValidator.TextField.ResignFirstResponder();
+            });
+            View.AddGestureRecognizer(gestureRecognizer);
+            AddDoneButtonOnKeyBoard();
+            RegisterForKeyboardNotifications();
         }
 
         private TextFieldValidationWithImage TextFieldInitializer(string placeholder)
@@ -197,21 +196,9 @@ namespace Tollminder.Touch.Views
             return labelInformation;
         }
 
-        private LabelForDataWheel LabelDataWheelInitiaziler(string fieldName)
-        {
-            LabelForDataWheel labelWheel = new LabelForDataWheel();
-            labelWheel.PlaceHolderText = fieldName;
-            labelWheel.LabelTextColor = UIColor.Black;
-            labelWheel.WheelTextColor = UIColor.Cyan;
-            labelWheel.BackgroundColor = UIColor.White;
-            labelWheel.Layer.CornerRadius = 10;
-            return labelWheel;
-        }
-
         private UIPickerView PickerInitializer()
         {
             var picker = new UIPickerView();
-            picker.Hidden = true;
             picker.ShowSelectionIndicator = true;
             picker.BackgroundColor = UIColor.White;
             return picker;
@@ -228,15 +215,11 @@ namespace Tollminder.Touch.Views
                 set.Bind(licensePlateTextField.TextFieldWithValidator.TextField).To(vm => vm.DriverLicense.LicensePlate);
                 set.Bind(statesPickerViewModel).For(p => p.ItemsSource).To(vm => vm.States);
                 set.Bind(statesPickerViewModel).For(p => p.SelectedItem).To(vm => vm.SelectedState);
-                set.Bind(stateLabel.WheelText).To(vm => vm.SelectedState);
-                set.Bind(statesPicker).For(x => x.Hidden).To(vm => vm.IsStateWheelHidden).WithConversion(new BoolInverseConverter());
-                set.Bind(stateLabel).To(vm => vm.StatesWheelCommand);
+                set.Bind(stateTextField.TextFieldWithValidator.TextField).To(vm => vm.SelectedState);
 
                 set.Bind(vehicleClassesPickerViewModel).For(p => p.ItemsSource).To(vm => vm.VehicleClasses);
                 set.Bind(vehicleClassesPickerViewModel).For(p => p.SelectedItem).To(vm => vm.SelectedVehicleClass);
-                set.Bind(vehicleClassLabel.WheelText).To(vm => vm.SelectedVehicleClass);
-                set.Bind(vehicleClassesPicker).For(x => x.Hidden).To(vm => vm.IsVehicleClassWheelHidden).WithConversion(new BoolInverseConverter());
-                set.Bind(vehicleClassLabel).To(vm => vm.VehicleClassesWheelCommand);
+                set.Bind(vehicleClassTextField.TextFieldWithValidator.TextField).To(vm => vm.SelectedVehicleClass);
                 
                 set.Apply();
             }
@@ -244,6 +227,21 @@ namespace Tollminder.Touch.Views
             {
                 Debug.WriteLine(ex.Message, ex.StackTrace);
             }
+        }
+
+        void AddDoneButtonOnKeyBoard()
+        {
+            licensePlateTextField.TextFieldWithValidator.TextField.InputAccessoryView = new EnhancedToolbar(licensePlateTextField.TextFieldWithValidator.TextField,
+                                                                                                            null, stateTextField.TextFieldWithValidator.TextField);
+            stateTextField.TextFieldWithValidator.TextField.InputAccessoryView = new EnhancedToolbar(stateTextField.TextFieldWithValidator.TextField,
+                                                                                                     licensePlateTextField.TextFieldWithValidator.TextField,
+                                                                                                     vehicleClassTextField.TextFieldWithValidator.TextField);
+            stateTextField.TextFieldWithValidator.TextField.InputView = statesPicker;
+
+            vehicleClassTextField.TextFieldWithValidator.TextField.InputAccessoryView = new EnhancedToolbar(vehicleClassTextField.TextFieldWithValidator.TextField,
+                                                                                                            stateTextField.TextFieldWithValidator.TextField, null);
+
+            vehicleClassTextField.TextFieldWithValidator.TextField.InputView = vehicleClassesPicker;
         }
     }
 }

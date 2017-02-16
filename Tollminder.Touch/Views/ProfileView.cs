@@ -13,6 +13,8 @@ using Tollminder.Touch.Interfaces;
 using UIKit;
 using System.Diagnostics;
 using MvvmCross.Binding.iOS.Views;
+using Foundation;
+using System.Drawing;
 
 namespace Tollminder.Touch.Views
 {
@@ -30,7 +32,6 @@ namespace Tollminder.Touch.Views
         TextFieldValidationWithImage stateTextField;
         TextFieldValidationWithImage zipCodeTextField;
 
-        LabelForDataWheel stateLabel;
         UIPickerView statesPicker;
         MvxPickerViewModel statesPickerViewModel;
 
@@ -70,7 +71,6 @@ namespace Tollminder.Touch.Views
             NavigationController.SetNavigationBarHidden(true, false);
             View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile(@"Images/tab_background.png").Scale(View.Frame.Size));
             profileNavigationBarBackground.Frame = new CGRect(10, 10, profileNavigationBarBackground.Image.CGImage.Width, profileNavigationBarBackground.Image.CGImage.Height);
-            var s = UIScreen.MainScreen.Bounds.Width;
 
             var labelView = new UIView();
             labelView.AddIfNotNull(nameOfPageLabel, informationAboutPageLabel);
@@ -112,14 +112,14 @@ namespace Tollminder.Touch.Views
             stateTextField = TextFieldInitializer("State");
             zipCodeTextField = TextFieldInitializer("Zip Code");
 
-            stateLabel = LabelDataWheelInitiaziler("State");
+            stateTextField = TextFieldInitializer("State");
             statesPicker = new UIPickerView();
             statesPickerViewModel = new MvxPickerViewModel(statesPicker);
             statesPicker.Model = statesPickerViewModel;
-            statesPicker.Hidden = true;
             statesPicker.ShowSelectionIndicator = true;
             statesPicker.BackgroundColor = UIColor.White;
-            
+
+
             addLicenseButton = ProfileButtonManager.ButtonInitiaziler("Add License Plate", UIImage.FromFile(@"Images/ProfileView/ic_license.png"));
             addCreditCardButton = ProfileButtonManager.ButtonInitiaziler("Add Credit Card", UIImage.FromFile(@"Images/ProfileView/ic_card.png"));
 
@@ -154,12 +154,12 @@ namespace Tollminder.Touch.Views
                 cityTextField.WithRelativeHeight(centerTextRowView, 0.3f)
             );
 
-            bottomTextRowView.AddIfNotNull(stateLabel, zipCodeTextField);
+            bottomTextRowView.AddIfNotNull(stateTextField, zipCodeTextField);
             bottomTextRowView.AddConstraints(
-                stateLabel.AtTopOf(bottomTextRowView),
-                stateLabel.AtLeftOf(bottomTextRowView),
-                stateLabel.WithRelativeWidth(bottomTextRowView, 0.475f),
-                stateLabel.WithSameHeight(bottomTextRowView),
+                stateTextField.AtTopOf(bottomTextRowView),
+                stateTextField.AtLeftOf(bottomTextRowView),
+                stateTextField.WithRelativeWidth(bottomTextRowView, 0.475f),
+                stateTextField.WithSameHeight(bottomTextRowView),
 
                 zipCodeTextField.AtTopOf(bottomTextRowView),
                 zipCodeTextField.AtRightOf(bottomTextRowView),
@@ -206,7 +206,7 @@ namespace Tollminder.Touch.Views
                 bottomView.WithRelativeHeight(scrollView, 0.27f)
             );
 
-            View.AddIfNotNull(topView, scrollView, statesPicker);
+            View.AddIfNotNull(topView, scrollView);
             View.AddConstraints(
                 topView.AtTopOf(View),
                 topView.WithSameWidth(View),
@@ -215,28 +215,11 @@ namespace Tollminder.Touch.Views
                 scrollView.Below(topView, 30),
                 scrollView.AtLeftOf(View, 30),
                 scrollView.AtRightOf(View, 30),
-                scrollView.WithRelativeHeight(View, 0.8f),
-
-                statesPicker.AtBottomOf(View),
-                statesPicker.AtLeftOf(View),
-                statesPicker.AtRightOf(View),
-                statesPicker.WithSameWidth(View),
-                statesPicker.WithRelativeHeight(View, 0.2f)
+                scrollView.WithRelativeHeight(View, 0.8f)
             );
-
             EnableNextKeyForTextFields(firstNameTextField.TextFieldWithValidator.TextField, lastNameTextField.TextFieldWithValidator.TextField, emailTextField.TextFieldWithValidator.TextField,
-                                       addressTextField.TextFieldWithValidator.TextField, cityTextField.TextFieldWithValidator.TextField, zipCodeTextField.TextFieldWithValidator.TextField);
-        }
-
-        private LabelForDataWheel LabelDataWheelInitiaziler(string fieldName)
-        {
-            LabelForDataWheel labelWheel = new LabelForDataWheel();
-            labelWheel.PlaceHolderText = fieldName;
-            labelWheel.LabelTextColor = UIColor.Black;
-            labelWheel.WheelTextColor = UIColor.Cyan;
-            labelWheel.BackgroundColor = UIColor.White;
-            labelWheel.Layer.CornerRadius = 10;
-            return labelWheel;
+                                       addressTextField.TextFieldWithValidator.TextField, cityTextField.TextFieldWithValidator.TextField, stateTextField.TextFieldWithValidator.TextField,
+                                       zipCodeTextField.TextFieldWithValidator.TextField);
         }
 
         private TextFieldValidationWithImage TextFieldInitializer(string placeholder)
@@ -280,11 +263,67 @@ namespace Tollminder.Touch.Views
             
             set.Bind(statesPickerViewModel).For(p => p.ItemsSource).To(vm => vm.States);
             set.Bind(statesPickerViewModel).For(p => p.SelectedItem).To(vm => vm.SelectedState);
-            set.Bind(stateLabel.WheelText).To(vm => vm.SelectedState);
-            set.Bind(statesPicker).For(x => x.Hidden).To(vm => vm.IsStateWheelHidden).WithConversion(new BoolInverseConverter());
-            set.Bind(stateLabel).To(vm => vm.StatesWheelCommand);
+            set.Bind(stateTextField.TextFieldWithValidator.TextField).To(vm => vm.SelectedState);
 
             set.Apply();
+        }
+
+        public override void ViewDidLoad()
+        {
+            base.ViewDidLoad();
+
+            var gestureRecognizer = new UITapGestureRecognizer(() =>
+            {
+                firstNameTextField.TextFieldWithValidator.TextField.ResignFirstResponder();
+                lastNameTextField.TextFieldWithValidator.TextField.ResignFirstResponder();
+                emailTextField.TextFieldWithValidator.TextField.ResignFirstResponder();
+                addressTextField.TextFieldWithValidator.TextField.ResignFirstResponder();
+                cityTextField.TextFieldWithValidator.TextField.ResignFirstResponder();
+                zipCodeTextField.TextFieldWithValidator.TextField.ResignFirstResponder();
+                stateTextField.TextFieldWithValidator.TextField.ResignFirstResponder();
+            });
+            View.AddGestureRecognizer(gestureRecognizer);
+            AddDoneButtonOnKeyBoard();
+            RegisterForKeyboardNotifications();
+        }
+
+        public override void ViewDidUnload()
+        {
+            base.ViewDidUnload();
+
+            UnregisterForKeyboardNotifications();
+        }
+
+        void AddDoneButtonOnKeyBoard()
+        {
+            firstNameTextField.TextFieldWithValidator.TextField.InputAccessoryView = new EnhancedToolbar(firstNameTextField.TextFieldWithValidator.TextField,
+                                                                                                         null, lastNameTextField.TextFieldWithValidator.TextField);
+            lastNameTextField.TextFieldWithValidator.TextField.InputAccessoryView = new EnhancedToolbar(lastNameTextField.TextFieldWithValidator.TextField,
+                                                                                                         firstNameTextField.TextFieldWithValidator.TextField,
+                                                                                                        emailTextField.TextFieldWithValidator.TextField);
+            emailTextField.TextFieldWithValidator.TextField.InputAccessoryView = new EnhancedToolbar(emailTextField.TextFieldWithValidator.TextField,
+                                                                                                     lastNameTextField.TextFieldWithValidator.TextField,
+                                                                                                     addressTextField.TextFieldWithValidator.TextField);
+            addressTextField.TextFieldWithValidator.TextField.InputAccessoryView = new EnhancedToolbar(addressTextField.TextFieldWithValidator.TextField,
+                                                                                                        emailTextField.TextFieldWithValidator.TextField,
+                                                                                                       cityTextField.TextFieldWithValidator.TextField);
+            cityTextField.TextFieldWithValidator.TextField.InputAccessoryView = new EnhancedToolbar(cityTextField.TextFieldWithValidator.TextField,
+                                                                                                    addressTextField.TextFieldWithValidator.TextField,
+                                                                                                    stateTextField.TextFieldWithValidator.TextField);
+            stateTextField.TextFieldWithValidator.TextField.InputAccessoryView = new EnhancedToolbar(stateTextField.TextFieldWithValidator.TextField,
+                                                                                                           cityTextField.TextFieldWithValidator.TextField,
+                                                                                                            zipCodeTextField.TextFieldWithValidator.TextField);
+            stateTextField.TextFieldWithValidator.TextField.InputView = statesPicker;
+
+            zipCodeTextField.TextFieldWithValidator.TextField.InputAccessoryView = new EnhancedToolbar(zipCodeTextField.TextFieldWithValidator.TextField,
+                                                                                                           stateTextField.TextFieldWithValidator.TextField,
+                                                                                                            null);
+            zipCodeTextField.TextFieldWithValidator.TextField.KeyboardType = UIKeyboardType.NumberPad;
+            zipCodeTextField.TextFieldWithValidator.TextField.ShouldChangeCharacters = (textField, range, replacementString) =>
+            {
+                var newLength = textField.Text.Length + replacementString.Length - range.Length;
+                return newLength <= 10;
+            };
         }
     }
 }

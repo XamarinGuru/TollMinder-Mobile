@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
@@ -32,16 +33,6 @@ namespace Tollminder.Core.ViewModels
             backToProfileCommand = new MvxCommand(() => {
                 ShowViewModel<ProfileViewModel>(); 
             });
-            statesWheelCommand = new MvxCommand(() => {
-                if (IsVehicleClassWheelHidden)
-                    IsVehicleClassWheelHidden = false;
-                IsStateWheelHidden = IsStateWheelHidden ? false : true;
-            });
-            vehicleClassesWheelCommand = new MvxCommand(() => { 
-                if (IsStateWheelHidden)
-                    IsStateWheelHidden = false;
-                IsVehicleClassWheelHidden = IsVehicleClassWheelHidden ? false : true; 
-            });
         }
 
         public override void Start()
@@ -51,10 +42,17 @@ namespace Tollminder.Core.ViewModels
             if (Profile.DriverLicense != null)
             {
                 driverLicense = Profile.DriverLicense;
-                SelectedState.Name = DriverLicense.State;
+                SelectedVehicleClass = DriverLicense.VehicleClass;
+                try
+                {
+                    SelectedState = States.Find(state => state.Name + " " + state.Abbreviation == Profile.DriverLicense.State);
+                }
+                catch (NullReferenceException ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                    SelectedState = States[firstElement];
+                }
             }
-            else
-                SelectedState = States[firstElement];
         }
 
         public override void OnPause()
@@ -71,10 +69,6 @@ namespace Tollminder.Core.ViewModels
 
         private MvxCommand backToProfileCommand;
         public ICommand BackToProfileCommand { get { return backToProfileCommand; } }
-        private MvxCommand statesWheelCommand;
-        public ICommand StatesWheelCommand { get { return statesWheelCommand; } }
-        private MvxCommand vehicleClassesWheelCommand;
-        public ICommand VehicleClassesWheelCommand { get { return vehicleClassesWheelCommand; } }
 
         private Profile profile;
         public Profile Profile
@@ -110,7 +104,7 @@ namespace Tollminder.Core.ViewModels
         private StatesData selectedState;
         public StatesData SelectedState
         {
-            get { return new StatesData() { Name = DriverLicense.State }; }
+            get { return selectedState; }
             set
             {
                 DriverLicense.State = value.ToString();
@@ -122,17 +116,6 @@ namespace Tollminder.Core.ViewModels
         public string StateAbbreviation
         {
             get { return SelectedState.Abbreviation; }
-        }
-
-        bool isStateWheelHidden;
-        public bool IsStateWheelHidden
-        {
-            get { return isStateWheelHidden; }
-            set
-            {
-                SetProperty(ref isStateWheelHidden, value);
-                RaisePropertyChanged(() => IsStateWheelHidden);
-            }
         }
 
         // Vehicle classes
@@ -150,23 +133,12 @@ namespace Tollminder.Core.ViewModels
         private string selectedVehicleClass;
         public string SelectedVehicleClass
         {
-            get { return DriverLicense.VehicleClass; }
+            get { return selectedVehicleClass; }
             set
             {
                 SetProperty(ref selectedVehicleClass, value);
                 DriverLicense.VehicleClass = value;
                 RaisePropertyChanged(() => SelectedVehicleClass);
-            }
-        }
-
-        bool isVehicleClassWheelHidden;
-        public bool IsVehicleClassWheelHidden
-        {
-            get { return isVehicleClassWheelHidden; }
-            set
-            {
-                SetProperty(ref isVehicleClassWheelHidden, value);
-                RaisePropertyChanged(() => IsVehicleClassWheelHidden);
             }
         }
     }

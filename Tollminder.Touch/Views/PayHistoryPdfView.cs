@@ -19,7 +19,7 @@ namespace Tollminder.Touch.Views
     {
         UIWebView pdfWebView;
         UILabel informationLabel;
-        LabelForDataWheel urlLabel;
+        UILabel urlLabel;
 
         UIButton backToPayHistoryViewButton;
         UIButton openInButton;
@@ -45,7 +45,7 @@ namespace Tollminder.Touch.Views
             informationLabel.Font = UIFont.BoldSystemFontOfSize(16f);
             informationLabel.TextAlignment = UITextAlignment.Center;
             
-            urlLabel = LabelDataWheelInitiaziler("Pdf url");
+            urlLabel = new UILabel();
             pdfWebView = new UIWebView(View.Bounds);
 
             // Hide navigation bar
@@ -93,27 +93,16 @@ namespace Tollminder.Touch.Views
             try
             {
                 var set = this.CreateBindingSet<PayHistoryPdfView, PayHistoryPdfViewModel>();
-                set.Bind(urlLabel.WheelText).To(vm => vm.PdfUrl);
+                set.Bind(urlLabel).To(vm => vm.PdfUrl);
                 set.Bind(backToPayHistoryViewButton).To(vm => vm.BackToPayHistoryCommand);
                 set.Bind(openInButton).To(vm => vm.FileOpenInCommand);
                 set.Apply();
-                pdfWebView.LoadRequest(new NSUrlRequest(new NSUrl(urlLabel.WheelText.Text)));
+                pdfWebView.LoadRequest(new NSUrlRequest(new NSUrl(urlLabel.Text)));
         }
             catch(Exception ex)
             {
                 Debug.WriteLine(ex.Message, ex.StackTrace);
             }
-        }
-
-        private LabelForDataWheel LabelDataWheelInitiaziler(string fieldName)
-        {
-            LabelForDataWheel labelWheel = new LabelForDataWheel();
-            labelWheel.PlaceHolderText = fieldName;
-            labelWheel.LabelTextColor = UIColor.Black;
-            labelWheel.WheelTextColor = UIColor.Cyan;
-            labelWheel.BackgroundColor = UIColor.White;
-            labelWheel.Layer.CornerRadius = 10;
-            return labelWheel;
         }
     }
 }

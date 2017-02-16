@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
@@ -25,12 +26,8 @@ namespace Tollminder.Core.ViewModels
             });
             addLicenseCommand = new MvxCommand(() => { ShowViewModel<LicenseViewModel>(); });
             addCreditCardCommand = new MvxCommand(() => { ShowViewModel<CreditCardViewModel>(); });
-            statesWheelCommand = new MvxCommand(() => { 
-                IsStateWheelHidden = IsStateWheelHidden ? false : true; 
-            });
 
             States = loadResourceData.GetData("Tollminder.Core.states.json");
-            SelectedState = States[firstState];
         }
 
         public override void Start()
@@ -40,6 +37,15 @@ namespace Tollminder.Core.ViewModels
             var result = profileSettingService.GetProfile();
             if (result != null)
                 Profile = result;
+            try
+            {
+                SelectedState = States.Find(state => state.Name+" "+state.Abbreviation == Profile.State);
+            }
+            catch(NullReferenceException ex)
+            {
+                Debug.WriteLine(ex.Message);
+                SelectedState = States[firstState];
+            }
         }
 
         public override void OnPause()
@@ -63,9 +69,6 @@ namespace Tollminder.Core.ViewModels
         private MvxCommand addCreditCardCommand;
         public ICommand AddCreditCardCommand { get { return addCreditCardCommand; } }
 
-        private MvxCommand statesWheelCommand;
-        public ICommand StatesWheelCommand { get { return statesWheelCommand; } }
-
         private List<StatesData> states;
         public List<StatesData> States
         {
@@ -80,7 +83,7 @@ namespace Tollminder.Core.ViewModels
         private StatesData selectedState;
         public StatesData SelectedState
         {
-            get { return new StatesData() { Name = Profile.State}; }
+            get { return selectedState; }
             set { 
                 Profile.State = value.ToString();
                 SetProperty(ref selectedState, value);
@@ -100,17 +103,6 @@ namespace Tollminder.Core.ViewModels
             set
             {
                 SetProperty(ref profile, value);
-            }
-        }
-
-        bool isStateWheelHidden;
-        public bool IsStateWheelHidden
-        {
-            get { return isStateWheelHidden; }
-            set
-            {
-                SetProperty(ref isStateWheelHidden, value);
-                RaisePropertyChanged(() => IsStateWheelHidden);
             }
         }
     }

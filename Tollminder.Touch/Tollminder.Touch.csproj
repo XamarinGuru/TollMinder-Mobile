@@ -309,7 +309,6 @@
     <Compile Include="Controls\ProfileButton.cs" />
     <Compile Include="Helpers\ProfileButtonManager.cs" />
     <Compile Include="Views\LicensePlateView.cs" />
-    <Compile Include="Controls\LabelForDataWheel.cs" />
     <Compile Include="Views\PayHistoryView\PayHistoryView.cs" />
     <Compile Include="Views\PayHistoryView\PayHistoryCell.cs" />
     <Compile Include="Views\PayHistoryView\PayHistoryCell.designer.cs">
