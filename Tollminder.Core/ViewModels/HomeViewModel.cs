@@ -13,14 +13,14 @@ using System.Threading.Tasks;
 namespace Tollminder.Core.ViewModels
 {
     public class HomeViewModel : BaseViewModel
-    {		
-		readonly IMvxMessenger _messenger;
-		readonly ITrackFacade _track;
+    {
+        readonly IMvxMessenger _messenger;
+        readonly ITrackFacade _track;
         readonly IStoredSettingsService _storedSettingsService;
         readonly ISynchronisationService synchronisationService;
-		readonly IGeoLocationWatcher _geoWatcher;
+        readonly IGeoLocationWatcher _geoWatcher;
 
-		IList<MvxSubscriptionToken> _tokens;
+        IList<MvxSubscriptionToken> _tokens;
 
         public HomeViewModel(IMvxMessenger messenger, ITrackFacade track, IGeoLocationWatcher geoWatcher, IStoredSettingsService storedSettingsService)
         {
@@ -57,7 +57,7 @@ namespace Tollminder.Core.ViewModels
                 Mvx.Resolve<IProgressDialogManager>().CloseAndShowMessage(message + name, "");
         }
 
-		public async override void Start()
+        public async override void Start()
         {
             if (await synchronisationService.AuthorizeTokenSynchronisation())
                 await Task.Run(RefreshToolRoads);
@@ -67,7 +67,7 @@ namespace Tollminder.Core.ViewModels
                 ShowViewModel<LoginViewModel>();
                 return;
             }
-            
+
             base.Start();
             _tokens.Add(_messenger.SubscribeOnMainThread<GeoWatcherStatusMessage>((s) => IsBound = s.Data, MvxReference.Strong));
             _tokens.Add(_messenger.SubscribeOnThreadPoolThread<LocationMessage>(x => Location = x.Data, MvxReference.Strong));
@@ -88,7 +88,7 @@ namespace Tollminder.Core.ViewModels
             //    DistanceToNearestTollpoint = double.Parse(string.Join("\n", Mvx.Resolve<IWaypointChecker>().TollPointsInRadius?.Select(x => x.Name)));
         }
 
-		Task RefreshToolRoads()
+        Task RefreshToolRoads()
         {
             return ServerCommandWrapper(() => Mvx.Resolve<IGeoDataService>().RefreshTollRoads(CancellationToken.None));
         }
@@ -97,23 +97,23 @@ namespace Tollminder.Core.ViewModels
         public ICommand TrackingCommand { get { return _trackingCommand; } }
 
         MvxCommand _profileCommand;
-        public ICommand ProfileCommand{ get { return _profileCommand; } }
+        public ICommand ProfileCommand { get { return _profileCommand; } }
 
         MvxCommand _payCommand;
-        public ICommand PayCommand{ get { return _payCommand; } }
+        public ICommand PayCommand { get { return _payCommand; } }
 
         MvxCommand _payHistoryCommand;
-        public ICommand PayHistoryCommand{ get { return _payHistoryCommand; } }
+        public ICommand PayHistoryCommand { get { return _payHistoryCommand; } }
 
         MvxCommand logoutCommand;
-        public ICommand LogoutCommand{ get { return logoutCommand; } }
+        public ICommand LogoutCommand { get { return logoutCommand; } }
 
         bool _isBound;
         public bool IsBound
         {
             get { return _isBound; }
-            set 
-            { 
+            set
+            {
                 SetProperty(ref _isBound, value);
                 RaisePropertyChanged(() => TrackingText);
             }
@@ -179,5 +179,5 @@ namespace Tollminder.Core.ViewModels
                 RaisePropertyChanged(() => StatusString);
             }
         }
-	}
+    }
 }

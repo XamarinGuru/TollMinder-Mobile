@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
@@ -16,81 +16,45 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="474"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Images/splash.png" translatesAutoresizingMaskIntoConstraints="NO" id="17" misplaced="YES">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="474"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  Copyright (c) 2016 Gloriumtech" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="8ie-xW-0ye">
+                    <rect key="frame" x="20" y="433" width="560" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tollminder" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="kId-c2-rCX">
+                    <rect key="frame" x="20" y="137.5" width="560" height="43"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="36"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Images/splash.png" translatesAutoresizingMaskIntoConstraints="NO" id="17">
+                    <rect key="frame" x="62" y="-6" width="480" height="480"/>
                     <rect key="contentStretch" x="1" y="1" width="1" height="1"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="480" id="33"/>
+                        <constraint firstAttribute="height" constant="480" id="34"/>
+                    </constraints>
                 </imageView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="17" secondAttribute="trailing" id="31"/>
+                <constraint firstAttribute="bottom" secondItem="17" secondAttribute="bottom" id="32"/>
+                <constraint firstItem="17" firstAttribute="bottom" secondItem="8ie-xW-0ye" secondAttribute="bottom" constant="20" id="37"/>
+                <constraint firstItem="kId-c2-rCX" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="bottom" multiplier="1/3" constant="1" id="5cJ-9S-tgC"/>
+                <constraint firstAttribute="centerX" secondItem="kId-c2-rCX" secondAttribute="centerX" id="Koa-jz-hwk"/>
+                <constraint firstAttribute="bottom" secondItem="8ie-xW-0ye" secondAttribute="bottom" constant="20" id="Kzo-t9-V3l"/>
+                <constraint firstItem="8ie-xW-0ye" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" symbolic="YES" id="MfP-vx-nX0"/>
+                <constraint firstAttribute="centerX" secondItem="8ie-xW-0ye" secondAttribute="centerX" id="ZEH-qu-HZ9"/>
+                <constraint firstItem="kId-c2-rCX" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" symbolic="YES" id="fvb-Df-36g"/>
+            </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="503" y="417"/>
-            <constraints>
-                <constraint id="28" firstItem="17" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX"/>
-                <constraint id="29" firstItem="17" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY"/>
-                <constraint id="30" firstItem="17" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailing"/>
-                <constraint id="31" firstItem="17" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top"/>
-                <constraint id="32" firstItem="17" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading"/>
-            </constraints>
-            <variation key="default">
-                <mask key="constraints">
-                    <exclude reference="28"/>
-                    <exclude reference="29"/>
-                    <exclude reference="30"/>
-                    <exclude reference="31"/>
-                    <exclude reference="32"/>
-                </mask>
-            </variation>
-            <variation key="heightClass=regular-widthClass=compact">
-                <mask key="constraints">
-                    <include reference="28"/>
-                    <include reference="29"/>
-                    <include reference="30"/>
-                    <include reference="31"/>
-                    <include reference="32"/>
-                </mask>
-            </variation>
         </view>
     </objects>
     <resources>
         <image name="Images/splash.png" width="750" height="1292"/>
-        <image name="Image" width="1242" height="2208"/>
-        <image name="Images/navigation_bar_background.png" width="750" height="275"/>
-        <image name="Images/tab_background.png" width="750" height="1059"/>
-        <image name="Images/CreditCardView/creditCards.png" width="590" height="94"/>
-        <image name="Images/LoginView/facebook_logIn.png" width="100" height="46"/>
-        <image name="Images/LoginView/facebook-button.png" width="101" height="39"/>
-        <image name="Images/LoginView/google-button.png" width="102" height="39"/>
-        <image name="Images/HomeView/home_board.png" width="1122" height="933"/>
-        <image name="Images/HomeView/ic_home_pay.png" width="270" height="270"/>
-        <image name="Images/HomeView/ic_home_pay_history.png" width="270" height="270"/>
-        <image name="Images/HomeView/ic_home_profile.png" width="271" height="270"/>
-        <image name="Images/HomeView/ic_home_support.png" width="65" height="67"/>
-        <image name="Images/HomeView/ic_home_tracking_active.png" width="339" height="339"/>
-        <image name="Images/HomeView/ic_home_tracking_default.png" width="339" height="339"/>
-        <image name="Images/main_background.png" width="1242" height="2208"/>
-        <image name="Images/main_background-640h.png" width="180" height="320"/>
-        <image name="Images/main_background-667h.png" width="375" height="667"/>
-        <image name="Images/logo.png" width="334" height="40"/>
-        <image name="Images/PayHistoryView/ic_calendar.png" width="43" height="33"/>
-        <image name="Images/PayHistoryView/ic_download.png" width="32" height="32"/>
-        <image name="Images/ProfileView/ic_card.png" width="40" height="26"/>
-        <image name="Images/ProfileView/ic_license.png" width="40" height="26"/>
-        <image name="Images/CreditCardView/amex.png" width="54" height="36"/>
-        <image name="Images/CreditCardView/discover.png" width="54" height="36"/>
-        <image name="Images/CreditCardView/MasterCard.png" width="54" height="36"/>
-        <image name="Images/CreditCardView/visa.png" width="54" height="36"/>
-        <image name="Images/ic_back.png" width="35" height="30"/>
-        <image name="Images/PayHistoryView/ic_openIn.png" width="120" height="173"/>
-        <image name="Images/HomeView/InformationBoard/ic_location.png" width="40" height="49"/>
-        <image name="Images/HomeView/InformationBoard/ic_nearest_point.png" width="50" height="35"/>
-        <image name="Images/HomeView/InformationBoard/ic_pointer.png" width="56" height="39"/>
-        <image name="Images/HomeView/InformationBoard/ic_status.png" width="39" height="45"/>
-        <image name="Images/HomeView/InformationBoard/ic_tollroad.png" width="55" height="49"/>
-        <image name="Images/HomeView/ic_logout.png" width="128" height="128"/>
-        <image name="Images/LoginView/ic_google.png" width="128" height="128"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedScreenMetrics key="destination" type="retina47"/>
-    </simulatedMetricsContainer>
 </document>

@@ -30,7 +30,6 @@ namespace Tollminder.Core.ViewModels
         public void Init(string name)
         {
             profile = storedSettingsService.Profile != null ? storedSettingsService.Profile : new Profile();
-            profile.Password = "";
             if (SettingsService.SocialRegistartionSource)
                 IsSocialRegistrationHidden = false;
             if(name != null)
@@ -104,8 +103,6 @@ namespace Tollminder.Core.ViewModels
 
             //if (SmsCode == profileData.PhoneCode)
 
-            var inputResult = await Mvx.Resolve<IUserInteraction>().InputAsync("Please input code from SMS", "XXXX", null, "Validate", null, SmsCode);
-            SmsCode = inputResult.Text;
             if(SmsCode == "1111")
             {
                 profile.PhoneValidate = true;
@@ -145,8 +142,9 @@ namespace Tollminder.Core.ViewModels
                 {
                     Mvx.Resolve<IProgressDialogManager>().CloseProgressDialog();
                     SmsCode = "1111";
+                    var inputResult = await Mvx.Resolve<IUserInteraction>().InputAsync("Please input code from SMS", "XXXX", null, "Validate", null, SmsCode);
+                    SmsCode = inputResult.Text;
                     profile = result;
-                    ComparePhoneCode();
                 }
             }
         }

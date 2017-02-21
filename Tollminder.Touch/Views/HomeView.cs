@@ -82,7 +82,7 @@ namespace Tollminder.Touch.Views
             buttonContainerView = new UIView();
             roadInformationBoardView = new UIView();
 
-            buttonContainerView.Frame = new CGRect(0, 0, (boardScrollView.Bounds.Width * EnvironmentInfo.GetSizeValueForButtonsContainer), (boardScrollView.Bounds.Height * 3));
+            buttonContainerView.Frame = new CGRect(0, 0, (boardScrollView.Bounds.Width * 0.8), (boardScrollView.Bounds.Height * 3));
             roadInformationBoardView.Frame = new CGRect((boardScrollView.Bounds.Width * 0.76), 0, (boardScrollView.Bounds.Width * 0.8), (boardScrollView.Bounds.Height * 2.5));
             boardScrollView.ContentSize = new CGSize((buttonContainerView.Bounds.Width + roadInformationBoardView.Bounds.Width), boardScrollView.Frame.Height);
 
@@ -93,18 +93,18 @@ namespace Tollminder.Touch.Views
 
             buttonContainerView.AddIfNotNull(profileButton, payButton, payHistoryButton);
             buttonContainerView.AddConstraints(
-                profileButton.AtTopOf(buttonContainerView, EnvironmentInfo.GetDistanceForButtonOnInformationBoard),
-                profileButton.AtLeftOf(buttonContainerView, EnvironmentInfo.GetDistanceBetweenButtonsOnInformationBoard),
+                profileButton.AtTopOf(buttonContainerView, 10),
+                profileButton.AtLeftOf(buttonContainerView),
                 profileButton.WithRelativeWidth(buttonContainerView, 0.4f),
                 profileButton.WithRelativeHeight(buttonContainerView, 0.6f),
 
-                payHistoryButton.AtTopOf(buttonContainerView, EnvironmentInfo.GetDistanceForButtonOnInformationBoard),
+                payHistoryButton.AtTopOf(buttonContainerView, 10),
                 payHistoryButton.WithSameCenterX(buttonContainerView),
                 payHistoryButton.WithRelativeWidth(buttonContainerView, 0.4f),
                 payHistoryButton.WithRelativeHeight(buttonContainerView, 0.6f),
 
-                payButton.AtTopOf(buttonContainerView, EnvironmentInfo.GetDistanceForButtonOnInformationBoard),
-                payButton.AtRightOf(buttonContainerView, EnvironmentInfo.GetDistanceBetweenButtonsOnInformationBoard),
+                payButton.AtTopOf(buttonContainerView, 10),
+                payButton.AtRightOf(buttonContainerView),
                 payButton.WithRelativeWidth(buttonContainerView, 0.4f),
                 payButton.WithRelativeHeight(buttonContainerView, 0.6f)
             );
@@ -117,23 +117,23 @@ namespace Tollminder.Touch.Views
 
             roadInformationBoardView.AddIfNotNull(nextWaypointString, geoLabelData, tollRoadString, statusLabel);
             roadInformationBoardView.AddConstraints(
-                nextWaypointString.AtTopOf(roadInformationBoardView, EnvironmentInfo.GetDistanceForButtonOnInformationBoard),
-                nextWaypointString.AtLeftOf(roadInformationBoardView, EnvironmentInfo.GetLeftMarginForInformationBoard),
+                nextWaypointString.AtTopOf(roadInformationBoardView, 10),
+                nextWaypointString.AtLeftOf(roadInformationBoardView, 10),
                 nextWaypointString.WithSameWidth(roadInformationBoardView),
                 nextWaypointString.WithRelativeHeight(roadInformationBoardView, 0.2f),
 
                 geoLabelData.Below(nextWaypointString),
-                geoLabelData.AtLeftOf(roadInformationBoardView, EnvironmentInfo.GetLeftMarginForInformationBoard),
+                geoLabelData.AtLeftOf(roadInformationBoardView, 10),
                 geoLabelData.WithSameWidth(roadInformationBoardView),
                 geoLabelData.WithRelativeHeight(roadInformationBoardView, 0.2f),
 
                 tollRoadString.Below(geoLabelData),
-                tollRoadString.AtLeftOf(roadInformationBoardView, EnvironmentInfo.GetLeftMarginForInformationBoard),
+                tollRoadString.AtLeftOf(roadInformationBoardView, 10),
                 tollRoadString.WithSameWidth(roadInformationBoardView),
                 tollRoadString.WithRelativeHeight(roadInformationBoardView, 0.2f),
 
                 statusLabel.Below(tollRoadString),
-                statusLabel.AtLeftOf(roadInformationBoardView, EnvironmentInfo.GetLeftMarginForInformationBoard),
+                statusLabel.AtLeftOf(roadInformationBoardView, 10),
                 statusLabel.WithSameWidth(roadInformationBoardView),
                 statusLabel.WithRelativeHeight(roadInformationBoardView, 0.2f)
             );
@@ -142,6 +142,7 @@ namespace Tollminder.Touch.Views
             boardScrollView.Scrolled += (sender, e) =>
             {
                 Debug.WriteLine(((UIScrollView)sender).ContentOffset.X);
+
             };
 
             // Slider container

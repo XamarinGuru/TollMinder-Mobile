@@ -1,19 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Android.App;
-using Android.Content;
+﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
-using Android.Support.V4.View;
-using Android.Views;
-using Android.Views.InputMethods;
-using Android.Widget;
-using MvvmCross.Droid.Support.V4;
-using Plugin.Permissions;
 using Tollminder.Core.ViewModels;
-using Tollminder.Droid.Adapters;
 using Tollminder.Droid.AndroidServices;
-using Tollminder.Droid.Views.Fragments;
 
 namespace Tollminder.Droid.Views
 {
