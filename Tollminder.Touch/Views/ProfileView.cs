@@ -37,7 +37,7 @@ namespace Tollminder.Touch.Views
 
         ProfileButton addLicenseButton;
         ProfileButton addCreditCardButton;
-        
+
         public ProfileView()
         {
         }
@@ -61,7 +61,7 @@ namespace Tollminder.Touch.Views
             var bottomTextRowView = new UIView();
             var bottomView = new UIView();
             var profileNavigationBarBackground = new UIImageView(UIImage.FromBundle(@"Images/navigation_bar_background.png"));
-            
+
             backHomeView = UIButton.FromType(UIButtonType.Custom);
             backHomeView.SetImage(UIImage.FromFile(@"Images/ic_back.png"), UIControlState.Normal);
             nameOfPageLabel = LabelInformationAboutPage(UIColor.White, "Profile", UIFont.BoldSystemFontOfSize(16f));
@@ -95,7 +95,7 @@ namespace Tollminder.Touch.Views
 
                 backHomeView.WithSameCenterY(topView),
                 backHomeView.AtLeftOf(topView, 20),
-                backHomeView.WithRelativeWidth(topView,0.1f),
+                backHomeView.WithRelativeWidth(topView, 0.1f),
                 backHomeView.WithRelativeHeight(topView, 0.2f),
 
                 labelView.WithSameCenterX(topView),
@@ -109,7 +109,6 @@ namespace Tollminder.Touch.Views
             emailTextField = TextFieldInitializer("Email");
             addressTextField = TextFieldInitializer("Address");
             cityTextField = TextFieldInitializer("City");
-            stateTextField = TextFieldInitializer("State");
             zipCodeTextField = TextFieldInitializer("Zip Code");
 
             stateTextField = TextFieldInitializer("State");
@@ -172,7 +171,7 @@ namespace Tollminder.Touch.Views
                 addLicenseButton.AtTopOf(bottomView),
                 addLicenseButton.WithSameCenterX(bottomView),
                 addLicenseButton.WithSameWidth(bottomView),
-                addLicenseButton.WithRelativeHeight(bottomView, 0.4f), 
+                addLicenseButton.WithRelativeHeight(bottomView, 0.4f),
 
                 addCreditCardButton.Below(addLicenseButton, 10),
                 addCreditCardButton.WithSameCenterX(bottomView),
@@ -248,7 +247,7 @@ namespace Tollminder.Touch.Views
 
         protected override void InitializeBindings()
         {
-             base.InitializeBindings();
+            base.InitializeBindings();
 
             var set = this.CreateBindingSet<ProfileView, ProfileViewModel>();
             set.Bind(backHomeView).To(vm => vm.BackHomeCommand);
@@ -260,7 +259,7 @@ namespace Tollminder.Touch.Views
             set.Bind(addressTextField.TextFieldWithValidator.TextField).To(vm => vm.Profile.Address);
             set.Bind(cityTextField.TextFieldWithValidator.TextField).To(vm => vm.Profile.City);
             set.Bind(zipCodeTextField.TextFieldWithValidator.TextField).To(vm => vm.Profile.ZipCode);
-            
+
             set.Bind(statesPickerViewModel).For(p => p.ItemsSource).To(vm => vm.States);
             set.Bind(statesPickerViewModel).For(p => p.SelectedItem).To(vm => vm.SelectedState);
             set.Bind(stateTextField.TextFieldWithValidator.TextField).To(vm => vm.SelectedState);

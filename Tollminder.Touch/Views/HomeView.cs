@@ -1,11 +1,7 @@
 ﻿using System;
 using Cirrious.FluentLayouts.Touch;
 using CoreGraphics;
-using Google.SignIn;
 using MvvmCross.Binding.BindingContext;
-using MvvmCross.iOS.Views;
-using Tollminder.Core;
-using Tollminder.Core.Converters;
 using Tollminder.Core.Helpers;
 using Tollminder.Core.ViewModels;
 using Tollminder.Touch.Controllers;
@@ -15,10 +11,7 @@ using Tollminder.Touch.Helpers;
 using Tollminder.Touch.Interfaces;
 using UIKit;
 using Foundation;
-using Tollminder.Touch.Converters;
 using System.Diagnostics;
-using Tollminder.Touch.Services;
-using System.Drawing;
 
 namespace Tollminder.Touch.Views
 {
@@ -45,7 +38,7 @@ namespace Tollminder.Touch.Views
         BoardField tollRoadString;
 
         public new HomeViewModel ViewModel { get { return base.ViewModel as HomeViewModel; } }
-        
+
         public HomeView()
         {
         }
@@ -61,7 +54,7 @@ namespace Tollminder.Touch.Views
         protected override void InitializeObjects()
         {
             base.InitializeObjects();
-           
+
             // Navigation bar
             var applicationLogo = new UIImageView(UIImage.FromBundle(@"Images/logo.png"));
             View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile(@"Images/main_background.png").Scale(View.Frame.Size));
@@ -69,7 +62,7 @@ namespace Tollminder.Touch.Views
             logoutButton = RoundedButtonManager.ButtonInitiaziler("", UIImage.FromFile(@"Images/HomeView/ic_logout.png"));
             // Hide navigation bar
             NavigationController.SetNavigationBarHidden(true, false);
-            
+
             var topView = new UIView();
             topView.AddIfNotNull(applicationLogo, logoutButton);
             topView.AddConstraints(
@@ -118,7 +111,7 @@ namespace Tollminder.Touch.Views
 
             // Board View - Road Information Container
             nextWaypointString = BoardFieldInitializer(UIImage.FromFile(@"Images/HomeView/InformationBoard/ic_nearest_point.png"), "Nearest point in(ml):", (roadInformationBoardView.Bounds.Width * 0.6f));
-            geoLabelData= BoardFieldInitializer(UIImage.FromFile(@"Images/HomeView/InformationBoard/ic_location.png"), "Geolocation:", (roadInformationBoardView.Bounds.Width * 0.3f));
+            geoLabelData = BoardFieldInitializer(UIImage.FromFile(@"Images/HomeView/InformationBoard/ic_location.png"), "Geolocation:", (roadInformationBoardView.Bounds.Width * 0.3f));
             tollRoadString = BoardFieldInitializer(UIImage.FromFile(@"Images/HomeView/InformationBoard/ic_tollroad.png"), "Tollroad:", (roadInformationBoardView.Bounds.Width * 0.2f));
             statusLabel = BoardFieldInitializer(UIImage.FromFile(@"Images/HomeView/InformationBoard/ic_status.png"), "Status:", (roadInformationBoardView.Bounds.Width * 0.17f));
 
@@ -146,7 +139,8 @@ namespace Tollminder.Touch.Views
             );
 
             boardScrollView.AddSubviews(buttonContainerView, roadInformationBoardView);
-            boardScrollView.Scrolled+= (sender, e) => {
+            boardScrollView.Scrolled += (sender, e) =>
+            {
                 Debug.WriteLine(((UIScrollView)sender).ContentOffset.X);
             };
 
@@ -166,7 +160,7 @@ namespace Tollminder.Touch.Views
                 boardScrollView.AtRightOf(boardContainerView, 25),
                 boardScrollView.WithRelativeHeight(boardContainerView, 0.55f)
             );
-         
+
             // Bottom View
             trackingButton = RoundedButtonManager.ButtonInitiaziler(EnvironmentInfo.GetTrackingButtonDistanceBetweenTextAndImage);
             this.AddLinqBinding(ViewModel, vm => vm.TrackingCommand, (value) =>

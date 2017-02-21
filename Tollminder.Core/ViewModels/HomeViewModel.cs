@@ -7,11 +7,8 @@ using MvvmCross.Plugins.Messenger;
 using Tollminder.Core.Models;
 using Tollminder.Core.Services;
 using Tollminder.Core.ServicesHelpers;
-using Tollminder.Core.Helpers;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Diagnostics;
 
 namespace Tollminder.Core.ViewModels
 {

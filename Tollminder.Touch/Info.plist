@@ -39,7 +39,7 @@
 	<key>XSAppIconAssets</key>
 	<string>Resources/Images.xcassets/AppIcons.appiconset</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.19</string>
+	<string>2.20</string>
 	<key>NSLocationUsageDescription</key>
 	<string>We need to get your location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
@@ -50,8 +50,6 @@
 	<string>New need detect your voice</string>
 	<key>NSMotionUsageDescription</key>
 	<string>We need to get motion activity </string>
-	<key>CFBundleVersion</key>
-	<string>19</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
@@ -92,5 +90,7 @@
 	</array>
 	<key>XSLaunchImageAssets</key>
 	<string>Resources/Images.xcassets/LaunchImage.launchimage</string>
+	<key>CFBundleVersion</key>
+	<string>20</string>
 </dict>
 </plist>
