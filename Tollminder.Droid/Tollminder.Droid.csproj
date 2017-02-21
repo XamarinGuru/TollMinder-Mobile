@@ -556,6 +556,7 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_facebook.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_facebook.png" />
     <AndroidResource Include="Resources\drawable\facebook_button_style.xml" />
+    <AndroidResource Include="Resources\layout\calendar_radio_button.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProguardConfiguration Include="Properties\AndroidManifest.xml" />

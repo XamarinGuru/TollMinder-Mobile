@@ -28,7 +28,8 @@ namespace Tollminder.Core.ViewModels
             backHomeCommand = new MvxCommand(() => { ShowViewModel<HomeViewModel>(); });
             backToPayHistoryCommand = new MvxCommand(() => { ShowViewModel<PayHistoryViewModel>(); });
 
-            openCalendarFromCommand = new MvxCommand(async () => {
+            openCalendarFromCommand = new MvxCommand(async () =>
+            {
                 GetPayDateFrom = await Mvx.Resolve<ICalendarDialog>().ShowDialog(GetPayDateFrom);
                 await LoadHistory();
             });
@@ -38,7 +39,7 @@ namespace Tollminder.Core.ViewModels
                 await LoadHistory();
             });
 
-            downloadHistoryCommand = new MvxCommand( () => ServerCommandWrapper(() => DownloadPdf()));
+            downloadHistoryCommand = new MvxCommand(() => ServerCommandWrapper(() => DownloadPdf()));
         }
 
         public async override void Start()
@@ -91,20 +92,32 @@ namespace Tollminder.Core.ViewModels
                 Mvx.Resolve<IProgressDialogManager>().CloseAndShowMessage("Error", "Sorry, there is no pay history for now.");
         }
 
+        private string selectedItemFromCalendarRadioGroup;
+        public string SelectedItemFromCalendarRadioGroup
+        {
+            get { return selectedItemFromCalendarRadioGroup; }
+            set
+            {
+                SetProperty(ref selectedItemFromCalendarRadioGroup, value);
+                RaisePropertyChanged(() => SelectedItemFromCalendarRadioGroup);
+            }
+        }
+
         private string getPdfUrl;
-        public string GetPdfUrl 
-        { 
-            get { return getPdfUrl;} 
-            set{
+        public string GetPdfUrl
+        {
+            get { return getPdfUrl; }
+            set
+            {
                 SetProperty(ref getPdfUrl, value);
                 RaisePropertyChanged(() => GetPdfUrl);
             }
         }
         private DateTime getPayDateFrom;
-        public DateTime GetPayDateFrom 
-        { 
-            get { return getPayDateFrom; } 
-            set 
+        public DateTime GetPayDateFrom
+        {
+            get { return getPayDateFrom; }
+            set
             {
                 SetProperty(ref getPayDateFrom, value);
                 RaisePropertyChanged(() => GetPayDateFrom);
@@ -112,8 +125,8 @@ namespace Tollminder.Core.ViewModels
         }
 
         private DateTime getPayDateTo;
-        public DateTime GetPayDateTo 
-        { 
+        public DateTime GetPayDateTo
+        {
             get { return getPayDateTo; }
             set
             {
@@ -124,7 +137,7 @@ namespace Tollminder.Core.ViewModels
 
         private MvxCommand backToPayHistoryCommand;
         public ICommand BackToPayHistoryCommand { get { return backToPayHistoryCommand; } }
-       
+
         private MvxCommand backHomeCommand;
         public ICommand BackHomeCommand { get { return backHomeCommand; } }
 

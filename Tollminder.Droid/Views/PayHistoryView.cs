@@ -21,7 +21,9 @@ namespace Tollminder.Droid.Views
         {
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.pay_history_view);
+
+            var calendarRadioCroups = FindViewById<RadioGroup>(Resource.Id.calendarRadioCroups);
+            calendarRadioCroups.Check(Resource.Id.current);
         }
     }
 }
-    

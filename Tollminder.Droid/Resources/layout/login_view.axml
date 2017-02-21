@@ -98,7 +98,7 @@
                     android:orientation="horizontal">
                     <Button
                         android:id="@+id/facebook_login"
-						android:layout_marginTop="3dp"
+                        android:layout_marginTop="3dp"
                         android:layout_width="0dp"
                         android:layout_height="43dp"
                         android:layout_weight="1"
@@ -109,7 +109,7 @@
                         android:gravity="left|center"
                         android:padding="6dp"
                         android:text="Log in"
-						android:textAllCaps="false"
+                        android:textAllCaps="false"
                         local:MvxBind="Enabled BoolInverseConverter(IsBusy); Click FacebookLoginCommand" />
                     <com.google.android.gms.common.SignInButton
                         android:id="@+id/sign_in_button"

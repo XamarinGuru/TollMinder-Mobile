@@ -21,9 +21,7 @@ namespace Tollminder.Core.ViewModels
             profileSettingService = Mvx.Resolve<IProfileSettingService>();
             profile = new Profile();
 
-            backHomeCommand = new MvxCommand(() => {
-                ShowViewModel<HomeViewModel>(); 
-            });
+            backHomeCommand = new MvxCommand(() => { ShowViewModel<HomeViewModel>(); });
             addLicenseCommand = new MvxCommand(() => { ShowViewModel<LicenseViewModel>(); });
             addCreditCardCommand = new MvxCommand(() => { ShowViewModel<CreditCardViewModel>(); });
 
@@ -39,9 +37,9 @@ namespace Tollminder.Core.ViewModels
                 Profile = result;
             try
             {
-                SelectedState = States.Find(state => state.Name+" "+state.Abbreviation == Profile.State);
+                SelectedState = States.Find(state => state.Name + " " + state.Abbreviation == Profile.State);
             }
-            catch(NullReferenceException ex)
+            catch (NullReferenceException ex)
             {
                 Debug.WriteLine(ex.Message);
                 SelectedState = States[firstState];
@@ -72,9 +70,9 @@ namespace Tollminder.Core.ViewModels
         private List<StatesData> states;
         public List<StatesData> States
         {
-            get { return states;}
-            set 
-            { 
+            get { return states; }
+            set
+            {
                 SetProperty(ref states, value);
                 RaisePropertyChanged(() => States);
             }
@@ -84,10 +82,11 @@ namespace Tollminder.Core.ViewModels
         public StatesData SelectedState
         {
             get { return selectedState; }
-            set { 
+            set
+            {
                 Profile.State = value.ToString();
                 SetProperty(ref selectedState, value);
-                RaisePropertyChanged(() => StateAbbreviation); 
+                RaisePropertyChanged(() => StateAbbreviation);
             }
         }
 
