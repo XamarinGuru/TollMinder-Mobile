@@ -6,58 +6,54 @@ using MvvmCross.iOS.Views.Presenters;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform.Platform;
 using MvvmCross.Platform;
-using MvvmCross.Platform.Converters;
-using Tollminder.Touch.Converters;
 using Tollminder.Touch.Services.SpeechServices;
-using MvvmCross.Binding.Bindings.Target.Construction;
-using Tollminder.Touch.Helpers.MvxAlertActionHelpers;
 
 namespace Tollminder.Touch
 {
-	public class Setup : MvxIosSetup
-	{
-		public Setup(MvxApplicationDelegate applicationDelegate, UIWindow window)
-			: base(applicationDelegate, window)
-		{
-		}
-		
-		public Setup(MvxApplicationDelegate applicationDelegate, IMvxIosViewPresenter presenter)
-			: base(applicationDelegate, presenter)
-		{
-		}
+    public class Setup : MvxIosSetup
+    {
+        public Setup(MvxApplicationDelegate applicationDelegate, UIWindow window)
+            : base(applicationDelegate, window)
+        {
+        }
 
-		protected override IMvxApplication CreateApp()
-		{
-			return new Core.App(this);
-		}
-		
-		protected override IMvxTrace CreateDebugTrace()
-		{
-			return new DebugTrace();
-		}
+        public Setup(MvxApplicationDelegate applicationDelegate, IMvxIosViewPresenter presenter)
+            : base(applicationDelegate, presenter)
+        {
+        }
 
-		protected override void InitializePlatformServices ()
-		{
-			base.InitializePlatformServices ();
+        protected override IMvxApplication CreateApp()
+        {
+            return new Core.App(this);
+        }
+
+        protected override IMvxTrace CreateDebugTrace()
+        {
+            return new DebugTrace();
+        }
+
+        protected override void InitializePlatformServices()
+        {
+            base.InitializePlatformServices();
             Mvx.LazyConstructAndRegisterSingleton<IInsightsService, TouchInsightsService>();
-			Mvx.LazyConstructAndRegisterSingleton<IGeoLocationWatcher,TouchGeolocationWatcher> ();
-			Mvx.LazyConstructAndRegisterSingleton<IMotionActivity,TouchMotionActivity> ();
+            Mvx.LazyConstructAndRegisterSingleton<IGeoLocationWatcher, TouchGeolocationWatcher>();
+            Mvx.LazyConstructAndRegisterSingleton<IMotionActivity, TouchMotionActivity>();
             Mvx.LazyConstructAndRegisterSingleton<ICheckerAppFirstLaunch, TouchCheckerAppFirstLaunch>();
-			Mvx.LazyConstructAndRegisterSingleton<IPlatform,TouchPlatform> ();
-			Mvx.LazyConstructAndRegisterSingleton<INotificationSender,TouchNotificationSender> ();
-			Mvx.LazyConstructAndRegisterSingleton<ITextToSpeechService,TouchTextToSpeechService> ();
-			Mvx.LazyConstructAndRegisterSingleton<ISpeechToTextService, TouchSpeechToTextService>();
-			Mvx.LazyConstructAndRegisterSingleton<IStoredSettingsBase, TouchStoredSettingsBase>();
+            Mvx.LazyConstructAndRegisterSingleton<IPlatform, TouchPlatform>();
+            Mvx.LazyConstructAndRegisterSingleton<INotificationSender, TouchNotificationSender>();
+            Mvx.LazyConstructAndRegisterSingleton<ITextToSpeechService, TouchTextToSpeechService>();
+            Mvx.LazyConstructAndRegisterSingleton<ISpeechToTextService, TouchSpeechToTextService>();
+            Mvx.LazyConstructAndRegisterSingleton<IStoredSettingsBase, TouchStoredSettingsBase>();
             Mvx.ConstructAndRegisterSingleton<IFacebookLoginService, TouchFacebookLoginService>();
             Mvx.LazyConstructAndRegisterSingleton<IFileManager, TouchFileManager>();
             Mvx.LazyConstructAndRegisterSingleton<IGPlusLoginService, TouchGPlusLoginService>();
             Mvx.LazyConstructAndRegisterSingleton<IHttpClientHandlerService, TouchHttpClientHandlerService>();
             Mvx.LazyConstructAndRegisterSingleton<IProgressDialogManager, TouchProgressDialogManager>();
-		}
+        }
 
         //protected override void FillValueConverters(IMvxValueConverterRegistry registry)
         //{
         //    registry.AddOrOverwrite("GetPathToImageConverter", new GetPathToImageConverter());
         //}
-	}
+    }
 }

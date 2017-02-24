@@ -9,6 +9,8 @@ using Tollminder.Core.Services;
 using Tollminder.Core.ServicesHelpers;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
+using System.Diagnostics;
 
 namespace Tollminder.Core.ViewModels
 {
@@ -83,9 +85,15 @@ namespace Tollminder.Core.ViewModels
 
             if (_geoWatcher.Location != null)
                 Location = _geoWatcher.Location;
-
-            //if (Mvx.Resolve<IWaypointChecker>().TollPointsInRadius != null)
-            //    DistanceToNearestTollpoint = double.Parse(string.Join("\n", Mvx.Resolve<IWaypointChecker>().TollPointsInRadius?.Select(x => x.Name)));
+            try
+            {
+                if (Mvx.Resolve<IWaypointChecker>().TollPointsInRadius != null)
+                    DistanceToNearestTollpoint = double.Parse(string.Join("\n", Mvx.Resolve<IWaypointChecker>().TollPointsInRadius.Select(x => x.Distance)));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
 
         Task RefreshToolRoads()
