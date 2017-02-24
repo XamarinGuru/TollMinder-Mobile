@@ -50,7 +50,7 @@ namespace Tollminder.Droid.Services
 
 		#region ITextToSpeechService implementation
 		TaskCompletionSource<bool> _speakTask;
-		public Task Speak(string text, bool disableMusic = false)
+		public Task<bool> Speak(string text, bool disableMusic = false)
         {
 			DisableMusic = disableMusic && Platform.IsMusicRunning;
 		

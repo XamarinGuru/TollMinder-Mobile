@@ -39,14 +39,6 @@ namespace Tollminder.Core.Models
 		}
 	}
 
-	public class SpechRecognitionActivityLoadedMessage : MvxMessage
-	{
-		public SpechRecognitionActivityLoadedMessage(object sender)
-			: base(sender)
-		{
-		}
-	}
-
 	public class GeoWatcherStatusMessage : GenericMessage<bool>
 	{
 		public GeoWatcherStatusMessage(object sender, bool status)
@@ -71,10 +63,18 @@ namespace Tollminder.Core.Models
         }
     }
 
-    public class CurrentWaypointChangedMessage : GenericMessage<List<TollPointWithDistance>>
+    public class CurrentTollpointChangedMessage : GenericMessage<List<TollPointWithDistance>>
     {
-        public CurrentWaypointChangedMessage(object sender, List<TollPointWithDistance> point)
+        public CurrentTollpointChangedMessage(object sender, List<TollPointWithDistance> point)
             : base(sender, point)
+        {
+        }
+    }
+
+    public class DistanceToNearestTollpoint : GenericMessage<double>
+    {
+        public DistanceToNearestTollpoint(object sender, double distance)
+            : base(sender, distance)
         {
         }
     }

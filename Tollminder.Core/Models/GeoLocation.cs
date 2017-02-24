@@ -1,44 +1,23 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using MvvmCross.Platform;
 using SQLite;
+using SQLiteNetExtensions.Attributes;
+using Tollminder.Core.Helpers;
 
 namespace Tollminder.Core.Models
 {
 	// encapulates a geolocation and other information
-	public class GeoLocation : IEquatable<GeoLocation>
+	public class GeoLocation : IEquatable<GeoLocation>//, IDatabaseEntry
 	{
+        public const double DesiredAccuracy = 100;
 		const double Epsilon = 0.0001;
 
-		public GeoLocation () 
-		{
-			
-		}
+        //[PrimaryKey, AutoIncrement]
+        //public int DBId { get; set; }
 
-		public GeoLocation (double lat, double lng)
-		{
-			Latitude = lat;
-			Longitude = lng;
-		}
-
-        public GeoLocation(string location)
-        {
-            try
-            {
-                var coords = location.Split(',');
-                Latitude = double.Parse(coords[0], System.Globalization.CultureInfo.InvariantCulture);
-                Longitude = double.Parse(coords[1], System.Globalization.CultureInfo.InvariantCulture);
-            }
-            catch (Exception ex)
-            {
-                Mvx.Trace($"Wrong dummy location: {location}, ex {ex.Message + ex.StackTrace}");
-                throw new Exception("Wrong location data");
-            }
-        }
-
-		public const double DesiredAccuracy = 100;
-
-		[PrimaryKey,AutoIncrement]
-		public long Id { get; set; }
+        //[ForeignKey(typeof(TollPoint))]
+        public string TollPointId { get; set; }
 		public double Speed { get; set; }
 		public double Latitude { get; set; }
 		public double Longitude { get; set; }
@@ -57,6 +36,38 @@ namespace Tollminder.Core.Models
 			get { return Math.Abs (Latitude) < Epsilon && Math.Abs (Longitude) < Epsilon; }
 		}
 
+        public GeoLocation()
+        {
+        }
+
+        public GeoLocation(double lat, double lng)
+        {
+            Latitude = lat;
+            Longitude = lng;
+        }
+
+        public GeoLocation(string location)
+        {
+            try
+            {
+                var coords = location.Split(',');
+                Latitude = CutStringToThreeSymbols(coords[0]);
+                Longitude = CutStringToThreeSymbols(coords[1]);//double.Parse(coords[1], System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch (Exception ex)
+            {
+                Log.LogMessage($"Wrong dummy location: {location}, ex {ex.Message + ex.StackTrace}");
+                throw new Exception("Wrong location data");
+            }
+        }
+
+        private double CutStringToThreeSymbols(string location)
+        {
+            string pattern = @"\d+(?:\.\d{1,3})?";
+            var match = Regex.Match(location, pattern);
+            return double.Parse(match.Value);
+        }
+
 		// does this equal another location?
 		public bool Equals(GeoLocation other)
 		{
@@ -67,7 +78,9 @@ namespace Tollminder.Core.Models
 
 		public override string ToString()
 		{
-			return string.Format("{0},{1}", Latitude, Longitude);
+            Latitude = CutStringToThreeSymbols(Latitude.ToString());
+            Longitude = CutStringToThreeSymbols(Longitude.ToString());
+			return string.Format("{0}, {1}", Latitude, Longitude);
 		}
 	}
 }

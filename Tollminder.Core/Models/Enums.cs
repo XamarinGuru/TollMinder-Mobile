@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace Tollminder.Core.Models
 {
@@ -25,4 +26,14 @@ namespace Tollminder.Core.Models
 		Negative,
 		Unknown
 	}
+
+    public enum AuthorizationType
+    {
+        [EnumMember(Value = "email")]
+        Email,
+        [EnumMember(Value = "facebook")]
+        Facebook,
+        [EnumMember(Value = "gplus")]
+        GPlus
+    }
 }

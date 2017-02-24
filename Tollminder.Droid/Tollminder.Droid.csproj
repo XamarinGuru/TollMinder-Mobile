@@ -15,10 +15,12 @@
     <AndroidUseLatestPlatformSdk>true</AndroidUseLatestPlatformSdk>
     <AssemblyName>Tollminder.Droid</AssemblyName>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
-	<AndroidSdkBuildToolsVersion>23.0.2</AndroidSdkBuildToolsVersion>
+  <AndroidSdkBuildToolsVersion>23.0.2</AndroidSdkBuildToolsVersion>
     <TargetFrameworkVersion>v7.0</TargetFrameworkVersion>
     <XamarinInsightsApiKey>2b455f0ac1fe12ddfc5b5ffae045c69e33a79c33</XamarinInsightsApiKey>
     <AndroidLinkMode>None</AndroidLinkMode>
+    <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
+    <JavaMaximumHeapSize>3G</JavaMaximumHeapSize>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,7 +32,13 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <RunCodeAnalysis>false</RunCodeAnalysis>
-    <AndroidSupportedAbis>armeabi;armeabi-v7a;x86;arm64-v8a;x86_64</AndroidSupportedAbis>
+    <AndroidSupportedAbis>x86;armeabi;armeabi-v7a;arm64-v8a;x86_64</AndroidSupportedAbis>
+    <AndroidKeyStore>True</AndroidKeyStore>
+    <AndroidSigningKeyStore>/Users/gloriumtech/Documents/Repository/TollMinder/TollMinder.keystore</AndroidSigningKeyStore>
+    <AndroidSigningStorePass>Palladium5 </AndroidSigningStorePass>
+    <AndroidSigningKeyAlias>tollminder</AndroidSigningKeyAlias>
+    <AndroidSigningKeyPass>Palladium5 </AndroidSigningKeyPass>
+    <JavaMaximumHeapSize>3G</JavaMaximumHeapSize>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -66,74 +74,14 @@
     <Reference Include="Plugin.CurrentActivity">
       <HintPath>..\packages\Plugin.CurrentActivity.1.0.1\lib\MonoAndroid10\Plugin.CurrentActivity.dll</HintPath>
     </Reference>
-    <Reference Include="Plugin.Permissions">
-      <HintPath>..\packages\Plugin.Permissions.1.1.7\lib\MonoAndroid10\Plugin.Permissions.dll</HintPath>
-    </Reference>
-    <Reference Include="Plugin.Permissions.Abstractions">
-      <HintPath>..\packages\Plugin.Permissions.1.1.7\lib\MonoAndroid10\Plugin.Permissions.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.GooglePlayServices.Basement">
-      <HintPath>..\packages\Xamarin.GooglePlayServices.Basement.29.0.0.2\lib\MonoAndroid41\Xamarin.GooglePlayServices.Basement.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.GooglePlayServices.Base">
-      <HintPath>..\packages\Xamarin.GooglePlayServices.Base.29.0.0.2\lib\MonoAndroid41\Xamarin.GooglePlayServices.Base.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.GooglePlayServices.Maps">
-      <HintPath>..\packages\Xamarin.GooglePlayServices.Maps.29.0.0.2\lib\MonoAndroid41\Xamarin.GooglePlayServices.Maps.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.GooglePlayServices.Location">
-      <HintPath>..\packages\Xamarin.GooglePlayServices.Location.29.0.0.2\lib\MonoAndroid41\Xamarin.GooglePlayServices.Location.dll</HintPath>
-    </Reference>
     <Reference Include="Xamarin.Insights">
       <HintPath>..\packages\Xamarin.Insights.1.12.3\lib\MonoAndroid10\Xamarin.Insights.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Platform.Droid">
-      <HintPath>..\packages\MvvmCross.Platform.4.3.0\lib\MonoAndroid\MvvmCross.Platform.Droid.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Platform">
-      <HintPath>..\packages\MvvmCross.Platform.4.3.0\lib\MonoAndroid\MvvmCross.Platform.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Droid">
-      <HintPath>..\packages\MvvmCross.Core.4.3.0\lib\MonoAndroid\MvvmCross.Droid.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Core">
-      <HintPath>..\packages\MvvmCross.Core.4.3.0\lib\MonoAndroid\MvvmCross.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Binding.Droid">
-      <HintPath>..\packages\MvvmCross.Binding.4.3.0\lib\MonoAndroid\MvvmCross.Binding.Droid.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Binding">
-      <HintPath>..\packages\MvvmCross.Binding.4.3.0\lib\MonoAndroid\MvvmCross.Binding.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Localization">
-      <HintPath>..\packages\MvvmCross.Binding.4.3.0\lib\MonoAndroid\MvvmCross.Localization.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Plugins.Sqlite">
-      <HintPath>..\packages\MvvmCross.Plugin.SQLitePCL.4.3.4\lib\MonoAndroid\MvvmCross.Plugins.Sqlite.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Plugins.Sqlite.Droid">
-      <HintPath>..\packages\MvvmCross.Plugin.SQLitePCL.4.3.4\lib\MonoAndroid\MvvmCross.Plugins.Sqlite.Droid.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Plugins.Messenger">
-      <HintPath>..\packages\MvvmCross.Plugin.Messenger.4.3.0\lib\MonoAndroid\MvvmCross.Plugins.Messenger.dll</HintPath>
     </Reference>
     <Reference Include="SQLite-net">
       <HintPath>..\packages\sqlite-net-pcl.1.2.0\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLite-net.dll</HintPath>
     </Reference>
-    <Reference Include="MvvmCross.Droid.Shared">
-      <HintPath>..\packages\MvvmCross.Droid.Shared.4.3.0\lib\MonoAndroid\MvvmCross.Droid.Shared.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Droid.Support.V4">
-      <HintPath>..\packages\MvvmCross.Droid.Support.V4.4.3.0\lib\MonoAndroid403\MvvmCross.Droid.Support.V4.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Droid.Support.V7.AppCompat">
-      <HintPath>..\packages\MvvmCross.Droid.Support.V7.AppCompat.4.3.0\lib\MonoAndroid403\MvvmCross.Droid.Support.V7.AppCompat.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Plugins.Json">
-      <HintPath>..\packages\MvvmCross.Plugin.Json.4.3.0\lib\MonoAndroid\MvvmCross.Plugins.Json.dll</HintPath>
     </Reference>
     <Reference Include="SQLitePCLRaw.core">
       <HintPath>..\packages\SQLitePCLRaw.core.1.1.0\lib\MonoAndroid\SQLitePCLRaw.core.dll</HintPath>
@@ -177,12 +125,169 @@
     <Reference Include="Xamarin.Android.Support.v7.AppCompat">
       <HintPath>..\packages\Xamarin.Android.Support.v7.AppCompat.24.2.1\lib\MonoAndroid70\Xamarin.Android.Support.v7.AppCompat.dll</HintPath>
     </Reference>
+    <Reference Include="Plugin.Permissions.Abstractions">
+      <HintPath>..\packages\Plugin.Permissions.1.2.1\lib\MonoAndroid10\Plugin.Permissions.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Permissions">
+      <HintPath>..\packages\Plugin.Permissions.1.2.1\lib\MonoAndroid10\Plugin.Permissions.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Platform">
+      <HintPath>..\packages\MvvmCross.Platform.4.4.0\lib\MonoAndroid\MvvmCross.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Platform.Droid">
+      <HintPath>..\packages\MvvmCross.Platform.4.4.0\lib\MonoAndroid\MvvmCross.Platform.Droid.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Core">
+      <HintPath>..\packages\MvvmCross.Core.4.4.0\lib\MonoAndroid\MvvmCross.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Droid">
+      <HintPath>..\packages\MvvmCross.Core.4.4.0\lib\MonoAndroid\MvvmCross.Droid.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Binding">
+      <HintPath>..\packages\MvvmCross.Binding.4.4.0\lib\MonoAndroid\MvvmCross.Binding.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Binding.Droid">
+      <HintPath>..\packages\MvvmCross.Binding.4.4.0\lib\MonoAndroid\MvvmCross.Binding.Droid.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Localization">
+      <HintPath>..\packages\MvvmCross.Binding.4.4.0\lib\MonoAndroid\MvvmCross.Localization.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Droid.Shared">
+      <HintPath>..\packages\MvvmCross.Droid.Shared.4.4.0\lib\MonoAndroid\MvvmCross.Droid.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Droid.Support.Core.UI">
+      <HintPath>..\packages\MvvmCross.Droid.Support.Core.UI.4.4.0\lib\MonoAndroid70\MvvmCross.Droid.Support.Core.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Droid.Support.Core.Utils">
+      <HintPath>..\packages\MvvmCross.Droid.Support.Core.Utils.4.4.1\lib\MonoAndroid70\MvvmCross.Droid.Support.Core.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Droid.Support.Fragment">
+      <HintPath>..\packages\MvvmCross.Droid.Support.Fragment.4.4.0\lib\MonoAndroid70\MvvmCross.Droid.Support.Fragment.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Plugins.Messenger">
+      <HintPath>..\packages\MvvmCross.Plugin.Messenger.4.4.0\lib\MonoAndroid\MvvmCross.Plugins.Messenger.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Droid.Support.V7.AppCompat">
+      <HintPath>..\packages\MvvmCross.Droid.Support.V7.AppCompat.4.4.0\lib\MonoAndroid70\MvvmCross.Droid.Support.V7.AppCompat.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Plugins.Json">
+      <HintPath>..\packages\MvvmCross.Plugin.Json.4.4.0\lib\MonoAndroid\MvvmCross.Plugins.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Plugins.Sqlite">
+      <HintPath>..\packages\MvvmCross.Plugin.SQLitePCL.4.4.0\lib\MonoAndroid\MvvmCross.Plugins.Sqlite.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Plugins.Sqlite.Droid">
+      <HintPath>..\packages\MvvmCross.Plugin.SQLitePCL.4.4.0\lib\MonoAndroid\MvvmCross.Plugins.Sqlite.Droid.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.RecyclerView">
+      <HintPath>..\packages\Xamarin.Android.Support.v7.RecyclerView.24.2.1\lib\MonoAndroid70\Xamarin.Android.Support.v7.RecyclerView.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.Design">
+      <HintPath>..\packages\Xamarin.Android.Support.Design.24.2.1\lib\MonoAndroid70\Xamarin.Android.Support.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Bolts.AppLinks">
+      <HintPath>..\packages\Bolts.1.4.0.1\lib\MonoAndroid403\Bolts.AppLinks.dll</HintPath>
+    </Reference>
+    <Reference Include="Bolts.Tasks">
+      <HintPath>..\packages\Bolts.1.4.0.1\lib\MonoAndroid403\Bolts.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.CustomTabs">
+      <HintPath>..\packages\Xamarin.Android.Support.CustomTabs.24.2.1\lib\MonoAndroid70\Xamarin.Android.Support.CustomTabs.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Facebook">
+      <HintPath>..\packages\Xamarin.Facebook.Android.4.16.1\lib\MonoAndroid403\Xamarin.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Facebook.AudienceNetwork">
+      <HintPath>..\packages\Xamarin.Facebook.AudienceNetwork.Android.4.16.1\lib\MonoAndroid41\Xamarin.Facebook.AudienceNetwork.dll</HintPath>
+    </Reference>
+    <Reference Include="ExoPlayer">
+      <HintPath>..\packages\Xam.Plugins.Android.ExoPlayer.2.0.4.1\lib\MonoAndroid\ExoPlayer.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.CardView">
+      <HintPath>..\packages\Xamarin.Android.Support.v7.CardView.24.2.1\lib\MonoAndroid70\Xamarin.Android.Support.v7.CardView.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Basement">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Basement.32.961.0-beta1\lib\MonoAndroid70\Xamarin.GooglePlayServices.Basement.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Tasks">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Tasks.32.961.0-beta1\lib\MonoAndroid70\Xamarin.GooglePlayServices.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Base">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Base.32.961.0-beta1\lib\MonoAndroid70\Xamarin.GooglePlayServices.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Auth.Base">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Auth.Base.32.961.0-beta1\lib\MonoAndroid70\Xamarin.GooglePlayServices.Auth.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Auth">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Auth.32.961.0-beta1\lib\MonoAndroid70\Xamarin.GooglePlayServices.Auth.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Ads">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Ads.32.961.0-beta1\lib\MonoAndroid70\Xamarin.GooglePlayServices.Ads.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Location">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Location.32.961.0-beta1\lib\MonoAndroid70\Xamarin.GooglePlayServices.Location.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Maps">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Maps.32.961.0-beta1\lib\MonoAndroid70\Xamarin.GooglePlayServices.Maps.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Plus">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Plus.32.961.0-beta1\lib\MonoAndroid70\Xamarin.GooglePlayServices.Plus.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Plugins.File">
+      <HintPath>..\packages\MvvmCross.Plugin.File.4.4.0\lib\MonoAndroid\MvvmCross.Plugins.File.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Plugins.File.Droid">
+      <HintPath>..\packages\MvvmCross.Plugin.File.4.4.0\lib\MonoAndroid\MvvmCross.Plugins.File.Droid.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Plugins.Network">
+      <HintPath>..\packages\MvvmCross.Plugin.Network.4.4.0\lib\MonoAndroid\MvvmCross.Plugins.Network.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Plugins.Network.Droid">
+      <HintPath>..\packages\MvvmCross.Plugin.Network.4.4.0\lib\MonoAndroid\MvvmCross.Plugins.Network.Droid.dll</HintPath>
+    </Reference>
+    <Reference Include="Chance.MvvmCross.Plugins.UserInteraction">
+      <HintPath>..\packages\Birdie.MvvmCross.Plugins.UserInteraction.1.4.0\lib\MonoAndroid\Chance.MvvmCross.Plugins.UserInteraction.dll</HintPath>
+    </Reference>
+    <Reference Include="Chance.MvvmCross.Plugins.UserInteraction.Droid">
+      <HintPath>..\packages\Birdie.MvvmCross.Plugins.UserInteraction.1.4.0\lib\MonoAndroid\Chance.MvvmCross.Plugins.UserInteraction.Droid.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Collections.Immutable">
+      <HintPath>..\packages\System.Collections.Immutable.1.2.0\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Plugins.DownloadCache">
+      <HintPath>..\packages\MvvmCross.Plugin.DownloadCache.4.4.0\lib\MonoAndroid\MvvmCross.Plugins.DownloadCache.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Plugins.DownloadCache.Droid">
+      <HintPath>..\packages\MvvmCross.Plugin.DownloadCache.4.4.0\lib\MonoAndroid\MvvmCross.Plugins.DownloadCache.Droid.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.Percent">
+      <HintPath>..\packages\Xamarin.Android.Support.Percent.24.2.1\lib\MonoAndroid70\Xamarin.Android.Support.Percent.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.GridCommon.Portable">
+      <HintPath>..\packages\Syncfusion.Xamarin.SfDataGrid.Android.14.4.0.20\lib\MonoAndroid10\Syncfusion.GridCommon.Portable.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Linq.Android">
+      <HintPath>..\packages\Syncfusion.Xamarin.SfDataGrid.Android.14.4.0.20\lib\MonoAndroid10\Syncfusion.Linq.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfDataGrid.Android">
+      <HintPath>..\packages\Syncfusion.Xamarin.SfDataGrid.Android.14.4.0.20\lib\MonoAndroid10\Syncfusion.SfDataGrid.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfPdfViewer.Android">
+      <HintPath>..\packages\Syncfusion.Xamarin.SfPdfViewer.Android.14.4.0.20\lib\MonoAndroid10\Syncfusion.SfPdfViewer.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Auth.Android">
+      <HintPath>..\Components\xamarin.auth-1.2.3.1\lib\android\Xamarin.Auth.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="MaskedEditText">
+      <HintPath>..\packages\MaskedEditText.0.1.0\lib\MaskedEditText.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Setup.cs" />
     <Compile Include="SplashScreen.cs" />
-    <Compile Include="Views\HomeView.cs" />
+    <Compile Include="Views\HomeDebugView.cs" />
     <Compile Include="Services\DroidTextToSpeechService.cs" />
     <Compile Include="Services\DroidNotificationSender.cs" />
     <Compile Include="Extensions.cs" />
@@ -191,53 +296,91 @@
     <Compile Include="AndroidServices\MotionActivityService.cs" />
     <Compile Include="AndroidServices\GeolocationService.cs" />
     <Compile Include="Services\DroidMotionActivity.cs" />
-    <Compile Include="Inerfaces\IDroidMessenger.cs" />
-    <Compile Include="Resources\Resource.designer.cs" />
+    <Compile Include="Inerfaces\IDroidSocialLogin.cs" />
     <Compile Include="MainApplication.cs" />
     <Compile Include="DebugTrace.cs" />
-    <Compile Include="Bootstrap\JsonPluginBootstrap.cs" />
     <Compile Include="BroadcastReceivers\GeolocationReceiver.cs" />
     <Compile Include="Services\DroidGeolocationWatcher.cs" />
     <Compile Include="Services\DroidServiceStarter.cs" />
     <Compile Include="Services\DroidReciever.cs" />
     <Compile Include="BroadcastReceivers\MotionReciever.cs" />
     <Compile Include="Services\DroidSpeechToTextService.cs" />
-    <Compile Include="Converters\InverseBoolConverter.cs" />
     <Compile Include="Services\DroidStoredSettingsBase.cs" />
-    <Compile Include="Bootstrap\SqlitePluginBootstrap.cs" />
-    <Compile Include="Bootstrap\MessengerPluginBootstrap.cs" />
     <Compile Include="LinkerPleaseInclude.cs" />
+    <Compile Include="Bootstrap\MessengerPluginBootstrap.cs" />
+    <Compile Include="Bootstrap\JsonPluginBootstrap.cs" />
+    <Compile Include="Bootstrap\SqlitePluginBootstrap.cs" />
+    <Compile Include="Services\DroidInsightsService.cs" />
+    <Compile Include="Views\LoginView.cs" />
+    <Compile Include="Views\BaseActivity.cs" />
+    <Compile Include="Services\DroidFacebookLoginService.cs" />
+    <Compile Include="Services\DroidGPlusLoginService.cs" />
+    <Compile Include="Bootstrap\FilePluginBootstrap.cs" />
+    <Compile Include="Bootstrap\NetworkPluginBootstrap.cs" />
+    <Compile Include="Bootstrap\UserInteractionPluginBootstrap.cs" />
+    <Compile Include="Services\DroidHttpClientHandlerService.cs" />
+    <Compile Include="Views\HomeView.cs" />
+    <Compile Include="Controls\RoundedRectangleButton.cs" />
+    <Compile Include="Resources\Resource.designer.cs" />
+    <Compile Include="Converters\BoolToIconConverter.cs" />
+    <Compile Include="Bootstrap\DownloadCachePluginBootstrap.cs" />
+    <Compile Include="BroadcastReceivers\RebootReceiver.cs" />
+    <Compile Include="AndroidServices\NorficationService.cs" />
+    <Compile Include="Views\ProfileView.cs" />
+    <Compile Include="Views\LicenseView.cs" />
+    <Compile Include="Views\CreditCardView.cs" />
+    <Compile Include="Controls\ProfileButton.cs" />
+    <Compile Include="Views\PayHistoryView.cs" />
+    <Compile Include="Views\Fragments\CalendarViewFragment.cs" />
+    <Compile Include="Services\CalendarService.cs" />
+    <Compile Include="Converters\DateTimeConverter.cs" />
+    <Compile Include="Views\PayHistoryPdfView.cs" />
+    <Compile Include="Services\PdfWebViewClient.cs" />
+    <Compile Include="Services\DroidFileManager.cs" />
+    <Compile Include="Controls\PdfView.cs" />
+    <Compile Include="Controls\CalendarRangeButton.cs" />
+    <Compile Include="Controls\MvxExpandableList\Adapters\BindableExpandableListAdapter.cs" />
+    <Compile Include="Controls\MvxExpandableList\Adapters\BindableGroupListAdapter.cs" />
+    <Compile Include="Controls\MvxExpandableList\ListViews\BindableGroupListView.cs" />
+    <Compile Include="Controls\MvxExpandableList\ListViews\BindableExpandableListView.cs" />
+    <Compile Include="Controls\MvxExpandableList\AndroidBindingResource.cs" />
+    <Compile Include="Controls\MvxExpandableList\Plugin.cs" />
+    <Compile Include="Views\LifeCycleActivity.cs" />
+    <Compile Include="Adapters\MvxViewPagerFragmentAdapter.cs" />
+    <Compile Include="Views\Fragments\ButtonContainerFragment.cs" />
+    <Compile Include="Controls\BoardInformationLabel.cs" />
+    <Compile Include="Views\Fragments\RoadInformationFragment.cs" />
+    <Compile Include="Views\RegistrationView.cs" />
+    <Compile Include="Services\DroidProgressDialogManager.cs" />
+    <Compile Include="AndroidServices\FieldsService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\AboutResources.txt" />
-    <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="packages.config" />
-    <None Include="ToDo-MvvmCross\_ Droid UI.txt" />
+    <None Include="Resources\AboutResources.txt" />
+    <None Include="ResourcesToCopy\MvxBindingAttributes.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\values\Strings.xml" />
-    <AndroidResource Include="Resources\mipmap-hdpi\Icon.png" />
-    <AndroidResource Include="Resources\mipmap-mdpi\Icon.png" />
-    <AndroidResource Include="Resources\mipmap-xhdpi\Icon.png" />
-    <AndroidResource Include="Resources\mipmap-xxhdpi\Icon.png" />
-    <AndroidResource Include="Resources\mipmap-xxxhdpi\Icon.png" />
-    <AndroidResource Include="Resources\layout\homeView.axml" />
-    <AndroidResource Include="Resources\layout\SplashScreen.axml" />
-    <AndroidResource Include="Resources\values\SplashStyle.xml" />
-    <AndroidResource Include="Resources\drawable\splash.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\drawable\" />
-    <Folder Include="Resources\layout\" />
     <Folder Include="Services\" />
     <Folder Include="AndroidServices\" />
     <Folder Include="Inerfaces\" />
     <Folder Include="BroadcastReceivers\" />
     <Folder Include="Converters\" />
+    <Folder Include="Controls\" />
+    <Folder Include="Resources\mipmap-hdpi\" />
+    <Folder Include="Resources\mipmap-mdpi\" />
+    <Folder Include="Resources\mipmap-xhdpi\" />
+    <Folder Include="Resources\mipmap-xxhdpi\" />
+    <Folder Include="Resources\mipmap-xxxhdpi\" />
+    <Folder Include="Views\Fragments\" />
+    <Folder Include="Controls\MvxExpandableList\" />
+    <Folder Include="Controls\MvxExpandableList\Adapters\" />
+    <Folder Include="Controls\MvxExpandableList\ListViews\" />
+    <Folder Include="ResourcesToCopy\" />
+    <Folder Include="ResourcesToCopy\" />
+    <Folder Include="Adapters\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
-  <Import Project="..\packages\Xamarin.GooglePlayServices.Basement.29.0.0.2\build\Xamarin.GooglePlayServices.Basement.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Basement.29.0.0.2\build\Xamarin.GooglePlayServices.Basement.targets')" />
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\MonoAndroid10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\MonoAndroid10\Xamarin.Insights.targets')" />
   <ItemGroup>
     <ProjectReference Include="..\Tollminder.Core\Tollminder.Core.csproj">
@@ -245,5 +388,179 @@
       <Name>Tollminder.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <XamarinComponentReference Include="facebookandroid">
+      <Version>4.16.1.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="xamarin.auth">
+      <Version>1.2.3.1</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\home_debug_view.axml" />
+    <AndroidResource Include="Resources\layout\home_view.axml" />
+    <AndroidResource Include="Resources\layout\home_view_button.axml" />
+    <AndroidResource Include="Resources\layout\login_view.axml" />
+    <AndroidResource Include="Resources\layout\SplashScreen.axml" />
+    <AndroidResource Include="Resources\values\attrs.xml" />
+    <AndroidResource Include="Resources\values\colors.xml" />
+    <AndroidResource Include="Resources\values\Strings.xml" />
+    <AndroidResource Include="Resources\values\styles.xml" />
+    <AndroidResource Include="Resources\values\dimens.xml" />
+    <AndroidResource Include="Resources\drawable\home_view_button_background.xml" />
+    <AndroidResource Include="Resources\drawable\login_button_background.xml" />
+    <AndroidResource Include="Resources\drawable\login_card_background.xml" />
+    <AndroidResource Include="Resources\drawable\splash.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\home_background.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\home_logo.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_home_pay.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_home_pay_history.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_home_profile.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_home_support.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_home_tracking_active.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_home_tracking_default.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\home_background.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\home_logo.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_home_pay.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_home_pay_history.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_home_profile.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_home_support.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_home_tracking_active.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_home_tracking_default.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\home_background.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\home_logo.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_home_pay.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_home_pay_history.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_home_profile.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_home_support.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_home_tracking_active.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_home_tracking_default.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\home_background.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\home_logo.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_home_pay.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_home_pay_history.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_home_profile.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_home_support.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_home_tracking_active.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_home_tracking_default.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\home_background.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\home_logo.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_home_pay.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_home_pay_history.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_home_profile.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_home_support.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_home_tracking_active.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_home_tracking_default.png" />
+    <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\mipmap-mdpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\mipmap-xhdpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\mipmap-xxhdpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\home_board_.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\home_board_.png" />
+    <AndroidResource Include="Resources\layout\profile_view.axml" />
+    <AndroidResource Include="Resources\drawable-hdpi\tab_background.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\tab_background.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\tab_background.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\tab_background.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\tab_background.png" />
+    <AndroidResource Include="Resources\drawable\profile_top_background.png" />
+    <AndroidResource Include="Resources\drawable\icon_back.png" />
+    <AndroidResource Include="Resources\layout\license_view.axml" />
+    <AndroidResource Include="Resources\layout\credit_card_view.axml" />
+    <AndroidResource Include="Resources\drawable\creditCards.png" />
+    <AndroidResource Include="Resources\drawable\button_style.xml" />
+    <AndroidResource Include="Resources\layout\profile_view_button.axml" />
+    <AndroidResource Include="Resources\drawable\profile_view_button_background.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_calendar.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_card.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_download.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_license.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_calendar.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_card.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_download.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_license.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_calendar.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_card.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_download.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_license.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_calendar.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_card.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_download.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_license.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_calendar.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_card.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_download.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_license.png" />
+    <AndroidResource Include="Resources\layout\item_spinner.axml" />
+    <AndroidResource Include="Resources\layout\item_spinnerdropdown.axml" />
+    <AndroidResource Include="Resources\layout\pay_history_view.axml" />
+    <AndroidResource Include="Resources\layout\calendar_view_button.axml" />
+    <AndroidResource Include="Resources\drawable\calendar_button_background.xml" />
+    <AndroidResource Include="Resources\drawable\calendar_border.axml" />
+    <AndroidResource Include="Resources\drawable\home_view_button.axml" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_logout.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_logout.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_logout.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_logout.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_logout.png" />
+    <AndroidResource Include="Resources\layout\calendar_fragment.axml" />
+    <AndroidResource Include="Resources\layout\pay_history_pdf_view.axml" />
+    <AndroidResource Include="Resources\layout\data_list_item.axml" />
+    <AndroidResource Include="Resources\layout\list_group.axml" />
+    <AndroidResource Include="Resources\drawable\logout_button_style.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\banner.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\banner.9.png" />
+    <AndroidResource Include="Resources\layout\button_container_fragment.axml" />
+    <AndroidResource Include="Resources\layout\board_information_label_view.axml" />
+    <AndroidResource Include="Resources\drawable\profile_view_button.axml" />
+    <AndroidResource Include="Resources\layout\road_information_fragment.axml" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_location.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_nearest_point.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_pointer.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_status.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_tollroad.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_location.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_nearest_point.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_pointer.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_status.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_tollroad.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_location.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_nearest_point.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_pointer.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_status.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_tollroad.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_location.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_nearest_point.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_pointer.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_status.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_tollroad.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_location.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_nearest_point.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_pointer.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_status.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_tollroad.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\home_board_new.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\home_board_new.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\home_board.9.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\home_board.9.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\home_board.9.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\home_board.9.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\home_board.9.png" />
+    <AndroidResource Include="Resources\layout\registration_view.axml" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_facebook.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_facebook.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_facebook.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_facebook.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_facebook.png" />
+    <AndroidResource Include="Resources\drawable\facebook_button_style.xml" />
+    <AndroidResource Include="Resources\layout\calendar_radio_button.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProguardConfiguration Include="Properties\AndroidManifest.xml" />
+  </ItemGroup>
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />
+  <Import Project="..\packages\Xamarin.GooglePlayServices.Basement.32.961.0-beta1\build\Xamarin.GooglePlayServices.Basement.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Basement.32.961.0-beta1\build\Xamarin.GooglePlayServices.Basement.targets')" />
 </Project>

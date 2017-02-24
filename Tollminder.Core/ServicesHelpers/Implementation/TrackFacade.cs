@@ -34,7 +34,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
         public TrackFacade()
         {
-            Log.LogMessage("Facade init start");
+            Log.LogMessage("Facade ctor start");
             _textToSpeech = Mvx.Resolve<ITextToSpeechService>();
             _messenger = Mvx.Resolve<IMvxMessenger>();
             _geoWatcher = Mvx.Resolve<IGeoLocationWatcher>();
@@ -43,33 +43,33 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
             _semaphor = new SemaphoreSlim(1);
 
-            _motionToken = _messenger.SubscribeOnThreadPoolThread<MotionMessage>(async x =>
-              {
-                  Log.LogMessage($"[FACADE] receive new motion type {x.Data}");
-                  switch (x.Data)
-                  {
-                      case MotionType.Automotive:
-                      case MotionType.Running:
-                      case MotionType.Walking:
-                          if ((_storedSettingsService.SleepGPSDateTime == DateTime.MinValue || _storedSettingsService.SleepGPSDateTime < DateTime.Now)
-                              && !IsBound)
-                          {
-                              Log.LogMessage($"[FACADE] Start geolocating because we are not still");
-                              await StartServices();
-                          }
-                          break;
-                      case MotionType.Still:
-                          if (IsBound)
-                          {
-                              Log.LogMessage($"[FACADE] Stop geolocating because we are still");
-                              StopServices();
-                          }
-                          break;
-                  }
-              });
-            _tokens.Add(_motionToken);
+            //_motionToken = _messenger.SubscribeOnThreadPoolThread<MotionMessage>(async x =>
+            //  {
+            //      Log.LogMessage($"[FACADE] receive new motion type {x.Data}");
+            //      switch (x.Data)
+            //      {
+            //          case MotionType.Automotive:
+            //          case MotionType.Running:
+            //          case MotionType.Walking:
+            //              if ((_storedSettingsService.SleepGPSDateTime == DateTime.MinValue || _storedSettingsService.SleepGPSDateTime < DateTime.Now)
+            //                  && !IsBound)
+            //              {
+            //                  Log.LogMessage($"[FACADE] Start geolocating because we are not still");
+            //                  await StartServices();
+            //              }
+            //              break;
+            //          case MotionType.Still:
+            //              if (IsBound)
+            //              {
+            //                  Log.LogMessage($"[FACADE] Stop geolocating because we are still");
+            //                  StopServices();
+            //              }
+            //              break;
+            //      }
+            //  });
+            //_tokens.Add(_motionToken);
 
-            Log.LogMessage("Facade init end");
+            Log.LogMessage("Facade ctor end");
         }
 
         #endregion
@@ -91,16 +91,15 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
             bool isGranted = await Mvx.Resolve<IPermissionsService>().CheckPermissionsAccesGrantedAsync();
             if (!IsBound && isGranted)
             {
-
                 Log.LogMessage(string.Format("FACADE HAS STARTED AT {0}", DateTime.Now));
 
                 _textToSpeech.IsEnabled = true;
                 _activity.StartDetection();
                 _geoWatcher.StartGeolocationWatcher();
-                _locationToken = _messenger.SubscribeOnThreadPoolThread<LocationMessage>(x =>
+                _locationToken = _messenger.SubscribeOnThreadPoolThread<LocationMessage>(async x =>
                {
                    Log.LogMessage("Start processing LocationMessage");
-                   CheckTrackStatus();
+                   await CheckTrackStatus();
                });
                 _tokens.Add(_locationToken);
 
@@ -120,7 +119,6 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
             _geoWatcher.StopGeolocationWatcher();
             _tokens.Remove(_locationToken);
-            _motionToken?.Dispose();
 
             return true;
         }
@@ -138,7 +136,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
             }
         }
 
-        protected async virtual void CheckTrackStatus()
+        protected async virtual Task CheckTrackStatus()
         {
             if (_locationProcessing)
             {
@@ -157,19 +155,19 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
             {
                 BaseStatus statusObject = StatusesFactory.GetStatus(TollStatus);
 
-                if (_activity.MotionType == MotionType.Still)
-                {
-                    Log.LogMessage("Ignore location in FACADE because we are still");
-                    return;
-                }
-                else
-                {
-                    if (statusObject.CheckBatteryDrain())
-                    {
-                        Log.LogMessage("Ignore location in FACADE because we are too away from nearest waypoint");
-                        return;
-                    }
-                }
+                //if (_activity.MotionType == MotionType.Still)
+                //{
+                //    Log.LogMessage("Ignore location in FACADE because we are still");
+                //    return;
+                //}
+                //else
+                //{
+                //    if (statusObject.CheckBatteryDrain())
+                //    {
+                //        Log.LogMessage("Ignore location in FACADE because we are too away from nearest waypoint");
+                //        return;
+                //    }
+                //}
 
                 var statusBeforeCheck = TollStatus;
                 Log.LogMessage($"Current status before check= {TollStatus}");
@@ -190,6 +188,16 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
             {
                 _locationProcessing = false;
                 _semaphor.Release();
+            }
+        }
+
+        public async Task Initialize()
+        {
+            if (_storedSettingsService.GeoWatcherIsRunning)
+            {
+                StopServices();
+                await StartServices().ConfigureAwait(false);
+                Log.LogMessage("Autostart facade");
             }
         }
     }

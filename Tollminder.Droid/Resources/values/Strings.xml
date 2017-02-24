@@ -2,4 +2,10 @@
 <resources>
 	<string name="hello">Hello World, Click Me!</string>
 	<string name="app_name">Tollminder</string>
+	<string name="app_id">357633207963143</string>
+	<string name="fb_login_protocol_scheme">fb357633207963143</string>
+	<string name="cancelled">Cancelled</string>
+	<string name="permission_not_granted">Unable to perform selected action because permissions were not granted.</string>
+	<string name="ok">OK</string>
+	<string name="server_client_id">382677639037-husbvvt31q4ik2mbfrinmsdu2stljhot.apps.googleusercontent.com</string>
 </resources>

@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical">
+        <tollminder.droid.controls.BoardInformationLabel
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_profile"
+            app:MvxBind="Text TollRoadString"
+            app:iconBoard="@drawable/ic_nearest_point"
+            app:labelBoard="Distance to nearest point:" />
+        <tollminder.droid.controls.BoardInformationLabel
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:id="@+id/button_pay_history"
+            app:MvxBind="Text LocationString"
+            app:iconBoard="@drawable/ic_location"
+            app:labelBoard="Geolocation:"/>
+        <tollminder.droid.controls.BoardInformationLabel
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:id="@+id/button_pay"
+            app:MvxBind="Text CurrentWaypointString"
+            app:iconBoard="@drawable/ic_tollroad"
+            app:labelBoard="Tollroad:" />
+        <tollminder.droid.controls.BoardInformationLabel
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            app:MvxBind="Text StatusString"
+            app:iconBoard="@drawable/ic_status"
+            app:labelBoard="Status:" />
+    </LinearLayout>
+</RelativeLayout>

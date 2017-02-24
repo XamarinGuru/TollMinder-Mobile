@@ -10,6 +10,8 @@ using AVFoundation;
 using System.Threading.Tasks;
 using Tollminder.Core.Services;
 using Tollminder.Core.ServicesHelpers;
+using Google.Core;
+using Google.SignIn;
 
 namespace Tollminder.Touch
 {
@@ -52,14 +54,78 @@ namespace Tollminder.Touch
             NSError categoryError;
             session.SetCategory (AVAudioSessionCategory.Playback);
             session.SetActive (true, out categoryError);
+            // check for a notification
+            if (launchOptions != null)
+            {
+                // check for a local notification
+                if (launchOptions.ContainsKey(UIApplication.LaunchOptionsLocalNotificationKey))
+                {
+                    var localNotification = launchOptions[UIApplication.LaunchOptionsLocalNotificationKey] as UILocalNotification;
+                    if (localNotification != null)
+                    {
+                        UIAlertController okayAlertController = UIAlertController.Create(localNotification.AlertAction, localNotification.AlertBody, UIAlertControllerStyle.Alert);
+                        okayAlertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Default, null));
 
-            return true;
+                        Window.RootViewController.PresentViewController(okayAlertController, true, null);
+
+                        // reset our badge
+                        UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
+                    }
+                }
+            }
+
+            return true;//Facebook.CoreKit.ApplicationDelegate.SharedInstance.FinishedLaunching(application, launchOptions);
+
         }
 
-		public override void ReceivedLocalNotification (UIApplication application, UILocalNotification notification)
-		{
-			
-		}
+        public override void ReceivedLocalNotification(UIApplication application, UILocalNotification notification)
+        {
+            // show an alert
+            //UIAlertController okayAlertController = UIAlertController.Create(notification.AlertAction, notification.AlertBody, UIAlertControllerStyle.Alert);
+            //okayAlertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Default, null));
+
+            //Window.RootViewController.PresentViewController(okayAlertController, true, null);
+
+            //// reset our badge
+            //UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
+        }
+
+        SocialNetworks GetSocialNetworkForUrl(NSUrl url)
+        {
+            if (url.Scheme == GetUrlScheme(SocialNetworks.Facebook))
+            {
+                return SocialNetworks.Facebook;
+            }
+            if (url.Scheme == GetUrlScheme(SocialNetworks.GooglePlus))
+            {
+                return SocialNetworks.GooglePlus;
+            }
+
+            return SocialNetworks.Unknown;
+        }
+
+        string GetUrlScheme(SocialNetworks socialNetwork)
+        {
+            var predicate = NSPredicate.FromFormat("%K = %@", new NSObject[] { new NSString("CFBundleURLName"), new NSString(socialNetwork.ToString()) });
+            var urlTypes = (NSMutableArray)NSBundle.MainBundle.InfoDictionary.ObjectForKey(new NSString("CFBundleURLTypes"));
+            var urlSchemes = (NSArray)urlTypes.Filter(predicate).ValueForKey(new NSString("CFBundleURLSchemes"));
+            var neededScheme = urlSchemes.GetItem<NSMutableArray>(0).GetItem<NSMutableString>(0).ToString();
+            return neededScheme;
+        }
+
+        public override bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
+        {
+            switch (GetSocialNetworkForUrl(url))
+            {
+                case SocialNetworks.Facebook:
+                    return Facebook.CoreKit.ApplicationDelegate.SharedInstance.OpenUrl(application, url, sourceApplication, annotation);
+                case SocialNetworks.GooglePlus:
+                    return SignIn.SharedInstance.HandleUrl(url, sourceApplication, annotation);
+            }
+            NSNotificationCenter.DefaultCenter.PostNotificationName("OpenUrl", url);
+            
+            return base.OpenUrl(application, url, sourceApplication, annotation);
+        }
 
         public override void OnResignActivation(UIApplication application)
         {
@@ -112,7 +178,12 @@ namespace Tollminder.Touch
 
             }).Start();
         }
+
+        enum SocialNetworks
+        {
+            Unknown,
+            Facebook,
+            GooglePlus
+        }
     }
 }
-
-

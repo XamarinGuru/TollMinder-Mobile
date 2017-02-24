@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:local="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/pay_history"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/tab_background"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:orientation="vertical"
+        android:background="@drawable/profile_top_background">
+        <RelativeLayout
+            android:id="@+id/profile_top_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+            <ImageButton
+                android:id="@+id/back_to_home_view"
+                android:layout_width="45dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="25dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/icon_back"
+                local:MvxBind="Click BackHomeCommand"
+                android:background="@android:color/transparent"
+                android:focusable="true"
+                android:focusableInTouchMode="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="Payment History"
+                android:layout_marginTop="25dp"
+                android:textSize="20dp"
+                android:textColor="@color/white" />
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/gray_dark"
+                android:orientation="horizontal"
+                android:layout_marginBottom="2dp">
+                <tollminder.droid.controls.CalendarRangeButton
+                    android:id="@+id/add_license_button"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    local:text_calendar_field="From:"
+                    local:MvxBind="Click OpenCalendarFromCommand;Text DateTimeConverter(GetPayDateFrom, 'd')"
+                    local:icon_calendar="@drawable/ic_calendar" />
+                <tollminder.droid.controls.CalendarRangeButton
+                    android:id="@+id/add_license_button"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    local:text_calendar_field="To:"
+                    local:MvxBind="Click OpenCalendarToCommand;Text DateTimeConverter(GetPayDateTo, 'd')"
+                    local:icon_calendar="@drawable/ic_calendar" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:background="@color/gray_dark"
+                android:id="@+id/radio_button_container"
+                android:layout_marginBottom="2dp">
+                <RadioGroup
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:id="@+id/calendarRadioCroups">
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginRight="5dp"
+                        android:layout_centerVertical="true"
+                        android:text="Current"
+                        android:id="@+id/current" />
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:text="All History"
+                        android:id="@+id/all_history" />
+                </RadioGroup>
+                <tollminder.droid.controls.CalendarRangeButton
+                    android:id="@+id/add_license_button"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="match_parent"
+                    local:text_calendar_field="Download"
+                    local:MvxBind="Click DownloadHistoryCommand"
+                    local:icon_calendar="@drawable/ic_download" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profile_top_navigation"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp">
+        <MvxListView
+            android:id="@+id/pay_history"
+            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="40dp"
+            local:MvxBind="ItemsSource History;SelectedItem SelectedTransaction; Text Transaction"
+            android:background="@drawable/login_card_background" />
+    </LinearLayout>
+</LinearLayout>

@@ -9,36 +9,20 @@ namespace Tollminder.Core.Services.Implementation
 {
 	public class WaypointChecker : IWaypointChecker
 	{
-		readonly IStoredSettingsService _storedSettingsService;
-
-        IGeoDataService _geoDataService;
-        IGeoDataService GeoDataService
-        {
-            get
-            {
-                return _geoDataService ?? (_geoDataService = Mvx.Resolve<IGeoDataService>());
-            }
-        }
-
-        IMvxMessenger _messenger;
-        IMvxMessenger Messeger
-        {
-            get
-            {
-                return _messenger ?? (_messenger = Mvx.Resolve<IMvxMessenger>());
-            }
-        }
+        readonly IStoredSettingsService StoredSettingsService;
+        readonly IGeoDataService GeoDataService;
+        readonly IMvxMessenger Messenger;
 
         public List<TollPointWithDistance> TollPointsInRadius 
 		{
 			get 
 			{
-				return _storedSettingsService.TollPointsInRadius; 
+				return StoredSettingsService.TollPointsInRadius; 
 			}
 			private set 
 			{
-				_storedSettingsService.TollPointsInRadius = value;
-                Messeger.Publish(new CurrentWaypointChangedMessage(this, value));
+				StoredSettingsService.TollPointsInRadius = value;
+                Messenger.Publish(new CurrentTollpointChangedMessage(this, value));
 			}
 		}
 	
@@ -46,12 +30,12 @@ namespace Tollminder.Core.Services.Implementation
 		{
 			get
 			{
-				return _storedSettingsService.TollRoadEntranceWaypoint;
+				return StoredSettingsService.TollRoadEntranceWaypoint;
 			}
 			private set
 			{
-				_storedSettingsService.TollRoadEntranceWaypoint = value;
-                _storedSettingsService.TollRoadEntranceWaypointDateTime = (value == null) ? DateTime.MinValue : DateTime.Now;
+				StoredSettingsService.TollRoadEntranceWaypoint = value;
+                StoredSettingsService.TollRoadEntranceWaypointDateTime = (value == null) ? DateTime.MinValue : DateTime.Now;
 			}
 		}
 
@@ -59,12 +43,12 @@ namespace Tollminder.Core.Services.Implementation
 		{
 			get
 			{
-				return _storedSettingsService.TollRoadExitWaypoint;
+				return StoredSettingsService.TollRoadExitWaypoint;
 			}
 			private set
 			{
-				_storedSettingsService.TollRoadExitWaypoint = value;
-                _storedSettingsService.TollRoadExitWaypointDateTime = (value == null) ? DateTime.MinValue : DateTime.Now;
+				StoredSettingsService.TollRoadExitWaypoint = value;
+                StoredSettingsService.TollRoadExitWaypointDateTime = (value == null) ? DateTime.MinValue : DateTime.Now;
 			}
 		}
 
@@ -72,11 +56,25 @@ namespace Tollminder.Core.Services.Implementation
         {
             get
             {
-                return _storedSettingsService.IgnoredChoiceTollPoint;
+                return StoredSettingsService.IgnoredChoiceTollPoint;
             }
             private set
             {
-                _storedSettingsService.IgnoredChoiceTollPoint = value;
+                StoredSettingsService.IgnoredChoiceTollPoint = value;
+            }
+        }
+
+        double _distanceToNearestTollpoint;
+        public double DistanceToNearestTollpoint
+        {
+            get
+            {
+                return _distanceToNearestTollpoint;
+            }
+            private set
+            {
+                _distanceToNearestTollpoint = value;
+                Messenger.Publish(new DistanceToNearestTollpoint(this, value));
             }
         }
 
@@ -84,12 +82,12 @@ namespace Tollminder.Core.Services.Implementation
         {
             get
             {
-                return _storedSettingsService.TollRoad;
+                return StoredSettingsService.TollRoad;
             }
             private set
             {
-                _storedSettingsService.TollRoad = value;
-                Messeger.Publish(new TollRoadChangedMessage(this, value));
+                StoredSettingsService.TollRoad = value;
+                Messenger.Publish(new TollRoadChangedMessage(this, value));
             }
         }
 
@@ -100,13 +98,20 @@ namespace Tollminder.Core.Services.Implementation
                 if (Exit == null || Entrance == null)
                     throw new Exception("Trip not finished");
 
-                return _storedSettingsService.TollRoadExitWaypointDateTime.Subtract(_storedSettingsService.TollRoadEntranceWaypointDateTime);
+                return StoredSettingsService.TollRoadExitWaypointDateTime.Subtract(StoredSettingsService.TollRoadEntranceWaypointDateTime);
             }
+        }
+
+        public WaypointChecker()
+        {
+            StoredSettingsService = Mvx.Resolve<IStoredSettingsService>();
+            GeoDataService = Mvx.Resolve<IGeoDataService>();
+            Messenger = Mvx.Resolve<IMvxMessenger>();
         }
 
         public WaypointChecker(IStoredSettingsService storedSettingsService)
 		{
-			_storedSettingsService = storedSettingsService;
+			StoredSettingsService = storedSettingsService;
 		}
 
 		public void SetEntrance(TollPoint point)
@@ -157,7 +162,10 @@ namespace Tollminder.Core.Services.Implementation
                 var distance = UpdateDistanceToNextWaypoint(location, item);
                 Log.LogMessage($"Distance to {item.Name} waypoint is {distance}");
                 if (distance - SettingsService.WaypointSmallRadius < double.Epsilon)
+                {
+                    DistanceToNearestTollpoint = distance * 1000 / 1.609344;
                     return item;
+                }
             }
 
             return null;

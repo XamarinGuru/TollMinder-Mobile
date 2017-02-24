@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Xamarin.Build.Download.0.4.1\build\Xamarin.Build.Download.props" Condition="Exists('..\packages\Xamarin.Build.Download.0.4.1\build\Xamarin.Build.Download.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
@@ -20,7 +21,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <MtouchArch>i386</MtouchArch>
+    <MtouchArch>x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
     <MtouchUseRefCounting>true</MtouchUseRefCounting>
     <MtouchUseSGen>true</MtouchUseSGen>
@@ -29,6 +30,8 @@
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchProfiling>true</MtouchProfiling>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <CodesignProvision></CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugSymbols>false</DebugSymbols>
@@ -45,7 +48,7 @@
     <MtouchUseLlvm>true</MtouchUseLlvm>
     <IpaPackageName>TollMinder</IpaPackageName>
     <MtouchExtraArgs></MtouchExtraArgs>
-    <CodesignProvision>27901335-a135-4d3a-9ae5-4c35f71bd3fa</CodesignProvision>
+    <CodesignProvision>e9ba7656-ecb0-4477-8d24-04843dff107d</CodesignProvision>
     <BuildIpa>true</BuildIpa>
     <IpaMetadata>Info.plist</IpaMetadata>
     <MtouchFloat32>false</MtouchFloat32>
@@ -67,6 +70,7 @@
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchUseSGen>true</MtouchUseSGen>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>true</DebugSymbols>
@@ -79,7 +83,7 @@
     <ConsolePause>false</ConsolePause>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <MtouchFloat32>true</MtouchFloat32>
+    <MtouchFloat32>false</MtouchFloat32>
     <CodesignKey>iPhone Developer</CodesignKey>
     <DeviceSpecificBuild>true</DeviceSpecificBuild>
     <MtouchDebug>true</MtouchDebug>
@@ -114,50 +118,11 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Chance.MvvmCross.Plugins.UserInteraction">
-      <HintPath>..\packages\Birdie.MvvmCross.Plugins.UserInteraction.1.2.1\lib\Xamarin.iOS10\Chance.MvvmCross.Plugins.UserInteraction.dll</HintPath>
-    </Reference>
-    <Reference Include="Chance.MvvmCross.Plugins.UserInteraction.Touch">
-      <HintPath>..\packages\Birdie.MvvmCross.Plugins.UserInteraction.1.2.1\lib\Xamarin.iOS10\Chance.MvvmCross.Plugins.UserInteraction.Touch.dll</HintPath>
-    </Reference>
     <Reference Include="Xamarin.Insights">
       <HintPath>..\packages\Xamarin.Insights.1.12.3\lib\Xamarin.iOS10\Xamarin.Insights.dll</HintPath>
     </Reference>
     <Reference Include="PLCrashReporterUnifiedBinding">
       <HintPath>..\packages\Xamarin.Insights.1.12.3\lib\Xamarin.iOS10\PLCrashReporterUnifiedBinding.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Platform.iOS">
-      <HintPath>..\packages\MvvmCross.Platform.4.3.0\lib\Xamarin.iOS10\MvvmCross.Platform.iOS.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Platform">
-      <HintPath>..\packages\MvvmCross.Platform.4.3.0\lib\Xamarin.iOS10\MvvmCross.Platform.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.iOS">
-      <HintPath>..\packages\MvvmCross.Core.4.3.0\lib\Xamarin.iOS10\MvvmCross.iOS.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Core">
-      <HintPath>..\packages\MvvmCross.Core.4.3.0\lib\Xamarin.iOS10\MvvmCross.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Binding.iOS">
-      <HintPath>..\packages\MvvmCross.Binding.4.3.0\lib\Xamarin.iOS10\MvvmCross.Binding.iOS.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Binding">
-      <HintPath>..\packages\MvvmCross.Binding.4.3.0\lib\Xamarin.iOS10\MvvmCross.Binding.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Localization">
-      <HintPath>..\packages\MvvmCross.Binding.4.3.0\lib\Xamarin.iOS10\MvvmCross.Localization.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Plugins.Messenger">
-      <HintPath>..\packages\MvvmCross.Plugin.Messenger.4.3.0\lib\Xamarin.iOS10\MvvmCross.Plugins.Messenger.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Plugins.Sqlite">
-      <HintPath>..\packages\MvvmCross.Plugin.SQLitePCL.4.3.4\lib\Xamarin.iOS10\MvvmCross.Plugins.Sqlite.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Plugins.Sqlite.iOS">
-      <HintPath>..\packages\MvvmCross.Plugin.SQLitePCL.4.3.4\lib\Xamarin.iOS10\MvvmCross.Plugins.Sqlite.iOS.dll</HintPath>
-    </Reference>
-    <Reference Include="SQLite-net">
-      <HintPath>..\packages\sqlite-net-pcl.1.2.0\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLite-net.dll</HintPath>
     </Reference>
     <Reference Include="Plugin.Permissions.Abstractions">
       <HintPath>..\packages\Plugin.Permissions.1.2.1\lib\Xamarin.iOS10\Plugin.Permissions.Abstractions.dll</HintPath>
@@ -168,25 +133,125 @@
     <Reference Include="System.Reactive.PlatformServices">
       <HintPath>..\packages\Rx-PlatformServices.2.3\lib\portable-windows8+net45+wp8\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
+    <Reference Include="MvvmCross.Platform">
+      <HintPath>..\packages\MvvmCross.Platform.4.4.0\lib\Xamarin.iOS10\MvvmCross.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Platform.iOS">
+      <HintPath>..\packages\MvvmCross.Platform.4.4.0\lib\Xamarin.iOS10\MvvmCross.Platform.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Core">
+      <HintPath>..\packages\MvvmCross.Core.4.4.0\lib\Xamarin.iOS10\MvvmCross.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.iOS">
+      <HintPath>..\packages\MvvmCross.Core.4.4.0\lib\Xamarin.iOS10\MvvmCross.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Binding">
+      <HintPath>..\packages\MvvmCross.Binding.4.4.0\lib\Xamarin.iOS10\MvvmCross.Binding.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Binding.iOS">
+      <HintPath>..\packages\MvvmCross.Binding.4.4.0\lib\Xamarin.iOS10\MvvmCross.Binding.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Localization">
+      <HintPath>..\packages\MvvmCross.Binding.4.4.0\lib\Xamarin.iOS10\MvvmCross.Localization.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Plugins.Messenger">
+      <HintPath>..\packages\MvvmCross.Plugin.Messenger.4.4.0\lib\Xamarin.iOS10\MvvmCross.Plugins.Messenger.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Plugins.Sqlite">
+      <HintPath>..\packages\MvvmCross.Plugin.SQLitePCL.4.4.0\lib\Xamarin.iOS10\MvvmCross.Plugins.Sqlite.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Plugins.Sqlite.iOS">
+      <HintPath>..\packages\MvvmCross.Plugin.SQLitePCL.4.4.0\lib\Xamarin.iOS10\MvvmCross.Plugins.Sqlite.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="Cirrious.FluentLayouts.Touch">
+      <HintPath>..\packages\Cirrious.FluentLayout.2.5.0\lib\Xamarin.iOS10\Cirrious.FluentLayouts.Touch.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.AppIndexing">
+      <HintPath>..\packages\Xamarin.Google.iOS.AppIndexing.2.0.3.1\lib\Xamarin.iOS10\Google.AppIndexing.dll</HintPath>
+    </Reference>
+    <Reference Include="Firebase.InstanceID">
+      <HintPath>..\packages\Xamarin.Firebase.iOS.InstanceID.1.0.8\lib\Xamarin.iOS10\Firebase.InstanceID.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Plugins.File">
+      <HintPath>..\packages\MvvmCross.Plugin.File.4.4.0\lib\Xamarin.iOS10\MvvmCross.Plugins.File.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Plugins.File.iOS">
+      <HintPath>..\packages\MvvmCross.Plugin.File.4.4.0\lib\Xamarin.iOS10\MvvmCross.Plugins.File.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Plugins.Network">
+      <HintPath>..\packages\MvvmCross.Plugin.Network.4.4.0\lib\Xamarin.iOS10\MvvmCross.Plugins.Network.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Plugins.Network.iOS">
+      <HintPath>..\packages\MvvmCross.Plugin.Network.4.4.0\lib\Xamarin.iOS10\MvvmCross.Plugins.Network.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="Chance.MvvmCross.Plugins.UserInteraction">
+      <HintPath>..\packages\Birdie.MvvmCross.Plugins.UserInteraction.1.4.0\lib\Xamarin.iOS10\Chance.MvvmCross.Plugins.UserInteraction.dll</HintPath>
+    </Reference>
+    <Reference Include="Chance.MvvmCross.Plugins.UserInteraction.Touch">
+      <HintPath>..\packages\Birdie.MvvmCross.Plugins.UserInteraction.1.4.0\lib\Xamarin.iOS10\Chance.MvvmCross.Plugins.UserInteraction.Touch.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http" />
     <Reference Include="SQLitePCLRaw.core">
-      <HintPath>..\packages\SQLitePCLRaw.core.1.1.0\lib\Xamarin.iOS10\SQLitePCLRaw.core.dll</HintPath>
+      <HintPath>..\packages\SQLitePCLRaw.core.1.1.2\lib\Xamarin.iOS10\SQLitePCLRaw.core.dll</HintPath>
     </Reference>
     <Reference Include="SQLitePCLRaw.provider.sqlite3">
-      <HintPath>..\packages\SQLitePCLRaw.provider.sqlite3.ios_unified.1.1.0\lib\Xamarin.iOS10\SQLitePCLRaw.provider.sqlite3.dll</HintPath>
+      <HintPath>..\packages\SQLitePCLRaw.provider.sqlite3.ios_unified.1.1.2\lib\Xamarin.iOS10\SQLitePCLRaw.provider.sqlite3.dll</HintPath>
     </Reference>
     <Reference Include="SQLitePCLRaw.batteries_green">
-      <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.0\lib\Xamarin.iOS10\SQLitePCLRaw.batteries_green.dll</HintPath>
+      <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.2\lib\Xamarin.iOS10\SQLitePCLRaw.batteries_green.dll</HintPath>
     </Reference>
     <Reference Include="SQLitePCLRaw.batteries_v2">
-      <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.0\lib\Xamarin.iOS10\SQLitePCLRaw.batteries_v2.dll</HintPath>
+      <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.2\lib\Xamarin.iOS10\SQLitePCLRaw.batteries_v2.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLite-net">
+      <HintPath>..\packages\sqlite-net-pcl.1.2.1\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLite-net.dll</HintPath>
+    </Reference>
+    <Reference Include="Facebook">
+      <HintPath>..\packages\Xamarin.Facebook.iOS.4.18.0.1\lib\Xamarin.iOS10\Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Firebase.Core">
+      <HintPath>..\packages\Xamarin.Firebase.iOS.Core.3.4.4\lib\Xamarin.iOS10\Firebase.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Firebase.Analytics">
+      <HintPath>..\packages\Xamarin.Firebase.iOS.Analytics.3.5.1\lib\Xamarin.iOS10\Firebase.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Core">
+      <HintPath>..\packages\Xamarin.Forms.2.3.3.180\lib\Xamarin.iOS10\Xamarin.Forms.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Platform">
+      <HintPath>..\packages\Xamarin.Forms.2.3.3.180\lib\Xamarin.iOS10\Xamarin.Forms.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Platform.iOS">
+      <HintPath>..\packages\Xamarin.Forms.2.3.3.180\lib\Xamarin.iOS10\Xamarin.Forms.Platform.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Xaml">
+      <HintPath>..\packages\Xamarin.Forms.2.3.3.180\lib\Xamarin.iOS10\Xamarin.Forms.Xaml.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Core">
+      <HintPath>..\packages\Xamarin.Google.iOS.Core.3.0.3.1\lib\Xamarin.iOS10\Google.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.SignIn">
+      <HintPath>..\packages\Xamarin.Google.iOS.SignIn.4.0.1\lib\Xamarin.iOS10\Google.SignIn.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
+    <ImageAsset Include="Resources\Images.xcassets\Image.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Images.xcassets\Image.imageset\Default-667h%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Contents.json" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\87x87.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\58x58.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\29x29.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\120x120.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\114x114.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\57x57.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\80x80.png" />
+    <ImageAsset Include="Resources\Images.xcassets\Image.imageset\home_background.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.xib" />
-    <InterfaceDefinition Include="Views\HomeView.xib" />
+    <InterfaceDefinition Include="Views\PayHistoryView\PayHistoryCell.xib" />
+    <InterfaceDefinition Include="Views\PayHistoryView\PayHistoryHeader.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -199,9 +264,9 @@
     <Compile Include="DebugTrace.cs" />
     <Compile Include="LinkerPleaseInclude.cs" />
     <Compile Include="Services\TouchTextToSpeechService.cs" />
-    <Compile Include="Views\HomeView.cs" />
-    <Compile Include="Views\HomeView.designer.cs">
-      <DependentUpon>HomeView.cs</DependentUpon>
+    <Compile Include="Views\HomeDebugView.cs" />
+    <Compile Include="Views\HomeDebugView.designer.cs">
+      <DependentUpon>HomeDebugView.cs</DependentUpon>
     </Compile>
     <Compile Include="Services\TouchGeolocationWatcher.cs" />
     <Compile Include="AppDelegate.cs" />
@@ -213,12 +278,58 @@
     <Compile Include="Services\TouchGeoFence.cs" />
     <Compile Include="Services\TouchPlatform.cs" />
     <Compile Include="Services\TouchNotificationSender.cs" />
-    <Compile Include="Services\TouchSpeechToTextService.cs" />
     <Compile Include="Services\TouchStoredSettingsBase.cs" />
-    <Compile Include="Converters\InverseBoolConverter.cs" />
-    <Compile Include="Bootstrap\UserInteractionPluginBootstrap.cs" />
     <Compile Include="Bootstrap\MessengerPluginBootstrap.cs" />
     <Compile Include="Bootstrap\SqlitePluginBootstrap.cs" />
+    <Compile Include="Services\TouchInsightsService.cs" />
+    <Compile Include="Views\LoginView.cs" />
+    <Compile Include="Controllers\MvxTextFieldResponderController.cs" />
+    <Compile Include="Controllers\KeyboardTextFieldController.cs" />
+    <Compile Include="Extensions\ViewExtensions.cs" />
+    <Compile Include="Extensions\LayoutHelpers.cs" />
+    <Compile Include="Controllers\BaseViewController.cs" />
+    <Compile Include="Services\TouchFacebookLoginService.cs" />
+    <Compile Include="Services\TouchGPlusLoginService.cs" />
+    <Compile Include="Extensions\TouchDrawing.cs" />
+    <Compile Include="Interfaces\ICleanBackStack.cs" />
+    <Compile Include="Bootstrap\FilePluginBootstrap.cs" />
+    <Compile Include="Bootstrap\NetworkPluginBootstrap.cs" />
+    <Compile Include="Bootstrap\UserInteractionPluginBootstrap.cs" />
+    <Compile Include="Services\TouchHttpClientHandlerService.cs" />
+    <Compile Include="Views\HomeView.cs" />
+    <Compile Include="Controls\RoundedButton.cs" />
+    <Compile Include="Converters\GetPathToImageConverter.cs" />
+    <Compile Include="Services\TouchCheckerAppFirstLaunch.cs" />
+    <Compile Include="Helpers\RoundedButtonManager.cs" />
+    <Compile Include="Services\TouchNetworkCheck.cs" />
+    <Compile Include="Views\ProfileView.cs" />
+    <Compile Include="Services\TouchSheduleNotification.cs" />
+    <Compile Include="Services\SpeechServices\MyOpenEarsEventsObserverDelegate.cs" />
+    <Compile Include="Services\SpeechServices\TouchSpeechToTextService.cs" />
+    <Compile Include="Controls\ProfileButton.cs" />
+    <Compile Include="Helpers\ProfileButtonManager.cs" />
+    <Compile Include="Views\LicensePlateView.cs" />
+    <Compile Include="Views\PayHistoryView\PayHistoryView.cs" />
+    <Compile Include="Views\PayHistoryView\PayHistoryCell.cs" />
+    <Compile Include="Views\PayHistoryView\PayHistoryCell.designer.cs">
+      <DependentUpon>PayHistoryCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PayHistoryView\PayHistoryHeader.cs" />
+    <Compile Include="Views\PayHistoryView\PayHistoryHeader.designer.cs">
+      <DependentUpon>PayHistoryHeader.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\TouchFileManager.cs" />
+    <Compile Include="Views\PayHistoryPdfView.cs" />
+    <Compile Include="Controls\TextFiled\TextFieldHandleText.cs" />
+    <Compile Include="Controls\TextFiled\TextFieldValidationWithImage.cs" />
+    <Compile Include="Controls\TextFiled\TextFieldValidatorView.cs" />
+    <Compile Include="Controls\TextFiled\TextFieldWithValidator.cs" />
+    <Compile Include="Controls\BoardField.cs" />
+    <Compile Include="Views\RegistrationView.cs" />
+    <Compile Include="Services\TouchProgressDialogManager.cs" />
+    <Compile Include="Controls\LoadingOverlay.cs" />
+    <Compile Include="Controls\EnhancedToolbar.cs" />
+    <Compile Include="Helpers\KeyboardHandler.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets')" />
@@ -238,6 +349,20 @@
     <Folder Include="Helpers\" />
     <Folder Include="Sounds\" />
     <Folder Include="Converters\" />
+    <Folder Include="Controllers\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Controls\" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="Resources\Images\" />
+    <Folder Include="Services\SpeechServices\" />
+    <Folder Include="Resources\Images\LoginView\" />
+    <Folder Include="Resources\Images\HomeView\" />
+    <Folder Include="Resources\Images\ProfileView\" />
+    <Folder Include="Resources\Images\PayHistoryView\" />
+    <Folder Include="Resources\Images\CreditCardView\" />
+    <Folder Include="Views\PayHistoryView\" />
+    <Folder Include="Controls\TextFiled\" />
+    <Folder Include="Resources\Images\HomeView\InformationBoard\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\OpenEars1.dic" />
@@ -252,5 +377,59 @@
     <BundleResource Include="Resources\AcousticModelEnglish.bundle\transition_matrices" />
     <BundleResource Include="Resources\AcousticModelEnglish.bundle\variances" />
     <BundleResource Include="Sounds\tap.aif" />
+    <BundleResource Include="GoogleService-Info.plist" />
+    <BundleResource Include="Resources\Images\navigation_bar_background.png" />
+    <BundleResource Include="Resources\Images\tab_background.png" />
+    <BundleResource Include="Resources\Images\CreditCardView\creditCards.png" />
+    <BundleResource Include="Resources\Images\LoginView\facebook_logIn.png" />
+    <BundleResource Include="Resources\Images\LoginView\facebook-button.png" />
+    <BundleResource Include="Resources\Images\LoginView\google-button.png" />
+    <BundleResource Include="Resources\Images\HomeView\home_board.png" />
+    <BundleResource Include="Resources\Images\HomeView\ic_home_pay.png" />
+    <BundleResource Include="Resources\Images\HomeView\ic_home_pay_history.png" />
+    <BundleResource Include="Resources\Images\HomeView\ic_home_profile.png" />
+    <BundleResource Include="Resources\Images\HomeView\ic_home_support.png" />
+    <BundleResource Include="Resources\Images\HomeView\ic_home_tracking_active.png" />
+    <BundleResource Include="Resources\Images\HomeView\ic_home_tracking_default.png" />
+    <BundleResource Include="Resources\Images\main_background.png" />
+    <BundleResource Include="Resources\Images\main_background-640h%402x.png" />
+    <BundleResource Include="Resources\Images\main_background-667h%402x.png" />
+    <BundleResource Include="Resources\Images\logo.png" />
+    <BundleResource Include="Resources\Images\PayHistoryView\ic_calendar.png" />
+    <BundleResource Include="Resources\Images\PayHistoryView\ic_download.png" />
+    <BundleResource Include="Resources\Images\ProfileView\ic_card.png" />
+    <BundleResource Include="Resources\Images\ProfileView\ic_license.png" />
+    <BundleResource Include="Resources\Images\CreditCardView\amex.png" />
+    <BundleResource Include="Resources\Images\CreditCardView\discover.png" />
+    <BundleResource Include="Resources\Images\CreditCardView\MasterCard.png" />
+    <BundleResource Include="Resources\Images\CreditCardView\visa.png" />
+    <BundleResource Include="Resources\Images\ic_back.png" />
+    <BundleResource Include="Resources\Images\PayHistoryView\ic_openIn.png" />
+    <BundleResource Include="Resources\Images\HomeView\InformationBoard\ic_location.png" />
+    <BundleResource Include="Resources\Images\HomeView\InformationBoard\ic_nearest_point.png" />
+    <BundleResource Include="Resources\Images\HomeView\InformationBoard\ic_pointer.png" />
+    <BundleResource Include="Resources\Images\HomeView\InformationBoard\ic_status.png" />
+    <BundleResource Include="Resources\Images\HomeView\InformationBoard\ic_tollroad.png" />
+    <BundleResource Include="Resources\Images\HomeView\ic_logout.png" />
+    <BundleResource Include="Resources\Images\splash.png" />
+    <BundleResource Include="Resources\Images\LoginView\ic_google.png" />
   </ItemGroup>
+  <ItemGroup>
+    <XamarinComponentReference Include="facebookios">
+      <Version>4.16.1.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="googleiossignin">
+      <Version>4.0.0.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+  </ItemGroup>
+  <Import Project="..\packages\Xamarin.Google.iOS.AppIndexing.2.0.3.1\build\Xamarin.Google.iOS.AppIndexing.targets" Condition="Exists('..\packages\Xamarin.Google.iOS.AppIndexing.2.0.3.1\build\Xamarin.Google.iOS.AppIndexing.targets')" />
+  <Import Project="..\packages\Xamarin.Firebase.iOS.InstanceID.1.0.8\build\Xamarin.Firebase.iOS.InstanceID.targets" Condition="Exists('..\packages\Xamarin.Firebase.iOS.InstanceID.1.0.8\build\Xamarin.Firebase.iOS.InstanceID.targets')" />
+  <Import Project="..\packages\Xamarin.Build.Download.0.4.1\build\Xamarin.Build.Download.targets" Condition="Exists('..\packages\Xamarin.Build.Download.0.4.1\build\Xamarin.Build.Download.targets')" />
+  <Import Project="..\packages\Xamarin.Firebase.iOS.Core.3.4.4\build\Xamarin.Firebase.iOS.Core.targets" Condition="Exists('..\packages\Xamarin.Firebase.iOS.Core.3.4.4\build\Xamarin.Firebase.iOS.Core.targets')" />
+  <Import Project="..\packages\Xamarin.Firebase.iOS.Analytics.3.5.1\build\Xamarin.Firebase.iOS.Analytics.targets" Condition="Exists('..\packages\Xamarin.Firebase.iOS.Analytics.3.5.1\build\Xamarin.Firebase.iOS.Analytics.targets')" />
+  <Import Project="..\packages\Xamarin.Forms.2.3.3.180\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.3.3.180\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />
+  <Import Project="..\packages\Xamarin.Google.iOS.Core.3.0.3.1\build\Xamarin.Google.iOS.Core.targets" Condition="Exists('..\packages\Xamarin.Google.iOS.Core.3.0.3.1\build\Xamarin.Google.iOS.Core.targets')" />
+  <Import Project="..\packages\Xamarin.Google.iOS.SignIn.4.0.1\build\Xamarin.Google.iOS.SignIn.targets" Condition="Exists('..\packages\Xamarin.Google.iOS.SignIn.4.0.1\build\Xamarin.Google.iOS.SignIn.targets')" />
 </Project>

@@ -122,9 +122,6 @@ namespace Tollminder.Droid.Services
 				Start();
 			}
 		}
-
 		#endregion
-
-
 	}
 }

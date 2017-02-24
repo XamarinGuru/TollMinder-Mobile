@@ -4,6 +4,7 @@ using Android.App;
 using Android.OS;
 using Android.Runtime;
 using Plugin.CurrentActivity;
+using Tollminder.Droid.AndroidServices;
 
 namespace Tollminder.Droid
 {
@@ -25,13 +26,6 @@ namespace Tollminder.Droid
         {
             base.OnCreate();
             RegisterActivityLifecycleCallbacks(this);
-			//A great place to initialize Xamarin.Insights and Dependency Services!
-			Xamarin.Insights.HasPendingCrashReport += (sender, isStartupCrash) => {
-				if (isStartupCrash) {
-					Xamarin.Insights.PurgePendingCrashReports ().Wait ();
-				}
-			};
-			Xamarin.Insights.Initialize ("60c11eb0abc64aac0ec93fe827b92385f7094cab", Application.Context);
         }
 
         public override void OnTerminate()
@@ -52,7 +46,6 @@ namespace Tollminder.Droid
         public void OnActivityPaused(Activity activity)
         {
         }
-
 
         public void OnActivityResumed(Activity activity)
         {

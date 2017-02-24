@@ -1,70 +1,261 @@
-﻿using MvvmCross.Binding.BindingContext;
-using MvvmCross.iOS.Views;
-using Tollminder.Core.ViewModels;
-using Tollminder.Touch.Converters;
+﻿using System;
+using Cirrious.FluentLayouts.Touch;
+using CoreGraphics;
+using MvvmCross.Binding.BindingContext;
 using Tollminder.Core.Helpers;
+using Tollminder.Core.ViewModels;
+using Tollminder.Touch.Controllers;
+using Tollminder.Touch.Controls;
+using Tollminder.Touch.Extensions;
+using Tollminder.Touch.Helpers;
+using Tollminder.Touch.Interfaces;
+using UIKit;
 using Foundation;
+using System.Diagnostics;
 
 namespace Tollminder.Touch.Views
 {
-	public partial class HomeView : MvxViewController
-	{	
-		#pragma warning disable 108		
-		public new HomeViewModel ViewModel { get { return base.ViewModel as HomeViewModel; } }
-		#pragma warning restore 108
+    public class HomeView : BaseViewController<HomeViewModel>, ICleanBackStack
+    {
+        RoundedButton trackingButton;
+        RoundedButton profileButton;
+        RoundedButton payButton;
+        RoundedButton payHistoryButton;
+        RoundedButton callCentergButton;
+        RoundedButton logoutButton;
 
-		public HomeView () : base ("HomeView", null)
-		{
-		}
+        UIScrollView boardScrollView;
+        UIView boardContainerView;
+        UIView buttonContainerView;
+        UIView roadInformationBoardView;
 
-		public override void ViewDidLoad ()
-		{
-			base.ViewDidLoad ();
+        // Information board
+        BoardField activityLabel;
+        BoardField geoLabel;
+        BoardField geoLabelData;
+        BoardField nextWaypointString;
+        BoardField statusLabel;
+        BoardField tollRoadString;
 
-			NavigationController.NavigationBar.Translucent = false;
-			LogArea.Font = UIKit.UIFont.FromName ("Helvetica", 12f);
-			AutomaticallyAdjustsScrollViewInsets = true;
+        public new HomeViewModel ViewModel { get { return base.ViewModel as HomeViewModel; } }
 
-			var set = this.CreateBindingSet<HomeView, HomeViewModel>();
-			set.Bind (GeoLabelData).To (v => v.LocationString);
-			set.Bind (StartButton).To (v => v.StartCommand);
-			set.Bind (StopButton).To (v => v.StopCommand);
-			set.Bind (ActivityLabel).To (v => v.MotionTypeString);
-			set.Bind(StartButton).For(x => x.Enabled).To(x => x.IsBound).WithConversion(new InverseBoolConverter());
-			set.Bind(StopButton).For(x => x.Enabled).To(x => x.IsBound);
-			set.Bind (LogArea).To (v => v.LogText);
-			set.Bind(StatusLabel).To(v => v.StatusString);
-            set.Bind(TollRoadString).To(v => v.TollRoadString);
-            set.Bind(NextWaypointString).To(v => v.CurrentWaypointString);
-			set.Apply ();
+        public HomeView()
+        {
+        }
 
-			this.AddLinqBinding(ViewModel, vm => vm.LogText, (value) =>
-			{
-				NSRange bottom = new NSRange(0, value?.Length ?? 0);
-				LogArea.ScrollRangeToVisible(bottom);
-			});
+        public HomeView(IntPtr handle) : base(handle)
+        {
+        }
 
-			// Perform any additional setup after loading the view, typically from a nib.
-		}
+        public HomeView(string nibName, NSBundle bundle) : base(nibName, bundle)
+        {
+        }
 
-		public override void ViewWillAppear (bool animated)
-		{
-			base.ViewWillAppear (animated);
-			GeoLabelData.Text = ViewModel.Location?.ToString ();
-		}
+        protected override void InitializeObjects()
+        {
+            base.InitializeObjects();
 
-		public override void ViewDidUnload ()
-		{
-			base.ViewDidUnload ();
+            // Navigation bar
+            var applicationLogo = new UIImageView(UIImage.FromBundle(@"Images/logo.png"));
+            View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile(@"Images/main_background.png").Scale(View.Frame.Size));
+            applicationLogo.Frame = new CGRect(10, 10, applicationLogo.Image.CGImage.Width, applicationLogo.Image.CGImage.Height);
+            logoutButton = RoundedButtonManager.ButtonInitiaziler("", UIImage.FromFile(@"Images/HomeView/ic_logout.png"));
+            // Hide navigation bar
+            NavigationController.SetNavigationBarHidden(true, false);
 
-		}
+            var topView = new UIView();
+            topView.AddIfNotNull(applicationLogo, logoutButton);
+            topView.AddConstraints(
+                applicationLogo.WithRelativeWidth(topView, 0.5f),
+                applicationLogo.WithRelativeHeight(topView, 0.18f),
+                applicationLogo.WithSameCenterX(topView),
+                applicationLogo.WithSameCenterY(topView),
 
-		public override void DidReceiveMemoryWarning ()
-		{
-			base.DidReceiveMemoryWarning ();
-			// Release any cached data, images, etc that aren't in use.
-		}
-	}
+                logoutButton.AtTopOf(topView, 10),
+                logoutButton.AtRightOf(topView),
+                logoutButton.WithRelativeWidth(topView, 0.2f),
+                logoutButton.WithRelativeHeight(topView, 0.4f)
+            );
+
+            // Central Board View
+            boardScrollView = CreateSliderBoard(true);
+            buttonContainerView = new UIView();
+            roadInformationBoardView = new UIView();
+
+            buttonContainerView.Frame = new CGRect(0, 0, (boardScrollView.Bounds.Width * 0.8), (boardScrollView.Bounds.Height * 3));
+            roadInformationBoardView.Frame = new CGRect((boardScrollView.Bounds.Width * 0.76), 0, (boardScrollView.Bounds.Width * 0.8), (boardScrollView.Bounds.Height * 2.5));
+            boardScrollView.ContentSize = new CGSize((buttonContainerView.Bounds.Width + roadInformationBoardView.Bounds.Width), boardScrollView.Frame.Height);
+
+            // Board View - Button Container
+            profileButton = RoundedButtonManager.ButtonInitiaziler("PROFILE", UIImage.FromFile(@"Images/HomeView/ic_home_profile.png"), UIImage.FromFile(@"Images/HomeView/InformationBoard/ic_pointer.png"));
+            payButton = RoundedButtonManager.ButtonInitiaziler("PAY", UIImage.FromFile(@"Images/HomeView/ic_home_pay.png"), UIImage.FromFile(@"Images/HomeView/InformationBoard/ic_pointer.png"));
+            payHistoryButton = RoundedButtonManager.ButtonInitiaziler("PAY HISTORY", UIImage.FromFile(@"Images/HomeView/ic_home_pay_history.png"), UIImage.FromFile(@"Images/HomeView/InformationBoard/ic_pointer.png"));
+
+            buttonContainerView.AddIfNotNull(profileButton, payButton, payHistoryButton);
+            buttonContainerView.AddConstraints(
+                profileButton.AtTopOf(buttonContainerView, 10),
+                profileButton.AtLeftOf(buttonContainerView),
+                profileButton.WithRelativeWidth(buttonContainerView, 0.4f),
+                profileButton.WithRelativeHeight(buttonContainerView, 0.6f),
+
+                payHistoryButton.AtTopOf(buttonContainerView, 10),
+                payHistoryButton.WithSameCenterX(buttonContainerView),
+                payHistoryButton.WithRelativeWidth(buttonContainerView, 0.4f),
+                payHistoryButton.WithRelativeHeight(buttonContainerView, 0.6f),
+
+                payButton.AtTopOf(buttonContainerView, 10),
+                payButton.AtRightOf(buttonContainerView),
+                payButton.WithRelativeWidth(buttonContainerView, 0.4f),
+                payButton.WithRelativeHeight(buttonContainerView, 0.6f)
+            );
+
+            // Board View - Road Information Container
+            nextWaypointString = BoardFieldInitializer(UIImage.FromFile(@"Images/HomeView/InformationBoard/ic_nearest_point.png"), "Nearest point in(ml):", (roadInformationBoardView.Bounds.Width * 0.6f));
+            geoLabelData = BoardFieldInitializer(UIImage.FromFile(@"Images/HomeView/InformationBoard/ic_location.png"), "Geolocation:", (roadInformationBoardView.Bounds.Width * 0.3f));
+            tollRoadString = BoardFieldInitializer(UIImage.FromFile(@"Images/HomeView/InformationBoard/ic_tollroad.png"), "Tollroad:", (roadInformationBoardView.Bounds.Width * 0.2f));
+            statusLabel = BoardFieldInitializer(UIImage.FromFile(@"Images/HomeView/InformationBoard/ic_status.png"), "Status:", (roadInformationBoardView.Bounds.Width * 0.17f));
+
+            roadInformationBoardView.AddIfNotNull(nextWaypointString, geoLabelData, tollRoadString, statusLabel);
+            roadInformationBoardView.AddConstraints(
+                nextWaypointString.AtTopOf(roadInformationBoardView, 10),
+                nextWaypointString.AtLeftOf(roadInformationBoardView, 10),
+                nextWaypointString.WithSameWidth(roadInformationBoardView),
+                nextWaypointString.WithRelativeHeight(roadInformationBoardView, 0.2f),
+
+                geoLabelData.Below(nextWaypointString),
+                geoLabelData.AtLeftOf(roadInformationBoardView, 10),
+                geoLabelData.WithSameWidth(roadInformationBoardView),
+                geoLabelData.WithRelativeHeight(roadInformationBoardView, 0.2f),
+
+                tollRoadString.Below(geoLabelData),
+                tollRoadString.AtLeftOf(roadInformationBoardView, 10),
+                tollRoadString.WithSameWidth(roadInformationBoardView),
+                tollRoadString.WithRelativeHeight(roadInformationBoardView, 0.2f),
+
+                statusLabel.Below(tollRoadString),
+                statusLabel.AtLeftOf(roadInformationBoardView, 10),
+                statusLabel.WithSameWidth(roadInformationBoardView),
+                statusLabel.WithRelativeHeight(roadInformationBoardView, 0.2f)
+            );
+
+            boardScrollView.AddSubviews(buttonContainerView, roadInformationBoardView);
+            boardScrollView.Scrolled += (sender, e) =>
+            {
+                Debug.WriteLine(((UIScrollView)sender).ContentOffset.X);
+
+            };
+
+            // Slider container
+            var applicationBoard = new UIImageView(UIImage.FromBundle(@"Images/HomeView/home_board.png"));
+            applicationBoard.Frame = new CGRect(10, 10, applicationBoard.Image.CGImage.Width, applicationBoard.Image.CGImage.Height);
+            boardContainerView = new UIView();
+            boardContainerView.AddIfNotNull(applicationBoard, boardScrollView);
+            boardContainerView.AddConstraints(
+                applicationBoard.WithSameHeight(boardContainerView),
+                applicationBoard.WithSameWidth(boardContainerView),
+                applicationBoard.WithSameCenterX(boardContainerView),
+                applicationBoard.WithSameCenterY(boardContainerView),
+
+                boardScrollView.AtTopOf(boardContainerView, 10),
+                boardScrollView.AtLeftOf(boardContainerView, 25),
+                boardScrollView.AtRightOf(boardContainerView, 25),
+                boardScrollView.WithRelativeHeight(boardContainerView, 0.55f)
+            );
+
+            // Bottom View
+            trackingButton = RoundedButtonManager.ButtonInitiaziler(EnvironmentInfo.GetTrackingButtonDistanceBetweenTextAndImage);
+            this.AddLinqBinding(ViewModel, vm => vm.TrackingCommand, (value) =>
+            {
+                trackingButton.BackgroundColor = UIColor.White;
+                trackingButton.Alpha = 0.7f;
+                trackingButton.ButtonTextColor = UIColor.FromRGB(3, 117, 27);
+            });
+
+            //var callCenterLabel = new UILabel();
+            //_callCentergButton = ButtonInitiaziler(null, UIImage.FromFile(@"Images/ic_home_support.png"));
+            //_callCentergButton.ButtonText.TextColor = UIColor.LightGray;
+            //_callCentergButton.ButtonBackgroundColor = null;
+            //callCenterLabel.Text = "+(1)305 335 85 08";
+            //callCenterLabel.TextColor = UIColor.LightGray;
+
+            var bottomView = new UIView();
+            bottomView.AddIfNotNull(trackingButton);
+            bottomView.AddConstraints(
+                trackingButton.AtTopOf(bottomView),
+                trackingButton.AtLeftOf(bottomView, 20),
+                trackingButton.AtRightOf(bottomView, 20),
+                trackingButton.WithRelativeHeight(bottomView, EnvironmentInfo.GetTrackingButtonHeight),
+                trackingButton.WithRelativeWidth(bottomView, EnvironmentInfo.GetTrackingButtonWidth)
+            );
+
+            // View Initialising
+            View.AddIfNotNull(topView, boardContainerView, bottomView);
+            View.AddConstraints(
+                topView.AtTopOf(View),
+                topView.AtLeftOf(View),
+                topView.AtRightOf(View),
+                topView.WithRelativeHeight(View, 0.2f),
+
+                boardContainerView.Below(topView),
+                boardContainerView.AtLeftOf(View, 15),
+                boardContainerView.AtRightOf(View, 15),
+                boardContainerView.WithRelativeHeight(View, 0.43f),
+
+                bottomView.Below(boardContainerView),
+                bottomView.WithSameCenterX(topView),
+                bottomView.WithRelativeHeight(View, 0.27f),
+                bottomView.AtBottomOf(View, 30)
+            );
+        }
+
+        private UIScrollView CreateSliderBoard(bool showWithPaging)
+        {
+            nfloat height = 50.0f;
+            nfloat width = 50.0f;
+            nfloat padding = 10.0f;
+            nint n = 25;
+
+            var scrollView = new UIScrollView
+            {
+                Frame = new CGRect(0, 100, View.Frame.Width, height + 2 * padding),
+                ContentSize = new CGSize((width + padding) * n, height),
+                AutoresizingMask = UIViewAutoresizing.FlexibleWidth
+            };
+            scrollView.PagingEnabled = showWithPaging;
+            return scrollView;
+        }
+
+        private BoardField BoardFieldInitializer(UIImage icon, string labelText, nfloat distanceBetweenLabelAndValue, string valueText = null)
+        {
+            BoardField boardField = new BoardField(30, distanceBetweenLabelAndValue);
+            boardField.FieldIcon = icon;
+            boardField.LabelText.Text = labelText;
+            boardField.LabelTextColor = UIColor.White;
+            boardField.ValueText.Text = "dfgh";
+            boardField.ValueText.Font = UIFont.BoldSystemFontOfSize(14f);
+            boardField.ValueTextColor = UIColor.FromRGB(1, 94, 76);
+            return boardField;
+        }
+
+        protected override void InitializeBindings()
+        {
+            base.InitializeBindings();
+            //boardScrollView.ContentOffset = new CGPoint((boardScrollView.Bounds.Width * 0.76), 0);
+            var set = this.CreateBindingSet<HomeView, HomeViewModel>();
+            set.Bind(trackingButton).To(vm => vm.TrackingCommand);
+            set.Bind(trackingButton.ButtonText).To(vm => vm.TrackingText);
+            set.Bind(trackingButton).For(x => x.ButtonImage).To(vm => vm.IsBound).WithConversion("GetPathToImage");
+            set.Bind(profileButton).To(vm => vm.ProfileCommand);
+            set.Bind(payHistoryButton).To(vm => vm.PayHistoryCommand);
+            set.Bind(logoutButton).To(vm => vm.LogoutCommand);
+
+            // Information board
+            set.Bind(geoLabelData.ValueText).To(v => v.LocationString);
+            set.Bind(statusLabel.ValueText).To(v => v.StatusString);
+            set.Bind(tollRoadString.ValueText).To(v => v.TollRoadString);
+            set.Bind(nextWaypointString.ValueText).To(v => v.DistanceToNearestTollpoint);
+
+            set.Apply();
+        }
+    }
 }
-
-

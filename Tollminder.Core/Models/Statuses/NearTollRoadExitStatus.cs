@@ -9,7 +9,7 @@ namespace Tollminder.Core.Models.Statuses
         public override async Task<TollGeolocationStatus> CheckStatus()
         {
             var location = GeoWatcher.Location;
-            var waypoints = DataService.FindNearestExitTollPoints(location);
+            var waypoints = GeoDataService.FindNearestExitTollPoints(location);
 
             WaypointChecker.SetTollPointsInRadius(waypoints);
 
@@ -27,7 +27,7 @@ namespace Tollminder.Core.Models.Statuses
                 if (WaypointChecker.TollPointsInRadius.Count == 1)
                     GeoWatcher.StopUpdatingHighAccuracyLocation();
 
-                if (await SpeechToTextService.AskQuestion($"Are you entering {insideTollPoint.Name} tollroad?"))
+                if (await SpeechToTextService.AskQuestion($"Are you exiting from {insideTollPoint.Name} tollroad?"))
                 {
                     WaypointChecker.SetExit(insideTollPoint);
                     WaypointChecker.SetTollPointsInRadius(null);

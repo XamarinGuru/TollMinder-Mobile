@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using System.Timers;
 using AudioToolbox;
 using AVFoundation;
 using Foundation;
@@ -16,38 +17,23 @@ namespace Tollminder.Touch.Services
 {
 	public class TouchSpeechToTextService : ISpeechToTextService
 	{
+        readonly ITextFromSpeechMappingService MappingService;
+        readonly ITextToSpeechService TextToSpeechService;
+
 		OEEventsObserver observer;
 		OEPocketsphinxController pocketSphinxController;
 		OEFliteController fliteController;
+        AVAudioPlayer _audioPlayer;
 
-		TaskCompletionSource<bool> _recognitionTask;
+        TaskCompletionSource<bool> _recognitionTask;
 
 		UIAlertView _error;
 
-		String pathToLanguageModel;
-		String pathToDictionary;
-		String pathToAcousticModel;
-		String firstVoiceToUse;
-		String secondVoiceToUse;
-
-		ITextFromSpeechMappingService _mappingService;
-		ITextFromSpeechMappingService MappingService
-		{
-			get
-			{
-				return _mappingService ?? (_mappingService = Mvx.Resolve<ITextFromSpeechMappingService>());
-			}
-		}
-
-		ITextToSpeechService _textToSpeechService;
-		ITextToSpeechService TextToSpeechService
-		{
-			get
-			{
-				return _textToSpeechService ?? (_textToSpeechService = Mvx.Resolve<ITextToSpeechService>());
-			}
-		}
-
+		string pathToLanguageModel;
+		string pathToDictionary;
+		string pathToAcousticModel;
+		string firstVoiceToUse;
+		string secondVoiceToUse;
 
 		string _question;
 		public string Question
@@ -64,6 +50,9 @@ namespace Tollminder.Touch.Services
 
 		public TouchSpeechToTextService()
 		{
+            MappingService = Mvx.Resolve<ITextFromSpeechMappingService>();
+            TextToSpeechService = Mvx.Resolve<ITextToSpeechService>();
+
 			observer = new OEEventsObserver();
 			observer.WeakDelegate = new MyOpenEarsEventsObserverDelegate(this);
 			pocketSphinxController = new OEPocketsphinxController();
@@ -76,110 +65,7 @@ namespace Tollminder.Touch.Services
 			pathToAcousticModel = NSBundle.MainBundle.ResourcePath + System.IO.Path.DirectorySeparatorChar + "AcousticModelEnglish.bundle";
 		}
 
-		class MyOpenEarsEventsObserverDelegate : OEEventsObserverDelegate
-		{
-			TouchSpeechToTextService _service;
-
-			public MyOpenEarsEventsObserverDelegate(TouchSpeechToTextService service)
-			{
-				_service = service;
-			}
-
-			public override void PocketsphinxDidReceiveHypothesisrecognitionScoreutteranceID(string hypothesis, string recognitionScore, string utteranceID)
-			{
-				Console.WriteLine($"Heard: {hypothesis}, score {recognitionScore}, id {utteranceID}");
-				_service.CheckResult(hypothesis.ToLower().Split(' '));
-				_service.StopListening();
-			}
-
-			public override void AudioSessionInterruptionDidBegin()
-			{
-				Console.WriteLine("AudioSession interruption began.");
-			}
-
-			public override void AudioSessionInterruptionDidEnd()
-			{
-				Console.WriteLine("AudioSession interruption end.");
-			}
-
-			public override void AudioInputDidBecomeUnavailable()
-			{
-				Console.WriteLine("The audio input has become unavailable");
-			}
-
-			public override void AudioInputDidBecomeAvailable()
-			{
-				Console.WriteLine("The audio input is available.");
-			}
-
-			public override void AudioRouteDidChangeToRoute(string newRoute)
-			{
-				Console.WriteLine("Audio route change. The new route is " + newRoute);
-			}
-
-			public override void PocketsphinxDidStartCalibration()
-			{
-				Console.WriteLine("Pocketsphinx calibration has started.");
-			}
-
-			public override void PocketsphinxDidCompleteCalibration()
-			{
-				Console.WriteLine("Pocket calibration is complete");
-			}
-
-			public override void PocketsphinxRecognitionLoopDidStart()
-			{
-				Console.WriteLine("Pocketsphinx is starting up");
-			}
-
-			public override void PocketsphinxDidStartListening()
-			{
-				Console.WriteLine("Pocketsphinx is now listening");
-			}
-
-			public override void PocketsphinxDidDetectSpeech()
-			{
-				Console.WriteLine("Pocketsphinx has detected speech");
-			}
-
-			public override void PocketsphinxDidDetectFinishedSpeech()
-			{
-				Console.WriteLine("Pocketphinx has detected a second of silence, concluding utterance.");
-			}
-
-			public override void PocketsphinxDidStopListening()
-			{
-				Console.WriteLine("Pocketsphinx has stopped listening");
-			}
-
-			public override void PocketsphinxDidSuspendRecognition()
-			{
-				Console.WriteLine("Pocketsphinx has suspended recognition");
-			}
-
-			public override void PocketsphinxDidResumeRecognition()
-			{
-				Console.WriteLine("Pocketsphinx has resumed recognition");
-			}
-
-			public override void FliteDidStartSpeaking()
-			{
-				Console.WriteLine("Flite has started speaking");
-			}
-
-			public override void FliteDidFinishSpeaking()
-			{
-				Console.WriteLine("Flite has finished speaking.");
-			}
-
-			public override void PocketSphinxContinuousSetupDidFail()
-			{
-
-			}
-
-		}
-
-		public Task<bool> AskQuestion(string question)
+				public Task<bool> AskQuestion(string question)
 		{
 			_recognitionTask = new TaskCompletionSource<bool>();
 
@@ -213,11 +99,11 @@ namespace Tollminder.Touch.Services
                 //notificationSound.AddSystemSoundCompletion(SystemSound.Vibrate.PlaySystemSound);
                 //notificationSound.PlaySystemSound();
 
-                AVAudioPlayer audioPlayer = AVAudioPlayer.FromUrl(NSUrl.FromFilename(Path.Combine("Sounds", "tap.aif")));
-                audioPlayer.PrepareToPlay();
-                audioPlayer.Play();
+                _audioPlayer = AVAudioPlayer.FromUrl(NSUrl.FromFilename(Path.Combine("Sounds", "tap.aif")));
+                _audioPlayer.PrepareToPlay();
+                _audioPlayer.Play();
             });
-
+             
             Question = question;
             StartListening();
         }
@@ -236,9 +122,45 @@ namespace Tollminder.Touch.Services
 			else
                 AskQuestionMethod(Question);
 		}
+           }
+    // The following method is called by the timer's delegate.
 
+    void CheckStatus(Object state)
+    {
+        TimerExampleState s = (TimerExampleState)state;
+        s.counter++;
+        Console.WriteLine("{0} Checking Status {1}.", DateTime.Now.TimeOfDay, s.counter);
+        if (s.counter == 5)
+        {
+            // Shorten the period. Wait 10 seconds to restart the timer.
+            (s.tmr).Change(10000, 100);
+            Console.WriteLine("changed...");
+        }
+        if (s.counter == 10)
+        {
+            Console.WriteLine("disposing of timer...");
+            s.tmr.Dispose();
+            s.tmr = null;
+        }
+    }
 		public void StartListening()
 		{
+            TimerExampleState s = new TimerExampleState();
+
+        // Create the delegate that invokes methods for the timer.
+        TimerCallback timerDelegate = new TimerCallback(CheckStatus);
+
+        // Create a timer that waits one second, then invokes every second.
+        Timer timer = new Timer(timerDelegate, s, 1000, 1000);
+
+        // Keep a handle to the timer, so it can be disposed.
+        s.tmr = timer;
+
+        // The main thread does nothing until the timer is disposed.
+        while (s.tmr != null)
+            Thread.Sleep(0);
+        Console.WriteLine("Timer example done.");
+
 			pocketSphinxController.StartListeningWithLanguageModelAtPathdictionaryAtPathlanguageModelIsJSGF(
 				pathToLanguageModel,
 				pathToDictionary,

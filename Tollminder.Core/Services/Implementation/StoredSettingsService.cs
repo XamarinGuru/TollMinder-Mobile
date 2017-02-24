@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MvvmCross.Platform;
 using Tollminder.Core.Models;
 
 namespace Tollminder.Core.Services.Implementation
@@ -8,9 +9,9 @@ namespace Tollminder.Core.Services.Implementation
 	{
 		readonly IStoredSettingsBase _storedSettingsBase;
 
-		public StoredSettingsService(IStoredSettingsBase storedSettingsBase)
+		public StoredSettingsService()
 		{
-			_storedSettingsBase = storedSettingsBase;
+            _storedSettingsBase = Mvx.Resolve<IStoredSettingsBase>();
 		}
 
 		public bool GeoWatcherIsRunning
@@ -78,6 +79,42 @@ namespace Tollminder.Core.Services.Implementation
 			get { return _storedSettingsBase.Get<DateTime>(); }
 			set { _storedSettingsBase.Set<DateTime>(value); }
 		}
+
+        public bool IsAuthorized
+        {
+            get { return _storedSettingsBase.Get<bool>(); }
+            set { _storedSettingsBase.Set<bool>(value); }
+        }
+
+        public DateTime LastSyncDateTime
+        {
+            get { return _storedSettingsBase.Get<DateTime>(new DateTime(1970, 1, 1)); }
+            set { _storedSettingsBase.Set<DateTime>(value); }
+        }
+
+        public string AuthToken
+        {
+            get { return _storedSettingsBase.Get<string>(); }
+            set { _storedSettingsBase.Set(value); }
+        }
+
+        public bool IsDataSynchronized
+        {
+            get { return _storedSettingsBase.Get<bool>(); }
+            set { _storedSettingsBase.Set(value); }
+        }
+
+        public string ProfileId
+        {
+            get { return _storedSettingsBase.Get<string>(); }
+            set { _storedSettingsBase.Set(value); }
+        }
+
+        public Profile Profile
+        {
+            get { return _storedSettingsBase.Get<Profile>(); }
+            set { _storedSettingsBase.Set(value); }
+        }
     }
 }
 

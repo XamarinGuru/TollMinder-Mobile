@@ -4,6 +4,7 @@ using Android.App;
 using Android.Views;
 using Android.Widget;
 using MvvmCross.Binding.BindingContext;
+using MvvmCross.Platform.WeakSubscription;
 
 namespace Tollminder.Droid
 {
@@ -36,7 +37,13 @@ namespace Tollminder.Droid
             text.TextChanged += (sender, args) => text.Text = "" + text.Text;
             text.Hint = "" + text.Hint;
         }
-        
+
+        public void Include(EditText editText)
+        {
+            editText.AfterTextChanged += (sender, args) => editText.Text = "" + editText.Text;
+            editText.Hint = "" + editText.Hint;
+        }
+
         public void Include(CheckedTextView text)
         {
             text.TextChanged += (sender, args) => text.Text = "" + text.Text;
@@ -85,6 +92,11 @@ namespace Tollminder.Droid
             context.Dispose();
             var context2 = new MvxTaskBasedBindingContext();
             context2.Dispose();
+        }
+
+        public void Include<TFirst,TSecond> (MvxWeakEventSubscription<TFirst, TSecond> weakSubscription) where TFirst : class
+        {
+            weakSubscription = new MvxWeakEventSubscription<TFirst, TSecond>(null, null, null);
         }
     }
 }

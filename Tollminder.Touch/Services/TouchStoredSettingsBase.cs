@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Runtime.CompilerServices;
 using Foundation;
 using Newtonsoft.Json;
+using Tollminder.Core.Models;
 using Tollminder.Core.Services;
 
 namespace Tollminder.Touch.Services
@@ -26,7 +29,7 @@ namespace Tollminder.Touch.Services
 
 		public T Get<T>(T defaultValue = default(T), [CallerMemberNameAttribute] string key = "")
 		{
-			var str = _preferences.StringForKey(key);
+ 			var str = _preferences.StringForKey(key);
 			if (str == NULL || string.IsNullOrEmpty(str))
 			{
 				return defaultValue;
@@ -34,9 +37,7 @@ namespace Tollminder.Touch.Services
 			var obj = JsonConvert.DeserializeObject<T>(str);
 			return obj;
 		}
-
-		#endregion
-
-	}
+        #endregion
+    }
 }
 

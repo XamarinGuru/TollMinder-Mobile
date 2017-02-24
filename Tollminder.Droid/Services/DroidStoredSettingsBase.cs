@@ -1,10 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Runtime.CompilerServices;
 using Android.App;
 using Android.Content;
+using Android.Content.Res;
+using Android.OS;
 using Android.Preferences;
 using Newtonsoft.Json;
+using Tollminder.Core.Models;
 using Tollminder.Core.Services;
+using Tollminder.Droid.Views;
 
 namespace Tollminder.Droid.Services
 {
@@ -20,7 +26,7 @@ namespace Tollminder.Droid.Services
 		public T Get<T>(T defaultValue = default(T), [CallerMemberNameAttribute] string key = "")
 		{
 			var str = prefs.GetString(key, null);
-			if (str == null || string.IsNullOrEmpty(str))
+			if (string.IsNullOrEmpty(str))
 			{
 				return defaultValue;
 			}

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="NO">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <development version="7000" identifier="xcode"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="1" customClass="PayHistoryHeader">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4">
+                    <rect key="frame" x="305" y="0.0" width="1" height="600"/>
+                    <color key="backgroundColor" red="5.0643702707020566e-05" green="0.63362914323806763" blue="0.51055783033370972" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="1" id="62"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Tollroad" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="25">
+                    <rect key="frame" x="203.5" y="290" width="61.5" height="20.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Amount" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="29">
+                    <rect key="frame" x="347" y="290" width="60" height="20.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="0.52245527505874634" green="0.90375012159347534" blue="0.82453203201293945" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="25" firstAttribute="centerY" secondItem="1" secondAttribute="centerY" id="26"/>
+                <constraint firstItem="25" firstAttribute="centerY" secondItem="1" secondAttribute="centerY" id="27"/>
+                <constraint firstItem="29" firstAttribute="centerY" secondItem="1" secondAttribute="centerY" id="31"/>
+                <constraint firstItem="4" firstAttribute="centerX" secondItem="1" secondAttribute="centerX" id="45"/>
+                <constraint firstItem="4" firstAttribute="top" secondItem="1" secondAttribute="top" id="48"/>
+                <constraint firstItem="4" firstAttribute="bottom" secondItem="1" secondAttribute="bottom" id="49"/>
+                <constraint firstItem="29" firstAttribute="leading" secondItem="4" secondAttribute="trailing" constant="40" id="50"/>
+                <constraint firstItem="4" firstAttribute="leading" secondItem="25" secondAttribute="trailing" constant="40" id="51"/>
+            </constraints>
+        </view>
+    </objects>
+</document>

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+	<declare-styleable name="RoundedRectangleButton">
+		<attr name="image" format="integer" />
+		<attr name="text" format="string" />
+	</declare-styleable>
+	<declare-styleable name="ProfileButton">
+		<attr name="icon_profile" format="integer" />
+		<attr name="text_profile" format="string" />
+		<attr name="arrow_profile" format="integer" />
+	</declare-styleable>
+	<declare-styleable name="CalendarRangeButton">
+		<attr name="icon_calendar" format="integer" />
+		<attr name="text_calendar_field" format="string" />
+	</declare-styleable>
+	<declare-styleable name="BoardInformationLabel">
+		<attr name="iconBoard" format="integer" />
+		<attr name="textBoard" format="string" />
+		<attr name="labelBoard" format="string" />
+	</declare-styleable>
+</resources>

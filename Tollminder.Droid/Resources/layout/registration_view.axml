@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:local="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/tab_background">
+    <RelativeLayout
+        android:id="@+id/profile_top_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/profile_top_background">
+        <ImageButton
+            android:id="@+id/back_to_home_view"
+            android:layout_width="45dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_back"
+            local:MvxBind="Click BackToLoginViewCommand"
+            android:background="@android:color/transparent"
+            android:focusable="true"
+            android:focusableInTouchMode="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:textSize="20dp"
+            android:layout_centerHorizontal="true"
+            android:text="Registration"
+            android:id="@+id/top_profile_label"
+            android:textColor="@color/white" />
+        <TextView
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/top_profile_label"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            local:MvxBind="Text ViewInformation"
+            android:textSize="15dp"
+            android:gravity="center_horizontal"
+            android:textColor="@color/blue" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/profile_top_navigation">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:id="@+id/registration_fields_container"
+                    local:MvxBind="Hidden BoolInverseConverter(IsSocialRegistrationHidden)">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="10dp">
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginRight="5dp"
+                            android:theme="@style/TextInput"
+                            local:MvxBind="Error Errors['FirstName']">
+                            <EditText
+                                android:id="@+id/firstName_editText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@android:color/transparent"
+                                android:hint="First Name"
+                                android:inputType="textNoSuggestions"
+                                android:nextFocusDown="@+id/lastName_editText"
+                                android:drawablePadding="5dp"
+                                android:padding="10dp"
+                                android:singleLine="true"
+                                local:MvxBind="Text Profile.FirstName" />
+                        </android.support.design.widget.TextInputLayout>
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="5dp"
+                            android:theme="@style/TextInput"
+                            local:MvxBind="Error Errors['Last Name']">
+                            <EditText
+                                android:id="@+id/lastName_editText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@android:color/transparent"
+                                android:hint="Last Name"
+                                android:inputType="textNoSuggestions"
+                                android:nextFocusDown="@+id/email_editText"
+                                android:drawablePadding="55dp"
+                                android:padding="10dp"
+                                android:singleLine="true"
+                                local:MvxBind="Text Profile.LastName" />
+                        </android.support.design.widget.TextInputLayout>
+                    </LinearLayout>
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:theme="@style/TextInput"
+                        android:layout_marginBottom="10dp"
+                        local:MvxBind="Error Errors['Email']">
+                        <EditText
+                            android:id="@+id/email_editText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:hint="Email"
+                            android:inputType="textNoSuggestions"
+                            android:nextFocusDown="@+id/password_editText"
+                            android:layout_marginLeft="10dp"
+                            android:padding="10dp"
+                            android:singleLine="true"
+                            local:MvxBind="Text Profile.Email;" />
+                    </android.support.design.widget.TextInputLayout>
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:theme="@style/TextInput"
+                        android:layout_marginBottom="10dp"
+                        local:MvxBind="Error Errors['Password']">
+                        <EditText
+                            android:id="@+id/password_editText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:hint="Password *"
+                            android:inputType="textPassword"
+                            android:nextFocusDown="@+id/password_confirm_editText"
+                            android:layout_marginLeft="10dp"
+                            android:padding="10dp"
+                            android:singleLine="true"
+                            local:MvxBind="Text Profile.Password;" />
+                    </android.support.design.widget.TextInputLayout>
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:theme="@style/TextInput"
+                        android:layout_marginBottom="10dp"
+                        local:MvxBind="Error Errors['ConfirmPassword']">
+                        <EditText
+                            android:id="@+id/password_editText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:hint="Confirm Password *"
+                            android:inputType="textPassword"
+                            android:nextFocusDown="@+id/password_confirm_editText"
+                            android:layout_marginLeft="10dp"
+                            android:padding="10dp"
+                            android:singleLine="true"
+                            local:MvxBind="Text ConfirmPassword;" />
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_below="@id/registration_fields_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:labelFor="@+id/phone_textView"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/phoneNumber_container"
+                    android:theme="@style/TextInput"
+                    local:MvxBind="Error Errors['PhoneNumber']">
+                    <EditText
+                        android:id="@+id/phoneNumber_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:hint="(000) 000-0000 *"
+                        android:inputType="phone"
+                        android:maxLength="10"
+                        android:nextFocusDown="@+id/registration_btn"
+                        android:layout_marginLeft="10dp"
+                        android:padding="10dp"
+                        android:singleLine="true"
+                        local:MvxBind="Text Profile.Phone" />
+                </android.support.design.widget.TextInputLayout>
+                <Button
+                    android:layout_below="@id/phoneNumber_container"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/registration_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/login_button_background"
+                    android:fontFamily="roboto"
+                    android:text="Registration"
+                    android:textColor="@color/white"
+                    local:MvxBind="Enabled BoolInverseConverter(IsBusy); Click RegistrationCommand" />
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

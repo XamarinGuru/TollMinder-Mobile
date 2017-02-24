@@ -2,18 +2,17 @@
 using Tollminder.Core.Models;
 using System.Linq;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace Tollminder.Core.Services
 {
-    public interface IGeoDataService
+    public interface IGeoDataService : IGeoData
     {
-        TollRoad GetTollRoad(long id);
-        TollRoadWaypoint GetTollWayPoint(long id);
-        TollPoint GetTollPoint(long id);
         List<TollPointWithDistance> FindNearestEntranceTollPoints(GeoLocation center);
         List<TollPointWithDistance> FindNearestExitTollPoints(GeoLocation center);
-        List<TollPoint> GetAllEntranceTollPoints();
-        List<TollPoint> GetAllExitTollPoints(long tollRoadId = -1);
+
+        Task RefreshTollRoads(CancellationToken token);
     }
 }
 

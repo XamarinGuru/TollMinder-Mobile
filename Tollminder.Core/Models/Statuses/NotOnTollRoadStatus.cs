@@ -12,7 +12,7 @@ namespace Tollminder.Core.Models.Statuses
 			Log.LogMessage (string.Format ($"TRY TO FIND TOLLPOINT ENTRANCES FROM {SettingsService.WaypointLargeRadius * 1000} m"));
 
 			var location = GeoWatcher.Location;
-            var waypoints = DataService.FindNearestEntranceTollPoints(location);
+            var waypoints = GeoDataService.FindNearestEntranceTollPoints(location);
 
             WaypointChecker.SetTollPointsInRadius(waypoints);
             WaypointChecker.SetIgnoredChoiceTollPoint(null);
@@ -36,7 +36,7 @@ namespace Tollminder.Core.Models.Statuses
 
         public override bool CheckBatteryDrain()
         {
-            var distance = DistanceChecker.GetMostClosestTollPoint(GeoWatcher.Location, DataService.GetAllEntranceTollPoints()).FirstOrDefault()?.Distance ?? 0;
+            var distance = DistanceChecker.GetMostClosestTollPoint(GeoWatcher.Location, GeoDataService.GetAllEntranceTollPoints()).FirstOrDefault()?.Distance ?? 0;
             return BatteryDrainService.CheckGpsTrackingSleepTime(distance);
         }
 	}

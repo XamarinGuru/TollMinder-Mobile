@@ -1,22 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using SQLite;
 using SQLiteNetExtensions.Attributes;
 
 namespace Tollminder.Core.Models
 {
 	[Table("TollRoads")]
-    public class TollRoad : IEquatable<TollRoad>
+    public class TollRoad : IEquatable<TollRoad>, IDatabaseEntry
 	{
-		[PrimaryKey, AutoIncrement]
-		public long Id { get; set; }
+		[PrimaryKey]
+        [JsonProperty("_id")]
+        public string Id { get; set; }
+        [JsonProperty("name")]
 		public string Name { get; set; }
+        [JsonProperty("_wayPoints")]
 		[OneToMany(CascadeOperations = CascadeOperation.All)]
         public List<TollRoadWaypoint> WayPoints { get; set; }
+        //[JsonProperty("_wayPoints")]
+        //public List<string> WayPointsId { get; set; }
+        [JsonProperty("longitude")]
+        public string Longitude { get; set; }
+        [JsonProperty("latitude")]
+        public string Latitude { get; set; }
 
         public TollRoad()
         {
-
         }
 
         public TollRoad(string name, List<TollPoint> points)
@@ -28,6 +37,7 @@ namespace Tollminder.Core.Models
                 WayPoints.Add(new TollRoadWaypoint()
                 {
                     Name = item.Name,
+                    //Location = item.Location,
                     TollPoints = new List<TollPoint>() { item }
                 });
             };

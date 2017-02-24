@@ -33,7 +33,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="App.cs" />
-    <Compile Include="ViewModels\HomeViewModel.cs" />
+    <Compile Include="ViewModels\HomeDebugViewModel.cs" />
     <Compile Include="Services\IPlatform.cs" />
     <Compile Include="Services\ITextToSpeechService.cs" />
     <Compile Include="Models\GeoLocation.cs" />
@@ -41,14 +41,11 @@
     <Compile Include="Helpers\LocationUpdatedEventArgs.cs" />
     <Compile Include="Models\MotionType.cs" />
     <Compile Include="Services\IMotionActivity.cs" />
-    <Compile Include="ViewModels\ViewModelBase.cs" />
-    <Compile Include="AllocationTracker.cs" />
     <Compile Include="Models\Messages.cs" />
     <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\GeofenceException.cs" />
     <Compile Include="Helpers\Log.cs" />
     <Compile Include="Services\INotificationSender.cs" />
-    <Compile Include="XamarinInsightsHelper.cs" />
     <Compile Include="Helpers\LocationChecker.cs" />
     <Compile Include="Services\IGeoDataServiceAsync.cs" />
     <Compile Include="Services\Implementation\GeoDataServiceAsync.cs" />
@@ -70,7 +67,7 @@
     <Compile Include="Services\IDistanceChecker.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Services\Implementation\DistanceChecker.cs" />
-    <Compile Include="Services\Implementation\DummyDataSerivce.cs" />
+    <Compile Include="Services\Implementation\GeoDataService.cs" />
     <Compile Include="Services\Implementation\WaypointChecker.cs" />
     <Compile Include="Models\Statuses\OnTollRoadStatus.cs" />
     <Compile Include="Models\Statuses\StatusesFactory.cs" />
@@ -93,6 +90,71 @@
     <Compile Include="Services\Implementation\SettingsService.cs" />
     <Compile Include="Models\Statuses\NearTollRoadEntranceStatus.cs" />
     <Compile Include="Models\TollPoint.cs" />
+    <Compile Include="Interfaces\IDatabaseEntry.cs" />
+    <Compile Include="Services\IDataBaseService.cs" />
+    <Compile Include="Services\Implementation\DataBaseService.cs" />
+    <Compile Include="Services\IGeoData.cs" />
+    <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="Models\Validator.cs" />
+    <Compile Include="Models\ValidatorDataItem.cs" />
+    <Compile Include="Services\IInsightsService.cs" />
+    <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="Helpers\RegularExpressionHelper.cs" />
+    <Compile Include="Converters\BoolInverseConverter.cs" />
+    <Compile Include="CustomAppStart.cs" />
+    <Compile Include="Models\SocialData.cs" />
+    <Compile Include="Services\IFacebookLoginService.cs" />
+    <Compile Include="Services\ISocialLoginServiceBase.cs" />
+    <Compile Include="Services\IGPlusLoginService.cs" />
+    <Compile Include="Theme.cs" />
+    <Compile Include="Models\FacebookAccountResult.cs" />
+    <Compile Include="Models\BaseApiResponse.cs" />
+    <Compile Include="Helpers\DateTimeFromUnixConverterHelper.cs" />
+    <Compile Include="Helpers\DateHelper.cs" />
+    <Compile Include="Models\Profile.cs" />
+    <Compile Include="Models\ErrorApiResponse.cs" />
+    <Compile Include="Services\Implementation\HttpClientService.cs" />
+    <Compile Include="Services\IHttpClientService.cs" />
+    <Compile Include="Models\ProgressCompleted.cs" />
+    <Compile Include="Services\IExceptionHandlerService.cs" />
+    <Compile Include="Exceptions\Interfaces\IHttpExceptionHandler.cs" />
+    <Compile Include="Exceptions\HttpStatusCodeHandler.cs" />
+    <Compile Include="Exceptions\ServerUnavailableException.cs" />
+    <Compile Include="Exceptions\ApiException.cs" />
+    <Compile Include="Exceptions\UIApiException.cs" />
+    <Compile Include="Services\IHttpClientHandlerService.cs" />
+    <Compile Include="Helpers\HttpHelpers\ProgressByteArrayContent.cs" />
+    <Compile Include="Helpers\HttpHelpers\ProgressStringContent.cs" />
+    <Compile Include="Helpers\HttpHelpers\SchemaEnumeration.cs" />
+    <Compile Include="ViewModels\HomeViewModel.cs" />
+    <Compile Include="Utils\Slack\SlackClient.cs" />
+    <Compile Include="Utils\Slack\Payload.cs" />
+    <Compile Include="Utils\Slack\SlackManager.cs" />
+    <Compile Include="Services\ICheckerAppFirstLaunch.cs" />
+    <Compile Include="Services\INetworkCheck.cs" />
+    <Compile Include="ViewModels\ProfileViewModel.cs" />
+    <Compile Include="ViewModels\LicenseViewModel.cs" />
+    <Compile Include="ViewModels\CreditCardViewModel.cs" />
+    <Compile Include="Models\StatesData.cs" />
+    <Compile Include="ViewModels\PayHistoryViewModel.cs" />
+    <Compile Include="Models\DriverLicense.cs" />
+    <Compile Include="Models\PayHistory.cs" />
+    <Compile Include="ViewModels\CalendarViewModel.cs" />
+    <Compile Include="Services\ICalendarDialog.cs" />
+    <Compile Include="Services\ILoadResourceData.cs" />
+    <Compile Include="Services\Implementation\StatesService.cs" />
+    <Compile Include="Services\Implementation\LicenseDataService.cs" />
+    <Compile Include="Models\Rate.cs" />
+    <Compile Include="ViewModels\PayHistoryPdfViewModel.cs" />
+    <Compile Include="Services\IFileManager.cs" />
+    <Compile Include="Services\ISynchronisationService.cs" />
+    <Compile Include="Services\IProfileSettingService.cs" />
+    <Compile Include="Services\Implementation\ProfileSettingService.cs" />
+    <Compile Include="Services\Implementation\SynchronisationService.cs" />
+    <Compile Include="ViewModels\RegistrationViewModel.cs" />
+    <Compile Include="Services\IProgressDialogManager.cs" />
+    <Compile Include="Extensions\FieldValidator\ValidationResultExtension.cs" />
+    <Compile Include="Extensions\FieldValidator\ObservableDictionary.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
@@ -108,6 +170,13 @@
     <Folder Include="ServicesHelpers\Implementation\" />
     <Folder Include="Models\Statuses\" />
     <Folder Include="Extensions\" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="Converters\" />
+    <Folder Include="Exceptions\" />
+    <Folder Include="Exceptions\Interfaces\" />
+    <Folder Include="Helpers\HttpHelpers\" />
+    <Folder Include="Utils\Slack\" />
+    <Folder Include="Extensions\FieldValidator\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="ModernHttpClient">
@@ -122,32 +191,11 @@
     <Reference Include="System.Reactive.Linq">
       <HintPath>..\packages\Rx-Linq.2.2.5\lib\portable-windows8+net45+wp8\System.Reactive.Linq.dll</HintPath>
     </Reference>
-    <Reference Include="Chance.MvvmCross.Plugins.UserInteraction">
-      <HintPath>..\packages\Birdie.MvvmCross.Plugins.UserInteraction.1.2.1\lib\portable-win+net45+wp8+win8+wpa81\Chance.MvvmCross.Plugins.UserInteraction.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Reactive.PlatformServices">
       <HintPath>..\packages\Rx-PlatformServices.2.3\lib\portable-windows8+net45+wp8\System.Reactive.PlatformServices.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Platform">
-      <HintPath>..\packages\MvvmCross.Platform.4.3.0\lib\portable-net45+win+wpa81+wp80\MvvmCross.Platform.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Core">
-      <HintPath>..\packages\MvvmCross.Core.4.3.0\lib\portable-net45+win+wpa81+wp80\MvvmCross.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Plugins.Messenger">
-      <HintPath>..\packages\MvvmCross.Plugin.Messenger.4.3.0\lib\portable-net45+win+wpa81+wp80\MvvmCross.Plugins.Messenger.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Binding">
-      <HintPath>..\packages\MvvmCross.Binding.4.3.0\lib\portable-net45+win+wpa81+wp80\MvvmCross.Binding.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Localization">
-      <HintPath>..\packages\MvvmCross.Binding.4.3.0\lib\portable-net45+win+wpa81+wp80\MvvmCross.Localization.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Plugins.Sqlite">
-      <HintPath>..\packages\MvvmCross.Plugin.SQLitePCL.4.3.4\lib\portable-win+net45+wp8+win8+wpa81+win81+dotnet\MvvmCross.Plugins.Sqlite.dll</HintPath>
     </Reference>
     <Reference Include="SQLite-net">
       <HintPath>..\packages\sqlite-net-pcl.1.2.0\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLite-net.dll</HintPath>
@@ -170,5 +218,57 @@
     <Reference Include="Plugin.Permissions">
       <HintPath>..\packages\Plugin.Permissions.1.2.1\lib\portable-net45+wp80+win+wpa81\Plugin.Permissions.dll</HintPath>
     </Reference>
+    <Reference Include="MvvmCross.Platform">
+      <HintPath>..\packages\MvvmCross.Platform.4.4.0\lib\portable-net45+win+wpa81+wp80\MvvmCross.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Core">
+      <HintPath>..\packages\MvvmCross.Core.4.4.0\lib\portable-net45+win+wpa81+wp80\MvvmCross.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Binding">
+      <HintPath>..\packages\MvvmCross.Binding.4.4.0\lib\portable-net45+win+wpa81+wp80\MvvmCross.Binding.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Localization">
+      <HintPath>..\packages\MvvmCross.Binding.4.4.0\lib\portable-net45+win+wpa81+wp80\MvvmCross.Localization.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Plugins.Messenger">
+      <HintPath>..\packages\MvvmCross.Plugin.Messenger.4.4.0\lib\portable-net45+win+wpa81+wp80\MvvmCross.Plugins.Messenger.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Plugins.Sqlite">
+      <HintPath>..\packages\MvvmCross.Plugin.SQLitePCL.4.4.0\lib\portable-win+net45+wp8+win8+wpa81+win81+dotnet\MvvmCross.Plugins.Sqlite.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Plugins.File">
+      <HintPath>..\packages\MvvmCross.Plugin.File.4.4.0\lib\portable-net45+win+wpa81+wp80\MvvmCross.Plugins.File.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Plugins.Network">
+      <HintPath>..\packages\MvvmCross.Plugin.Network.4.4.0\lib\portable-net45+win+wpa81+wp80\MvvmCross.Plugins.Network.dll</HintPath>
+    </Reference>
+    <Reference Include="Cirrious.CrossCore">
+      <HintPath>..\packages\MvvmCross.HotTuna.CrossCore.3.5.0\lib\portable-win+net45+wp8+win8+wpa81\Cirrious.CrossCore.dll</HintPath>
+    </Reference>
+    <Reference Include="Cirrious.MvvmCross.Localization">
+      <HintPath>..\packages\MvvmCross.HotTuna.CrossCore.3.5.0\lib\portable-win+net45+wp8+win8+wpa81\Cirrious.MvvmCross.Localization.dll</HintPath>
+    </Reference>
+    <Reference Include="Chance.MvvmCross.Plugins.UserInteraction">
+      <HintPath>..\packages\Birdie.MvvmCross.Plugins.UserInteraction.1.2.1\lib\portable-win+net45+wp8+win8+wpa81\Chance.MvvmCross.Plugins.UserInteraction.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Core">
+      <HintPath>..\packages\Xamarin.Forms.2.3.3.175\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Platform">
+      <HintPath>..\packages\Xamarin.Forms.2.3.3.175\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Xaml">
+      <HintPath>..\packages\Xamarin.Forms.2.3.3.175\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.Xaml.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmValidation">
+      <HintPath>..\packages\MvvmValidation.3.0.0\lib\netstandard1.0\MvvmValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Plugins.Validation">
+      <HintPath>..\packages\MvvmCross.Plugins.Validation.2.1.2\lib\portable-net45+netcore45+wpa81\MvvmCross.Plugins.Validation.dll</HintPath>
+    </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="states.json" />
+  </ItemGroup>
+  <Import Project="..\packages\Xamarin.Forms.2.3.3.175\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.3.3.175\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />
 </Project>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:local="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/tab_background">
+    <RelativeLayout
+        android:id="@+id/calendar_top_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/profile_top_background">
+        <ImageButton
+            android:layout_width="45dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/calendar_btn_back_to_payhistory"
+            android:src="@drawable/icon_back"
+            local:MvxBind="Click BackToPayHistoryCommand"
+            android:background="@android:color/transparent"
+            android:focusable="true"
+            android:focusableInTouchMode="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="Please, Choose Date"
+            android:layout_marginTop="25dp"
+            android:textSize="20dp"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+    <CalendarView
+        android:layout_width="match_parent"
+        android:layout_below="@+id/calendar_top_navigation"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/calendarView" />
+</RelativeLayout>

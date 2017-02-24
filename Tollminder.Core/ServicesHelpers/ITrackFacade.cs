@@ -10,5 +10,7 @@ namespace Tollminder.Core.ServicesHelpers
 
 		Task<bool> StartServices();
 		bool StopServices();
+
+        Task Initialize();
 	}
 }

@@ -20,14 +20,14 @@ namespace Tollminder.Touch.Services
 
         #region ITextToSpeechService implementation
 
-        public Task Speak(string text, bool disableMusic = false)
+        public Task<bool> Speak(string text, bool disableMusic = false)
         {
 			_speakTask = new TaskCompletionSource<bool>();
 			if (IsEnabled) {
 				var speechUtterance = new AVSpeechUtterance (text) {
 					Rate = AVSpeechUtterance.MaximumSpeechRate / 2,
 					Voice = AVSpeechSynthesisVoice.FromLanguage ("en-US"),
-					Volume = 0.5f,
+					Volume = 1.0f,
 					PitchMultiplier = 1.0f
 					//PreUtteranceDelay = 0.1
 				};
