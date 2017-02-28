@@ -4,12 +4,12 @@ using UIKit;
 
 namespace Tollminder.Touch
 {
-	public static class EnvironmentInfo
-	{
-		public static bool IsForIOSNine
-		{			
-			get { return UIDevice.CurrentDevice.CheckSystemVersion (9, 0); }
-		}
+    public static class EnvironmentInfo
+    {
+        public static bool IsForIOSNine
+        {
+            get { return UIDevice.CurrentDevice.CheckSystemVersion(9, 0); }
+        }
 
         public static UIImage GetHomeBackground
         {
@@ -80,6 +80,56 @@ namespace Tollminder.Touch
         {
             get { return GetScreenWidth > 320 ? 20 : 10; }
         }
-	}
+
+        public static nfloat GetMarginTopButtonsContainer
+        {
+            get { return GetScreenHeight > 640 ? 10 : -5; }
+        }
+
+        public static nfloat GetValueForGettingWidthButtonsContainer
+        {
+            get { return GetScreenWidth > 320 ? 0.8f : 0.76f; }
+        }
+
+        public static nfloat GetValueForGettingWidthRoadInformationContainer
+        {
+            get { return GetScreenWidth > 320 ? 0.76f : 0.682f; }
+        }
+
+        public static nfloat GetValueForSliderPositionX
+        {
+            get { return GetScreenWidth > 320 ? 310 : 248; }
+        }
+
+        public static nfloat GetValueForSliderPositionY
+        {
+            get { return GetScreenWidth > 320 ? 0 : 1; }
+        }
+
+        public static nfloat GetValueForFirstSliderPositionY
+        {
+            get { return GetScreenWidth > 320 ? 0 : -18; }
+        }
+
+        public static nfloat GetDistanceBetweenLabelAndTextNearestPoint
+        {
+            get { return GetScreenWidth > 320 ? 0.48f : 0.55f; }
+        }
+
+        public static nfloat GetDistanceBetweenLabelAndTextGeolocation
+        {
+            get { return GetScreenWidth > 320 ? 0.3f : 0.35f; }
+        }
+
+        public static nfloat GetDistanceBetweenLabelAndTextTollroad
+        {
+            get { return GetScreenWidth > 320 ? 0.2f : 0.25f; }
+        }
+
+        public static nfloat GetDistanceBetweenLabelAndTextStatus
+        {
+            get { return GetScreenWidth > 320 ? 0.18f : 0.2f; }
+        }
+    }
 }
 

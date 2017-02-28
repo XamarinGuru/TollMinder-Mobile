@@ -25,7 +25,7 @@ namespace Tollminder.Core.Services.Implementation
                 _serverApiService = Mvx.Resolve<IServerApiService>();
                 _storedSettingsService = Mvx.Resolve<IStoredSettingsService>();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Debug.WriteLine("Message:{0}\n StackTrace:{1}", ex.Message, ex.StackTrace);
             }
@@ -52,7 +52,6 @@ namespace Tollminder.Core.Services.Implementation
                 if (true)
                 {
                     var list = await _serverApiService.RefreshTollRoads(_storedSettingsService.LastSyncDateTime.UnixTime(), token);
-                    //Debug.WriteLine(list);
                     if (list != null)
                     {
                         _storedSettingsService.LastSyncDateTime = currentTime;
@@ -60,7 +59,7 @@ namespace Tollminder.Core.Services.Implementation
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
             }

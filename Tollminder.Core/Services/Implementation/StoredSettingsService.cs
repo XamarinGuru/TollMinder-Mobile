@@ -5,38 +5,38 @@ using Tollminder.Core.Models;
 
 namespace Tollminder.Core.Services.Implementation
 {
-	public class StoredSettingsService : IStoredSettingsService
-	{
-		readonly IStoredSettingsBase _storedSettingsBase;
+    public class StoredSettingsService : IStoredSettingsService
+    {
+        readonly IStoredSettingsBase _storedSettingsBase;
 
-		public StoredSettingsService()
-		{
+        public StoredSettingsService()
+        {
             _storedSettingsBase = Mvx.Resolve<IStoredSettingsBase>();
-		}
+        }
 
-		public bool GeoWatcherIsRunning
-		{
-			get { return _storedSettingsBase.Get<bool>(); }
-			set { _storedSettingsBase.Set<bool>(value); }
-		}
+        public bool GeoWatcherIsRunning
+        {
+            get { return _storedSettingsBase.Get<bool>(); }
+            set { _storedSettingsBase.Set<bool>(value); }
+        }
 
-		public GeoLocation Location
-		{
-			get { return _storedSettingsBase.Get<GeoLocation>(); }
-			set { _storedSettingsBase.Set<GeoLocation>(value); }
-		}
+        public GeoLocation Location
+        {
+            get { return _storedSettingsBase.Get<GeoLocation>(); }
+            set { _storedSettingsBase.Set<GeoLocation>(value); }
+        }
 
-		public TollGeolocationStatus Status
-		{
-			get { return _storedSettingsBase.Get<TollGeolocationStatus>(); }
-			set { _storedSettingsBase.Set<TollGeolocationStatus>(value); }
-		}
+        public TollGeolocationStatus Status
+        {
+            get { return _storedSettingsBase.Get<TollGeolocationStatus>(); }
+            set { _storedSettingsBase.Set<TollGeolocationStatus>(value); }
+        }
 
         public List<TollPointWithDistance> TollPointsInRadius
-		{
+        {
             get { return _storedSettingsBase.Get<List<TollPointWithDistance>>(); }
             set { _storedSettingsBase.Set<List<TollPointWithDistance>>(value); }
-		}
+        }
 
         public TollRoad TollRoad
         {
@@ -44,11 +44,11 @@ namespace Tollminder.Core.Services.Implementation
             set { _storedSettingsBase.Set<TollRoad>(value); }
         }
 
-		public TollRoadWaypoint TollRoadEntranceWaypoint
-		{
-			get { return _storedSettingsBase.Get<TollRoadWaypoint>(); }
-			set { _storedSettingsBase.Set<TollRoadWaypoint>(value); }
-		}
+        public TollRoadWaypoint TollRoadEntranceWaypoint
+        {
+            get { return _storedSettingsBase.Get<TollRoadWaypoint>(); }
+            set { _storedSettingsBase.Set<TollRoadWaypoint>(value); }
+        }
 
         public DateTime TollRoadEntranceWaypointDateTime
         {
@@ -56,11 +56,11 @@ namespace Tollminder.Core.Services.Implementation
             set { _storedSettingsBase.Set<DateTime>(value); }
         }
 
-		public TollRoadWaypoint TollRoadExitWaypoint
-		{
-			get { return _storedSettingsBase.Get<TollRoadWaypoint>(); }
-			set { _storedSettingsBase.Set<TollRoadWaypoint>(value); }
-		}
+        public TollRoadWaypoint TollRoadExitWaypoint
+        {
+            get { return _storedSettingsBase.Get<TollRoadWaypoint>(); }
+            set { _storedSettingsBase.Set<TollRoadWaypoint>(value); }
+        }
 
         public DateTime TollRoadExitWaypointDateTime
         {
@@ -74,11 +74,11 @@ namespace Tollminder.Core.Services.Implementation
             set { _storedSettingsBase.Set<TollPoint>(value); }
         }
 
-		public DateTime SleepGPSDateTime
-		{
-			get { return _storedSettingsBase.Get<DateTime>(); }
-			set { _storedSettingsBase.Set<DateTime>(value); }
-		}
+        public DateTime SleepGPSDateTime
+        {
+            get { return _storedSettingsBase.Get<DateTime>(); }
+            set { _storedSettingsBase.Set<DateTime>(value); }
+        }
 
         public bool IsAuthorized
         {
@@ -113,6 +113,12 @@ namespace Tollminder.Core.Services.Implementation
         public Profile Profile
         {
             get { return _storedSettingsBase.Get<Profile>(); }
+            set { _storedSettingsBase.Set(value); }
+        }
+
+        public decimal DistanceToNearestTollpoint
+        {
+            get { return _storedSettingsBase.Get<decimal>(); }
             set { _storedSettingsBase.Set(value); }
         }
     }

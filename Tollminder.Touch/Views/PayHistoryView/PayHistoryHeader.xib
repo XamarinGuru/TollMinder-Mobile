@@ -1,9 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="NO">
     <dependencies>
         <deployment identifier="iOS"/>
         <development version="7000" identifier="xcode"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -43,6 +44,45 @@
                 <constraint firstItem="29" firstAttribute="leading" secondItem="4" secondAttribute="trailing" constant="40" id="50"/>
                 <constraint firstItem="4" firstAttribute="leading" secondItem="25" secondAttribute="trailing" constant="40" id="51"/>
             </constraints>
+            <point key="canvasLocation" x="10" y="23"/>
         </view>
     </objects>
+    <resources>
+        <image name="Image" width="1242" height="2208"/>
+        <image name="Images/navigation_bar_background.png" width="750" height="275"/>
+        <image name="Images/tab_background.png" width="750" height="1059"/>
+        <image name="Images/CreditCardView/creditCards.png" width="590" height="94"/>
+        <image name="Images/LoginView/facebook_logIn.png" width="100" height="46"/>
+        <image name="Images/LoginView/facebook-button.png" width="101" height="39"/>
+        <image name="Images/LoginView/google-button.png" width="102" height="39"/>
+        <image name="Images/HomeView/home_board.png" width="1122" height="933"/>
+        <image name="Images/HomeView/ic_home_pay.png" width="270" height="270"/>
+        <image name="Images/HomeView/ic_home_pay_history.png" width="270" height="270"/>
+        <image name="Images/HomeView/ic_home_profile.png" width="271" height="270"/>
+        <image name="Images/HomeView/ic_home_support.png" width="65" height="67"/>
+        <image name="Images/HomeView/ic_home_tracking_active.png" width="339" height="339"/>
+        <image name="Images/HomeView/ic_home_tracking_default.png" width="339" height="339"/>
+        <image name="Images/main_background.png" width="1242" height="2208"/>
+        <image name="Images/main_background-640h.png" width="180" height="320"/>
+        <image name="Images/main_background-667h.png" width="375" height="667"/>
+        <image name="Images/logo.png" width="334" height="40"/>
+        <image name="Images/PayHistoryView/ic_calendar.png" width="43" height="33"/>
+        <image name="Images/PayHistoryView/ic_download.png" width="32" height="32"/>
+        <image name="Images/ProfileView/ic_card.png" width="40" height="26"/>
+        <image name="Images/ProfileView/ic_license.png" width="40" height="26"/>
+        <image name="Images/CreditCardView/amex.png" width="54" height="36"/>
+        <image name="Images/CreditCardView/discover.png" width="54" height="36"/>
+        <image name="Images/CreditCardView/MasterCard.png" width="54" height="36"/>
+        <image name="Images/CreditCardView/visa.png" width="54" height="36"/>
+        <image name="Images/ic_back.png" width="35" height="30"/>
+        <image name="Images/PayHistoryView/ic_openIn.png" width="120" height="173"/>
+        <image name="Images/HomeView/InformationBoard/ic_location.png" width="40" height="49"/>
+        <image name="Images/HomeView/InformationBoard/ic_nearest_point.png" width="50" height="35"/>
+        <image name="Images/HomeView/InformationBoard/ic_pointer.png" width="56" height="39"/>
+        <image name="Images/HomeView/InformationBoard/ic_status.png" width="39" height="45"/>
+        <image name="Images/HomeView/InformationBoard/ic_tollroad.png" width="55" height="49"/>
+        <image name="Images/HomeView/ic_logout.png" width="128" height="128"/>
+        <image name="Images/splash.png" width="750" height="1292"/>
+        <image name="Images/LoginView/ic_google.png" width="128" height="128"/>
+    </resources>
 </document>

@@ -4,13 +4,13 @@ using Tollminder.Core.Models;
 
 namespace Tollminder.Core.Services
 {
-	public interface IWaypointChecker
+    public interface IWaypointChecker
     {
         TollRoad TollRoad { get; }
-		TollRoadWaypoint Entrance { get; }
-		TollRoadWaypoint Exit { get; }
+        TollRoadWaypoint Entrance { get; }
+        TollRoadWaypoint Exit { get; }
         TollPoint IgnoredChoiceTollPoint { get; }
-        double DistanceToNearestTollpoint { get; }
+        decimal DistanceToNearestTollpoint { get; }
         TimeSpan TripDuration { get; }
         List<TollPointWithDistance> TollPointsInRadius { get; }
 
@@ -22,6 +22,6 @@ namespace Tollminder.Core.Services
         TollPoint DetectWeAreInsideSomeTollPoint(GeoLocation location);
 
         void ClearData();
-	}
+    }
 }
 

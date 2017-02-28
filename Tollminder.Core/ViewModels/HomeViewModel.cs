@@ -75,7 +75,6 @@ namespace Tollminder.Core.ViewModels
             _tokens.Add(_messenger.SubscribeOnThreadPoolThread<LocationMessage>(x => Location = x.Data, MvxReference.Strong));
             _tokens.Add(_messenger.SubscribeOnThreadPoolThread<StatusMessage>(x => StatusString = x.Data.ToString(), MvxReference.Strong));
             _tokens.Add(_messenger.SubscribeOnMainThread<TollRoadChangedMessage>((s) => TollRoadString = s.Data?.Name, MvxReference.Strong));
-            _tokens.Add(_messenger.SubscribeOnMainThread<DistanceToNearestTollpoint>((s) => DistanceToNearestTollpoint = s.Data, MvxReference.Strong));
 
             await synchronisationService.DataSynchronisation();
 
@@ -85,15 +84,9 @@ namespace Tollminder.Core.ViewModels
 
             if (_geoWatcher.Location != null)
                 Location = _geoWatcher.Location;
-            try
-            {
-                if (Mvx.Resolve<IWaypointChecker>().TollPointsInRadius != null)
-                    DistanceToNearestTollpoint = double.Parse(string.Join("\n", Mvx.Resolve<IWaypointChecker>().TollPointsInRadius.Select(x => x.Distance)));
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+
+            Mvx.Resolve<IWaypointChecker>().DetectWeAreInsideSomeTollPoint(Location);
+            DistanceToNearestTollpoint = double.Parse(Mvx.Resolve<IWaypointChecker>().DistanceToNearestTollpoint.ToString());
         }
 
         Task RefreshToolRoads()

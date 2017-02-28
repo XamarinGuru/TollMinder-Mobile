@@ -9,25 +9,25 @@ using Tollminder.Core.Models;
 
 namespace Tollminder.Core.Services.Implementation
 {
-    public class ServerApiService : HttpClientService, IServerApiService 
-	{   
+    public class ServerApiService : HttpClientService, IServerApiService
+    {
         const string BaseApiUrl = "http://54.152.103.212/api/";
         private string authToken = Mvx.Resolve<IStoredSettingsService>().AuthToken;
 
-        public Task<IList<TollRoad>> RefreshTollRoads (long lastSyncDateTime, CancellationToken token)
-		{
+        public Task<IList<TollRoad>> RefreshTollRoads(long lastSyncDateTime, CancellationToken token)
+        {
             Task<IList<TollRoad>> result = null;
             try
             {
-                result =  GetAsync<IList<TollRoad>>($"{BaseApiUrl}sync/{0}", token, "LM9NJSUN3GDQU8BFPPCUPpCRtLnd89NZXLSUUR9DBjjSR32EBQxCbHX963ycqcjv");
+                result = GetAsync<IList<TollRoad>>($"{BaseApiUrl}sync/{0}", token, authToken);//"LM9NJSUN3GDQU8BFPPCUPpCRtLnd89NZXLSUUR9DBjjSR32EBQxCbHX963ycqcjv");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
             }
 
             return result;
-		}
+        }
 
         public Task<Profile> SignIn(string phone, string password)
         {
