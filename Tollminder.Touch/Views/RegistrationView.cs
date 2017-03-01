@@ -10,8 +10,6 @@ using Tollminder.Touch.Extensions;
 using Tollminder.Touch.Interfaces;
 using UIKit;
 using Tollminder.Core;
-using System.Drawing;
-using Foundation;
 
 namespace Tollminder.Touch.Views
 {
@@ -22,7 +20,7 @@ namespace Tollminder.Touch.Views
         UILabel informationAboutPageLabel;
         UIView topTextRowView;
         UIView centerTextRowView;
-       
+
         TextFieldValidationWithImage firstNameTextField;
         TextFieldValidationWithImage lastNameTextField;
         TextFieldValidationWithImage emailTextField;
@@ -49,6 +47,7 @@ namespace Tollminder.Touch.Views
             base.InitializeObjects();
 
             var topView = new UIView();
+            var stackView = new UIStackView();
             var scrollView = new UIScrollView();
             topTextRowView = new UIView();
             centerTextRowView = new UIView();
@@ -153,43 +152,42 @@ namespace Tollminder.Touch.Views
                 registrationButton.WithRelativeHeight(bottomView, 0.4f)
             );
 
-            scrollView.AddIfNotNull(topTextRowView, centerTextRowView, bottomView);
-            scrollView.AddConstraints(
-                topTextRowView.AtTopOf(scrollView, 30),
-                topTextRowView.WithSameWidth(scrollView),
-                topTextRowView.WithSameCenterX(scrollView),
-                topTextRowView.WithRelativeHeight(scrollView, 0.12f),
+            stackView.AddIfNotNull(topTextRowView, centerTextRowView, bottomView);
+            stackView.AddConstraints(
+                topTextRowView.AtTopOf(stackView, 30),
+                topTextRowView.WithSameWidth(stackView),
+                topTextRowView.WithSameCenterX(stackView),
+                topTextRowView.WithRelativeHeight(stackView, 0.10f),
 
                 centerTextRowView.Below(topTextRowView, 10),
-                centerTextRowView.WithSameWidth(scrollView),
-                centerTextRowView.AtLeftOf(scrollView),
-                centerTextRowView.AtRightOf(scrollView),
-                centerTextRowView.WithRelativeHeight(scrollView, 0.4f),
+                centerTextRowView.WithSameWidth(stackView),
+                centerTextRowView.AtLeftOf(stackView),
+                centerTextRowView.AtRightOf(stackView),
+                centerTextRowView.WithRelativeHeight(stackView, 0.35f),
 
                 bottomView.Below(centerTextRowView, 10),
-                bottomView.WithSameWidth(scrollView),
-                bottomView.AtLeftOf(scrollView),
-                bottomView.AtRightOf(scrollView),
-                bottomView.AtBottomOf(scrollView, 100),
-                bottomView.WithRelativeHeight(scrollView, 0.27f)
+                bottomView.WithSameWidth(stackView),
+                bottomView.AtLeftOf(stackView),
+                bottomView.AtRightOf(stackView),
+                bottomView.WithRelativeHeight(stackView, 0.25f)
             );
 
-            View.AddIfNotNull(topView, scrollView);
+            View.AddIfNotNull(topView, stackView);
             View.AddConstraints(
                 topView.AtTopOf(View),
                 topView.WithSameWidth(View),
                 topView.WithRelativeHeight(View, 0.2f),
 
-                scrollView.Below(topView, 30),
-                scrollView.AtLeftOf(View, 30),
-                scrollView.AtRightOf(View, 30),
-                scrollView.WithRelativeHeight(View, 0.8f)
+                stackView.Below(topView, 30),
+                stackView.AtLeftOf(View, 30),
+                stackView.AtRightOf(View, 30),
+                stackView.WithRelativeHeight(View, 0.8f)
             );
 
             EnableNextKeyForTextFields(firstNameTextField.TextFieldWithValidator.TextField, lastNameTextField.TextFieldWithValidator.TextField, emailTextField.TextFieldWithValidator.TextField,
                                        passwordTextField.TextFieldWithValidator.TextField, confirmPasswordTextField.TextFieldWithValidator.TextField, phoneNumberTextField.TextFieldWithValidator.TextField);
         }
-       
+
         protected override void InitializeBindings()
         {
             base.InitializeBindings();
@@ -287,21 +285,21 @@ namespace Tollminder.Touch.Views
 
         void AddDoneButtonOnKeyBoard()
         {
-            firstNameTextField.TextFieldWithValidator.TextField.InputAccessoryView = new EnhancedToolbar(firstNameTextField.TextFieldWithValidator.TextField, 
+            firstNameTextField.TextFieldWithValidator.TextField.InputAccessoryView = new EnhancedToolbar(firstNameTextField.TextFieldWithValidator.TextField,
                                                                                                          null, lastNameTextField.TextFieldWithValidator.TextField);
             lastNameTextField.TextFieldWithValidator.TextField.InputAccessoryView = new EnhancedToolbar(lastNameTextField.TextFieldWithValidator.TextField,
-                                                                                                         firstNameTextField.TextFieldWithValidator.TextField, 
+                                                                                                         firstNameTextField.TextFieldWithValidator.TextField,
                                                                                                         emailTextField.TextFieldWithValidator.TextField);
             emailTextField.TextFieldWithValidator.TextField.InputAccessoryView = new EnhancedToolbar(emailTextField.TextFieldWithValidator.TextField,
-                                                                                                     lastNameTextField.TextFieldWithValidator.TextField, 
+                                                                                                     lastNameTextField.TextFieldWithValidator.TextField,
                                                                                                      passwordTextField.TextFieldWithValidator.TextField);
             passwordTextField.TextFieldWithValidator.TextField.InputAccessoryView = new EnhancedToolbar(passwordTextField.TextFieldWithValidator.TextField,
-                                                                                                        emailTextField.TextFieldWithValidator.TextField, 
+                                                                                                        emailTextField.TextFieldWithValidator.TextField,
                                                                                                         confirmPasswordTextField.TextFieldWithValidator.TextField);
-            confirmPasswordTextField.TextFieldWithValidator.TextField.InputAccessoryView = new EnhancedToolbar(confirmPasswordTextField.TextFieldWithValidator.TextField, 
+            confirmPasswordTextField.TextFieldWithValidator.TextField.InputAccessoryView = new EnhancedToolbar(confirmPasswordTextField.TextFieldWithValidator.TextField,
                                                                                                                passwordTextField.TextFieldWithValidator.TextField,
                                                                                                                phoneNumberTextField.TextFieldWithValidator.TextField);
-            phoneNumberTextField.TextFieldWithValidator.TextField.InputAccessoryView = new EnhancedToolbar(phoneNumberTextField.TextFieldWithValidator.TextField, 
+            phoneNumberTextField.TextFieldWithValidator.TextField.InputAccessoryView = new EnhancedToolbar(phoneNumberTextField.TextFieldWithValidator.TextField,
                                                                                                            confirmPasswordTextField.TextFieldWithValidator.TextField,
                                                                                                             null);
             phoneNumberTextField.TextFieldWithValidator.TextField.KeyboardType = UIKeyboardType.NumberPad;

@@ -52,11 +52,11 @@
     <AndroidSupportedAbis>armeabi-v7a;x86;armeabi;arm64-v8a;x86_64</AndroidSupportedAbis>
     <JavaMaximumHeapSize></JavaMaximumHeapSize>
     <AndroidLinkSkip></AndroidLinkSkip>
-    <AndroidKeyStore></AndroidKeyStore>
-    <AndroidSigningKeyStore></AndroidSigningKeyStore>
-    <AndroidSigningStorePass></AndroidSigningStorePass>
-    <AndroidSigningKeyAlias></AndroidSigningKeyAlias>
-    <AndroidSigningKeyPass></AndroidSigningKeyPass>
+    <AndroidKeyStore>True</AndroidKeyStore>
+    <AndroidSigningKeyStore>/Users/gloriumtech/Documents/Repository/TollMinder/TollMinder.keystore</AndroidSigningKeyStore>
+    <AndroidSigningStorePass>Palladium5</AndroidSigningStorePass>
+    <AndroidSigningKeyAlias>tollminder</AndroidSigningKeyAlias>
+    <AndroidSigningKeyPass>Palladium5</AndroidSigningKeyPass>
     <AndroidLinkMode>SdkOnly</AndroidLinkMode>
   </PropertyGroup>
   <ItemGroup>
@@ -263,18 +263,6 @@
     </Reference>
     <Reference Include="Xamarin.Android.Support.Percent">
       <HintPath>..\packages\Xamarin.Android.Support.Percent.24.2.1\lib\MonoAndroid70\Xamarin.Android.Support.Percent.dll</HintPath>
-    </Reference>
-    <Reference Include="Syncfusion.GridCommon.Portable">
-      <HintPath>..\packages\Syncfusion.Xamarin.SfDataGrid.Android.14.4.0.20\lib\MonoAndroid10\Syncfusion.GridCommon.Portable.dll</HintPath>
-    </Reference>
-    <Reference Include="Syncfusion.Linq.Android">
-      <HintPath>..\packages\Syncfusion.Xamarin.SfDataGrid.Android.14.4.0.20\lib\MonoAndroid10\Syncfusion.Linq.Android.dll</HintPath>
-    </Reference>
-    <Reference Include="Syncfusion.SfDataGrid.Android">
-      <HintPath>..\packages\Syncfusion.Xamarin.SfDataGrid.Android.14.4.0.20\lib\MonoAndroid10\Syncfusion.SfDataGrid.Android.dll</HintPath>
-    </Reference>
-    <Reference Include="Syncfusion.SfPdfViewer.Android">
-      <HintPath>..\packages\Syncfusion.Xamarin.SfPdfViewer.Android.14.4.0.20\lib\MonoAndroid10\Syncfusion.SfPdfViewer.Android.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Auth.Android">
       <HintPath>..\Components\xamarin.auth-1.2.3.1\lib\android\Xamarin.Auth.Android.dll</HintPath>

@@ -8,10 +8,11 @@ using MvvmValidation;
 using Tollminder.Core.Models;
 using Tollminder.Core.Services;
 using Tollminder.Core.Services.Implementation;
+using System.Linq.Expressions;
 
 namespace Tollminder.Core.ViewModels
 {
-    public class RegistrationViewModel: BaseViewModel
+    public class RegistrationViewModel : BaseViewModel
     {
         private string phoneCode;
         IStoredSettingsService storedSettingsService;
@@ -23,7 +24,7 @@ namespace Tollminder.Core.ViewModels
             serverApiService = Mvx.Resolve<IServerApiService>();
 
             backToLoginViewCommand = new MvxCommand(() => { ShowViewModel<LoginViewModel>(); });
-            registrationCommand = new MvxCommand(() => ServerCommandWrapper(() =>  Registration()));
+            registrationCommand = new MvxCommand(() => ServerCommandWrapper(() => Registration()));
             validateCommand = new MvxCommand(() => ComparePhoneCode());
         }
 
@@ -32,7 +33,7 @@ namespace Tollminder.Core.ViewModels
             profile = storedSettingsService.Profile != null ? storedSettingsService.Profile : new Profile();
             if (SettingsService.SocialRegistartionSource)
                 IsSocialRegistrationHidden = false;
-            if(name != null)
+            if (name != null)
                 Mvx.Resolve<IProgressDialogManager>().CloseAndShowMessage("Hello, " + name, "Please continue registration.");
         }
 
@@ -59,8 +60,8 @@ namespace Tollminder.Core.ViewModels
         Profile profile;
         public Profile Profile
         {
-            get{ return profile; }
-            set{ SetProperty(ref profile, value); }
+            get { return profile; }
+            set { SetProperty(ref profile, value); }
         }
 
         string smsCode;
@@ -103,7 +104,7 @@ namespace Tollminder.Core.ViewModels
 
             //if (SmsCode == profileData.PhoneCode)
 
-            if(SmsCode == "1111")
+            if (SmsCode == "1111")
             {
                 profile.PhoneValidate = true;
                 var result = await serverApiService.SaveProfile(profile.Id, profile, profile.Token);
@@ -128,13 +129,13 @@ namespace Tollminder.Core.ViewModels
             //    Mvx.Resolve<IProgressDialogManager>().ShowMessage("Error", "Field can't' be empty.");
             //    return;
             //}
-            
+
             if (IsSocialRegistrationHidden)
             {
                 if (!CheckFields())
                     return;
             }
-            
+
             if (CheckField("Phone number", Profile.Phone))
             {
                 var result = await serverApiService.SignUp(profile);

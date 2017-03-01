@@ -8,7 +8,6 @@ using Android.Views.InputMethods;
 using Android.Widget;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Droid.Views;
-using Syncfusion.SfDataGrid;
 using Tollminder.Core.ViewModels;
 using Tollminder.Droid.Views.Fragments;
 

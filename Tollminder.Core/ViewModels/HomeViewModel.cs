@@ -83,9 +83,11 @@ namespace Tollminder.Core.ViewModels
             TollRoadString = Mvx.Resolve<IWaypointChecker>().TollRoad?.Name;
 
             if (_geoWatcher.Location != null)
+            {
                 Location = _geoWatcher.Location;
+                Mvx.Resolve<IWaypointChecker>().DetectWeAreInsideSomeTollPoint(Location);
+            }
 
-            Mvx.Resolve<IWaypointChecker>().DetectWeAreInsideSomeTollPoint(Location);
             DistanceToNearestTollpoint = double.Parse(Mvx.Resolve<IWaypointChecker>().DistanceToNearestTollpoint.ToString());
         }
 

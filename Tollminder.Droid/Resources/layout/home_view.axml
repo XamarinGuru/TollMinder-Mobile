@@ -31,6 +31,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="47dp" />
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="200dp"
@@ -60,6 +61,7 @@
             </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="182dp"
