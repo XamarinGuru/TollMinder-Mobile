@@ -71,7 +71,7 @@ namespace Tollminder.Core.Services.Implementation
                 Connection.CreateTable<TollRoadWaypoint>();
                 Connection.CreateTable<TollRoad>();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message, ex.StackTrace);
             }

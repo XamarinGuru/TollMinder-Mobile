@@ -49,7 +49,7 @@ namespace Tollminder.Core.Services.Implementation
                 var timeSpan = TimeSpan.FromDays(1);
                 var shouldUpdateTollRoads = currentTime - _storedSettingsService.LastSyncDateTime > timeSpan;
 
-                if (true)
+                if (shouldUpdateTollRoads)
                 {
                     var list = await _serverApiService.RefreshTollRoads(_storedSettingsService.LastSyncDateTime.UnixTime(), token);
                     if (list != null)
