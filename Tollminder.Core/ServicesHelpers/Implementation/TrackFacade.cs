@@ -200,12 +200,12 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
         public async Task Initialize()
         {
-            //if (_storedSettingsService.GeoWatcherIsRunning)
-            //{
-            //    StopServices();
-            //    await StartServices().ConfigureAwait(false);
-            //    Log.LogMessage("Autostart facade");
-            //}
+            if (_storedSettingsService.GeoWatcherIsRunning)
+            {
+                StopServices();
+                await StartServices().ConfigureAwait(false);
+                Log.LogMessage("Autostart facade");
+            }
         }
     }
 }

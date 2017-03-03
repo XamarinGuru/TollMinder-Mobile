@@ -32,7 +32,7 @@ namespace Tollminder.Core.ViewModels
             _geoWatcher = geoWatcher;
             _storedSettingsService = storedSettingsService;
 
-            this.synchronisationService = synchronisationService;//Mvx.Resolve<ISynchronisationService>();
+            this.synchronisationService = synchronisationService;
 
             logoutCommand = new MvxCommand(() =>
             {
@@ -70,6 +70,8 @@ namespace Tollminder.Core.ViewModels
             else
             {
                 Close(this);
+                if (IsBound)
+                    _track.StopServices();
                 ShowViewModel<LoginViewModel>();
                 return;
             }
