@@ -20,7 +20,7 @@ namespace Tollminder.Core.Models
         public double Speed { get; set; }
         public double Latitude { get; set; }
 
-        double longitude;
+        private double longitude;
         public double Longitude
         {
             get
