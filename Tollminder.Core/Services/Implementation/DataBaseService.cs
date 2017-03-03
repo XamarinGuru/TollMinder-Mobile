@@ -7,13 +7,12 @@ using MvvmCross.Platform;
 using MvvmCross.Plugins.Sqlite;
 using SQLiteNetExtensions.Extensions;
 using Tollminder.Core.Models;
-using Xamarin.Forms;
+using Xamarin;
 
 namespace Tollminder.Core.Services.Implementation
 {
     public class DataBaseService : IDataBaseService
     {
-        readonly ICheckerAppFirstLaunch _checkerAppFirstLaunch;
         readonly IStoredSettingsBase storedSettingsBase;
         private Profile _user;
         string databaseName = "tollminder.sqlite";
@@ -30,7 +29,6 @@ namespace Tollminder.Core.Services.Implementation
         {
             TryCreateTables();
             storedSettingsBase = Mvx.Resolve<IStoredSettingsBase>();
-            //_checkerAppFirstLaunch = Mvx.Resolve<ICheckerAppFirstLaunch>();
         }
 
         public TollRoad GetTollRoad(string id)
@@ -81,13 +79,6 @@ namespace Tollminder.Core.Services.Implementation
         {
             try
             {
-                //if (!_checkerAppFirstLaunch.IsAppAlreadyLaunchedOnce())
-                //{
-                //    Connection.DeleteAll<TollRoad>();
-                //    Connection.DeleteAll<TollPoint>();
-                //    Log.LogMessage("App launched for the first time!!!!!");
-                //}
-                //Log.LogMessage("App launched not for the first time!!!!!");
                 DeleteOldTollRoads(tollRoads);
 
                 Connection.InsertOrReplaceAllWithChildren(tollRoads, true);
@@ -117,6 +108,7 @@ namespace Tollminder.Core.Services.Implementation
                 }
                 catch (Exception ex)
                 {
+                    Insights.Report(ex);
                     return null;
                 }
             }
@@ -134,13 +126,12 @@ namespace Tollminder.Core.Services.Implementation
             Output(tollRoadsFromLocalDataBase);
             try
             {
-                var tollRoadsToRemove = GetPointsToRemove(tollRoads, tollRoadsFromLocalDataBase);//Connection.GetAllWithChildren<TollRoad>(x => roadIds.Contains(x.Id), true);
+                var tollRoadsToRemove = GetPointsToRemove(tollRoads, tollRoadsFromLocalDataBase);
                 if (tollRoadsToRemove != null)
                 {
                     Output(tollRoadsToRemove);
                 }
                 Connection.DeleteAll(tollRoadsToRemove, true);
-                var tollR = Connection.GetAllWithChildren<TollRoad>();
             }
             catch (Exception ex)
             {
@@ -182,9 +173,6 @@ namespace Tollminder.Core.Services.Implementation
         List<TollRoad> GetPointsToRemove(IList<TollRoad> tollRoads, List<TollRoad> tollRoadsFromLocalDatabase)
         {
             List<TollRoad> elementsToRemove = new List<TollRoad>();
-            var elemWp = new List<TollRoadWaypoint>();
-            var elemTp = new List<TollPoint>();
-            var roadsIds = tollRoads.Select(x => x.Id);
 
             return elementsToRemove;
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using Tollminder.Core.Exceptions.Interfaces;
+using Xamarin;
 
 namespace Tollminder.Core.Exceptions
 {
@@ -11,7 +12,9 @@ namespace Tollminder.Core.Exceptions
             switch (httpStatusCode)
             {
                 case HttpStatusCode.Unauthorized:
-                    throw new UiApiException("Unauthorized", message);
+                    var uiApiException = new UiApiException("Unauthorized", message);
+                    Insights.Report(uiApiException);
+                    throw uiApiException;
                 case HttpStatusCode.Ambiguous:
                 case HttpStatusCode.BadRequest:
                 case HttpStatusCode.Conflict:
@@ -46,11 +49,14 @@ namespace Tollminder.Core.Exceptions
                 case HttpStatusCode.UnsupportedMediaType:
                 case HttpStatusCode.Unused:
                 case HttpStatusCode.UseProxy:
-                    throw new ApiException($"Oops. Something went wrong. (HTTP status code {httpStatusCode}");
+                    var apiException = new ApiException($"Oops. Something went wrong. (HTTP status code {httpStatusCode}");
+                    Insights.Report(apiException);
+                    throw apiException;
                 case HttpStatusCode.RequestTimeout:
                 case HttpStatusCode.ServiceUnavailable:
                 case HttpStatusCode.GatewayTimeout:
                 case HttpStatusCode.BadGateway:
+                    Insights.Report(new ServerUnavailableException());
                     throw new ServerUnavailableException();
             }
         }

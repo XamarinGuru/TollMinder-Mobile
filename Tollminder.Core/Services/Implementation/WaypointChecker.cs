@@ -152,22 +152,31 @@ namespace Tollminder.Core.Services.Implementation
 
         public TollPoint DetectWeAreInsideSomeTollPoint(GeoLocation location)
         {
-            int firsValue = 0;
-            foreach (var item in TollPointsInRadius)
+            int nearestToolpoint = 0;
+            if (TollPointsInRadius.Count != nearestToolpoint)
             {
-                if (item.Equals(IgnoredChoiceTollPoint))
-                    break;
-
-                var distance = UpdateDistanceToNextWaypoint(location, item);
-                if (firsValue < 1)
-                    DistanceToNearestTollpoint = Math.Truncate(decimal.Parse((distance / 1.609344).ToString()) * 1000m) / 1000m;
-                firsValue++;
-                Log.LogMessage($"Distance to {item.Name} waypoint is {distance}");
-                if (distance - SettingsService.WaypointSmallRadius < double.Epsilon)
+                foreach (var item in TollPointsInRadius)
                 {
-                    return item;
+                    if (item.Equals(IgnoredChoiceTollPoint))
+                        break;
+
+                    var distance = UpdateDistanceToNextWaypoint(location, item);
+                    if (nearestToolpoint < 1)
+                    {
+                        nearestToolpoint++;
+                        DistanceToNearestTollpoint = Math.Truncate(decimal.Parse((distance / 1.609344).ToString()) * 1000m) / 1000m;
+                        Log.LogMessage($"Distance to nearest Tollpoint: {DistanceToNearestTollpoint}");
+                    }
+                    Log.LogMessage($"Distance to {item.Name} waypoint is {distance}");
+                    if (distance - SettingsService.WaypointSmallRadius < double.Epsilon)
+                    {
+                        Log.LogMessage($"We are inside in Tollpoint: {item.Name}, Latitude: {item.Latitude}, Longitude: {item.Longitude}");
+                        return item;
+                    }
                 }
             }
+            else
+                DistanceToNearestTollpoint = 0;
 
             return null;
         }

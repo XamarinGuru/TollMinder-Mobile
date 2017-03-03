@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Diagnostics;
+using Tollminder.Core.Helpers;
 
 namespace Tollminder.Core.ViewModels
 {
@@ -24,14 +25,14 @@ namespace Tollminder.Core.ViewModels
 
         IList<MvxSubscriptionToken> _tokens;
 
-        public HomeViewModel(IMvxMessenger messenger, ITrackFacade track, IGeoLocationWatcher geoWatcher, IStoredSettingsService storedSettingsService)
+        public HomeViewModel(IMvxMessenger messenger, ITrackFacade track, IGeoLocationWatcher geoWatcher, IStoredSettingsService storedSettingsService, ISynchronisationService synchronisationService)
         {
             _messenger = messenger;
             _track = track;
             _geoWatcher = geoWatcher;
             _storedSettingsService = storedSettingsService;
 
-            synchronisationService = Mvx.Resolve<ISynchronisationService>();
+            this.synchronisationService = synchronisationService;//Mvx.Resolve<ISynchronisationService>();
 
             logoutCommand = new MvxCommand(() =>
             {
@@ -45,10 +46,13 @@ namespace Tollminder.Core.ViewModels
             _payHistoryCommand = new MvxCommand(() => { ShowViewModel<PayHistoryViewModel>(); });
             _trackingCommand = new MvxCommand(async () =>
             {
-                var result = IsBound ? _track.StopServices() : await _track.StartServices();
-                if (result)
-                    IsBound = _geoWatcher.IsBound;
+                Log.LogMessage("Tracking button is pressed!");
+                IsBound = !IsBound;
+
+                var result = IsBound ? await _track.StartServices() : _track.StopServices();
+                IsBound = _geoWatcher.IsBound;
             });
+
 
             _tokens = new List<MvxSubscriptionToken>();
         }

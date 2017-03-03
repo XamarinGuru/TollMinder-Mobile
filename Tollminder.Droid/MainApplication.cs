@@ -5,26 +5,28 @@ using Android.OS;
 using Android.Runtime;
 using Plugin.CurrentActivity;
 using Tollminder.Droid.AndroidServices;
+using Xamarin;
 
 namespace Tollminder.Droid
 {
-	//You can specify additional application information in this attribute
+    //You can specify additional application information in this attribute
 
 #if RELEASE
 	[Application(Debuggable=false)] 
 #else
-	[Application(Debuggable=true)]
+    [Application(Debuggable = true)]
 #endif
-	public class MainApplication : Application, Application.IActivityLifecycleCallbacks
+    public class MainApplication : Application, Application.IActivityLifecycleCallbacks
     {
         public MainApplication(IntPtr handle, JniHandleOwnership transer)
-          :base(handle, transer)
+          : base(handle, transer)
         {
         }
 
         public override void OnCreate()
         {
             base.OnCreate();
+            Insights.Initialize("951f79208700699208f428bfed2efe78eb950895", Context);
             RegisterActivityLifecycleCallbacks(this);
         }
 

@@ -15,18 +15,20 @@ using System.Threading.Tasks;
 namespace Tollminder.Core.ViewModels
 {
     public class HomeDebugViewModel : BaseViewModel
-    {		
-		readonly IMvxMessenger _messenger;
-		readonly ITrackFacade _track;
+    {
+        readonly IMvxMessenger _messenger;
+        readonly ITrackFacade _track;
         readonly IStoredSettingsService _storedSettingsService;
-		readonly IGeoLocationWatcher _geoWatcher;
+        readonly IGeoLocationWatcher _geoWatcher;
+        readonly ISynchronisationService synchronisationService;
 
-		IList<MvxSubscriptionToken> _tokens;
-        public HomeDebugViewModel(IMvxMessenger messenger, ITrackFacade track, IGeoLocationWatcher geoWatcher, IStoredSettingsService storedSettingsService)
+        IList<MvxSubscriptionToken> _tokens;
+        public HomeDebugViewModel(IMvxMessenger messenger, ITrackFacade track, IGeoLocationWatcher geoWatcher, IStoredSettingsService storedSettingsService, ISynchronisationService synchronisationService)
         {
             _track = track;
             _messenger = messenger;
             _geoWatcher = geoWatcher;
+            this.synchronisationService = synchronisationService;
             _storedSettingsService = storedSettingsService;
 
             _tokens = new List<MvxSubscriptionToken>();
@@ -37,63 +39,74 @@ namespace Tollminder.Core.ViewModels
             return ServerCommandWrapper(() => Mvx.Resolve<IGeoDataService>().RefreshTollRoads(CancellationToken.None));
         }
 
-		public override void Start ()
-		{
-			base.Start ();
+        public async override void Start()
+        {
+            if (await synchronisationService.AuthorizeTokenSynchronisation())
+                await Task.Run(RefreshToolRoads);
+            else
+            {
+                Close(this);
+                ShowViewModel<LoginViewModel>();
+                return;
+            }
 
-            Task.Run(RefreshToolRoads);
+            base.Start();
 
-			_tokens.Add (_messenger.SubscribeOnThreadPoolThread<LocationMessage> (x => Location = x.Data, MvxReference.Strong));
-			_tokens.Add(_messenger.SubscribeOnThreadPoolThread<StatusMessage>(x => StatusString = x.Data.ToString(), MvxReference.Strong));
+            _tokens.Add(_messenger.SubscribeOnThreadPoolThread<LocationMessage>(x => Location = x.Data, MvxReference.Strong));
+            _tokens.Add(_messenger.SubscribeOnThreadPoolThread<StatusMessage>(x => StatusString = x.Data.ToString(), MvxReference.Strong));
             _tokens.Add(_messenger.SubscribeOnThreadPoolThread<MotionMessage>(x => MotionType = x.Data, MvxReference.Strong));
 
-            _tokens.Add (_messenger.SubscribeOnMainThread<LogUpdated> ((s) => LogText = Log._messageLog.ToString(), MvxReference.Strong));
-			_tokens.Add(_messenger.SubscribeOnMainThread<GeoWatcherStatusMessage>((s) => IsBound = s.Data, MvxReference.Strong));
+            _tokens.Add(_messenger.SubscribeOnMainThread<LogUpdated>((s) => LogText = Log._messageLog.ToString(), MvxReference.Strong));
+            _tokens.Add(_messenger.SubscribeOnMainThread<GeoWatcherStatusMessage>((s) => IsBound = s.Data, MvxReference.Strong));
 
             _tokens.Add(_messenger.SubscribeOnMainThread<CurrentTollpointChangedMessage>((s) => CurrentWaypointString = string.Join("\n", s.Data?.Select(x => x.Name)), MvxReference.Strong));
             _tokens.Add(_messenger.SubscribeOnMainThread<TollRoadChangedMessage>((s) => TollRoadString = s.Data?.Name, MvxReference.Strong));
 
-			IsBound = _geoWatcher.IsBound;
-			if (_geoWatcher.Location != null)
-				Location = _geoWatcher.Location;
+            IsBound = _geoWatcher.IsBound;
+            if (_geoWatcher.Location != null)
+                Location = _geoWatcher.Location;
 
             LogText = Log._messageLog.ToString();
 
-			StatusString = _track.TollStatus.ToString();
+            StatusString = _track.TollStatus.ToString();
             TollRoadString = Mvx.Resolve<IWaypointChecker>().TollRoad?.Name;
             if (Mvx.Resolve<IWaypointChecker>().TollPointsInRadius != null)
                 CurrentWaypointString = string.Join("\n", Mvx.Resolve<IWaypointChecker>().TollPointsInRadius?.Select(x => x.Name));
-		}
+        }
 
-		bool _isBound;
-		public bool IsBound
-		{
-			get { return _isBound; }
-			set
-			{
-				_isBound = value;
-				RaisePropertyChanged(() => IsBound);
-			}
-		}
+        bool _isBound;
+        public bool IsBound
+        {
+            get { return _isBound; }
+            set
+            {
+                _isBound = value;
+                RaisePropertyChanged(() => IsBound);
+            }
+        }
 
-		private GeoLocation _location;
-		public GeoLocation Location {
-			get { return _location; } 
-			set {
-				_location = value;
-				RaisePropertyChanged (() => Location);
-				RaisePropertyChanged (() => LocationString);
-			}
-		}
+        private GeoLocation _location;
+        public GeoLocation Location
+        {
+            get { return _location; }
+            set
+            {
+                _location = value;
+                RaisePropertyChanged(() => Location);
+                RaisePropertyChanged(() => LocationString);
+            }
+        }
 
-		private string _logText;
-		public string LogText {
-			get { return _logText; }
-			set {
-				_logText = value;
-				RaisePropertyChanged (() => LogText);
-			}
-		}
+        private string _logText;
+        public string LogText
+        {
+            get { return _logText; }
+            set
+            {
+                _logText = value;
+                RaisePropertyChanged(() => LogText);
+            }
+        }
 
         private string _tollRoadString;
         public string TollRoadString
@@ -117,69 +130,77 @@ namespace Tollminder.Core.ViewModels
             }
         }
 
-		public string LocationString {
-			get { return _location.ToString(); } 
-		}
+        public string LocationString
+        {
+            get { return _location.ToString(); }
+        }
 
-		string _statusString;
-		public string StatusString
-		{
-			get { return _statusString; }
-			set 
-			{ 
-				_statusString = value;
-				RaisePropertyChanged(() => StatusString);
-			}
-		}
+        string _statusString;
+        public string StatusString
+        {
+            get { return _statusString; }
+            set
+            {
+                _statusString = value;
+                RaisePropertyChanged(() => StatusString);
+            }
+        }
 
-		private MotionType _motionType;
-		public MotionType MotionType {
-			get { return _motionType; } 
-			set {
-				_motionType = value;
-				RaisePropertyChanged (() => MotionType);
-				RaisePropertyChanged (() => MotionTypeString);
-			}
-		}
+        private MotionType _motionType;
+        public MotionType MotionType
+        {
+            get { return _motionType; }
+            set
+            {
+                _motionType = value;
+                RaisePropertyChanged(() => MotionType);
+                RaisePropertyChanged(() => MotionTypeString);
+            }
+        }
 
-		public string MotionTypeString {
-			get { return _motionType.ToString(); }
-		}
+        public string MotionTypeString
+        {
+            get { return _motionType.ToString(); }
+        }
 
-		MvxCommand _startCommand;
-		public ICommand StartCommand {
-			get {
-				return _startCommand ?? (_startCommand = new MvxCommand (async () =>
-				{
-					if (await _track.StartServices())
-						IsBound = _geoWatcher.IsBound;
-				}));
-			}  
-		}
+        MvxCommand _startCommand;
+        public ICommand StartCommand
+        {
+            get
+            {
+                return _startCommand ?? (_startCommand = new MvxCommand(async () =>
+               {
+                   if (await _track.StartServices())
+                       IsBound = _geoWatcher.IsBound;
+               }));
+            }
+        }
 
-		MvxCommand _stopCommand;
-		public ICommand StopCommand {
-			get {
-				return _stopCommand ?? (_stopCommand = new MvxCommand (() =>
-				{ 
-					if (_track.StopServices())
-						IsBound = _geoWatcher.IsBound;
-				}));
-			}  
-		}
+        MvxCommand _stopCommand;
+        public ICommand StopCommand
+        {
+            get
+            {
+                return _stopCommand ?? (_stopCommand = new MvxCommand(() =>
+               {
+                   if (_track.StopServices())
+                       IsBound = _geoWatcher.IsBound;
+               }));
+            }
+        }
 
         MvxCommand _logOutCommand;
         public ICommand LogOutCommand
         {
             get
             {
-               return _logOutCommand ?? (_logOutCommand = new MvxCommand(() =>
-               {
-                   _track.StopServices();
-                   _storedSettingsService.IsAuthorized = false;
+                return _logOutCommand ?? (_logOutCommand = new MvxCommand(() =>
+                {
+                    _track.StopServices();
+                    _storedSettingsService.IsAuthorized = false;
                     ShowViewModel<LoginViewModel>();
-               }));
+                }));
             }
         }
-	}
+    }
 }

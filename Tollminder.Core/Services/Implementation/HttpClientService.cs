@@ -13,6 +13,7 @@ using System.Net.Http.Headers;
 using System.Linq;
 using System.Diagnostics;
 using System.Net;
+using Xamarin;
 
 namespace Tollminder.Core.Services.Implementation
 {
@@ -101,13 +102,13 @@ namespace Tollminder.Core.Services.Implementation
                     {
                         if (!CheckStatusCode(response))
                             return default(TResponse);
-                        
+
                         var returnObject = JsonConvert.DeserializeObject<TResponse>(await ParseJson(response, progress, token));
                         return returnObject;
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message, ex.StackTrace);
                 return default(TResponse);
@@ -256,6 +257,7 @@ namespace Tollminder.Core.Services.Implementation
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message, ex.StackTrace);
+                Insights.Report(ex);
                 return default(TResponse);
             }
         }

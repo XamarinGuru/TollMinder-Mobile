@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using Chance.MvvmCross.Plugins.UserInteraction;
 using MvvmCross.Platform;
 using Tollminder.Core.Helpers;
 using Tollminder.Core.Models;
+using Xamarin;
 
 namespace Tollminder.Core.Services.Implementation
 {
@@ -47,16 +49,18 @@ namespace Tollminder.Core.Services.Implementation
             {
                 var currentTime = DateTime.UtcNow;
                 var timeSpan = TimeSpan.FromDays(1);
-                var shouldUpdateTollRoads = currentTime - _storedSettingsService.LastSyncDateTime > timeSpan;
+                //var shouldUpdateTollRoads = currentTime - _storedSettingsService.LastSyncDateTime > timeSpan;
 
-                if (shouldUpdateTollRoads)
+                var list = await _serverApiService.RefreshTollRoads(_storedSettingsService.LastSyncDateTime.UnixTime(), token);
+                if (list != null)
                 {
-                    var list = await _serverApiService.RefreshTollRoads(_storedSettingsService.LastSyncDateTime.UnixTime(), token);
-                    if (list != null)
-                    {
-                        _storedSettingsService.LastSyncDateTime = currentTime;
-                        _dataBaseStorage.InsertOrUpdateAllTollRoads(list);
-                    }
+                    _storedSettingsService.LastSyncDateTime = currentTime;
+                    _dataBaseStorage.InsertOrUpdateAllTollRoads(list);
+                }
+                else
+                {
+                    Insights.Report(new NullReferenceException { Source = "Response, has no roads!" });
+                    Mvx.Resolve<IUserInteraction>().Alert("App has not get any roads!", null, "Warning", "Ok");
                 }
             }
             catch (Exception ex)

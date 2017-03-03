@@ -9,6 +9,8 @@ namespace Tollminder.Core.Services.Implementation
         public static int DistanceIntervalHighDefault = 5;
         public static int TimeIntervalDefault = 10000;
         public static int TimeIntervalHighDefault = 500;
+        public static double longitude;
+        public static double wrongLongitude;
         public static bool SocialRegistartionSource;
     }
 }

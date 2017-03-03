@@ -8,6 +8,8 @@ using Tollminder.Core.Helpers;
 using Tollminder.Core.Models;
 using Tollminder.Core.Models.Statuses;
 using Tollminder.Core.Services;
+using System.Diagnostics;
+using Xamarin;
 
 namespace Tollminder.Core.ServicesHelpers.Implementation
 {
@@ -92,10 +94,12 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
             if (!IsBound && isGranted)
             {
                 Log.LogMessage(string.Format("FACADE HAS STARTED AT {0}", DateTime.Now));
+                Debug.WriteLine("Inside tracking service");
 
                 _textToSpeech.IsEnabled = true;
                 _activity.StartDetection();
                 _geoWatcher.StartGeolocationWatcher();
+                Insights.Track("Subscribed on LocationMessage.");
                 _locationToken = _messenger.SubscribeOnThreadPoolThread<LocationMessage>(async x =>
                {
                    Log.LogMessage("Start processing LocationMessage");
@@ -138,6 +142,8 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
         protected async virtual Task CheckTrackStatus()
         {
+            Log.LogMessage("Track status is cheking...");
+
             if (_locationProcessing)
             {
                 Log.LogMessage("Ignore location in FACADE because location processing");
@@ -182,6 +188,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
             }
             catch (Exception e)
             {
+                Insights.Report(e);
                 Log.LogMessage(e.Message + e.StackTrace);
             }
             finally
@@ -193,12 +200,12 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
         public async Task Initialize()
         {
-            if (_storedSettingsService.GeoWatcherIsRunning)
-            {
-                StopServices();
-                await StartServices().ConfigureAwait(false);
-                Log.LogMessage("Autostart facade");
-            }
+            //if (_storedSettingsService.GeoWatcherIsRunning)
+            //{
+            //    StopServices();
+            //    await StartServices().ConfigureAwait(false);
+            //    Log.LogMessage("Autostart facade");
+            //}
         }
     }
 }

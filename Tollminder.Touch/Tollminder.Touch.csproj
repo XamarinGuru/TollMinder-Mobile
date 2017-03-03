@@ -411,7 +411,6 @@
     <BundleResource Include="Resources\Images\HomeView\InformationBoard\ic_pointer.png" />
     <BundleResource Include="Resources\Images\HomeView\InformationBoard\ic_status.png" />
     <BundleResource Include="Resources\Images\HomeView\InformationBoard\ic_tollroad.png" />
-    <BundleResource Include="Resources\Images\HomeView\ic_logout.png" />
     <BundleResource Include="Resources\Images\splash.png" />
     <BundleResource Include="Resources\Images\LoginView\ic_google.png" />
   </ItemGroup>
