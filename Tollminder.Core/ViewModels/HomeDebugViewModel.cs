@@ -28,6 +28,7 @@ namespace Tollminder.Core.ViewModels
             _track = track;
             _messenger = messenger;
             _geoWatcher = geoWatcher;
+            IsBound = _geoWatcher.IsBound;
             this.synchronisationService = synchronisationService;
             _storedSettingsService = storedSettingsService;
 
@@ -62,7 +63,6 @@ namespace Tollminder.Core.ViewModels
             _tokens.Add(_messenger.SubscribeOnMainThread<CurrentTollpointChangedMessage>((s) => CurrentWaypointString = string.Join("\n", s.Data?.Select(x => x.Name)), MvxReference.Strong));
             _tokens.Add(_messenger.SubscribeOnMainThread<TollRoadChangedMessage>((s) => TollRoadString = s.Data?.Name, MvxReference.Strong));
 
-            IsBound = _geoWatcher.IsBound;
             if (_geoWatcher.Location != null)
                 Location = _geoWatcher.Location;
 

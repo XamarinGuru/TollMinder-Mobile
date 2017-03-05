@@ -20,7 +20,8 @@ namespace Tollminder.Core.Models.Statuses
 
             if (insideTollPoint != null)
             {
-                Log.LogMessage($"We are inside tollpoint {SettingsService.WaypointSmallRadius * 1000} radius");
+                double radius = insideTollPoint.Radius != 0 ? insideTollPoint.Radius / 1000 : SettingsService.WaypointSmallRadius * 1000;
+                Log.LogMessage($"We are inside tollpoint {radius} radius");
 
                 WaypointChecker.SetIgnoredChoiceTollPoint(insideTollPoint);
 

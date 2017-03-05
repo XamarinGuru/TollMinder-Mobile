@@ -31,6 +31,7 @@ namespace Tollminder.Core.ViewModels
             _track = track;
             _geoWatcher = geoWatcher;
             _storedSettingsService = storedSettingsService;
+            IsBound = _geoWatcher.IsBound;
 
             this.synchronisationService = synchronisationService;
 
@@ -52,7 +53,6 @@ namespace Tollminder.Core.ViewModels
                 var result = IsBound ? await _track.StartServices() : _track.StopServices();
                 IsBound = _geoWatcher.IsBound;
             });
-
 
             _tokens = new List<MvxSubscriptionToken>();
         }
@@ -84,7 +84,6 @@ namespace Tollminder.Core.ViewModels
 
             await synchronisationService.DataSynchronisation();
 
-            IsBound = _geoWatcher.IsBound;
             StatusString = _track.TollStatus.ToString();
             TollRoadString = Mvx.Resolve<IWaypointChecker>().TollRoad?.Name;
 

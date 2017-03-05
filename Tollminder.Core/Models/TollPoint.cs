@@ -18,10 +18,11 @@ namespace Tollminder.Core.Models
         [ForeignKey(typeof(TollRoadWaypoint))]
         public string TollWaypointId { get; set; }
         [JsonProperty("latitude")]
-        public double Latitude { get; set;}
-
+        public double Latitude { get; set; }
         [JsonProperty("longitude")]
-        public double Longitude { get; set;}
+        public double Longitude { get; set; }
+        [JsonProperty("radius")]
+        public double Radius { get; set; }
 
         //[OneToOne(CascadeOperations = CascadeOperation.All)]
         [Ignore]
@@ -67,8 +68,9 @@ namespace Tollminder.Core.Models
             Name = tollPoint.Name;
             Id = tollPoint.Id;
             TollWaypointId = tollPoint.TollWaypointId;
-            Location = new GeoLocation{
-                Latitude = tollPoint.Latitude, 
+            Location = new GeoLocation
+            {
+                Latitude = tollPoint.Latitude,
                 Longitude = tollPoint.Longitude,
                 TollPointId = tollPoint.Id
             };

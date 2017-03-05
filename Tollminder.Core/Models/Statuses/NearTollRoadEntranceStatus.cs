@@ -18,14 +18,15 @@ namespace Tollminder.Core.Models.Statuses
 
             WaypointChecker.SetTollPointsInRadius(waypoints);
 
-            if(waypoints.Count == 0)
+            if (waypoints.Count == 0)
                 return TollGeolocationStatus.NotOnTollRoad;
 
             var insideTollPoint = WaypointChecker.DetectWeAreInsideSomeTollPoint(location);
 
             if (insideTollPoint != null)
             {
-                Log.LogMessage($"We are inside tollpoint {SettingsService.WaypointSmallRadius * 1000} radius");
+                double radius = insideTollPoint.Radius != 0 ? insideTollPoint.Radius / 1000 : SettingsService.WaypointSmallRadius * 1000;
+                Log.LogMessage($"We are inside tollpoint {radius} radius");
 
                 WaypointChecker.SetIgnoredChoiceTollPoint(insideTollPoint);
 
@@ -39,7 +40,7 @@ namespace Tollminder.Core.Models.Statuses
                     if (insideTollPoint.WaypointAction == WaypointAction.Bridge)
                     {
                         WaypointChecker.SetExit(insideTollPoint);
-                       
+
                         WaypointChecker.SetTollPointsInRadius(null);
                         await NotifyService.Notify("Bill was created");
                         WaypointChecker.ClearData();

@@ -159,7 +159,7 @@ namespace Tollminder.Core.Services.Implementation
                 {
                     if (item.Equals(IgnoredChoiceTollPoint))
                         break;
-
+                    double radius = item.Radius != 0 ? item.Radius / 1000 : SettingsService.WaypointSmallRadius;
                     var distance = UpdateDistanceToNextWaypoint(location, item);
                     if (nearestToolpoint < 1)
                     {
@@ -168,7 +168,7 @@ namespace Tollminder.Core.Services.Implementation
                         Log.LogMessage($"Distance to nearest Tollpoint: {DistanceToNearestTollpoint}");
                     }
                     Log.LogMessage($"Distance to {item.Name} waypoint is {distance}");
-                    if (distance - SettingsService.WaypointSmallRadius < double.Epsilon)
+                    if (distance - (radius) < double.Epsilon)
                     {
                         Log.LogMessage($"We are inside in Tollpoint: {item.Name}, Latitude: {item.Latitude}, Longitude: {item.Longitude}");
                         return item;
