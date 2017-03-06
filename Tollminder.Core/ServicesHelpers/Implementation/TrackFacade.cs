@@ -22,11 +22,12 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
         readonly ITextToSpeechService _textToSpeech;
         readonly IMvxMessenger _messenger;
         readonly IStoredSettingsService _storedSettingsService;
+        readonly IWaypointChecker waypointChecker;
 
         bool _locationProcessing;
         SemaphoreSlim _semaphor;
 
-        List<MvxSubscriptionToken> _tokens = new List<MvxSubscriptionToken>();
+        List<MvxSubscriptionToken> _tokens;
         MvxSubscriptionToken _locationToken;
         MvxSubscriptionToken _motionToken;
 
@@ -34,15 +35,18 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
         #region Constructor
 
-        public TrackFacade()
+        public TrackFacade(ITextToSpeechService textToSpeech, IMvxMessenger messenger, IGeoLocationWatcher geoWatcher,
+                           IMotionActivity activity, IStoredSettingsService storedSettingsService, IWaypointChecker waypointChecker)
         {
             Log.LogMessage("Facade ctor start");
-            _textToSpeech = Mvx.Resolve<ITextToSpeechService>();
-            _messenger = Mvx.Resolve<IMvxMessenger>();
-            _geoWatcher = Mvx.Resolve<IGeoLocationWatcher>();
-            _activity = Mvx.Resolve<IMotionActivity>();
-            _storedSettingsService = Mvx.Resolve<IStoredSettingsService>();
+            _textToSpeech = textToSpeech;
+            _messenger = messenger;
+            _geoWatcher = geoWatcher;
+            _activity = activity;
+            _storedSettingsService = storedSettingsService;
+            this.waypointChecker = waypointChecker;
 
+            _tokens = new List<MvxSubscriptionToken>(); // was changed
             _semaphor = new SemaphoreSlim(1);
 
             //_motionToken = _messenger.SubscribeOnThreadPoolThread<MotionMessage>(async x =>
@@ -159,6 +163,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
             try
             {
+                Debug.WriteLine(waypointChecker.TollRoad.Name);
                 BaseStatus statusObject = StatusesFactory.GetStatus(TollStatus);
 
                 //if (_activity.MotionType == MotionType.Still)
@@ -195,6 +200,43 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
             {
                 _locationProcessing = false;
                 _semaphor.Release();
+            }
+        }
+
+        public async Task CheckAreWeStillOnTheRoad()
+        {
+            Debug.WriteLine(waypointChecker.TollRoad.Name);
+            string tollRoadName = waypointChecker.TollRoad.Name;
+            BaseStatus statusObject = StatusesFactory.GetStatus(TollStatus);
+
+            switch (TollStatus)
+            {
+                case TollGeolocationStatus.NearTollRoadEntrance:
+                case TollGeolocationStatus.NotOnTollRoad:
+                    break;
+                case TollGeolocationStatus.OnTollRoad:
+                    if (await statusObject.SpeechToTextService.AskQuestion($"Are you still going from {waypointChecker.TollPoint.Name} tollroad?"))
+                    {
+                        waypointChecker.SetEntrance(waypointChecker.TollPoint);
+
+                        if (waypointChecker.TollPoint.WaypointAction == WaypointAction.Bridge)
+                        {
+                            waypointChecker.SetExit(waypointChecker.TollPoint);
+
+                            waypointChecker.SetTollPointsInRadius(null);
+                            waypointChecker.ClearData();
+                            TollStatus = TollGeolocationStatus.NotOnTollRoad;
+                        }
+                        else
+                            TollStatus = TollGeolocationStatus.OnTollRoad;
+                    }
+                    else
+                    {
+                        TollStatus = TollGeolocationStatus.NotOnTollRoad;
+                    }
+                    break;
+                case TollGeolocationStatus.NearTollRoadExit:
+                    break;
             }
         }
 

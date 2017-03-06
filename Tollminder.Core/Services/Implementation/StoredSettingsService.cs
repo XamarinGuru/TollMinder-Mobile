@@ -44,6 +44,12 @@ namespace Tollminder.Core.Services.Implementation
             set { _storedSettingsBase.Set<TollRoad>(value); }
         }
 
+        public TollPoint TollPoint
+        {
+            get { return _storedSettingsBase.Get<TollPoint>(); }
+            set { _storedSettingsBase.Set<TollPoint>(value); }
+        }
+
         public TollRoadWaypoint TollRoadEntranceWaypoint
         {
             get { return _storedSettingsBase.Get<TollRoadWaypoint>(); }

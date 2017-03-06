@@ -30,18 +30,19 @@ namespace Tollminder.Core
                 .EndingWith("Service")
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
-            //SlackManager.SendMessage("App has been started!!!!!!");
             RegisterAppStart(new CustomAppStart());
 
-			Mvx.LazyConstructAndRegisterSingleton<IWaypointChecker, WaypointChecker> ();
-			Mvx.LazyConstructAndRegisterSingleton<IDistanceChecker, DistanceChecker> ();
-			Mvx.LazyConstructAndRegisterSingleton<ITrackFacade, TrackFacade>();
+            Mvx.LazyConstructAndRegisterSingleton<IWaypointChecker, WaypointChecker>();
+            Mvx.LazyConstructAndRegisterSingleton<IDistanceChecker, DistanceChecker>();
+            Mvx.LazyConstructAndRegisterSingleton<ITrackFacade, TrackFacade>();
         }
 
-        async void StateChanged (object sender, MvxSetup.MvxSetupStateEventArgs e)
+        async void StateChanged(object sender, MvxSetup.MvxSetupStateEventArgs e)
         {
             if (e.SetupState == MvxSetup.MvxSetupState.Initialized)
             {
+                // need to test it
+                await Mvx.Resolve<ITrackFacade>().CheckAreWeStillOnTheRoad();
                 await Mvx.Resolve<ITrackFacade>().Initialize();
                 _setup.StateChanged -= StateChanged;
                 _setup = null;

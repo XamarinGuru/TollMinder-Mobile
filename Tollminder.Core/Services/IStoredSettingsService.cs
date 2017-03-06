@@ -9,6 +9,7 @@ namespace Tollminder.Core.Services
         bool GeoWatcherIsRunning { get; set; }
         GeoLocation Location { get; set; }
         TollRoad TollRoad { get; set; }
+        TollPoint TollPoint { get; set; }
         TollGeolocationStatus Status { get; set; }
         List<TollPointWithDistance> TollPointsInRadius { get; set; }
         TollRoadWaypoint TollRoadEntranceWaypoint { get; set; }

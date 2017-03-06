@@ -4,13 +4,14 @@ using Tollminder.Core.Models;
 
 namespace Tollminder.Core.ServicesHelpers
 {
-	public interface ITrackFacade
-	{
-		TollGeolocationStatus TollStatus { get; }
+    public interface ITrackFacade
+    {
+        TollGeolocationStatus TollStatus { get; }
 
-		Task<bool> StartServices();
-		bool StopServices();
+        Task<bool> StartServices();
+        bool StopServices();
 
+        Task CheckAreWeStillOnTheRoad();
         Task Initialize();
-	}
+    }
 }

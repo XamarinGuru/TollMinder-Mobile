@@ -7,6 +7,7 @@ namespace Tollminder.Core.Services
     public interface IWaypointChecker
     {
         TollRoad TollRoad { get; }
+        TollPoint TollPoint { get; }
         TollRoadWaypoint Entrance { get; }
         TollRoadWaypoint Exit { get; }
         TollPoint IgnoredChoiceTollPoint { get; }
