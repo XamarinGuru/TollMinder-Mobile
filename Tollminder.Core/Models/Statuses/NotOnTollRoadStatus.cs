@@ -5,13 +5,13 @@ using Tollminder.Core.Services.Implementation;
 
 namespace Tollminder.Core.Models.Statuses
 {
-	public class NotOnTollRoadStatus : BaseStatus 
-	{
-		public override Task<TollGeolocationStatus> CheckStatus ()
-		{
-			Log.LogMessage (string.Format ($"TRY TO FIND TOLLPOINT ENTRANCES FROM {SettingsService.WaypointLargeRadius * 1000} m"));
+    public class NotOnTollRoadStatus : BaseStatus
+    {
+        public override Task<TollGeolocationStatus> CheckStatus()
+        {
+            Log.LogMessage(string.Format($"TRY TO FIND TOLLPOINT ENTRANCES FROM {SettingsService.WaypointLargeRadius * 1000} m"));
 
-			var location = GeoWatcher.Location;
+            var location = new GeoLocation { Latitude = 33.660353121928814, Longitude = -117.00164794921875 };//GeoWatcher.Location;
             var waypoints = GeoDataService.FindNearestEntranceTollPoints(location);
 
             WaypointChecker.SetTollPointsInRadius(waypoints);
@@ -25,20 +25,20 @@ namespace Tollminder.Core.Models.Statuses
             }
             else
             {
-                foreach(var item in WaypointChecker.TollPointsInRadius)
+                foreach (var item in WaypointChecker.TollPointsInRadius)
                     Log.LogMessage($"FOUNDED WAYPOINT : {item.Name}, DISTANCE {item.Distance}");
 
                 GeoWatcher.StartUpdatingHighAccuracyLocation();
 
                 return Task.FromResult(TollGeolocationStatus.NearTollRoadEntrance);
             }
-		}
+        }
 
         public override bool CheckBatteryDrain()
         {
             var distance = DistanceChecker.GetMostClosestTollPoint(GeoWatcher.Location, GeoDataService.GetAllEntranceTollPoints()).FirstOrDefault()?.Distance ?? 0;
             return BatteryDrainService.CheckGpsTrackingSleepTime(distance);
         }
-	}
+    }
 }
 

@@ -84,10 +84,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
         bool IsBound
         {
-            get
-            {
-                return _geoWatcher.IsBound;
-            }
+            get { return _geoWatcher.IsBound; }
         }
 
         #endregion
@@ -133,10 +130,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
         public TollGeolocationStatus TollStatus
         {
-            get
-            {
-                return _storedSettingsService.Status;
-            }
+            get { return _storedSettingsService.Status; }
             set
             {
                 _storedSettingsService.Status = value;
@@ -163,7 +157,6 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
             try
             {
-                Debug.WriteLine(waypointChecker.TollRoad.Name);
                 BaseStatus statusObject = StatusesFactory.GetStatus(TollStatus);
 
                 //if (_activity.MotionType == MotionType.Still)
@@ -205,38 +198,40 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
         public async Task CheckAreWeStillOnTheRoad()
         {
-            Debug.WriteLine(waypointChecker.TollRoad.Name);
-            string tollRoadName = waypointChecker.TollRoad.Name;
-            BaseStatus statusObject = StatusesFactory.GetStatus(TollStatus);
-
-            switch (TollStatus)
+            if (waypointChecker.TollPoint != null)
             {
-                case TollGeolocationStatus.NearTollRoadEntrance:
-                case TollGeolocationStatus.NotOnTollRoad:
-                    break;
-                case TollGeolocationStatus.OnTollRoad:
-                    if (await statusObject.SpeechToTextService.AskQuestion($"Are you still going from {waypointChecker.TollPoint.Name} tollroad?"))
-                    {
-                        waypointChecker.SetEntrance(waypointChecker.TollPoint);
+                Debug.WriteLine(waypointChecker.TollPoint.Name);
+                BaseStatus statusObject = StatusesFactory.GetStatus(TollStatus);
+                _textToSpeech.IsEnabled = true;
 
-                        if (waypointChecker.TollPoint.WaypointAction == WaypointAction.Bridge)
+                switch (TollStatus)
+                {
+                    case TollGeolocationStatus.NearTollRoadEntrance:
+                    case TollGeolocationStatus.NotOnTollRoad:
+                        break;
+                    case TollGeolocationStatus.NearTollRoadExit:
+                    case TollGeolocationStatus.OnTollRoad:
+                        if (await statusObject.SpeechToTextService.AskQuestion($"Are you still going from {waypointChecker.TollPoint.Name} tollroad?"))
                         {
-                            waypointChecker.SetExit(waypointChecker.TollPoint);
+                            waypointChecker.SetEntrance(waypointChecker.TollPoint);
 
-                            waypointChecker.SetTollPointsInRadius(null);
-                            waypointChecker.ClearData();
-                            TollStatus = TollGeolocationStatus.NotOnTollRoad;
+                            if (waypointChecker.TollPoint.WaypointAction == WaypointAction.Bridge)
+                            {
+                                waypointChecker.SetExit(waypointChecker.TollPoint);
+
+                                waypointChecker.SetTollPointsInRadius(null);
+                                waypointChecker.ClearData();
+                                TollStatus = TollGeolocationStatus.NotOnTollRoad;
+                            }
+                            else
+                                TollStatus = TollGeolocationStatus.OnTollRoad;
                         }
                         else
-                            TollStatus = TollGeolocationStatus.OnTollRoad;
-                    }
-                    else
-                    {
-                        TollStatus = TollGeolocationStatus.NotOnTollRoad;
-                    }
-                    break;
-                case TollGeolocationStatus.NearTollRoadExit:
-                    break;
+                        {
+                            TollStatus = TollGeolocationStatus.NotOnTollRoad;
+                        }
+                        break;
+                }
             }
         }
 
