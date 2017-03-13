@@ -11,7 +11,7 @@ namespace Tollminder.Core.Services.Implementation
 {
     public class ServerApiService : HttpClientService, IServerApiService
     {
-        const string BaseApiUrl = "http://54.152.103.212/api/";
+        const string BaseApiUrl = "https://tollminder.com/";
         private string authToken = "LM9NJSUN3GDQU8BFPPCUPpCRtLnd89NZXLSUUR9DBjjSR32EBQxCbHX963ycqcjv";
 
         public Task<IList<TollRoad>> RefreshTollRoads(long lastSyncDateTime, CancellationToken token)

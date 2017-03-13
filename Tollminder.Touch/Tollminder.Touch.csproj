@@ -255,6 +255,7 @@
     <InterfaceDefinition Include="Resources\LaunchScreen.xib" />
     <InterfaceDefinition Include="Views\PayHistoryView\PayHistoryCell.xib" />
     <InterfaceDefinition Include="Views\PayHistoryView\PayHistoryHeader.xib" />
+    <InterfaceDefinition Include="PaymentStoryboard.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -334,6 +335,14 @@
     <Compile Include="Controls\EnhancedToolbar.cs" />
     <Compile Include="Helpers\KeyboardHandler.cs" />
     <Compile Include="Converters\GetSliderPageConverter.cs" />
+    <Compile Include="PayViewController.cs" />
+    <Compile Include="PayViewController.designer.cs">
+      <DependentUpon>PayViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CreditCardViewController.cs" />
+    <Compile Include="CreditCardViewController.designer.cs">
+      <DependentUpon>CreditCardViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets')" />

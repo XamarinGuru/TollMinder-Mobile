@@ -155,6 +155,7 @@
     <Compile Include="Services\IProgressDialogManager.cs" />
     <Compile Include="Extensions\FieldValidator\ValidationResultExtension.cs" />
     <Compile Include="Extensions\FieldValidator\ObservableDictionary.cs" />
+    <Compile Include="ViewModels\PayViewModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
