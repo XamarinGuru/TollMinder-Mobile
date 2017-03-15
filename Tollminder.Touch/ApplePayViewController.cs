@@ -6,10 +6,11 @@ using Tollminder.Core.ViewModels;
 using ObjCRuntime;
 using Foundation;
 using MvvmCross.iOS.Views;
+using MvvmCross.Binding.BindingContext;
 
 namespace Tollminder.Touch
 {
-    public partial class PayViewController : BaseViewController<PayViewModel>, IPKPaymentAuthorizationViewControllerDelegate
+    public partial class PayViewController : MvxViewController, IPKPaymentAuthorizationViewControllerDelegate
     {
         readonly NSString[] supportedPaymentNetworks = {
             PKPaymentNetwork.Amex,
@@ -19,6 +20,11 @@ namespace Tollminder.Touch
         };
         static readonly NSString confirmationSegue = (NSString)"CreditCardData";
         PKPaymentToken paymentToken;
+        //public new PayViewModel ViewModel
+        //{
+        //    get { return (PayViewModel)base.ViewModel; }
+        //    set { base.ViewModel = value; }
+        //}
 
         public PayViewController() : base("PayViewController", null)
         {
@@ -29,7 +35,7 @@ namespace Tollminder.Touch
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-            // Perform any additional setup after loading the view, typically from a nib.
+            //this.CreateBinding(ApplePayButton).To<PayViewModel>(vm => vm.GoToCreditCardDataCommand).Apply();
         }
 
         public override void DidReceiveMemoryWarning()

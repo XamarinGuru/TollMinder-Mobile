@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Hz7-rT-w87">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
@@ -11,7 +11,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Apple Pay View Controller-->
+        <!--Pay View Controller-->
         <scene sceneID="8Lb-zR-dDu">
             <objects>
                 <viewController id="Plv-DJ-KQr" customClass="PayViewController" customModule="Tollminder_Touch" customModuleProvider="target" sceneMemberID="viewController">
@@ -20,7 +20,7 @@
                         <viewControllerLayoutGuide type="bottom" id="WQm-p9-YRX"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="fzf-4T-jfM">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2st-m5-Cn9">
@@ -123,23 +123,23 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="2st-m5-Cn9" firstAttribute="top" secondItem="nxl-WX-SEQ" secondAttribute="bottom" constant="135" id="1qw-Ch-UqK"/>
                             <constraint firstItem="T8O-Cd-gNn" firstAttribute="centerY" secondItem="j2J-yh-hDf" secondAttribute="centerY" id="3ND-N1-fhd"/>
                             <constraint firstItem="2st-m5-Cn9" firstAttribute="centerX" secondItem="fzf-4T-jfM" secondAttribute="centerX" id="5qI-LA-ZNc"/>
                             <constraint firstItem="CeN-YX-I9S" firstAttribute="leading" secondItem="fzf-4T-jfM" secondAttribute="leading" constant="-19" id="8Ws-H4-gwX">
                                 <variation key="widthClass=compact" constant="0.0"/>
                             </constraint>
                             <constraint firstItem="j2J-yh-hDf" firstAttribute="top" secondItem="CeN-YX-I9S" secondAttribute="bottom" constant="30" id="ALd-4t-d4f"/>
-                            <constraint firstItem="CeN-YX-I9S" firstAttribute="top" secondItem="nxl-WX-SEQ" secondAttribute="bottom" id="F11-Jo-ASp"/>
                             <constraint firstItem="j2J-yh-hDf" firstAttribute="leading" secondItem="2st-m5-Cn9" secondAttribute="leading" id="H0r-eU-2H8"/>
                             <constraint firstItem="Dzg-Up-fqD" firstAttribute="height" secondItem="2st-m5-Cn9" secondAttribute="height" id="K14-E9-Znk"/>
                             <constraint firstItem="Dzg-Up-fqD" firstAttribute="leading" secondItem="2st-m5-Cn9" secondAttribute="leading" id="MIo-UU-Nx9"/>
                             <constraint firstItem="Dzg-Up-fqD" firstAttribute="top" secondItem="2st-m5-Cn9" secondAttribute="bottom" constant="37" id="Tmf-uv-TMr"/>
+                            <constraint firstItem="2st-m5-Cn9" firstAttribute="top" secondItem="nxl-WX-SEQ" secondAttribute="bottom" constant="135" id="UaZ-c1-ZFL"/>
                             <constraint firstItem="T8O-Cd-gNn" firstAttribute="trailing" secondItem="2st-m5-Cn9" secondAttribute="trailing" id="ewX-su-4TU"/>
                             <constraint firstItem="Dzg-Up-fqD" firstAttribute="width" secondItem="2st-m5-Cn9" secondAttribute="width" id="qKW-66-WEW"/>
                             <constraint firstAttribute="trailing" secondItem="CeN-YX-I9S" secondAttribute="trailing" constant="-21" id="wAK-5v-Ejs">
                                 <variation key="widthClass=compact" constant="0.0"/>
                             </constraint>
+                            <constraint firstItem="CeN-YX-I9S" firstAttribute="top" secondItem="nxl-WX-SEQ" secondAttribute="bottom" id="x4E-Vu-Jfe"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
@@ -192,14 +192,14 @@
                         <outlet property="Amount" destination="T8O-Cd-gNn" id="SYJ-zJ-ftf"/>
                         <outlet property="ApplePayButton" destination="Dzg-Up-fqD" id="RMB-xr-qLE"/>
                         <outlet property="ProceedToCheckout" destination="2st-m5-Cn9" id="51X-Yr-0ir"/>
-                        <segue destination="J3u-j1-wn5" kind="push" id="UQ4-ek-dF4" identifier="CreditCardData"/>
+                        <segue destination="J3u-j1-wn5" kind="push" identifier="CreditCardData" id="UQ4-ek-dF4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="38T-zk-rlm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1098" y="32"/>
         </scene>
-        <!--Credit Card Data View Controller-->
+        <!--Credit Card View Controller-->
         <scene sceneID="BRk-i2-6RB">
             <objects>
                 <viewController id="J3u-j1-wn5" customClass="CreditCardViewController" sceneMemberID="viewController">
@@ -208,7 +208,7 @@
                         <viewControllerLayoutGuide type="bottom" id="8Ux-B3-oih"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="O39-YC-5t1">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3ey-Nf-zPW" userLabel="Header">
@@ -416,7 +416,7 @@
                                     <outlet property="delegate" destination="J3u-j1-wn5" id="c9Y-vy-rNX"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ph1-uK-Huf" userLabel="Get Token" misplaced="YES">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ph1-uK-Huf" userLabel="Get Token">
                                 <rect key="frame" x="87.5" y="295" width="200" height="40"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="0.41999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -534,10 +534,10 @@
                                 <exclude reference="Gp0-AN-03T"/>
                                 <exclude reference="aaY-qs-qPp"/>
                                 <exclude reference="mqc-PL-bFX"/>
-                                <exclude reference="HhN-ai-S9M"/>
-                                <exclude reference="teH-sY-YLd"/>
                                 <exclude reference="6Q2-Mj-hs2"/>
                                 <exclude reference="DJa-eg-9DS"/>
+                                <exclude reference="HhN-ai-S9M"/>
+                                <exclude reference="teH-sY-YLd"/>
                                 <exclude reference="CtY-7o-7Vh"/>
                                 <exclude reference="ENL-An-YEZ"/>
                                 <exclude reference="POg-uo-dx4"/>
@@ -576,10 +576,10 @@
                                 <include reference="Gp0-AN-03T"/>
                                 <include reference="aaY-qs-qPp"/>
                                 <include reference="mqc-PL-bFX"/>
-                                <include reference="HhN-ai-S9M"/>
-                                <include reference="teH-sY-YLd"/>
                                 <include reference="6Q2-Mj-hs2"/>
                                 <include reference="DJa-eg-9DS"/>
+                                <include reference="HhN-ai-S9M"/>
+                                <include reference="teH-sY-YLd"/>
                                 <include reference="CtY-7o-7Vh"/>
                                 <include reference="ENL-An-YEZ"/>
                                 <include reference="POg-uo-dx4"/>
@@ -628,41 +628,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Image" width="1242" height="2208"/>
-        <image name="Images/navigation_bar_background.png" width="750" height="275"/>
-        <image name="Images/tab_background.png" width="750" height="1059"/>
-        <image name="Images/CreditCardView/creditCards.png" width="590" height="94"/>
-        <image name="Images/LoginView/facebook_logIn.png" width="100" height="46"/>
-        <image name="Images/LoginView/facebook-button.png" width="101" height="39"/>
-        <image name="Images/LoginView/google-button.png" width="102" height="39"/>
-        <image name="Images/HomeView/home_board.png" width="1122" height="933"/>
-        <image name="Images/HomeView/ic_home_pay.png" width="270" height="270"/>
-        <image name="Images/HomeView/ic_home_pay_history.png" width="270" height="270"/>
-        <image name="Images/HomeView/ic_home_profile.png" width="271" height="270"/>
-        <image name="Images/HomeView/ic_home_support.png" width="65" height="67"/>
-        <image name="Images/HomeView/ic_home_tracking_active.png" width="339" height="339"/>
-        <image name="Images/HomeView/ic_home_tracking_default.png" width="339" height="339"/>
-        <image name="Images/main_background.png" width="1242" height="2208"/>
-        <image name="Images/main_background-640h.png" width="180" height="320"/>
-        <image name="Images/main_background-667h.png" width="375" height="667"/>
-        <image name="Images/logo.png" width="334" height="40"/>
-        <image name="Images/PayHistoryView/ic_calendar.png" width="43" height="33"/>
-        <image name="Images/PayHistoryView/ic_download.png" width="32" height="32"/>
-        <image name="Images/ProfileView/ic_card.png" width="40" height="26"/>
-        <image name="Images/ProfileView/ic_license.png" width="40" height="26"/>
-        <image name="Images/CreditCardView/amex.png" width="54" height="36"/>
-        <image name="Images/CreditCardView/discover.png" width="54" height="36"/>
-        <image name="Images/CreditCardView/MasterCard.png" width="54" height="36"/>
-        <image name="Images/CreditCardView/visa.png" width="54" height="36"/>
-        <image name="Images/ic_back.png" width="35" height="30"/>
-        <image name="Images/PayHistoryView/ic_openIn.png" width="120" height="173"/>
-        <image name="Images/HomeView/InformationBoard/ic_location.png" width="40" height="49"/>
-        <image name="Images/HomeView/InformationBoard/ic_nearest_point.png" width="50" height="35"/>
-        <image name="Images/HomeView/InformationBoard/ic_pointer.png" width="56" height="39"/>
-        <image name="Images/HomeView/InformationBoard/ic_status.png" width="39" height="45"/>
-        <image name="Images/HomeView/InformationBoard/ic_tollroad.png" width="55" height="49"/>
-        <image name="Images/splash.png" width="750" height="1292"/>
-        <image name="Images/LoginView/ic_google.png" width="128" height="128"/>
-        <image name="Images/HomeView/ic_logout.png" width="256" height="256"/>
+        <image name="ApplePayBTN_64pt__black_textLogo_" width="16" height="16"/>
+        <image name="BackButton" width="16" height="16"/>
     </resources>
 </document>

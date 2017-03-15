@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 namespace Tollminder.Touch
 {
     [Register("PayViewController")]
-    partial class PayViewController
+    partial class ApplePayViewController
     {
         [Outlet]
         UIKit.UILabel Amount { get; set; }
