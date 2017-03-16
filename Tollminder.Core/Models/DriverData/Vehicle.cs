@@ -1,6 +1,8 @@
 ﻿using System;
-namespace Tollminder.Core.Models
+using PropertyChanged;
+namespace Tollminder.Core.Models.DriverData
 {
+    [ImplementPropertyChanged]
     public class Vehicle
     {
         public string Id { get; set; }

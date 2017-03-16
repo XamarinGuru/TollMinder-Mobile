@@ -8,9 +8,8 @@ using MvvmValidation;
 using Tollminder.Core.Models;
 using Tollminder.Core.Services;
 using Tollminder.Core.Services.Implementation;
-using System.Linq.Expressions;
 
-namespace Tollminder.Core.ViewModels
+namespace Tollminder.Core.ViewModels.UserProfile
 {
     public class RegistrationViewModel : BaseViewModel
     {

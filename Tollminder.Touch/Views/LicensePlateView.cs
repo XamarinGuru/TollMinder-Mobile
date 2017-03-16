@@ -1,25 +1,14 @@
 ﻿using System;
 using Cirrious.FluentLayouts.Touch;
-using CoreGraphics;
-using Google.SignIn;
 using MvvmCross.Binding.BindingContext;
-using MvvmCross.iOS.Views;
-using Tollminder.Core;
-using Tollminder.Core.Converters;
-using Tollminder.Core.Helpers;
-using Tollminder.Core.ViewModels;
 using Tollminder.Touch.Controllers;
 using Tollminder.Touch.Controls;
 using Tollminder.Touch.Extensions;
-using Tollminder.Touch.Helpers;
 using Tollminder.Touch.Interfaces;
 using UIKit;
-using Foundation;
-using Tollminder.Touch.Converters;
 using System.Diagnostics;
-using System.Collections.Generic;
-using Tollminder.Core.Models;
 using MvvmCross.Binding.iOS.Views;
+using Tollminder.Core.ViewModels.Vehicles;
 
 namespace Tollminder.Touch.Views
 {
@@ -38,7 +27,7 @@ namespace Tollminder.Touch.Views
         TextFieldValidationWithImage vehicleClassTextField;
         UIPickerView vehicleClassesPicker;
         MvxPickerViewModel vehicleClassesPickerViewModel;
-        
+
         public LicensePlateView()
         {
         }
@@ -92,7 +81,7 @@ namespace Tollminder.Touch.Views
 
                 backHomeView.WithSameCenterY(topView),
                 backHomeView.AtLeftOf(topView, 20),
-                backHomeView.WithRelativeWidth(topView,0.1f),
+                backHomeView.WithRelativeWidth(topView, 0.1f),
                 backHomeView.WithRelativeHeight(topView, 0.2f),
 
                 labelView.WithSameCenterX(topView),
@@ -220,10 +209,10 @@ namespace Tollminder.Touch.Views
                 set.Bind(vehicleClassesPickerViewModel).For(p => p.ItemsSource).To(vm => vm.VehicleClasses);
                 set.Bind(vehicleClassesPickerViewModel).For(p => p.SelectedItem).To(vm => vm.SelectedVehicleClass);
                 set.Bind(vehicleClassTextField.TextFieldWithValidator.TextField).To(vm => vm.SelectedVehicleClass);
-                
+
                 set.Apply();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message, ex.StackTrace);
             }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using MvvmCross.Platform;
-using Tollminder.Core.Models;
 
 namespace Tollminder.Core.Services.Implementation
 {
@@ -9,7 +8,7 @@ namespace Tollminder.Core.Services.Implementation
     {
         readonly IServerApiService serverApiService;
         readonly IStoredSettingsService storedSettingsService;
-       
+
         public SynchronisationService()
         {
             serverApiService = Mvx.Resolve<IServerApiService>();
@@ -20,8 +19,9 @@ namespace Tollminder.Core.Services.Implementation
         {
             if (storedSettingsService.ProfileId == null || storedSettingsService.AuthToken == null)
                 return false;
-            else {
-                string result = await serverApiService.GetValidAuthorizeToken(storedSettingsService.ProfileId, storedSettingsService.AuthToken);
+            else
+            {
+                string result = await serverApiService.GetValidAuthorizeToken();
 
                 storedSettingsService.AuthToken = result;
                 return storedSettingsService.IsAuthorized;
@@ -30,7 +30,7 @@ namespace Tollminder.Core.Services.Implementation
 
         public async Task DataSynchronisation()
         {
-            if(storedSettingsService.IsDataSynchronized || storedSettingsService.Profile == null)
+            if (storedSettingsService.IsDataSynchronized || storedSettingsService.Profile == null)
             {
                 storedSettingsService.Profile = await serverApiService.GetProfile(storedSettingsService.ProfileId, storedSettingsService.AuthToken);
             }

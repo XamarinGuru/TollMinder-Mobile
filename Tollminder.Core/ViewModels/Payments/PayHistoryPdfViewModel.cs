@@ -2,7 +2,7 @@
 using MvvmCross.Core.ViewModels;
 using Tollminder.Core.Services;
 
-namespace Tollminder.Core.ViewModels
+namespace Tollminder.Core.ViewModels.Payments
 {
     public class PayHistoryPdfViewModel : BaseViewModel
     {
@@ -12,7 +12,7 @@ namespace Tollminder.Core.ViewModels
         {
             this.downloadManager = downloadManager;
             backToPayHistoryCommand = new MvxCommand(() => { ShowViewModel<PayHistoryViewModel>(); });
-            fileOpenInCommand = new MvxCommand(() => { downloadManager.OpenIn(PdfUrl, PdfName);});
+            fileOpenInCommand = new MvxCommand(() => { downloadManager.OpenIn(PdfUrl, PdfName); });
         }
 
         public void Init(string pdfUrlFromServer, string pdfNameFromDateRange)

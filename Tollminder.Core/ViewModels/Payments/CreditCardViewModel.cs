@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
+using Tollminder.Core.ViewModels.UserProfile;
 using Xamarin.Forms;
 
-namespace Tollminder.Core.ViewModels
+namespace Tollminder.Core.ViewModels.Payments
 {
     public class CreditCardViewModel : BaseViewModel
     {

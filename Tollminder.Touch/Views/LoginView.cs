@@ -9,7 +9,7 @@ using Google.SignIn;
 using MvvmCross.Binding.BindingContext;
 using Tollminder.Core;
 using Tollminder.Core.Converters;
-using Tollminder.Core.ViewModels;
+using Tollminder.Core.ViewModels.UserProfile;
 using Tollminder.Touch.Controllers;
 using Tollminder.Touch.Controls;
 using Tollminder.Touch.Extensions;
@@ -33,7 +33,7 @@ namespace Tollminder.Touch.Views
         UIButton _loginButton;
         UIButton forgotPasswordButton;
         UIButton registrationButton;
-        
+
         UILabel socialNetworkLabel;
         UILabel registrationLabel;
 
@@ -162,7 +162,7 @@ namespace Tollminder.Touch.Views
                 registrationLabel.AtLeftOf(centerView, 25),
                 registrationLabel.WithRelativeWidth(centerView, 0.5f),
                 registrationLabel.WithRelativeHeight(centerView, 0.07f),
-                
+
                 registrationButton.Below(socialNetworksView),
                 registrationButton.AtRightOf(centerView, 10),
                 registrationButton.WithRelativeWidth(centerView, 0.5f),
@@ -170,8 +170,8 @@ namespace Tollminder.Touch.Views
             );
 
 
-        // Main view
-        View.AddIfNotNull(topView, centerView, bottomView);
+            // Main view
+            View.AddIfNotNull(topView, centerView, bottomView);
             View.AddConstraints(
                 topView.AtTopOf(View, 10),
                 topView.AtLeftOf(View),
@@ -210,7 +210,7 @@ namespace Tollminder.Touch.Views
 
         private ProfileButton CreateGoogleButton()
         {
-            var socialNetworkButton= ProfileButtonManager.ButtonInitiaziler(EnvironmentInfo.GetGoogleButtonDistanceBetweenTextAndIcon, 0.1f, 0.6f, 0.3f, 0.5f, "Sign in",
+            var socialNetworkButton = ProfileButtonManager.ButtonInitiaziler(EnvironmentInfo.GetGoogleButtonDistanceBetweenTextAndIcon, 0.1f, 0.6f, 0.3f, 0.5f, "Sign in",
                                                                             UIImage.FromFile(@"Images/LoginView/ic_google.png"), UIColor.DarkGray, UIColor.White);
             socialNetworkButton.Layer.CornerRadius = 5;
             socialNetworkButton.Layer.ShadowColor = UIColor.Black.CGColor;
@@ -220,7 +220,7 @@ namespace Tollminder.Touch.Views
             return socialNetworkButton;
         }
 
-        private UIButton ButtonInitializer(string title, UIControlState titleState, UIColor backgroundColor, 
+        private UIButton ButtonInitializer(string title, UIControlState titleState, UIColor backgroundColor,
                                            UIColor titleColor, UIControlState colorTitleState, UIImage image, UIControlState imageState)
         {
             UIButton button = new UIButton();

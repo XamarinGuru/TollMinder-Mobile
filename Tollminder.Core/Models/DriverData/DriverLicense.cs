@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using SQLite;
 using SQLiteNetExtensions.Attributes;
 
-namespace Tollminder.Core.Models
+namespace Tollminder.Core.Models.DriverData
 {
     [Table("DriverLicense")]
     public class DriverLicense

@@ -3,13 +3,13 @@ using Cirrious.FluentLayouts.Touch;
 using CoreGraphics;
 using MvvmCross.Binding.BindingContext;
 using Tollminder.Core.Converters;
-using Tollminder.Core.ViewModels;
 using Tollminder.Touch.Controllers;
 using Tollminder.Touch.Controls;
 using Tollminder.Touch.Extensions;
 using Tollminder.Touch.Interfaces;
 using UIKit;
 using Tollminder.Core;
+using Tollminder.Core.ViewModels.UserProfile;
 
 namespace Tollminder.Touch.Views
 {

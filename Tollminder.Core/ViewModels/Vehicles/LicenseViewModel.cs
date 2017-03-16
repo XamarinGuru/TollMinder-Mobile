@@ -5,10 +5,11 @@ using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using Tollminder.Core.Models;
+using Tollminder.Core.Models.DriverData;
 using Tollminder.Core.Services;
-using Xamarin.Forms;
+using Tollminder.Core.ViewModels.UserProfile;
 
-namespace Tollminder.Core.ViewModels
+namespace Tollminder.Core.ViewModels.Vehicles
 {
     public class LicenseViewModel : BaseViewModel
     {
@@ -16,7 +17,7 @@ namespace Tollminder.Core.ViewModels
         readonly ILoadResourceData<string> loadVehicleData;
         readonly IProfileSettingService profileSettingService;
         readonly int firstElement = 0;
-        
+
         public LicenseViewModel()
         {
             loadStatesData = Mvx.Resolve<ILoadResourceData<StatesData>>();
@@ -25,13 +26,14 @@ namespace Tollminder.Core.ViewModels
             driverLicense = new DriverLicense();
 
             States = loadStatesData.GetData("Tollminder.Core.states.json");
-            
+
             loadVehicleData = Mvx.Resolve<ILoadResourceData<string>>();
             VehicleClasses = loadVehicleData.GetData();
             SelectedVehicleClass = VehicleClasses[firstElement];
 
-            backToProfileCommand = new MvxCommand(() => {
-                ShowViewModel<ProfileViewModel>(); 
+            backToProfileCommand = new MvxCommand(() =>
+            {
+                ShowViewModel<ProfileViewModel>();
             });
         }
 
@@ -80,11 +82,12 @@ namespace Tollminder.Core.ViewModels
             }
         }
 
-        private DriverLicense driverLicense; 
+        private DriverLicense driverLicense;
         public DriverLicense DriverLicense
         {
             get { return driverLicense; }
-            set{
+            set
+            {
                 SetProperty(ref driverLicense, value);
             }
         }

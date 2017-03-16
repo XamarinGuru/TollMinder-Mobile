@@ -2,7 +2,7 @@
 using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
 
-namespace Tollminder.Core.ViewModels
+namespace Tollminder.Core.ViewModels.Payments
 {
     public class CalendarViewModel : BaseViewModel
     {
@@ -21,11 +21,13 @@ namespace Tollminder.Core.ViewModels
         }
 
         private MvxCommand backToPayHistoryCommand;
-        public ICommand BackToPayHistoryCommand { 
-            get {
+        public ICommand BackToPayHistoryCommand
+        {
+            get
+            {
                 DialogVisible = false;
-                return backToPayHistoryCommand; 
-            } 
+                return backToPayHistoryCommand;
+            }
         }
 
         private bool dialogVisible;

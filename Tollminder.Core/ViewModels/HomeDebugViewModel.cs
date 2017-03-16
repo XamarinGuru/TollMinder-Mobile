@@ -11,6 +11,7 @@ using Tollminder.Core.Helpers;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tollminder.Core.ViewModels.UserProfile;
 
 namespace Tollminder.Core.ViewModels
 {

@@ -1,8 +1,6 @@
 ﻿using System;
-
-using UIKit;
 using Tollminder.Touch.Controllers;
-using Tollminder.Core.ViewModels;
+using Tollminder.Core.ViewModels.Payments;
 
 namespace Tollminder.Touch.Views
 {

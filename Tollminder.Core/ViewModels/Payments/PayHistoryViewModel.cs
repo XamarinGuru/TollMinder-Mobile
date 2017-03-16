@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
-using Tollminder.Core.Models;
+using Tollminder.Core.Models.PaymentData;
 using Tollminder.Core.Services;
 
-namespace Tollminder.Core.ViewModels
+namespace Tollminder.Core.ViewModels.Payments
 {
     public class PayHistoryViewModel : BaseViewModel
     {
@@ -58,7 +58,7 @@ namespace Tollminder.Core.ViewModels
             {
                 Debug.WriteLine(ex.Message);
             }
-            History = await serverApiService.GetPayHistory(storedSettingsService.ProfileId, GetPayDateFrom, GetPayDateTo);
+            History = await serverApiService.GetPayHistory(GetPayDateFrom, GetPayDateTo);
             try
             {
                 if (History.Count != 0)
@@ -84,7 +84,7 @@ namespace Tollminder.Core.ViewModels
         {
             if (isPayHistoryAwailableForUser)
             {
-                string result = await serverApiService.DownloadPayHistory(storedSettingsService.ProfileId, getPayDateFrom, getPayDateTo);
+                string result = await serverApiService.DownloadPayHistory(getPayDateFrom, getPayDateTo);
                 if (result != null)
                     ShowViewModel<PayHistoryPdfViewModel>(new { pdfUrlFromServer = result, pdfNameFromDateRange = GetPdfName() });
             }

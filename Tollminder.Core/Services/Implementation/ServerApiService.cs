@@ -5,6 +5,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using MvvmCross.Platform;
 using Tollminder.Core.Models;
+using Tollminder.Core.Models.DriverData;
+using Tollminder.Core.Models.PaymentData;
 
 namespace Tollminder.Core.Services.Implementation
 {
@@ -12,13 +14,19 @@ namespace Tollminder.Core.Services.Implementation
     {
         const string BaseApiUrl = "https://tollminder.com/api/";
         private string authToken = "LM9NJSUN3GDQU8BFPPCUPpCRtLnd89NZXLSUUR9DBjjSR32EBQxCbHX963ycqcjv";
+        readonly IStoredSettingsService storedSettingsService;
+
+        public ServerApiService(IStoredSettingsService storedSettingsService)
+        {
+            this.storedSettingsService = storedSettingsService;
+        }
 
         public Task<IList<TollRoad>> RefreshTollRoads(long lastSyncDateTime, CancellationToken token)
         {
             Task<IList<TollRoad>> result = null;
             try
             {
-                result = GetAsync<IList<TollRoad>>($"{BaseApiUrl}sync/{0}", token, Mvx.Resolve<IStoredSettingsService>().AuthToken);
+                result = GetAsync<IList<TollRoad>>($"{BaseApiUrl}sync/{0}", token, storedSettingsService.AuthToken);
             }
             catch (Exception ex)
             {
@@ -72,11 +80,11 @@ namespace Tollminder.Core.Services.Implementation
             return CheckProfile<Dictionary<string, object>>(parameters, $"{BaseApiUrl}user/oauth");
         }
 
-        public Task<string> DownloadPayHistory(string userId, DateTime dateFrom, DateTime dateTo)
+        public Task<string> DownloadPayHistory(DateTime dateFrom, DateTime dateTo)
         {
             var parameters = new
             {
-                user = userId,
+                user = storedSettingsService.ProfileId,
                 range = new
                 {
                     from = dateFrom.ToString("O"),
@@ -87,11 +95,11 @@ namespace Tollminder.Core.Services.Implementation
             return SendAsync<object, string>(parameters, $"{BaseApiUrl}file/paymentHistoryPdf");
         }
 
-        public Task<List<PayHistory>> GetPayHistory(string userId, DateTime dateFrom, DateTime dateTo)
+        public Task<List<PayHistory>> GetPayHistory(DateTime dateFrom, DateTime dateTo)
         {
             var parameters = new
             {
-                user = userId,
+                user = storedSettingsService.ProfileId,
                 from = dateFrom.ToString("O"),
                 to = dateTo.ToString("O")
             };
@@ -109,9 +117,19 @@ namespace Tollminder.Core.Services.Implementation
             return SendAsync<Profile>(profile, $"{BaseApiUrl}user/{userId}", new CancellationTokenSource(), authToken);
         }
 
-        public Task<string> GetValidAuthorizeToken(string userId, string authToken)
+        public Task<string> GetValidAuthorizeToken()
         {
-            return GetAsync<string>($"{BaseApiUrl}user/{userId}/token", authToken);
+            return GetAsync<string>($"{BaseApiUrl}user/{storedSettingsService.ProfileId}/token", storedSettingsService.AuthToken);
+        }
+
+        public Task<Vehicle> SaveVehicle(Vehicle vehicle)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Vehicle> GetVehicles()
+        {
+            throw new NotImplementedException();
         }
     }
 }

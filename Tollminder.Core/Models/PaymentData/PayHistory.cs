@@ -1,12 +1,12 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Tollminder.Core.Models
+namespace Tollminder.Core.Models.PaymentData
 {
     public class PayHistory
     {
         [JsonProperty(PropertyName = "tollRoadName")]
-        public string TollRoadName { get; set;}
+        public string TollRoadName { get; set; }
         [JsonProperty(PropertyName = "cost")]
         public int Amount { get; set; }
         [JsonProperty(PropertyName = "paymentDate")]

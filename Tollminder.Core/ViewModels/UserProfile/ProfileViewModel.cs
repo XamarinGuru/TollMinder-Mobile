@@ -6,8 +6,10 @@ using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using Tollminder.Core.Models;
 using Tollminder.Core.Services;
+using Tollminder.Core.ViewModels.Payments;
+using Tollminder.Core.ViewModels.Vehicles;
 
-namespace Tollminder.Core.ViewModels
+namespace Tollminder.Core.ViewModels.UserProfile
 {
     public class ProfileViewModel : BaseViewModel
     {

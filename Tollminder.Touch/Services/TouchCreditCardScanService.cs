@@ -6,7 +6,7 @@ using MvvmCross.Platform;
 using MvvmCross.Platform.iOS.Views;
 using MvvmCross.Platform.Platform;
 using UIKit;
-using Tollminder.Core.Models;
+using Tollminder.Core.Models.PaymentData;
 
 namespace Tollminder.Touch.Services
 {
@@ -21,10 +21,10 @@ namespace Tollminder.Touch.Services
         public TouchCreditCardScanService() { }
 
         private IMvxIosModalHost _modalHost;
-        private Action<CreditCard> _callback;
+        private Action<AddCreditCard> _callback;
         private CardIOPaymentViewController _paymentViewController;
 
-        public void ScanCardInfo(Action<CreditCard> callback, CreditCardScanOptions creditCardScanOptions = null)
+        public void ScanCardInfo(Action<AddCreditCard> callback, CreditCardScanOptions creditCardScanOptions = null)
         {
             if (creditCardScanOptions == null)
             {
@@ -41,26 +41,26 @@ namespace Tollminder.Touch.Services
             _modalHost.PresentModalViewController(_paymentViewController, true);
         }
 
-        public Task<CreditCard> ScanCardInfoAsync(CreditCardScanOptions creditCardScanOptions = null)
+        public Task<AddCreditCard> ScanCardInfoAsync(CreditCardScanOptions creditCardScanOptions = null)
         {
-            var tcs = new TaskCompletionSource<CreditCard>();
+            var tcs = new TaskCompletionSource<AddCreditCard>();
             ScanCardInfo(tcs.SetResult, creditCardScanOptions);
             return tcs.Task;
         }
 
         public void UserDidCancelPaymentViewController(CardIOPaymentViewController paymentViewController)
         {
-            _callback?.Invoke(CreditCard.Empty);
+            _callback?.Invoke(AddCreditCard.Empty);
             _paymentViewController.DismissViewController(true, null);
             _modalHost.NativeModalViewControllerDisappearedOnItsOwn();
         }
 
         public void UserDidProvideCreditCardInfo(CreditCardInfo cardInfo, CardIOPaymentViewController paymentViewController)
         {
-            var creditCard = cardInfo == null ? CreditCard.Empty : new CreditCard
+            var creditCard = cardInfo == null ? AddCreditCard.Empty : new AddCreditCard
             {
                 CardNumber = cardInfo.CardNumber,
-                Cvv = cardInfo.Cvv,
+                //Cvv = cardInfo.Cvv,
                 ExpirationMonth = (int)cardInfo.ExpiryMonth,
                 ExpirationYear = (int)cardInfo.ExpiryYear
             };

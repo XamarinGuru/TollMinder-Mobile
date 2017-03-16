@@ -7,7 +7,7 @@ using Tollminder.Core.Models;
 using Tollminder.Core.Services;
 using Tollminder.Core.Services.Implementation;
 
-namespace Tollminder.Core.ViewModels
+namespace Tollminder.Core.ViewModels.UserProfile
 {
     public class LoginViewModel : BaseViewModel
     {
@@ -27,7 +27,7 @@ namespace Tollminder.Core.ViewModels
             _emailLoginCommand = new MvxCommand(() => ServerCommandWrapper(() => LoginTask(EmailLoginData)));
             _facebookLoginCommand = new MvxCommand(() => ServerCommandWrapper(async () => await LoginTask(await _facebookLoginService.GetPersonData())));
             _gPlusLoginCommand = new MvxCommand(() => ServerCommandWrapper(async () => await LoginTask(await _gPlusLoginService.GetPersonData())));
-            _registrationCommand = new MvxCommand(() => { ShowViewModel<RegistrationViewModel>();});
+            _registrationCommand = new MvxCommand(() => { ShowViewModel<RegistrationViewModel>(); });
             _forgotPasswordCommand = new MvxCommand(() => { });
         }
 
@@ -42,9 +42,9 @@ namespace Tollminder.Core.ViewModels
         public override void Start()
         {
             base.Start();
-            
-           _facebookLoginService.Initialize();
-           _gPlusLoginService.Initialize();
+
+            _facebookLoginService.Initialize();
+            _gPlusLoginService.Initialize();
         }
 
         MvxCommand _emailLoginCommand;
@@ -107,7 +107,7 @@ namespace Tollminder.Core.ViewModels
             var success = false;
             var result = default(Profile);
             var _serverApiService = Mvx.Resolve<IServerApiService>();
-            
+
             switch (data.Source)
             {
                 case AuthorizationType.Email:
@@ -147,7 +147,7 @@ namespace Tollminder.Core.ViewModels
                 _storedSettingsService.ProfileId = result.Id;
                 _storedSettingsService.AuthToken = result.Token;
                 Close(this);
-                ShowViewModel<HomeViewModel>(new { name = result.FirstName, message = "Welcome back, "});
+                ShowViewModel<HomeViewModel>(new { name = result.FirstName, message = "Welcome back, " });
             }
         }
 
@@ -167,7 +167,7 @@ namespace Tollminder.Core.ViewModels
         bool CheckHttpStatuseCode(System.Net.HttpStatusCode statusCode)
         {
             switch (statusCode)
-                {
+            {
                 case System.Net.HttpStatusCode.Unauthorized:
                 case System.Net.HttpStatusCode.NotFound:
                     Close(this);

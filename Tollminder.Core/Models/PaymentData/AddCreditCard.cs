@@ -1,14 +1,12 @@
 ﻿using System;
 
-namespace Tollminder.Core.Models
+namespace Tollminder.Core.Models.PaymentData
 {
-    public class CreditCard
+    public class AddCreditCard
     {
         public string CardNumber { get; set; }
 
         public string Holder { get; set; }
-
-        public string Cvv { get; set; }
 
         public DateTime ExpirationDate => new DateTime(ExpirationMonth, ExpirationYear, DateTime.DaysInMonth(ExpirationYear, ExpirationMonth));
 
@@ -16,6 +14,7 @@ namespace Tollminder.Core.Models
 
         public int ExpirationYear { get; set; } = 1;
 
-        public static readonly CreditCard Empty = new CreditCard();
+        // Need to scan credit card toll
+        public static readonly AddCreditCard Empty = new AddCreditCard();
     }
 }
