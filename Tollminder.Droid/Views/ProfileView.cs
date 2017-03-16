@@ -2,6 +2,7 @@
 using Android.Content.PM;
 using Android.OS;
 using Tollminder.Core.ViewModels;
+using Tollminder.Core.ViewModels.UserProfile;
 using Tollminder.Droid.AndroidServices;
 
 namespace Tollminder.Droid.Views

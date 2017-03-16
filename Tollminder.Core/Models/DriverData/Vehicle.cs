@@ -1,5 +1,6 @@
 ﻿using System;
 using PropertyChanged;
+
 namespace Tollminder.Core.Models.DriverData
 {
     [ImplementPropertyChanged]

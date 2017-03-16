@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tollminder.Touch", "Tollmin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tollminder.Droid", "Tollminder.Droid\Tollminder.Droid.csproj", "{59A33FEB-A8EE-4426-9907-28C5E62A7FF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthorizeDotNetAccessSDK", "Ios Binding\AuthorizeDotNetAccessSDK\AuthorizeDotNetAccessSDK.csproj", "{07594968-B713-4FA7-BCD5-F02C86AB247D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,18 +69,6 @@ Global
 		{59A33FEB-A8EE-4426-9907-28C5E62A7FF3}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{59A33FEB-A8EE-4426-9907-28C5E62A7FF3}.Debug|iPhone.ActiveCfg = Debug|Any CPU
 		{59A33FEB-A8EE-4426-9907-28C5E62A7FF3}.Debug|iPhone.Build.0 = Debug|Any CPU
-		{07594968-B713-4FA7-BCD5-F02C86AB247D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{07594968-B713-4FA7-BCD5-F02C86AB247D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{07594968-B713-4FA7-BCD5-F02C86AB247D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{07594968-B713-4FA7-BCD5-F02C86AB247D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{07594968-B713-4FA7-BCD5-F02C86AB247D}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
-		{07594968-B713-4FA7-BCD5-F02C86AB247D}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
-		{07594968-B713-4FA7-BCD5-F02C86AB247D}.Release|iPhone.ActiveCfg = Release|Any CPU
-		{07594968-B713-4FA7-BCD5-F02C86AB247D}.Release|iPhone.Build.0 = Release|Any CPU
-		{07594968-B713-4FA7-BCD5-F02C86AB247D}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{07594968-B713-4FA7-BCD5-F02C86AB247D}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
-		{07594968-B713-4FA7-BCD5-F02C86AB247D}.Debug|iPhone.ActiveCfg = Debug|Any CPU
-		{07594968-B713-4FA7-BCD5-F02C86AB247D}.Debug|iPhone.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0
@@ -92,6 +78,5 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{724479A5-0430-40C2-B8D9-C5EE3293B919} = {F8B305CD-E637-4A5E-8CC2-FA62AC0674AA}
-		{07594968-B713-4FA7-BCD5-F02C86AB247D} = {F8B305CD-E637-4A5E-8CC2-FA62AC0674AA}
 	EndGlobalSection
 EndGlobal

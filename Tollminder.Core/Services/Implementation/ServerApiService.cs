@@ -21,6 +21,7 @@ namespace Tollminder.Core.Services.Implementation
             this.storedSettingsService = storedSettingsService;
         }
 
+
         public Task<IList<TollRoad>> RefreshTollRoads(long lastSyncDateTime, CancellationToken token)
         {
             Task<IList<TollRoad>> result = null;

@@ -165,6 +165,7 @@
     <Compile Include="Models\UserData\StatesData.cs" />
     <Compile Include="Models\PaymentData\PayHistory.cs" />
     <Compile Include="ViewModels\Payments\CreditCardViewModel.cs" />
+    <Compile Include="Models\CommonModels.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>

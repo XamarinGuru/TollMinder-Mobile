@@ -71,16 +71,16 @@ namespace Tollminder.Droid
             //registry.AddOrOverwrite("BoolInverseConverter", new BoolInverseConverter());
         }
 
+		protected override void InitializeLastChance()
+		{
+			System.Net.ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+
+			base.InitializeLastChance();
+		}
+
         protected override void FillTargetFactories(MvvmCross.Binding.Bindings.Target.Construction.IMvxTargetBindingFactoryRegistry registry)
         {
             base.FillTargetFactories(registry);
-        }
-
-        protected override void InitializeLastChance()
-        {
-            System.Net.ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
-
-            base.InitializeLastChance();
         }
     }
 }

@@ -5,6 +5,7 @@ using MvvmCross.Droid.Support.V4;
 using MvvmCross.Platform;
 using Tollminder.Core.Services;
 using Tollminder.Core.ViewModels;
+using Tollminder.Core.ViewModels.UserProfile;
 using Tollminder.Droid.Inerfaces;
 
 [assembly: MetaData("com.facebook.sdk.ApplicationId", Value = "@string/app_id")]

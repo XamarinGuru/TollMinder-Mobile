@@ -3,6 +3,7 @@ using Android.Content.PM;
 using Android.OS;
 using MvvmCross.Droid.Support.V4;
 using Tollminder.Core.ViewModels;
+using Tollminder.Core.ViewModels.Payments;
 
 namespace Tollminder.Droid.Views
 {

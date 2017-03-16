@@ -7,6 +7,7 @@ using MvvmCross.Platform;
 using MvvmCross.Platform.Droid.Platform;
 using Tollminder.Core.Services;
 using Tollminder.Core.ViewModels;
+using Tollminder.Core.ViewModels.Payments;
 
 namespace Tollminder.Droid.Views.Fragments
 {
