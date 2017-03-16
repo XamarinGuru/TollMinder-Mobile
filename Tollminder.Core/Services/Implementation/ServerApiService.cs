@@ -4,14 +4,13 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using MvvmCross.Platform;
-using Tollminder.Core.Helpers;
 using Tollminder.Core.Models;
 
 namespace Tollminder.Core.Services.Implementation
 {
     public class ServerApiService : HttpClientService, IServerApiService
     {
-        const string BaseApiUrl = "https://tollminder.com/";
+        const string BaseApiUrl = "https://tollminder.com/api/";
         private string authToken = "LM9NJSUN3GDQU8BFPPCUPpCRtLnd89NZXLSUUR9DBjjSR32EBQxCbHX963ycqcjv";
 
         public Task<IList<TollRoad>> RefreshTollRoads(long lastSyncDateTime, CancellationToken token)

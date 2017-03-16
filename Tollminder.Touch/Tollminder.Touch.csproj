@@ -236,6 +236,10 @@
     <Reference Include="AuthorizeNet">
       <HintPath>..\packages\AuthorizeNet.1.9.1\lib\AuthorizeNet.dll</HintPath>
     </Reference>
+    <Reference Include="Card.IO">
+      <HintPath>..\packages\Xamarin.CardIO.iOS.5.4.1\lib\Xamarin.iOS10\Card.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoTouch.Dialog-1" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
@@ -255,7 +259,9 @@
     <InterfaceDefinition Include="Resources\LaunchScreen.xib" />
     <InterfaceDefinition Include="Views\PayHistoryView\PayHistoryCell.xib" />
     <InterfaceDefinition Include="Views\PayHistoryView\PayHistoryHeader.xib" />
-    <InterfaceDefinition Include="PaymentStoryboard.storyboard" />
+    <InterfaceDefinition Include="ApplePay.storyboard" />
+    <InterfaceDefinition Include="Views\PaymentViews\CreditCardViewController.xib" />
+    <InterfaceDefinition Include="Views\PaymentViews\PaymentViewController.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -267,7 +273,6 @@
     <Compile Include="Setup.cs" />
     <Compile Include="DebugTrace.cs" />
     <Compile Include="LinkerPleaseInclude.cs" />
-    <Compile Include="Services\TouchTextToSpeechService.cs" />
     <Compile Include="Views\HomeDebugView.cs" />
     <Compile Include="Views\HomeDebugView.designer.cs">
       <DependentUpon>HomeDebugView.cs</DependentUpon>
@@ -335,14 +340,23 @@
     <Compile Include="Controls\EnhancedToolbar.cs" />
     <Compile Include="Helpers\KeyboardHandler.cs" />
     <Compile Include="Converters\GetSliderPageConverter.cs" />
-    <Compile Include="PayViewController.cs" />
-    <Compile Include="PayViewController.designer.cs">
-      <DependentUpon>PayViewController.cs</DependentUpon>
+    <Compile Include="ApplePayViewController.cs" />
+    <Compile Include="ApplePayViewController.designer.cs">
+      <DependentUpon>ApplePayViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="CreditCardViewController.cs" />
-    <Compile Include="CreditCardViewController.designer.cs">
+    <Compile Include="Views\StoryboardContainer.cs" />
+    <Compile Include="Views\PaymentViews\CreditCardViewController.cs" />
+    <Compile Include="Views\PaymentViews\CreditCardViewController.designer.cs">
       <DependentUpon>CreditCardViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\PaymentViews\PaymentViewController.cs" />
+    <Compile Include="Views\PaymentViews\PaymentViewController.designer.cs">
+      <DependentUpon>PaymentViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Bootstrap\CreditCardScanBootstrapAction.cs" />
+    <Compile Include="Plugin.cs" />
+    <Compile Include="Services\TouchCreditCardScanService.cs" />
+    <Compile Include="Services\SpeechServices\TouchTextToSpeechService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets')" />
@@ -354,6 +368,10 @@
     <ProjectReference Include="..\Ios Binding\OpenEars\OpenEars.csproj">
       <Project>{724479A5-0430-40C2-B8D9-C5EE3293B919}</Project>
       <Name>OpenEars</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ios Binding\AuthorizeDotNetAccessSDK\AuthorizeDotNetAccessSDK.csproj">
+      <Project>{07594968-B713-4FA7-BCD5-F02C86AB247D}</Project>
+      <Name>AuthorizeDotNetAccessSDK</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -376,6 +394,7 @@
     <Folder Include="Views\PayHistoryView\" />
     <Folder Include="Controls\TextFiled\" />
     <Folder Include="Resources\Images\HomeView\InformationBoard\" />
+    <Folder Include="Views\PaymentViews\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\OpenEars1.dic" />
@@ -434,6 +453,10 @@
     </XamarinComponentReference>
     <XamarinComponentReference Include="googleiossignin">
       <Version>4.0.0.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="cardioios">
+      <Version>5.4.1.1</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>

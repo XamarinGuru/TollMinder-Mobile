@@ -18,7 +18,7 @@ namespace Tollminder.Core
             //}
             //else
             //    ShowViewModel<LoginViewModel>();
-            ShowViewModel<PayViewModel>();
+            ShowViewModel<LoginViewModel>();
         }
     }
 }

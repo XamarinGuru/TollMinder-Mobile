@@ -92,6 +92,7 @@ namespace Tollminder.Touch.Services.SpeechServices
             return result;
 
         }
+
         public async Task<bool> AskOneTimeQuestion(string question)
         {
             var result = false;

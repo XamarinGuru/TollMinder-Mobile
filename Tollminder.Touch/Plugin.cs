@@ -1,10 +1,14 @@
 ﻿using System;
+using MvvmCross.Platform.Plugins;
+using Tollminder.Touch.Services;
+
 namespace Tollminder.Touch
 {
-    public class Plugin
+    public class Plugin : IMvxPlugin
     {
-        public Plugin()
+        public void Load()
         {
+            TouchCreditCardScanService.Initialize();
         }
     }
 }

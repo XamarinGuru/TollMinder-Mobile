@@ -1,21 +1,21 @@
 ﻿using System;
 
-namespace CreditCardScan
+namespace Tollminder.Core.Models
 {
-	public class CreditCard
-	{
-		public string CardNumber { get; set; }
+    public class CreditCard
+    {
+        public string CardNumber { get; set; }
 
-		public string Holder { get; set; }
+        public string Holder { get; set; }
 
-		public string Cvv { get; set; }
+        public string Cvv { get; set; }
 
-		public DateTime ExpirationDate => new DateTime(ExpirationMonth, ExpirationYear, DateTime.DaysInMonth(ExpirationYear, ExpirationMonth));
+        public DateTime ExpirationDate => new DateTime(ExpirationMonth, ExpirationYear, DateTime.DaysInMonth(ExpirationYear, ExpirationMonth));
 
-		public int ExpirationMonth { get; set; } = 1;
+        public int ExpirationMonth { get; set; } = 1;
 
-		public int ExpirationYear { get; set; } = 1;
+        public int ExpirationYear { get; set; } = 1;
 
-		public static readonly CreditCard Empty = new CreditCard();
-	}
+        public static readonly CreditCard Empty = new CreditCard();
+    }
 }

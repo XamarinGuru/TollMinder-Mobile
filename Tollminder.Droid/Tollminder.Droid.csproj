@@ -16,11 +16,12 @@
     <AssemblyName>Tollminder.Droid</AssemblyName>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
   <AndroidSdkBuildToolsVersion>23.0.2</AndroidSdkBuildToolsVersion>
-    <TargetFrameworkVersion>v7.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v7.1</TargetFrameworkVersion>
     <XamarinInsightsApiKey>2b455f0ac1fe12ddfc5b5ffae045c69e33a79c33</XamarinInsightsApiKey>
     <AndroidLinkMode>None</AndroidLinkMode>
     <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
     <JavaMaximumHeapSize>3G</JavaMaximumHeapSize>
+    <AndroidTlsProvider></AndroidTlsProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

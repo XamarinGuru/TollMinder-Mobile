@@ -7,6 +7,7 @@ using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform.Platform;
 using MvvmCross.Platform;
 using Tollminder.Touch.Services.SpeechServices;
+using Tollminder.Core.Services.ScanCrediCard;
 
 namespace Tollminder.Touch
 {
@@ -32,10 +33,10 @@ namespace Tollminder.Touch
             return new DebugTrace();
         }
 
-        protected override MvvmCross.iOS.Views.IMvxIosViewsContainer CreateIosViewsContainer()
-        {
-            return base.CreateIosViewsContainer();
-        }
+        //protected override IMvxIosViewsContainer CreateIosViewsContainer()
+        //{
+        //    return new StoryboardContainer();
+        //}
 
         protected override void InitializePlatformServices()
         {
@@ -54,6 +55,7 @@ namespace Tollminder.Touch
             Mvx.LazyConstructAndRegisterSingleton<IGPlusLoginService, TouchGPlusLoginService>();
             Mvx.LazyConstructAndRegisterSingleton<IHttpClientHandlerService, TouchHttpClientHandlerService>();
             Mvx.LazyConstructAndRegisterSingleton<IProgressDialogManager, TouchProgressDialogManager>();
+            Mvx.LazyConstructAndRegisterSingleton<ICreditCardScanService, TouchCreditCardScanService>();
         }
 
         //protected override void FillValueConverters(IMvxValueConverterRegistry registry)

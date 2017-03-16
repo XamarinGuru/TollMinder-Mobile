@@ -8,13 +8,13 @@ namespace Tollminder.Core.ViewModels
     {
         private MvxCommand backToProfileCommand;
         public ICommand BackToProfileCommand { get { return backToProfileCommand; } }
-        private MvxCommand saveCreditCardCommand;
-        public ICommand SaveCreditCardCommand { get { return saveCreditCardCommand; } }
+        private MvxCommand goToCreditCardDataCommand;
+        public ICommand GoToCreditCardDataCommand { get { return goToCreditCardDataCommand; } }
 
         public PayViewModel()
         {
             backToProfileCommand = new MvxCommand(() => { ShowViewModel<ProfileViewModel>(); });
-            saveCreditCardCommand = new MvxCommand(() => { ShowViewModel<ProfileViewModel>(); });
+            goToCreditCardDataCommand = new MvxCommand(() => { ShowViewModel<CreditCardViewModel>(); });
         }
 
         public override void Start()

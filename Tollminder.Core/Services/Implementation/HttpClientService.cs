@@ -114,10 +114,12 @@ namespace Tollminder.Core.Services.Implementation
                 return default(TResponse);
             }
         }
+
         public virtual Task<TResponse> SendAsync<TRequest, TResponse>(TRequest data, string url, IProgress<ProgressCompleted> progress)
         {
             return SendAsync<TRequest, TResponse>(data, url, progress, CancellationToken.None);
         }
+
         public virtual Task<TResponse> SendAsync<TRequest, TResponse>(TRequest data, string url)
         {
             return SendAsync<TRequest, TResponse>(data, url, null);
@@ -211,7 +213,8 @@ namespace Tollminder.Core.Services.Implementation
                             Array.Copy(buffer, cpArray, read);
                             byteData.AddRange(cpArray);
                         }
-                        else {
+                        else
+                        {
                             byteData.AddRange(buffer);
                         }
                         totalRead += read;

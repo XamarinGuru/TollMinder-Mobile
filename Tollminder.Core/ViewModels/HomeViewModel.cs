@@ -65,16 +65,16 @@ namespace Tollminder.Core.ViewModels
 
         public async override void Start()
         {
-            if (await synchronisationService.AuthorizeTokenSynchronisation())
-                await Task.Run(RefreshToolRoads);
-            else
-            {
-                Close(this);
-                if (IsBound)
-                    _track.StopServices();
-                ShowViewModel<LoginViewModel>();
-                return;
-            }
+            //if (await synchronisationService.AuthorizeTokenSynchronisation())
+            await Task.Run(RefreshToolRoads);
+            //else
+            //{
+            //    Close(this);
+            //    if (IsBound)
+            //        _track.StopServices();
+            //    ShowViewModel<LoginViewModel>();
+            //    return;
+            //}
 
             base.Start();
             _tokens.Add(_messenger.SubscribeOnMainThread<GeoWatcherStatusMessage>((s) => IsBound = s.Data, MvxReference.Strong));
