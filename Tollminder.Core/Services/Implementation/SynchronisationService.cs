@@ -15,28 +15,28 @@ namespace Tollminder.Core.Services.Implementation
             storedSettingsService = Mvx.Resolve<IStoredSettingsService>();
         }
 
-        public async Task<bool> AuthorizeTokenSynchronisation()
+        public async Task<bool> AuthorizeTokenSynchronisationAsync()
         {
             if (storedSettingsService.ProfileId == null || storedSettingsService.AuthToken == null)
                 return false;
             else
             {
-                string result = await serverApiService.GetValidAuthorizeToken();
+                string result = await serverApiService.GetValidAuthorizeTokenAsync();
 
                 storedSettingsService.AuthToken = result;
                 return storedSettingsService.IsAuthorized;
             }
         }
 
-        public async Task DataSynchronisation()
+        public async Task DataSynchronisationAsync()
         {
             if (storedSettingsService.IsDataSynchronized || storedSettingsService.Profile == null)
             {
-                storedSettingsService.Profile = await serverApiService.GetProfile(storedSettingsService.ProfileId, storedSettingsService.AuthToken);
+                storedSettingsService.Profile = await serverApiService.GetProfileAsync(storedSettingsService.ProfileId, storedSettingsService.AuthToken);
             }
             else
             {
-                var result = await serverApiService.SaveProfile(storedSettingsService.ProfileId, storedSettingsService.Profile, storedSettingsService.AuthToken);
+                var result = await serverApiService.SaveProfileAsync(storedSettingsService.ProfileId, storedSettingsService.Profile, storedSettingsService.AuthToken);
                 if (result.StatusCode == System.Net.HttpStatusCode.OK)
                     storedSettingsService.IsDataSynchronized = true;
             }

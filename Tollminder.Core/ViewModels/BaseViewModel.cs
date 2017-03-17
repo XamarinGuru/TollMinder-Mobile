@@ -25,7 +25,8 @@ namespace Tollminder.Core.ViewModels
         public ValidationHelper Validator
         {
             get { return validator; }
-            set { 
+            set
+            {
                 validator = value;
                 RaisePropertyChanged(() => Validator);
             }
@@ -58,14 +59,14 @@ namespace Tollminder.Core.ViewModels
         bool _IsBusy;
         public virtual bool IsBusy
         {
-            get 
-            { 
-                return _IsBusy; 
+            get
+            {
+                return _IsBusy;
             }
-            set 
-            { 
-                _IsBusy = value; 
-                RaisePropertyChanged(() => IsBusy); 
+            set
+            {
+                _IsBusy = value;
+                RaisePropertyChanged(() => IsBusy);
                 RaisePropertyChanged(() => NotBusy);
             }
         }
@@ -106,7 +107,7 @@ namespace Tollminder.Core.ViewModels
             //return Errors.Count == 0;
         }
 
-        protected virtual async Task ServerCommandWrapperParrallel(Func<Task> action)
+        protected virtual async Task ServerCommandWrapperParrallelAsync(Func<Task> action)
         {
             try
             {
@@ -129,7 +130,7 @@ namespace Tollminder.Core.ViewModels
             }
         }
 
-        protected virtual async Task ServerCommandWrapper(Func<Task> action)
+        protected virtual async Task ServerCommandWrapperAsync(Func<Task> action)
         {
             if (IsBusy)
             {
@@ -157,7 +158,7 @@ namespace Tollminder.Core.ViewModels
             }
         }
 
-        protected virtual async Task ServerCommandWrapper<T>(Func<T, Task> action, T arg)
+        protected virtual async Task ServerCommandWrapperAsync<T>(Func<T, Task> action, T arg)
         {
             if (IsBusy)
             {

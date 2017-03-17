@@ -67,7 +67,7 @@ namespace Tollminder.Touch.Services.SpeechServices
             pathToAcousticModel = NSBundle.MainBundle.ResourcePath + System.IO.Path.DirectorySeparatorChar + "AcousticModelEnglish.bundle";
         }
 
-        public async Task<bool> AskQuestion(string question)
+        public async Task<bool> AskQuestionAsync(string question)
         {
             bool result = false;
             for (int i = 0; i < 3; i++)
@@ -76,7 +76,7 @@ namespace Tollminder.Touch.Services.SpeechServices
                 {
                     cancellationToken = new CancellationTokenSource(TimeSpan.FromSeconds(repeatTimeoutSeconts));
                     cancellationToken.CancelAfter(TimeSpan.FromSeconds(repeatTimeoutSeconts));
-                    result = await AskOneTimeQuestion(question);
+                    result = await AskOneTimeQuestionAsync(question);
                     break;
                 }
                 catch (TaskCanceledException ex)
@@ -93,7 +93,7 @@ namespace Tollminder.Touch.Services.SpeechServices
 
         }
 
-        public async Task<bool> AskOneTimeQuestion(string question)
+        public async Task<bool> AskOneTimeQuestionAsync(string question)
         {
             var result = false;
             _alertRecognitionTCS = new TaskCompletionSource<bool>();
@@ -118,7 +118,7 @@ namespace Tollminder.Touch.Services.SpeechServices
                 });
 
                 _voiceRecognitionTCS = new TaskCompletionSource<bool>();
-                result = await await Task.WhenAny(new[] { _alertRecognitionTCS.Task, AskQuestionMethod(question) });
+                result = await await Task.WhenAny(new[] { _alertRecognitionTCS.Task, AskQuestionMethodAsync(question) });
 
                 userInteractionService.DisposeIfDisposable();
             }
@@ -137,13 +137,13 @@ namespace Tollminder.Touch.Services.SpeechServices
             return result;
         }
 
-        async Task<bool> AskQuestionMethod(string question)
+        async Task<bool> AskQuestionMethodAsync(string question)
         {
             bool result = false;
 
 
-            await TextToSpeechService.Speak(question, false).ConfigureAwait(false);
-            await TextToSpeechService.Speak("Please, answer after the signal", false).ConfigureAwait(false);
+            await TextToSpeechService.SpeakAsync(question, false).ConfigureAwait(false);
+            await TextToSpeechService.SpeakAsync("Please, answer after the signal", false).ConfigureAwait(false);
             UIApplication.SharedApplication.InvokeOnMainThread(() =>
            {
                AVAudioSession.SharedInstance().SetCategory(AVAudioSessionCategory.Playback);
@@ -168,7 +168,7 @@ namespace Tollminder.Touch.Services.SpeechServices
 
             if (_answer != AnswerType.Unknown)
             {
-                await TextToSpeechService.Speak($"Your answer is {_answer}", false).ConfigureAwait(false);
+                await TextToSpeechService.SpeakAsync($"Your answer is {_answer}", false).ConfigureAwait(false);
                 _voiceRecognitionTCS.TrySetResult(_answer == AnswerType.Positive);
             }
             else

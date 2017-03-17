@@ -21,8 +21,7 @@ namespace Tollminder.Core.Services.Implementation
             this.storedSettingsService = storedSettingsService;
         }
 
-
-        public Task<IList<TollRoad>> RefreshTollRoads(long lastSyncDateTime, CancellationToken token)
+        public Task<IList<TollRoad>> RefreshTollRoadsAsync(long lastSyncDateTime, CancellationToken token)
         {
             Task<IList<TollRoad>> result = null;
             try
@@ -37,7 +36,7 @@ namespace Tollminder.Core.Services.Implementation
             return result;
         }
 
-        public Task<Profile> SignIn(string phone, string password)
+        public Task<Profile> SignInAsync(string phone, string password)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -54,7 +53,7 @@ namespace Tollminder.Core.Services.Implementation
         /// <returns>Profile</returns>
         /// <param name="email">Email - user email from social network.</param>
         /// <param name="source">Source - what kind of social network user choose.</param>
-        public Task<Profile> FacebookSignIn(string facebookId, string source)
+        public Task<Profile> FacebookSignInAsync(string facebookId, string source)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -62,15 +61,15 @@ namespace Tollminder.Core.Services.Implementation
                 ["source"] = source
             };
 
-            return CheckProfile<Dictionary<string, object>>(parameters, $"{BaseApiUrl}user/oauth");
+            return CheckProfileAsync<Dictionary<string, object>>(parameters, $"{BaseApiUrl}user/oauth");
         }
 
-        public Task<Profile> SignUp(Profile profile)
+        public Task<Profile> SignUpAsync(Profile profile)
         {
-            return CheckProfile<Profile>(profile, $"{BaseApiUrl}user/signup");
+            return CheckProfileAsync<Profile>(profile, $"{BaseApiUrl}user/signup");
         }
 
-        public Task<Profile> GooglePlusSignIn(string email, string source)
+        public Task<Profile> GooglePlusSignInAsync(string email, string source)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -78,10 +77,10 @@ namespace Tollminder.Core.Services.Implementation
                 ["source"] = source
             };
 
-            return CheckProfile<Dictionary<string, object>>(parameters, $"{BaseApiUrl}user/oauth");
+            return CheckProfileAsync<Dictionary<string, object>>(parameters, $"{BaseApiUrl}user/oauth");
         }
 
-        public Task<string> DownloadPayHistory(DateTime dateFrom, DateTime dateTo)
+        public Task<string> DownloadPayHistoryAsync(DateTime dateFrom, DateTime dateTo)
         {
             var parameters = new
             {
@@ -96,7 +95,7 @@ namespace Tollminder.Core.Services.Implementation
             return SendAsync<object, string>(parameters, $"{BaseApiUrl}file/paymentHistoryPdf");
         }
 
-        public Task<List<PayHistory>> GetPayHistory(DateTime dateFrom, DateTime dateTo)
+        public Task<List<PayHistory>> GetPayHistoryAsync(DateTime dateFrom, DateTime dateTo)
         {
             var parameters = new
             {
@@ -108,27 +107,27 @@ namespace Tollminder.Core.Services.Implementation
             return SendAsync<object, List<PayHistory>>(parameters, $"{BaseApiUrl}trip/paymentHistory");
         }
 
-        public Task<Profile> GetProfile(string userId, string authToken = null)
+        public Task<Profile> GetProfileAsync(string userId, string authToken = null)
         {
             return GetAsync<Profile>($"{BaseApiUrl}user/{userId}", authToken);
         }
 
-        public Task<Profile> SaveProfile(string userId, Profile profile, string authToken)
+        public Task<Profile> SaveProfileAsync(string userId, Profile profile, string authToken)
         {
             return SendAsync<Profile>(profile, $"{BaseApiUrl}user/{userId}", new CancellationTokenSource(), authToken);
         }
 
-        public Task<string> GetValidAuthorizeToken()
+        public Task<string> GetValidAuthorizeTokenAsync()
         {
             return GetAsync<string>($"{BaseApiUrl}user/{storedSettingsService.ProfileId}/token", storedSettingsService.AuthToken);
         }
 
-        public Task<Vehicle> SaveVehicle(Vehicle vehicle)
+        public Task<Vehicle> SaveVehicleAsync(Vehicle vehicle)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Vehicle> GetVehicles()
+        public Task<Vehicle> GetVehiclesAsync()
         {
             throw new NotImplementedException();
         }

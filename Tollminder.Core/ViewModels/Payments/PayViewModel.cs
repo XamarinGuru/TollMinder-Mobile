@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
-using Tollminder.Core.ViewModels.Payments;
 using Tollminder.Core.ViewModels.UserProfile;
 
-namespace Tollminder.Core.ViewModels
+namespace Tollminder.Core.ViewModels.Payments
 {
     public class PayViewModel : BaseViewModel
     {

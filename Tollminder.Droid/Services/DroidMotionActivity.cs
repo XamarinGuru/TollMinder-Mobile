@@ -54,9 +54,9 @@ namespace Tollminder.Droid.Services
 		{
 			if (value != MotionType) {
 				if (IsAutomove) {
-					_notifyService.Notify ("You start moving on the car");
+					_notifyService.NotifyAsync ("You start moving on the car");
 				} else {
-					_notifyService.Notify (value.ToString ());
+					_notifyService.NotifyAsync (value.ToString ());
 				}
 			}
 		}

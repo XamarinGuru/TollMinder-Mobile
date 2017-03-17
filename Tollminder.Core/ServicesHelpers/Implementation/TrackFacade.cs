@@ -89,7 +89,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
 
         #endregion
 
-        public virtual async Task<bool> StartServices()
+        public virtual async Task<bool> StartServicesAsync()
         {
             bool isGranted = await Mvx.Resolve<IPermissionsService>().CheckPermissionsAccesGrantedAsync();
             if (!IsBound && isGranted)
@@ -104,7 +104,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
                 _locationToken = _messenger.SubscribeOnThreadPoolThread<LocationMessage>(async x =>
                {
                    Log.LogMessage("Start processing LocationMessage");
-                   await CheckTrackStatus();
+                   await CheckTrackStatusAsync();
                });
                 _tokens.Add(_locationToken);
 
@@ -138,7 +138,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
             }
         }
 
-        protected async virtual Task CheckTrackStatus()
+        protected async virtual Task CheckTrackStatusAsync()
         {
             Log.LogMessage("Track status is cheking...");
 
@@ -196,7 +196,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
             }
         }
 
-        public async Task CheckAreWeStillOnTheRoad()
+        public async Task CheckAreWeStillOnTheRoadAsync()
         {
             if (waypointChecker.TollPoint != null)
             {
@@ -211,7 +211,7 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
                         break;
                     case TollGeolocationStatus.NearTollRoadExit:
                     case TollGeolocationStatus.OnTollRoad:
-                        if (await statusObject.SpeechToTextService.AskQuestion($"Are you still going from {waypointChecker.TollPoint.Name} tollroad?"))
+                        if (await statusObject.SpeechToTextService.AskQuestionAsync($"Are you still going from {waypointChecker.TollPoint.Name} tollroad?"))
                         {
                             waypointChecker.SetEntrance(waypointChecker.TollPoint);
 
@@ -235,12 +235,12 @@ namespace Tollminder.Core.ServicesHelpers.Implementation
             }
         }
 
-        public async Task Initialize()
+        public async Task InitializeAsync()
         {
             if (_storedSettingsService.GeoWatcherIsRunning)
             {
                 StopServices();
-                await StartServices().ConfigureAwait(false);
+                await StartServicesAsync().ConfigureAwait(false);
                 Log.LogMessage("Autostart facade");
             }
         }

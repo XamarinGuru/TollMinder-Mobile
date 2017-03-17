@@ -1,13 +1,10 @@
-﻿using System;
-using UIKit;
-using Tollminder.Touch.Controllers;
-using Tollminder.Core.ViewModels;
+﻿using Tollminder.Touch.Controllers;
 using PassKit;
-using ObjCRuntime;
 using Foundation;
 using System.Diagnostics;
 using MvvmCross.Platform;
 using Tollminder.Core.Services.ScanCrediCard;
+using Tollminder.Core.ViewModels.Payments;
 
 namespace Tollminder.Touch.Views
 {

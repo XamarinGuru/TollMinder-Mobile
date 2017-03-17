@@ -6,7 +6,7 @@ namespace Tollminder.Core.Services
 {
     public interface ISynchronisationService
     {
-        Task DataSynchronisation();
-        Task<bool> AuthorizeTokenSynchronisation();
+        Task DataSynchronisationAsync();
+        Task<bool> AuthorizeTokenSynchronisationAsync();
     }
 }

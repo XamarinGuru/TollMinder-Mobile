@@ -10,11 +10,11 @@ namespace Tollminder.Core.Services
 {
     public interface IServerApiService
     {
-        Task<IList<TollRoad>> RefreshTollRoads(long lastSyncDateTime, CancellationToken token);
+        Task<IList<TollRoad>> RefreshTollRoadsAsync(long lastSyncDateTime, CancellationToken token);
         // Authorization processing
-        Task<Profile> SignIn(string phone, string password);
-        Task<Profile> SignUp(Profile profile);
-        Task<string> GetValidAuthorizeToken();
+        Task<Profile> SignInAsync(string phone, string password);
+        Task<Profile> SignUpAsync(Profile profile);
+        Task<string> GetValidAuthorizeTokenAsync();
 
         /// <summary>
         /// Sign in using social networks.
@@ -22,19 +22,19 @@ namespace Tollminder.Core.Services
         /// <returns>Profile</returns>
         /// <param name="email">Email - user email from social network.</param>
         /// <param name="source">Source - what kind of social network user choose.</param>
-        Task<Profile> GooglePlusSignIn(string email, string source);
-        Task<Profile> FacebookSignIn(string facebookId, string source);
+        Task<Profile> GooglePlusSignInAsync(string email, string source);
+        Task<Profile> FacebookSignInAsync(string facebookId, string source);
 
         // Profile processing
-        Task<Profile> SaveProfile(string userId, Profile profile, string authToken);
-        Task<Profile> GetProfile(string userId, string authToken = null);
+        Task<Profile> SaveProfileAsync(string userId, Profile profile, string authToken);
+        Task<Profile> GetProfileAsync(string userId, string authToken = null);
 
         // Payhistory processing
-        Task<List<PayHistory>> GetPayHistory(DateTime dateFrom, DateTime dateTo);
-        Task<string> DownloadPayHistory(DateTime dateFrom, DateTime dateTo);
+        Task<List<PayHistory>> GetPayHistoryAsync(DateTime dateFrom, DateTime dateTo);
+        Task<string> DownloadPayHistoryAsync(DateTime dateFrom, DateTime dateTo);
 
         // Vehicle processing
-        Task<Vehicle> SaveVehicle(Vehicle vehicle);
-        Task<Vehicle> GetVehicles();
+        Task<Vehicle> SaveVehicleAsync(Vehicle vehicle);
+        Task<Vehicle> GetVehiclesAsync();
     }
 }

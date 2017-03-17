@@ -23,8 +23,8 @@ namespace Tollminder.Core.ViewModels.UserProfile
             serverApiService = Mvx.Resolve<IServerApiService>();
 
             backToLoginViewCommand = new MvxCommand(() => { ShowViewModel<LoginViewModel>(); });
-            registrationCommand = new MvxCommand(() => ServerCommandWrapper(() => Registration()));
-            validateCommand = new MvxCommand(() => ComparePhoneCode());
+            registrationCommand = new MvxCommand(() => ServerCommandWrapperAsync(() => RegistrationAsync()));
+            validateCommand = new MvxCommand(() => ComparePhoneCodeAsync());
         }
 
         public void Init(string name)
@@ -93,7 +93,7 @@ namespace Tollminder.Core.ViewModels.UserProfile
             }
         }
 
-        async Task ComparePhoneCode()
+        async Task ComparePhoneCodeAsync()
         {
             //if (!Validate())
             //{
@@ -106,7 +106,7 @@ namespace Tollminder.Core.ViewModels.UserProfile
             if (SmsCode == "1111")
             {
                 profile.PhoneValidate = true;
-                var result = await serverApiService.SaveProfile(profile.Id, profile, profile.Token);
+                var result = await serverApiService.SaveProfileAsync(profile.Id, profile, profile.Token);
                 if (CheckHttpStatuseCode(result.StatusCode))
                 {
                     storedSettingsService.Profile = profile;
@@ -121,7 +121,7 @@ namespace Tollminder.Core.ViewModels.UserProfile
                 Mvx.Resolve<IProgressDialogManager>().ShowMessage("Error", "Wrong SMS code! Please try again.");
         }
 
-        async Task Registration()
+        async Task RegistrationAsync()
         {
             //if (!Validate())
             //{
@@ -137,7 +137,7 @@ namespace Tollminder.Core.ViewModels.UserProfile
 
             if (CheckField("Phone number", Profile.Phone))
             {
-                var result = await serverApiService.SignUp(profile);
+                var result = await serverApiService.SignUpAsync(profile);
                 if (CheckHttpStatuseCode(result.StatusCode))
                 {
                     Mvx.Resolve<IProgressDialogManager>().CloseProgressDialog();

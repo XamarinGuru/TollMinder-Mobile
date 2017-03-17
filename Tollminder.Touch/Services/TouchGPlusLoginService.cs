@@ -37,7 +37,7 @@ namespace Tollminder.Touch.Services
             }
         }
 
-        public Task<SocialData> GetPersonData()
+        public Task<SocialData> GetPersonDataAsync()
         {
             _gPlusTask = new TaskCompletionSource<SocialData>();
             SignIn.SharedInstance.SignInUser();
@@ -63,7 +63,7 @@ namespace Tollminder.Touch.Services
 
         public void ReleaseResources()
         {
-            
+
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Tollminder.Core.Services
         List<TollPointWithDistance> FindNearestEntranceTollPoints(GeoLocation center);
         List<TollPointWithDistance> FindNearestExitTollPoints(GeoLocation center);
 
-        Task RefreshTollRoads(CancellationToken token);
+        Task RefreshTollRoadsAsync(CancellationToken token);
     }
 }
 

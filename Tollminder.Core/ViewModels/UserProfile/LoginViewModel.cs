@@ -24,9 +24,9 @@ namespace Tollminder.Core.ViewModels.UserProfile
             _storedSettingsService = Mvx.Resolve<IStoredSettingsService>();
             _facebookLoginService = Mvx.Resolve<IFacebookLoginService>();
             _gPlusLoginService = Mvx.Resolve<IGPlusLoginService>();
-            _emailLoginCommand = new MvxCommand(() => ServerCommandWrapper(() => LoginTask(EmailLoginData)));
-            _facebookLoginCommand = new MvxCommand(() => ServerCommandWrapper(async () => await LoginTask(await _facebookLoginService.GetPersonData())));
-            _gPlusLoginCommand = new MvxCommand(() => ServerCommandWrapper(async () => await LoginTask(await _gPlusLoginService.GetPersonData())));
+            _emailLoginCommand = new MvxCommand(() => ServerCommandWrapperAsync(() => LoginTaskAsync(EmailLoginData)));
+            _facebookLoginCommand = new MvxCommand(() => ServerCommandWrapperAsync(async () => await LoginTaskAsync(await _facebookLoginService.GetPersonDataAsync())));
+            _gPlusLoginCommand = new MvxCommand(() => ServerCommandWrapperAsync(async () => await LoginTaskAsync(await _gPlusLoginService.GetPersonDataAsync())));
             _registrationCommand = new MvxCommand(() => { ShowViewModel<RegistrationViewModel>(); });
             _forgotPasswordCommand = new MvxCommand(() => { });
         }
@@ -96,7 +96,7 @@ namespace Tollminder.Core.ViewModels.UserProfile
             Validators.Add(new Validator("Password", "Field can't' be empty.", () => string.IsNullOrEmpty(PasswordString)));
         }
 
-        async Task LoginTask(SocialData data)
+        async Task LoginTaskAsync(SocialData data)
         {
             if (data == null)
             {
@@ -113,12 +113,12 @@ namespace Tollminder.Core.ViewModels.UserProfile
                 case AuthorizationType.Email:
                     if (Validate())
                     {
-                        result = await _serverApiService.SignIn(LoginString, PasswordString);
+                        result = await _serverApiService.SignInAsync(LoginString, PasswordString);
                         success = result != null;
                     }
                     break;
                 case AuthorizationType.Facebook:
-                    result = await _serverApiService.FacebookSignIn(data.Id, data.Source.ToString().ToLower());
+                    result = await _serverApiService.FacebookSignInAsync(data.Id, data.Source.ToString().ToLower());
                     if (result != null)
                     {
                         userName = data.FullName;
@@ -128,7 +128,7 @@ namespace Tollminder.Core.ViewModels.UserProfile
                     }
                     break;
                 case AuthorizationType.GPlus:
-                    result = await _serverApiService.GooglePlusSignIn(data.Email, data.Source.ToString().ToLower());
+                    result = await _serverApiService.GooglePlusSignInAsync(data.Email, data.Source.ToString().ToLower());
                     if (result != null)
                     {
                         userName = data.FullName;

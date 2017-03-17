@@ -43,7 +43,7 @@ namespace Tollminder.Core.Services.Implementation
             return _distanceChecker.GetMostClosestTollPoint(center, _dataBaseStorage.GetAllExitTollPoints(), SettingsService.WaypointLargeRadius);
         }
 
-        public async Task RefreshTollRoads(CancellationToken token)
+        public async Task RefreshTollRoadsAsync(CancellationToken token)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace Tollminder.Core.Services.Implementation
                 var timeSpan = TimeSpan.FromDays(1);
                 //var shouldUpdateTollRoads = currentTime - _storedSettingsService.LastSyncDateTime > timeSpan;
 
-                var list = await _serverApiService.RefreshTollRoads(_storedSettingsService.LastSyncDateTime.UnixTime(), token);
+                var list = await _serverApiService.RefreshTollRoadsAsync(_storedSettingsService.LastSyncDateTime.UnixTime(), token);
                 if (list != null)
                 {
                     _storedSettingsService.LastSyncDateTime = currentTime;

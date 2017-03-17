@@ -112,7 +112,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZIy-8a-1Ri" userLabel="Header">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Accept iOS Demo" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vvr-AS-Z8s">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add your Credit Card" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vvr-AS-Z8s">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="375" id="p2V-68-4X0"/>
@@ -174,10 +174,10 @@
                             <exclude reference="1hj-T0-fwq"/>
                             <exclude reference="oS4-Rn-Tdv"/>
                             <exclude reference="zJO-IE-OJv"/>
-                            <exclude reference="uWd-tS-UTE"/>
                             <exclude reference="KL0-fW-W60"/>
                             <exclude reference="TEM-So-TUs"/>
                             <exclude reference="TIg-cv-ylK"/>
+                            <exclude reference="uWd-tS-UTE"/>
                         </mask>
                     </variation>
                     <variation key="widthClass=compact">
@@ -190,10 +190,10 @@
                             <include reference="1hj-T0-fwq"/>
                             <include reference="oS4-Rn-Tdv"/>
                             <include reference="zJO-IE-OJv"/>
-                            <include reference="uWd-tS-UTE"/>
                             <include reference="KL0-fW-W60"/>
                             <include reference="TEM-So-TUs"/>
                             <include reference="TIg-cv-ylK"/>
+                            <include reference="uWd-tS-UTE"/>
                         </mask>
                     </variation>
                 </view>
@@ -215,14 +215,14 @@
                     <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                     <variation key="default">
                         <mask key="constraints">
-                            <exclude reference="8cO-kc-vtV"/>
                             <exclude reference="6Ax-kt-eYm"/>
+                            <exclude reference="8cO-kc-vtV"/>
                         </mask>
                     </variation>
                     <variation key="widthClass=compact">
                         <mask key="constraints">
-                            <include reference="8cO-kc-vtV"/>
                             <include reference="6Ax-kt-eYm"/>
+                            <include reference="8cO-kc-vtV"/>
                         </mask>
                     </variation>
                 </textField>
@@ -235,7 +235,7 @@
                         </constraint>
                         <constraint firstAttribute="width" constant="200" id="wdg-IB-KVt"/>
                     </constraints>
-                    <state key="normal" title="Get Token">
+                    <state key="normal" title="Save Card">
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                 </button>

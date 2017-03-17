@@ -10,7 +10,7 @@ using System.Diagnostics;
 using MvvmCross.Binding.iOS.Views;
 using Tollminder.Core.ViewModels.Vehicles;
 
-namespace Tollminder.Touch.Views
+namespace Tollminder.Touch.Views.DriverViews
 {
     public class LicensePlateView : BaseViewController<LicenseViewModel>, ICleanBackStack
     {

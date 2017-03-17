@@ -28,7 +28,7 @@ namespace Tollminder.Core.Models.Statuses
                 if (WaypointChecker.TollPointsInRadius.Count == 1)
                     GeoWatcher.StopUpdatingHighAccuracyLocation();
 
-                if (await SpeechToTextService.AskQuestion($"Are you exiting from {insideTollPoint.Name} tollroad?"))
+                if (await SpeechToTextService.AskQuestionAsync($"Are you exiting from {insideTollPoint.Name} tollroad?"))
                 {
                     WaypointChecker.SetExit(insideTollPoint);
                     WaypointChecker.SetTollPointsInRadius(null);
@@ -36,20 +36,20 @@ namespace Tollminder.Core.Models.Statuses
 
                     if (WaypointChecker.Exit != null)
                     {
-                        await NotifyService.Notify("Bill was created");
+                        await NotifyService.NotifyAsync("Bill was created");
 
                         var duration = WaypointChecker.TripDuration;
 
                         if (duration.Hours > 0)
-                            await NotifyService.Notify($"Trip duration is {duration.Hours} hours {duration.Minutes} minutes {duration.Seconds} seconds");
+                            await NotifyService.NotifyAsync($"Trip duration is {duration.Hours} hours {duration.Minutes} minutes {duration.Seconds} seconds");
                         else
-                            await NotifyService.Notify($"Trip duration is {duration.Minutes} minutes {duration.Seconds} seconds");
+                            await NotifyService.NotifyAsync($"Trip duration is {duration.Minutes} minutes {duration.Seconds} seconds");
 
                         WaypointChecker.ClearData();
                     }
                     else
                     {
-                        await NotifyService.Notify("Bill was not created. You didn't enter any exit");
+                        await NotifyService.NotifyAsync("Bill was not created. You didn't enter any exit");
                     }
 
                     return TollGeolocationStatus.NotOnTollRoad;

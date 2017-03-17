@@ -27,11 +27,11 @@
     <MtouchUseSGen>true</MtouchUseSGen>
     <MtouchFastDev>true</MtouchFastDev>
     <MtouchDebug>true</MtouchDebug>
-    <CodesignKey>iPhone Developer: Dmitry Stepanov (C2BVG7CP4Y)</CodesignKey>
+    <CodesignKey>iPhone Distribution: Dmitry Stepanov (W6C5Q44UVB)</CodesignKey>
     <MtouchProfiling>true</MtouchProfiling>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <CodesignProvision>975ad98a-a824-4769-b97e-6e52f2c4b4ca</CodesignProvision>
+    <CodesignProvision></CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugSymbols>false</DebugSymbols>
@@ -91,7 +91,7 @@
     <MtouchUseRefCounting>true</MtouchUseRefCounting>
     <MtouchProfiling>true</MtouchProfiling>
     <IpaPackageName></IpaPackageName>
-    <CodesignProvision>975ad98a-a824-4769-b97e-6e52f2c4b4ca</CodesignProvision>
+    <CodesignProvision></CodesignProvision>
     <MtouchLink>None</MtouchLink>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
@@ -265,6 +265,7 @@
     <InterfaceDefinition Include="ApplePay.storyboard" />
     <InterfaceDefinition Include="Views\PaymentViews\CreditCardViewController.xib" />
     <InterfaceDefinition Include="Views\PaymentViews\PaymentViewController.xib" />
+    <InterfaceDefinition Include="Views\DriverViews\VehicleViewController.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -320,7 +321,6 @@
     <Compile Include="Services\SpeechServices\TouchSpeechToTextService.cs" />
     <Compile Include="Controls\ProfileButton.cs" />
     <Compile Include="Helpers\ProfileButtonManager.cs" />
-    <Compile Include="Views\LicensePlateView.cs" />
     <Compile Include="Views\PayHistoryView\PayHistoryView.cs" />
     <Compile Include="Views\PayHistoryView\PayHistoryCell.cs" />
     <Compile Include="Views\PayHistoryView\PayHistoryCell.designer.cs">
@@ -360,6 +360,11 @@
     <Compile Include="Plugin.cs" />
     <Compile Include="Services\TouchCreditCardScanService.cs" />
     <Compile Include="Services\SpeechServices\TouchTextToSpeechService.cs" />
+    <Compile Include="Views\DriverViews\LicensePlateView.cs" />
+    <Compile Include="Views\DriverViews\VehicleViewController.cs" />
+    <Compile Include="Views\DriverViews\VehicleViewController.designer.cs">
+      <DependentUpon>VehicleViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets')" />
@@ -394,6 +399,7 @@
     <Folder Include="Controls\TextFiled\" />
     <Folder Include="Resources\Images\HomeView\InformationBoard\" />
     <Folder Include="Views\PaymentViews\" />
+    <Folder Include="Views\DriverViews\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\OpenEars1.dic" />

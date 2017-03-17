@@ -103,7 +103,7 @@ namespace Tollminder.Core.Services.Implementation
                         if (!CheckStatusCode(response))
                             return default(TResponse);
 
-                        var returnObject = JsonConvert.DeserializeObject<TResponse>(await ParseJson(response, progress, token));
+                        var returnObject = JsonConvert.DeserializeObject<TResponse>(await ParseJsonAsync(response, progress, token));
                         return returnObject;
                     }
                 }
@@ -125,7 +125,7 @@ namespace Tollminder.Core.Services.Implementation
             return SendAsync<TRequest, TResponse>(data, url, null);
         }
 
-        public async Task<Profile> CheckProfile<TRequest>(TRequest data, string url)
+        public async Task<Profile> CheckProfileAsync<TRequest>(TRequest data, string url)
         {
             var result = await SendAsync<TRequest, Profile>(data, url);
             if (result == null)
@@ -159,7 +159,7 @@ namespace Tollminder.Core.Services.Implementation
                     if (!CheckStatusCode(response))
                         return default(Profile);
 
-                    var returnObject = JsonConvert.DeserializeObject<Profile>(await ParseJson(response, null, token.Token));
+                    var returnObject = JsonConvert.DeserializeObject<Profile>(await ParseJsonAsync(response, null, token.Token));
                     returnObject.StatusCode = statusCode;
                     return returnObject;
                 }
@@ -179,7 +179,7 @@ namespace Tollminder.Core.Services.Implementation
             return true;
         }
 
-        private async Task<string> ParseJson(HttpResponseMessage response, IProgress<ProgressCompleted> progress, CancellationToken token)
+        private async Task<string> ParseJsonAsync(HttpResponseMessage response, IProgress<ProgressCompleted> progress, CancellationToken token)
         {
             List<byte> byteData = new List<byte>();
             var total = response.Content.Headers.ContentLength.HasValue ? response.Content.Headers.ContentLength.Value : -1L;

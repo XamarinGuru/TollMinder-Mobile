@@ -8,10 +8,10 @@ namespace Tollminder.Core.ServicesHelpers
     {
         TollGeolocationStatus TollStatus { get; }
 
-        Task<bool> StartServices();
+        Task<bool> StartServicesAsync();
         bool StopServices();
 
-        Task CheckAreWeStillOnTheRoad();
-        Task Initialize();
+        Task CheckAreWeStillOnTheRoadAsync();
+        Task InitializeAsync();
     }
 }

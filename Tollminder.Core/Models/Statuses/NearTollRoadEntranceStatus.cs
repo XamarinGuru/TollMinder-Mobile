@@ -33,7 +33,7 @@ namespace Tollminder.Core.Models.Statuses
                 if (WaypointChecker.TollPointsInRadius.Count == 1)
                     GeoWatcher.StopUpdatingHighAccuracyLocation();
 
-                if (await SpeechToTextService.AskQuestion($"Are you entering {insideTollPoint.Name} tollroad?"))
+                if (await SpeechToTextService.AskQuestionAsync($"Are you entering {insideTollPoint.Name} tollroad?"))
                 {
                     WaypointChecker.SetEntrance(insideTollPoint);
 
@@ -42,7 +42,7 @@ namespace Tollminder.Core.Models.Statuses
                         WaypointChecker.SetExit(insideTollPoint);
 
                         WaypointChecker.SetTollPointsInRadius(null);
-                        await NotifyService.Notify("Bill was created");
+                        await NotifyService.NotifyAsync("Bill was created");
                         WaypointChecker.ClearData();
                         return TollGeolocationStatus.NotOnTollRoad;
                     }

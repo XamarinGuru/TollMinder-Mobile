@@ -47,12 +47,12 @@ namespace Tollminder.Touch.Services
             manager = null;
         }
 
-        public Task<SocialData> GetPersonData()
+        public Task<SocialData> GetPersonDataAsync()
         {
             _facebookTask = new TaskCompletionSource<SocialData>();
             CancellationToken canellationToken = new CancellationToken(true);
 
-            manager.LogInWithReadPermissions(readPermissions.ToArray(), (res, e) => 
+            manager.LogInWithReadPermissions(readPermissions.ToArray(), (res, e) =>
             {
                 if (e != null)
                 {
@@ -72,8 +72,8 @@ namespace Tollminder.Touch.Services
                         return;
                     }
                 }
-                catch(Exception ex)
-                { 
+                catch (Exception ex)
+                {
                     Debug.WriteLine(ex.Message, ex.StackTrace);
                 }
 

@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 
 namespace Tollminder.Core.Services
 {
-	public interface INotifyService
-	{
-		Task Notify (string message);
-	}
+    public interface INotifyService
+    {
+        Task NotifyAsync(string message);
+    }
 }
 

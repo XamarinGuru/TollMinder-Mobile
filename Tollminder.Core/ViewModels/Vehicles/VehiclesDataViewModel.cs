@@ -8,12 +8,12 @@ namespace Tollminder.Core.ViewModels.Vehicles
     {
         readonly IStoredSettingsService storedSettingsService;
 
-        MvxCommand AddVehicleListCommnad { get; set; }
+        MvxCommand AddVehicleCommand { get; set; }
 
         public VehiclesDataViewModel(IStoredSettingsService storedSettingsService)
         {
             this.storedSettingsService = storedSettingsService;
-            AddVehicleListCommnad = new MvxCommand(() => ShowViewModel<VehicleViewModel>());
+            AddVehicleCommand = new MvxCommand(() => ShowViewModel<VehicleViewModel>());
         }
     }
 }

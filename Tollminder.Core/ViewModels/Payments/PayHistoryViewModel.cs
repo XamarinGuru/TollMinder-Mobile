@@ -30,25 +30,25 @@ namespace Tollminder.Core.ViewModels.Payments
 
             openCalendarFromCommand = new MvxCommand(async () =>
             {
-                GetPayDateFrom = await Mvx.Resolve<ICalendarDialog>().ShowDialog(GetPayDateFrom);
-                await LoadHistory();
+                GetPayDateFrom = await Mvx.Resolve<ICalendarDialog>().ShowDialogAsync(GetPayDateFrom);
+                await LoadHistoryAsync();
             });
             openCalendarToCommand = new MvxCommand(async () =>
             {
-                GetPayDateTo = await Mvx.Resolve<ICalendarDialog>().ShowDialog(GetPayDateTo);
-                await LoadHistory();
+                GetPayDateTo = await Mvx.Resolve<ICalendarDialog>().ShowDialogAsync(GetPayDateTo);
+                await LoadHistoryAsync();
             });
 
-            downloadHistoryCommand = new MvxCommand(() => ServerCommandWrapper(() => DownloadPdf()));
+            downloadHistoryCommand = new MvxCommand(() => ServerCommandWrapperAsync(() => DownloadPdfAsync()));
         }
 
         public async override void Start()
         {
-            await LoadHistory();
+            await LoadHistoryAsync();
             base.Start();
         }
 
-        async Task LoadHistory()
+        async Task LoadHistoryAsync()
         {
             try
             {
@@ -58,7 +58,7 @@ namespace Tollminder.Core.ViewModels.Payments
             {
                 Debug.WriteLine(ex.Message);
             }
-            History = await serverApiService.GetPayHistory(GetPayDateFrom, GetPayDateTo);
+            History = await serverApiService.GetPayHistoryAsync(GetPayDateFrom, GetPayDateTo);
             try
             {
                 if (History.Count != 0)
@@ -80,11 +80,11 @@ namespace Tollminder.Core.ViewModels.Payments
             }
         }
 
-        async Task DownloadPdf()
+        async Task DownloadPdfAsync()
         {
             if (isPayHistoryAwailableForUser)
             {
-                string result = await serverApiService.DownloadPayHistory(getPayDateFrom, getPayDateTo);
+                string result = await serverApiService.DownloadPayHistoryAsync(getPayDateFrom, getPayDateTo);
                 if (result != null)
                     ShowViewModel<PayHistoryPdfViewModel>(new { pdfUrlFromServer = result, pdfNameFromDateRange = GetPdfName() });
             }

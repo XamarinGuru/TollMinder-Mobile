@@ -52,7 +52,7 @@ namespace Tollminder.Core.ViewModels
                 Log.LogMessage("Tracking button is pressed!");
                 IsBound = !IsBound;
 
-                var result = IsBound ? await _track.StartServices() : _track.StopServices();
+                var result = IsBound ? await _track.StartServicesAsync() : _track.StopServices();
                 IsBound = _geoWatcher.IsBound;
             });
 
@@ -67,16 +67,16 @@ namespace Tollminder.Core.ViewModels
 
         public async override void Start()
         {
-            //if (await synchronisationService.AuthorizeTokenSynchronisation())
-            await Task.Run(RefreshToolRoads);
-            //else
-            //{
-            //    Close(this);
-            //    if (IsBound)
-            //        _track.StopServices();
-            //    ShowViewModel<LoginViewModel>();
-            //    return;
-            //}
+            if (await synchronisationService.AuthorizeTokenSynchronisationAsync())
+                await Task.Run(RefreshToolRoadsAsync);
+            else
+            {
+                Close(this);
+                if (IsBound)
+                    _track.StopServices();
+                ShowViewModel<LoginViewModel>();
+                return;
+            }
 
             base.Start();
             _tokens.Add(_messenger.SubscribeOnMainThread<GeoWatcherStatusMessage>((s) => IsBound = s.Data, MvxReference.Strong));
@@ -84,7 +84,7 @@ namespace Tollminder.Core.ViewModels
             _tokens.Add(_messenger.SubscribeOnThreadPoolThread<StatusMessage>(x => StatusString = x.Data.ToString(), MvxReference.Strong));
             _tokens.Add(_messenger.SubscribeOnMainThread<TollRoadChangedMessage>((s) => TollRoadString = s.Data?.Name, MvxReference.Strong));
 
-            await synchronisationService.DataSynchronisation();
+            await synchronisationService.DataSynchronisationAsync();
 
             StatusString = _track.TollStatus.ToString();
             TollRoadString = Mvx.Resolve<IWaypointChecker>().TollRoad?.Name;
@@ -98,9 +98,9 @@ namespace Tollminder.Core.ViewModels
             DistanceToNearestTollpoint = double.Parse(Mvx.Resolve<IWaypointChecker>().DistanceToNearestTollpoint.ToString());
         }
 
-        Task RefreshToolRoads()
+        Task RefreshToolRoadsAsync()
         {
-            return ServerCommandWrapper(() => Mvx.Resolve<IGeoDataService>().RefreshTollRoads(CancellationToken.None));
+            return ServerCommandWrapperAsync(() => Mvx.Resolve<IGeoDataService>().RefreshTollRoadsAsync(CancellationToken.None));
         }
 
         MvxCommand _trackingCommand;

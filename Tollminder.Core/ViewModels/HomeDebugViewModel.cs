@@ -36,15 +36,15 @@ namespace Tollminder.Core.ViewModels
             _tokens = new List<MvxSubscriptionToken>();
         }
 
-        Task RefreshToolRoads()
+        Task RefreshToolRoadsAsync()
         {
-            return ServerCommandWrapper(() => Mvx.Resolve<IGeoDataService>().RefreshTollRoads(CancellationToken.None));
+            return ServerCommandWrapperAsync(() => Mvx.Resolve<IGeoDataService>().RefreshTollRoadsAsync(CancellationToken.None));
         }
 
         public async override void Start()
         {
-            if (await synchronisationService.AuthorizeTokenSynchronisation())
-                await Task.Run(RefreshToolRoads);
+            if (await synchronisationService.AuthorizeTokenSynchronisationAsync())
+                await Task.Run(RefreshToolRoadsAsync);
             else
             {
                 Close(this);
@@ -171,7 +171,7 @@ namespace Tollminder.Core.ViewModels
             {
                 return _startCommand ?? (_startCommand = new MvxCommand(async () =>
                {
-                   if (await _track.StartServices())
+                   if (await _track.StartServicesAsync())
                        IsBound = _geoWatcher.IsBound;
                }));
             }

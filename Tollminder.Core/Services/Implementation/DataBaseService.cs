@@ -144,18 +144,18 @@ namespace Tollminder.Core.Services.Implementation
             Connection.InsertOrReplace(user);
         }
 
-        async Task<Profile> GetUser(string token)
+        async Task<Profile> GetUserAsync(string token)
         {
             var userFromDataBase = Connection.Get<Profile>(x => x.Token == token);
             var _serverApiService = Mvx.Resolve<IServerApiService>();
-            _user = await _serverApiService.GetProfile(userFromDataBase.Id);
+            _user = await _serverApiService.GetProfileAsync(userFromDataBase.Id);
 
             return _user;
         }
 
-        public async Task<bool> IsTokenStillValid(string token)
+        public async Task<bool> IsTokenStillValidAsync(string token)
         {
-            _user = await GetUser(token);
+            _user = await GetUserAsync(token);
             return _user.Token != token ? false : true;
         }
 

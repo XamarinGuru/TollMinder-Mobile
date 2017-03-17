@@ -16,12 +16,12 @@ namespace Tollminder.Core.Services.Implementation
 			this._platform = platform;
 		}
 
-		public async virtual Task Notify (string message)
+		public async virtual Task NotifyAsync (string message)
 		{
 			if (!_platform.IsAppInForeground) {
 				_notificationSender.SendLocalNotification ("Toll Minder", message);
 			}
-			_textToSpeech.Speak (message).Wait();		
+			_textToSpeech.SpeakAsync (message).Wait();		
 		}
 	}
 }

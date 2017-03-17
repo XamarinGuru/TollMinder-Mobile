@@ -81,7 +81,7 @@ namespace Tollminder.Droid.Services
             textToSpeechService = Mvx.Resolve<ITextToSpeechService>();
         }
 
-        public async Task<bool> AskQuestion(string question)
+        public async Task<bool> AskQuestionAsync(string question)
         {
             bool result = false;
             for (int i = 0; i < 3; i++)
@@ -90,7 +90,7 @@ namespace Tollminder.Droid.Services
                 {
                     cancellationToken = new CancellationTokenSource(TimeSpan.FromSeconds(repeatTimeoutSeconts));
                     cancellationToken.CancelAfter(TimeSpan.FromSeconds(repeatTimeoutSeconts));
-                    result = await AskOneTimeQuestion(question);
+                    result = await AskOneTimeQuestionAsync(question);
                     break;
                 }
                 catch (TaskCanceledException ex)
@@ -105,7 +105,7 @@ namespace Tollminder.Droid.Services
             return result;
         }
 
-        public async Task<bool> AskOneTimeQuestion(string question)
+        public async Task<bool> AskOneTimeQuestionAsync(string question)
         {
             var result = false;
             _alertRecognitionTCS = new TaskCompletionSource<bool>();
@@ -114,7 +114,7 @@ namespace Tollminder.Droid.Services
                 ShowDialog();
 
                 _voiceRecognitionTCS = new TaskCompletionSource<bool>();
-                result = await await Task.WhenAny(new[] { _alertRecognitionTCS.Task, AskQuestionMethod(question) });
+                result = await await Task.WhenAny(new[] { _alertRecognitionTCS.Task, AskQuestionMethodAsync(question) });
             }
             catch (TaskCanceledException ex)
             {
@@ -131,7 +131,7 @@ namespace Tollminder.Droid.Services
             return result;
         }
 
-        async Task<bool> AskQuestionMethod(string question)
+        async Task<bool> AskQuestionMethodAsync(string question)
         {
             bool result = false;
             if (_speechRecognizer != null)
@@ -147,8 +147,8 @@ namespace Tollminder.Droid.Services
 
             _handler = new Handler(Application.Context.MainLooper);
 
-            await textToSpeechService.Speak(question, false);
-            await textToSpeechService.Speak("Please, answer yes or no after the tone", false);
+            await textToSpeechService.SpeakAsync(question, false);
+            await textToSpeechService.SpeakAsync("Please, answer yes or no after the tone", false);
 
             Question = question;
             StartSpeechRecognition();
@@ -251,7 +251,7 @@ namespace Tollminder.Droid.Services
                 if (answer != AnswerType.Unknown)
                 {
                     _voiceRecognitionTCS.TrySetResult(answer == AnswerType.Positive);
-                    textToSpeechService.Speak($"Your answer is {answer.ToString()}", false).Wait();
+                    textToSpeechService.SpeakAsync($"Your answer is {answer.ToString()}", false).Wait();
                     if (_isMusicRunning)
                         platformService.PlayMusic();
                 }

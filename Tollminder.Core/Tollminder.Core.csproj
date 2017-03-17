@@ -46,7 +46,6 @@
     <Compile Include="Services\INotificationSender.cs" />
     <Compile Include="Helpers\LocationChecker.cs" />
     <Compile Include="Services\IGeoDataServiceAsync.cs" />
-    <Compile Include="Services\Implementation\GeoDataServiceAsync.cs" />
     <Compile Include="Utils\Timer.cs" />
     <Compile Include="Services\IHttpService.cs" />
     <Compile Include="Services\Implementation\HttpService.cs" />
@@ -134,7 +133,6 @@
     <Compile Include="Services\IProgressDialogManager.cs" />
     <Compile Include="Extensions\FieldValidator\ValidationResultExtension.cs" />
     <Compile Include="Extensions\FieldValidator\ObservableDictionary.cs" />
-    <Compile Include="ViewModels\PayViewModel.cs" />
     <Compile Include="PluginLoader.cs" />
     <Compile Include="Services\ScanCreditCard\CreditCardScanOptions.cs" />
     <Compile Include="Services\ScanCreditCard\ICreditCardScanService.cs" />
@@ -165,6 +163,7 @@
     <Compile Include="Models\UserData\StatesData.cs" />
     <Compile Include="Models\PaymentData\PayHistory.cs" />
     <Compile Include="ViewModels\Payments\CreditCardViewModel.cs" />
+    <Compile Include="ViewModels\Payments\PayViewModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>

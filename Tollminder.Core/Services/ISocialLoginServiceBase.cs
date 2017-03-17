@@ -8,6 +8,6 @@ namespace Tollminder.Core.Services
     {
         void Initialize();
         void ReleaseResources();
-        Task<SocialData> GetPersonData();
+        Task<SocialData> GetPersonDataAsync();
     }
 }

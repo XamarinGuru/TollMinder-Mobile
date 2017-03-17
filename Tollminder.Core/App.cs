@@ -42,8 +42,8 @@ namespace Tollminder.Core
             if (e.SetupState == MvxSetup.MvxSetupState.Initialized)
             {
                 // need to test it
-                await Mvx.Resolve<ITrackFacade>().CheckAreWeStillOnTheRoad();
-                await Mvx.Resolve<ITrackFacade>().Initialize();
+                await Mvx.Resolve<ITrackFacade>().CheckAreWeStillOnTheRoadAsync();
+                await Mvx.Resolve<ITrackFacade>().InitializeAsync();
                 _setup.StateChanged -= StateChanged;
                 _setup = null;
             }
