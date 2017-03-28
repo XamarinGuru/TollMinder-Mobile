@@ -1,6 +1,5 @@
-﻿using System;
-using Tollminder.Core.Services;
-using MvvmCross.Core.ViewModels;
+﻿using MvvmCross.Core.ViewModels;
+using Tollminder.Core.Services.Settings;
 
 namespace Tollminder.Core.ViewModels.Vehicles
 {

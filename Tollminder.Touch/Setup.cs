@@ -1,6 +1,5 @@
 using UIKit;
 using Tollminder.Touch.Services;
-using Tollminder.Core.Services;
 using MvvmCross.iOS.Platform;
 using MvvmCross.iOS.Views.Presenters;
 using MvvmCross.Core.ViewModels;
@@ -8,6 +7,14 @@ using MvvmCross.Platform.Platform;
 using MvvmCross.Platform;
 using Tollminder.Touch.Services.SpeechServices;
 using Tollminder.Core.Services.ScanCrediCard;
+using Tollminder.Core.Services.Settings;
+using Tollminder.Core.Services.GeoData;
+using Tollminder.Core.Services.RoadsProcessing;
+using Tollminder.Core.Services.SpeechRecognition;
+using Tollminder.Core.Services.Notifications;
+using Tollminder.Core.Services.SocialNetworks;
+using Tollminder.Core.Services.ProfileData;
+using Tollminder.Core.Services.Api;
 
 namespace Tollminder.Touch
 {
@@ -44,7 +51,6 @@ namespace Tollminder.Touch
             Mvx.LazyConstructAndRegisterSingleton<IInsightsService, TouchInsightsService>();
             Mvx.LazyConstructAndRegisterSingleton<IGeoLocationWatcher, TouchGeolocationWatcher>();
             Mvx.LazyConstructAndRegisterSingleton<IMotionActivity, TouchMotionActivity>();
-            Mvx.LazyConstructAndRegisterSingleton<ICheckerAppFirstLaunch, TouchCheckerAppFirstLaunch>();
             Mvx.LazyConstructAndRegisterSingleton<IPlatform, TouchPlatform>();
             Mvx.LazyConstructAndRegisterSingleton<INotificationSender, TouchNotificationSender>();
             Mvx.LazyConstructAndRegisterSingleton<ITextToSpeechService, TouchTextToSpeechService>();

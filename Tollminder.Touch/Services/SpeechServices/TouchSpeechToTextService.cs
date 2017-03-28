@@ -4,18 +4,15 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Timers;
-using AudioToolbox;
 using AVFoundation;
 using Foundation;
 using MvvmCross.Platform;
 using OpenEars;
 using Tollminder.Core.Models;
-using Tollminder.Core.Services;
-using Tollminder.Touch.Views;
 using UIKit;
 using Chance.MvvmCross.Plugins.UserInteraction;
 using MvvmCross.Platform.Core;
+using Tollminder.Core.Services.SpeechRecognition;
 
 namespace Tollminder.Touch.Services.SpeechServices
 {

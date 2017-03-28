@@ -4,7 +4,7 @@ using Tollminder.Core.ViewModels.Payments;
 
 namespace Tollminder.Touch.Views
 {
-    public partial class CreditCardViewController : BaseViewController<CreditCardViewModel>
+    public partial class CreditCardViewController : BaseViewController<AddCreditCardViewModel>
     {
         public CreditCardViewController() : base("CreditCardViewController", null)
         {

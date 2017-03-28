@@ -1,12 +1,12 @@
 ﻿using Android.App;
 using Android.Speech.Tts;
-using Tollminder.Core.Services;
 using Android.Media;
 using Android.Content;
 using System;
 using System.Threading.Tasks;
 using MvvmCross.Platform;
 using MvvmCross.Platform.Core;
+using Tollminder.Core.Services.SpeechRecognition;
 
 namespace Tollminder.Droid.Services
 {

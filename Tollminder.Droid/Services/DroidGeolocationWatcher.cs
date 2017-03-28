@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Timers;
-using Android.Content;
+﻿using Android.Content;
 using MvvmCross.Platform;
 using MvvmCross.Plugins.Messenger;
 using Tollminder.Core.Helpers;
 using Tollminder.Core.Models;
-using Tollminder.Core.Services;
-using Tollminder.Core.Services.Implementation;
+using Tollminder.Core.Services.GeoData;
+using Tollminder.Core.Services.Settings;
 using Tollminder.Droid.AndroidServices;
 
 namespace Tollminder.Droid.Services

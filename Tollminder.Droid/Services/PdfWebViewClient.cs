@@ -1,9 +1,8 @@
-﻿using System;
-using Android.App;
+﻿using Android.App;
 using Android.Content;
 using Android.Webkit;
 using MvvmCross.Platform;
-using Tollminder.Core.Services;
+using Tollminder.Core.Services.ProfileData;
 
 namespace Tollminder.Droid.Services
 {
@@ -26,7 +25,8 @@ namespace Tollminder.Droid.Services
                 view.LoadUrl(url);
                 isLoaded = true;
             }
-            else {
+            else
+            {
                 Mvx.Resolve<IFileManager>().Download(url, null, ProgressDialog.Show(context, "Pdf file", "Downloading..."));
             }
             view.Reload();

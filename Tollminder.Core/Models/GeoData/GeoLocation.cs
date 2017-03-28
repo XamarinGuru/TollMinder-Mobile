@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using MvvmCross.Platform;
-using SQLite;
-using SQLiteNetExtensions.Attributes;
 using Tollminder.Core.Helpers;
-using Tollminder.Core.Services.Implementation;
 using Chance.MvvmCross.Plugins.UserInteraction;
 using Xamarin;
+using Tollminder.Core.Services.Settings;
 
 namespace Tollminder.Core.Models
 {

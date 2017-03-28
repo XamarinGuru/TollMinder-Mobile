@@ -4,11 +4,11 @@ namespace Tollminder.Core.Models.PaymentData
 {
     public class AddCreditCard
     {
-        public string CardNumber { get; set; }
+        public string UserId { get; set; }
+
+        public string CreditCardNumber { get; set; }
 
         public string Holder { get; set; }
-
-        public DateTime ExpirationDate => new DateTime(ExpirationMonth, ExpirationYear, DateTime.DaysInMonth(ExpirationYear, ExpirationMonth));
 
         public int ExpirationMonth { get; set; } = 1;
 

@@ -312,9 +312,7 @@
     <Compile Include="Views\HomeView.cs" />
     <Compile Include="Controls\RoundedButton.cs" />
     <Compile Include="Converters\GetPathToImageConverter.cs" />
-    <Compile Include="Services\TouchCheckerAppFirstLaunch.cs" />
     <Compile Include="Helpers\RoundedButtonManager.cs" />
-    <Compile Include="Services\TouchNetworkCheck.cs" />
     <Compile Include="Views\ProfileView.cs" />
     <Compile Include="Services\TouchSheduleNotification.cs" />
     <Compile Include="Services\SpeechServices\MyOpenEarsEventsObserverDelegate.cs" />

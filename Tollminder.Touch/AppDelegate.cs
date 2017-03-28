@@ -8,10 +8,9 @@ using MvvmCross.Plugins.Messenger;
 using Tollminder.Core.Models;
 using AVFoundation;
 using System.Threading.Tasks;
-using Tollminder.Core.Services;
 using Tollminder.Core.ServicesHelpers;
-using Google.Core;
 using Google.SignIn;
+using Tollminder.Core.Services.Notifications;
 
 namespace Tollminder.Touch
 {

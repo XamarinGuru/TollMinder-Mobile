@@ -6,14 +6,12 @@ using Android.Gms.Auth.Api;
 using Android.Gms.Auth.Api.SignIn;
 using Android.Gms.Common;
 using Android.Gms.Common.Apis;
-using Android.Gms.Plus;
 using Android.OS;
 using Android.Support.V4.App;
-using Android.Views;
 using MvvmCross.Platform;
 using MvvmCross.Platform.Droid.Platform;
 using Tollminder.Core.Models;
-using Tollminder.Core.Services;
+using Tollminder.Core.Services.SocialNetworks;
 using Tollminder.Droid.Inerfaces;
 
 namespace Tollminder.Droid.Services

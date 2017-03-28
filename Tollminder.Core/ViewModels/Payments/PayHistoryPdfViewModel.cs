@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
-using Tollminder.Core.Services;
+using Tollminder.Core.Services.ProfileData;
 
 namespace Tollminder.Core.ViewModels.Payments
 {

@@ -1,22 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
-using Android.Media;
 using Android.OS;
-using Android.Runtime;
 using Android.Speech;
-using Chance.MvvmCross.Plugins.UserInteraction;
 using MvvmCross.Platform;
 using MvvmCross.Platform.Droid.Platform;
 using Tollminder.Core.Helpers;
 using Tollminder.Core.Models;
-using Tollminder.Core.Services;
-using Tollminder.Core.Utils;
 using MvvmCross.Platform.Core;
+using Tollminder.Core.Services.SpeechRecognition;
+using Android.Runtime;
 
 namespace Tollminder.Droid.Services
 {

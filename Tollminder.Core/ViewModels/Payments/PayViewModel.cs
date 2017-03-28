@@ -15,7 +15,7 @@ namespace Tollminder.Core.ViewModels.Payments
         public PayViewModel()
         {
             backToProfileCommand = new MvxCommand(() => { ShowViewModel<ProfileViewModel>(); });
-            goToCreditCardDataCommand = new MvxCommand(() => { ShowViewModel<CreditCardViewModel>(); });
+            goToCreditCardDataCommand = new MvxCommand(() => { ShowViewModel<AddCreditCardViewModel>(); });
         }
 
         public override void Start()

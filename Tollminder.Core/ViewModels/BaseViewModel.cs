@@ -10,7 +10,7 @@ using MvvmCross.Plugins.Messenger;
 using MvvmValidation;
 using Tollminder.Core.Extensions.FieldValidator;
 using Tollminder.Core.Models;
-using Tollminder.Core.Services;
+using Tollminder.Core.Services.Settings;
 
 namespace Tollminder.Core.ViewModels
 {

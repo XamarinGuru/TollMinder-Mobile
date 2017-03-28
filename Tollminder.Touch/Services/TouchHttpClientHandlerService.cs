@@ -1,6 +1,5 @@
-﻿using System;
-using ModernHttpClient;
-using Tollminder.Core.Services;
+﻿using ModernHttpClient;
+using Tollminder.Core.Services.Api;
 
 namespace Tollminder.Touch.Services
 {

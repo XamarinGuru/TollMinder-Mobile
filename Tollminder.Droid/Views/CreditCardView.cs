@@ -9,7 +9,7 @@ using Tollminder.Droid.AndroidServices;
 namespace Tollminder.Droid.Views
 {
     [Activity(Label = "CreditCard", Theme = "@style/AppTheme", LaunchMode = LaunchMode.SingleTask, ScreenOrientation = ScreenOrientation.Portrait, NoHistory = true)]
-    public class CreditCardView : MvxActivity<CreditCardViewModel>
+    public class CreditCardView : MvxActivity<AddCreditCardViewModel>
     {
         protected override void OnCreate(Bundle bundle)
         {

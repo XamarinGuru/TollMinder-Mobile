@@ -6,7 +6,8 @@ using MvvmCross.Platform;
 using MvvmCross.Platform.Droid.Platform;
 using Newtonsoft.Json;
 using Tollminder.Core.Models;
-using Tollminder.Core.Services;
+using Tollminder.Core.Services.Notifications;
+using Tollminder.Core.Services.SocialNetworks;
 using Tollminder.Droid.Views;
 using Xamarin.Auth;
 

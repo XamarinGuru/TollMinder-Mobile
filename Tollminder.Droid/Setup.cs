@@ -1,5 +1,4 @@
 using Android.Content;
-using Tollminder.Core.Services;
 using Tollminder.Droid.Services;
 using MvvmCross.Platform;
 using MvvmCross.Droid.Platform;
@@ -11,6 +10,14 @@ using System;
 using Tollminder.Core.Converters;
 using System.Linq;
 using Tollminder.Droid.Views.Fragments;
+using Tollminder.Core.Services.Settings;
+using Tollminder.Core.Services.RoadsProcessing;
+using Tollminder.Core.Services.Notifications;
+using Tollminder.Core.Services.SpeechRecognition;
+using Tollminder.Core.Services.Api;
+using Tollminder.Core.Services.SocialNetworks;
+using Tollminder.Core.Services.ProfileData;
+using Tollminder.Core.Services.GeoData;
 
 namespace Tollminder.Droid
 {
@@ -71,12 +78,12 @@ namespace Tollminder.Droid
             //registry.AddOrOverwrite("BoolInverseConverter", new BoolInverseConverter());
         }
 
-		protected override void InitializeLastChance()
-		{
-			System.Net.ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+        protected override void InitializeLastChance()
+        {
+            System.Net.ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
 
-			base.InitializeLastChance();
-		}
+            base.InitializeLastChance();
+        }
 
         protected override void FillTargetFactories(MvvmCross.Binding.Bindings.Target.Construction.IMvxTargetBindingFactoryRegistry registry)
         {

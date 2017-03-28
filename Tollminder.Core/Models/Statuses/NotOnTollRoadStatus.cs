@@ -1,7 +1,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Tollminder.Core.Helpers;
-using Tollminder.Core.Services.Implementation;
+using Tollminder.Core.Services.Settings;
 
 namespace Tollminder.Core.Models.Statuses
 {

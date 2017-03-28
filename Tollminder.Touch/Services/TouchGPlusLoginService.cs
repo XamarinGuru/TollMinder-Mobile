@@ -5,7 +5,7 @@ using Google.Core;
 using Google.SignIn;
 using MvvmCross.Platform;
 using Tollminder.Core.Models;
-using Tollminder.Core.Services;
+using Tollminder.Core.Services.SocialNetworks;
 
 namespace Tollminder.Touch.Services
 {

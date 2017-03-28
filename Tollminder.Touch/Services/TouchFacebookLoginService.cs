@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using CoreGraphics;
 using Facebook.CoreKit;
 using Facebook.LoginKit;
 using Foundation;
 using MvvmCross.Platform;
-using Newtonsoft.Json;
 using Tollminder.Core.Models;
-using Tollminder.Core.Services;
+using Tollminder.Core.Services.SocialNetworks;
 
 namespace Tollminder.Touch.Services
 {

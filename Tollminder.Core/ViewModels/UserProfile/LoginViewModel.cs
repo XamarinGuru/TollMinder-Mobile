@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using Tollminder.Core.Models;
-using Tollminder.Core.Services;
-using Tollminder.Core.Services.Implementation;
+using Tollminder.Core.Services.Api;
+using Tollminder.Core.Services.Settings;
+using Tollminder.Core.Services.SocialNetworks;
 
 namespace Tollminder.Core.ViewModels.UserProfile
 {
@@ -13,17 +13,20 @@ namespace Tollminder.Core.ViewModels.UserProfile
     {
         const string Login = "380000000000";
         const string Password = "123456789";
-        private DataBaseService _dataBaseService;
-        IStoredSettingsService _storedSettingsService;
-        IFacebookLoginService _facebookLoginService;
-        IGPlusLoginService _gPlusLoginService;
         private string userName;
 
-        public LoginViewModel()
+        readonly IStoredSettingsService _storedSettingsService;
+        readonly IFacebookLoginService _facebookLoginService;
+        readonly IGPlusLoginService _gPlusLoginService;
+        readonly IServerApiService _serverApiService;
+
+        public LoginViewModel(IStoredSettingsService storedSettingsService, IFacebookLoginService facebookLoginService, IGPlusLoginService gPlusLoginService,
+                             IServerApiService serverApiService)
         {
-            _storedSettingsService = Mvx.Resolve<IStoredSettingsService>();
-            _facebookLoginService = Mvx.Resolve<IFacebookLoginService>();
-            _gPlusLoginService = Mvx.Resolve<IGPlusLoginService>();
+            _storedSettingsService = storedSettingsService;
+            _facebookLoginService = facebookLoginService;
+            _gPlusLoginService = gPlusLoginService;
+            _serverApiService = serverApiService;
             _emailLoginCommand = new MvxCommand(() => ServerCommandWrapperAsync(() => LoginTaskAsync(EmailLoginData)));
             _facebookLoginCommand = new MvxCommand(() => ServerCommandWrapperAsync(async () => await LoginTaskAsync(await _facebookLoginService.GetPersonDataAsync())));
             _gPlusLoginCommand = new MvxCommand(() => ServerCommandWrapperAsync(async () => await LoginTaskAsync(await _gPlusLoginService.GetPersonDataAsync())));
@@ -36,7 +39,6 @@ namespace Tollminder.Core.ViewModels.UserProfile
             base.Init();
             LoginString = Login;
             PasswordString = Password;
-            _dataBaseService = new DataBaseService();
         }
 
         public override void Start()
@@ -106,7 +108,6 @@ namespace Tollminder.Core.ViewModels.UserProfile
 
             var success = false;
             var result = default(Profile);
-            var _serverApiService = Mvx.Resolve<IServerApiService>();
 
             switch (data.Source)
             {
@@ -141,7 +142,6 @@ namespace Tollminder.Core.ViewModels.UserProfile
 
             if (success)
             {
-                //_dataBaseService.SetUser(result);
                 _storedSettingsService.Profile = result;
                 _storedSettingsService.IsAuthorized = true;
                 _storedSettingsService.ProfileId = result.Id;

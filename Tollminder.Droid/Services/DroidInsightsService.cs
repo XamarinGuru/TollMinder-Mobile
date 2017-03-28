@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Android.App;
-using Tollminder.Core.Services;
+using Tollminder.Core.Services.Settings;
 using Xamarin;
 
 namespace Tollminder.Droid.Services

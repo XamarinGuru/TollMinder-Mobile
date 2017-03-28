@@ -59,7 +59,7 @@ namespace Tollminder.Touch.Services
         {
             var creditCard = cardInfo == null ? AddCreditCard.Empty : new AddCreditCard
             {
-                CardNumber = cardInfo.CardNumber,
+                //CardNumber = cardInfo.CardNumber,
                 //Cvv = cardInfo.Cvv,
                 ExpirationMonth = (int)cardInfo.ExpiryMonth,
                 ExpirationYear = (int)cardInfo.ExpiryYear

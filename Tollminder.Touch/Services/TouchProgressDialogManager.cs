@@ -1,4 +1,4 @@
-﻿using Tollminder.Core.Services;
+﻿using Tollminder.Core.Services.Notifications;
 using Tollminder.Touch.Controls;
 using UIKit;
 

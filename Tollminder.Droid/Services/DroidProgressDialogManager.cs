@@ -1,7 +1,6 @@
-﻿using System;
-using Android.App;
+﻿using Android.App;
 using Plugin.CurrentActivity;
-using Tollminder.Core.Services;
+using Tollminder.Core.Services.Notifications;
 
 namespace Tollminder.Droid.Services
 {

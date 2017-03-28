@@ -1,7 +1,6 @@
-﻿using System;
-using Tollminder.Core.Services;
-using AVFoundation;
+﻿using AVFoundation;
 using System.Threading.Tasks;
+using Tollminder.Core.Services.SpeechRecognition;
 
 namespace Tollminder.Touch.Services
 {

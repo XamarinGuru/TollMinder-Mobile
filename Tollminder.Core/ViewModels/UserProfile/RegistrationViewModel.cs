@@ -1,26 +1,29 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows.Input;
 using Chance.MvvmCross.Plugins.UserInteraction;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using MvvmValidation;
 using Tollminder.Core.Models;
-using Tollminder.Core.Services;
-using Tollminder.Core.Services.Implementation;
+using Tollminder.Core.Services.Api;
+using Tollminder.Core.Services.Notifications;
+using Tollminder.Core.Services.Settings;
 
 namespace Tollminder.Core.ViewModels.UserProfile
 {
     public class RegistrationViewModel : BaseViewModel
     {
         private string phoneCode;
-        IStoredSettingsService storedSettingsService;
-        IServerApiService serverApiService;
 
-        public RegistrationViewModel()
+        readonly IStoredSettingsService storedSettingsService;
+        readonly IServerApiService serverApiService;
+        readonly IProgressDialogManager progressDialogManager;
+
+        public RegistrationViewModel(IStoredSettingsService storedSettingsService, IServerApiService serverApiService, IProgressDialogManager progressDialogManager)
         {
-            storedSettingsService = Mvx.Resolve<IStoredSettingsService>();
-            serverApiService = Mvx.Resolve<IServerApiService>();
+            this.storedSettingsService = storedSettingsService;
+            this.serverApiService = serverApiService;
+            this.progressDialogManager = progressDialogManager;
 
             backToLoginViewCommand = new MvxCommand(() => { ShowViewModel<LoginViewModel>(); });
             registrationCommand = new MvxCommand(() => ServerCommandWrapperAsync(() => RegistrationAsync()));
@@ -33,7 +36,7 @@ namespace Tollminder.Core.ViewModels.UserProfile
             if (SettingsService.SocialRegistartionSource)
                 IsSocialRegistrationHidden = false;
             if (name != null)
-                Mvx.Resolve<IProgressDialogManager>().CloseAndShowMessage("Hello, " + name, "Please continue registration.");
+                progressDialogManager.CloseAndShowMessage("Hello, " + name, "Please continue registration.");
         }
 
         public override void Start()
@@ -118,7 +121,7 @@ namespace Tollminder.Core.ViewModels.UserProfile
                 }
             }
             else
-                Mvx.Resolve<IProgressDialogManager>().ShowMessage("Error", "Wrong SMS code! Please try again.");
+                progressDialogManager.ShowMessage("Error", "Wrong SMS code! Please try again.");
         }
 
         async Task RegistrationAsync()
@@ -140,7 +143,7 @@ namespace Tollminder.Core.ViewModels.UserProfile
                 var result = await serverApiService.SignUpAsync(profile);
                 if (CheckHttpStatuseCode(result.StatusCode))
                 {
-                    Mvx.Resolve<IProgressDialogManager>().CloseProgressDialog();
+                    progressDialogManager.CloseProgressDialog();
                     SmsCode = "1111";
                     var inputResult = await Mvx.Resolve<IUserInteraction>().InputAsync("Please input code from SMS", "XXXX", null, "Validate", null, SmsCode);
                     SmsCode = inputResult.Text;
@@ -153,14 +156,14 @@ namespace Tollminder.Core.ViewModels.UserProfile
         {
             if (string.IsNullOrEmpty(ConfirmPassword) && string.IsNullOrEmpty(Profile.Phone) && string.IsNullOrEmpty(Profile.Password))
             {
-                Mvx.Resolve<IProgressDialogManager>().ShowMessage("Error", "Please fill out the required fields.");
+                progressDialogManager.ShowMessage("Error", "Please fill out the required fields.");
                 return false;
             }
             if (!CheckField("Password", Profile.Password) || !CheckField("ConfirmPassword", ConfirmPassword))
                 return false;
             if (confirmPassword != profile.Password)
             {
-                Mvx.Resolve<IProgressDialogManager>().ShowMessage("Error", "Passwords not equal. Please try again.");
+                progressDialogManager.ShowMessage("Error", "Passwords not equal. Please try again.");
                 return false;
             }
             return true;
@@ -170,7 +173,7 @@ namespace Tollminder.Core.ViewModels.UserProfile
         {
             if (string.IsNullOrEmpty(fieldValue))
             {
-                Mvx.Resolve<IProgressDialogManager>().ShowMessage("Error", fieldName + " number can't be null.");
+                progressDialogManager.ShowMessage("Error", fieldName + " number can't be null.");
                 return false;
             }
             return true;
@@ -181,14 +184,14 @@ namespace Tollminder.Core.ViewModels.UserProfile
             switch (statusCode)
             {
                 case System.Net.HttpStatusCode.Found:
-                    Mvx.Resolve<IProgressDialogManager>().ShowMessage("Error", "User with this phone number already registrated. Please, enter diferent number and try again.");
+                    progressDialogManager.ShowMessage("Error", "User with this phone number already registrated. Please, enter diferent number and try again.");
                     break;
                 case System.Net.HttpStatusCode.OK:
                     return true;
                 case System.Net.HttpStatusCode.NotFound:
                 case System.Net.HttpStatusCode.BadRequest:
                 case System.Net.HttpStatusCode.Unauthorized:
-                    Mvx.Resolve<IProgressDialogManager>().ShowMessage("Error", "Server error!");
+                    progressDialogManager.ShowMessage("Error", "Server error!");
                     return false;
             }
             return false;

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
-using MvvmCross.Platform;
 using Tollminder.Core.Models;
-using Tollminder.Core.Services;
+using Tollminder.Core.Services.Api;
+using Tollminder.Core.Services.ProfileData;
 using Tollminder.Core.ViewModels.Payments;
 using Tollminder.Core.ViewModels.Vehicles;
 
@@ -17,15 +17,15 @@ namespace Tollminder.Core.ViewModels.UserProfile
         readonly IProfileSettingService profileSettingService;
         readonly int firstState = 0;
 
-        public ProfileViewModel()
+        public ProfileViewModel(ILoadResourceData<StatesData> loadResourceData, IProfileSettingService profileSettingService)
         {
-            loadResourceData = Mvx.Resolve<ILoadResourceData<StatesData>>();
-            profileSettingService = Mvx.Resolve<IProfileSettingService>();
+            this.loadResourceData = loadResourceData;
+            this.profileSettingService = profileSettingService;
             profile = new Profile();
 
             backHomeCommand = new MvxCommand(() => { ShowViewModel<HomeViewModel>(); });
             addLicenseCommand = new MvxCommand(() => { ShowViewModel<LicenseViewModel>(); });
-            addCreditCardCommand = new MvxCommand(() => { ShowViewModel<CreditCardViewModel>(); });
+            addCreditCardCommand = new MvxCommand(() => { ShowViewModel<AddCreditCardViewModel>(); });
 
             States = loadResourceData.GetData("Tollminder.Core.states.json");
         }

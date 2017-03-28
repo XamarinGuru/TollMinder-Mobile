@@ -5,9 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
-using MvvmCross.Platform;
 using Tollminder.Core.Models.PaymentData;
-using Tollminder.Core.Services;
+using Tollminder.Core.Services.Api;
+using Tollminder.Core.Services.Notifications;
+using Tollminder.Core.Services.Settings;
 
 namespace Tollminder.Core.ViewModels.Payments
 {
@@ -15,12 +16,17 @@ namespace Tollminder.Core.ViewModels.Payments
     {
         readonly IServerApiService serverApiService;
         readonly IStoredSettingsService storedSettingsService;
-        bool isPayHistoryAwailableForUser;
+        readonly ICalendarDialog calendarDialog;
+        readonly IProgressDialogManager progressDialogManager;
 
-        public PayHistoryViewModel()
+        private bool isPayHistoryAwailableForUser;
+
+        public PayHistoryViewModel(IServerApiService serverApiService, IStoredSettingsService storedSettingsService, ICalendarDialog calendarDialog, IProgressDialogManager progressDialogManager)
         {
-            serverApiService = Mvx.Resolve<IServerApiService>();
-            storedSettingsService = Mvx.Resolve<IStoredSettingsService>();
+            this.serverApiService = serverApiService;
+            this.storedSettingsService = storedSettingsService;
+            this.calendarDialog = calendarDialog;
+            this.progressDialogManager = progressDialogManager;
 
             GetPayDateFrom = new DateTime(2016, 10, 5);
             GetPayDateTo = DateTime.Now;
@@ -30,12 +36,12 @@ namespace Tollminder.Core.ViewModels.Payments
 
             openCalendarFromCommand = new MvxCommand(async () =>
             {
-                GetPayDateFrom = await Mvx.Resolve<ICalendarDialog>().ShowDialogAsync(GetPayDateFrom);
+                GetPayDateFrom = await calendarDialog.ShowDialogAsync(GetPayDateFrom);
                 await LoadHistoryAsync();
             });
             openCalendarToCommand = new MvxCommand(async () =>
             {
-                GetPayDateTo = await Mvx.Resolve<ICalendarDialog>().ShowDialogAsync(GetPayDateTo);
+                GetPayDateTo = await calendarDialog.ShowDialogAsync(GetPayDateTo);
                 await LoadHistoryAsync();
             });
 
@@ -52,7 +58,7 @@ namespace Tollminder.Core.ViewModels.Payments
         {
             try
             {
-                Mvx.Resolve<IProgressDialogManager>().ShowProgressDialog("Please wait!", "Pay history is loading...");
+                progressDialogManager.ShowProgressDialog("Please wait!", "Pay history is loading...");
             }
             catch (Exception ex)
             {
@@ -63,16 +69,16 @@ namespace Tollminder.Core.ViewModels.Payments
             {
                 if (History.Count != 0)
                 {
-                    Mvx.Resolve<IProgressDialogManager>().CloseProgressDialog();
+                    progressDialogManager.CloseProgressDialog();
                     isPayHistoryAwailableForUser = true;
                 }
                 else
-                    Mvx.Resolve<IProgressDialogManager>().CloseAndShowMessage("Error", "Sorry, there is no pay history for now.");
+                    progressDialogManager.CloseAndShowMessage("Error", "Sorry, there is no pay history for now.");
             }
             catch (NullReferenceException ex)
             {
                 Debug.WriteLine(ex.Message);
-                Mvx.Resolve<IProgressDialogManager>().CloseAndShowMessage("Error", "Sorry, there is no pay history for now.");
+                progressDialogManager.CloseAndShowMessage("Error", "Sorry, there is no pay history for now.");
             }
             catch (Exception ex)
             {
@@ -89,7 +95,7 @@ namespace Tollminder.Core.ViewModels.Payments
                     ShowViewModel<PayHistoryPdfViewModel>(new { pdfUrlFromServer = result, pdfNameFromDateRange = GetPdfName() });
             }
             else
-                Mvx.Resolve<IProgressDialogManager>().CloseAndShowMessage("Error", "Sorry, there is no pay history for now.");
+                progressDialogManager.CloseAndShowMessage("Error", "Sorry, there is no pay history for now.");
         }
 
         private string selectedItemFromCalendarRadioGroup;

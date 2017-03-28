@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 using MvvmCross.Platform;
-using Tollminder.Core.Services;
+using Tollminder.Core.Services.GeoData;
+using Tollminder.Core.Services.Notifications;
+using Tollminder.Core.Services.RoadsProcessing;
+using Tollminder.Core.Services.Settings;
+using Tollminder.Core.Services.SpeechRecognition;
 
 namespace Tollminder.Core.Models.Statuses
 {

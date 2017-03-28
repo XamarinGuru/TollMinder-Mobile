@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
-using MvvmCross.Platform;
 using Tollminder.Core.Models;
 using Tollminder.Core.Models.DriverData;
-using Tollminder.Core.Services;
+using Tollminder.Core.Services.Api;
+using Tollminder.Core.Services.ProfileData;
 using Tollminder.Core.ViewModels.UserProfile;
 
 namespace Tollminder.Core.ViewModels.Vehicles
@@ -18,16 +18,16 @@ namespace Tollminder.Core.ViewModels.Vehicles
         readonly IProfileSettingService profileSettingService;
         readonly int firstElement = 0;
 
-        public LicenseViewModel()
+        public LicenseViewModel(ILoadResourceData<StatesData> loadStatesData, ILoadResourceData<string> loadVehicleData, IProfileSettingService profileSettingService)
         {
-            loadStatesData = Mvx.Resolve<ILoadResourceData<StatesData>>();
-            profileSettingService = Mvx.Resolve<IProfileSettingService>();
+            this.loadStatesData = loadStatesData;
+            this.profileSettingService = profileSettingService;
             profile = new Profile();
             driverLicense = new DriverLicense();
 
             States = loadStatesData.GetData("Tollminder.Core.states.json");
 
-            loadVehicleData = Mvx.Resolve<ILoadResourceData<string>>();
+            this.loadVehicleData = loadVehicleData;
             VehicleClasses = loadVehicleData.GetData();
             SelectedVehicleClass = VehicleClasses[firstElement];
 
