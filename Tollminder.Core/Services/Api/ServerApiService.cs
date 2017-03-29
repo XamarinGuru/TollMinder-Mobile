@@ -160,7 +160,7 @@ namespace Tollminder.Core.Services.Api
 
         public Task<List<CreditCardAuthorizeDotNet>> GetCreditCardsAsync()
         {
-            return GetAsync<List<CreditCardAuthorizeDotNet>>($"{BaseApiUrl}payment/", storedSettingsService.AuthToken);
+            return null;//GetAsync<List<CreditCardAuthorizeDotNet>>($"{BaseApiUrl}payment/", storedSettingsService.AuthToken);
         }
     }
 }

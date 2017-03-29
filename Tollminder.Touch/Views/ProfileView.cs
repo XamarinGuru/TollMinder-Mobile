@@ -32,7 +32,7 @@ namespace Tollminder.Touch.Views
         MvxPickerViewModel statesPickerViewModel;
 
         ProfileButton addLicenseButton;
-        ProfileButton addCreditCardButton;
+        ProfileButton showCreditCardButton;
 
         public ProfileView()
         {
@@ -116,7 +116,7 @@ namespace Tollminder.Touch.Views
 
 
             addLicenseButton = ProfileButtonManager.ButtonInitiaziler("Add License Plate", UIImage.FromFile(@"Images/ProfileView/ic_license.png"));
-            addCreditCardButton = ProfileButtonManager.ButtonInitiaziler("Add Credit Card", UIImage.FromFile(@"Images/ProfileView/ic_card.png"));
+            showCreditCardButton = ProfileButtonManager.ButtonInitiaziler("Credit Cards", UIImage.FromFile(@"Images/ProfileView/ic_card.png"));
 
             topTextRowView.AddIfNotNull(firstNameTextField, lastNameTextField);
             topTextRowView.AddConstraints(
@@ -162,17 +162,17 @@ namespace Tollminder.Touch.Views
                 zipCodeTextField.WithSameHeight(bottomTextRowView)
             );
 
-            bottomView.AddIfNotNull(addLicenseButton, addCreditCardButton);
+            bottomView.AddIfNotNull(addLicenseButton, showCreditCardButton);
             bottomView.AddConstraints(
                 addLicenseButton.AtTopOf(bottomView),
                 addLicenseButton.WithSameCenterX(bottomView),
                 addLicenseButton.WithSameWidth(bottomView),
                 addLicenseButton.WithRelativeHeight(bottomView, 0.4f),
 
-                addCreditCardButton.Below(addLicenseButton, 10),
-                addCreditCardButton.WithSameCenterX(bottomView),
-                addCreditCardButton.WithSameWidth(bottomView),
-                addCreditCardButton.WithRelativeHeight(bottomView, 0.4f)
+                showCreditCardButton.Below(addLicenseButton, 10),
+                showCreditCardButton.WithSameCenterX(bottomView),
+                showCreditCardButton.WithSameWidth(bottomView),
+                showCreditCardButton.WithRelativeHeight(bottomView, 0.4f)
             );
 
             scrollView.AddIfNotNull(topTextRowView, centerTextRowView, bottomTextRowView, bottomView);
@@ -248,6 +248,7 @@ namespace Tollminder.Touch.Views
             var set = this.CreateBindingSet<ProfileView, ProfileViewModel>();
             set.Bind(backHomeView).To(vm => vm.BackHomeCommand);
             set.Bind(addLicenseButton).To(vm => vm.AddLicenseCommand);
+            set.Bind(showCreditCardButton).To(vm => vm.ShowCreditCardsCommand);
 
             set.Bind(firstNameTextField.TextFieldWithValidator.TextField).To(vm => vm.Profile.FirstName);
             set.Bind(lastNameTextField.TextFieldWithValidator.TextField).To(vm => vm.Profile.LastName);

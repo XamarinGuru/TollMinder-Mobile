@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddCreditCardViewController">
+            <connections>
+                <outlet property="AcceptedCardsImageView" destination="VQo-Lz-RjU" id="name-outlet-VQo-Lz-RjU"/>
+                <outlet property="AddCreditCardNavigationBar" destination="3tf-er-Ryp" id="name-outlet-3tf-er-Ryp"/>
+                <outlet property="AddCreditCardNavigationItem" destination="vgw-0u-sZI" id="name-outlet-vgw-0u-sZI"/>
+                <outlet property="CardNumberTextField" destination="SzP-7r-FQw" id="name-outlet-SzP-7r-FQw"/>
+                <outlet property="CvvTextField" destination="ZKS-JT-Nxw" id="name-outlet-ZKS-JT-Nxw"/>
+                <outlet property="ExpirationMonthTextField" destination="Bgl-R0-tLy" id="name-outlet-Bgl-R0-tLy"/>
+                <outlet property="ExpirationYearTextField" destination="cZr-mu-yip" id="name-outlet-cZr-mu-yip"/>
+                <outlet property="NameOnCardTextField" destination="7nn-rE-Co9" id="name-outlet-7nn-rE-Co9"/>
+                <outlet property="SaveCreditCardButton" destination="2RL-0w-NDE" id="name-outlet-2RL-0w-NDE"/>
+                <outlet property="ZipCodeTextField" destination="BPk-K1-9IP" id="name-outlet-BPk-K1-9IP"/>
+                <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="2">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3tf-er-Ryp">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="80" id="TsW-9K-hzr"/>
+                    </constraints>
+                    <color key="barTintColor" red="0.2066648304" green="0.38275384899999998" blue="0.62765270470000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <items>
+                        <navigationItem id="vgw-0u-sZI"/>
+                    </items>
+                </navigationBar>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nQr-MD-26C">
+                    <rect key="frame" x="20" y="100" width="335" height="567"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VQo-Lz-RjU">
+                            <rect key="frame" x="0.0" y="0.0" width="335" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="BoP-2z-2f0"/>
+                            </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="10"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </imageView>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Name On Card" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7nn-rE-Co9">
+                            <rect key="frame" x="0.0" y="70" width="335" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="cqT-HL-rzg"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColor">
+                                    <color key="value" red="0.74893707036972046" green="0.74906712770462036" blue="0.74892884492874146" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="cqT-HL-rzg"/>
+                                </mask>
+                            </variation>
+                            <variation key="widthClass=compact">
+                                <mask key="constraints">
+                                    <include reference="cqT-HL-rzg"/>
+                                </mask>
+                            </variation>
+                        </textField>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Card Number*" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SzP-7r-FQw">
+                            <rect key="frame" x="0.0" y="120" width="335" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="fKd-eN-WSP"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColor">
+                                    <color key="value" red="0.74893707036972046" green="0.74906712770462036" blue="0.74892884492874146" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="fKd-eN-WSP"/>
+                                </mask>
+                            </variation>
+                            <variation key="widthClass=compact">
+                                <mask key="constraints">
+                                    <include reference="fKd-eN-WSP"/>
+                                </mask>
+                            </variation>
+                        </textField>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="MM*" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Bgl-R0-tLy">
+                            <rect key="frame" x="0.0" y="170" width="75" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="40" id="5KF-TH-VCR">
+                                    <variation key="widthClass=compact" constant="75"/>
+                                </constraint>
+                                <constraint firstAttribute="height" constant="40" id="QFV-rT-JcV"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColor">
+                                    <color key="value" red="0.74893707036972046" green="0.74906712770462036" blue="0.74892884492874146" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="5KF-TH-VCR"/>
+                                    <exclude reference="QFV-rT-JcV"/>
+                                </mask>
+                            </variation>
+                            <variation key="widthClass=compact">
+                                <mask key="constraints">
+                                    <include reference="5KF-TH-VCR"/>
+                                    <include reference="QFV-rT-JcV"/>
+                                </mask>
+                            </variation>
+                        </textField>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="YY*" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cZr-mu-yip">
+                            <rect key="frame" x="99" y="170" width="75" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="40" id="JWR-XA-lBv">
+                                    <variation key="widthClass=compact" constant="75"/>
+                                </constraint>
+                                <constraint firstAttribute="height" constant="40" id="gPH-ih-3De"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColor">
+                                    <color key="value" red="0.74893707036972046" green="0.74906712770462036" blue="0.74892884492874146" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="JWR-XA-lBv"/>
+                                    <exclude reference="gPH-ih-3De"/>
+                                </mask>
+                            </variation>
+                            <variation key="widthClass=compact">
+                                <mask key="constraints">
+                                    <include reference="JWR-XA-lBv"/>
+                                    <include reference="gPH-ih-3De"/>
+                                </mask>
+                            </variation>
+                        </textField>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Zip Code" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BPk-K1-9IP">
+                            <rect key="frame" x="0.0" y="220" width="335" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="v6a-ud-NuK"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColor">
+                                    <color key="value" red="0.74893707036972046" green="0.74906712770462036" blue="0.74892884492874146" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="v6a-ud-NuK"/>
+                                </mask>
+                            </variation>
+                            <variation key="widthClass=compact">
+                                <mask key="constraints">
+                                    <include reference="v6a-ud-NuK"/>
+                                </mask>
+                            </variation>
+                        </textField>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2RL-0w-NDE" userLabel="Get Token">
+                            <rect key="frame" x="0.0" y="270" width="335" height="40"/>
+                            <color key="backgroundColor" red="0.00027235838933847845" green="0.82761907577514648" blue="0.66055417060852051" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="aSR-Pi-0c6">
+                                    <variation key="widthClass=compact" constant="40"/>
+                                </constraint>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <state key="normal" title="Save Credit Card">
+                                <color key="titleColor" red="0.30315649509999998" green="0.30341306330000001" blue="0.30319625140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="10"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </button>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="CVV*" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZKS-JT-Nxw">
+                            <rect key="frame" x="227" y="170" width="108" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="6Ax-kt-eYm"/>
+                                <constraint firstAttribute="width" constant="97" id="8cO-kc-vtV">
+                                    <variation key="widthClass=compact" constant="108"/>
+                                </constraint>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColor">
+                                    <color key="value" red="0.74893707036972046" green="0.74906712770462036" blue="0.74892884492874146" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="6Ax-kt-eYm"/>
+                                    <exclude reference="8cO-kc-vtV"/>
+                                </mask>
+                            </variation>
+                            <variation key="widthClass=compact">
+                                <mask key="constraints">
+                                    <include reference="6Ax-kt-eYm"/>
+                                    <include reference="8cO-kc-vtV"/>
+                                </mask>
+                            </variation>
+                        </textField>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="VQo-Lz-RjU" secondAttribute="trailing" id="4mN-wJ-yRC"/>
+                        <constraint firstItem="SzP-7r-FQw" firstAttribute="top" secondItem="7nn-rE-Co9" secondAttribute="bottom" constant="10" id="5sq-BU-Gy4"/>
+                        <constraint firstItem="VQo-Lz-RjU" firstAttribute="leading" secondItem="nQr-MD-26C" secondAttribute="leading" id="7GQ-Xl-ooc"/>
+                        <constraint firstItem="Bgl-R0-tLy" firstAttribute="leading" secondItem="nQr-MD-26C" secondAttribute="leading" id="8d5-49-eLL"/>
+                        <constraint firstItem="ZKS-JT-Nxw" firstAttribute="top" secondItem="SzP-7r-FQw" secondAttribute="bottom" constant="10" id="8fh-W1-a4b"/>
+                        <constraint firstItem="7nn-rE-Co9" firstAttribute="top" secondItem="VQo-Lz-RjU" secondAttribute="bottom" constant="20" id="GHm-V5-eUt"/>
+                        <constraint firstItem="BPk-K1-9IP" firstAttribute="top" secondItem="cZr-mu-yip" secondAttribute="bottom" constant="10" id="Gv7-h1-JsH"/>
+                        <constraint firstItem="2RL-0w-NDE" firstAttribute="leading" secondItem="nQr-MD-26C" secondAttribute="leading" id="JPM-IL-VWx"/>
+                        <constraint firstItem="7nn-rE-Co9" firstAttribute="leading" secondItem="nQr-MD-26C" secondAttribute="leading" id="QQf-oQ-Okw"/>
+                        <constraint firstItem="Bgl-R0-tLy" firstAttribute="top" secondItem="SzP-7r-FQw" secondAttribute="bottom" constant="10" id="Ren-Bw-xZO"/>
+                        <constraint firstItem="cZr-mu-yip" firstAttribute="leading" secondItem="Bgl-R0-tLy" secondAttribute="trailing" constant="24" id="RkB-pi-UBu"/>
+                        <constraint firstItem="SzP-7r-FQw" firstAttribute="leading" secondItem="nQr-MD-26C" secondAttribute="leading" id="Rn7-7h-Vb1"/>
+                        <constraint firstItem="cZr-mu-yip" firstAttribute="top" secondItem="SzP-7r-FQw" secondAttribute="bottom" constant="10" id="SqI-aA-drp"/>
+                        <constraint firstItem="BPk-K1-9IP" firstAttribute="leading" secondItem="nQr-MD-26C" secondAttribute="leading" id="Z1Q-op-Y7o"/>
+                        <constraint firstAttribute="trailing" secondItem="SzP-7r-FQw" secondAttribute="trailing" id="c9J-sM-hMY"/>
+                        <constraint firstAttribute="trailing" secondItem="BPk-K1-9IP" secondAttribute="trailing" id="kXi-GL-7if"/>
+                        <constraint firstAttribute="trailing" secondItem="2RL-0w-NDE" secondAttribute="trailing" id="m1Q-Dh-KxO"/>
+                        <constraint firstAttribute="trailing" secondItem="7nn-rE-Co9" secondAttribute="trailing" id="oCI-en-tPA"/>
+                        <constraint firstItem="ZKS-JT-Nxw" firstAttribute="trailing" secondItem="SzP-7r-FQw" secondAttribute="trailing" id="sNL-77-dda"/>
+                        <constraint firstItem="VQo-Lz-RjU" firstAttribute="top" secondItem="nQr-MD-26C" secondAttribute="top" id="tSS-Lh-1Jt"/>
+                        <constraint firstItem="2RL-0w-NDE" firstAttribute="top" secondItem="BPk-K1-9IP" secondAttribute="bottom" constant="10" id="zxX-5U-wPY"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="tintColor" red="0.99963909390000005" green="1" blue="0.99975615740000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="nQr-MD-26C" firstAttribute="top" secondItem="3tf-er-Ryp" secondAttribute="bottom" constant="20" id="4XZ-Ea-CiN"/>
+                <constraint firstAttribute="trailing" secondItem="nQr-MD-26C" secondAttribute="trailing" constant="20" id="85Z-gA-8Cw"/>
+                <constraint firstItem="nQr-MD-26C" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="20" id="eFn-gQ-vy2"/>
+                <constraint firstItem="3tf-er-Ryp" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="kRM-gl-ZD7"/>
+                <constraint firstAttribute="bottom" secondItem="nQr-MD-26C" secondAttribute="bottom" id="p1R-Ke-qpS"/>
+                <constraint firstAttribute="trailing" secondItem="3tf-er-Ryp" secondAttribute="trailing" id="qhd-wj-G3c"/>
+                <constraint firstItem="3tf-er-Ryp" firstAttribute="top" secondItem="2" secondAttribute="top" id="t0K-tl-6nl"/>
+            </constraints>
+            <point key="canvasLocation" x="34.5" y="53.5"/>
+        </view>
+    </objects>
+</document>

@@ -54,7 +54,7 @@
             android:layout_alignParentRight="true"
             android:textSize="40dp"
             android:textColor="@color/white"
-            local:MvxBind="Click AddCrediCardCommand"
+            local:MvxBind="Click AddCreditCardsCommand"
             android:background="@android:color/transparent"
             android:focusableInTouchMode="true" />
     </RelativeLayout>

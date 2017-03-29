@@ -25,7 +25,7 @@ namespace Tollminder.Core.ViewModels.UserProfile
 
             backHomeCommand = new MvxCommand(() => { ShowViewModel<HomeViewModel>(); });
             addLicenseCommand = new MvxCommand(() => { ShowViewModel<LicenseViewModel>(); });
-            addCreditCardCommand = new MvxCommand(() => { ShowViewModel<AddCreditCardViewModel>(); });
+            showCreditCardsCommand = new MvxCommand(() => { ShowViewModel<CreditCardsViewModel>(); });
 
             States = loadResourceData.GetData("Tollminder.Core.states.json");
         }
@@ -55,19 +55,14 @@ namespace Tollminder.Core.ViewModels.UserProfile
             base.OnPause();
         }
 
-        public override void OnDestroy()
-        {
-            base.OnDestroy();
-        }
-
         private MvxCommand backHomeCommand;
         public ICommand BackHomeCommand { get { return backHomeCommand; } }
 
         private MvxCommand addLicenseCommand;
         public ICommand AddLicenseCommand { get { return addLicenseCommand; } }
 
-        private MvxCommand addCreditCardCommand;
-        public ICommand AddCreditCardCommand { get { return addCreditCardCommand; } }
+        private MvxCommand showCreditCardsCommand;
+        public ICommand ShowCreditCardsCommand { get { return showCreditCardsCommand; } }
 
         private List<StatesData> states;
         public List<StatesData> States

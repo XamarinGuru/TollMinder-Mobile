@@ -218,8 +218,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="50dp"
-                    local:text_profile="Add Credit Card"
-                    local:MvxBind="Click AddCreditCardCommand"
+                    local:text_profile="Credit Cards"
+                    local:MvxBind="Click ShowCreditCardsCommand"
                     local:icon_profile="@drawable/ic_card" />
             </LinearLayout>
         </LinearLayout>

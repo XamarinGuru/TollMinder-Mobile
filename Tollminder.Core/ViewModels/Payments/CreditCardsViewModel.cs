@@ -2,8 +2,9 @@
 using MvvmCross.Core.ViewModels;
 using Tollminder.Core.Services.Api;
 using Tollminder.Core.Services.Settings;
-using Cirrious.CrossCore;
-using Chance.MvvmCross.Plugins.UserInteraction;
+using System.Linq;
+using Tollminder.Core.ViewModels.UserProfile;
+using System.Diagnostics;
 
 namespace Tollminder.Core.ViewModels.Payments
 {
@@ -14,13 +15,15 @@ namespace Tollminder.Core.ViewModels.Payments
 
         public MvxObservableCollection<CreditCardAuthorizeDotNetViewModel> CrediCards { get; set; }
         public MvxCommand CloseCreditCardsCommand { get; set; }
+        public MvxCommand AddCreditCardsCommand { get; set; }
 
         public CreditCardsViewModel(IServerApiService serverApiService, IStoredSettingsService storedSettingsService)
         {
             this.serverApiService = serverApiService;
             this.storedSettingsService = storedSettingsService;
 
-            CloseCreditCardsCommand = new MvxCommand(() => Close(this));
+            CloseCreditCardsCommand = new MvxCommand(() => ShowViewModel<ProfileViewModel>());
+            AddCreditCardsCommand = new MvxCommand(() => ShowViewModel<AddCreditCardViewModel>());
         }
 
         public async override void Start()
@@ -29,12 +32,12 @@ namespace Tollminder.Core.ViewModels.Payments
 
             try
             {
-                var getCreditCard = await serverApiService.NewsAsync();
-                CrediCards.AddRange(getCreditCard.Select(cards => new CreditCardAuthorizeDotNetViewModel(cards, serverApiService, storedSettingsService)));
+                var getCreditCard = await serverApiService.GetCreditCardsAsync();
+                CrediCards.AddRange(getCreditCard?.Select(cards => new CreditCardAuthorizeDotNetViewModel(cards, serverApiService, storedSettingsService)));
             }
             catch (Exception ex)
             {
-                await Mvx.Resolve<IUserInteraction>().AlertAsync(ex.Message, "Error");
+                Debug.WriteLine(ex.Message, ex.StackTrace);
             }
         }
     }

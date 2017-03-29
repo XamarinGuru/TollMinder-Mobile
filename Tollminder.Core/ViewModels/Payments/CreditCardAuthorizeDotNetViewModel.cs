@@ -22,7 +22,7 @@ namespace Tollminder.Core.ViewModels.Payments
             this.serverApiService = serverApiService;
             this.storedSettingsService = storedSettingsService;
 
-            RemoveCreditCardCommand = new MvxCommand(async () => { await RemoveCreditCard(); });
+            RemoveCreditCardCommand = new MvxCommand(async () => { await RemoveCreditCardAsync(); });
         }
 
         public override void Start()
@@ -30,7 +30,7 @@ namespace Tollminder.Core.ViewModels.Payments
             base.Start();
         }
 
-        private async Task RemoveCreditCard()
+        private async Task RemoveCreditCardAsync()
         {
             var alertResult = await Mvx.Resolve<IUserInteraction>().ConfirmAsync("Are you sure you want to delete your credit card?", "Warning");
             if (alertResult)

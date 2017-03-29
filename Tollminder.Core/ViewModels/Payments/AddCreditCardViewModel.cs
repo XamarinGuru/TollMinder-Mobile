@@ -4,6 +4,8 @@ using Tollminder.Core.Models.PaymentData;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using Tollminder.Core.Services.Settings;
+using MvvmCross.Platform;
+using Chance.MvvmCross.Plugins.UserInteraction;
 
 namespace Tollminder.Core.ViewModels.Payments
 {
@@ -28,14 +30,15 @@ namespace Tollminder.Core.ViewModels.Payments
         [StringLength(3, MinimumLength = 3, ErrorMessage = "Security code is too short")]
         [Required]
         public string Cvv { get; set; }
+        public string ZipCode { get; set; }
 
         public AddCreditCardViewModel(IPaymentProcessing paymentProcessing, IStoredSettingsService storedSettingsService)
         {
             this.paymentProcessing = paymentProcessing;
             this.storedSettingsService = storedSettingsService;
 
-            CloseAddCreditCardCommand = new MvxCommand(() => Close(this));
-            SaveCreditCardCommand = new MvxCommand(async () => { SaveCrediCard(); });
+            CloseAddCreditCardCommand = new MvxCommand(async () => { await CloseAsync(); });
+            SaveCreditCardCommand = new MvxCommand(async () => { await SaveCrediCardAsync(); });
         }
 
         public override void Start()
@@ -43,7 +46,14 @@ namespace Tollminder.Core.ViewModels.Payments
             base.Start();
         }
 
-        private async Task SaveCrediCard()
+        private async Task CloseAsync()
+        {
+            var answer = await Mvx.Resolve<IUserInteraction>().ConfirmAsync("Are you sure you want to leave this page?", "Warnign");
+            if (answer)
+                ShowViewModel<CreditCardsViewModel>();
+        }
+
+        private async Task SaveCrediCardAsync()
         {
             await paymentProcessing.AddCreditCardAsync(new AddCreditCard
             {

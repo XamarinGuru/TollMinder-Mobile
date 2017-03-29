@@ -262,10 +262,11 @@
     <InterfaceDefinition Include="Resources\LaunchScreen.xib" />
     <InterfaceDefinition Include="Views\PayHistoryView\PayHistoryCell.xib" />
     <InterfaceDefinition Include="Views\PayHistoryView\PayHistoryHeader.xib" />
-    <InterfaceDefinition Include="ApplePay.storyboard" />
-    <InterfaceDefinition Include="Views\PaymentViews\CreditCardViewController.xib" />
+    <InterfaceDefinition Include="Views\PaymentViews\AddCreditCardViewController.xib" />
     <InterfaceDefinition Include="Views\PaymentViews\PaymentViewController.xib" />
     <InterfaceDefinition Include="Views\DriverViews\VehicleViewController.xib" />
+    <InterfaceDefinition Include="Views\PaymentViews\CreditCardsViewController.xib" />
+    <InterfaceDefinition Include="Views\PaymentViews\CreditCardsTableViewCell.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -341,14 +342,9 @@
     <Compile Include="Controls\EnhancedToolbar.cs" />
     <Compile Include="Helpers\KeyboardHandler.cs" />
     <Compile Include="Converters\GetSliderPageConverter.cs" />
-    <Compile Include="ApplePayViewController.cs" />
-    <Compile Include="ApplePayViewController.designer.cs">
-      <DependentUpon>ApplePayViewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\StoryboardContainer.cs" />
-    <Compile Include="Views\PaymentViews\CreditCardViewController.cs" />
-    <Compile Include="Views\PaymentViews\CreditCardViewController.designer.cs">
-      <DependentUpon>CreditCardViewController.cs</DependentUpon>
+    <Compile Include="Views\PaymentViews\AddCreditCardViewController.cs" />
+    <Compile Include="Views\PaymentViews\AddCreditCardViewController.designer.cs">
+      <DependentUpon>AddCreditCardViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\PaymentViews\PaymentViewController.cs" />
     <Compile Include="Views\PaymentViews\PaymentViewController.designer.cs">
@@ -362,6 +358,14 @@
     <Compile Include="Views\DriverViews\VehicleViewController.cs" />
     <Compile Include="Views\DriverViews\VehicleViewController.designer.cs">
       <DependentUpon>VehicleViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PaymentViews\CreditCardsViewController.cs" />
+    <Compile Include="Views\PaymentViews\CreditCardsViewController.designer.cs">
+      <DependentUpon>CreditCardsViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PaymentViews\CreditCardsTableViewCell.cs" />
+    <Compile Include="Views\PaymentViews\CreditCardsTableViewCell.designer.cs">
+      <DependentUpon>CreditCardsTableViewCell.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

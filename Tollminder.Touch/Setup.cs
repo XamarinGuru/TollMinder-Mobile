@@ -40,11 +40,6 @@ namespace Tollminder.Touch
             return new DebugTrace();
         }
 
-        //protected override IMvxIosViewsContainer CreateIosViewsContainer()
-        //{
-        //    return new StoryboardContainer();
-        //}
-
         protected override void InitializePlatformServices()
         {
             base.InitializePlatformServices();
