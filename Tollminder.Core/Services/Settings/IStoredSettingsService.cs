@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Tollminder.Core.Models;
+using Tollminder.Core.Models.PaymentData;
 
 namespace Tollminder.Core.Services.Settings
 {
@@ -19,6 +20,8 @@ namespace Tollminder.Core.Services.Settings
         TollPoint IgnoredChoiceTollPoint { get; set; }
         DateTime SleepGPSDateTime { get; set; }
         decimal DistanceToNearestTollpoint { get; set; }
+
+        TripCompleted TripCompleted { get; set; }
 
         bool IsAuthorized { get; set; }
         bool IsDataSynchronized { get; set; }

@@ -132,19 +132,35 @@ namespace Tollminder.Core.Services.Api
             throw new NotImplementedException();
         }
 
-        public Task<TripResponse> TripCompletedAsync(TripRequest tripRequest)
+        public Task<TripResponse> TripCompletedAsync(TripCompleted tripRequest)
         {
-            return SendAsync<TripRequest, TripResponse>(tripRequest, $"{BaseApiUrl}trip");
+            return SendAsync<TripCompleted, TripResponse>(tripRequest, $"{BaseApiUrl}trip");
         }
 
-        public Task<CreditCardFromAuthorize> AddCreditCardAsync(AddCreditCard crediCard)
+        public Task<CreditCardAuthorizeDotNet> AddCreditCardAsync(AddCreditCard crediCard)
         {
-            return SendAsync<AddCreditCard, CreditCardFromAuthorize>(crediCard, $"{BaseApiUrl}payment/card");
+            return SendAsync<AddCreditCard, CreditCardAuthorizeDotNet>(crediCard, $"{BaseApiUrl}payment/card", storedSettingsService.AuthToken);
         }
 
         public Task<string> PayForTripAsync(PayForTrip tripRequest)
         {
-            return SendAsync<PayForTrip, string>(tripRequest, $"{BaseApiUrl}payment/charge");
+            return SendAsync<PayForTrip, string>(tripRequest, $"{BaseApiUrl}payment/charge", storedSettingsService.AuthToken);
+        }
+
+        public Task RemoveCreditCardAsync(string userId, string paymentProfileId)
+        {
+            var parameters = new
+            {
+                userId,
+                paymentProfileId
+            };
+
+            return DeleteAsync(parameters, $"{BaseApiUrl}payment/card", new CancellationToken());
+        }
+
+        public Task<List<CreditCardAuthorizeDotNet>> GetCreditCardsAsync()
+        {
+            return GetAsync<List<CreditCardAuthorizeDotNet>>($"{BaseApiUrl}payment/", storedSettingsService.AuthToken);
         }
     }
 }

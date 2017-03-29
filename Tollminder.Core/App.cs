@@ -4,6 +4,7 @@ using MvvmCross.Platform.IoC;
 using MvvmCross.Platform;
 using MvvmCross.Core.Platform;
 using Tollminder.Core.Services.RoadsProcessing;
+using Tollminder.Core.Services.Api;
 
 namespace Tollminder.Core
 {
@@ -28,6 +29,7 @@ namespace Tollminder.Core
             Mvx.LazyConstructAndRegisterSingleton<IWaypointChecker, WaypointChecker>();
             Mvx.LazyConstructAndRegisterSingleton<IDistanceChecker, DistanceChecker>();
             Mvx.LazyConstructAndRegisterSingleton<ITrackFacade, TrackFacade>();
+            Mvx.LazyConstructAndRegisterSingleton<IPaymentProcessing, PaymentProcessing>();
         }
 
         async void StateChanged(object sender, MvxSetup.MvxSetupStateEventArgs e)

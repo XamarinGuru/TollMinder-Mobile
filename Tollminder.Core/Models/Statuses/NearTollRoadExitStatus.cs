@@ -1,6 +1,8 @@
 using System.Threading.Tasks;
 using Tollminder.Core.Helpers;
 using Tollminder.Core.Services.Settings;
+using MvvmCross.Platform;
+using Tollminder.Core.Services.Api;
 
 namespace Tollminder.Core.Models.Statuses
 {
@@ -38,13 +40,14 @@ namespace Tollminder.Core.Models.Statuses
                     {
                         await NotifyService.NotifyAsync("Bill was created");
 
+                        SaveTripProgress();
+
                         var duration = WaypointChecker.TripDuration;
 
                         if (duration.Hours > 0)
                             await NotifyService.NotifyAsync($"Trip duration is {duration.Hours} hours {duration.Minutes} minutes {duration.Seconds} seconds");
                         else
                             await NotifyService.NotifyAsync($"Trip duration is {duration.Minutes} minutes {duration.Seconds} seconds");
-
                         WaypointChecker.ClearData();
                     }
                     else
@@ -68,6 +71,17 @@ namespace Tollminder.Core.Models.Statuses
         public override bool CheckBatteryDrain()
         {
             return false;
+        }
+
+        private void SaveTripProgress()
+        {
+            Mvx.Resolve<IPaymentProcessing>().TripCompletedAsync(new PaymentData.TripCompleted()
+            {
+                StartWayPointId = WaypointChecker.Entrance.Id,
+                EndWayPointId = WaypointChecker.Exit.Id,
+                TollRoadId = WaypointChecker.Exit.TollRoadId,
+                UserId = Mvx.Resolve<IStoredSettingsService>().ProfileId
+            });
         }
     }
 }

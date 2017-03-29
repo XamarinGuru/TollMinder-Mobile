@@ -18,7 +18,7 @@
             android:layout_marginLeft="20dp"
             android:layout_centerVertical="true"
             android:src="@drawable/icon_back"
-            local:MvxBind="Click BackToProfileCommand"
+            local:MvxBind="Click CloseAddCreditCardCommand"
             android:background="@android:color/transparent"
             android:focusable="true"
             android:focusableInTouchMode="true" />
@@ -76,27 +76,28 @@
                     android:layout_marginLeft="10dp"
                     android:padding="10dp"
                     android:singleLine="true"
-                    local:MvxBind="Text NameOnCardString;" />
+                    local:MvxBind="Text CardHolder;" />
             </android.support.design.widget.TextInputLayout>
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:theme="@style/TextInput"
                 android:layout_marginBottom="10dp"
                 local:MvxBind="Error Errors['Card Number']">
-
                 <EditText
                     android:id="@+id/card_number_editText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
-                    android:hint="Card Number"
+                    android:hint="Card Number*"
                     android:inputType="number"
+                    android:maxLength="16"
                     android:nextFocusDown="@+id/month_expiration_editText"
                     android:layout_marginLeft="10dp"
                     android:padding="10dp"
                     android:singleLine="true"
-                    local:MvxBind="Text CardNumberString;" />
+                    local:MvxBind="Text CreditCardNumber;" />
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
         <RelativeLayout
@@ -116,14 +117,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
-                        android:hint="MM"
+                        android:hint="MM*"
                         android:inputType="number"
                         android:nextFocusDown="@+id/year_expiration_editText"
+                        android:maxLength="2"
                         android:gravity="center"
                         android:password="true"
                         android:padding="10dp"
                         android:singleLine="true"
-                        local:MvxBind="Text CvvString" />
+                        local:MvxBind="Text ExpirationMonth" />
                 </android.support.design.widget.TextInputLayout>
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="70dp"
@@ -137,14 +139,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
-                        android:hint="YY"
+                        android:hint="YY*"
                         android:inputType="number"
+                        android:maxLength="2"
                         android:nextFocusDown="@+id/cvv_editText"
                         android:gravity="center"
                         android:password="true"
                         android:padding="10dp"
                         android:singleLine="true"
-                        local:MvxBind="Text CvvString" />
+                        local:MvxBind="Text ExpirationYear" />
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 
@@ -156,19 +159,21 @@
                 local:passwordToggleEnabled="false"
                 android:theme="@style/TextInput"
                 local:MvxBind="Error Errors['CVV']">
+
                 <EditText
                     android:id="@+id/cvv_editText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
-                    android:hint="CVV"
+                    android:hint="CVV*"
                     android:inputType="number"
+                    android:maxLength="3"
                     android:nextFocusDown="@+id/zip_code_editText"
                     android:password="true"
                     android:layout_marginLeft="10dp"
                     android:padding="10dp"
                     android:singleLine="true"
-                    local:MvxBind="Text CvvString" />
+                    local:MvxBind="Text Cvv" />
             </android.support.design.widget.TextInputLayout>
         </RelativeLayout>
         <LinearLayout
@@ -186,6 +191,7 @@
                 local:passwordToggleEnabled="false"
                 android:theme="@style/TextInput"
                 local:MvxBind="Error Errors['ZipCode']">
+
                 <EditText
                     android:id="@+id/zip_code_editText"
                     android:layout_width="match_parent"

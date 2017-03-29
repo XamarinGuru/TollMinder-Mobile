@@ -61,8 +61,8 @@ namespace Tollminder.Touch.Services
             {
                 //CardNumber = cardInfo.CardNumber,
                 //Cvv = cardInfo.Cvv,
-                ExpirationMonth = (int)cardInfo.ExpiryMonth,
-                ExpirationYear = (int)cardInfo.ExpiryYear
+                //ExpirationMonth = cardInfo.ExpiryMonth,
+                //ExpirationYear = cardInfo.ExpiryYear
             };
 
             _callback?.Invoke(creditCard);

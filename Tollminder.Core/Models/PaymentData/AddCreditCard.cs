@@ -8,11 +8,13 @@ namespace Tollminder.Core.Models.PaymentData
 
         public string CreditCardNumber { get; set; }
 
-        public string Holder { get; set; }
+        public string CardHolder { get; set; }
 
-        public int ExpirationMonth { get; set; } = 1;
+        public string ExpirationMonth { get; set; }
 
-        public int ExpirationYear { get; set; } = 1;
+        public string ExpirationYear { get; set; }
+
+        public string Cvv { get; set; }
 
         // Need to scan credit card toll
         public static readonly AddCreditCard Empty = new AddCreditCard();

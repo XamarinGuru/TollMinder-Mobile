@@ -274,6 +274,9 @@
     <Reference Include="PropertyChanged">
       <HintPath>..\packages\PropertyChanged.Fody.1.52.1\Lib\netstandard10\PropertyChanged.dll</HintPath>
     </Reference>
+    <Reference Include="MvvmCross.Droid.Support.V7.RecyclerView">
+      <HintPath>..\packages\MvvmCross.Droid.Support.V7.RecyclerView.4.4.0\lib\MonoAndroid70\MvvmCross.Droid.Support.V7.RecyclerView.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -320,7 +323,6 @@
     <Compile Include="AndroidServices\NorficationService.cs" />
     <Compile Include="Views\ProfileView.cs" />
     <Compile Include="Views\LicenseView.cs" />
-    <Compile Include="Views\CreditCardView.cs" />
     <Compile Include="Controls\ProfileButton.cs" />
     <Compile Include="Views\PayHistoryView.cs" />
     <Compile Include="Views\Fragments\CalendarViewFragment.cs" />
@@ -345,6 +347,10 @@
     <Compile Include="Views\RegistrationView.cs" />
     <Compile Include="Services\DroidProgressDialogManager.cs" />
     <Compile Include="AndroidServices\FieldsService.cs" />
+    <Compile Include="Controls\ValidationEditText.cs" />
+    <Compile Include="Views\PaymentsViews\CreditCardView.cs" />
+    <Compile Include="Views\PaymentsViews\AddCreditCardView.cs" />
+    <Compile Include="TemplateSelectors\TypeTemplateSelector.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AboutAssets.txt" />
@@ -371,6 +377,8 @@
     <Folder Include="ResourcesToCopy\" />
     <Folder Include="ResourcesToCopy\" />
     <Folder Include="Adapters\" />
+    <Folder Include="Views\PaymentsViews\" />
+    <Folder Include="TemplateSelectors\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\MonoAndroid10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\MonoAndroid10\Xamarin.Insights.targets')" />
@@ -551,6 +559,9 @@
     <AndroidResource Include="Resources\layout\calendar_radio_button.xml" />
     <AndroidResource Include="Resources\layout\credit_cards_list_view.xml" />
     <AndroidResource Include="Resources\layout\credit_card_item.xml" />
+    <AndroidResource Include="Resources\layout\validation_edit_text.xml" />
+    <AndroidResource Include="Resources\drawable\edit_text_rounded_background.xml" />
+    <AndroidResource Include="Resources\drawable\edit_text_rounded_error_background.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProguardConfiguration Include="Properties\AndroidManifest.xml" />

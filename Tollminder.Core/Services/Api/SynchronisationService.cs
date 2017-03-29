@@ -7,11 +7,13 @@ namespace Tollminder.Core.Services.Api
     {
         readonly IServerApiService serverApiService;
         readonly IStoredSettingsService storedSettingsService;
+        readonly IPaymentProcessing paymentProcessing;
 
-        public SynchronisationService(IServerApiService serverApiService, IStoredSettingsService storedSettingsService)
+        public SynchronisationService(IServerApiService serverApiService, IStoredSettingsService storedSettingsService, IPaymentProcessing paymentProcessing)
         {
             this.serverApiService = serverApiService;
             this.storedSettingsService = storedSettingsService;
+            this.paymentProcessing = paymentProcessing;
         }
 
         public async Task<bool> AuthorizeTokenSynchronisationAsync()
@@ -33,6 +35,8 @@ namespace Tollminder.Core.Services.Api
             {
                 storedSettingsService.Profile = await serverApiService.GetProfileAsync(storedSettingsService.ProfileId, storedSettingsService.AuthToken);
             }
+            if (storedSettingsService.TripCompleted != null)
+                await paymentProcessing.TripCompletedAsync(storedSettingsService.TripCompleted);
             else
             {
                 var result = await serverApiService.SaveProfileAsync(storedSettingsService.ProfileId, storedSettingsService.Profile, storedSettingsService.AuthToken);

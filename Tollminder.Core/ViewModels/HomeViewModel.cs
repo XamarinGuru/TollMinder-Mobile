@@ -2,15 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
-using MvvmCross.Platform;
 using MvvmCross.Plugins.Messenger;
 using Tollminder.Core.Models;
-using Tollminder.Core.Services;
 using Tollminder.Core.ServicesHelpers;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Linq;
-using System.Diagnostics;
 using Tollminder.Core.Helpers;
 using Tollminder.Core.ViewModels.UserProfile;
 using Tollminder.Core.ViewModels.Payments;
@@ -35,8 +31,10 @@ namespace Tollminder.Core.ViewModels
 
         IList<MvxSubscriptionToken> _tokens;
 
-        public HomeViewModel(IMvxMessenger messenger, ITrackFacade track, IGeoLocationWatcher geoWatcher, IStoredSettingsService storedSettingsService,
-                             ISynchronisationService synchronisationService, IWaypointChecker waypointChecker, IProgressDialogManager progressDialogManager, IGeoDataService geoDataService)
+        public HomeViewModel(IMvxMessenger messenger, ITrackFacade track,
+                             IGeoLocationWatcher geoWatcher, IStoredSettingsService storedSettingsService,
+                             ISynchronisationService synchronisationService, IWaypointChecker waypointChecker,
+                             IProgressDialogManager progressDialogManager, IGeoDataService geoDataService)
         {
             _messenger = messenger;
             _track = track;

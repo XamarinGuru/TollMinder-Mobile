@@ -68,6 +68,6 @@
             android:id="@+id/credit_cards_list_view_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            local:MvxBind="ItemsSource CreditCards;ItemSelected SelectedCreditCard" />
+            local:MvxBind="ItemsSource CreditCards" />
     </ScrollView>
 </LinearLayout>

@@ -13,6 +13,7 @@ using System.Diagnostics;
 using System.Net;
 using Xamarin;
 using MvvmCross.Platform;
+using Chance.MvvmCross.Plugins.UserInteraction;
 
 namespace Tollminder.Core.Services.Api
 {
@@ -85,12 +86,14 @@ namespace Tollminder.Core.Services.Api
         }
         #endregion
         #region SendMethods
-        public virtual async Task<TResponse> SendAsync<TRequest, TResponse>(TRequest data, string url, IProgress<ProgressCompleted> progress, CancellationToken token)
+        public virtual async Task<TResponse> SendAsync<TRequest, TResponse>(TRequest data, string url, string authToken, IProgress<ProgressCompleted> progress, CancellationToken token)
         {
             try
             {
                 using (var request = new HttpRequestMessage(HttpMethod.Post, url))
                 {
+                    if (authToken != null)
+                        request.Headers.Authorization = new AuthenticationHeaderValue(authToken);
                     var jsonSerialization = JsonConvert.SerializeObject(data);
                     Action<double> actionProgress = null;
                     if (progress != null)
@@ -115,14 +118,19 @@ namespace Tollminder.Core.Services.Api
             }
         }
 
-        public virtual Task<TResponse> SendAsync<TRequest, TResponse>(TRequest data, string url, IProgress<ProgressCompleted> progress)
+        public virtual Task<TResponse> SendAsync<TRequest, TResponse>(TRequest data, string url, string authToken, IProgress<ProgressCompleted> progress)
         {
-            return SendAsync<TRequest, TResponse>(data, url, progress, CancellationToken.None);
+            return SendAsync<TRequest, TResponse>(data, url, authToken, progress, CancellationToken.None);
         }
 
         public virtual Task<TResponse> SendAsync<TRequest, TResponse>(TRequest data, string url)
         {
-            return SendAsync<TRequest, TResponse>(data, url, null);
+            return SendAsync<TRequest, TResponse>(data, url, null, null);
+        }
+
+        public virtual Task<TResponse> SendAsync<TRequest, TResponse>(TRequest data, string url, string authToken)
+        {
+            return SendAsync<TRequest, TResponse>(data, url, authToken, null);
         }
 
         public async Task<Profile> CheckProfileAsync<TRequest>(TRequest data, string url)
@@ -262,6 +270,28 @@ namespace Tollminder.Core.Services.Api
                 Debug.WriteLine(ex.Message, ex.StackTrace);
                 Insights.Report(ex);
                 return default(TResponse);
+            }
+        }
+
+        public async Task DeleteAsync<TRequest>(TRequest data, string url, CancellationToken token)
+        {
+            try
+            {
+                using (var request = new HttpRequestMessage(HttpMethod.Delete, url))
+                {
+                    var jsonSerialization = JsonConvert.SerializeObject(data);
+                    Action<double> actionProgress = null;
+                    request.Content = new ProgressStringContent(jsonSerialization, System.Text.Encoding.UTF8, "application/json", actionProgress);
+                    using (var response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false))
+                    {
+                        if (!CheckStatusCode(response))
+                            await Mvx.Resolve<IUserInteraction>().AlertAsync(response.ToString(), "Error");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message, ex.StackTrace);
             }
         }
         #endregion

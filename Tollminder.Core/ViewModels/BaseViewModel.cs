@@ -11,10 +11,11 @@ using MvvmValidation;
 using Tollminder.Core.Extensions.FieldValidator;
 using Tollminder.Core.Models;
 using Tollminder.Core.Services.Settings;
+using System.ComponentModel;
 
 namespace Tollminder.Core.ViewModels
 {
-    public class BaseViewModel : MvxViewModel
+    public class BaseViewModel : MvxViewModel, INotifyPropertyChanged
     {
         readonly IInsightsService _insightsService;
 

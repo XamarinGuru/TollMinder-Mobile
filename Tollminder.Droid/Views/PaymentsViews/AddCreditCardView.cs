@@ -1,15 +1,15 @@
-﻿using Android.App;
+﻿using System;
+using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using MvvmCross.Droid.Views;
-using Tollminder.Core.ViewModels;
 using Tollminder.Core.ViewModels.Payments;
 using Tollminder.Droid.AndroidServices;
 
-namespace Tollminder.Droid.Views
+namespace Tollminder.Droid.Views.PaymentsViews
 {
     [Activity(Label = "CreditCard", Theme = "@style/AppTheme", LaunchMode = LaunchMode.SingleTask, ScreenOrientation = ScreenOrientation.Portrait, NoHistory = true)]
-    public class CreditCardView : MvxActivity<AddCreditCardViewModel>
+    public class AddCreditCardView : MvxActivity<AddCreditCardViewModel>
     {
         protected override void OnCreate(Bundle bundle)
         {

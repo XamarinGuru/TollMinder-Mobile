@@ -73,9 +73,6 @@
     <Compile Include="Helpers\HttpHelpers\ProgressStringContent.cs" />
     <Compile Include="Helpers\HttpHelpers\SchemaEnumeration.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
-    <Compile Include="Utils\Slack\SlackClient.cs" />
-    <Compile Include="Utils\Slack\Payload.cs" />
-    <Compile Include="Utils\Slack\SlackManager.cs" />
     <Compile Include="Models\Rate.cs" />
     <Compile Include="Extensions\FieldValidator\ValidationResultExtension.cs" />
     <Compile Include="Extensions\FieldValidator\ObservableDictionary.cs" />
@@ -86,7 +83,7 @@
     <Compile Include="ViewModels\Vehicles\VehicleViewModel.cs" />
     <Compile Include="Models\PaymentData\PayForTrip.cs" />
     <Compile Include="Models\PaymentData\AddCreditCard.cs" />
-    <Compile Include="Models\PaymentData\CreditCardFromAuthorize.cs" />
+    <Compile Include="Models\PaymentData\CreditCardAuthorizeDotNet.cs" />
     <Compile Include="Models\DriverData\Vehicle.cs" />
     <Compile Include="Models\DriverData\DriverLicense.cs" />
     <Compile Include="ViewModels\Payments\PayHistoryPdfViewModel.cs" />
@@ -110,7 +107,7 @@
     <Compile Include="Models\PaymentData\PayHistory.cs" />
     <Compile Include="ViewModels\Payments\AddCreditCardViewModel.cs" />
     <Compile Include="ViewModels\Payments\PayViewModel.cs" />
-    <Compile Include="Models\PaymentData\TripRequest.cs" />
+    <Compile Include="Models\PaymentData\TripCompleted.cs" />
     <Compile Include="Models\PaymentData\TripResponse.cs" />
     <Compile Include="ViewModels\Payments\CreditCardsViewModel.cs" />
     <Compile Include="Services\Api\HttpClientService.cs" />
@@ -164,6 +161,11 @@
     <Compile Include="ServicesHelpers\AutomoveActivity.cs" />
     <Compile Include="ServicesHelpers\TrackFacade.cs" />
     <Compile Include="Services\Notifications\NotifyService.cs" />
+    <Compile Include="Services\Api\IPaymentProcessing.cs" />
+    <Compile Include="Services\Api\PaymentProcessing.cs" />
+    <Compile Include="Converters\ValidationConverter.cs" />
+    <Compile Include="ViewModels\Payments\CreditCardAuthorizeDotNetViewModel.cs" />
+    <Compile Include="Models\PaymentData\PaymentProfile.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
@@ -182,7 +184,6 @@
     <Folder Include="Exceptions\" />
     <Folder Include="Exceptions\Interfaces\" />
     <Folder Include="Helpers\HttpHelpers\" />
-    <Folder Include="Utils\Slack\" />
     <Folder Include="Extensions\FieldValidator\" />
     <Folder Include="Services\ScanCreditCard\" />
     <Folder Include="ViewModels\Vehicles\" />

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using MvvmCross.Platform;
 using Tollminder.Core.Models;
+using Tollminder.Core.Models.PaymentData;
 
 namespace Tollminder.Core.Services.Settings
 {
@@ -125,6 +126,12 @@ namespace Tollminder.Core.Services.Settings
         public decimal DistanceToNearestTollpoint
         {
             get { return _storedSettingsBase.Get<decimal>(); }
+            set { _storedSettingsBase.Set(value); }
+        }
+
+        public TripCompleted TripCompleted
+        {
+            get { return _storedSettingsBase.Get<TripCompleted>(); }
             set { _storedSettingsBase.Set(value); }
         }
     }

@@ -1,7 +1,7 @@
 ﻿using System;
 namespace Tollminder.Core.Models.PaymentData
 {
-    public class TripRequest
+    public class TripCompleted
     {
         public string UserId { get; set; }
         public string StartWayPointId { get; set; }
