@@ -166,6 +166,10 @@
     <Compile Include="Converters\ValidationConverter.cs" />
     <Compile Include="ViewModels\Payments\CreditCardAuthorizeDotNetViewModel.cs" />
     <Compile Include="Models\PaymentData\PaymentProfile.cs" />
+    <Compile Include="Models\PaymentData\NotPayedTrip.cs" />
+    <Compile Include="Models\PaymentData\Trip.cs" />
+    <Compile Include="Services\Settings\IQueueItem.cs" />
+    <Compile Include="ViewModels\Payments\CreditCardsForPayViewModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>

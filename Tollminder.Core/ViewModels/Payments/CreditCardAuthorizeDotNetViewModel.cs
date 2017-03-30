@@ -4,23 +4,20 @@ using Chance.MvvmCross.Plugins.UserInteraction;
 using Tollminder.Core.Models.PaymentData;
 using MvvmCross.Core.ViewModels;
 using Tollminder.Core.Services.Api;
-using Tollminder.Core.Services.Settings;
 
 namespace Tollminder.Core.ViewModels.Payments
 {
     public class CreditCardAuthorizeDotNetViewModel : BaseViewModel
     {
-        readonly IServerApiService serverApiService;
-        readonly IStoredSettingsService storedSettingsService;
+        readonly IPaymentProcessing paymentProcessing;
 
         public CreditCardAuthorizeDotNet CreditCard { get; set; }
         public MvxCommand RemoveCreditCardCommand { get; set; }
 
-        public CreditCardAuthorizeDotNetViewModel(CreditCardAuthorizeDotNet creditCard, IServerApiService serverApiService, IStoredSettingsService storedSettingsService)
+        public CreditCardAuthorizeDotNetViewModel(CreditCardAuthorizeDotNet creditCard, IPaymentProcessing paymentProcessing)
         {
             CreditCard = creditCard;
-            this.serverApiService = serverApiService;
-            this.storedSettingsService = storedSettingsService;
+            this.paymentProcessing = paymentProcessing;
 
             RemoveCreditCardCommand = new MvxCommand(async () => { await RemoveCreditCardAsync(); });
         }
@@ -34,7 +31,7 @@ namespace Tollminder.Core.ViewModels.Payments
         {
             var alertResult = await Mvx.Resolve<IUserInteraction>().ConfirmAsync("Are you sure you want to delete your credit card?", "Warning");
             if (alertResult)
-                await serverApiService.RemoveCreditCardAsync(storedSettingsService.ProfileId, CreditCard.PaymentProfile.PaymentProfileId);
+                await paymentProcessing.RemoveCreditCardAsync(CreditCard.PaymentProfile.PaymentProfileId);
         }
     }
 }

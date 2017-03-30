@@ -14,16 +14,16 @@ namespace Tollminder.Core.ViewModels.Payments
 {
     public class PayHistoryViewModel : BaseViewModel
     {
-        readonly IServerApiService serverApiService;
+        readonly IPaymentProcessing paymentProcessing;
         readonly IStoredSettingsService storedSettingsService;
         readonly ICalendarDialog calendarDialog;
         readonly IProgressDialogManager progressDialogManager;
 
         private bool isPayHistoryAwailableForUser;
 
-        public PayHistoryViewModel(IServerApiService serverApiService, IStoredSettingsService storedSettingsService, ICalendarDialog calendarDialog, IProgressDialogManager progressDialogManager)
+        public PayHistoryViewModel(IPaymentProcessing paymentProcessing, IStoredSettingsService storedSettingsService, ICalendarDialog calendarDialog, IProgressDialogManager progressDialogManager)
         {
-            this.serverApiService = serverApiService;
+            this.paymentProcessing = paymentProcessing;
             this.storedSettingsService = storedSettingsService;
             this.calendarDialog = calendarDialog;
             this.progressDialogManager = progressDialogManager;
@@ -64,7 +64,7 @@ namespace Tollminder.Core.ViewModels.Payments
             {
                 Debug.WriteLine(ex.Message);
             }
-            History = await serverApiService.GetPayHistoryAsync(GetPayDateFrom, GetPayDateTo);
+            History = await paymentProcessing.GetPayHistoryAsync(GetPayDateFrom, GetPayDateTo);
             try
             {
                 if (History.Count != 0)
@@ -90,7 +90,7 @@ namespace Tollminder.Core.ViewModels.Payments
         {
             if (isPayHistoryAwailableForUser)
             {
-                string result = await serverApiService.DownloadPayHistoryAsync(getPayDateFrom, getPayDateTo);
+                string result = await paymentProcessing.DownloadPayHistoryAsync(getPayDateFrom, getPayDateTo);
                 if (result != null)
                     ShowViewModel<PayHistoryPdfViewModel>(new { pdfUrlFromServer = result, pdfNameFromDateRange = GetPdfName() });
             }

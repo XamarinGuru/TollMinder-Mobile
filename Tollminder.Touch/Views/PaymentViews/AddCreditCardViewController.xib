@@ -14,13 +14,13 @@
                 <outlet property="AcceptedCardsImageView" destination="VQo-Lz-RjU" id="name-outlet-VQo-Lz-RjU"/>
                 <outlet property="AddCreditCardNavigationBar" destination="3tf-er-Ryp" id="name-outlet-3tf-er-Ryp"/>
                 <outlet property="AddCreditCardNavigationItem" destination="vgw-0u-sZI" id="name-outlet-vgw-0u-sZI"/>
-                <outlet property="CardNumberTextField" destination="SzP-7r-FQw" id="name-outlet-SzP-7r-FQw"/>
-                <outlet property="CvvTextField" destination="ZKS-JT-Nxw" id="name-outlet-ZKS-JT-Nxw"/>
-                <outlet property="ExpirationMonthTextField" destination="Bgl-R0-tLy" id="name-outlet-Bgl-R0-tLy"/>
-                <outlet property="ExpirationYearTextField" destination="cZr-mu-yip" id="name-outlet-cZr-mu-yip"/>
-                <outlet property="NameOnCardTextField" destination="7nn-rE-Co9" id="name-outlet-7nn-rE-Co9"/>
+                <outlet property="CardNumberTextField" destination="iXS-ny-gNE" id="fL4-pU-B11"/>
+                <outlet property="CvvTextField" destination="udk-95-PEL" id="VfG-XK-QJP"/>
+                <outlet property="ExpirationMonthTextField" destination="xyV-tQ-2Zj" id="seV-ol-6tv"/>
+                <outlet property="ExpirationYearTextField" destination="tYb-bn-6Hx" id="YTg-F4-FFg"/>
+                <outlet property="NameOnCardTextField" destination="JIo-gm-60J" id="tXL-wx-Ag7"/>
                 <outlet property="SaveCreditCardButton" destination="2RL-0w-NDE" id="name-outlet-2RL-0w-NDE"/>
-                <outlet property="ZipCodeTextField" destination="BPk-K1-9IP" id="name-outlet-BPk-K1-9IP"/>
+                <outlet property="ZipCodeTextField" destination="zhX-1f-dHj" id="eEx-5o-6cc"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
             </connections>
         </placeholder>
@@ -53,133 +53,64 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </imageView>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Name On Card" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7nn-rE-Co9">
-                            <rect key="frame" x="0.0" y="70" width="335" height="40"/>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name On Card" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JIo-gm-60J">
+                            <rect key="frame" x="0.0" y="65" width="335" height="40"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="40" id="cqT-HL-rzg"/>
+                                <constraint firstAttribute="height" constant="40" id="sfL-rb-A1Z"/>
                             </constraints>
+                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColor">
-                                    <color key="value" red="0.74893707036972046" green="0.74906712770462036" blue="0.74892884492874146" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
-                            <variation key="default">
-                                <mask key="constraints">
-                                    <exclude reference="cqT-HL-rzg"/>
-                                </mask>
-                            </variation>
-                            <variation key="widthClass=compact">
-                                <mask key="constraints">
-                                    <include reference="cqT-HL-rzg"/>
-                                </mask>
-                            </variation>
+                            <textInputTraits key="textInputTraits"/>
                         </textField>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Card Number*" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SzP-7r-FQw">
-                            <rect key="frame" x="0.0" y="120" width="335" height="40"/>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Card Number*" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iXS-ny-gNE">
+                            <rect key="frame" x="0.0" y="115" width="335" height="40"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="40" id="fKd-eN-WSP"/>
+                                <constraint firstAttribute="height" constant="40" id="4s1-Z0-d13"/>
                             </constraints>
+                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColor">
-                                    <color key="value" red="0.74893707036972046" green="0.74906712770462036" blue="0.74892884492874146" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
-                            <variation key="default">
-                                <mask key="constraints">
-                                    <exclude reference="fKd-eN-WSP"/>
-                                </mask>
-                            </variation>
-                            <variation key="widthClass=compact">
-                                <mask key="constraints">
-                                    <include reference="fKd-eN-WSP"/>
-                                </mask>
-                            </variation>
+                            <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES"/>
                         </textField>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="MM*" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Bgl-R0-tLy">
-                            <rect key="frame" x="0.0" y="170" width="75" height="40"/>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="MM*" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xyV-tQ-2Zj">
+                            <rect key="frame" x="0.0" y="165" width="80" height="40"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="40" id="5KF-TH-VCR">
-                                    <variation key="widthClass=compact" constant="75"/>
-                                </constraint>
-                                <constraint firstAttribute="height" constant="40" id="QFV-rT-JcV"/>
+                                <constraint firstAttribute="width" constant="80" id="HXF-eB-3Fl"/>
+                                <constraint firstAttribute="height" constant="40" id="hzg-Ef-8bg"/>
                             </constraints>
+                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColor">
-                                    <color key="value" red="0.74893707036972046" green="0.74906712770462036" blue="0.74892884492874146" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
-                            <variation key="default">
-                                <mask key="constraints">
-                                    <exclude reference="5KF-TH-VCR"/>
-                                    <exclude reference="QFV-rT-JcV"/>
-                                </mask>
-                            </variation>
-                            <variation key="widthClass=compact">
-                                <mask key="constraints">
-                                    <include reference="5KF-TH-VCR"/>
-                                    <include reference="QFV-rT-JcV"/>
-                                </mask>
-                            </variation>
+                            <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES"/>
                         </textField>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="YY*" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cZr-mu-yip">
-                            <rect key="frame" x="99" y="170" width="75" height="40"/>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="YY*" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tYb-bn-6Hx">
+                            <rect key="frame" x="95" y="165" width="80" height="40"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="40" id="JWR-XA-lBv">
-                                    <variation key="widthClass=compact" constant="75"/>
-                                </constraint>
-                                <constraint firstAttribute="height" constant="40" id="gPH-ih-3De"/>
+                                <constraint firstAttribute="width" constant="80" id="IQh-4N-dqB"/>
+                                <constraint firstAttribute="height" constant="40" id="Kvl-uL-DCP"/>
                             </constraints>
+                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColor">
-                                    <color key="value" red="0.74893707036972046" green="0.74906712770462036" blue="0.74892884492874146" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
-                            <variation key="default">
-                                <mask key="constraints">
-                                    <exclude reference="JWR-XA-lBv"/>
-                                    <exclude reference="gPH-ih-3De"/>
-                                </mask>
-                            </variation>
-                            <variation key="widthClass=compact">
-                                <mask key="constraints">
-                                    <include reference="JWR-XA-lBv"/>
-                                    <include reference="gPH-ih-3De"/>
-                                </mask>
-                            </variation>
+                            <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES"/>
                         </textField>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Zip Code" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BPk-K1-9IP">
-                            <rect key="frame" x="0.0" y="220" width="335" height="40"/>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="CVV*" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="udk-95-PEL">
+                            <rect key="frame" x="190" y="165" width="145" height="40"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="40" id="v6a-ud-NuK"/>
+                                <constraint firstAttribute="height" constant="40" id="llV-q8-eh9"/>
                             </constraints>
+                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColor">
-                                    <color key="value" red="0.74893707036972046" green="0.74906712770462036" blue="0.74892884492874146" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
-                            <variation key="default">
-                                <mask key="constraints">
-                                    <exclude reference="v6a-ud-NuK"/>
-                                </mask>
-                            </variation>
-                            <variation key="widthClass=compact">
-                                <mask key="constraints">
-                                    <include reference="v6a-ud-NuK"/>
-                                </mask>
-                            </variation>
+                            <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES"/>
+                        </textField>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Zip Code" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zhX-1f-dHj">
+                            <rect key="frame" x="0.0" y="215" width="335" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="k1Z-vT-YLa"/>
+                            </constraints>
+                            <nil key="textColor"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES"/>
                         </textField>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2RL-0w-NDE" userLabel="Get Token">
-                            <rect key="frame" x="0.0" y="270" width="335" height="40"/>
+                            <rect key="frame" x="0.0" y="275" width="335" height="40"/>
                             <color key="backgroundColor" red="0.00027235838933847845" green="0.82761907577514648" blue="0.66055417060852051" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="aSR-Pi-0c6">
@@ -196,57 +127,30 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </button>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="CVV*" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZKS-JT-Nxw">
-                            <rect key="frame" x="227" y="170" width="108" height="40"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="40" id="6Ax-kt-eYm"/>
-                                <constraint firstAttribute="width" constant="97" id="8cO-kc-vtV">
-                                    <variation key="widthClass=compact" constant="108"/>
-                                </constraint>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColor">
-                                    <color key="value" red="0.74893707036972046" green="0.74906712770462036" blue="0.74892884492874146" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
-                            <variation key="default">
-                                <mask key="constraints">
-                                    <exclude reference="6Ax-kt-eYm"/>
-                                    <exclude reference="8cO-kc-vtV"/>
-                                </mask>
-                            </variation>
-                            <variation key="widthClass=compact">
-                                <mask key="constraints">
-                                    <include reference="6Ax-kt-eYm"/>
-                                    <include reference="8cO-kc-vtV"/>
-                                </mask>
-                            </variation>
-                        </textField>
                     </subviews>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="VQo-Lz-RjU" secondAttribute="trailing" id="4mN-wJ-yRC"/>
-                        <constraint firstItem="SzP-7r-FQw" firstAttribute="top" secondItem="7nn-rE-Co9" secondAttribute="bottom" constant="10" id="5sq-BU-Gy4"/>
                         <constraint firstItem="VQo-Lz-RjU" firstAttribute="leading" secondItem="nQr-MD-26C" secondAttribute="leading" id="7GQ-Xl-ooc"/>
-                        <constraint firstItem="Bgl-R0-tLy" firstAttribute="leading" secondItem="nQr-MD-26C" secondAttribute="leading" id="8d5-49-eLL"/>
-                        <constraint firstItem="ZKS-JT-Nxw" firstAttribute="top" secondItem="SzP-7r-FQw" secondAttribute="bottom" constant="10" id="8fh-W1-a4b"/>
-                        <constraint firstItem="7nn-rE-Co9" firstAttribute="top" secondItem="VQo-Lz-RjU" secondAttribute="bottom" constant="20" id="GHm-V5-eUt"/>
-                        <constraint firstItem="BPk-K1-9IP" firstAttribute="top" secondItem="cZr-mu-yip" secondAttribute="bottom" constant="10" id="Gv7-h1-JsH"/>
+                        <constraint firstItem="xyV-tQ-2Zj" firstAttribute="leading" secondItem="nQr-MD-26C" secondAttribute="leading" id="9aS-35-Sn2"/>
+                        <constraint firstItem="zhX-1f-dHj" firstAttribute="leading" secondItem="nQr-MD-26C" secondAttribute="leading" id="Dfe-hT-x7H"/>
+                        <constraint firstItem="udk-95-PEL" firstAttribute="top" secondItem="iXS-ny-gNE" secondAttribute="bottom" constant="10" id="Hbw-e8-eZv"/>
                         <constraint firstItem="2RL-0w-NDE" firstAttribute="leading" secondItem="nQr-MD-26C" secondAttribute="leading" id="JPM-IL-VWx"/>
-                        <constraint firstItem="7nn-rE-Co9" firstAttribute="leading" secondItem="nQr-MD-26C" secondAttribute="leading" id="QQf-oQ-Okw"/>
-                        <constraint firstItem="Bgl-R0-tLy" firstAttribute="top" secondItem="SzP-7r-FQw" secondAttribute="bottom" constant="10" id="Ren-Bw-xZO"/>
-                        <constraint firstItem="cZr-mu-yip" firstAttribute="leading" secondItem="Bgl-R0-tLy" secondAttribute="trailing" constant="24" id="RkB-pi-UBu"/>
-                        <constraint firstItem="SzP-7r-FQw" firstAttribute="leading" secondItem="nQr-MD-26C" secondAttribute="leading" id="Rn7-7h-Vb1"/>
-                        <constraint firstItem="cZr-mu-yip" firstAttribute="top" secondItem="SzP-7r-FQw" secondAttribute="bottom" constant="10" id="SqI-aA-drp"/>
-                        <constraint firstItem="BPk-K1-9IP" firstAttribute="leading" secondItem="nQr-MD-26C" secondAttribute="leading" id="Z1Q-op-Y7o"/>
-                        <constraint firstAttribute="trailing" secondItem="SzP-7r-FQw" secondAttribute="trailing" id="c9J-sM-hMY"/>
-                        <constraint firstAttribute="trailing" secondItem="BPk-K1-9IP" secondAttribute="trailing" id="kXi-GL-7if"/>
+                        <constraint firstItem="JIo-gm-60J" firstAttribute="top" secondItem="VQo-Lz-RjU" secondAttribute="bottom" constant="15" id="L4H-zG-MOg"/>
+                        <constraint firstItem="iXS-ny-gNE" firstAttribute="leading" secondItem="nQr-MD-26C" secondAttribute="leading" id="LFQ-4x-Zek"/>
+                        <constraint firstAttribute="trailing" secondItem="zhX-1f-dHj" secondAttribute="trailing" id="MMy-xM-ziD"/>
+                        <constraint firstItem="iXS-ny-gNE" firstAttribute="top" secondItem="JIo-gm-60J" secondAttribute="bottom" constant="10" id="Rwe-bl-erM"/>
+                        <constraint firstItem="zhX-1f-dHj" firstAttribute="top" secondItem="tYb-bn-6Hx" secondAttribute="bottom" constant="10" id="WDv-Kf-L9U"/>
+                        <constraint firstAttribute="trailing" secondItem="udk-95-PEL" secondAttribute="trailing" id="bP4-6R-EN2"/>
+                        <constraint firstItem="JIo-gm-60J" firstAttribute="leading" secondItem="nQr-MD-26C" secondAttribute="leading" id="f4H-sw-RRS"/>
+                        <constraint firstItem="tYb-bn-6Hx" firstAttribute="leading" secondItem="xyV-tQ-2Zj" secondAttribute="trailing" constant="15" id="fYb-lL-ceY"/>
+                        <constraint firstItem="2RL-0w-NDE" firstAttribute="top" secondItem="zhX-1f-dHj" secondAttribute="bottom" constant="20" id="gKA-KX-qUv"/>
+                        <constraint firstAttribute="trailing" secondItem="JIo-gm-60J" secondAttribute="trailing" id="iF6-OZ-9qj"/>
+                        <constraint firstItem="udk-95-PEL" firstAttribute="leading" secondItem="tYb-bn-6Hx" secondAttribute="trailing" constant="15" id="iTw-sf-Kvf"/>
+                        <constraint firstAttribute="trailing" secondItem="iXS-ny-gNE" secondAttribute="trailing" id="lxx-pm-s9P"/>
                         <constraint firstAttribute="trailing" secondItem="2RL-0w-NDE" secondAttribute="trailing" id="m1Q-Dh-KxO"/>
-                        <constraint firstAttribute="trailing" secondItem="7nn-rE-Co9" secondAttribute="trailing" id="oCI-en-tPA"/>
-                        <constraint firstItem="ZKS-JT-Nxw" firstAttribute="trailing" secondItem="SzP-7r-FQw" secondAttribute="trailing" id="sNL-77-dda"/>
+                        <constraint firstItem="xyV-tQ-2Zj" firstAttribute="top" secondItem="iXS-ny-gNE" secondAttribute="bottom" constant="10" id="nw3-Yp-PSj"/>
+                        <constraint firstItem="tYb-bn-6Hx" firstAttribute="top" secondItem="iXS-ny-gNE" secondAttribute="bottom" constant="10" id="rO8-jC-1s4"/>
                         <constraint firstItem="VQo-Lz-RjU" firstAttribute="top" secondItem="nQr-MD-26C" secondAttribute="top" id="tSS-Lh-1Jt"/>
-                        <constraint firstItem="2RL-0w-NDE" firstAttribute="top" secondItem="BPk-K1-9IP" secondAttribute="bottom" constant="10" id="zxX-5U-wPY"/>
                     </constraints>
                 </view>
             </subviews>

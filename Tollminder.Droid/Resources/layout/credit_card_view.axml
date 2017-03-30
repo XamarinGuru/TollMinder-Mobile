@@ -95,7 +95,7 @@
                     android:nextFocusDown="@+id/month_expiration_editText"
                     android:layout_marginLeft="10dp"
                     android:padding="10dp"
-                    android:singleLine="true"
+                    android:password="true"
                     local:MvxBind="Text CreditCardNumber;" />
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>

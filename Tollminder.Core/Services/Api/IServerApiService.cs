@@ -39,7 +39,8 @@ namespace Tollminder.Core.Services.Api
         Task<CreditCardAuthorizeDotNet> AddCreditCardAsync(AddCreditCard crediCard);
         Task<List<CreditCardAuthorizeDotNet>> GetCreditCardsAsync();
         Task<string> PayForTripAsync(PayForTrip tripRequest);
-        Task RemoveCreditCardAsync(string userId, string paymentProfileId);
+        Task RemoveCreditCardAsync(string paymentProfileId);
+        Task<NotPayedTrip> GetNotPayedTripsAsync();
 
         // Vehicle processing
         Task<Vehicle> SaveVehicleAsync(Vehicle vehicle);

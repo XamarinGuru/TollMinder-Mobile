@@ -267,6 +267,7 @@
     <InterfaceDefinition Include="Views\DriverViews\VehicleViewController.xib" />
     <InterfaceDefinition Include="Views\PaymentViews\CreditCardsViewController.xib" />
     <InterfaceDefinition Include="Views\PaymentViews\CreditCardsTableViewCell.xib" />
+    <InterfaceDefinition Include="Views\PaymentViews\NotPayedTripsTableViewCell.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -366,6 +367,10 @@
     <Compile Include="Views\PaymentViews\CreditCardsTableViewCell.cs" />
     <Compile Include="Views\PaymentViews\CreditCardsTableViewCell.designer.cs">
       <DependentUpon>CreditCardsTableViewCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PaymentViews\NotPayedTripsTableViewCell.cs" />
+    <Compile Include="Views\PaymentViews\NotPayedTripsTableViewCell.designer.cs">
+      <DependentUpon>NotPayedTripsTableViewCell.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

@@ -55,7 +55,7 @@ namespace Tollminder.Core.ViewModels
                 ShowViewModel<LoginViewModel>();
             });
             _profileCommand = new MvxCommand(() => { ShowViewModel<ProfileViewModel>(); });
-            _payCommand = new MvxCommand(() => { });
+            _payCommand = new MvxCommand(() => { ShowViewModel<PayViewModel>(); });
             _payHistoryCommand = new MvxCommand(() => { ShowViewModel<PayHistoryViewModel>(); });
             _trackingCommand = new MvxCommand(async () =>
             {

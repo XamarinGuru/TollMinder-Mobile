@@ -106,6 +106,7 @@ namespace Tollminder.Touch.Views
             addressTextField = TextFieldInitializer("Address");
             cityTextField = TextFieldInitializer("City");
             zipCodeTextField = TextFieldInitializer("Zip Code");
+            zipCodeTextField.TextFieldWithValidator.TextField.SecureTextEntry = true;
 
             stateTextField = TextFieldInitializer("State");
             statesPicker = new UIPickerView();
@@ -113,7 +114,6 @@ namespace Tollminder.Touch.Views
             statesPicker.Model = statesPickerViewModel;
             statesPicker.ShowSelectionIndicator = true;
             statesPicker.BackgroundColor = UIColor.White;
-
 
             addLicenseButton = ProfileButtonManager.ButtonInitiaziler("Add License Plate", UIImage.FromFile(@"Images/ProfileView/ic_license.png"));
             showCreditCardButton = ProfileButtonManager.ButtonInitiaziler("Credit Cards", UIImage.FromFile(@"Images/ProfileView/ic_card.png"));

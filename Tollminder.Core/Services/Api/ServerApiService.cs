@@ -147,11 +147,11 @@ namespace Tollminder.Core.Services.Api
             return SendAsync<PayForTrip, string>(tripRequest, $"{BaseApiUrl}payment/charge", storedSettingsService.AuthToken);
         }
 
-        public Task RemoveCreditCardAsync(string userId, string paymentProfileId)
+        public Task RemoveCreditCardAsync(string paymentProfileId)
         {
             var parameters = new
             {
-                userId,
+                storedSettingsService.ProfileId,
                 paymentProfileId
             };
 
@@ -160,7 +160,12 @@ namespace Tollminder.Core.Services.Api
 
         public Task<List<CreditCardAuthorizeDotNet>> GetCreditCardsAsync()
         {
-            return null;//GetAsync<List<CreditCardAuthorizeDotNet>>($"{BaseApiUrl}payment/", storedSettingsService.AuthToken);
+            return GetAsync<List<CreditCardAuthorizeDotNet>>($"{BaseApiUrl}{storedSettingsService.ProfileId}/cards", storedSettingsService.AuthToken);
+        }
+
+        public Task<NotPayedTrip> GetNotPayedTripsAsync()
+        {
+            return GetAsync<NotPayedTrip>($"{BaseApiUrl}{storedSettingsService.ProfileId}/notPayed", storedSettingsService.AuthToken);
         }
     }
 }

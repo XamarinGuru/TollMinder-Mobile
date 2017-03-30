@@ -8,6 +8,8 @@ using Tollminder.Core.Services.Api;
 using Tollminder.Core.Services.ProfileData;
 using Tollminder.Core.ViewModels.Payments;
 using Tollminder.Core.ViewModels.Vehicles;
+using MvvmCross.Platform;
+using Chance.MvvmCross.Plugins.UserInteraction;
 
 namespace Tollminder.Core.ViewModels.UserProfile
 {
@@ -25,7 +27,7 @@ namespace Tollminder.Core.ViewModels.UserProfile
 
             backHomeCommand = new MvxCommand(() => { ShowViewModel<HomeViewModel>(); });
             addLicenseCommand = new MvxCommand(() => { ShowViewModel<LicenseViewModel>(); });
-            showCreditCardsCommand = new MvxCommand(() => { ShowViewModel<CreditCardsViewModel>(); });
+            showCreditCardsCommand = new MvxCommand(() => { ShowCreditCards(); });
 
             States = loadResourceData.GetData("Tollminder.Core.states.json");
         }
@@ -53,6 +55,24 @@ namespace Tollminder.Core.ViewModels.UserProfile
             if (Profile != null)
                 profileSettingService.SaveProfile(Profile);
             base.OnPause();
+        }
+
+        private void ShowCreditCards()
+        {
+            if (CheckField("FirstName", Profile.FirstName) && CheckField("Email", Profile.LastName) && CheckField("Email", Profile.Email)
+                && CheckField("Address", Profile.Address) && CheckField("City", Profile.City) && CheckField("State", Profile.State)
+                && CheckField("Zip Code", Profile.ZipCode))
+                ShowViewModel<CreditCardsViewModel>();
+        }
+
+        private bool CheckField(string fieldName, string fieldValue)
+        {
+            if (string.IsNullOrEmpty(fieldValue))
+            {
+                Mvx.Resolve<IUserInteraction>().AlertAsync(fieldName + " can't be null.", "Error");
+                return false;
+            }
+            return true;
         }
 
         private MvxCommand backHomeCommand;

@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16sp">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#86E7D3">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Toll road"
+            android:layout_margin="16sp"
+            android:gravity="center"
+            android:layout_gravity="start"
+            android:textColor="@color/gray_dark"
+            android:textSize="30sp"
+            app:MvxBind="Text Tollroad"/>
+        <View
+            android:layout_width="3dp"
+            android:layout_height="50dp"
+            android:background="#009672"
+            android:layout_gravity="center_vertical|center_horizontal"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:gravity="center_vertical"
+            android:layout_gravity="center|center_vertical"
+            android:text="$"
+            android:textColor="@color/gray_dark"
+            android:textSize="30sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_gravity="end|center_vertical"
+            app:MvxBind="Text Cost"
+            tools:text="2323"
+            android:textColor="@color/gray_dark"
+            android:textSize="30sp"
+            android:id="@+id/textView3" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#D3FFF6">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Billing date:"
+            android:gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/blue"
+            android:textSize="20sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            app:MvxBind="Text PaymentDate"
+            tools:text="23"
+            android:textColor="@color/blue"
+            android:textSize="20sp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#D3FFF6">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Transaction ID:"
+            android:gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/blue"
+            android:textSize="20sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            app:MvxBind="Text Transaction"
+            tools:text="23"
+            android:textColor="@color/blue"
+            android:textSize="20sp"/>
+    </LinearLayout>
+</LinearLayout>

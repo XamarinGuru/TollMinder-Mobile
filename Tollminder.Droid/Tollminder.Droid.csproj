@@ -351,6 +351,7 @@
     <Compile Include="Views\PaymentsViews\CreditCardView.cs" />
     <Compile Include="Views\PaymentsViews\AddCreditCardView.cs" />
     <Compile Include="TemplateSelectors\TypeTemplateSelector.cs" />
+    <Compile Include="Views\PaymentsViews\PaymentView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AboutAssets.txt" />
@@ -562,6 +563,9 @@
     <AndroidResource Include="Resources\layout\validation_edit_text.xml" />
     <AndroidResource Include="Resources\drawable\edit_text_rounded_background.xml" />
     <AndroidResource Include="Resources\drawable\edit_text_rounded_error_background.xml" />
+    <AndroidResource Include="Resources\layout\pay_view.xml" />
+    <AndroidResource Include="Resources\layout\pay_item.xml" />
+    <AndroidResource Include="Resources\layout\credit_cards_for_pay.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProguardConfiguration Include="Properties\AndroidManifest.xml" />

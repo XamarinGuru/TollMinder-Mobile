@@ -48,22 +48,36 @@ namespace Tollminder.Core.ViewModels.Payments
 
         private async Task CloseAsync()
         {
-            var answer = await Mvx.Resolve<IUserInteraction>().ConfirmAsync("Are you sure you want to leave this page?", "Warnign");
+            var answer = await Mvx.Resolve<IUserInteraction>().ConfirmAsync("Are you sure you want to leave this page?", "Warning");
             if (answer)
                 ShowViewModel<CreditCardsViewModel>();
         }
 
         private async Task SaveCrediCardAsync()
         {
-            await paymentProcessing.AddCreditCardAsync(new AddCreditCard
+            if (CheckField("Card Number", CreditCardNumber) && CheckField("Expiration Month", ExpirationMonth)
+                && CheckField("Expiration Year", ExpirationYear) && CheckField("Cvv", Cvv))
             {
-                UserId = storedSettingsService.ProfileId,
-                CardHolder = this.CardHolder,
-                CreditCardNumber = this.CreditCardNumber,
-                ExpirationMonth = this.ExpirationMonth,
-                ExpirationYear = this.ExpirationYear,
-                Cvv = this.Cvv
-            });
+                await paymentProcessing.AddCreditCardAsync(new AddCreditCard
+                {
+                    UserId = storedSettingsService.ProfileId,
+                    //CardHolder = this.CardHolder,
+                    CreditCardNumber = this.CreditCardNumber,
+                    ExpirationMonth = this.ExpirationMonth,
+                    ExpirationYear = this.ExpirationYear,
+                    CardCode = this.Cvv
+                });
+            }
+        }
+
+        private bool CheckField(string fieldName, string fieldValue)
+        {
+            if (string.IsNullOrEmpty(fieldValue))
+            {
+                Mvx.Resolve<IUserInteraction>().AlertAsync(fieldName + " can't be null.", "Error");
+                return false;
+            }
+            return true;
         }
     }
 }
