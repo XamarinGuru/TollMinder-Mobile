@@ -20,7 +20,7 @@
             android:layout_marginLeft="20dp"
             android:layout_centerVertical="true"
             android:src="@drawable/icon_back"
-            local:MvxBind="Click BackToProfileCommand"
+            local:MvxBind="Click CloseCreditCardsCommand"
             android:background="@android:color/transparent"
             android:focusable="true"
             android:focusableInTouchMode="true" />
@@ -62,12 +62,12 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp">
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
         <MvvmCross.Droid.Support.V7.RecyclerView.MvxRecyclerView
             android:id="@+id/credit_cards_list_view_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            local:MvxBind="ItemsSource CreditCards" />
+            local:MvxBind="ItemsSource CrediCards" />
     </ScrollView>
 </LinearLayout>

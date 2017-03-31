@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/tab_background"
     android:orientation="vertical">
+
     <RelativeLayout
         android:id="@+id/profile_top_navigation"
         android:layout_width="match_parent"
@@ -43,17 +44,21 @@
             android:gravity="center_horizontal"
             android:textSize="15dp"
             android:textColor="@color/blue"/>
+
         <ImageButton
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:scaleType="fitXY"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="fitCenter"
             android:layout_marginRight="20dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
             android:src="@drawable/ic_card"
             local:MvxBind="Click PayCommand"
             android:background="@android:color/transparent"
-            android:focusableInTouchMode="true" />
+            android:focusableInTouchMode="true"
+            android:layout_alignTop="@+id/back_to_home_view"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"
+            android:id="@+id/imageButton" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -62,13 +67,15 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/payment_item_scroll_view"
             android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp">
+            android:layout_marginRight="40dp"
+            android:layout_marginBottom="50dp">
             <MvvmCross.Droid.Support.V7.RecyclerView.MvxRecyclerView
                 android:id="@+id/pay_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                local:MvxBind="ItemsSource NotPayedTrips" />
+                local:MvxBind="ItemsSource NotPayedTrips;ItemClick ItemSelectedCommand" />
         </ScrollView>
         <LinearLayout
             android:layout_width="match_parent"
@@ -77,21 +84,20 @@
             android:background="@drawable/profile_top_background"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_marginTop="10dp"
+                android:layout_marginLeft="80dp"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="Total amount: $ "
-                android:gravity="center_horizontal"
+                android:text="Total amount: $  "
                 android:textSize="20dp"
                 android:textColor="@color/white"/>
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                tools:text="321"
-                android:gravity="center_horizontal"
+                android:text="0"
                 android:textSize="20dp"
                 android:textColor="@color/white"
                 local:MvxBind="Text Amount"/>

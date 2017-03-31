@@ -3,6 +3,7 @@ using MvvmCross.iOS.Views;
 using UIKit;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Binding.iOS.Views;
+using Tollminder.Touch.Views.PaymentViews;
 
 namespace Tollminder.Touch.Views
 {
@@ -19,12 +20,12 @@ namespace Tollminder.Touch.Views
             base.ViewDidLoad();
 
             View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile(@"Images/tab_background.png").Scale(View.Frame.Size));
-            PayNavigationItem.Title = "Your Credit Cards";
+            PayNavigationItem.Title = "Your Unpaid Trips";
             PayNavigationBar.TitleTextAttributes = new UIStringAttributes() { ForegroundColor = UIColor.White };
             PayNavigationItem.LeftBarButtonItem = new UIBarButtonItem(UIImage.FromFile("Images/ic_back.png"), UIBarButtonItemStyle.Plain, null);
             PayNavigationItem.RightBarButtonItem = new UIBarButtonItem(UIImage.FromFile("Images/ProfileView/ic_card.png"), UIBarButtonItemStyle.Plain, null);
 
-            notPayedTripsTableViewSource = new MvxSimpleTableViewSource(NotPayedTripsTableVIew, CreditCardsTableViewCell.Key, CreditCardsTableViewCell.Key);
+            notPayedTripsTableViewSource = new MvxSimpleTableViewSource(NotPayedTripsTableVIew, NotPayedTripsTableViewCell.Key, NotPayedTripsTableViewCell.Key);
             NotPayedTripsTableVIew.Source = notPayedTripsTableViewSource;
             NotPayedTripsTableVIew.EstimatedRowHeight = 90f;
             NotPayedTripsTableVIew.RowHeight = UITableView.AutomaticDimension;

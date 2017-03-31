@@ -1,7 +1,5 @@
 ﻿using MvvmCross.Core.ViewModels;
-using Tollminder.Core.ViewModels.UserProfile;
 using Tollminder.Core.Services.Api;
-using Tollminder.Core.Models.PaymentData;
 using System;
 using System.Diagnostics;
 using Chance.MvvmCross.Plugins.UserInteraction;
@@ -24,15 +22,15 @@ namespace Tollminder.Core.ViewModels.Payments
         {
             this.paymentProcessing = paymentProcessing;
 
-            BackToMainPageCommand = new MvxCommand(() => ShowViewModel<ProfileViewModel>());
+            BackToMainPageCommand = new MvxCommand(() => ShowViewModel<HomeViewModel>());
             PayCommand = new MvxCommand(() => AddHeaderViewModel<CreditCardsForPayViewModel>());
+            NotPayedTrips = new MvxObservableCollection<IQueueItem>();
         }
 
         private async void LoadDataAsync()
         {
             try
             {
-                NotPayedTrips = new MvxObservableCollection<IQueueItem>();
                 var getTrips = await paymentProcessing.GetNotPayedTripsAsync();
                 NotPayedTrips.AddRange(getTrips?.Trips);
                 Amount = getTrips?.Amount;
@@ -52,6 +50,12 @@ namespace Tollminder.Core.ViewModels.Payments
 
         private void AddHeaderViewModel<T>()
         {
+            //if (NotPayedTrips.Count == 0)
+            //{
+            //    Mvx.Resolve<IUserInteraction>().AlertAsync("You have no not payed trips for now.", "Warning");
+            //    return;
+            //}
+
             var firstView = NotPayedTrips.FirstOrDefault();
             var insertedAlready = (firstView?.Priority == ItemPriority.FirstAlways && firstView is T);
 
@@ -65,7 +69,7 @@ namespace Tollminder.Core.ViewModels.Payments
             {
                 try
                 {
-                    var creditCardList = new CreditCardsForPayViewModel(paymentProcessing, () => CloseViewModel<CreditCardsForPayViewModel>());
+                    var creditCardList = new CreditCardsForPayViewModel(paymentProcessing, () => CloseViewModel<CreditCardsForPayViewModel>(), Amount);
                     NotPayedTrips.Insert(0, creditCardList);
                     creditCardList.Start();
                 }
@@ -81,7 +85,6 @@ namespace Tollminder.Core.ViewModels.Payments
             var cardViewModel = this.NotPayedTrips.FirstOrDefault(item => item is T);
             if (cardViewModel != null)
                 this.NotPayedTrips.Remove(cardViewModel);
-            LoadDataAsync();
         }
     }
 }

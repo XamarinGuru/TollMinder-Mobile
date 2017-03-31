@@ -20,16 +20,16 @@ namespace Tollminder.Core.ViewModels.Payments
         public string CardHolder { get; set; }
         [StringLength(16, MinimumLength = 16, ErrorMessage = "Card number is too short")]
         [Required]
-        public string CreditCardNumber { get; set; }
+        public string CreditCardNumber { get; set; } = "5424000000000015";
         [StringLength(2, MinimumLength = 2, ErrorMessage = "Expiration month is too short")]
         [Required]
-        public string ExpirationMonth { get; set; }
+        public string ExpirationMonth { get; set; } = "5";
         [StringLength(2, MinimumLength = 2, ErrorMessage = "Expiration year is too short")]
         [Required]
-        public string ExpirationYear { get; set; }
+        public string ExpirationYear { get; set; } = "19";
         [StringLength(3, MinimumLength = 3, ErrorMessage = "Security code is too short")]
         [Required]
-        public string Cvv { get; set; }
+        public string Cvv { get; set; } = "900";
         public string ZipCode { get; set; }
 
         public AddCreditCardViewModel(IPaymentProcessing paymentProcessing, IStoredSettingsService storedSettingsService)
@@ -55,6 +55,9 @@ namespace Tollminder.Core.ViewModels.Payments
 
         private async Task SaveCrediCardAsync()
         {
+            if (ExpirationMonth.Length < 2)
+                ExpirationMonth = "0" + ExpirationMonth;
+
             if (CheckField("Card Number", CreditCardNumber) && CheckField("Expiration Month", ExpirationMonth)
                 && CheckField("Expiration Year", ExpirationYear) && CheckField("Cvv", Cvv))
             {

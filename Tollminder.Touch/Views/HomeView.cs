@@ -253,6 +253,7 @@ namespace Tollminder.Touch.Views
             set.Bind(boardScrollView).For(x => x.ContentOffset).To(vm => vm.IsBound).WithConversion("GetSliderPage", boardScrollView);
             set.Bind(profileButton).To(vm => vm.ProfileCommand);
             set.Bind(payHistoryButton).To(vm => vm.PayHistoryCommand);
+            set.Bind(payButton).To(vm => vm.PayCommand);
             set.Bind(logoutButton).To(vm => vm.LogoutCommand);
 
             // Information board

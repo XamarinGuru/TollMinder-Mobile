@@ -183,6 +183,9 @@ namespace Tollminder.Core.Services.Api
                 case HttpStatusCode.NotFound:
                 case HttpStatusCode.Found:
                     return false;
+                case HttpStatusCode.BadRequest:
+                    Mvx.Resolve<IUserInteraction>().Alert("Хуй там - BadRequest!!!", null, "");
+                    return false;
             }
             return true;
         }

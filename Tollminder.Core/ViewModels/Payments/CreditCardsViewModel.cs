@@ -29,6 +29,16 @@ namespace Tollminder.Core.ViewModels.Payments
             try
             {
                 var getCreditCard = await paymentProcessing.GetCreditCardsAsync();
+                getCreditCard = new System.Collections.Generic.List<Models.PaymentData.CreditCardAuthorizeDotNet>();
+                getCreditCard.Add(new Models.PaymentData.CreditCardAuthorizeDotNet()
+                {
+                    CustomerProfileId = "323",
+                    PaymentProfile = new Models.PaymentData.PaymentProfile()
+                    {
+                        CardNumber = "5463",
+                        PaymentProfileId = "3242234"
+                    }
+                });
                 CrediCards.AddRange(getCreditCard?.Select(cards => new CreditCardAuthorizeDotNetViewModel(cards, paymentProcessing)));
             }
             catch (Exception ex)
