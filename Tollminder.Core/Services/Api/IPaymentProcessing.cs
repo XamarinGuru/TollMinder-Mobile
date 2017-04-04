@@ -14,8 +14,8 @@ namespace Tollminder.Core.Services.Api
         Task<List<PayHistory>> GetPayHistoryAsync(DateTime dateFrom, DateTime dateTo);
         Task<string> DownloadPayHistoryAsync(DateTime dateFrom, DateTime dateTo);
 
-        Task AddCreditCardAsync(AddCreditCard crediCard);
-        Task<List<CreditCardAuthorizeDotNet>> GetCreditCardsAsync();
-        Task RemoveCreditCardAsync(string paymentProfileId);
+        Task<bool> AddCreditCardAsync(AddCreditCard crediCard);
+        Task<List<PaymentProfile>> GetCreditCardsAsync();
+        Task<bool> RemoveCreditCardAsync(string paymentProfileId);
     }
 }

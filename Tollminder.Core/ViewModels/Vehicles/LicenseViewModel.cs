@@ -66,7 +66,7 @@ namespace Tollminder.Core.ViewModels.Vehicles
         private void SaveDataBeforeYouLive()
         {
             Profile.DriverLicense = DriverLicense;
-            profileSettingService.SaveProfile(Profile);
+            profileSettingService.SaveProfileInLocalStorage(Profile);
         }
 
         private MvxCommand backToProfileCommand;

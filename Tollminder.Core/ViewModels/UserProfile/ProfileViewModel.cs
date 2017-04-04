@@ -53,16 +53,19 @@ namespace Tollminder.Core.ViewModels.UserProfile
         public override void OnPause()
         {
             if (Profile != null)
-                profileSettingService.SaveProfile(Profile);
+                profileSettingService.SaveProfileInLocalStorage(Profile);
             base.OnPause();
         }
 
-        private void ShowCreditCards()
+        private async void ShowCreditCards()
         {
-            if (CheckField("FirstName", Profile.FirstName) && CheckField("Email", Profile.LastName) && CheckField("Email", Profile.Email)
-                && CheckField("Address", Profile.Address) && CheckField("City", Profile.City) && CheckField("State", Profile.State)
-                && CheckField("Zip Code", Profile.ZipCode))
-                ShowViewModel<CreditCardsViewModel>();
+            if (await profileSettingService.SaveProfileAsync(Profile))
+            {
+                if (CheckField("FirstName", Profile.FirstName) && CheckField("Email", Profile.LastName) && CheckField("Email", Profile.Email)
+                   && CheckField("Address", Profile.Address) && CheckField("City", Profile.City) && CheckField("State", Profile.State)
+                   && CheckField("Zip Code", Profile.ZipCode))
+                    ShowViewModel<CreditCardsViewModel>();
+            }
         }
 
         private bool CheckField(string fieldName, string fieldValue)

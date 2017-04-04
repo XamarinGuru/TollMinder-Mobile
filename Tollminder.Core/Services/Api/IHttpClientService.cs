@@ -16,6 +16,6 @@ namespace Tollminder.Core.Services.Api
         Task<TResponse> SendAsync<TRequest, TResponse>(TRequest data, string url, string authToken, IProgress<ProgressCompleted> progress, CancellationToken token);
         Task<TResponse> GetAsync<TResponse>(string url, string authToken = null);
         Task<TResponse> GetAsync<TResponse>(string url, CancellationToken token, string authToken = null);
-        Task DeleteAsync<TRequest>(TRequest data, string url, CancellationToken token);
+        Task<bool> DeleteAsync<TRequest>(TRequest data, string url, string authToken, CancellationToken token);
     }
 }

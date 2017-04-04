@@ -44,20 +44,26 @@ namespace Tollminder.Core.Services.Api
             return serverApiService.PayForTripAsync(tripRequest);
         }
 
-        public async Task AddCreditCardAsync(AddCreditCard crediCard)
+        public async Task<bool> AddCreditCardAsync(AddCreditCard crediCard)
         {
             var result = await serverApiService.AddCreditCardAsync(crediCard);
-            if (result == null)
+            if (result != null)
             {
-                await Mvx.Resolve<IUserInteraction>().AlertAsync("Problem with server connection! Please try again later.", "Error", "Ok");
+                await Mvx.Resolve<IUserInteraction>().AlertAsync("Your card has been added successfully.", "Success");
+                return true;
+            }
+            else
+            {
+                await Mvx.Resolve<IUserInteraction>().AlertAsync("Your card not added, please check all fields and try again. If not help, please contact technical support.", "Error");
+                return false;
             }
         }
 
-        public async Task<List<CreditCardAuthorizeDotNet>> GetCreditCardsAsync()
+        public async Task<List<PaymentProfile>> GetCreditCardsAsync()
         {
             var result = await serverApiService.GetCreditCardsAsync();
             if (result != null)
-                return result;
+                return result.PaymentProfile;
             else
             {
                 await Mvx.Resolve<IUserInteraction>().AlertAsync("Sorry, there is no credit cards for now.", "Warning");
@@ -65,9 +71,10 @@ namespace Tollminder.Core.Services.Api
             }
         }
 
-        public Task RemoveCreditCardAsync(string paymentProfileId)
+        public async Task<bool> RemoveCreditCardAsync(string paymentProfileId)
         {
-            return serverApiService.RemoveCreditCardAsync(paymentProfileId);
+            var result = await serverApiService.RemoveCreditCardAsync(paymentProfileId);
+            return result == true ? true : false;
         }
 
         public Task<List<PayHistory>> GetPayHistoryAsync(DateTime dateFrom, DateTime dateTo)

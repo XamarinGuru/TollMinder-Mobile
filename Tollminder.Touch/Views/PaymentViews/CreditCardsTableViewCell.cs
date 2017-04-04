@@ -22,7 +22,7 @@ namespace Tollminder.Touch.Views.PaymentViews
             this.DelayBind(() =>
             {
                 var bindingSet = this.CreateBindingSet<CreditCardsTableViewCell, CreditCardAuthorizeDotNetViewModel>();
-                bindingSet.Bind(CreditCardLastDigits).To(vm => vm.CreditCard.PaymentProfile.CardNumber);
+                bindingSet.Bind(CreditCardLastDigits).To(vm => vm.CreditCard.CardNumber);
                 bindingSet.Bind(RemoveCrediCard).To(vm => vm.RemoveCreditCardCommand);
                 bindingSet.Apply();
             });

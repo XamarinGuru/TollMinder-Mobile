@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
+using MvvmCross.Platform;
 using Tollminder.Core.Models.PaymentData;
 using Tollminder.Core.Services.Api;
 using Tollminder.Core.Services.Notifications;
@@ -16,16 +17,14 @@ namespace Tollminder.Core.ViewModels.Payments
     {
         readonly IPaymentProcessing paymentProcessing;
         readonly IStoredSettingsService storedSettingsService;
-        readonly ICalendarDialog calendarDialog;
         readonly IProgressDialogManager progressDialogManager;
 
         private bool isPayHistoryAwailableForUser;
 
-        public PayHistoryViewModel(IPaymentProcessing paymentProcessing, IStoredSettingsService storedSettingsService, ICalendarDialog calendarDialog, IProgressDialogManager progressDialogManager)
+        public PayHistoryViewModel(IPaymentProcessing paymentProcessing, IStoredSettingsService storedSettingsService, IProgressDialogManager progressDialogManager)
         {
             this.paymentProcessing = paymentProcessing;
             this.storedSettingsService = storedSettingsService;
-            this.calendarDialog = calendarDialog;
             this.progressDialogManager = progressDialogManager;
 
             GetPayDateFrom = new DateTime(2016, 10, 5);
@@ -36,12 +35,12 @@ namespace Tollminder.Core.ViewModels.Payments
 
             openCalendarFromCommand = new MvxCommand(async () =>
             {
-                GetPayDateFrom = await calendarDialog.ShowDialogAsync(GetPayDateFrom);
+                GetPayDateFrom = await Mvx.Resolve<ICalendarDialog>().ShowDialogAsync(GetPayDateFrom);
                 await LoadHistoryAsync();
             });
             openCalendarToCommand = new MvxCommand(async () =>
             {
-                GetPayDateTo = await calendarDialog.ShowDialogAsync(GetPayDateTo);
+                GetPayDateTo = await Mvx.Resolve<ICalendarDialog>().ShowDialogAsync(GetPayDateTo);
                 await LoadHistoryAsync();
             });
 

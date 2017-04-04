@@ -57,19 +57,23 @@ namespace Tollminder.Core.ViewModels.Payments
         {
             if (ExpirationMonth.Length < 2)
                 ExpirationMonth = "0" + ExpirationMonth;
-
-            if (CheckField("Card Number", CreditCardNumber) && CheckField("Expiration Month", ExpirationMonth)
-                && CheckField("Expiration Year", ExpirationYear) && CheckField("Cvv", Cvv))
+            if (await Mvx.Resolve<IUserInteraction>().ConfirmAsync("Are sure you want to save your card? After saving you can't edit it.", "Warning", "Yes", "No"))
             {
-                await paymentProcessing.AddCreditCardAsync(new AddCreditCard
+                if (CheckField("Card Number", CreditCardNumber) && CheckField("Expiration Month", ExpirationMonth)
+                   && CheckField("Expiration Year", ExpirationYear) && CheckField("Cvv", Cvv))
                 {
-                    UserId = storedSettingsService.ProfileId,
-                    //CardHolder = this.CardHolder,
-                    CreditCardNumber = this.CreditCardNumber,
-                    ExpirationMonth = this.ExpirationMonth,
-                    ExpirationYear = this.ExpirationYear,
-                    CardCode = this.Cvv
-                });
+                    var result = await paymentProcessing.AddCreditCardAsync(new AddCreditCard
+                    {
+                        UserId = storedSettingsService.ProfileId,
+                        //CardHolder = this.CardHolder,
+                        CreditCardNumber = this.CreditCardNumber,
+                        ExpirationMonth = this.ExpirationMonth,
+                        ExpirationYear = this.ExpirationYear,
+                        CardCode = this.Cvv
+                    });
+                    if (result)
+                        ShowViewModel<CreditCardsViewModel>();
+                }
             }
         }
 

@@ -4,6 +4,7 @@ using Chance.MvvmCross.Plugins.UserInteraction;
 using Tollminder.Core.Models.PaymentData;
 using MvvmCross.Core.ViewModels;
 using Tollminder.Core.Services.Api;
+using System;
 
 namespace Tollminder.Core.ViewModels.Payments
 {
@@ -11,13 +12,15 @@ namespace Tollminder.Core.ViewModels.Payments
     {
         readonly IPaymentProcessing paymentProcessing;
 
-        public CreditCardAuthorizeDotNet CreditCard { get; set; }
+        public PaymentProfile CreditCard { get; set; }
         public MvxCommand RemoveCreditCardCommand { get; set; }
+        private Action removeCreditCardFromList;
 
-        public CreditCardAuthorizeDotNetViewModel(CreditCardAuthorizeDotNet creditCard, IPaymentProcessing paymentProcessing)
+        public CreditCardAuthorizeDotNetViewModel(PaymentProfile creditCard, IPaymentProcessing paymentProcessing, Action removeCreditCardFromList)
         {
             CreditCard = creditCard;
             this.paymentProcessing = paymentProcessing;
+            this.removeCreditCardFromList = removeCreditCardFromList;
 
             RemoveCreditCardCommand = new MvxCommand(async () => { await RemoveCreditCardAsync(); });
         }
@@ -29,9 +32,14 @@ namespace Tollminder.Core.ViewModels.Payments
 
         private async Task RemoveCreditCardAsync()
         {
-            var alertResult = await Mvx.Resolve<IUserInteraction>().ConfirmAsync("Are you sure you want to delete your credit card?", "Warning");
-            if (alertResult)
-                await paymentProcessing.RemoveCreditCardAsync(CreditCard.PaymentProfile.PaymentProfileId);
+            if (await Mvx.Resolve<IUserInteraction>().ConfirmAsync("Are you sure you want to delete your credit card?", "Warning", "Yes", "Cancel"))
+            {
+                var result = await paymentProcessing.RemoveCreditCardAsync(CreditCard.PaymentProfileId);
+                if (result)
+                    removeCreditCardFromList();
+                else
+                    await Mvx.Resolve<IUserInteraction>().AlertAsync("Problem with removing your card. Please contact technical support.", "Error");
+            }
         }
     }
 }

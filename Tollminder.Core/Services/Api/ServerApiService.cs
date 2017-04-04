@@ -104,7 +104,7 @@ namespace Tollminder.Core.Services.Api
                 to = dateTo.ToString("O")
             };
 
-            return SendAsync<object, List<PayHistory>>(parameters, $"{BaseApiUrl}trip/paymentHistory");
+            return SendAsync<object, List<PayHistory>>(parameters, $"{BaseApiUrl}trip/paymentHistory", storedSettingsService.AuthToken);
         }
 
         public Task<Profile> GetProfileAsync(string userId, string authToken = null)
@@ -147,20 +147,20 @@ namespace Tollminder.Core.Services.Api
             return SendAsync<PayForTrip, string>(tripRequest, $"{BaseApiUrl}payment/charge", storedSettingsService.AuthToken);
         }
 
-        public Task RemoveCreditCardAsync(string paymentProfileId)
+        public Task<bool> RemoveCreditCardAsync(string paymentProfileId)
         {
-            var parameters = new
+            var parameters = new Dictionary<string, object>
             {
-                storedSettingsService.ProfileId,
-                paymentProfileId
+                ["userId"] = storedSettingsService.ProfileId,
+                ["paymentProfileId"] = paymentProfileId
             };
 
-            return DeleteAsync(parameters, $"{BaseApiUrl}payment/card", new CancellationToken());
+            return DeleteAsync(parameters, $"{BaseApiUrl}payment/card", storedSettingsService.AuthToken, CancellationToken.None);
         }
 
-        public Task<List<CreditCardAuthorizeDotNet>> GetCreditCardsAsync()
+        public Task<CreditCardAuthorizeDotNet> GetCreditCardsAsync()
         {
-            return GetAsync<List<CreditCardAuthorizeDotNet>>($"{BaseApiUrl}{storedSettingsService.ProfileId}/cards", storedSettingsService.AuthToken);
+            return GetAsync<CreditCardAuthorizeDotNet>($"{BaseApiUrl}payment/{storedSettingsService.ProfileId}/cards", storedSettingsService.AuthToken);
         }
 
         public Task<NotPayedTrip> GetNotPayedTripsAsync()

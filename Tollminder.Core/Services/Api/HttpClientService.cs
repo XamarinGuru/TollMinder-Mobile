@@ -103,10 +103,25 @@ namespace Tollminder.Core.Services.Api
                     request.Content = new ProgressStringContent(jsonSerialization, System.Text.Encoding.UTF8, "application/json", actionProgress);
                     using (var response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false))
                     {
-                        if (!CheckStatusCode(response))
+                        if (response.StatusCode == HttpStatusCode.BadRequest)
+                        {
+                            await Mvx.Resolve<IUserInteraction>().AlertAsync("A duplicate customer payment profile already exists.", response.StatusCode.ToString());
+                            return default(TResponse);
+                        }
+
+                        else if (!CheckStatusCode(response))
                             return default(TResponse);
 
-                        var returnObject = JsonConvert.DeserializeObject<TResponse>(await ParseJsonAsync(response, progress, token));
+                        TResponse returnObject = default(TResponse);
+                        try
+                        {
+                            returnObject = JsonConvert.DeserializeObject<TResponse>(await ParseJsonAsync(response, progress, token));
+                        }
+                        catch (Exception ex)
+                        {
+                            await Mvx.Resolve<IUserInteraction>().AlertAsync(ex.Message + " Please, contact technical support.", "Error!");
+                            Debug.WriteLine(ex.Message, ex.StackTrace);
+                        }
                         return returnObject;
                     }
                 }
@@ -182,9 +197,7 @@ namespace Tollminder.Core.Services.Api
                 case HttpStatusCode.Unauthorized:
                 case HttpStatusCode.NotFound:
                 case HttpStatusCode.Found:
-                    return false;
                 case HttpStatusCode.BadRequest:
-                    Mvx.Resolve<IUserInteraction>().Alert("Хуй там - BadRequest!!!", null, "");
                     return false;
             }
             return true;
@@ -276,19 +289,26 @@ namespace Tollminder.Core.Services.Api
             }
         }
 
-        public async Task DeleteAsync<TRequest>(TRequest data, string url, CancellationToken token)
+        public async Task<bool> DeleteAsync<TRequest>(TRequest data, string url, string authToken, CancellationToken token)
         {
             try
             {
-                using (var request = new HttpRequestMessage(HttpMethod.Delete, url))
+                using (var requestMessage = new HttpRequestMessage(HttpMethod.Delete, url))
                 {
+                    if (!string.IsNullOrEmpty(authToken))
+                        requestMessage.Headers.Authorization = new AuthenticationHeaderValue(authToken);
                     var jsonSerialization = JsonConvert.SerializeObject(data);
                     Action<double> actionProgress = null;
-                    request.Content = new ProgressStringContent(jsonSerialization, System.Text.Encoding.UTF8, "application/json", actionProgress);
-                    using (var response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false))
+                    requestMessage.Content = new ProgressStringContent(jsonSerialization, System.Text.Encoding.UTF8, "application/json", actionProgress);
+                    using (var response = await Client.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false))
                     {
                         if (!CheckStatusCode(response))
+                        {
                             await Mvx.Resolve<IUserInteraction>().AlertAsync(response.ToString(), "Error");
+                            return false;
+                        }
+                        else
+                            return true;
                     }
                 }
             }
@@ -296,6 +316,7 @@ namespace Tollminder.Core.Services.Api
             {
                 Debug.WriteLine(ex.Message, ex.StackTrace);
             }
+            return false;
         }
         #endregion
     }

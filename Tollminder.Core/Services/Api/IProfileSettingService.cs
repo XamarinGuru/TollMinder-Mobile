@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Tollminder.Core.Models;
 
 namespace Tollminder.Core.Services.Api
 {
     public interface IProfileSettingService
     {
-        void SaveProfile(Profile profile);
+        void SaveProfileInLocalStorage(Profile profile);
+        Task<bool> SaveProfileAsync(Profile profile);
         Profile GetProfile();
         //bool IsDataSynchronized { get; set;}
     }

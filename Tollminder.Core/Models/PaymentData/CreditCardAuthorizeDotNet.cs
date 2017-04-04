@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -9,6 +10,6 @@ namespace Tollminder.Core.Models.PaymentData
         [JsonProperty("customerProfileId")]
         public string CustomerProfileId { get; set; }
         [JsonProperty("paymentProfiles")]
-        public PaymentProfile PaymentProfile { get; set; }
+        public List<PaymentProfile> PaymentProfile { get; set; }
     }
 }

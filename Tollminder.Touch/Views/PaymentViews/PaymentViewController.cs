@@ -9,7 +9,7 @@ namespace Tollminder.Touch.Views
 {
     public partial class PaymentViewController : MvxViewController<PayViewModel>
     {
-        private MvxSimpleTableViewSource notPayedTripsTableViewSource;
+        private PaymentTableViewSource notPayedTripsTableViewSource;
 
         public PaymentViewController() : base("PaymentViewController", null)
         {
@@ -25,7 +25,7 @@ namespace Tollminder.Touch.Views
             PayNavigationItem.LeftBarButtonItem = new UIBarButtonItem(UIImage.FromFile("Images/ic_back.png"), UIBarButtonItemStyle.Plain, null);
             PayNavigationItem.RightBarButtonItem = new UIBarButtonItem(UIImage.FromFile("Images/ProfileView/ic_card.png"), UIBarButtonItemStyle.Plain, null);
 
-            notPayedTripsTableViewSource = new MvxSimpleTableViewSource(NotPayedTripsTableVIew, NotPayedTripsTableViewCell.Key, NotPayedTripsTableViewCell.Key);
+            notPayedTripsTableViewSource = new PaymentTableViewSource(NotPayedTripsTableVIew, NotPayedTripsTableViewCell.Key);//, NotPayedTripsTableViewCell.Key);
             NotPayedTripsTableVIew.Source = notPayedTripsTableViewSource;
             NotPayedTripsTableVIew.EstimatedRowHeight = 90f;
             NotPayedTripsTableVIew.RowHeight = UITableView.AutomaticDimension;

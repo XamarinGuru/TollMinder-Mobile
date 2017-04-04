@@ -28,7 +28,7 @@ namespace Tollminder.Core.ViewModels.Payments
             await paymentProcessing.PayForTripAsync(new Models.PaymentData.PayForTrip()
             {
                 UserId = Mvx.Resolve<IStoredSettingsService>().ProfileId,
-                PaymentProfileId = selectedCard.CreditCard.CustomerProfileId,
+                PaymentProfileId = selectedCard.CreditCard.PaymentProfileId,
                 Amount = amount
             });
             close();
