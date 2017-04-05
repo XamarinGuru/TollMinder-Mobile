@@ -64,19 +64,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/payment_item_scroll_view"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginBottom="50dp">
-            <MvvmCross.Droid.Support.V7.RecyclerView.MvxRecyclerView
+        <MvvmCross.Droid.Support.V7.RecyclerView.MvxRecyclerView
                 android:id="@+id/pay_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginBottom="50dp"
                 local:MvxBind="ItemsSource NotPayedTrips;ItemClick ItemSelectedCommand" />
-        </ScrollView>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"

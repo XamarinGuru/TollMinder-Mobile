@@ -134,7 +134,7 @@ namespace Tollminder.Core.Services.Api
 
         public Task<TripResponse> TripCompletedAsync(TripCompleted tripRequest)
         {
-            return SendAsync<TripCompleted, TripResponse>(tripRequest, $"{BaseApiUrl}trip");
+            return SendAsync<TripCompleted, TripResponse>(tripRequest, $"{BaseApiUrl}trip", storedSettingsService.AuthToken);
         }
 
         public Task<CreditCardAuthorizeDotNet> AddCreditCardAsync(AddCreditCard crediCard)
@@ -142,9 +142,9 @@ namespace Tollminder.Core.Services.Api
             return SendAsync<AddCreditCard, CreditCardAuthorizeDotNet>(crediCard, $"{BaseApiUrl}payment/card", storedSettingsService.AuthToken);
         }
 
-        public Task<string> PayForTripAsync(PayForTrip tripRequest)
+        public Task<ServerResponse> PayForTripAsync(PayForTrip tripRequest)
         {
-            return SendAsync<PayForTrip, string>(tripRequest, $"{BaseApiUrl}payment/charge", storedSettingsService.AuthToken);
+            return SendAsync<PayForTrip, ServerResponse>(tripRequest, $"{BaseApiUrl}payment/charge", storedSettingsService.AuthToken);
         }
 
         public Task<bool> RemoveCreditCardAsync(string paymentProfileId)

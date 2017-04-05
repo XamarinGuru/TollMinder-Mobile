@@ -32,7 +32,7 @@ namespace Tollminder.Droid.Services
 
             //var mNotificationManager = (NotificationManager)Application.Context.GetSystemService (Context.NotificationService);
             //mNotificationManager.Notify (0, builder.Build ());
-            PushNotificationService.ShowNotification(Application.Context, typeof(HomeDebugView), title, message);
+            PushNotificationService.ShowNotification(Application.Context, typeof(HomeView), title, message);
 
         }
         public void SendRemoteNotification()

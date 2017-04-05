@@ -16,7 +16,7 @@ namespace Tollminder.Touch.Views.PaymentViews
 		UIKit.UINavigationBar CardsForPayNavigationBar { get; set; }
 
 		[Outlet]
-		UIKit.UINavigationItem CardsForPayNavigationItem { get; set; }
+		UIKit.UIButton CardsForPayNavigationButtonClose { get; set; }
 
 		[Outlet]
 		UIKit.UITableView CardsForPayTableVIew { get; set; }
@@ -28,9 +28,9 @@ namespace Tollminder.Touch.Views.PaymentViews
 				CardsForPayNavigationBar = null;
 			}
 
-			if (CardsForPayNavigationItem != null) {
-				CardsForPayNavigationItem.Dispose ();
-				CardsForPayNavigationItem = null;
+			if (CardsForPayNavigationButtonClose != null) {
+				CardsForPayNavigationButtonClose.Dispose ();
+				CardsForPayNavigationButtonClose = null;
 			}
 
 			if (CardsForPayTableVIew != null) {

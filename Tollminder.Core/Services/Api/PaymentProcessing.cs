@@ -39,7 +39,7 @@ namespace Tollminder.Core.Services.Api
             return serverApiService.GetNotPayedTripsAsync();
         }
 
-        public Task<string> PayForTripAsync(PayForTrip tripRequest)
+        public Task<ServerResponse> PayForTripAsync(PayForTrip tripRequest)
         {
             return serverApiService.PayForTripAsync(tripRequest);
         }

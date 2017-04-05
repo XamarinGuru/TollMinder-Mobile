@@ -6,6 +6,8 @@ using Chance.MvvmCross.Plugins.UserInteraction;
 using MvvmCross.Platform;
 using System.Linq;
 using Tollminder.Core.Services.Settings;
+using Tollminder.Core.Models.PaymentData;
+using System.Collections.ObjectModel;
 
 namespace Tollminder.Core.ViewModels.Payments
 {
@@ -24,16 +26,38 @@ namespace Tollminder.Core.ViewModels.Payments
 
             BackToMainPageCommand = new MvxCommand(() => ShowViewModel<HomeViewModel>());
             PayCommand = new MvxCommand(() => AddHeaderViewModel<CreditCardsForPayViewModel>());
-            NotPayedTrips = new MvxObservableCollection<IQueueItem>();
         }
 
         private async void LoadDataAsync()
         {
             try
             {
+                NotPayedTrips = new MvxObservableCollection<IQueueItem>();
                 var getTrips = await paymentProcessing.GetNotPayedTripsAsync();
-                NotPayedTrips.AddRange(getTrips?.Trips);
-                Amount = getTrips?.Amount;
+                if (getTrips != null)
+                {
+                    //NotPayedTrips.AddRange(getTrips?.Trips);
+                    Amount = getTrips?.Amount;
+                }
+                else
+                {
+                    NotPayedTrips.Add(new Trip()
+                    {
+                        Cost = "32.5",
+                        PaymentDate = DateTime.Today.ToString("d"),
+                        TollRoadName = "Xamarin Rd",
+                        Transaction = "35263"
+                    });
+                    NotPayedTrips.Add(new Trip()
+                    {
+                        Cost = "32.5",
+                        PaymentDate = DateTime.Today.ToString("d"),
+                        TollRoadName = "Xamarin Rd",
+                        Transaction = "35263"
+                    });
+                    Amount = "32.5";
+                    //await Mvx.Resolve<IUserInteraction>().AlertAsync("You haven't got any not paid trips for now.", "Warning");
+                }
             }
             catch (Exception ex)
             {
@@ -52,7 +76,7 @@ namespace Tollminder.Core.ViewModels.Payments
         {
             //if (NotPayedTrips.Count == 0)
             //{
-            //    Mvx.Resolve<IUserInteraction>().AlertAsync("You have no not payed trips for now.", "Warning");
+            //    Mvx.Resolve<IUserInteraction>().AlertAsync("You haven't got any not paid trips for now.", "Warning");
             //    return;
             //}
 
@@ -69,7 +93,15 @@ namespace Tollminder.Core.ViewModels.Payments
             {
                 try
                 {
-                    var creditCardList = new CreditCardsForPayViewModel(paymentProcessing, () => CloseViewModel<CreditCardsForPayViewModel>(), Amount);
+                    var creditCardList = Mvx.IocConstruct<CreditCardsForPayViewModel>();
+                    creditCardList.CloseCreditCardsForPayCommand = new MvxCommand(() =>
+                    {
+                        CloseViewModel<CreditCardsForPayViewModel>();
+                    });
+                    creditCardList.Amount = Amount;
+                    //var creditCardList = new CreditCardsForPayViewModel(paymentProcessing, () => CloseViewModel<CreditCardsForPayViewModel>(), Amount);
+                    //LoadDataAsync();
+                    //NotPayedTrips = new MvxObservableCollection<IQueueItem>();
                     NotPayedTrips.Insert(0, creditCardList);
                     creditCardList.Start();
                 }

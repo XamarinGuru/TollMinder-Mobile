@@ -14,13 +14,13 @@
         android:background="@drawable/profile_top_background">
         <Button
             android:id="@+id/add_credit_card"
-            android:layout_width="45dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
             android:layout_centerVertical="true"
-            android:text="X"
+            android:text="Close"
             android:layout_alignParentRight="true"
-            android:textSize="40dp"
+            android:textSize="25dp"
             android:textColor="@color/white"
             local:MvxBind="Click CloseCreditCardsForPayCommand"
             android:background="@android:color/transparent"
@@ -34,6 +34,8 @@
         <MvvmCross.Droid.Support.V7.RecyclerView.MvxRecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             local:MvxItemTemplate="@layout/credit_card_item"
             local:MvxBind="ItemsSource CrediCards; ItemClick ItemSelectedCommand" />
     </ScrollView>

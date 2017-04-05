@@ -5,7 +5,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace Tollminder.Core.Models.PaymentData
 {
-    public class CreditCardAuthorizeDotNet
+    public class CreditCardAuthorizeDotNet : ServerResponse
     {
         [JsonProperty("customerProfileId")]
         public string CustomerProfileId { get; set; }

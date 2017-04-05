@@ -5,6 +5,7 @@ using Tollminder.Core.Services.Api;
 using Tollminder.Core.Services.Settings;
 using System.Threading.Tasks;
 using MvvmCross.Platform;
+using Chance.MvvmCross.Plugins.UserInteraction;
 
 namespace Tollminder.Core.ViewModels.Payments
 {
@@ -14,24 +15,26 @@ namespace Tollminder.Core.ViewModels.Payments
 
         public ItemPriority Priority => ItemPriority.FirstAlways;
         public ICommand ItemSelectedCommand { get; set; }
-        public MvxCommand CloseCreditCardsForPayCommand { get; set; }
+        public ICommand CloseCreditCardsForPayCommand { get; set; }
+        public string Amount { get; set; }
 
-        public CreditCardsForPayViewModel(IPaymentProcessing paymentProcessing, Action closeAction, string amount) : base(paymentProcessing)
+        public CreditCardsForPayViewModel(IPaymentProcessing paymentProcessing) : base(paymentProcessing)
         {
             this.paymentProcessing = paymentProcessing;
-            ItemSelectedCommand = new MvxCommand<CreditCardAuthorizeDotNetViewModel>(selectedCard => PayForTrips(selectedCard, amount, closeAction));
-            CloseCreditCardsForPayCommand = new MvxCommand(closeAction);
+            ItemSelectedCommand = new MvxCommand<CreditCardAuthorizeDotNetViewModel>(selectedCard => PayForTrips(selectedCard));
+            //CloseCreditCardsForPayCommand = new MvxCommand(closeAction);
         }
 
-        private async Task PayForTrips(CreditCardAuthorizeDotNetViewModel selectedCard, string amount, Action close)
+        private async Task PayForTrips(CreditCardAuthorizeDotNetViewModel selectedCard)
         {
-            await paymentProcessing.PayForTripAsync(new Models.PaymentData.PayForTrip()
+            var result = await paymentProcessing.PayForTripAsync(new Models.PaymentData.PayForTrip()
             {
                 UserId = Mvx.Resolve<IStoredSettingsService>().ProfileId,
                 PaymentProfileId = selectedCard.CreditCard.PaymentProfileId,
-                Amount = amount
+                Amount = Amount
             });
-            close();
+            await Mvx.Resolve<IUserInteraction>().AlertAsync(result.Message, "Success");
+            CloseCreditCardsForPayCommand.Execute(null);
         }
     }
 }

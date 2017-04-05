@@ -9,7 +9,7 @@ namespace Tollminder.Core.Services.Api
     {
         Task TripCompletedAsync(TripCompleted tripRequest);
         Task<NotPayedTrip> GetNotPayedTripsAsync();
-        Task<string> PayForTripAsync(PayForTrip tripRequest);
+        Task<ServerResponse> PayForTripAsync(PayForTrip tripRequest);
 
         Task<List<PayHistory>> GetPayHistoryAsync(DateTime dateFrom, DateTime dateTo);
         Task<string> DownloadPayHistoryAsync(DateTime dateFrom, DateTime dateTo);

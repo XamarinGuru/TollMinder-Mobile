@@ -12,13 +12,11 @@ namespace Tollminder.Touch.Views.PaymentViews
     {
         INotifyCollectionChanged notifyCollectionChanged;
 
-        public PaymentTableViewSource(UITableView tableView, string nibName)
+        public PaymentTableViewSource(UITableView tableView)
             : base(tableView)
         {
-            if (nibName == NotPayedTripsTableViewCell.Key)
-                tableView.RegisterNibForCellReuse(NotPayedTripsTableViewCell.Nib, NotPayedTripsTableViewCell.Key);
-            if (nibName == CardsForPayTableViewCell.Key)
-                tableView.RegisterNibForCellReuse(CardsForPayTableViewCell.Nib, CardsForPayTableViewCell.Key);
+            tableView.RegisterNibForCellReuse(NotPayedTripsTableViewCell.Nib, NotPayedTripsTableViewCell.Key);
+            tableView.RegisterNibForCellReuse(CardsForPayTableViewCell.Nib, CardsForPayTableViewCell.Key);
         }
 
         protected override UITableViewCell GetOrCreateCellFor(UITableView tableView, NSIndexPath indexPath, object item)

@@ -25,7 +25,7 @@ namespace Tollminder.Touch.Views
             PayNavigationItem.LeftBarButtonItem = new UIBarButtonItem(UIImage.FromFile("Images/ic_back.png"), UIBarButtonItemStyle.Plain, null);
             PayNavigationItem.RightBarButtonItem = new UIBarButtonItem(UIImage.FromFile("Images/ProfileView/ic_card.png"), UIBarButtonItemStyle.Plain, null);
 
-            notPayedTripsTableViewSource = new PaymentTableViewSource(NotPayedTripsTableVIew, NotPayedTripsTableViewCell.Key);//, NotPayedTripsTableViewCell.Key);
+            notPayedTripsTableViewSource = new PaymentTableViewSource(NotPayedTripsTableVIew);
             NotPayedTripsTableVIew.Source = notPayedTripsTableViewSource;
             NotPayedTripsTableVIew.EstimatedRowHeight = 90f;
             NotPayedTripsTableVIew.RowHeight = UITableView.AutomaticDimension;

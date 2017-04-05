@@ -103,19 +103,15 @@ namespace Tollminder.Core.Services.Api
                     request.Content = new ProgressStringContent(jsonSerialization, System.Text.Encoding.UTF8, "application/json", actionProgress);
                     using (var response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false))
                     {
-                        if (response.StatusCode == HttpStatusCode.BadRequest)
-                        {
-                            await Mvx.Resolve<IUserInteraction>().AlertAsync("A duplicate customer payment profile already exists.", response.StatusCode.ToString());
-                            return default(TResponse);
-                        }
-
-                        else if (!CheckStatusCode(response))
-                            return default(TResponse);
-
                         TResponse returnObject = default(TResponse);
                         try
                         {
                             returnObject = JsonConvert.DeserializeObject<TResponse>(await ParseJsonAsync(response, progress, token));
+                            if (!CheckStatusCode(response))
+                            {
+                                await Mvx.Resolve<IUserInteraction>().AlertAsync(returnObject.ToString(), response.StatusCode.ToString());
+                                return default(TResponse);
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -169,23 +165,32 @@ namespace Tollminder.Core.Services.Api
         /// <param name="token">Token.</param>
         public virtual async Task<Profile> SendAsync<TRequest>(TRequest data, string url, CancellationTokenSource token, string authToken)
         {
-            using (var request = new HttpRequestMessage(HttpMethod.Put, url))
+            try
             {
-                request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                request.Headers.Authorization = new AuthenticationHeaderValue(authToken);
-                List<byte> byteData = new List<byte>();
-                var jsonSerialization = JsonConvert.SerializeObject(data);
-                Action<double> actionProgress = null;
-                request.Content = new ProgressStringContent(jsonSerialization, System.Text.Encoding.UTF8, "application/json", actionProgress);
-                using (var response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token.Token).ConfigureAwait(false))
+                using (var request = new HttpRequestMessage(HttpMethod.Put, url))
                 {
-                    if (!CheckStatusCode(response))
-                        return default(Profile);
+                    request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    if (authToken != null)
+                        request.Headers.Authorization = new AuthenticationHeaderValue(authToken);
+                    List<byte> byteData = new List<byte>();
+                    var jsonSerialization = JsonConvert.SerializeObject(data);
+                    Action<double> actionProgress = null;
+                    request.Content = new ProgressStringContent(jsonSerialization, System.Text.Encoding.UTF8, "application/json", actionProgress);
+                    using (var response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token.Token).ConfigureAwait(false))
+                    {
+                        if (!CheckStatusCode(response))
+                            return default(Profile);
 
-                    var returnObject = JsonConvert.DeserializeObject<Profile>(await ParseJsonAsync(response, null, token.Token));
-                    returnObject.StatusCode = statusCode;
-                    return returnObject;
+                        var returnObject = JsonConvert.DeserializeObject<Profile>(await ParseJsonAsync(response, null, token.Token));
+                        returnObject.StatusCode = statusCode;
+                        return returnObject;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                await Mvx.Resolve<IUserInteraction>().AlertAsync(ex.Message, "Error");
+                return default(Profile);
             }
         }
 
@@ -249,7 +254,8 @@ namespace Tollminder.Core.Services.Api
                     }
                 } while (isMoreToRead);
             }
-            return System.Text.Encoding.UTF8.GetString(byteData.ToArray(), 0, byteData.Count);
+            string result = System.Text.Encoding.UTF8.GetString(byteData.ToArray(), 0, byteData.Count);
+            return result;
         }
 
         #endregion
@@ -269,14 +275,14 @@ namespace Tollminder.Core.Services.Api
 
                     using (var response = await Client.SendAsync(requestMessage, token).ConfigureAwait(false))
                     {
-                        var responseJson = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        //var responseJson = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
                         if (!response.IsSuccessStatusCode)
                         {
-                            var error = JsonConvert.DeserializeObject<ErrorApiResponse>(responseJson);
-                            HttpExceptionHandler.Handle(response.StatusCode, error.Message);
+                            var error = JsonConvert.DeserializeObject<TResponse>(await ParseJsonAsync(response, null, token));//JsonConvert.DeserializeObject<ErrorApiResponse>(JsonConvert.DeserializeObject<TResponse>(await ParseJsonAsync(response, progress, token)));
+                            await Mvx.Resolve<IUserInteraction>().AlertAsync(response.StatusCode.ToString(), "Error");//HttpExceptionHandler.Handle(response.StatusCode, error.Message);
                         }
-                        var returnObject = JsonConvert.DeserializeObject<TResponse>(responseJson);
+                        var returnObject = JsonConvert.DeserializeObject<TResponse>(await ParseJsonAsync(response, null, token));//JsonConvert.DeserializeObject<TResponse>(responseJson);
                         return returnObject;
                     }
                 }

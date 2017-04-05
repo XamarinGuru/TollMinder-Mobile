@@ -12,7 +12,7 @@ namespace Tollminder.Touch.Views.PaymentViews
     {
         public static readonly NSString Key = new NSString("CardsForPayTableViewCell");
         public static readonly UINib Nib;
-        private PaymentTableViewSource cardsForPayTableViewSource;
+        private MvxSimpleTableViewSource cardsForPayTableViewSource;
 
         static CardsForPayTableViewCell()
         {
@@ -21,19 +21,15 @@ namespace Tollminder.Touch.Views.PaymentViews
 
         protected CardsForPayTableViewCell(IntPtr handle) : base(handle)
         {
-            CardsForPayNavigationItem.Title = "Please, choose one of your cards.";
-            CardsForPayNavigationBar.TitleTextAttributes = new UIStringAttributes() { ForegroundColor = UIColor.White };
-            CardsForPayNavigationItem.RightBarButtonItem = new UIBarButtonItem("Close", UIBarButtonItemStyle.Plain, null);
-
-            cardsForPayTableViewSource = new PaymentTableViewSource(CardsForPayTableVIew, CardsForPayTableViewCell.Key);//, CardsForPayTableViewCell.Key);
-            CardsForPayTableVIew.Source = cardsForPayTableViewSource;
-            CardsForPayTableVIew.EstimatedRowHeight = 90f;
-            CardsForPayTableVIew.RowHeight = UITableView.AutomaticDimension;
-
             this.DelayBind(() =>
                 {
+                    cardsForPayTableViewSource = new MvxSimpleTableViewSource(CardsForPayTableVIew, CreditCardsTableViewCell.Key, CreditCardsTableViewCell.Key);//, CardsForPayTableViewCell.Key);
+                    CardsForPayTableVIew.Source = cardsForPayTableViewSource;
+                    CardsForPayTableVIew.EstimatedRowHeight = 90f;
+                    CardsForPayTableVIew.RowHeight = UITableView.AutomaticDimension;
+
                     var bindingSet = this.CreateBindingSet<CardsForPayTableViewCell, CreditCardsForPayViewModel>();
-                    bindingSet.Bind(CardsForPayNavigationItem.RightBarButtonItem).To(vm => vm.CloseCreditCardsForPayCommand);
+                    bindingSet.Bind(CardsForPayNavigationButtonClose).To(vm => vm.CloseCreditCardsForPayCommand);
                     bindingSet.Bind(cardsForPayTableViewSource).To(vm => vm.CrediCards);
                     bindingSet.Bind(cardsForPayTableViewSource).For(c => c.SelectionChangedCommand).To(vm => vm.ItemSelectedCommand);
                     bindingSet.Apply();

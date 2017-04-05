@@ -11,6 +11,7 @@ using Tollminder.Core.Models.PaymentData;
 using System.Collections.Specialized;
 using Tollminder.Core.Services.Settings;
 using MvvmCross.Binding.Droid.BindingContext;
+using Android.Widget;
 
 namespace Tollminder.Droid.Views.PaymentsViews
 {
@@ -18,12 +19,14 @@ namespace Tollminder.Droid.Views.PaymentsViews
     public class PaymentView : MvxActivity<PayViewModel>
     {
         private MvxRecyclerView recyclerView;
+        private ScrollView scrollView;
 
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.pay_view);
 
+            //scrollView = FindViewById<ScrollView>(Resource.Id.payment_item_scroll_view);
             recyclerView = FindViewById<MvxRecyclerView>(Resource.Id.pay_recycler_view);
             recyclerView.Adapter = new MvxRecyclerAdapter((IMvxAndroidBindingContext)BindingContext);
             recyclerView.ItemTemplateSelector = new TypeTemplateSelector(new Dictionary<Type, int> {
@@ -42,8 +45,11 @@ namespace Tollminder.Droid.Views.PaymentsViews
                 if (e.Action == NotifyCollectionChangedAction.Add && e.NewStartingIndex == 0
                     && (e.NewItems[0] as IQueueItem)?.Priority == ItemPriority.FirstAlways)
                     recyclerView.SmoothScrollToPosition(0);
-                else
-                    recyclerView.RefreshDrawableState();
+                //if (e.Action == NotifyCollectionChangedAction.Remove)
+                //{
+                //    scrollView.Invalidate();
+                //    scrollView.RefreshDrawableState();
+                //}
             };
         }
     }

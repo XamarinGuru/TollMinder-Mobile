@@ -35,7 +35,7 @@
                     </items>
                 </navigationBar>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="tW4-uf-QaR">
-                    <rect key="frame" x="20" y="80" width="335" height="513"/>
+                    <rect key="frame" x="20" y="90" width="335" height="513"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
@@ -79,7 +79,7 @@
                 <constraint firstItem="tW4-uf-QaR" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="20" id="XRC-nB-6Hf"/>
                 <constraint firstAttribute="bottom" secondItem="W43-Nk-gsj" secondAttribute="bottom" id="aGf-3c-zfW"/>
                 <constraint firstAttribute="trailing" secondItem="tW4-uf-QaR" secondAttribute="trailing" constant="20" id="upi-bM-Xdb"/>
-                <constraint firstItem="tW4-uf-QaR" firstAttribute="top" secondItem="zQj-ds-tno" secondAttribute="bottom" id="xtv-qc-0Bs"/>
+                <constraint firstItem="tW4-uf-QaR" firstAttribute="top" secondItem="zQj-ds-tno" secondAttribute="bottom" constant="10" id="xtv-qc-0Bs"/>
             </constraints>
             <point key="canvasLocation" x="34.5" y="54.5"/>
         </view>

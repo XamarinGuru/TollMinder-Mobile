@@ -32,6 +32,7 @@ namespace Tollminder.Core.Models.Statuses
 
                 if (await SpeechToTextService.AskQuestionAsync($"Are you exiting from {insideTollPoint.Name} tollroad?"))
                 {
+                    SaveTripProgress();
                     WaypointChecker.SetExit(insideTollPoint);
                     WaypointChecker.SetTollPointsInRadius(null);
                     WaypointChecker.SetIgnoredChoiceTollPoint(null);
@@ -39,8 +40,6 @@ namespace Tollminder.Core.Models.Statuses
                     if (WaypointChecker.Exit != null)
                     {
                         await NotifyService.NotifyAsync("Bill was created");
-
-                        SaveTripProgress();
 
                         var duration = WaypointChecker.TripDuration;
 
