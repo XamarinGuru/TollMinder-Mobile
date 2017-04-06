@@ -40,8 +40,11 @@ namespace Tollminder.Core.Services.Api
             else
             {
                 var result = await serverApiService.SaveProfileAsync(storedSettingsService.ProfileId, storedSettingsService.Profile, storedSettingsService.AuthToken);
-                if (result.StatusCode == System.Net.HttpStatusCode.OK)
-                    storedSettingsService.IsDataSynchronized = true;
+                if (result != null)
+                {
+                    if (result.StatusCode == System.Net.HttpStatusCode.OK)
+                        storedSettingsService.IsDataSynchronized = true;
+                }
             }
         }
     }
