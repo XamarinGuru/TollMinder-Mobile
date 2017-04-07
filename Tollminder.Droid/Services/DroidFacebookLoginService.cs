@@ -10,6 +10,7 @@ using Tollminder.Core.Services.Notifications;
 using Tollminder.Core.Services.SocialNetworks;
 using Tollminder.Droid.Views;
 using Xamarin.Auth;
+using Chance.MvvmCross.Plugins.UserInteraction;
 
 namespace Tollminder.Droid.Services
 {
@@ -52,7 +53,7 @@ namespace Tollminder.Droid.Services
             var expiryDate = DateTime.Now + TimeSpan.FromSeconds(expiresIn);
 
             await GetAccountInformationAsync(e.Account);
-            Mvx.Resolve<IProgressDialogManager>().ShowProgressDialog("Please wait!", "Facebook authorization. Data loading...");
+            await Mvx.Resolve<IUserInteraction>().AlertAsync("Facebook authorization. Data loading...", "Please wait!");
         }
 
         private async Task GetAccountInformationAsync(Account account)

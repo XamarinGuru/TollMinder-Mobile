@@ -36,27 +36,8 @@ namespace Tollminder.Core.ViewModels.Payments
                 var getTrips = await paymentProcessing.GetNotPayedTripsAsync();
                 if (getTrips != null)
                 {
-                    //NotPayedTrips.AddRange(getTrips?.Trips);
+                    NotPayedTrips.AddRange(getTrips?.Trips);
                     Amount = getTrips?.Amount;
-                }
-                else
-                {
-                    NotPayedTrips.Add(new Trip()
-                    {
-                        Cost = "32.5",
-                        PaymentDate = DateTime.Today.ToString("d"),
-                        TollRoadName = "Xamarin Rd",
-                        Transaction = "35263"
-                    });
-                    NotPayedTrips.Add(new Trip()
-                    {
-                        Cost = "32.5",
-                        PaymentDate = DateTime.Today.ToString("d"),
-                        TollRoadName = "Xamarin Rd",
-                        Transaction = "35263"
-                    });
-                    Amount = "32.5";
-                    //await Mvx.Resolve<IUserInteraction>().AlertAsync("You haven't got any not paid trips for now.", "Warning");
                 }
             }
             catch (Exception ex)
@@ -74,11 +55,11 @@ namespace Tollminder.Core.ViewModels.Payments
 
         private void AddHeaderViewModel<T>()
         {
-            //if (NotPayedTrips.Count == 0)
-            //{
-            //    Mvx.Resolve<IUserInteraction>().AlertAsync("You haven't got any not paid trips for now.", "Warning");
-            //    return;
-            //}
+            if (NotPayedTrips.Count == 0)
+            {
+                Mvx.Resolve<IUserInteraction>().AlertAsync("You haven't got any not paid trips for now.", "Information");
+                return;
+            }
 
             var firstView = NotPayedTrips.FirstOrDefault();
             var insertedAlready = (firstView?.Priority == ItemPriority.FirstAlways && firstView is T);
@@ -99,9 +80,6 @@ namespace Tollminder.Core.ViewModels.Payments
                         CloseViewModel<CreditCardsForPayViewModel>();
                     });
                     creditCardList.Amount = Amount;
-                    //var creditCardList = new CreditCardsForPayViewModel(paymentProcessing, () => CloseViewModel<CreditCardsForPayViewModel>(), Amount);
-                    //LoadDataAsync();
-                    //NotPayedTrips = new MvxObservableCollection<IQueueItem>();
                     NotPayedTrips.Insert(0, creditCardList);
                     creditCardList.Start();
                 }

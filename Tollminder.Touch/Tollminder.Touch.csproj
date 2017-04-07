@@ -240,9 +240,6 @@
       <HintPath>..\packages\Xamarin.CardIO.iOS.5.4.1\lib\Xamarin.iOS10\Card.IO.dll</HintPath>
     </Reference>
     <Reference Include="MonoTouch.Dialog-1" />
-    <Reference Include="PropertyChanged">
-      <HintPath>..\packages\PropertyChanged.Fody.1.52.1\Lib\netstandard10\PropertyChanged.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
@@ -269,6 +266,7 @@
     <InterfaceDefinition Include="Views\PaymentViews\CreditCardsTableViewCell.xib" />
     <InterfaceDefinition Include="Views\PaymentViews\NotPayedTripsTableViewCell.xib" />
     <InterfaceDefinition Include="Views\PaymentViews\CardsForPayTableViewCell.xib" />
+    <InterfaceDefinition Include="Views\UserProfile\RegistrationViewController.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -298,7 +296,6 @@
     <Compile Include="Bootstrap\MessengerPluginBootstrap.cs" />
     <Compile Include="Bootstrap\SqlitePluginBootstrap.cs" />
     <Compile Include="Services\TouchInsightsService.cs" />
-    <Compile Include="Views\LoginView.cs" />
     <Compile Include="Controllers\MvxTextFieldResponderController.cs" />
     <Compile Include="Controllers\KeyboardTextFieldController.cs" />
     <Compile Include="Extensions\ViewExtensions.cs" />
@@ -316,7 +313,6 @@
     <Compile Include="Controls\RoundedButton.cs" />
     <Compile Include="Converters\GetPathToImageConverter.cs" />
     <Compile Include="Helpers\RoundedButtonManager.cs" />
-    <Compile Include="Views\ProfileView.cs" />
     <Compile Include="Services\TouchSheduleNotification.cs" />
     <Compile Include="Services\SpeechServices\MyOpenEarsEventsObserverDelegate.cs" />
     <Compile Include="Services\SpeechServices\TouchSpeechToTextService.cs" />
@@ -338,8 +334,6 @@
     <Compile Include="Controls\TextFiled\TextFieldValidatorView.cs" />
     <Compile Include="Controls\TextFiled\TextFieldWithValidator.cs" />
     <Compile Include="Controls\BoardField.cs" />
-    <Compile Include="Views\RegistrationView.cs" />
-    <Compile Include="Services\TouchProgressDialogManager.cs" />
     <Compile Include="Controls\LoadingOverlay.cs" />
     <Compile Include="Controls\EnhancedToolbar.cs" />
     <Compile Include="Helpers\KeyboardHandler.cs" />
@@ -378,6 +372,12 @@
     <Compile Include="Views\PaymentViews\CardsForPayTableViewCell.designer.cs">
       <DependentUpon>CardsForPayTableViewCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserProfile\RegistrationViewController.cs" />
+    <Compile Include="Views\UserProfile\RegistrationViewController.designer.cs">
+      <DependentUpon>RegistrationViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserProfile\LoginView.cs" />
+    <Compile Include="Views\UserProfile\ProfileView.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets')" />
@@ -413,6 +413,7 @@
     <Folder Include="Resources\Images\HomeView\InformationBoard\" />
     <Folder Include="Views\PaymentViews\" />
     <Folder Include="Views\DriverViews\" />
+    <Folder Include="Views\UserProfile\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\OpenEars1.dic" />
@@ -478,9 +479,6 @@
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="FodyWeavers.xml" />
-  </ItemGroup>
   <Import Project="..\packages\Xamarin.Google.iOS.AppIndexing.2.0.3.1\build\Xamarin.Google.iOS.AppIndexing.targets" Condition="Exists('..\packages\Xamarin.Google.iOS.AppIndexing.2.0.3.1\build\Xamarin.Google.iOS.AppIndexing.targets')" />
   <Import Project="..\packages\Xamarin.Firebase.iOS.InstanceID.1.0.8\build\Xamarin.Firebase.iOS.InstanceID.targets" Condition="Exists('..\packages\Xamarin.Firebase.iOS.InstanceID.1.0.8\build\Xamarin.Firebase.iOS.InstanceID.targets')" />
   <Import Project="..\packages\Xamarin.Build.Download.0.4.1\build\Xamarin.Build.Download.targets" Condition="Exists('..\packages\Xamarin.Build.Download.0.4.1\build\Xamarin.Build.Download.targets')" />
@@ -489,5 +487,4 @@
   <Import Project="..\packages\Xamarin.Forms.2.3.3.180\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.3.3.180\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />
   <Import Project="..\packages\Xamarin.Google.iOS.Core.3.0.3.1\build\Xamarin.Google.iOS.Core.targets" Condition="Exists('..\packages\Xamarin.Google.iOS.Core.3.0.3.1\build\Xamarin.Google.iOS.Core.targets')" />
   <Import Project="..\packages\Xamarin.Google.iOS.SignIn.4.0.1\build\Xamarin.Google.iOS.SignIn.targets" Condition="Exists('..\packages\Xamarin.Google.iOS.SignIn.4.0.1\build\Xamarin.Google.iOS.SignIn.targets')" />
-  <Import Project="..\packages\Fody.1.29.2\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.1.29.2\build\dotnet\Fody.targets')" />
 </Project>

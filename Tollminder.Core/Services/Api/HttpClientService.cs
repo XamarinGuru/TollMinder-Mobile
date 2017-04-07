@@ -279,10 +279,10 @@ namespace Tollminder.Core.Services.Api
 
                         if (!response.IsSuccessStatusCode)
                         {
-                            var error = JsonConvert.DeserializeObject<TResponse>(await ParseJsonAsync(response, null, token));//JsonConvert.DeserializeObject<ErrorApiResponse>(JsonConvert.DeserializeObject<TResponse>(await ParseJsonAsync(response, progress, token)));
+                            var error = JsonConvert.DeserializeObject<TResponse>(await ParseJsonAsync(response, null, token));
                             await Mvx.Resolve<IUserInteraction>().AlertAsync(response.StatusCode.ToString(), "Error");//HttpExceptionHandler.Handle(response.StatusCode, error.Message);
                         }
-                        var returnObject = JsonConvert.DeserializeObject<TResponse>(await ParseJsonAsync(response, null, token));//JsonConvert.DeserializeObject<TResponse>(responseJson);
+                        var returnObject = JsonConvert.DeserializeObject<TResponse>(await ParseJsonAsync(response, null, token));
                         return returnObject;
                     }
                 }

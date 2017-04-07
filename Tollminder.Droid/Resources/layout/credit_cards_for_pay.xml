@@ -15,17 +15,17 @@
         <Button
             android:id="@+id/add_credit_card"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="70dp"
             android:layout_marginRight="20dp"
             android:layout_centerVertical="true"
             android:text="Close"
             android:layout_alignParentRight="true"
-            android:textSize="25dp"
+            android:textSize="20dp"
             android:textColor="@color/white"
             local:MvxBind="Click CloseCreditCardsForPayCommand"
-            android:background="@android:color/transparent"
-            android:focusableInTouchMode="true" />
+            android:background="@android:color/transparent"/>
     </RelativeLayout>
+
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">

@@ -3,7 +3,7 @@ namespace Tollminder.Core.Services.Settings
 {
     public class SettingsService
     {
-        public static double WaypointSmallRadius = 0.04;
+        public static double WaypointSmallRadius = 0.02;
         public static double WaypointLargeRadius = 0.5;
         public static int DistanceIntervalDefault = 200;
         public static int DistanceIntervalHighDefault = 5;

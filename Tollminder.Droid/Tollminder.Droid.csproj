@@ -271,9 +271,6 @@
     <Reference Include="MaskedEditText">
       <HintPath>..\packages\MaskedEditText.0.1.0\lib\MaskedEditText.dll</HintPath>
     </Reference>
-    <Reference Include="PropertyChanged">
-      <HintPath>..\packages\PropertyChanged.Fody.1.52.1\Lib\netstandard10\PropertyChanged.dll</HintPath>
-    </Reference>
     <Reference Include="MvvmCross.Droid.Support.V7.RecyclerView">
       <HintPath>..\packages\MvvmCross.Droid.Support.V7.RecyclerView.4.4.0\lib\MonoAndroid70\MvvmCross.Droid.Support.V7.RecyclerView.dll</HintPath>
     </Reference>
@@ -345,7 +342,6 @@
     <Compile Include="Controls\BoardInformationLabel.cs" />
     <Compile Include="Views\Fragments\RoadInformationFragment.cs" />
     <Compile Include="Views\RegistrationView.cs" />
-    <Compile Include="Services\DroidProgressDialogManager.cs" />
     <Compile Include="AndroidServices\FieldsService.cs" />
     <Compile Include="Controls\ValidationEditText.cs" />
     <Compile Include="Views\PaymentsViews\CreditCardView.cs" />
@@ -566,15 +562,11 @@
     <AndroidResource Include="Resources\layout\pay_view.xml" />
     <AndroidResource Include="Resources\layout\pay_item.xml" />
     <AndroidResource Include="Resources\layout\credit_cards_for_pay.xml" />
+    <AndroidResource Include="Resources\layout\pay_history_item.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProguardConfiguration Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="FodyWeavers.xml" />
-  </ItemGroup>
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />
   <Import Project="..\packages\Xamarin.GooglePlayServices.Basement.32.961.0-beta1\build\Xamarin.GooglePlayServices.Basement.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Basement.32.961.0-beta1\build\Xamarin.GooglePlayServices.Basement.targets')" />
-  <Import Project="..\packages\Fody.1.29.4\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.1.29.4\build\dotnet\Fody.targets')" />
-  <Import Project="..\packages\Fody.1.29.2\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.1.29.2\build\dotnet\Fody.targets')" />
 </Project>

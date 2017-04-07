@@ -15,6 +15,8 @@ using Tollminder.Core.Services.Api;
 using Tollminder.Core.Services.GeoData;
 using Tollminder.Core.Services.RoadsProcessing;
 using Tollminder.Core.Services.Notifications;
+using MvvmCross.Platform;
+using Chance.MvvmCross.Plugins.UserInteraction;
 
 namespace Tollminder.Core.ViewModels
 {
@@ -26,7 +28,6 @@ namespace Tollminder.Core.ViewModels
         readonly ISynchronisationService synchronisationService;
         readonly IGeoLocationWatcher _geoWatcher;
         readonly IWaypointChecker waypointChecker;
-        readonly IProgressDialogManager progressDialogManager;
         readonly IGeoDataService geoDataService;
 
         IList<MvxSubscriptionToken> _tokens;
@@ -34,7 +35,7 @@ namespace Tollminder.Core.ViewModels
         public HomeViewModel(IMvxMessenger messenger, ITrackFacade track,
                              IGeoLocationWatcher geoWatcher, IStoredSettingsService storedSettingsService,
                              ISynchronisationService synchronisationService, IWaypointChecker waypointChecker,
-                             IProgressDialogManager progressDialogManager, IGeoDataService geoDataService)
+                             IGeoDataService geoDataService)
         {
             _messenger = messenger;
             _track = track;
@@ -42,7 +43,6 @@ namespace Tollminder.Core.ViewModels
             _storedSettingsService = storedSettingsService;
             this.waypointChecker = waypointChecker;
             this.synchronisationService = synchronisationService;
-            this.progressDialogManager = progressDialogManager;
             this.geoDataService = geoDataService;
 
             IsBound = _geoWatcher.IsBound;
@@ -69,10 +69,10 @@ namespace Tollminder.Core.ViewModels
             _tokens = new List<MvxSubscriptionToken>();
         }
 
-        public void Init(string name, string message)
+        public async void Init(string name, string message)
         {
             if (name != null)
-                progressDialogManager.CloseAndShowMessage(message + name, "");
+                await Mvx.Resolve<IUserInteraction>().AlertAsync("", message + name);
         }
 
         public async override void Start()

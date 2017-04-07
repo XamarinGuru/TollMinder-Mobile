@@ -9,14 +9,18 @@ namespace Tollminder.Core.Models.PaymentData
         public string TollRoadName { get; set; }
         [JsonProperty(PropertyName = "cost")]
         public int Amount { get; set; }
-        [JsonProperty(PropertyName = "paymentDate")]
-        public string PaymentDate { get; set; }
         [JsonProperty(PropertyName = "_transaction")]
         public string TransactionId { get; set; }
 
-        public override string ToString()
+        private string paymentDate;
+        [JsonProperty(PropertyName = "paymentDate")]
+        public string PaymentDate
         {
-            return string.Format("{0} -t {1}", TollRoadName, Amount);
+            get { return paymentDate; }
+            set
+            {
+                paymentDate = DateTime.Parse(value).ToString("yy-MMM-dd ddd");
+            }
         }
     }
 }

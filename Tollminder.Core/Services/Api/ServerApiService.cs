@@ -165,7 +165,7 @@ namespace Tollminder.Core.Services.Api
 
         public Task<NotPayedTrip> GetNotPayedTripsAsync()
         {
-            return GetAsync<NotPayedTrip>($"{BaseApiUrl}{storedSettingsService.ProfileId}/notPayed", storedSettingsService.AuthToken);
+            return GetAsync<NotPayedTrip>($"{BaseApiUrl}trip/{storedSettingsService.ProfileId}/notPayed", storedSettingsService.AuthToken);
         }
     }
 }

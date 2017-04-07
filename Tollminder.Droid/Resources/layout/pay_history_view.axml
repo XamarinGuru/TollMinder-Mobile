@@ -23,9 +23,7 @@
                 android:layout_centerVertical="true"
                 android:src="@drawable/icon_back"
                 local:MvxBind="Click BackHomeCommand"
-                android:background="@android:color/transparent"
-                android:focusable="true"
-                android:focusableInTouchMode="true" />
+                android:background="@android:color/transparent" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -80,6 +78,7 @@
                     android:layout_weight="1"
                     android:orientation="horizontal"
                     android:id="@+id/calendarRadioCroups">
+
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -88,6 +87,7 @@
                         android:layout_centerVertical="true"
                         android:text="Current"
                         android:id="@+id/current" />
+
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -114,14 +114,10 @@
         android:layout_below="@id/profile_top_navigation"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp">
-        <MvxListView
-            android:id="@+id/pay_history"
-            android:layout_centerVertical="true"
+        <MvvmCross.Droid.Support.V7.RecyclerView.MvxRecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textSize="40dp"
-            local:MvxBind="ItemsSource History;SelectedItem SelectedTransaction; Text Transaction"
-            android:background="@drawable/login_card_background" />
-    </LinearLayout>
+            local:MvxItemTemplate="@layout/pay_history_item"
+            local:MvxBind="ItemsSource History" />
+        </LinearLayout>
 </LinearLayout>

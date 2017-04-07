@@ -9,23 +9,21 @@ using MvvmCross.Platform;
 using Tollminder.Core.Models.PaymentData;
 using Tollminder.Core.Services.Api;
 using Tollminder.Core.Services.Notifications;
-using Tollminder.Core.Services.Settings;
+using Chance.MvvmCross.Plugins.UserInteraction;
 
 namespace Tollminder.Core.ViewModels.Payments
 {
     public class PayHistoryViewModel : BaseViewModel
     {
         readonly IPaymentProcessing paymentProcessing;
-        readonly IStoredSettingsService storedSettingsService;
-        readonly IProgressDialogManager progressDialogManager;
 
         private bool isPayHistoryAwailableForUser;
 
-        public PayHistoryViewModel(IPaymentProcessing paymentProcessing, IStoredSettingsService storedSettingsService, IProgressDialogManager progressDialogManager)
+        public MvxObservableCollection<PayHistory> History { get; set; }
+
+        public PayHistoryViewModel(IPaymentProcessing paymentProcessing)
         {
             this.paymentProcessing = paymentProcessing;
-            this.storedSettingsService = storedSettingsService;
-            this.progressDialogManager = progressDialogManager;
 
             GetPayDateFrom = new DateTime(2016, 10, 5);
             GetPayDateTo = DateTime.Now;
@@ -45,6 +43,8 @@ namespace Tollminder.Core.ViewModels.Payments
             });
 
             downloadHistoryCommand = new MvxCommand(() => ServerCommandWrapperAsync(() => DownloadPdfAsync()));
+
+            History = new MvxObservableCollection<PayHistory>();
         }
 
         public async override void Start()
@@ -57,27 +57,22 @@ namespace Tollminder.Core.ViewModels.Payments
         {
             try
             {
-                progressDialogManager.ShowProgressDialog("Please wait!", "Pay history is loading...");
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-            History = await paymentProcessing.GetPayHistoryAsync(GetPayDateFrom, GetPayDateTo);
-            try
-            {
-                if (History.Count != 0)
+                await Mvx.Resolve<IUserInteraction>().AlertAsync("Your pay history is loading...", "Information");
+
+                var result = await paymentProcessing.GetPayHistoryAsync(GetPayDateFrom, GetPayDateTo);
+
+                if (result != null)
                 {
-                    progressDialogManager.CloseProgressDialog();
                     isPayHistoryAwailableForUser = true;
+                    History.AddRange(result);
                 }
                 else
-                    progressDialogManager.CloseAndShowMessage("Error", "Sorry, there is no pay history for now.");
+                    await Mvx.Resolve<IUserInteraction>().AlertAsync("Sorry, there is no pay history for now.", "Error");
             }
             catch (NullReferenceException ex)
             {
                 Debug.WriteLine(ex.Message);
-                progressDialogManager.CloseAndShowMessage("Error", "Sorry, there is no pay history for now.");
+                await Mvx.Resolve<IUserInteraction>().AlertAsync("Sorry, there is no pay history for now.", "Error");
             }
             catch (Exception ex)
             {
@@ -94,7 +89,7 @@ namespace Tollminder.Core.ViewModels.Payments
                     ShowViewModel<PayHistoryPdfViewModel>(new { pdfUrlFromServer = result, pdfNameFromDateRange = GetPdfName() });
             }
             else
-                progressDialogManager.CloseAndShowMessage("Error", "Sorry, there is no pay history for now.");
+                await Mvx.Resolve<IUserInteraction>().AlertAsync("Sorry, there is no pay history for now.", "Error");
         }
 
         private string selectedItemFromCalendarRadioGroup;
@@ -154,33 +149,6 @@ namespace Tollminder.Core.ViewModels.Payments
 
         private MvxCommand openCalendarToCommand;
         public ICommand OpenCalendarToCommand { get { return openCalendarToCommand; } }
-
-        private List<PayHistory> history;
-        public List<PayHistory> History
-        {
-            get { return history; }
-            set
-            {
-                SetProperty(ref history, value);
-                RaisePropertyChanged(() => History);
-            }
-        }
-
-        private PayHistory selectedTransaction;
-        public PayHistory SelectedTransaction
-        {
-            get { return selectedTransaction; }
-            set
-            {
-                SetProperty(ref selectedTransaction, value);
-                RaisePropertyChanged(() => SelectedTransaction);
-            }
-        }
-
-        public string Transaction
-        {
-            get { return SelectedTransaction.ToString(); }
-        }
 
         private string GetPdfName()
         {

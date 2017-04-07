@@ -17,26 +17,29 @@ namespace Tollminder.Core.ViewModels.UserProfile
 
         readonly IStoredSettingsService storedSettingsService;
         readonly IServerApiService serverApiService;
-        readonly IProgressDialogManager progressDialogManager;
 
-        public RegistrationViewModel(IStoredSettingsService storedSettingsService, IServerApiService serverApiService, IProgressDialogManager progressDialogManager)
+        public RegistrationViewModel(IStoredSettingsService storedSettingsService, IServerApiService serverApiService)
         {
             this.storedSettingsService = storedSettingsService;
             this.serverApiService = serverApiService;
-            this.progressDialogManager = progressDialogManager;
 
             backToLoginViewCommand = new MvxCommand(() => { ShowViewModel<LoginViewModel>(); });
             registrationCommand = new MvxCommand(() => ServerCommandWrapperAsync(() => RegistrationAsync()));
             validateCommand = new MvxCommand(() => ComparePhoneCodeAsync());
         }
 
-        public void Init(string name)
+        public async void Init(string name)
         {
-            profile = storedSettingsService.Profile != null ? storedSettingsService.Profile : new Profile();
             if (SettingsService.SocialRegistartionSource)
+            {
+                profile = storedSettingsService.Profile != null ? storedSettingsService.Profile : new Profile();
                 IsSocialRegistrationHidden = false;
+            }
+            else
+                profile = new Profile();
+
             if (name != null)
-                progressDialogManager.CloseAndShowMessage("Hello, " + name, "Please continue registration.");
+                await Mvx.Resolve<IUserInteraction>().AlertAsync("Please continue registration.", "Hello, " + name);
         }
 
         public override void Start()
@@ -121,7 +124,7 @@ namespace Tollminder.Core.ViewModels.UserProfile
                 }
             }
             else
-                progressDialogManager.ShowMessage("Error", "Wrong SMS code! Please try again.");
+                await Mvx.Resolve<IUserInteraction>().AlertAsync("Wrong SMS code! Please try again.", "Error");
         }
 
         async Task RegistrationAsync()
@@ -143,7 +146,6 @@ namespace Tollminder.Core.ViewModels.UserProfile
                 var result = await serverApiService.SignUpAsync(profile);
                 if (CheckHttpStatuseCode(result.StatusCode))
                 {
-                    progressDialogManager.CloseProgressDialog();
                     SmsCode = "1111";
                     var inputResult = await Mvx.Resolve<IUserInteraction>().InputAsync("Please input code from SMS", "XXXX", null, "Validate", null, SmsCode);
                     SmsCode = inputResult.Text;
@@ -156,14 +158,14 @@ namespace Tollminder.Core.ViewModels.UserProfile
         {
             if (string.IsNullOrEmpty(ConfirmPassword) && string.IsNullOrEmpty(Profile.Phone) && string.IsNullOrEmpty(Profile.Password))
             {
-                progressDialogManager.ShowMessage("Error", "Please fill out the required fields.");
+                Mvx.Resolve<IUserInteraction>().Alert("Please fill out the required fields.", null, "Error");
                 return false;
             }
             if (!CheckField("Password", Profile.Password) || !CheckField("ConfirmPassword", ConfirmPassword))
                 return false;
             if (confirmPassword != profile.Password)
             {
-                progressDialogManager.ShowMessage("Error", "Passwords not equal. Please try again.");
+                Mvx.Resolve<IUserInteraction>().Alert("Passwords not equal. Please try again.", null, "Error");
                 return false;
             }
             return true;
@@ -173,7 +175,7 @@ namespace Tollminder.Core.ViewModels.UserProfile
         {
             if (string.IsNullOrEmpty(fieldValue))
             {
-                progressDialogManager.ShowMessage("Error", fieldName + " number can't be null.");
+                Mvx.Resolve<IUserInteraction>().Alert(fieldName + " number can't be null.", null, "Error");
                 return false;
             }
             return true;
@@ -184,14 +186,14 @@ namespace Tollminder.Core.ViewModels.UserProfile
             switch (statusCode)
             {
                 case System.Net.HttpStatusCode.Found:
-                    progressDialogManager.ShowMessage("Error", "User with this phone number already registrated. Please, enter diferent number and try again.");
+                    Mvx.Resolve<IUserInteraction>().Alert("User with this phone number already registrated. Please, enter diferent number and try again.", null, "Error");
                     break;
                 case System.Net.HttpStatusCode.OK:
                     return true;
                 case System.Net.HttpStatusCode.NotFound:
                 case System.Net.HttpStatusCode.BadRequest:
                 case System.Net.HttpStatusCode.Unauthorized:
-                    progressDialogManager.ShowMessage("Error", "Server error!");
+                    Mvx.Resolve<IUserInteraction>().Alert("Server error!", null, "Error");
                     return false;
             }
             return false;

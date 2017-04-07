@@ -21,9 +21,7 @@
             android:layout_centerVertical="true"
             android:src="@drawable/icon_back"
             local:MvxBind="Click CloseCreditCardsCommand"
-            android:background="@android:color/transparent"
-            android:focusable="true"
-            android:focusableInTouchMode="true" />
+            android:background="@android:color/transparent"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -55,8 +53,7 @@
             android:textSize="40dp"
             android:textColor="@color/white"
             local:MvxBind="Click AddCreditCardsCommand"
-            android:background="@android:color/transparent"
-            android:focusableInTouchMode="true" />
+            android:background="@android:color/transparent"/>
     </RelativeLayout>
 
     <ScrollView

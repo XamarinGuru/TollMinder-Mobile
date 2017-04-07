@@ -117,7 +117,7 @@ namespace Tollminder.Core.Services.RoadsProcessing
 
         public WaypointChecker(IStoredSettingsService storedSettingsService)
         {
-            storedSettingsService = storedSettingsService;
+            this.storedSettingsService = storedSettingsService;
         }
 
         public void SetEntrance(TollPoint point)

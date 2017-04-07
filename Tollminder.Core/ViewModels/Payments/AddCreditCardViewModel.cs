@@ -65,7 +65,6 @@ namespace Tollminder.Core.ViewModels.Payments
                     var result = await paymentProcessing.AddCreditCardAsync(new AddCreditCard
                     {
                         UserId = storedSettingsService.ProfileId,
-                        //CardHolder = this.CardHolder,
                         CreditCardNumber = this.CreditCardNumber,
                         ExpirationMonth = this.ExpirationMonth,
                         ExpirationYear = this.ExpirationYear,

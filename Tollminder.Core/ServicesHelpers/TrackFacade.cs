@@ -53,31 +53,31 @@ namespace Tollminder.Core.ServicesHelpers
             _tokens = new List<MvxSubscriptionToken>(); // was changed
             _semaphor = new SemaphoreSlim(1);
 
-            //_motionToken = _messenger.SubscribeOnThreadPoolThread<MotionMessage>(async x =>
-            //  {
-            //      Log.LogMessage($"[FACADE] receive new motion type {x.Data}");
-            //      switch (x.Data)
-            //      {
-            //          case MotionType.Automotive:
-            //          case MotionType.Running:
-            //          case MotionType.Walking:
-            //              if ((_storedSettingsService.SleepGPSDateTime == DateTime.MinValue || _storedSettingsService.SleepGPSDateTime < DateTime.Now)
-            //                  && !IsBound)
-            //              {
-            //                  Log.LogMessage($"[FACADE] Start geolocating because we are not still");
-            //                  await StartServices();
-            //              }
-            //              break;
-            //          case MotionType.Still:
-            //              if (IsBound)
-            //              {
-            //                  Log.LogMessage($"[FACADE] Stop geolocating because we are still");
-            //                  StopServices();
-            //              }
-            //              break;
-            //      }
-            //  });
-            //_tokens.Add(_motionToken);
+            _motionToken = _messenger.SubscribeOnThreadPoolThread<MotionMessage>(async x =>
+              {
+                  Log.LogMessage($"[FACADE] receive new motion type {x.Data}");
+                  switch (x.Data)
+                  {
+                      case MotionType.Automotive:
+                      case MotionType.Running:
+                      case MotionType.Walking:
+                          if ((_storedSettingsService.SleepGPSDateTime == DateTime.MinValue || _storedSettingsService.SleepGPSDateTime < DateTime.Now)
+                              && !IsBound)
+                          {
+                              Log.LogMessage($"[FACADE] Start geolocating because we are not still");
+                              await StartServicesAsync();
+                          }
+                          break;
+                      case MotionType.Still:
+                          if (IsBound)
+                          {
+                              Log.LogMessage($"[FACADE] Stop geolocating because we are still");
+                              StopServices();
+                          }
+                          break;
+                  }
+              });
+            _tokens.Add(_motionToken);
 
             Log.LogMessage("Facade ctor end");
         }
@@ -163,19 +163,19 @@ namespace Tollminder.Core.ServicesHelpers
             {
                 BaseStatus statusObject = StatusesFactory.GetStatus(TollStatus);
 
-                //if (_activity.MotionType == MotionType.Still)
-                //{
-                //    Log.LogMessage("Ignore location in FACADE because we are still");
-                //    return;
-                //}
-                //else
-                //{
-                //    if (statusObject.CheckBatteryDrain())
-                //    {
-                //        Log.LogMessage("Ignore location in FACADE because we are too away from nearest waypoint");
-                //        return;
-                //    }
-                //}
+                if (_activity.MotionType == MotionType.Still)
+                {
+                    Log.LogMessage("Ignore location in FACADE because we are still");
+                    return;
+                }
+                else
+                {
+                    if (statusObject.CheckBatteryDrain())
+                    {
+                        Log.LogMessage("Ignore location in FACADE because we are too away from nearest waypoint");
+                        return;
+                    }
+                }
 
                 var statusBeforeCheck = TollStatus;
                 Log.LogMessage($"Current status before check= {TollStatus}");

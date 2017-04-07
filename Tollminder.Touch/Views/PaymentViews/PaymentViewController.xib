@@ -35,24 +35,21 @@
                     </items>
                 </navigationBar>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="tW4-uf-QaR">
-                    <rect key="frame" x="20" y="90" width="335" height="513"/>
+                    <rect key="frame" x="20" y="90" width="335" height="497"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="513" id="aqP-Ss-gzH"/>
-                    </constraints>
                 </tableView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W43-Nk-gsj">
-                    <rect key="frame" x="0.0" y="627" width="375" height="40"/>
+                    <rect key="frame" x="0.0" y="587" width="375" height="80"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total amount: $   " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LpT-dO-pCf">
-                            <rect key="frame" x="53" y="8" width="155" height="24"/>
+                            <rect key="frame" x="53" y="8" width="155" height="64"/>
                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="anE-ha-Io9">
-                            <rect key="frame" x="216" y="8" width="159" height="24"/>
+                            <rect key="frame" x="216" y="28" width="159" height="24"/>
                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
@@ -62,6 +59,7 @@
                     <constraints>
                         <constraint firstItem="LpT-dO-pCf" firstAttribute="top" secondItem="W43-Nk-gsj" secondAttribute="topMargin" id="5kb-hn-zrt"/>
                         <constraint firstItem="anE-ha-Io9" firstAttribute="leading" secondItem="LpT-dO-pCf" secondAttribute="trailing" constant="8" id="GUu-3C-tYK"/>
+                        <constraint firstAttribute="height" constant="80" id="Yzm-jn-fYf"/>
                         <constraint firstItem="anE-ha-Io9" firstAttribute="centerY" secondItem="W43-Nk-gsj" secondAttribute="centerY" id="c33-wE-bJV"/>
                         <constraint firstItem="LpT-dO-pCf" firstAttribute="centerY" secondItem="W43-Nk-gsj" secondAttribute="centerY" id="n5t-qf-rSp"/>
                         <constraint firstAttribute="trailing" secondItem="anE-ha-Io9" secondAttribute="trailing" id="rju-s1-JUe"/>
@@ -74,6 +72,7 @@
                 <constraint firstItem="zQj-ds-tno" firstAttribute="top" secondItem="2" secondAttribute="top" id="36V-OK-y2V"/>
                 <constraint firstItem="W43-Nk-gsj" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="5UJ-qt-FiS"/>
                 <constraint firstAttribute="trailing" secondItem="zQj-ds-tno" secondAttribute="trailing" id="B5h-IF-uT2"/>
+                <constraint firstItem="W43-Nk-gsj" firstAttribute="top" secondItem="tW4-uf-QaR" secondAttribute="bottom" id="EDK-aU-RG1"/>
                 <constraint firstItem="zQj-ds-tno" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="PSD-1T-Xl9"/>
                 <constraint firstAttribute="trailing" secondItem="W43-Nk-gsj" secondAttribute="trailing" id="VXi-9c-RYw"/>
                 <constraint firstItem="tW4-uf-QaR" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="20" id="XRC-nB-6Hf"/>

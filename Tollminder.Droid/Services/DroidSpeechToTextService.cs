@@ -15,7 +15,6 @@ using Android.Runtime;
 
 namespace Tollminder.Droid.Services
 {
-    //TODO: Google Speech Recognition timeout http://stackoverflow.com/questions/38150312/google-speech-recognition-timeout
     public class DroidSpeechToTextService : Java.Lang.Object, ISpeechToTextService, IRecognitionListener
     {
         readonly IPlatform platformService;
@@ -131,7 +130,6 @@ namespace Tollminder.Droid.Services
             bool result = false;
             if (_speechRecognizer != null)
             {
-                //StopRecognizer();
                 CancelDialog();
             }
 
@@ -187,21 +185,6 @@ namespace Tollminder.Droid.Services
             });
         }
 
-        //private void TimerManager(string question)
-        //{
-        //    StopRecognizer();
-        //    if (!isTimeStarted)
-        //    {
-        //        isTimeStarted = true;
-        //        _timer = new Core.Utils.Timer((s) => { AskQuestionMethod(question); }, question, new TimeSpan(0, 0, 0), new TimeSpan(0, 0, 15), true);
-        //    }
-        //    else
-        //    {
-        //        _timer.Cancel();
-        //        isTimeStarted = false;
-        //    }
-        //}
-
         void ShowDialog()
         {
             if (platformService.IsAppInForeground && _dialog == null)
@@ -232,16 +215,6 @@ namespace Tollminder.Droid.Services
                 var res = results.GetStringArrayList(SpeechRecognizer.ResultsRecognition);
                 Log.LogMessage($"Speech recognition results = {string.Join(", ", res)}");
                 var answer = mappingService.DetectAnswer(res);
-
-                //_handler.Post(() =>
-                //{
-                //    if (answer != AnswerType.Unknown)
-                //        CancelDialog();
-
-                //    StopRecognizer();
-                //});
-
-                //_firstInit = true;
 
                 if (answer != AnswerType.Unknown)
                 {
@@ -286,9 +259,6 @@ namespace Tollminder.Droid.Services
         public void OnError([GeneratedEnum] SpeechRecognizerError error)
         {
             Log.LogMessage("SpeechRecognizerError = " + error);
-
-            //if (!_dialogWasManuallyAnswered && (error == SpeechRecognizerError.NoMatch || error == SpeechRecognizerError.SpeechTimeout))
-            //    StartSpeechRecognition();
         }
 
         public void OnEvent(int eventType, Bundle @params)

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -43,9 +43,9 @@
                     <rect key="frame" x="20" y="100" width="335" height="567"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VQo-Lz-RjU">
-                            <rect key="frame" x="0.0" y="0.0" width="335" height="50"/>
+                            <rect key="frame" x="0.0" y="0.0" width="335" height="60"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="50" id="BoP-2z-2f0"/>
+                                <constraint firstAttribute="height" constant="60" id="BoP-2z-2f0"/>
                             </constraints>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -54,67 +54,67 @@
                             </userDefinedRuntimeAttributes>
                         </imageView>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name On Card" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JIo-gm-60J">
-                            <rect key="frame" x="0.0" y="65" width="335" height="40"/>
+                            <rect key="frame" x="0.0" y="75" width="335" height="60"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="40" id="sfL-rb-A1Z"/>
+                                <constraint firstAttribute="height" constant="60" id="sfL-rb-A1Z"/>
                             </constraints>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Card Number*" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iXS-ny-gNE">
-                            <rect key="frame" x="0.0" y="115" width="335" height="40"/>
+                            <rect key="frame" x="0.0" y="145" width="335" height="60"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="40" id="4s1-Z0-d13"/>
+                                <constraint firstAttribute="height" constant="60" id="4s1-Z0-d13"/>
                             </constraints>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES"/>
                         </textField>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="MM*" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xyV-tQ-2Zj">
-                            <rect key="frame" x="0.0" y="165" width="80" height="40"/>
+                            <rect key="frame" x="0.0" y="215" width="80" height="60"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="80" id="HXF-eB-3Fl"/>
-                                <constraint firstAttribute="height" constant="40" id="hzg-Ef-8bg"/>
+                                <constraint firstAttribute="height" constant="60" id="hzg-Ef-8bg"/>
                             </constraints>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES"/>
                         </textField>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="YY*" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tYb-bn-6Hx">
-                            <rect key="frame" x="95" y="165" width="80" height="40"/>
+                            <rect key="frame" x="95" y="215" width="80" height="60"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="80" id="IQh-4N-dqB"/>
-                                <constraint firstAttribute="height" constant="40" id="Kvl-uL-DCP"/>
+                                <constraint firstAttribute="height" constant="60" id="Kvl-uL-DCP"/>
                             </constraints>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES"/>
                         </textField>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="CVV*" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="udk-95-PEL">
-                            <rect key="frame" x="190" y="165" width="145" height="40"/>
+                            <rect key="frame" x="190" y="215" width="145" height="60"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="40" id="llV-q8-eh9"/>
+                                <constraint firstAttribute="height" constant="60" id="llV-q8-eh9"/>
                             </constraints>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES"/>
                         </textField>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Zip Code" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zhX-1f-dHj">
-                            <rect key="frame" x="0.0" y="215" width="335" height="40"/>
+                            <rect key="frame" x="0.0" y="285" width="335" height="60"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="40" id="k1Z-vT-YLa"/>
+                                <constraint firstAttribute="height" constant="60" id="k1Z-vT-YLa"/>
                             </constraints>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES"/>
                         </textField>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2RL-0w-NDE" userLabel="Get Token">
-                            <rect key="frame" x="0.0" y="275" width="335" height="40"/>
+                            <rect key="frame" x="0.0" y="365" width="335" height="60"/>
                             <color key="backgroundColor" red="0.00027235838933847845" green="0.82761907577514648" blue="0.66055417060852051" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="aSR-Pi-0c6">
-                                    <variation key="widthClass=compact" constant="40"/>
+                                    <variation key="widthClass=compact" constant="60"/>
                                 </constraint>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>

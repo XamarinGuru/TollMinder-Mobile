@@ -22,7 +22,6 @@ namespace Tollminder.Core.ViewModels.Payments
         {
             this.paymentProcessing = paymentProcessing;
             ItemSelectedCommand = new MvxCommand<CreditCardAuthorizeDotNetViewModel>(selectedCard => PayForTrips(selectedCard));
-            //CloseCreditCardsForPayCommand = new MvxCommand(closeAction);
         }
 
         private async Task PayForTrips(CreditCardAuthorizeDotNetViewModel selectedCard)

@@ -55,7 +55,6 @@ namespace Tollminder.Touch
             Mvx.LazyConstructAndRegisterSingleton<IFileManager, TouchFileManager>();
             Mvx.LazyConstructAndRegisterSingleton<IGPlusLoginService, TouchGPlusLoginService>();
             Mvx.LazyConstructAndRegisterSingleton<IHttpClientHandlerService, TouchHttpClientHandlerService>();
-            Mvx.LazyConstructAndRegisterSingleton<IProgressDialogManager, TouchProgressDialogManager>();
             Mvx.LazyConstructAndRegisterSingleton<ICreditCardScanService, TouchCreditCardScanService>();
         }
 
