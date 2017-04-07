@@ -6,7 +6,6 @@ using MvvmCross.Platform;
 using MvvmValidation;
 using Tollminder.Core.Models;
 using Tollminder.Core.Services.Api;
-using Tollminder.Core.Services.Notifications;
 using Tollminder.Core.Services.Settings;
 
 namespace Tollminder.Core.ViewModels.UserProfile

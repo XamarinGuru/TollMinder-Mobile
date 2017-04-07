@@ -6,8 +6,6 @@ using Chance.MvvmCross.Plugins.UserInteraction;
 using MvvmCross.Platform;
 using System.Linq;
 using Tollminder.Core.Services.Settings;
-using Tollminder.Core.Models.PaymentData;
-using System.Collections.ObjectModel;
 
 namespace Tollminder.Core.ViewModels.Payments
 {
@@ -38,20 +36,6 @@ namespace Tollminder.Core.ViewModels.Payments
                 {
                     NotPayedTrips.AddRange(getTrips?.Trips);
                     Amount = getTrips?.Amount;
-                    NotPayedTrips.Add(new Trip()
-                    {
-                        Cost = "21,11",
-                        PaymentDate = "12/12/12",
-                        TollRoadName = "Some rd",
-                        Transaction = "627547324"
-                    });
-                    NotPayedTrips.Add(new Trip()
-                    {
-                        Cost = "21,11",
-                        PaymentDate = "12/12/12",
-                        TollRoadName = "Some rd",
-                        Transaction = "627547324"
-                    });
                 }
             }
             catch (Exception ex)
