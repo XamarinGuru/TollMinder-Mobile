@@ -1,30 +1,45 @@
 ﻿using Tollminder.Core.ViewModels.Payments;
 using UIKit;
 using MvvmCross.Binding.BindingContext;
-using MvvmCross.iOS.Views;
 using Tollminder.Touch.Controls;
+using Tollminder.Touch.Controllers;
 
 namespace Tollminder.Touch.Views
 {
-    public partial class AddCreditCardViewController : MvxViewController<AddCreditCardViewModel>
+    public partial class AddCreditCardViewController : BaseViewController<AddCreditCardViewModel>
     {
         public AddCreditCardViewController() : base("AddCreditCardViewController", null)
         {
         }
 
-        public override void ViewDidLoad()
+        protected override void InitializeObjects()
         {
-            base.ViewDidLoad();
+            base.InitializeObjects();
 
-            View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile(@"Images/tab_background.png").Scale(View.Frame.Size));
+            SetBackground(@"Images/tab_background.png");
             AcceptedCardsImageView.Image = UIImage.FromFile(@"Images/CreditCardView/creditCards.png");
             AddCreditCardNavigationItem.Title = "Add Your Credit Card";
             AddCreditCardNavigationBar.TitleTextAttributes = new UIStringAttributes() { ForegroundColor = UIColor.White };
             AddCreditCardNavigationItem.LeftBarButtonItem = new UIBarButtonItem(UIImage.FromFile("Images/ic_back.png"), UIBarButtonItemStyle.Plain, null);
 
-            InitializeBindings();
             GestureRegnizer();
             AddDoneButtonOnKeyBoard();
+        }
+
+        protected override void InitializeBindings()
+        {
+            base.InitializeBindings();
+
+            var bindingSet = this.CreateBindingSet<AddCreditCardViewController, AddCreditCardViewModel>();
+            bindingSet.Bind(NameOnCardTextField).To(vm => vm.CardHolder);
+            bindingSet.Bind(CardNumberTextField).To(vm => vm.CreditCardNumber);
+            bindingSet.Bind(ExpirationMonthTextField).To(vm => vm.ExpirationMonth);
+            bindingSet.Bind(ExpirationYearTextField).To(vm => vm.ExpirationYear);
+            bindingSet.Bind(CvvTextField).To(vm => vm.Cvv);
+            bindingSet.Bind(ZipCodeTextField).To(vm => vm.ZipCode);
+            bindingSet.Bind(AddCreditCardNavigationItem.LeftBarButtonItem).To(vm => vm.CloseAddCreditCardCommand);
+            bindingSet.Bind(SaveCreditCardButton).To(vm => vm.SaveCreditCardCommand);
+            bindingSet.Apply();
         }
 
         private void GestureRegnizer()
@@ -49,20 +64,6 @@ namespace Tollminder.Touch.Views
             ExpirationYearTextField.InputAccessoryView = new EnhancedToolbar(ExpirationYearTextField, ExpirationMonthTextField, CvvTextField);
             CvvTextField.InputAccessoryView = new EnhancedToolbar(CvvTextField, ExpirationYearTextField, ZipCodeTextField);
             ZipCodeTextField.InputAccessoryView = new EnhancedToolbar(ZipCodeTextField, CvvTextField, null);
-        }
-
-        private void InitializeBindings()
-        {
-            var bindingSet = this.CreateBindingSet<AddCreditCardViewController, AddCreditCardViewModel>();
-            bindingSet.Bind(NameOnCardTextField).To(vm => vm.CardHolder);
-            bindingSet.Bind(CardNumberTextField).To(vm => vm.CreditCardNumber);
-            bindingSet.Bind(ExpirationMonthTextField).To(vm => vm.ExpirationMonth);
-            bindingSet.Bind(ExpirationYearTextField).To(vm => vm.ExpirationYear);
-            bindingSet.Bind(CvvTextField).To(vm => vm.Cvv);
-            bindingSet.Bind(ZipCodeTextField).To(vm => vm.ZipCode);
-            bindingSet.Bind(AddCreditCardNavigationItem.LeftBarButtonItem).To(vm => vm.CloseAddCreditCardCommand);
-            bindingSet.Bind(SaveCreditCardButton).To(vm => vm.SaveCreditCardCommand);
-            bindingSet.Apply();
         }
     }
 }

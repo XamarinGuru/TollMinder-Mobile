@@ -20,16 +20,16 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fx9-1g-qNC">
-                        <rect key="frame" x="0.0" y="0.0" width="326" height="61.5"/>
+                        <rect key="frame" x="0.0" y="0.0" width="312" height="61.5"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="**** **** ****" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MIk-3I-r0U">
-                                <rect key="frame" x="8" y="20" width="159" height="21.5"/>
+                                <rect key="frame" x="8" y="20" width="145" height="21.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.023958116769999999" green="0.63541561369999999" blue="0.90779918429999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2334" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dyf-cF-jWL">
-                                <rect key="frame" x="175" y="20" width="63" height="21.5"/>
+                                <rect key="frame" x="161" y="20" width="63" height="21.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="63" id="pqj-xo-Dbn"/>
                                 </constraints>
@@ -38,7 +38,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nj4-Eo-sXu">
-                                <rect key="frame" x="267" y="14" width="43" height="26.5"/>
+                                <rect key="frame" x="253" y="14" width="43" height="26.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="43" id="Aib-wM-Gam"/>
                                 </constraints>
@@ -61,11 +61,16 @@
                             <constraint firstItem="MIk-3I-r0U" firstAttribute="leading" secondItem="fx9-1g-qNC" secondAttribute="leading" constant="8" id="gbJ-ES-sk4"/>
                             <constraint firstItem="dyf-cF-jWL" firstAttribute="top" secondItem="fx9-1g-qNC" secondAttribute="top" constant="20" id="vJ5-7l-JOR"/>
                         </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="10"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </view>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 <constraints>
-                    <constraint firstAttribute="trailingMargin" secondItem="fx9-1g-qNC" secondAttribute="trailing" constant="-14" id="2kB-MF-3w3"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="fx9-1g-qNC" secondAttribute="trailing" id="2kB-MF-3w3"/>
                     <constraint firstItem="fx9-1g-qNC" firstAttribute="top" secondItem="YTl-1W-gDM" secondAttribute="top" id="Qad-87-3mf"/>
                     <constraint firstAttribute="bottomMargin" secondItem="fx9-1g-qNC" secondAttribute="bottom" constant="10" id="T68-iz-k9K"/>
                     <constraint firstItem="fx9-1g-qNC" firstAttribute="leading" secondItem="YTl-1W-gDM" secondAttribute="leading" id="ZZQ-Yd-6Em"/>

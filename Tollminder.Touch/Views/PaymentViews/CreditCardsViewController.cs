@@ -1,12 +1,12 @@
 ﻿using MvvmCross.Binding.BindingContext;
 using MvvmCross.Binding.iOS.Views;
-using MvvmCross.iOS.Views;
 using Tollminder.Core.ViewModels.Payments;
 using UIKit;
+using Tollminder.Touch.Controllers;
 
 namespace Tollminder.Touch.Views.PaymentViews
 {
-    public partial class CreditCardsViewController : MvxViewController<CreditCardsViewModel>
+    public partial class CreditCardsViewController : BaseViewController<CreditCardsViewModel>
     {
         private MvxSimpleTableViewSource creditCardsTableViewSource;
 
@@ -14,11 +14,11 @@ namespace Tollminder.Touch.Views.PaymentViews
         {
         }
 
-        public override void ViewDidLoad()
+        protected override void InitializeObjects()
         {
-            base.ViewDidLoad();
+            base.InitializeObjects();
 
-            View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile(@"Images/tab_background.png").Scale(View.Frame.Size));
+            SetBackground(@"Images/tab_background.png");
             CreditCardsNavigationItem.Title = "Your Credit Cards";
             CreditCardsNavigationBar.TitleTextAttributes = new UIStringAttributes() { ForegroundColor = UIColor.White };
             CreditCardsNavigationItem.LeftBarButtonItem = new UIBarButtonItem(UIImage.FromFile("Images/ic_back.png"), UIBarButtonItemStyle.Plain, null);
@@ -28,12 +28,12 @@ namespace Tollminder.Touch.Views.PaymentViews
             CreditCardsTableView.Source = creditCardsTableViewSource;
             CreditCardsTableView.EstimatedRowHeight = 90f;
             CreditCardsTableView.RowHeight = UITableView.AutomaticDimension;
-
-            InitializeBindings();
         }
 
-        private void InitializeBindings()
+        protected override void InitializeBindings()
         {
+            base.InitializeBindings();
+
             var bindingSet = this.CreateBindingSet<CreditCardsViewController, CreditCardsViewModel>();
             bindingSet.Bind(creditCardsTableViewSource).To(vm => vm.CrediCards);
             bindingSet.Bind(CreditCardsNavigationItem.LeftBarButtonItem).To(vm => vm.CloseCreditCardsCommand);

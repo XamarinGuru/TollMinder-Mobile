@@ -34,17 +34,17 @@
                     </items>
                 </navigationBar>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ZR4-oC-oHs">
-                    <rect key="frame" x="20" y="100" width="335" height="567"/>
+                    <rect key="frame" x="30" y="100" width="315" height="567"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </tableView>
             </subviews>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="ZR4-oC-oHs" secondAttribute="trailing" constant="20" id="0yJ-w4-GDj"/>
+                <constraint firstAttribute="trailing" secondItem="ZR4-oC-oHs" secondAttribute="trailing" constant="30" id="0yJ-w4-GDj"/>
                 <constraint firstItem="bib-gQ-4iF" firstAttribute="top" secondItem="2" secondAttribute="top" id="Dn8-x2-Xq8"/>
                 <constraint firstAttribute="trailing" secondItem="bib-gQ-4iF" secondAttribute="trailing" id="Nha-kc-HAg"/>
                 <constraint firstItem="bib-gQ-4iF" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="QuC-2r-Baz"/>
-                <constraint firstItem="ZR4-oC-oHs" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="20" id="oPF-s0-gQx"/>
+                <constraint firstItem="ZR4-oC-oHs" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="30" id="oPF-s0-gQx"/>
                 <constraint firstItem="ZR4-oC-oHs" firstAttribute="top" secondItem="bib-gQ-4iF" secondAttribute="bottom" constant="20" id="odD-35-789"/>
                 <constraint firstAttribute="bottom" secondItem="ZR4-oC-oHs" secondAttribute="bottom" id="wxx-Tx-w1A"/>
             </constraints>

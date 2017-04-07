@@ -9,6 +9,8 @@ using Tollminder.Touch.Interfaces;
 using UIKit;
 using MvvmCross.Binding.iOS.Views;
 using Tollminder.Core.ViewModels.Payments;
+using CoreGraphics;
+using Tollminder.Core.Converters;
 
 namespace Tollminder.Touch.Views
 {
@@ -18,6 +20,8 @@ namespace Tollminder.Touch.Views
         UITableView tableView;
         ProfileButton dowloadHistoryButton;
         UILabel informationLabel;
+        UIView scrollView;
+        UIActivityIndicatorView activityIndicatorView;
 
         public PayHistoryView()
         {
@@ -36,7 +40,7 @@ namespace Tollminder.Touch.Views
             base.InitializeObjects();
 
             var topView = new UIView();
-            var scrollView = new UIView();
+            scrollView = new UIView();
             var bottomView = new UIView();
 
             informationLabel = new UILabel();
@@ -108,20 +112,12 @@ namespace Tollminder.Touch.Views
                 scrollView.AtRightOf(View, 30),
                 scrollView.WithRelativeHeight(View, 0.8f)
             );
+            AddLoader();
         }
 
         protected override void InitializeBindings()
         {
             base.InitializeBindings();
-
-            // choice here:
-            //
-            //   for original demo use:
-            //     var source = new MvxStandardTableViewSource(tableView, "TitleText");
-            //
-            //   or for prettier cells from XIB file use:
-            //     tableView.RowHeight = 88;
-            //     var source = new MvxSimpleTableViewSource(tableView, BookCell.Key, BookCell.Key);
 
             tableView.RowHeight = 44;
             var source = new MvxSimpleTableViewSource(tableView, PayHistoryCell.Key, PayHistoryCell.Key);
@@ -130,8 +126,41 @@ namespace Tollminder.Touch.Views
             var set = this.CreateBindingSet<PayHistoryView, PayHistoryViewModel>();
             set.Bind(backHomeView).To(vm => vm.BackHomeCommand);
             set.Bind(dowloadHistoryButton).To(vm => vm.DownloadHistoryCommand);
+            set.Bind(activityIndicatorView).For(x => x.Hidden).To(vm => vm.IsBusy).WithConversion(new BoolInverseConverter());
             set.Bind(source).To(vm => vm.History);
             set.Apply();
+        }
+
+        public override void ViewDidAppear(bool animated)
+        {
+            base.ViewDidAppear(animated);
+        }
+
+        private void AddLoader()
+        {
+            activityIndicatorView = (UIActivityIndicatorView)View.ViewWithTag(1000);
+
+            // show busy indicator. create it first if it doesn't already exists
+            if (activityIndicatorView == null)
+            {
+                var s = scrollView.Bounds;
+                activityIndicatorView = new UIActivityIndicatorView()
+                {
+                    ActivityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray,
+                    Tag = 1000
+                };
+                activityIndicatorView.BackgroundColor = UIColor.White;
+                activityIndicatorView.Alpha = 0.7f;
+                scrollView.AddIfNotNull(activityIndicatorView);
+                scrollView.AddConstraints(
+                    activityIndicatorView.AtTopOf(scrollView),
+                    activityIndicatorView.AtLeftOf(scrollView),
+                    activityIndicatorView.AtRightOf(scrollView),
+                    activityIndicatorView.AtBottomOf(scrollView)
+                );
+                scrollView.BringSubviewToFront(activityIndicatorView);
+                activityIndicatorView.StartAnimating();
+            }
         }
     }
 }

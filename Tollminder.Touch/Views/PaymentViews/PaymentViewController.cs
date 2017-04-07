@@ -1,13 +1,12 @@
 ﻿using Tollminder.Core.ViewModels.Payments;
-using MvvmCross.iOS.Views;
 using UIKit;
 using MvvmCross.Binding.BindingContext;
-using MvvmCross.Binding.iOS.Views;
 using Tollminder.Touch.Views.PaymentViews;
+using Tollminder.Touch.Controllers;
 
 namespace Tollminder.Touch.Views
 {
-    public partial class PaymentViewController : MvxViewController<PayViewModel>
+    public partial class PaymentViewController : BaseViewController<PayViewModel>
     {
         private PaymentTableViewSource notPayedTripsTableViewSource;
 
@@ -15,11 +14,11 @@ namespace Tollminder.Touch.Views
         {
         }
 
-        public override void ViewDidLoad()
+        protected override void InitializeObjects()
         {
-            base.ViewDidLoad();
+            base.InitializeObjects();
 
-            View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile(@"Images/tab_background.png").Scale(View.Frame.Size));
+            SetBackground(@"Images/tab_background.png");
             PayNavigationItem.Title = "Your Unpaid Trips";
             PayNavigationBar.TitleTextAttributes = new UIStringAttributes() { ForegroundColor = UIColor.White };
             PayNavigationItem.LeftBarButtonItem = new UIBarButtonItem(UIImage.FromFile("Images/ic_back.png"), UIBarButtonItemStyle.Plain, null);
@@ -29,12 +28,12 @@ namespace Tollminder.Touch.Views
             NotPayedTripsTableVIew.Source = notPayedTripsTableViewSource;
             NotPayedTripsTableVIew.EstimatedRowHeight = 90f;
             NotPayedTripsTableVIew.RowHeight = UITableView.AutomaticDimension;
-
-            InitializeBindings();
         }
 
-        private void InitializeBindings()
+        protected override void InitializeBindings()
         {
+            base.InitializeBindings();
+
             var bindingSet = this.CreateBindingSet<PaymentViewController, PayViewModel>();
             bindingSet.Bind(notPayedTripsTableViewSource).To(vm => vm.NotPayedTrips);
             bindingSet.Bind(PayNavigationItem.LeftBarButtonItem).To(vm => vm.BackToMainPageCommand);
@@ -44,4 +43,3 @@ namespace Tollminder.Touch.Views
         }
     }
 }
-

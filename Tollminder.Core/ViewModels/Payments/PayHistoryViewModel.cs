@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
@@ -57,7 +56,7 @@ namespace Tollminder.Core.ViewModels.Payments
         {
             try
             {
-                await Mvx.Resolve<IUserInteraction>().AlertAsync("Your pay history is loading...", "Information");
+                IsBusy = true;
 
                 var result = await paymentProcessing.GetPayHistoryAsync(GetPayDateFrom, GetPayDateTo);
 
@@ -77,6 +76,10 @@ namespace Tollminder.Core.ViewModels.Payments
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
 

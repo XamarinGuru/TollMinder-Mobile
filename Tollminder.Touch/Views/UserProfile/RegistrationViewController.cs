@@ -5,32 +5,33 @@ using Tollminder.Core.ViewModels.UserProfile;
 using MvvmCross.Binding.BindingContext;
 using Tollminder.Touch.Controls;
 using Tollminder.Core.Converters;
+using Tollminder.Touch.Controllers;
 
 namespace Tollminder.Touch.Views.UserProfile
 {
-    public partial class RegistrationViewController : MvxViewController<RegistrationViewModel>
+    public partial class RegistrationViewController : BaseViewController<RegistrationViewModel>
     {
         public RegistrationViewController() : base("RegistrationViewController", null) { }
 
-        public override void ViewDidLoad()
+        protected override void InitializeObjects()
         {
-            base.ViewDidLoad();
+            base.InitializeObjects();
 
-            View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile(@"Images/tab_background.png").Scale(View.Frame.Size));
-
+            SetBackground(@"Images/tab_background.png");
             RegistrationNavigationItem.Title = "Registration";
             RegistrationNavigationBar.TitleTextAttributes = new UIStringAttributes() { ForegroundColor = UIColor.White };
             RegistrationNavigationBar.TintColor = UIColor.White;
             RegistrationNavigationItem.LeftBarButtonItem = new UIBarButtonItem(UIImage.FromFile("Images/ic_back.png"), UIBarButtonItemStyle.Plain, null);
             RegistrationNavigationItem.RightBarButtonItem = new UIBarButtonItem("Go", UIBarButtonItemStyle.Plain, null);
 
-            InitializeBindings();
             AddDoneButtonOnKeyBoard();
             GestureGecognizer();
         }
 
-        private void InitializeBindings()
+        protected override void InitializeBindings()
         {
+            base.InitializeBindings();
+
             var set = this.CreateBindingSet<RegistrationViewController, RegistrationViewModel>();
 
             set.Bind(RegistrationNavigationItem.LeftBarButtonItem).To(vm => vm.BackToLoginViewCommand);
