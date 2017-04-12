@@ -65,6 +65,7 @@ namespace Tollminder.Core.ViewModels
                 var result = IsBound ? await _track.StartServicesAsync() : _track.StopServices();
                 IsBound = _geoWatcher.IsBound;
             });
+            NextGeoLocation = new MvxCommand(async () => await NextLocation());
 
             _tokens = new List<MvxSubscriptionToken>();
         }
@@ -108,6 +109,11 @@ namespace Tollminder.Core.ViewModels
             DistanceToNearestTollpoint = double.Parse(waypointChecker.DistanceToNearestTollpoint.ToString());
         }
 
+        Task<bool> NextLocation()
+        {
+            return null;
+        }
+
         Task RefreshToolRoadsAsync()
         {
             return ServerCommandWrapperAsync(() => geoDataService.RefreshTollRoadsAsync(CancellationToken.None));
@@ -127,6 +133,8 @@ namespace Tollminder.Core.ViewModels
 
         MvxCommand logoutCommand;
         public ICommand LogoutCommand { get { return logoutCommand; } }
+
+        public MvxCommand NextGeoLocation { get; set; }
 
         bool _isBound;
         public bool IsBound

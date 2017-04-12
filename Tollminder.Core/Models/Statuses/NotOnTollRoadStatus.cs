@@ -11,7 +11,7 @@ namespace Tollminder.Core.Models.Statuses
         {
             Log.LogMessage(string.Format($"TRY TO FIND TOLLPOINT ENTRANCES FROM {SettingsService.WaypointLargeRadius * 1000} m"));
 
-            var location = new GeoLocation { Latitude = 33.660353121928814, Longitude = -117.00164794921875 };//GeoWatcher.Location;
+            var location = GeoWatcher.Location;
             var waypoints = GeoDataService.FindNearestEntranceTollPoints(location);
 
             WaypointChecker.SetTollPointsInRadius(waypoints);

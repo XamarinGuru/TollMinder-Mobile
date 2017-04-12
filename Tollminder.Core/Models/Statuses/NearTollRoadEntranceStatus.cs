@@ -1,5 +1,7 @@
 using System.Threading.Tasks;
+using MvvmCross.Platform;
 using Tollminder.Core.Helpers;
+using Tollminder.Core.Services.Api;
 using Tollminder.Core.Services.Settings;
 
 namespace Tollminder.Core.Models.Statuses
@@ -40,7 +42,7 @@ namespace Tollminder.Core.Models.Statuses
                     if (insideTollPoint.WaypointAction == WaypointAction.Bridge)
                     {
                         WaypointChecker.SetExit(insideTollPoint);
-
+                        SaveTripProgress(insideTollPoint);
                         WaypointChecker.SetTollPointsInRadius(null);
                         await NotifyService.NotifyAsync("Bill was created");
                         WaypointChecker.ClearData();
@@ -58,6 +60,17 @@ namespace Tollminder.Core.Models.Statuses
             {
                 return TollGeolocationStatus.NearTollRoadEntrance;
             }
+        }
+
+        private void SaveTripProgress(TollPoint tollPoint)
+        {
+            Mvx.Resolve<IPaymentProcessing>().TripCompletedAsync(new PaymentData.TripCompleted()
+            {
+                StartWayPointId = tollPoint.Id,
+                EndWayPointId = WaypointChecker.Exit.Id,
+                TollRoadId = WaypointChecker.Exit.TollRoadId,
+                UserId = Mvx.Resolve<IStoredSettingsService>().ProfileId
+            });
         }
     }
 }

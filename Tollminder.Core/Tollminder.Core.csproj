@@ -170,6 +170,7 @@
     <Compile Include="Services\Settings\IQueueItem.cs" />
     <Compile Include="ViewModels\Payments\CreditCardsForPayViewModel.cs" />
     <Compile Include="Models\PaymentData\ServerResponse.cs" />
+    <Compile Include="Services\GeoData\MockGeoLocation.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>

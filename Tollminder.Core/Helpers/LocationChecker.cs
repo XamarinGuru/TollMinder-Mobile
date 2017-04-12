@@ -21,6 +21,9 @@ namespace Tollminder.Core.Helpers
         // Distance = d * R
         public static double DistanceBetweenGeoLocations(GeoLocation center, GeoLocation otherPoint)
         {
+            if (center.Latitude == otherPoint.Latitude && center.Longitude == otherPoint.Longitude)
+                return 0;
+
             const double R = 6371;
 
             double sLat1 = Math.Sin(center.Latitude.ToRadians());

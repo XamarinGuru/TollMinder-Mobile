@@ -52,7 +52,6 @@ namespace Tollminder.Core.ServicesHelpers
 
             _tokens = new List<MvxSubscriptionToken>(); // was changed
             _semaphor = new SemaphoreSlim(1);
-
             _motionToken = _messenger.SubscribeOnThreadPoolThread<MotionMessage>(async x =>
               {
                   Log.LogMessage($"[FACADE] receive new motion type {x.Data}");
@@ -162,7 +161,7 @@ namespace Tollminder.Core.ServicesHelpers
             try
             {
                 BaseStatus statusObject = StatusesFactory.GetStatus(TollStatus);
-
+#if !DEBUG
                 if (_activity.MotionType == MotionType.Still)
                 {
                     Log.LogMessage("Ignore location in FACADE because we are still");
@@ -176,7 +175,7 @@ namespace Tollminder.Core.ServicesHelpers
                         return;
                     }
                 }
-
+#endif
                 var statusBeforeCheck = TollStatus;
                 Log.LogMessage($"Current status before check= {TollStatus}");
 

@@ -17,6 +17,7 @@ namespace Tollminder.Core.Services.Settings
         readonly IStoredSettingsBase storedSettingsBase;
         readonly IServerApiService serverApiService;
         private Profile _user;
+        TaskCompletionSource<IList<TollRoad>> roadListTask;
         string databaseName = "tollminder.sqlite";
         SQLite.SQLiteConnection _connection;
         SQLite.SQLiteConnection Connection
@@ -32,6 +33,7 @@ namespace Tollminder.Core.Services.Settings
             TryCreateTables();
             this.storedSettingsBase = storedSettingsBase;
             this.serverApiService = serverApiService;
+            roadListTask = new TaskCompletionSource<IList<TollRoad>>();
         }
 
         public TollRoad GetTollRoad(string id)
@@ -78,6 +80,11 @@ namespace Tollminder.Core.Services.Settings
             }
         }
 
+        public async Task<IList<TollRoad>> GetTollRoadList()
+        {
+            return await roadListTask.Task;
+        }
+
         public void InsertOrUpdateAllTollRoads(IList<TollRoad> tollRoads)
         {
             try
@@ -87,6 +94,7 @@ namespace Tollminder.Core.Services.Settings
                 Connection.InsertOrReplaceAllWithChildren(tollRoads, true);
                 var points = Connection.GetAllWithChildren<TollPoint>();
                 var roads = Connection.GetAllWithChildren<TollRoad>();
+                roadListTask.TrySetResult(tollRoads);
             }
             catch (Exception e)
             {

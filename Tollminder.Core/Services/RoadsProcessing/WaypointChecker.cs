@@ -162,27 +162,34 @@ namespace Tollminder.Core.Services.RoadsProcessing
         public TollPoint DetectWeAreInsideSomeTollPoint(GeoLocation location)
         {
             int nearestToolpoint = 0;
-            if (TollPointsInRadius.Count != nearestToolpoint)
+            if (TollPointsInRadius != null)
             {
-                foreach (var item in TollPointsInRadius)
+                if (TollPointsInRadius?.Count != nearestToolpoint)
                 {
-                    if (item.Equals(IgnoredChoiceTollPoint))
-                        break;
-                    double radius = item.Radius != 0 ? item.Radius / 1000 : SettingsService.WaypointSmallRadius;
-                    var distance = UpdateDistanceToNextWaypoint(location, item);
-                    if (nearestToolpoint < 1)
+                    foreach (var item in TollPointsInRadius)
                     {
-                        nearestToolpoint++;
-                        DistanceToNearestTollpoint = Math.Truncate(decimal.Parse((distance / 1.609344).ToString()) * 1000m) / 1000m;
-                        Log.LogMessage($"Distance to nearest Tollpoint: {DistanceToNearestTollpoint}");
-                    }
-                    Log.LogMessage($"Distance to {item.Name} waypoint is {distance}");
-                    if (distance - (radius) < double.Epsilon)
-                    {
-                        Log.LogMessage($"We are inside in Tollpoint: {item.Name}, Latitude: {item.Latitude}, Longitude: {item.Longitude}");
-                        return item;
+                        if (item.Equals(IgnoredChoiceTollPoint))
+                            break;
+                        double radius = item.Radius != 0 ? item.Radius / 1000 : SettingsService.WaypointSmallRadius;
+                        var distance = UpdateDistanceToNextWaypoint(location, item);
+                        if (double.IsNaN(distance))
+                            distance = 0;
+                        if (nearestToolpoint < 1)
+                        {
+                            nearestToolpoint++;
+                            DistanceToNearestTollpoint = Math.Truncate(decimal.Parse((distance / 1.609344).ToString()) * 1000m) / 1000m;
+                            Log.LogMessage($"Distance to nearest Tollpoint: {DistanceToNearestTollpoint}");
+                        }
+                        Log.LogMessage($"Distance to {item.Name} waypoint is {distance}");
+                        if (distance - (radius) < double.Epsilon)
+                        {
+                            Log.LogMessage($"We are inside in Tollpoint: {item.Name}, Latitude: {item.Latitude}, Longitude: {item.Longitude}");
+                            return item;
+                        }
                     }
                 }
+                else
+                    DistanceToNearestTollpoint = 0;
             }
             else
                 DistanceToNearestTollpoint = 0;

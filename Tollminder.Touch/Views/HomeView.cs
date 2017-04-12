@@ -23,6 +23,7 @@ namespace Tollminder.Touch.Views
         RoundedButton payHistoryButton;
         RoundedButton callCentergButton;
         RoundedButton logoutButton;
+        UIButton nextLocation;
 
         UIScrollView boardScrollView;
         UIView boardContainerView;
@@ -211,6 +212,19 @@ namespace Tollminder.Touch.Views
                 bottomView.WithRelativeHeight(View, 0.27f),
                 bottomView.AtBottomOf(View, 30)
             );
+#if DEBUG
+            nextLocation = UIButton.FromType(UIButtonType.Custom);
+            nextLocation.SetTitle("Next Geo Location", UIControlState.Application);
+            nextLocation.SetTitleColor(UIColor.White, UIControlState.Application);
+            nextLocation.BackgroundColor = UIColor.Cyan;
+            View.AddIfNotNull(nextLocation);
+            View.AddConstraints(
+                nextLocation.WithSameCenterX(View),
+                nextLocation.WithSameCenterY(View),
+                nextLocation.Height().EqualTo(50),
+                nextLocation.Width().EqualTo(200)
+            );
+#endif
         }
 
         private UIScrollView CreateSliderBoard(bool showWithPaging)
@@ -261,6 +275,10 @@ namespace Tollminder.Touch.Views
             set.Bind(statusLabel.ValueText).To(v => v.StatusString);
             set.Bind(tollRoadString.ValueText).To(v => v.TollRoadString);
             set.Bind(nextWaypointString.ValueText).To(v => v.DistanceToNearestTollpoint);
+
+#if DEBUG       
+            set.Bind(nextLocation).To(vm => vm.NextGeoLocation);
+#endif
 
             set.Apply();
         }

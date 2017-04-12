@@ -5,6 +5,7 @@ using MvvmCross.Platform;
 using MvvmCross.Core.Platform;
 using Tollminder.Core.Services.RoadsProcessing;
 using Tollminder.Core.Services.Api;
+using Tollminder.Core.Services.GeoData;
 
 namespace Tollminder.Core
 {
@@ -30,6 +31,10 @@ namespace Tollminder.Core
             Mvx.LazyConstructAndRegisterSingleton<IDistanceChecker, DistanceChecker>();
             Mvx.LazyConstructAndRegisterSingleton<ITrackFacade, TrackFacade>();
             Mvx.LazyConstructAndRegisterSingleton<IPaymentProcessing, PaymentProcessing>();
+#if DEBUG
+            Mvx.LazyConstructAndRegisterSingleton<IGeoLocationWatcher, MockGeoLocation>();
+            Mvx.LazyConstructAndRegisterSingleton<IMotionActivity, MockGeoLocation>();
+#endif
         }
 
         async void StateChanged(object sender, MvxSetup.MvxSetupStateEventArgs e)
