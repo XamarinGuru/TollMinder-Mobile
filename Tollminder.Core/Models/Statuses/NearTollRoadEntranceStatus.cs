@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using MvvmCross.Platform;
 using Tollminder.Core.Helpers;
+using Tollminder.Core.Models.GeoData;
 using Tollminder.Core.Services.Api;
 using Tollminder.Core.Services.Settings;
 
@@ -13,7 +14,7 @@ namespace Tollminder.Core.Models.Statuses
             return false;
         }
 
-        public async override Task<TollGeolocationStatus> CheckStatus()
+        public async override Task<TollGeoStatusResult> CheckStatus(TollGeolocationStatus tollGeoStatus)
         {
             var location = GeoWatcher.Location;
             var waypoints = GeoDataService.FindNearestEntranceTollPoints(location);
@@ -21,7 +22,11 @@ namespace Tollminder.Core.Models.Statuses
             WaypointChecker.SetTollPointsInRadius(waypoints);
 
             if (waypoints.Count == 0)
-                return TollGeolocationStatus.NotOnTollRoad;
+                return new TollGeoStatusResult()
+                {
+                    TollGeolocationStatus = TollGeolocationStatus.NotOnTollRoad,
+                    IsNeedToDoubleCheck = false
+                };
 
             var insideTollPoint = WaypointChecker.DetectWeAreInsideSomeTollPoint(location);
 
@@ -42,31 +47,47 @@ namespace Tollminder.Core.Models.Statuses
                     if (insideTollPoint.WaypointAction == WaypointAction.Bridge)
                     {
                         WaypointChecker.SetExit(insideTollPoint);
-                        SaveTripProgress(insideTollPoint);
+                        SaveTripProgress();
                         WaypointChecker.SetTollPointsInRadius(null);
                         await NotifyService.NotifyAsync("Bill was created");
                         WaypointChecker.ClearData();
-                        return TollGeolocationStatus.NotOnTollRoad;
+                        return new TollGeoStatusResult()
+                        {
+                            TollGeolocationStatus = TollGeolocationStatus.NotOnTollRoad,
+                            IsNeedToDoubleCheck = false
+                        };
                     }
                     else
-                        return TollGeolocationStatus.OnTollRoad;
+                        return new TollGeoStatusResult()
+                        {
+                            TollGeolocationStatus = TollGeolocationStatus.OnTollRoad,
+                            IsNeedToDoubleCheck = false
+                        };
                 }
                 else
                 {
-                    return TollGeolocationStatus.NotOnTollRoad;
+                    return new TollGeoStatusResult()
+                    {
+                        TollGeolocationStatus = TollGeolocationStatus.NotOnTollRoad,
+                        IsNeedToDoubleCheck = false
+                    };
                 }
             }
             else
             {
-                return TollGeolocationStatus.NearTollRoadEntrance;
+                return new TollGeoStatusResult()
+                {
+                    TollGeolocationStatus = TollGeolocationStatus.NearTollRoadEntrance,
+                    IsNeedToDoubleCheck = false
+                };
             }
         }
 
-        private void SaveTripProgress(TollPoint tollPoint)
+        private void SaveTripProgress()
         {
             Mvx.Resolve<IPaymentProcessing>().TripCompletedAsync(new PaymentData.TripCompleted()
             {
-                StartWayPointId = tollPoint.Id,
+                StartWayPointId = WaypointChecker.Entrance.Id,
                 EndWayPointId = WaypointChecker.Exit.Id,
                 TollRoadId = WaypointChecker.Exit.TollRoadId,
                 UserId = Mvx.Resolve<IStoredSettingsService>().ProfileId

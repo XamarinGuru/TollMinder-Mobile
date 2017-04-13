@@ -2,12 +2,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Tollminder.Core.Helpers;
 using Tollminder.Core.Services.Settings;
+using Tollminder.Core.Models.GeoData;
 
 namespace Tollminder.Core.Models.Statuses
 {
     public class NotOnTollRoadStatus : BaseStatus
     {
-        public override Task<TollGeolocationStatus> CheckStatus()
+        public override Task<TollGeoStatusResult> CheckStatus(TollGeolocationStatus tollGeoStatus)
         {
             Log.LogMessage(string.Format($"TRY TO FIND TOLLPOINT ENTRANCES FROM {SettingsService.WaypointLargeRadius * 1000} m"));
 
@@ -21,7 +22,11 @@ namespace Tollminder.Core.Models.Statuses
             {
                 GeoWatcher.StopUpdatingHighAccuracyLocation();
                 Log.LogMessage($"No waypoint founded for location {GeoWatcher.Location}");
-                return Task.FromResult(TollGeolocationStatus.NotOnTollRoad);
+                return Task.FromResult(new TollGeoStatusResult()
+                {
+                    TollGeolocationStatus = TollGeolocationStatus.NotOnTollRoad,
+                    IsNeedToDoubleCheck = false
+                });
             }
             else
             {
@@ -30,7 +35,11 @@ namespace Tollminder.Core.Models.Statuses
 
                 GeoWatcher.StartUpdatingHighAccuracyLocation();
 
-                return Task.FromResult(TollGeolocationStatus.NearTollRoadEntrance);
+                return Task.FromResult(new TollGeoStatusResult()
+                {
+                    TollGeolocationStatus = TollGeolocationStatus.NearTollRoadEntrance,
+                    IsNeedToDoubleCheck = false
+                });
             }
         }
 

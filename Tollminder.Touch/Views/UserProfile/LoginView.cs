@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Cirrious.FluentLayouts.Touch;
 using CoreGraphics;
-using Facebook.CoreKit;
 using Facebook.LoginKit;
 using Google.SignIn;
 using MvvmCross.Binding.BindingContext;

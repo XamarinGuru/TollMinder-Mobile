@@ -102,6 +102,12 @@ namespace Tollminder.Core.Services.Settings
             }
         }
 
+        public IList<TollPoint> GetAllTollPoints()
+        {
+            var list = Connection.GetAllWithChildren<TollPoint>();
+            return list;
+        }
+
         public IList<TollPoint> GetAllEntranceTollPoints()
         {
             var list = Connection.GetAllWithChildren<TollPoint>(x => x.WaypointAction == WaypointAction.Entrance || x.WaypointAction == WaypointAction.Bridge, true).ToList();

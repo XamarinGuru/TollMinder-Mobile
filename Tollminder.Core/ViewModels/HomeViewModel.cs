@@ -32,6 +32,11 @@ namespace Tollminder.Core.ViewModels
 
         IList<MvxSubscriptionToken> _tokens;
 
+        // for mock location
+        public List<WaypointAction> WaypointActions { get; set; }
+        public WaypointAction SelectedWaypointAction { get; set; }
+        public MvxCommand NextGeoLocationCommand { get; set; }
+
         public HomeViewModel(IMvxMessenger messenger, ITrackFacade track,
                              IGeoLocationWatcher geoWatcher, IStoredSettingsService storedSettingsService,
                              ISynchronisationService synchronisationService, IWaypointChecker waypointChecker,
@@ -65,9 +70,16 @@ namespace Tollminder.Core.ViewModels
                 var result = IsBound ? await _track.StartServicesAsync() : _track.StopServices();
                 IsBound = _geoWatcher.IsBound;
             });
-            NextGeoLocation = new MvxCommand(async () => await NextLocation());
 
             _tokens = new List<MvxSubscriptionToken>();
+
+            NextGeoLocationCommand = new MvxCommand(() => NextLocation());
+            WaypointActions = new List<WaypointAction>(){
+                WaypointAction.Entrance,
+                WaypointAction.Bridge,
+                WaypointAction.Exit
+            };
+            SelectedWaypointAction = WaypointAction.Entrance;
         }
 
         public async void Init(string name, string message)
@@ -109,9 +121,12 @@ namespace Tollminder.Core.ViewModels
             DistanceToNearestTollpoint = double.Parse(waypointChecker.DistanceToNearestTollpoint.ToString());
         }
 
-        Task<bool> NextLocation()
+        async void NextLocation()
         {
-            return null;
+            if (IsBound)
+                Mvx.Resolve<IMockGeoLocation>().NextTollPoint(SelectedWaypointAction);
+            else
+                await Mvx.Resolve<IUserInteraction>().AlertAsync("You need start tracking first.", "Warning");
         }
 
         Task RefreshToolRoadsAsync()
@@ -133,8 +148,6 @@ namespace Tollminder.Core.ViewModels
 
         MvxCommand logoutCommand;
         public ICommand LogoutCommand { get { return logoutCommand; } }
-
-        public MvxCommand NextGeoLocation { get; set; }
 
         bool _isBound;
         public bool IsBound

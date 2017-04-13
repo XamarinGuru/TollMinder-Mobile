@@ -2,36 +2,36 @@
 using System.Threading.Tasks;
 using Tollminder.Core.Helpers;
 using Tollminder.Core.Services.Settings;
+using Tollminder.Core.Models.GeoData;
 
 namespace Tollminder.Core.Models.Statuses
 {
     public class OnTollRoadStatus : BaseStatus
     {
-
-        public override Task<TollGeolocationStatus> CheckStatus()
+        public override Task<TollGeoStatusResult> CheckStatus(TollGeolocationStatus tollGeoStatus)
         {
             Log.LogMessage(string.Format($"TRY TO FIND TOLLPOINT EXITS FROM {SettingsService.WaypointLargeRadius * 1000} m"));
 
             var location = GeoWatcher.Location;
-            var waypoints = GeoDataService.FindNearestExitTollPoints(location);
+            var nearestWaypoints = GeoDataService.FindNearestExitTollPoints(location);
 
-            WaypointChecker.SetTollPointsInRadius(waypoints);
+            WaypointChecker.SetTollPointsInRadius(nearestWaypoints);
+
             WaypointChecker.SetIgnoredChoiceTollPoint(null);
 
-            if (waypoints.Count == 0)
+            if (nearestWaypoints.Count == 0)
             {
                 GeoWatcher.StopUpdatingHighAccuracyLocation();
                 Log.LogMessage($"No waypoint founded for location {GeoWatcher.Location}");
-                return Task.FromResult(TollGeolocationStatus.OnTollRoad);
+                return Task.FromResult(new TollGeoStatusResult()
+                {
+                    TollGeolocationStatus = TollGeolocationStatus.OnTollRoad,
+                    IsNeedToDoubleCheck = false
+                });
             }
             else
             {
-                foreach (var item in WaypointChecker.TollPointsInRadius)
-                    Log.LogMessage($"FOUNDED WAYPOINT : {item.Name}, DISTANCE {item.Distance}");
-
-                GeoWatcher.StartUpdatingHighAccuracyLocation();
-
-                return Task.FromResult(TollGeolocationStatus.NearTollRoadExit);
+                return CheckNearestPoint(tollGeoStatus, nearestWaypoints);
             }
         }
 

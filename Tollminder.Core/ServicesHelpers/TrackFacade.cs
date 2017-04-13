@@ -14,6 +14,7 @@ using Tollminder.Core.Services.RoadsProcessing;
 using Tollminder.Core.Services.SpeechRecognition;
 using Tollminder.Core.Services.Settings;
 using Tollminder.Core.Services.Notifications;
+using Tollminder.Core.Models.GeoData;
 
 namespace Tollminder.Core.ServicesHelpers
 {
@@ -34,6 +35,7 @@ namespace Tollminder.Core.ServicesHelpers
         List<MvxSubscriptionToken> _tokens;
         MvxSubscriptionToken _locationToken;
         MvxSubscriptionToken _motionToken;
+        private TollGeoStatusResult doubleCheckResult;
 
         #endregion
 
@@ -52,6 +54,7 @@ namespace Tollminder.Core.ServicesHelpers
 
             _tokens = new List<MvxSubscriptionToken>(); // was changed
             _semaphor = new SemaphoreSlim(1);
+#if !DEBUG
             _motionToken = _messenger.SubscribeOnThreadPoolThread<MotionMessage>(async x =>
               {
                   Log.LogMessage($"[FACADE] receive new motion type {x.Data}");
@@ -77,7 +80,7 @@ namespace Tollminder.Core.ServicesHelpers
                   }
               });
             _tokens.Add(_motionToken);
-
+#endif
             Log.LogMessage("Facade ctor end");
         }
 
@@ -179,13 +182,24 @@ namespace Tollminder.Core.ServicesHelpers
                 var statusBeforeCheck = TollStatus;
                 Log.LogMessage($"Current status before check= {TollStatus}");
 
-                TollStatus = await statusObject.CheckStatus();
+                var checkResult = await statusObject.CheckStatus(statusBeforeCheck);
+                TollStatus = checkResult.TollGeolocationStatus;
 
                 statusObject = StatusesFactory.GetStatus(TollStatus);
 
+                if (checkResult.IsNeedToDoubleCheck)
+                {
+                    doubleCheckResult = await StatusesFactory.GetStatus(TollGeolocationStatus.NearestTollPoint).CheckStatus(statusBeforeCheck);
+                    TollStatus = doubleCheckResult.TollGeolocationStatus;
+                }
+
                 Log.LogMessage($"Current status after check = {TollStatus}");
                 if (statusBeforeCheck != TollStatus)
+                {
+                    var result = await statusObject.CheckStatus(statusBeforeCheck);
+                    TollStatus = result.TollGeolocationStatus;
                     Mvx.Resolve<INotificationSender>().SendLocalNotification($"Status: {TollStatus.ToString()}", $"Lat: {_geoWatcher.Location?.Latitude}, Long: {_geoWatcher.Location?.Longitude}");
+                }
             }
             catch (Exception e)
             {

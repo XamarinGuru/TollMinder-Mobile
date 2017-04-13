@@ -1,13 +1,14 @@
 ﻿using System;
 
 namespace Tollminder.Core.Models
-{	
-	public enum TollGeolocationStatus
-	{
-		NotOnTollRoad,
-		OnTollRoad,
+{
+    public enum TollGeolocationStatus
+    {
+        NearestTollPoint,
+        NotOnTollRoad,
+        OnTollRoad,
         NearTollRoadExit,
         NearTollRoadEntrance
-	}
+    }
 }
 

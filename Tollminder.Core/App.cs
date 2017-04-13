@@ -34,6 +34,7 @@ namespace Tollminder.Core
 #if DEBUG
             Mvx.LazyConstructAndRegisterSingleton<IGeoLocationWatcher, MockGeoLocation>();
             Mvx.LazyConstructAndRegisterSingleton<IMotionActivity, MockGeoLocation>();
+            Mvx.LazyConstructAndRegisterSingleton<IMockGeoLocation, MockGeoLocation>();
 #endif
         }
 
@@ -41,7 +42,6 @@ namespace Tollminder.Core
         {
             if (e.SetupState == MvxSetup.MvxSetupState.Initialized)
             {
-                // need to test it
                 await Mvx.Resolve<ITrackFacade>().CheckAreWeStillOnTheRoadAsync();
                 await Mvx.Resolve<ITrackFacade>().InitializeAsync();
                 _setup.StateChanged -= StateChanged;

@@ -8,6 +8,7 @@ namespace Tollminder.Core.Services.GeoData
 {
     public interface IGeoDataService : IGeoData
     {
+        List<TollPointWithDistance> FindNearestTollPoints(GeoLocation center);
         List<TollPointWithDistance> FindNearestEntranceTollPoints(GeoLocation center);
         List<TollPointWithDistance> FindNearestExitTollPoints(GeoLocation center);
 

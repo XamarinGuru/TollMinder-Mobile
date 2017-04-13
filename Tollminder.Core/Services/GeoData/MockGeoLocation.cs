@@ -11,7 +11,7 @@ using System;
 
 namespace Tollminder.Core.Services.GeoData
 {
-    public class MockGeoLocation : IGeoLocationWatcher, IMotionActivity
+    public class MockGeoLocation : IGeoLocationWatcher, IMotionActivity, IMockGeoLocation
     {
         readonly IStoredSettingsService _storedSettingsService;
         readonly IMvxMessenger _messenger;
@@ -19,6 +19,7 @@ namespace Tollminder.Core.Services.GeoData
         private IList<TollRoad> getRoads;
         private int roadId = 6;
         private bool isLocationStarted;
+        private WaypointAction waypointAction;
 
         public MockGeoLocation(IStoredSettingsService storedSettingsService, IMvxMessenger messenger, IDataBaseService dataBaseService)
         {
@@ -75,6 +76,13 @@ namespace Tollminder.Core.Services.GeoData
                 IsBound = true;
                 isLocationStarted = true;
                 var getTollRoad = (TollRoad)getRoads.ElementAt(roadId);
+                var tollPoint = getTollRoad.WayPoints.Find(wayPoint => wayPoint.TollPoints.Find(point => point.WaypointAction == waypointAction));
+                Location = new GeoLocation()
+                {
+                    Latitude = tollPoint.Latitude,
+                    Longitude = tollPoint.Longitude,
+                    Tol
+                };
                 foreach (var road in getTollRoad.WayPoints)
                 {
                     if (isLocationStarted)
@@ -83,16 +91,20 @@ namespace Tollminder.Core.Services.GeoData
                         {
                             if (isLocationStarted)
                             {
-                                Location = new GeoLocation()
+                                if (point.WaypointAction == waypointAction)
                                 {
-                                    Latitude = point.Latitude,
-                                    Longitude = point.Longitude,
-                                    TollPointId = point.Id
-                                };
-                                return;//await Task.Delay(10000);
+                                    Location = new GeoLocation()
+                                    {
+                                        Latitude = point.Latitude,
+                                        Longitude = point.Longitude,
+                                        TollPointId = point.Id
+                                    };
+                                    return;
+                                }
+                                //await Task.Delay(10000);
                             }
                         }
-                        return;
+                        //return;
                         //await Task.Delay(10000);
                     }
                 }
@@ -145,7 +157,6 @@ namespace Tollminder.Core.Services.GeoData
         {
             if (!IsBound)
             {
-                IsBound = true;
                 MotionType = MotionType.Automotive;
             }
         }
@@ -154,6 +165,12 @@ namespace Tollminder.Core.Services.GeoData
         {
             if (IsBound)
                 IsBound = false;
+        }
+
+        public void NextTollPoint(WaypointAction waypointAction)
+        {
+            this.waypointAction = waypointAction;
+            StartLocationUpdates();
         }
     }
 }

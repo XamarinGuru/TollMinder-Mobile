@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:id="@+id/button_pay_history"
-            app:MvxBind="Text LocationString"
+            app:MvxBind="Text GeoLocationConverter(LocationString)"
             app:iconBoard="@drawable/ic_location"
             app:labelBoard="Geolocation:"/>
         <tollminder.droid.controls.BoardInformationLabel

@@ -10,6 +10,7 @@ namespace Tollminder.Core.Services
         TollRoadWaypoint GetTollWayPoint(string id);
         TollPoint GetTollPoint(string id);
 
+        IList<TollPoint> GetAllTollPoints();
         IList<TollPoint> GetAllEntranceTollPoints();
         IList<TollPoint> GetAllExitTollPoints(string tollRoadId = "-1");
     }

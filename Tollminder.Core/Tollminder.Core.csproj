@@ -171,6 +171,10 @@
     <Compile Include="ViewModels\Payments\CreditCardsForPayViewModel.cs" />
     <Compile Include="Models\PaymentData\ServerResponse.cs" />
     <Compile Include="Services\GeoData\MockGeoLocation.cs" />
+    <Compile Include="Converters\GeoLocationConverter.cs" />
+    <Compile Include="Services\GeoData\IMockGeoLocation.cs" />
+    <Compile Include="Models\Statuses\NearestTollPointStatus.cs" />
+    <Compile Include="Models\GeoData\TollGeoStatusResult.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>

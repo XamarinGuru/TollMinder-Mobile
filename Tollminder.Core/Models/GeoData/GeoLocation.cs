@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 using MvvmCross.Platform;
 using Tollminder.Core.Helpers;
 using Chance.MvvmCross.Plugins.UserInteraction;
@@ -67,8 +66,8 @@ namespace Tollminder.Core.Models
             try
             {
                 var coords = location.Split(',');
-                Latitude = CutStringToThreeSymbols(double.Parse(coords[0]));
-                Longitude = CutStringToThreeSymbols(double.Parse(coords[1]));//double.Parse(coords[1], System.Globalization.CultureInfo.InvariantCulture);
+                Latitude = double.Parse(coords[0]);
+                Longitude = double.Parse(coords[1]);
             }
             catch (Exception ex)
             {
@@ -76,14 +75,6 @@ namespace Tollminder.Core.Models
                 Mvx.Resolve<IUserInteraction>().Alert("Wrong location data", null, "Error", "Ok");
                 Insights.Report(ex);
             }
-        }
-
-        private double CutStringToThreeSymbols(double location)
-        {
-            string pattern = @"\d+(?:\.\d{1,3})?";
-            var match = Regex.Match(location.ToString(), pattern);
-            var cuttedLocation = double.Parse(match.Value);
-            return location < 0 ? -cuttedLocation : cuttedLocation;
         }
 
         // does this equal another location?
@@ -96,8 +87,6 @@ namespace Tollminder.Core.Models
 
         public override string ToString()
         {
-            Latitude = CutStringToThreeSymbols(Latitude);
-            Longitude = CutStringToThreeSymbols(Longitude);
             if (SettingsService.wrongLongitude == Longitude && Longitude != 0)
             {
                 Insights.Report(new Exception("This shit again change minus on plus!!!"));

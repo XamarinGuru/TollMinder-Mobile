@@ -3,12 +3,13 @@ using Tollminder.Core.Helpers;
 using Tollminder.Core.Services.Settings;
 using MvvmCross.Platform;
 using Tollminder.Core.Services.Api;
+using Tollminder.Core.Models.GeoData;
 
 namespace Tollminder.Core.Models.Statuses
 {
     public class NearTollRoadExitStatus : BaseStatus
     {
-        public override async Task<TollGeolocationStatus> CheckStatus()
+        public override async Task<TollGeoStatusResult> CheckStatus(TollGeolocationStatus tollGeoStatus)
         {
             var location = GeoWatcher.Location;
             var waypoints = GeoDataService.FindNearestExitTollPoints(location);
@@ -16,7 +17,11 @@ namespace Tollminder.Core.Models.Statuses
             WaypointChecker.SetTollPointsInRadius(waypoints);
 
             if (waypoints.Count == 0)
-                return TollGeolocationStatus.OnTollRoad;
+                return new TollGeoStatusResult()
+                {
+                    TollGeolocationStatus = TollGeolocationStatus.OnTollRoad,
+                    IsNeedToDoubleCheck = false
+                };
 
             var insideTollPoint = WaypointChecker.DetectWeAreInsideSomeTollPoint(location);
 
@@ -32,8 +37,8 @@ namespace Tollminder.Core.Models.Statuses
 
                 if (await SpeechToTextService.AskQuestionAsync($"Are you exiting from {insideTollPoint.Name} tollroad?"))
                 {
-                    SaveTripProgress();
                     WaypointChecker.SetExit(insideTollPoint);
+                    SaveTripProgress();
                     WaypointChecker.SetTollPointsInRadius(null);
                     WaypointChecker.SetIgnoredChoiceTollPoint(null);
 
@@ -54,16 +59,28 @@ namespace Tollminder.Core.Models.Statuses
                         await NotifyService.NotifyAsync("Bill was not created. You didn't enter any exit");
                     }
 
-                    return TollGeolocationStatus.NotOnTollRoad;
+                    return new TollGeoStatusResult()
+                    {
+                        TollGeolocationStatus = TollGeolocationStatus.NotOnTollRoad,
+                        IsNeedToDoubleCheck = false
+                    };
                 }
                 else
                 {
-                    return TollGeolocationStatus.OnTollRoad;
+                    return new TollGeoStatusResult()
+                    {
+                        TollGeolocationStatus = TollGeolocationStatus.OnTollRoad,
+                        IsNeedToDoubleCheck = false
+                    };
                 }
             }
             else
             {
-                return TollGeolocationStatus.NearTollRoadExit;
+                return new TollGeoStatusResult()
+                {
+                    TollGeolocationStatus = TollGeolocationStatus.NearTollRoadExit,
+                    IsNeedToDoubleCheck = false
+                };
             }
         }
 

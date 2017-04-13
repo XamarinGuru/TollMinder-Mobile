@@ -36,6 +36,11 @@ namespace Tollminder.Core.Services.GeoData
             }
         }
 
+        public List<TollPointWithDistance> FindNearestTollPoints(GeoLocation center)
+        {
+            return _distanceChecker.GetMostClosestTollPoint(center, GetAllTollPoints(), SettingsService.WaypointLargeRadius);
+        }
+
         public List<TollPointWithDistance> FindNearestEntranceTollPoints(GeoLocation center)
         {
             return _distanceChecker.GetMostClosestTollPoint(center, _dataBaseStorage.GetAllEntranceTollPoints(), SettingsService.WaypointLargeRadius);
@@ -85,6 +90,11 @@ namespace Tollminder.Core.Services.GeoData
         public TollPoint GetTollPoint(string id)
         {
             return _dataBaseStorage.GetTollPoint(id);
+        }
+
+        public IList<TollPoint> GetAllTollPoints()
+        {
+            return _dataBaseStorage.GetAllTollPoints();
         }
 
         public IList<TollPoint> GetAllEntranceTollPoints()
