@@ -18,7 +18,8 @@ namespace Tollminder.Core.Services.GeoData
         readonly IDataBaseService dataBaseService;
         private IList<TollRoad> getRoads;
         private int roadId = 6;
-        private bool isLocationStarted;
+        private bool updateAgain = true;
+        private bool isStartLocation;
         private WaypointAction waypointAction;
 
         public MockGeoLocation(IStoredSettingsService storedSettingsService, IMvxMessenger messenger, IDataBaseService dataBaseService)
@@ -73,39 +74,42 @@ namespace Tollminder.Core.Services.GeoData
             getRoads = getRoads != null ? getRoads : await dataBaseService.GetTollRoadList();
             if (getRoads.Count != 0)
             {
-                IsBound = true;
-                isLocationStarted = true;
-                var getTollRoad = (TollRoad)getRoads.ElementAt(roadId);
-                var tollPoint = getTollRoad.WayPoints.Find(wayPoint => wayPoint.TollPoints.Find(point => point.WaypointAction == waypointAction));
-                Location = new GeoLocation()
+                if (isStartLocation)
                 {
-                    Latitude = tollPoint.Latitude,
-                    Longitude = tollPoint.Longitude,
-                    Tol
-                };
-                foreach (var road in getTollRoad.WayPoints)
-                {
-                    if (isLocationStarted)
+                    IsBound = true;
+                    var getTollRoad = (TollRoad)getRoads.ElementAt(roadId);
+                    //var tollPoint = getTollRoad.WayPoints..Find(point => point.WaypointAction == waypointAction));
+                    //Location = new GeoLocation()
+                    //{
+                    //    Latitude = tollPoint.Latitude,
+                    //    Longitude = tollPoint.Longitude,
+                    //    TollPointId = tollPoint.Id
+                    //};
+                    foreach (var road in getTollRoad.WayPoints)
                     {
-                        foreach (var point in road.TollPoints)
+                        if (isStartLocation)
                         {
-                            if (isLocationStarted)
+                            foreach (var point in road.TollPoints)
                             {
-                                if (point.WaypointAction == waypointAction)
+                                if (isStartLocation)
                                 {
-                                    Location = new GeoLocation()
+                                    if (point.WaypointAction == WaypointAction.Bridge)
                                     {
-                                        Latitude = point.Latitude,
-                                        Longitude = point.Longitude,
-                                        TollPointId = point.Id
-                                    };
-                                    return;
+                                        Location = new GeoLocation()
+                                        {
+                                            Latitude = point.Latitude,
+                                            Longitude = point.Longitude,
+                                            TollPointId = point.Id
+                                        };
+                                        //updateAgain = false;
+                                        return;
+                                    }
+                                    //await Task.Delay(10000);
                                 }
-                                //await Task.Delay(10000);
                             }
+                            //return;
+                            //await Task.Delay(10000);
                         }
-                        //return;
-                        //await Task.Delay(10000);
                     }
                 }
             }
@@ -113,13 +117,14 @@ namespace Tollminder.Core.Services.GeoData
 
         private void StopLocationUpdates()
         {
-            isLocationStarted = false;
+            isStartLocation = false;
         }
 
         public virtual void StartGeolocationWatcher()
         {
             if (!IsBound)
             {
+                isStartLocation = !updateAgain ? false : true;
                 StartLocationUpdates();
                 IsBound = true;
             }
@@ -129,6 +134,7 @@ namespace Tollminder.Core.Services.GeoData
         {
             if (IsBound)
             {
+                isStartLocation = false;
                 StopLocationUpdates();
                 IsBound = false;
             }
@@ -170,6 +176,7 @@ namespace Tollminder.Core.Services.GeoData
         public void NextTollPoint(WaypointAction waypointAction)
         {
             this.waypointAction = waypointAction;
+            isStartLocation = true;
             StartLocationUpdates();
         }
     }

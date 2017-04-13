@@ -26,7 +26,7 @@ namespace Tollminder.Core.Models.Statuses
                 return Task.FromResult(new TollGeoStatusResult()
                 {
                     TollGeolocationStatus = TollGeolocationStatus.OnTollRoad,
-                    IsNeedToDoubleCheck = false
+                    IsNeedToDoubleCheck = true
                 });
             }
             else
