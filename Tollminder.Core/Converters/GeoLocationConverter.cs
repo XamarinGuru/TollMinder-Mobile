@@ -1,22 +1,23 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using MvvmCross.Platform.Converters;
+using Tollminder.Core.Models;
 
 namespace Tollminder.Core.Converters
 {
-    public class GeoLocationConverter : MvxValueConverter<string, string>
+    public class GeoLocationConverter : MvxValueConverter<GeoLocation, string>
     {
-        private int startIndex = 0;
-        private int numbersAfterComma = 4;
-
-        protected override string Convert(string value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        protected override string Convert(GeoLocation value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            var location = value.Split(',');
-            return string.Format("{0}, {1}", CutStringToThreeSymbols(location[startIndex]), CutStringToThreeSymbols(location[1]));
+            return string.Format("{0}, {1}", CutStringToThreeSymbols(value.Latitude), CutStringToThreeSymbols(value.Longitude));
         }
 
-        private string CutStringToThreeSymbols(string location)
+        private double CutStringToThreeSymbols(double location)
         {
-            return location.Substring(startIndex, location.IndexOf('.') + numbersAfterComma);
+            string pattern = @"\d+(?:\.\d{1,3})?";
+            var match = Regex.Match(location.ToString(), pattern);
+            var cuttedLocation = double.Parse(match.Value);
+            return location < 0 ? -cuttedLocation : cuttedLocation;
         }
     }
 }

@@ -329,11 +329,10 @@ namespace Tollminder.Touch.Views
             set.Bind(logoutButton).To(vm => vm.LogoutCommand);
 
             // Information board
-            set.Bind(geoLabelData.ValueText).To(v => v.LocationString).WithConversion("GeoLocation");
+            set.Bind(geoLabelData.ValueText).To(v => v.Location).WithConversion("GeoLocation");
             set.Bind(statusLabel.ValueText).To(v => v.StatusString);
             set.Bind(tollRoadString.ValueText).To(v => v.TollRoadString);
-            set.Bind(nextWaypointString.ValueText).To(v => v.DistanceToNearestTollpoint);
-
+            set.Bind(nextWaypointString.ValueText).To(v => v.WaypointChecker.DistanceToNearestTollpoint);
 #if DEBUG       
             set.Bind(waypointActionsPickerViewModel).For(p => p.ItemsSource).To(vm => vm.WaypointActions);
             set.Bind(waypointActionsPickerViewModel).For(p => p.SelectedItem).To(vm => vm.SelectedWaypointAction);
@@ -341,7 +340,6 @@ namespace Tollminder.Touch.Views
             set.Bind(nextLocatioButton).To(vm => vm.NextGeoLocationCommand);
             set.Bind(nextLocatioButton).For(b => b.Enabled).To(vm => vm.IsBusy).WithConversion(new BoolInverseConverter());
 #endif
-
             set.Apply();
         }
     }

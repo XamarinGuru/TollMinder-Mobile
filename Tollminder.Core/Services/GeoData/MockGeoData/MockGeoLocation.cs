@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using MvvmCross.Binding.ExtensionMethods;
 using Tollminder.Core.Services.RoadsProcessing;
-using System;
+using System.IO;
+using System.Reflection;
+using Newtonsoft.Json;
 
 namespace Tollminder.Core.Services.GeoData
 {
@@ -21,12 +23,14 @@ namespace Tollminder.Core.Services.GeoData
         private bool updateAgain = true;
         private bool isStartLocation;
         private WaypointAction waypointAction;
+        private bool getDataFromDataBase;
 
         public MockGeoLocation(IStoredSettingsService storedSettingsService, IMvxMessenger messenger, IDataBaseService dataBaseService)
         {
             this._storedSettingsService = storedSettingsService;
             this._messenger = messenger;
             this.dataBaseService = dataBaseService;
+            //getDataFromDataBase = true;
         }
 
         public bool IsBound
@@ -71,44 +75,70 @@ namespace Tollminder.Core.Services.GeoData
 
         private async void StartLocationUpdates()
         {
-            getRoads = getRoads != null ? getRoads : await dataBaseService.GetTollRoadList();
+            //IsBound = true;
+            //Location = new GeoLocation()
+            //{
+            //    Latitude = 50.0475,
+            //    Longitude = 36.396667,
+            //    TollPointId = "dfghjkl"
+            //};
+            if (getDataFromDataBase)
+                ProcessDataFromDataBase();
+            else
+                ProcessLocalData();
+        }
+
+        private async void ProcessDataFromDataBase()
+        {
+            getRoads = getRoads ?? await dataBaseService.GetTollRoadList();
             if (getRoads.Count != 0)
             {
                 if (isStartLocation)
                 {
-                    IsBound = true;
                     var getTollRoad = (TollRoad)getRoads.ElementAt(roadId);
-                    //var tollPoint = getTollRoad.WayPoints..Find(point => point.WaypointAction == waypointAction));
-                    //Location = new GeoLocation()
-                    //{
-                    //    Latitude = tollPoint.Latitude,
-                    //    Longitude = tollPoint.Longitude,
-                    //    TollPointId = tollPoint.Id
-                    //};
-                    foreach (var road in getTollRoad.WayPoints)
+                    ProcessMockLocation(getTollRoad);
+                }
+            }
+        }
+
+        private void ProcessLocalData()
+        {
+            if (isStartLocation)
+            {
+                var getTollRoad = MockTollRoad("Tollminder.Core.Services.GeoData.MockGeoData.mockTheRoad.json");
+                ProcessMockLocation(getTollRoad);
+            }
+        }
+
+        private async void ProcessMockLocation(TollRoad getTollRoad)
+        {
+            await Task.Delay(20000);
+            IsBound = true;
+
+            foreach (var road in getTollRoad.WayPoints)
+            {
+                if (isStartLocation)
+                {
+                    foreach (var point in road.TollPoints)
                     {
                         if (isStartLocation)
                         {
-                            foreach (var point in road.TollPoints)
+                            //if (point.WaypointAction == SettingsService.waypointAction)
+                            //{
+                            Location = new GeoLocation()
                             {
-                                if (isStartLocation)
-                                {
-                                    if (point.WaypointAction == WaypointAction.Bridge)
-                                    {
-                                        Location = new GeoLocation()
-                                        {
-                                            Latitude = point.Latitude,
-                                            Longitude = point.Longitude,
-                                            TollPointId = point.Id
-                                        };
-                                        //updateAgain = false;
-                                        return;
-                                    }
-                                    //await Task.Delay(10000);
-                                }
-                            }
+                                Latitude = point.Latitude,
+                                Longitude = point.Longitude,
+                                TollPointId = point.Id
+                            };
+                            //updateAgain = false;
                             //return;
-                            //await Task.Delay(10000);
+                            //}
+#if DEBUG
+                            await Task.Delay(point.Interval);
+#elif REALEASE
+                            await Task.Delay(20000);
+#endif
                         }
                     }
                 }
@@ -124,7 +154,7 @@ namespace Tollminder.Core.Services.GeoData
         {
             if (!IsBound)
             {
-                isStartLocation = !updateAgain ? false : true;
+                isStartLocation = true;
                 StartLocationUpdates();
                 IsBound = true;
             }
@@ -173,11 +203,33 @@ namespace Tollminder.Core.Services.GeoData
                 IsBound = false;
         }
 
-        public void NextTollPoint(WaypointAction waypointAction)
+        public void NextTollPoint()
         {
-            this.waypointAction = waypointAction;
+            //this.waypointAction = SettingsService.waypointAction;
             isStartLocation = true;
             StartLocationUpdates();
+        }
+
+        public void PlayPauseIteration()
+        {
+            isStartLocation = !isStartLocation ? true : false;
+        }
+
+        public TollRoad MockTollRoad(string fileName)
+        {
+            List<TollPoint> tollPoints;
+            var assembly = typeof(StatesData).GetTypeInfo().Assembly;
+            Stream stream = assembly.GetManifestResourceStream(fileName);
+            using (var reader = new System.IO.StreamReader(stream))
+            {
+                string json = reader.ReadToEnd();
+                tollPoints = JsonConvert.DeserializeObject<List<TollPoint>>(json);
+            }
+            var tollRoad = new TollRoad("Minskiy Area - Glorium", tollPoints)
+            {
+                Id = "584a4b53f44d57dc336998ca"
+            };
+            return tollRoad;
         }
     }
 }

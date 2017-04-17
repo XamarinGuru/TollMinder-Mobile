@@ -14,15 +14,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button_profile"
-            app:MvxBind="Text DistanceToNearestTollpoint"
+            app:MvxBind="Text WaypointChecker.DistanceToNearestTollpoint"
             app:iconBoard="@drawable/ic_nearest_point"
-            app:labelBoard="Distance to nearest point:" />
+            app:labelBoard="Distance to nearest point(ml):" />
         <tollminder.droid.controls.BoardInformationLabel
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:id="@+id/button_pay_history"
-            app:MvxBind="Text GeoLocationConverter(LocationString)"
+            app:MvxBind="Text GeoLocationConverter(Location)"
             app:iconBoard="@drawable/ic_location"
             app:labelBoard="Geolocation:"/>
         <tollminder.droid.controls.BoardInformationLabel

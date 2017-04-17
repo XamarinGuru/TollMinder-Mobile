@@ -23,7 +23,10 @@ namespace Tollminder.Core.Models
         public double Longitude { get; set; }
         [JsonProperty("radius")]
         public double Radius { get; set; }
-
+#if DEBUG
+        [JsonProperty("interval")]
+        public int Interval { get; set; }
+#endif
         //[OneToOne(CascadeOperations = CascadeOperation.All)]
         [Ignore]
         public GeoLocation Location { get; set; }
@@ -35,19 +38,19 @@ namespace Tollminder.Core.Models
             Location = new GeoLocation();
         }
 
-        public TollPoint(string name, string location, string type)
-        {
-            Name = name;
-            Location = new GeoLocation(location);
-            WaypointAction enumType;
-            if (Enum.TryParse(type, out enumType))
-                WaypointAction = enumType;
-            else
-            {
-                Log.LogMessage($"Wrong action type : {type}");
-                throw new Exception("Wrong action type");
-            }
-        }
+        //public TollPoint(string name, string location, string type)
+        //{
+        //    Name = name;
+        //    Location = new GeoLocation(location);
+        //    WaypointAction enumType;
+        //    if (Enum.TryParse(type, out enumType))
+        //        WaypointAction = enumType;
+        //    else
+        //    {
+        //        Log.LogMessage($"Wrong action type : {type}");
+        //        throw new Exception("Wrong action type");
+        //    }
+        //}
 
         public bool Equals(TollRoadWaypoint other)
         {

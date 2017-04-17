@@ -170,11 +170,12 @@
     <Compile Include="Services\Settings\IQueueItem.cs" />
     <Compile Include="ViewModels\Payments\CreditCardsForPayViewModel.cs" />
     <Compile Include="Models\PaymentData\ServerResponse.cs" />
-    <Compile Include="Services\GeoData\MockGeoLocation.cs" />
     <Compile Include="Converters\GeoLocationConverter.cs" />
-    <Compile Include="Services\GeoData\IMockGeoLocation.cs" />
-    <Compile Include="Models\Statuses\NearestTollPointStatus.cs" />
+    <Compile Include="Models\Statuses\NearestTollPointSearchingStatus.cs" />
     <Compile Include="Models\GeoData\TollGeoStatusResult.cs" />
+    <Compile Include="Services\GeoData\MockGeoData\IMockGeoLocation.cs" />
+    <Compile Include="Services\GeoData\MockGeoData\MockGeoLocation.cs" />
+    <Compile Include="Services\GeoData\MockGeoData\MockTollRoad.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
@@ -212,6 +213,7 @@
     <Folder Include="Services\SocialNetworks\" />
     <Folder Include="Services\ProfileData\" />
     <Folder Include="Services\Notifications\" />
+    <Folder Include="Services\GeoData\MockGeoData\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="ModernHttpClient">
@@ -310,6 +312,8 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="states.json" />
+    <EmbeddedResource Include="Services\GeoData\MockGeoData\mockRoad.json" />
+    <EmbeddedResource Include="Services\GeoData\MockGeoData\mockTheRoad.json" />
   </ItemGroup>
   <Import Project="..\packages\Xamarin.Forms.2.3.3.175\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.3.3.175\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\portable-win+net45+wp80+windows8+wpa+MonoAndroid10+MonoTouch10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\portable-win+net45+wp80+windows8+wpa+MonoAndroid10+MonoTouch10\Xamarin.Insights.targets')" />

@@ -1,0 +1,299 @@
+﻿[
+
+  {
+    "_id": "584a4c0ef44d57dc336998cb",
+    "_tollRoad": "584a4b53f44d57dc336998ca",
+    "name": "Rokosovskogo avenu",
+    "latitude": 50.526563,
+    "longitude": 30.454316,
+    "interval": 20000,
+    "__v": 0,
+    "updatedAt": "2016-12-09T06:16:42.900Z",
+    "createdAt": "2016-12-09T06:16:21.626Z"
+  },
+  {
+    "_id": "584a4c0ef44d57dc336998cb",
+    "_tollRoad": "584a4b53f44d57dc336998ca",
+    "name": "Rokosovskogo avenu",
+    "latitude": 50.526221,
+    "longitude": 30.456377,
+    "interval": 20000,
+        "__v": 0,
+    "updatedAt": "2016-12-09T06:16:42.900Z",
+    "createdAt": "2016-12-09T06:16:21.626Z"
+  },
+  {
+    "_id": "584a4c0ef44d57dc336998cb",
+    "_tollRoad": "584a4b53f44d57dc336998ca",
+    "name": "Rokosovskogo avenu",
+    "latitude": 50.52510415169609,
+    "longitude": 30.46057976782322,
+    "interval": 30000,
+    "__v": 2,
+    "updatedAt": "2016-12-09T06:17:26.192Z",
+    "createdAt": "2016-12-09T06:15:42.296Z",
+    },
+
+ {
+    "_id": "584a4c0ef44d57dc336998cb",
+    "_tollRoad": "584a4b53f44d57dc336998ca",
+    "name": "Rokosovskogo avenu",
+    "latitude": 50.523642,
+    "longitude": 30.459751,
+    "interval": 20000,
+    "__v": 0,
+    "updatedAt": "2016-12-09T06:16:42.900Z",
+    "createdAt": "2016-12-09T06:16:21.626Z"
+  },
+  {
+    "_id": "584a4c0ef44d57dc336998cb",
+    "_tollRoad": "584a4b53f44d57dc336998ca",
+    "name": "Rokosovskogo avenu",
+    "latitude": 50.521766,
+    "longitude": 30.458678,
+    "interval": 20000,
+        "__v": 0,
+    "updatedAt": "2016-12-09T06:16:42.900Z",
+    "createdAt": "2016-12-09T06:16:21.626Z"
+  },
+ {
+    "_id": "584a4c0ef44d57dc336998cb",
+    "_tollRoad": "584a4b53f44d57dc336998ca",
+    "name": "Rokosovskogo avenu",
+    "latitude": 50.520504,
+    "longitude": 30.457981,
+    "interval": 20000,
+        "__v": 0,
+    "updatedAt": "2016-12-09T06:16:42.900Z",
+    "createdAt": "2016-12-09T06:16:21.626Z"
+  },
+  {
+    "_id": "584a4c76f44d57dc336998cd",
+    "_wayPoint": "584a4c0ef44d57dc336998cb",
+    "name": "Rokosovskogo exit",
+    "latitude": 50.51959138400796,
+    "longitude": 30.45744962990284,
+    "action": "exit",
+    "interval": 30000,
+        "__v": 0,
+    "createdAt": "2016-12-09T06:17:26.176Z"
+  },
+
+   {
+    "_id": "584a4ccef44d57dc336998ce",
+    "_tollRoad": "584a4b53f44d57dc336998ca",
+    "name": "Avtozavodskaya St",
+    "latitude": 50.519717,
+    "longitude": 30.456123,
+        "interval": 20000,
+   },
+  {
+    "_id": "584a4ccef44d57dc336998ce",
+    "_tollRoad": "584a4b53f44d57dc336998ca",
+    "name": "Avtozavodskaya St",
+    "latitude": 50.520092,
+    "longitude": 30.454594,
+        "interval": 20000,
+   },
+  {
+    "_id": "584a4ccef44d57dc336998ce",
+    "_tollRoad": "584a4b53f44d57dc336998ca",
+    "name": "Avtozavodskaya St",
+    "latitude": 50.51982246338051,
+    "longitude": 30.453430339694023,
+    "__v": 5,
+        "interval": 30000,
+    "updatedAt": "2017-04-13T04:12:12.748Z",
+    "createdAt": "2016-12-09T06:18:54.535Z",
+    "_tollPoints": [
+      {
+        "_id": "584a4d45f44d57dc336998d0",
+        "_wayPoint": "584a4ccef44d57dc336998ce",
+        "name": "Lugova bridge",
+        "latitude": 50.50496728053249,
+        "longitude": 30.45881688594818,
+        "action": "bridge",
+        "__v": 0,
+        "createdAt": "2016-12-09T06:20:53.546Z"
+      }
+    ]
+  },
+ {
+    "_id": "584a4da3f44d57dc336998d2",
+    "_tollRoad": "584a4b53f44d57dc336998ca",
+    "name": "Semena Sklyarenka St",
+    "latitude": 50.516178,
+    "longitude": 30.454791
+ },
+ {
+    "_id": "584a4da3f44d57dc336998d2",
+    "_tollRoad": "584a4b53f44d57dc336998ca",
+    "name": "Semena Sklyarenka St",
+    "latitude": 50.511360, 
+    "longitude": 30.456492
+  },
+ {
+    "_id": "584a4da3f44d57dc336998d2",
+    "_tollRoad": "584a4b53f44d57dc336998ca",
+    "name": "Semena Sklyarenka St",
+    "latitude": 50.500600, 
+    "longitude": 30.460485
+  },
+  {
+    "_id": "584a4da3f44d57dc336998d2",
+    "_tollRoad": "584a4b53f44d57dc336998ca",
+    "name": "Semena Sklyarenka St",
+    "latitude": 50.49886766370811,
+    "longitude": 30.46205699443817,
+    "__v": 8,
+    "updatedAt": "2017-04-13T04:12:53.165Z",
+    "createdAt": "2016-12-09T06:22:27.230Z",
+    "_tollPoints": [
+      {
+        "_id": "584a4ddcf44d57dc336998d3",
+        "_wayPoint": "584a4da3f44d57dc336998d2",
+        "name": "Sklyarenka enter",
+        "latitude": 50.498718078030414,
+        "longitude": 30.46220451593399,
+        "action": "entrance",
+        "__v": 0,
+        "createdAt": "2016-12-09T06:23:24.405Z"
+      },
+      {
+        "_id": "584a4e54f44d57dc336998d4",
+        "_wayPoint": "584a4da3f44d57dc336998d2",
+        "name": "Sklyarenka bridge",
+        "latitude": 50.49278148581308,
+        "longitude": 30.46837091445923,
+        "action": "bridge",
+        "__v": 0,
+        "createdAt": "2016-12-09T06:25:24.480Z"
+      },
+      {
+        "_id": "584a4edef44d57dc336998d7",
+        "_wayPoint": "584a4da3f44d57dc336998d2",
+        "name": "Sklyarenka bridge 2",
+        "latitude": 50.48857351826029,
+        "longitude": 30.4742731153965,
+        "action": "bridge",
+        "__v": 0,
+        "createdAt": "2016-12-09T06:27:42.910Z"
+      },
+      {
+        "_id": "584a5005f44d57dc336998d8",
+        "_wayPoint": "584a4da3f44d57dc336998d2",
+        "name": "Sklyarenka exit 3",
+        "latitude": 50.48806204677841,
+        "longitude": 30.4779651761055,
+        "action": "exit",
+        "__v": 0,
+        "createdAt": "2016-12-09T06:32:37.808Z"
+      }
+    ]
+  },
+  {
+    "_id": "584a503ef44d57dc336998d9",
+    "_tollRoad": "584a4b53f44d57dc336998ca",
+    "name": "Novokostiantynivska St",
+    "latitude": 50.48778117309206,
+    "longitude": 30.479923859238625,
+    "__v": 4,
+    "updatedAt": "2016-12-09T07:49:59.234Z",
+    "createdAt": "2016-12-09T06:33:34.956Z",
+    "_tollPoints": [
+      {
+        "_id": "584a5086f44d57dc336998db",
+        "_wayPoint": "584a503ef44d57dc336998d9",
+        "name": "Kostian enter",
+        "latitude": 50.487276462353705,
+        "longitude": 30.481440648436546,
+        "action": "entrance",
+        "__v": 0,
+        "createdAt": "2016-12-09T06:34:46.286Z"
+      },
+      {
+        "_id": "584a514ef44d57dc336998dc",
+        "_wayPoint": "584a503ef44d57dc336998d9",
+        "name": "Kostian bridge",
+        "latitude": 50.47717471451429,
+        "longitude": 30.49517221748829,
+        "action": "bridge",
+        "__v": 0,
+        "createdAt": "2016-12-09T06:38:06.617Z"
+      },
+      {
+        "_id": "584a52d8f44d57dc336998dd",
+        "_wayPoint": "584a503ef44d57dc336998d9",
+        "name": "Verhniy Val exit",
+        "latitude": 50.46650569304899,
+        "longitude": 30.5124644190073,
+        "action": "exit",
+        "__v": 0,
+        "updatedAt": "2016-12-09T07:49:59.232Z",
+        "createdAt": "2016-12-09T06:44:40.736Z"
+      },
+      {
+        "_id": "584a5390f44d57dc336998de",
+        "_wayPoint": "584a503ef44d57dc336998d9",
+        "name": "Kostian exit 2",
+        "latitude": 50.46311837241054,
+        "longitude": 30.517122745513916,
+        "action": "exit",
+        "__v": 0,
+        "createdAt": "2016-12-09T06:47:44.476Z"
+      }
+    ]
+  },
+  {
+    "_id": "584a542df44d57dc336998df",
+    "_tollRoad": "584a4b53f44d57dc336998ca",
+    "name": "Khreschatyk St",
+    "latitude": 50.45038571587916,
+    "longitude": 30.524370074272156,
+    "__v": 4,
+    "updatedAt": "2016-12-09T07:56:17.400Z",
+    "createdAt": "2016-12-09T06:50:21.883Z",
+    "_tollPoints": [
+      {
+        "_id": "584a5458f44d57dc336998e0",
+        "_wayPoint": "584a542df44d57dc336998df",
+        "name": "Khreschatik enter",
+        "latitude": 50.45010675319823,
+        "longitude": 30.52398383617401,
+        "action": "entrance",
+        "__v": 0,
+        "createdAt": "2016-12-09T06:51:04.243Z"
+      },
+      {
+        "_id": "584a547af44d57dc336998e1",
+        "_wayPoint": "584a542df44d57dc336998df",
+        "name": "Khreschatik exit",
+        "latitude": 50.44253751263582,
+        "longitude": 30.520193874835968,
+        "action": "exit",
+        "__v": 0,
+        "createdAt": "2016-12-09T06:51:38.173Z"
+      },
+      {
+        "_id": "584a6373f44d57dc336998e2",
+        "_wayPoint": "584a542df44d57dc336998df",
+        "name": "Volodfimir enter",
+        "latitude": 50.4583052262009,
+        "longitude": 30.525852665305138,
+        "action": "entrance",
+        "__v": 0,
+        "createdAt": "2016-12-09T07:55:31.418Z"
+      },
+      {
+        "_id": "584a63a1f44d57dc336998e3",
+        "_wayPoint": "584a542df44d57dc336998df",
+        "name": "volodimir bridge",
+        "latitude": 50.45529685803019,
+        "longitude": 30.52759274840355,
+        "action": "bridge",
+        "__v": 0,
+        "createdAt": "2016-12-09T07:56:17.397Z"
+      }
+    ]
+  }
+]

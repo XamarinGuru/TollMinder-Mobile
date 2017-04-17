@@ -9,21 +9,12 @@ namespace Tollminder.Core.Models.Statuses
 {
     public class NearTollRoadExitStatus : BaseStatus
     {
-        public override async Task<TollGeoStatusResult> CheckStatus(TollGeolocationStatus tollGeoStatus)
+        public override async Task<TollGeoStatusResult> CheckStatus(TollGeoStatusResult tollGeoStatus)
         {
-            var location = GeoWatcher.Location;
-            var waypoints = GeoDataService.FindNearestExitTollPoints(location);
+            if (tollGeoStatus?.TollPointWithDistance == null)
+                return new TollGeoStatusResult() { TollGeolocationStatus = TollGeolocationStatus.OnTollRoad };
 
-            WaypointChecker.SetTollPointsInRadius(waypoints);
-
-            if (waypoints.Count == 0)
-                return new TollGeoStatusResult()
-                {
-                    TollGeolocationStatus = TollGeolocationStatus.OnTollRoad,
-                    IsNeedToDoubleCheck = false
-                };
-
-            var insideTollPoint = WaypointChecker.DetectWeAreInsideSomeTollPoint(location);
+            var insideTollPoint = WaypointChecker.DetectWeAreInsideSomeTollPoint(tollGeoStatus.Location);
 
             if (insideTollPoint != null)
             {
@@ -32,8 +23,10 @@ namespace Tollminder.Core.Models.Statuses
 
                 WaypointChecker.SetIgnoredChoiceTollPoint(insideTollPoint);
 
+#if REALEASE
                 if (WaypointChecker.TollPointsInRadius.Count == 1)
                     GeoWatcher.StopUpdatingHighAccuracyLocation();
+#endif
 
                 if (await SpeechToTextService.AskQuestionAsync($"Are you exiting from {insideTollPoint.Name} tollroad?"))
                 {
@@ -52,6 +45,8 @@ namespace Tollminder.Core.Models.Statuses
                             await NotifyService.NotifyAsync($"Trip duration is {duration.Hours} hours {duration.Minutes} minutes {duration.Seconds} seconds");
                         else
                             await NotifyService.NotifyAsync($"Trip duration is {duration.Minutes} minutes {duration.Seconds} seconds");
+
+                        Mvx.Resolve<IStoredSettingsService>().CurrentRoadStatus = TollGeolocationStatus.NotOnTollRoad;
                         WaypointChecker.ClearData();
                     }
                     else
@@ -59,28 +54,16 @@ namespace Tollminder.Core.Models.Statuses
                         await NotifyService.NotifyAsync("Bill was not created. You didn't enter any exit");
                     }
 
-                    return new TollGeoStatusResult()
-                    {
-                        TollGeolocationStatus = TollGeolocationStatus.NotOnTollRoad,
-                        IsNeedToDoubleCheck = false
-                    };
+                    return new TollGeoStatusResult() { TollGeolocationStatus = TollGeolocationStatus.NotOnTollRoad };
                 }
                 else
                 {
-                    return new TollGeoStatusResult()
-                    {
-                        TollGeolocationStatus = TollGeolocationStatus.OnTollRoad,
-                        IsNeedToDoubleCheck = false
-                    };
+                    return new TollGeoStatusResult() { TollGeolocationStatus = TollGeolocationStatus.OnTollRoad };
                 }
             }
             else
             {
-                return new TollGeoStatusResult()
-                {
-                    TollGeolocationStatus = TollGeolocationStatus.NearTollRoadExit,
-                    IsNeedToDoubleCheck = false
-                };
+                return new TollGeoStatusResult() { TollGeolocationStatus = TollGeolocationStatus.NearTollRoadExit };
             }
         }
 

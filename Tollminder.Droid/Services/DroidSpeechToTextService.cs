@@ -207,7 +207,7 @@ namespace Tollminder.Droid.Services
             }
         }
 
-        public void OnResults(Bundle results)
+        public async void OnResults(Bundle results)
         {
             Console.WriteLine("OnResults");
             if (!_dialogWasManuallyAnswered)
@@ -219,7 +219,7 @@ namespace Tollminder.Droid.Services
                 if (answer != AnswerType.Unknown)
                 {
                     _voiceRecognitionTCS.TrySetResult(answer == AnswerType.Positive);
-                    textToSpeechService.SpeakAsync($"Your answer is {answer.ToString()}", false).Wait();
+                    await textToSpeechService.SpeakAsync($"Your answer is {answer.ToString()}", false);
                     if (_isMusicRunning)
                         platformService.PlayMusic();
                 }

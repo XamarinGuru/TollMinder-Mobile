@@ -8,33 +8,25 @@ namespace Tollminder.Core.Models.Statuses
 {
     public class NotOnTollRoadStatus : BaseStatus
     {
-        public override Task<TollGeoStatusResult> CheckStatus(TollGeolocationStatus tollGeoStatus)
+        public override Task<TollGeoStatusResult> CheckStatus(TollGeoStatusResult tollGeoStatus)
         {
             Log.LogMessage(string.Format($"TRY TO FIND TOLLPOINT ENTRANCES FROM {SettingsService.WaypointLargeRadius * 1000} m"));
 
-            var location = GeoWatcher.Location;
-            var waypoints = GeoDataService.FindNearestEntranceTollPoints(location);
-
-            WaypointChecker.SetTollPointsInRadius(waypoints);
-            WaypointChecker.SetIgnoredChoiceTollPoint(null);
-
-            if (waypoints.Count == 0)
+            if (tollGeoStatus?.TollPointWithDistance == null)
             {
+#if REALEASE
                 GeoWatcher.StopUpdatingHighAccuracyLocation();
+#endif
                 Log.LogMessage($"No waypoint founded for location {GeoWatcher.Location}");
-                return Task.FromResult(new TollGeoStatusResult()
-                {
-                    TollGeolocationStatus = TollGeolocationStatus.NotOnTollRoad,
-                    IsNeedToDoubleCheck = false
-                });
+                return Task.FromResult(new TollGeoStatusResult() { TollGeolocationStatus = TollGeolocationStatus.NotOnTollRoad });
             }
             else
             {
                 foreach (var item in WaypointChecker.TollPointsInRadius)
                     Log.LogMessage($"FOUNDED WAYPOINT : {item.Name}, DISTANCE {item.Distance}");
-
+#if REALEASE
                 GeoWatcher.StartUpdatingHighAccuracyLocation();
-
+#endif
                 return Task.FromResult(new TollGeoStatusResult()
                 {
                     TollGeolocationStatus = TollGeolocationStatus.NearTollRoadEntrance,
@@ -50,4 +42,3 @@ namespace Tollminder.Core.Models.Statuses
         }
     }
 }
-

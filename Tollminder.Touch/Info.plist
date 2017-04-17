@@ -39,7 +39,7 @@
 	<key>XSAppIconAssets</key>
 	<string>Resources/Images.xcassets/AppIcons.appiconset</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.22</string>
+	<string>2.23</string>
 	<key>NSLocationUsageDescription</key>
 	<string>We need to get your location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
@@ -91,6 +91,6 @@
 	<key>XSLaunchImageAssets</key>
 	<string>Resources/Images.xcassets/LaunchImage.launchimage</string>
 	<key>CFBundleVersion</key>
-	<string>22</string>
+	<string>23</string>
 </dict>
 </plist>

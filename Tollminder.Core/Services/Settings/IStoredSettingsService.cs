@@ -12,6 +12,7 @@ namespace Tollminder.Core.Services.Settings
         TollRoad TollRoad { get; set; }
         TollPoint TollPoint { get; set; }
         TollGeolocationStatus Status { get; set; }
+        TollGeolocationStatus CurrentRoadStatus { get; set; }
         List<TollPointWithDistance> TollPointsInRadius { get; set; }
         TollRoadWaypoint TollRoadEntranceWaypoint { get; set; }
         DateTime TollRoadEntranceWaypointDateTime { get; set; }

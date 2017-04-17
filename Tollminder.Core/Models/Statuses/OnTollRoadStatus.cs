@@ -8,20 +8,17 @@ namespace Tollminder.Core.Models.Statuses
 {
     public class OnTollRoadStatus : BaseStatus
     {
-        public override Task<TollGeoStatusResult> CheckStatus(TollGeolocationStatus tollGeoStatus)
+        public override Task<TollGeoStatusResult> CheckStatus(TollGeoStatusResult tollGeoStatus)
         {
             Log.LogMessage(string.Format($"TRY TO FIND TOLLPOINT EXITS FROM {SettingsService.WaypointLargeRadius * 1000} m"));
 
-            var location = GeoWatcher.Location;
-            var nearestWaypoints = GeoDataService.FindNearestExitTollPoints(location);
-
-            WaypointChecker.SetTollPointsInRadius(nearestWaypoints);
-
             WaypointChecker.SetIgnoredChoiceTollPoint(null);
 
-            if (nearestWaypoints.Count == 0)
+            if (tollGeoStatus?.TollPointWithDistance == null)
             {
+#if REALEASE
                 GeoWatcher.StopUpdatingHighAccuracyLocation();
+#endif
                 Log.LogMessage($"No waypoint founded for location {GeoWatcher.Location}");
                 return Task.FromResult(new TollGeoStatusResult()
                 {
@@ -29,10 +26,7 @@ namespace Tollminder.Core.Models.Statuses
                     IsNeedToDoubleCheck = true
                 });
             }
-            else
-            {
-                return CheckNearestPoint(tollGeoStatus, nearestWaypoints);
-            }
+            return null;
         }
 
         public override bool CheckBatteryDrain()

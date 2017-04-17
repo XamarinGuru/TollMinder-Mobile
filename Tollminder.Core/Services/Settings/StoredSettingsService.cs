@@ -33,6 +33,12 @@ namespace Tollminder.Core.Services.Settings
             set { _storedSettingsBase.Set<TollGeolocationStatus>(value); }
         }
 
+        public TollGeolocationStatus CurrentRoadStatus
+        {
+            get { return _storedSettingsBase.Get<TollGeolocationStatus>(); }
+            set { _storedSettingsBase.Set<TollGeolocationStatus>(value); }
+        }
+
         public List<TollPointWithDistance> TollPointsInRadius
         {
             get { return _storedSettingsBase.Get<List<TollPointWithDistance>>(); }

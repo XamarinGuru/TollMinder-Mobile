@@ -163,13 +163,13 @@ namespace Tollminder.Touch
             // Called when the application is about to terminate. Save data, if needed. See also DidEnterBackground.
         }
 
-        void CheckBatteryDrainTimeout()
+        async void CheckBatteryDrainTimeout()
         {
             Mvx.Trace("CheckBatteryDrainTimeout from background");
             Mvx.Resolve<ITrackFacade>().StopServices();
             Mvx.Resolve<ITrackFacade>().StartServicesAsync();
             Mvx.Resolve<INotificationSender>().SendLocalNotification("Background mode", $"App is still working");
-            Task.Delay(600000).Wait();
+            await Task.Delay(600000);
             nint taskID = UIApplication.SharedApplication.BeginBackgroundTask(() => { });
             new Task(() =>
             {

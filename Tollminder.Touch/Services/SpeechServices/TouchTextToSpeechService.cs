@@ -1,6 +1,8 @@
 ﻿using AVFoundation;
 using System.Threading.Tasks;
 using Tollminder.Core.Services.SpeechRecognition;
+using System;
+using System.Diagnostics;
 
 namespace Tollminder.Touch.Services
 {
@@ -47,8 +49,19 @@ namespace Tollminder.Touch.Services
 
         private void DidFinishSpeechUtterance(object sender, AVSpeechSynthesizerUteranceEventArgs e)
         {
-            _speakTask.SetResult(true);
-            _speechSynthesizer.DidFinishSpeechUtterance -= DidFinishSpeechUtterance;
+            try
+            {
+                _speakTask.SetResult(true);
+                _speechSynthesizer.DidFinishSpeechUtterance -= DidFinishSpeechUtterance;
+            }
+            catch (InvalidOperationException ex)
+            {
+                Debug.WriteLine(ex.Message, ex.StackTrace);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message, ex.StackTrace);
+            }
         }
 
         #endregion

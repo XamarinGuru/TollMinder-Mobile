@@ -9,26 +9,12 @@ namespace Tollminder.Core.Models.Statuses
 {
     public class NearTollRoadEntranceStatus : BaseStatus
     {
-        public override bool CheckBatteryDrain()
+        public async override Task<TollGeoStatusResult> CheckStatus(TollGeoStatusResult tollGeoStatus)
         {
-            return false;
-        }
+            if (tollGeoStatus?.TollPointWithDistance == null)
+                return new TollGeoStatusResult() { TollGeolocationStatus = TollGeolocationStatus.NotOnTollRoad };
 
-        public async override Task<TollGeoStatusResult> CheckStatus(TollGeolocationStatus tollGeoStatus)
-        {
-            var location = GeoWatcher.Location;
-            var waypoints = GeoDataService.FindNearestEntranceTollPoints(location);
-
-            WaypointChecker.SetTollPointsInRadius(waypoints);
-
-            if (waypoints.Count == 0)
-                return new TollGeoStatusResult()
-                {
-                    TollGeolocationStatus = TollGeolocationStatus.NotOnTollRoad,
-                    IsNeedToDoubleCheck = false
-                };
-
-            var insideTollPoint = WaypointChecker.DetectWeAreInsideSomeTollPoint(location);
+            var insideTollPoint = WaypointChecker.DetectWeAreInsideSomeTollPoint(tollGeoStatus.Location);
 
             if (insideTollPoint != null)
             {
@@ -37,8 +23,10 @@ namespace Tollminder.Core.Models.Statuses
 
                 WaypointChecker.SetIgnoredChoiceTollPoint(insideTollPoint);
 
+#if REALEASE
                 if (WaypointChecker.TollPointsInRadius.Count == 1)
                     GeoWatcher.StopUpdatingHighAccuracyLocation();
+#endif
 
                 if (await SpeechToTextService.AskQuestionAsync($"Are you entering {insideTollPoint.Name} tollroad?"))
                 {
@@ -51,36 +39,29 @@ namespace Tollminder.Core.Models.Statuses
                         WaypointChecker.SetTollPointsInRadius(null);
                         await NotifyService.NotifyAsync("Bill was created");
                         WaypointChecker.ClearData();
-                        return new TollGeoStatusResult()
-                        {
-                            TollGeolocationStatus = TollGeolocationStatus.NotOnTollRoad,
-                            IsNeedToDoubleCheck = false
-                        };
+                        Mvx.Resolve<IStoredSettingsService>().CurrentRoadStatus = TollGeolocationStatus.NotOnTollRoad;
+                        return new TollGeoStatusResult() { TollGeolocationStatus = TollGeolocationStatus.NotOnTollRoad };
                     }
                     else
-                        return new TollGeoStatusResult()
-                        {
-                            TollGeolocationStatus = TollGeolocationStatus.OnTollRoad,
-                            IsNeedToDoubleCheck = false
-                        };
+                    {
+                        Mvx.Resolve<IStoredSettingsService>().CurrentRoadStatus = TollGeolocationStatus.OnTollRoad;
+                        return new TollGeoStatusResult() { TollGeolocationStatus = TollGeolocationStatus.OnTollRoad };
+                    }
                 }
                 else
                 {
-                    return new TollGeoStatusResult()
-                    {
-                        TollGeolocationStatus = TollGeolocationStatus.NotOnTollRoad,
-                        IsNeedToDoubleCheck = false
-                    };
+                    return new TollGeoStatusResult() { TollGeolocationStatus = TollGeolocationStatus.NotOnTollRoad };
                 }
             }
             else
             {
-                return new TollGeoStatusResult()
-                {
-                    TollGeolocationStatus = TollGeolocationStatus.NearTollRoadEntrance,
-                    IsNeedToDoubleCheck = false
-                };
+                return new TollGeoStatusResult() { TollGeolocationStatus = TollGeolocationStatus.NearTollRoadEntrance };
             }
+        }
+
+        public override bool CheckBatteryDrain()
+        {
+            return false;
         }
 
         private void SaveTripProgress()

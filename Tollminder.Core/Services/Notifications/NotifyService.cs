@@ -23,7 +23,7 @@ namespace Tollminder.Core.Services.Notifications
             {
                 _notificationSender.SendLocalNotification("Toll Minder", message);
             }
-            _textToSpeech.SpeakAsync(message).Wait();
+            await _textToSpeech.SpeakAsync(message);
         }
     }
 }

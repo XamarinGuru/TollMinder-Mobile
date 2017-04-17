@@ -14,7 +14,6 @@ using Tollminder.Core.Services.Settings;
 using Tollminder.Core.Services.Api;
 using Tollminder.Core.Services.GeoData;
 using Tollminder.Core.Services.RoadsProcessing;
-using Tollminder.Core.Services.Notifications;
 using MvvmCross.Platform;
 using Chance.MvvmCross.Plugins.UserInteraction;
 
@@ -27,7 +26,7 @@ namespace Tollminder.Core.ViewModels
         readonly IStoredSettingsService _storedSettingsService;
         readonly ISynchronisationService synchronisationService;
         readonly IGeoLocationWatcher _geoWatcher;
-        readonly IWaypointChecker waypointChecker;
+        public IWaypointChecker WaypointChecker { get; private set; }
         readonly IGeoDataService geoDataService;
 
         IList<MvxSubscriptionToken> _tokens;
@@ -36,6 +35,7 @@ namespace Tollminder.Core.ViewModels
         public List<WaypointAction> WaypointActions { get; set; }
         public WaypointAction SelectedWaypointAction { get; set; }
         public MvxCommand NextGeoLocationCommand { get; set; }
+        public MvxCommand PlayPauseIterationCommand { get; set; }
 
         public HomeViewModel(IMvxMessenger messenger, ITrackFacade track,
                              IGeoLocationWatcher geoWatcher, IStoredSettingsService storedSettingsService,
@@ -46,7 +46,7 @@ namespace Tollminder.Core.ViewModels
             _track = track;
             _geoWatcher = geoWatcher;
             _storedSettingsService = storedSettingsService;
-            this.waypointChecker = waypointChecker;
+            this.WaypointChecker = waypointChecker;
             this.synchronisationService = synchronisationService;
             this.geoDataService = geoDataService;
 
@@ -74,6 +74,7 @@ namespace Tollminder.Core.ViewModels
             _tokens = new List<MvxSubscriptionToken>();
 
             NextGeoLocationCommand = new MvxCommand(() => NextLocation());
+            PlayPauseIterationCommand = new MvxCommand(() => PlayPauseLocationIteration());
             WaypointActions = new List<WaypointAction>(){
                 WaypointAction.Entrance,
                 WaypointAction.Bridge,
@@ -110,21 +111,28 @@ namespace Tollminder.Core.ViewModels
             await synchronisationService.DataSynchronisationAsync();
 
             StatusString = _track.TollStatus.ToString();
-            TollRoadString = waypointChecker.TollRoad?.Name;
+            TollRoadString = WaypointChecker.TollRoad?.Name;
 
             if (_geoWatcher.Location != null)
             {
                 Location = _geoWatcher.Location;
-                waypointChecker.DetectWeAreInsideSomeTollPoint(Location);
+                WaypointChecker.DetectWeAreInsideSomeTollPoint(Location);
             }
+        }
 
-            DistanceToNearestTollpoint = double.Parse(waypointChecker.DistanceToNearestTollpoint.ToString());
+        async void PlayPauseLocationIteration()
+        {
+            if (IsBound)
+                Mvx.Resolve<IMockGeoLocation>().PlayPauseIteration();
+            else
+                await Mvx.Resolve<IUserInteraction>().AlertAsync("You need start tracking first.", "Warning");
         }
 
         async void NextLocation()
         {
+            SettingsService.waypointAction = SelectedWaypointAction;
             if (IsBound)
-                Mvx.Resolve<IMockGeoLocation>().NextTollPoint(SelectedWaypointAction);
+                Mvx.Resolve<IMockGeoLocation>().NextTollPoint();
             else
                 await Mvx.Resolve<IUserInteraction>().AlertAsync("You need start tracking first.", "Warning");
         }
@@ -179,7 +187,6 @@ namespace Tollminder.Core.ViewModels
             {
                 _location = value;
                 RaisePropertyChanged(() => Location);
-                RaisePropertyChanged(() => LocationString);
             }
         }
 
@@ -192,22 +199,6 @@ namespace Tollminder.Core.ViewModels
                 _tollRoadString = value;
                 RaisePropertyChanged(() => TollRoadString);
             }
-        }
-
-        private double _distanceToNearestTollpoint;
-        public double DistanceToNearestTollpoint
-        {
-            get { return _distanceToNearestTollpoint; }
-            set
-            {
-                _distanceToNearestTollpoint = value;
-                RaisePropertyChanged(() => DistanceToNearestTollpoint);
-            }
-        }
-
-        public string LocationString
-        {
-            get { return _location.ToString(); }
         }
 
         string _statusString;

@@ -563,6 +563,7 @@
     <AndroidResource Include="Resources\layout\pay_item.xml" />
     <AndroidResource Include="Resources\layout\credit_cards_for_pay.xml" />
     <AndroidResource Include="Resources\layout\pay_history_item.xml" />
+    <AndroidResource Include="Resources\layout\home_view_mock_location.axml" />
   </ItemGroup>
   <ItemGroup>
     <ProguardConfiguration Include="Properties\AndroidManifest.xml" />

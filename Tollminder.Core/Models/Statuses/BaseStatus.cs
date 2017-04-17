@@ -16,6 +16,7 @@ namespace Tollminder.Core.Models.Statuses
     {
         private int firstElement = 0;
         private TollGeolocationStatus tollGeolocationStatus;
+        private bool shouldContinueCheckStatus = true;
 
         IGeoLocationWatcher _geoWatcher;
         protected IGeoLocationWatcher GeoWatcher
@@ -98,41 +99,78 @@ namespace Tollminder.Core.Models.Statuses
             Log.LogMessage(string.Format($"TRY TO FIND TOLLPOINT EXITS FROM {SettingsService.WaypointLargeRadius * 1000} m"));
 
             var location = GeoWatcher.Location;
-            var nearestWaypoints = GeoDataService.FindNearestTollPoints(location);//tollPoints != null ? tollPoints : GeoDataService.FindNearestTollPoints(location);
+            var nearestWaypoints = GeoDataService.FindNearestTollPoints(location);
+
+            var insideTollPoint = WaypointChecker.DetectWeAreInsideSomeTollPoint(location);
+
+            if (nearestWaypoints?.Count == 0)
+            {
+#if REALEASE
+                GeoWatcher.StopUpdatingHighAccuracyLocation();
+#endif
+                Log.LogMessage($"No waypoint founded for location {GeoWatcher.Location}");
+                shouldContinueCheckStatus = false;
+                return Task.FromResult(new TollGeoStatusResult()
+                {
+                    TollPointWithDistance = null,
+                    Location = location,
+                    TollGeolocationStatus = TollGeolocationStatus.NotOnTollRoad,
+                    IsNeedToDoubleCheck = shouldContinueCheckStatus
+                });
+            }
 
             WaypointChecker.SetTollPointsInRadius(nearestWaypoints);
-
             WaypointChecker.SetIgnoredChoiceTollPoint(null);
+
+            var tollPointInRadius = WaypointChecker.TollPointsInRadius[firstElement];
 
             foreach (var item in WaypointChecker.TollPointsInRadius)
                 Log.LogMessage($"FOUNDED WAYPOINT : {item.Name}, DISTANCE {item.Distance}");
-
+#if REALEASE
             GeoWatcher.StartUpdatingHighAccuracyLocation();
-            switch (WaypointChecker.TollPointsInRadius[firstElement].WaypointAction)
+#endif
+            switch (tollPointInRadius.WaypointAction)
             {
                 case WaypointAction.Entrance:
                     if (tollGeoStatus == TollGeolocationStatus.OnTollRoad)
+                    {
                         tollGeolocationStatus = TollGeolocationStatus.OnTollRoad;
+                        shouldContinueCheckStatus = false;
+                    }
                     else
+                    {
                         tollGeolocationStatus = TollGeolocationStatus.NearTollRoadEntrance;
+                        shouldContinueCheckStatus = true;
+                    }
                     break;
                 case WaypointAction.Bridge:
                     tollGeolocationStatus = TollGeolocationStatus.NearTollRoadEntrance;
+                    shouldContinueCheckStatus = true;
                     break;
                 case WaypointAction.Exit:
-                    if (tollGeoStatus != TollGeolocationStatus.NotOnTollRoad)
+                    if (Mvx.Resolve<IStoredSettingsService>().CurrentRoadStatus == TollGeolocationStatus.OnTollRoad)
+                    {
                         tollGeolocationStatus = TollGeolocationStatus.NearTollRoadExit;
+                        shouldContinueCheckStatus = true;
+                    }
+                    else
+                    {
+                        tollGeolocationStatus = tollGeoStatus;
+                        shouldContinueCheckStatus = false;
+                    }
                     break;
             }
 
             return Task.FromResult(new TollGeoStatusResult()
             {
+                TollPointWithDistance = tollPointInRadius,
+                Location = location,
                 TollGeolocationStatus = tollGeolocationStatus,
-                IsNeedToDoubleCheck = false
+                IsNeedToDoubleCheck = shouldContinueCheckStatus
             });
         }
 
-        public abstract Task<TollGeoStatusResult> CheckStatus(TollGeolocationStatus tollGeoStatus);
+        public abstract Task<TollGeoStatusResult> CheckStatus(TollGeoStatusResult tollGeoStatus);
         public abstract bool CheckBatteryDrain();
     }
 }

@@ -6,10 +6,11 @@ using Tollminder.Core.Helpers;
 using System.Collections.Generic;
 using Tollminder.Core.Services.GeoData;
 using Tollminder.Core.Services.Settings;
+using MvvmCross.Core.ViewModels;
 
 namespace Tollminder.Core.Services.RoadsProcessing
 {
-    public class WaypointChecker : IWaypointChecker
+    public class WaypointChecker : MvxNotifyPropertyChanged, IWaypointChecker
     {
         readonly IStoredSettingsService storedSettingsService;
         readonly IGeoDataService geoDataService;
@@ -75,6 +76,7 @@ namespace Tollminder.Core.Services.RoadsProcessing
             private set
             {
                 storedSettingsService.DistanceToNearestTollpoint = value;
+                RaisePropertyChanged(() => DistanceToNearestTollpoint);
             }
         }
 

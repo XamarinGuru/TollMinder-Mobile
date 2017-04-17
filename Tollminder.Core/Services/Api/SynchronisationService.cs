@@ -23,8 +23,8 @@ namespace Tollminder.Core.Services.Api
             else
             {
                 string result = await serverApiService.GetValidAuthorizeTokenAsync();
-
-                storedSettingsService.AuthToken = result;
+                if (result != null)
+                    storedSettingsService.AuthToken = result;
                 return storedSettingsService.IsAuthorized;
             }
         }

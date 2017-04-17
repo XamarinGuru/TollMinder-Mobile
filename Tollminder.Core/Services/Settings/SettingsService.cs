@@ -1,4 +1,6 @@
 ﻿using System;
+using Tollminder.Core.Models;
+
 namespace Tollminder.Core.Services.Settings
 {
     public class SettingsService
@@ -12,6 +14,9 @@ namespace Tollminder.Core.Services.Settings
         public static double longitude;
         public static double wrongLongitude;
         public static bool SocialRegistartionSource;
+
+        // mock geo location
+        public static WaypointAction waypointAction;
     }
 }
 
