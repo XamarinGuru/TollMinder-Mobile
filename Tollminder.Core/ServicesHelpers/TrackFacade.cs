@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -178,7 +178,7 @@ namespace Tollminder.Core.ServicesHelpers
                 var statusBeforeCheck = TollStatus;
                 Log.LogMessage($"Current status before check= {TollStatus}");
 
-                var checkResult = await StatusesFactory.GetStatus(TollGeolocationStatus.NearestTollPoint)
+                var checkResult = await StatusesFactory.GetStatus(TollGeolocationStatus.SearchingNearestTollPoint)
                                                        .CheckStatus(new TollGeoStatusResult() { TollGeolocationStatus = statusBeforeCheck });//await statusObject.CheckStatus(statusBeforeCheck);
                 TollStatus = checkResult.TollGeolocationStatus;
 
@@ -210,7 +210,7 @@ namespace Tollminder.Core.ServicesHelpers
                 BaseStatus statusObject = StatusesFactory.GetStatus(TollStatus);
                 _textToSpeech.IsEnabled = true;
 
-                switch (TollStatus)
+                switch (_storedSettingsService.CurrentRoadStatus)
                 {
                     case TollGeolocationStatus.NearTollRoadEntrance:
                     case TollGeolocationStatus.NotOnTollRoad:
@@ -227,7 +227,9 @@ namespace Tollminder.Core.ServicesHelpers
 
                                 waypointChecker.SetTollPointsInRadius(null);
                                 waypointChecker.ClearData();
-                                TollStatus = TollGeolocationStatus.NotOnTollRoad;
+                                TollStatus = Mvx.Resolve<IStoredSettingsService>().CurrentRoadStatus == TollGeolocationStatus.OnTollRoad
+                                               ? Mvx.Resolve<IStoredSettingsService>().CurrentRoadStatus
+                                               : TollGeolocationStatus.NotOnTollRoad;
                             }
                             else
                                 TollStatus = TollGeolocationStatus.OnTollRoad;
@@ -235,6 +237,7 @@ namespace Tollminder.Core.ServicesHelpers
                         else
                         {
                             TollStatus = TollGeolocationStatus.NotOnTollRoad;
+                            Mvx.Resolve<IStoredSettingsService>().CurrentRoadStatus = TollStatus;
                         }
                         break;
                 }

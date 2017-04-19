@@ -4,7 +4,7 @@ using Tollminder.Core.Models.GeoData;
 
 namespace Tollminder.Core.Models.Statuses
 {
-    public class NearestTollPointSearchingStatus : BaseStatus
+    public class SearchingNearestTollPointStatus : BaseStatus
     {
         public async override Task<TollGeoStatusResult> CheckStatus(TollGeoStatusResult tollGeoStatus)
         {

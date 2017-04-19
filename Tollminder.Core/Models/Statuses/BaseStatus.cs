@@ -96,12 +96,8 @@ namespace Tollminder.Core.Models.Statuses
 
         protected Task<TollGeoStatusResult> CheckNearestPoint(TollGeolocationStatus tollGeoStatus, List<TollPointWithDistance> tollPoints = null)
         {
-            Log.LogMessage(string.Format($"TRY TO FIND TOLLPOINT EXITS FROM {SettingsService.WaypointLargeRadius * 1000} m"));
-
             var location = GeoWatcher.Location;
             var nearestWaypoints = GeoDataService.FindNearestTollPoints(location);
-
-            var insideTollPoint = WaypointChecker.DetectWeAreInsideSomeTollPoint(location);
 
             if (nearestWaypoints?.Count == 0)
             {
@@ -109,12 +105,15 @@ namespace Tollminder.Core.Models.Statuses
                 GeoWatcher.StopUpdatingHighAccuracyLocation();
 #endif
                 Log.LogMessage($"No waypoint founded for location {GeoWatcher.Location}");
+                SetTollStatusWithDistance(location, Mvx.Resolve<IStoredSettingsService>().CurrentRoadStatus == TollGeolocationStatus.OnTollRoad
+                                                       ? Mvx.Resolve<IStoredSettingsService>().CurrentRoadStatus
+                                                       : TollGeolocationStatus.NotOnTollRoad);
                 shouldContinueCheckStatus = false;
                 return Task.FromResult(new TollGeoStatusResult()
                 {
                     TollPointWithDistance = null,
                     Location = location,
-                    TollGeolocationStatus = TollGeolocationStatus.NotOnTollRoad,
+                    TollGeolocationStatus = tollGeolocationStatus,
                     IsNeedToDoubleCheck = shouldContinueCheckStatus
                 });
             }
@@ -137,22 +136,18 @@ namespace Tollminder.Core.Models.Statuses
                         tollGeolocationStatus = TollGeolocationStatus.OnTollRoad;
                         shouldContinueCheckStatus = false;
                     }
-                    else
+                    else if (Mvx.Resolve<IStoredSettingsService>().CurrentRoadStatus == TollGeolocationStatus.NotOnTollRoad
+                        || Mvx.Resolve<IStoredSettingsService>().CurrentRoadStatus == TollGeolocationStatus.SearchingNearestTollPoint)
                     {
-                        tollGeolocationStatus = TollGeolocationStatus.NearTollRoadEntrance;
-                        shouldContinueCheckStatus = true;
+                        SetTollStatusWithDistance(location, TollGeolocationStatus.NearTollRoadEntrance);
                     }
                     break;
                 case WaypointAction.Bridge:
-                    tollGeolocationStatus = TollGeolocationStatus.NearTollRoadEntrance;
-                    shouldContinueCheckStatus = true;
+                    SetTollStatusWithDistance(location, TollGeolocationStatus.NearTollRoadEntrance);
                     break;
                 case WaypointAction.Exit:
                     if (Mvx.Resolve<IStoredSettingsService>().CurrentRoadStatus == TollGeolocationStatus.OnTollRoad)
-                    {
-                        tollGeolocationStatus = TollGeolocationStatus.NearTollRoadExit;
-                        shouldContinueCheckStatus = true;
-                    }
+                        SetTollStatusWithDistance(location, TollGeolocationStatus.NearTollRoadExit);
                     else
                     {
                         tollGeolocationStatus = tollGeoStatus;
@@ -168,6 +163,13 @@ namespace Tollminder.Core.Models.Statuses
                 TollGeolocationStatus = tollGeolocationStatus,
                 IsNeedToDoubleCheck = shouldContinueCheckStatus
             });
+        }
+
+        private void SetTollStatusWithDistance(GeoLocation location, TollGeolocationStatus tollStatus)
+        {
+            WaypointChecker.DetectWeAreInsideSomeTollPoint(location);
+            tollGeolocationStatus = tollStatus;
+            shouldContinueCheckStatus = true;
         }
 
         public abstract Task<TollGeoStatusResult> CheckStatus(TollGeoStatusResult tollGeoStatus);

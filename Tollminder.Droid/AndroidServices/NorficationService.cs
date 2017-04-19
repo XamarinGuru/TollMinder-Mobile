@@ -28,6 +28,7 @@ namespace Tollminder.Droid.AndroidServices
                                                                     .SetSmallIcon(Resource.Mipmap.ic_launcher);
 
             Notification notification = builder.Build();
+            notification.Flags = NotificationFlags.AutoCancel;
             NotificationManager notificationManager = context.GetSystemService(Context.NotificationService) as NotificationManager;
 
             // publish the notification

@@ -171,7 +171,7 @@
     <Compile Include="ViewModels\Payments\CreditCardsForPayViewModel.cs" />
     <Compile Include="Models\PaymentData\ServerResponse.cs" />
     <Compile Include="Converters\GeoLocationConverter.cs" />
-    <Compile Include="Models\Statuses\NearestTollPointSearchingStatus.cs" />
+    <Compile Include="Models\Statuses\SearchingNearestTollPointStatus.cs" />
     <Compile Include="Models\GeoData\TollGeoStatusResult.cs" />
     <Compile Include="Services\GeoData\MockGeoData\IMockGeoLocation.cs" />
     <Compile Include="Services\GeoData\MockGeoData\MockGeoLocation.cs" />

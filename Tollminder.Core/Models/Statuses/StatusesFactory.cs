@@ -10,7 +10,7 @@ namespace Tollminder.Core.Models.Statuses
         static StatusesFactory()
         {
             _pool = new Dictionary<TollGeolocationStatus, BaseStatus>();
-            _pool.Add(TollGeolocationStatus.NearestTollPoint, new NearestTollPointSearchingStatus());
+            _pool.Add(TollGeolocationStatus.SearchingNearestTollPoint, new SearchingNearestTollPointStatus());
             _pool.Add(TollGeolocationStatus.NotOnTollRoad, new NotOnTollRoadStatus());
             _pool.Add(TollGeolocationStatus.OnTollRoad, new OnTollRoadStatus());
             _pool.Add(TollGeolocationStatus.NearTollRoadExit, new NearTollRoadExitStatus());

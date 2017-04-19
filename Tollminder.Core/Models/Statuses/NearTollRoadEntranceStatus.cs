@@ -39,8 +39,12 @@ namespace Tollminder.Core.Models.Statuses
                         WaypointChecker.SetTollPointsInRadius(null);
                         await NotifyService.NotifyAsync("Bill was created");
                         WaypointChecker.ClearData();
-                        Mvx.Resolve<IStoredSettingsService>().CurrentRoadStatus = TollGeolocationStatus.NotOnTollRoad;
-                        return new TollGeoStatusResult() { TollGeolocationStatus = TollGeolocationStatus.NotOnTollRoad };
+                        return new TollGeoStatusResult()
+                        {
+                            TollGeolocationStatus = Mvx.Resolve<IStoredSettingsService>().CurrentRoadStatus == TollGeolocationStatus.OnTollRoad
+                                                       ? Mvx.Resolve<IStoredSettingsService>().CurrentRoadStatus
+                                                       : TollGeolocationStatus.NotOnTollRoad
+                        };
                     }
                     else
                     {

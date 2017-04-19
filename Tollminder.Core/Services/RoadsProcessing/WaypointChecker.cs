@@ -76,7 +76,6 @@ namespace Tollminder.Core.Services.RoadsProcessing
             private set
             {
                 storedSettingsService.DistanceToNearestTollpoint = value;
-                RaisePropertyChanged(() => DistanceToNearestTollpoint);
             }
         }
 

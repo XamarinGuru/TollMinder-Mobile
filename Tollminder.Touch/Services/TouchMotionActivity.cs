@@ -26,8 +26,7 @@ namespace Tollminder.Touch.Services
             /*private*/
             set
             {
-                //_motionType = value;
-                _motionType = MotionType.Automotive;
+                _motionType = value;
                 Mvx.Resolve<IMvxMessenger>().Publish(new MotionMessage(this, value));
             }
         }

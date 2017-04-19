@@ -14,7 +14,7 @@ namespace Tollminder.Core.Converters
 
         private double CutStringToThreeSymbols(double location)
         {
-            string pattern = @"\d+(?:\.\d{1,3})?";
+            string pattern = @"\d+(?:\.\d{1,4})?";
             var match = Regex.Match(location.ToString(), pattern);
             var cuttedLocation = double.Parse(match.Value);
             return location < 0 ? -cuttedLocation : cuttedLocation;

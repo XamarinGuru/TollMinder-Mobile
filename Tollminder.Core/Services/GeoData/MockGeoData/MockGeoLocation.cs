@@ -75,11 +75,12 @@ namespace Tollminder.Core.Services.GeoData
 
         private async void StartLocationUpdates()
         {
+            //await Task.Delay(20000);
             //IsBound = true;
             //Location = new GeoLocation()
             //{
-            //    Latitude = 50.0475,
-            //    Longitude = 36.396667,
+            //    Latitude = 50.512752,
+            //    Longitude = 30.497996,
             //    TollPointId = "dfghjkl"
             //};
             if (getDataFromDataBase)
