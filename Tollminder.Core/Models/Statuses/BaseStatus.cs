@@ -176,4 +176,3 @@ namespace Tollminder.Core.Models.Statuses
         public abstract bool CheckBatteryDrain();
     }
 }
-
