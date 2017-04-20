@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:local="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/tab_background"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/profile_top_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/profile_top_background">
+        <ImageButton
+            android:id="@+id/back_to_home_view"
+            android:layout_width="45dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_back"
+            local:MvxBind="Click BackToMainPageCommand"
+            android:background="@android:color/transparent"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:textSize="20dp"
+            android:text="Your Unpaid Trips"
+            android:id="@+id/top_credit_card_label"
+            android:textColor="@color/white"/>
+        <TextView
+            android:layout_width="180dp"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/top_credit_card_label"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="For Paying Just Tap Icon: 'Credit Card'"
+            android:gravity="center_horizontal"
+            android:textSize="15dp"
+            android:textColor="@color/blue"/>
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="70dp"
+            android:scaleType="fitCenter"
+            android:layout_marginRight="22dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_card"
+            local:MvxBind="Click PayCommand"
+            android:background="@android:color/transparent"
+            android:layout_marginEnd="22dp"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="50dp">
+
+        <MvvmCross.Droid.Support.V7.RecyclerView.MvxRecyclerView
+                android:id="@+id/pay_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                local:MvxBind="ItemsSource NotPayedTrips;ItemClick ItemSelectedCommand" />
+        </android.support.v4.widget.NestedScrollView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/profile_top_background"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="80dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="Total amount: $  "
+                android:textSize="20dp"
+                android:textColor="@color/white"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="0"
+                android:textSize="20dp"
+                android:textColor="@color/white"
+                local:MvxBind="Text Amount"/>
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

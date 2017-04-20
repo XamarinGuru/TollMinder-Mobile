@@ -12,6 +12,8 @@ using Tollminder.Touch.Interfaces;
 using UIKit;
 using Foundation;
 using System.Diagnostics;
+using MvvmCross.Binding.iOS.Views;
+using Tollminder.Core.Converters;
 
 namespace Tollminder.Touch.Views
 {
@@ -36,6 +38,12 @@ namespace Tollminder.Touch.Views
         BoardField nextWaypointString;
         BoardField statusLabel;
         BoardField tollRoadString;
+
+        // mock location
+        UIButton nextLocatioButton;
+        UITextField waypointActionsTextField;
+        UIPickerView waypointActionsPicker;
+        MvxPickerViewModel waypointActionsPickerViewModel;
 
         public new HomeViewModel ViewModel { get { return base.ViewModel as HomeViewModel; } }
 
@@ -211,6 +219,68 @@ namespace Tollminder.Touch.Views
                 bottomView.WithRelativeHeight(View, 0.27f),
                 bottomView.AtBottomOf(View, 30)
             );
+#if DEBUG
+            CreateWaypointPicker();
+            nextLocatioButton = ButtonInitializer("Next Geo Location", UIControlState.Normal, UIColor.Black, UIColor.White, UIControlState.Normal, null);
+
+            View.AddIfNotNull(waypointActionsTextField, nextLocatioButton);
+            View.AddConstraints(
+                waypointActionsTextField.WithSameCenterY(View),
+                waypointActionsTextField.AtLeftOf(View, 10),
+                waypointActionsTextField.Height().EqualTo(50),
+                waypointActionsTextField.Width().EqualTo(100),
+
+                nextLocatioButton.AtRightOf(View, 5),
+                nextLocatioButton.WithSameCenterY(View),
+                nextLocatioButton.Height().EqualTo(50),
+                nextLocatioButton.Width().EqualTo(200)
+            );
+#endif
+        }
+
+        private void CreateWaypointPicker()
+        {
+            waypointActionsPicker = new UIPickerView();
+            waypointActionsPickerViewModel = new MvxPickerViewModel(waypointActionsPicker);
+            waypointActionsPicker.Model = waypointActionsPickerViewModel;
+            waypointActionsPicker.ShowSelectionIndicator = true;
+            waypointActionsPicker.BackgroundColor = UIColor.White;
+
+            CreatePickerLabel();
+            var gestureRecognizer = new UITapGestureRecognizer(() =>
+            {
+                waypointActionsTextField.ResignFirstResponder();
+            });
+            View.AddGestureRecognizer(gestureRecognizer);
+            waypointActionsTextField.InputAccessoryView = new EnhancedToolbar(waypointActionsTextField, null, null);
+            waypointActionsTextField.InputView = waypointActionsPicker;
+        }
+
+        private void CreatePickerLabel()
+        {
+            waypointActionsTextField = new UITextField();
+            waypointActionsTextField.BackgroundColor = UIColor.White;
+            waypointActionsTextField.TextColor = UIColor.Blue;
+            waypointActionsTextField.Layer.CornerRadius = 10;
+        }
+
+        private UIButton ButtonInitializer(string title, UIControlState titleState, UIColor backgroundColor,
+                                           UIColor titleColor, UIControlState colorTitleState, UIImage image, UIControlState imageState = UIControlState.Normal)
+        {
+            UIButton button = new UIButton();
+            button.SetTitle(title, titleState);
+            if (image != null)
+                button.SetImage(image, imageState);
+            button.BackgroundColor = backgroundColor;
+            button.SetTitleColor(titleColor, colorTitleState);
+            button.ClipsToBounds = false;
+            button.Layer.CornerRadius = 10;
+            button.Layer.ShadowColor = UIColor.Black.CGColor;
+            button.Layer.ShadowOpacity = 0.1f;
+            button.Layer.ShadowRadius = 1;
+            button.Layer.ShadowOffset = new CGSize(1, 1);
+            button.UserInteractionEnabled = true;
+            return button;
         }
 
         private UIScrollView CreateSliderBoard(bool showWithPaging)
@@ -249,18 +319,27 @@ namespace Tollminder.Touch.Views
             var set = this.CreateBindingSet<HomeView, HomeViewModel>();
             set.Bind(trackingButton).To(vm => vm.TrackingCommand);
             set.Bind(trackingButton.ButtonText).To(vm => vm.TrackingText);
+            set.Bind(trackingButton).For(b => b.Enabled).To(vm => vm.IsBusy).WithConversion(new BoolInverseConverter());
             set.Bind(trackingButton).For(x => x.ButtonImage).To(vm => vm.IsBound).WithConversion("GetPathToImage");
+
             set.Bind(boardScrollView).For(x => x.ContentOffset).To(vm => vm.IsBound).WithConversion("GetSliderPage", boardScrollView);
             set.Bind(profileButton).To(vm => vm.ProfileCommand);
             set.Bind(payHistoryButton).To(vm => vm.PayHistoryCommand);
+            set.Bind(payButton).To(vm => vm.PayCommand);
             set.Bind(logoutButton).To(vm => vm.LogoutCommand);
 
             // Information board
-            set.Bind(geoLabelData.ValueText).To(v => v.LocationString);
+            set.Bind(geoLabelData.ValueText).To(v => v.Location).WithConversion("GeoLocation");
             set.Bind(statusLabel.ValueText).To(v => v.StatusString);
             set.Bind(tollRoadString.ValueText).To(v => v.TollRoadString);
-            set.Bind(nextWaypointString.ValueText).To(v => v.DistanceToNearestTollpoint);
-
+            set.Bind(nextWaypointString.ValueText).To(v => v.WaypointChecker.DistanceToNearestTollpoint);
+#if DEBUG       
+            set.Bind(waypointActionsPickerViewModel).For(p => p.ItemsSource).To(vm => vm.WaypointActions);
+            set.Bind(waypointActionsPickerViewModel).For(p => p.SelectedItem).To(vm => vm.SelectedWaypointAction);
+            set.Bind(waypointActionsTextField).To(vm => vm.SelectedWaypointAction);
+            set.Bind(nextLocatioButton).To(vm => vm.NextGeoLocationCommand);
+            set.Bind(nextLocatioButton).For(b => b.Enabled).To(vm => vm.IsBusy).WithConversion(new BoolInverseConverter());
+#endif
             set.Apply();
         }
     }

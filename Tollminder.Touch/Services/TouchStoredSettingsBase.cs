@@ -1,42 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using Foundation;
 using Newtonsoft.Json;
-using Tollminder.Core.Models;
-using Tollminder.Core.Services;
+using Tollminder.Core.Services.Settings;
 
 namespace Tollminder.Touch.Services
 {
-	public class TouchStoredSettingsBase: IStoredSettingsBase
-	{
-		private const string NULL = "!NULL";
-		private readonly NSUserDefaults _preferences;
+    public class TouchStoredSettingsBase : IStoredSettingsBase
+    {
+        private const string NULL = "!NULL";
+        private readonly NSUserDefaults _preferences;
 
-		public TouchStoredSettingsBase()
-		{
-			_preferences = NSUserDefaults.StandardUserDefaults;
-		}
+        public TouchStoredSettingsBase()
+        {
+            _preferences = NSUserDefaults.StandardUserDefaults;
+        }
 
-		#region ISettingsBase implementation
+        #region ISettingsBase implementation
 
-		public void Set<T>(T value, [CallerMemberNameAttribute] string key = "")
-		{
-			var str = JsonConvert.SerializeObject(value);
-			_preferences.SetString(str ?? NULL, key);
-		}
+        public void Set<T>(T value, [CallerMemberNameAttribute] string key = "")
+        {
+            var str = JsonConvert.SerializeObject(value);
+            _preferences.SetString(str ?? NULL, key);
+        }
 
-		public T Get<T>(T defaultValue = default(T), [CallerMemberNameAttribute] string key = "")
-		{
- 			var str = _preferences.StringForKey(key);
-			if (str == NULL || string.IsNullOrEmpty(str))
-			{
-				return defaultValue;
-			}
-			var obj = JsonConvert.DeserializeObject<T>(str);
-			return obj;
-		}
+        public T Get<T>(T defaultValue = default(T), [CallerMemberNameAttribute] string key = "")
+        {
+            var str = _preferences.StringForKey(key);
+            if (str == NULL || string.IsNullOrEmpty(str))
+            {
+                return defaultValue;
+            }
+            var obj = JsonConvert.DeserializeObject<T>(str);
+            return obj;
+        }
         #endregion
     }
 }

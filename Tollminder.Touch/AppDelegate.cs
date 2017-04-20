@@ -8,10 +8,9 @@ using MvvmCross.Plugins.Messenger;
 using Tollminder.Core.Models;
 using AVFoundation;
 using System.Threading.Tasks;
-using Tollminder.Core.Services;
 using Tollminder.Core.ServicesHelpers;
-using Google.Core;
 using Google.SignIn;
+using Tollminder.Core.Services.Notifications;
 
 namespace Tollminder.Touch
 {
@@ -32,28 +31,29 @@ namespace Tollminder.Touch
         {
             _window = new UIWindow(UIScreen.MainScreen.Bounds);
 
-			// setup presenter
-			var presenter = new AppPresenter(this, _window);
-			var setup = new Setup(this, presenter);
-			setup.Initialize();
+            // setup presenter
+            var presenter = new AppPresenter(this, _window);
+            var setup = new Setup(this, presenter);
+            setup.Initialize();
 
-			var startup = Mvx.Resolve<IMvxAppStart>();
+            var startup = Mvx.Resolve<IMvxAppStart>();
             startup.Start();
 
             _window.MakeKeyAndVisible();
 
-			if (UIDevice.CurrentDevice.CheckSystemVersion (8,0)) {
-				var notificationSettings = UIUserNotificationSettings.GetSettingsForTypes (
-					UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound, null
-				);
-				application.CancelAllLocalNotifications ();
-				application.RegisterUserNotificationSettings (notificationSettings);
-			}
+            if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
+            {
+                var notificationSettings = UIUserNotificationSettings.GetSettingsForTypes(
+                    UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound, null
+                );
+                application.CancelAllLocalNotifications();
+                application.RegisterUserNotificationSettings(notificationSettings);
+            }
 
-            var session = AVAudioSession.SharedInstance ();
+            var session = AVAudioSession.SharedInstance();
             NSError categoryError;
-            session.SetCategory (AVAudioSessionCategory.Playback);
-            session.SetActive (true, out categoryError);
+            session.SetCategory(AVAudioSessionCategory.Playback);
+            session.SetActive(true, out categoryError);
             // check for a notification
             if (launchOptions != null)
             {
@@ -123,7 +123,7 @@ namespace Tollminder.Touch
                     return SignIn.SharedInstance.HandleUrl(url, sourceApplication, annotation);
             }
             NSNotificationCenter.DefaultCenter.PostNotificationName("OpenUrl", url);
-            
+
             return base.OpenUrl(application, url, sourceApplication, annotation);
         }
 
@@ -137,8 +137,8 @@ namespace Tollminder.Touch
 
         public override void DidEnterBackground(UIApplication application)
         {
-			Console.WriteLine ("App entering background state.");
-			Mvx.Resolve<IMvxMessenger> ().Publish (new AppInBackgroundMessage (this));
+            Console.WriteLine("App entering background state.");
+            Mvx.Resolve<IMvxMessenger>().Publish(new AppInBackgroundMessage(this));
             nint taskID = UIApplication.SharedApplication.BeginBackgroundTask(() => { });
             new Task(() =>
             {
@@ -149,7 +149,7 @@ namespace Tollminder.Touch
 
         public override void WillEnterForeground(UIApplication application)
         {
-			Console.WriteLine ("App will enter foreground");
+            Console.WriteLine("App will enter foreground");
         }
 
         public override void OnActivated(UIApplication application)
@@ -163,13 +163,13 @@ namespace Tollminder.Touch
             // Called when the application is about to terminate. Save data, if needed. See also DidEnterBackground.
         }
 
-        void CheckBatteryDrainTimeout()
+        async void CheckBatteryDrainTimeout()
         {
             Mvx.Trace("CheckBatteryDrainTimeout from background");
             Mvx.Resolve<ITrackFacade>().StopServices();
-            Mvx.Resolve<ITrackFacade>().StartServices();
+            Mvx.Resolve<ITrackFacade>().StartServicesAsync();
             Mvx.Resolve<INotificationSender>().SendLocalNotification("Background mode", $"App is still working");
-            Task.Delay(600000).Wait();
+            await Task.Delay(600000);
             nint taskID = UIApplication.SharedApplication.BeginBackgroundTask(() => { });
             new Task(() =>
             {

@@ -5,7 +5,7 @@ using Google.Core;
 using Google.SignIn;
 using MvvmCross.Platform;
 using Tollminder.Core.Models;
-using Tollminder.Core.Services;
+using Tollminder.Core.Services.SocialNetworks;
 
 namespace Tollminder.Touch.Services
 {
@@ -37,7 +37,7 @@ namespace Tollminder.Touch.Services
             }
         }
 
-        public Task<SocialData> GetPersonData()
+        public Task<SocialData> GetPersonDataAsync()
         {
             _gPlusTask = new TaskCompletionSource<SocialData>();
             SignIn.SharedInstance.SignInUser();
@@ -63,7 +63,7 @@ namespace Tollminder.Touch.Services
 
         public void ReleaseResources()
         {
-            
+
         }
     }
 }

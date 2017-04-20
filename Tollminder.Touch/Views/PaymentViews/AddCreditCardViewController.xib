@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddCreditCardViewController">
+            <connections>
+                <outlet property="AcceptedCardsImageView" destination="VQo-Lz-RjU" id="name-outlet-VQo-Lz-RjU"/>
+                <outlet property="AddCreditCardNavigationBar" destination="3tf-er-Ryp" id="name-outlet-3tf-er-Ryp"/>
+                <outlet property="AddCreditCardNavigationItem" destination="vgw-0u-sZI" id="name-outlet-vgw-0u-sZI"/>
+                <outlet property="CardNumberTextField" destination="iXS-ny-gNE" id="fL4-pU-B11"/>
+                <outlet property="CvvTextField" destination="udk-95-PEL" id="VfG-XK-QJP"/>
+                <outlet property="ExpirationMonthTextField" destination="xyV-tQ-2Zj" id="seV-ol-6tv"/>
+                <outlet property="ExpirationYearTextField" destination="tYb-bn-6Hx" id="YTg-F4-FFg"/>
+                <outlet property="NameOnCardTextField" destination="JIo-gm-60J" id="tXL-wx-Ag7"/>
+                <outlet property="SaveCreditCardButton" destination="2RL-0w-NDE" id="name-outlet-2RL-0w-NDE"/>
+                <outlet property="ZipCodeTextField" destination="zhX-1f-dHj" id="eEx-5o-6cc"/>
+                <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="2">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3tf-er-Ryp">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="80" id="TsW-9K-hzr"/>
+                    </constraints>
+                    <color key="barTintColor" red="0.2066648304" green="0.38275384899999998" blue="0.62765270470000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <items>
+                        <navigationItem id="vgw-0u-sZI"/>
+                    </items>
+                </navigationBar>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nQr-MD-26C">
+                    <rect key="frame" x="30" y="110" width="315" height="557"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VQo-Lz-RjU">
+                            <rect key="frame" x="0.0" y="0.0" width="315" height="60"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="60" id="BoP-2z-2f0"/>
+                            </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="10"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </imageView>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name On Card" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JIo-gm-60J">
+                            <rect key="frame" x="0.0" y="75" width="315" height="60"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="60" id="sfL-rb-A1Z"/>
+                            </constraints>
+                            <nil key="textColor"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="10"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </textField>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Card Number*" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iXS-ny-gNE">
+                            <rect key="frame" x="0.0" y="145" width="315" height="60"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="60" id="4s1-Z0-d13"/>
+                            </constraints>
+                            <nil key="textColor"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="10"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </textField>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="MM*" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xyV-tQ-2Zj">
+                            <rect key="frame" x="0.0" y="215" width="80" height="60"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="80" id="HXF-eB-3Fl"/>
+                                <constraint firstAttribute="height" constant="60" id="hzg-Ef-8bg"/>
+                            </constraints>
+                            <nil key="textColor"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="10"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </textField>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="YY*" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tYb-bn-6Hx">
+                            <rect key="frame" x="95" y="215" width="80" height="60"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="80" id="IQh-4N-dqB"/>
+                                <constraint firstAttribute="height" constant="60" id="Kvl-uL-DCP"/>
+                            </constraints>
+                            <nil key="textColor"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="10"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </textField>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="CVV*" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="udk-95-PEL">
+                            <rect key="frame" x="190" y="215" width="125" height="60"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="60" id="llV-q8-eh9"/>
+                            </constraints>
+                            <nil key="textColor"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="10"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </textField>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Zip Code" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zhX-1f-dHj">
+                            <rect key="frame" x="0.0" y="285" width="315" height="60"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="60" id="k1Z-vT-YLa"/>
+                            </constraints>
+                            <nil key="textColor"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="10"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </textField>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2RL-0w-NDE" userLabel="Get Token">
+                            <rect key="frame" x="0.0" y="365" width="315" height="60"/>
+                            <color key="backgroundColor" red="0.00027235838933847845" green="0.82761907577514648" blue="0.66055417060852051" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="aSR-Pi-0c6">
+                                    <variation key="widthClass=compact" constant="60"/>
+                                </constraint>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <state key="normal" title="Save Credit Card">
+                                <color key="titleColor" red="0.30315649509999998" green="0.30341306330000001" blue="0.30319625140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="10"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </button>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="VQo-Lz-RjU" secondAttribute="trailing" id="4mN-wJ-yRC"/>
+                        <constraint firstItem="VQo-Lz-RjU" firstAttribute="leading" secondItem="nQr-MD-26C" secondAttribute="leading" id="7GQ-Xl-ooc"/>
+                        <constraint firstItem="xyV-tQ-2Zj" firstAttribute="leading" secondItem="nQr-MD-26C" secondAttribute="leading" id="9aS-35-Sn2"/>
+                        <constraint firstItem="zhX-1f-dHj" firstAttribute="leading" secondItem="nQr-MD-26C" secondAttribute="leading" id="Dfe-hT-x7H"/>
+                        <constraint firstItem="udk-95-PEL" firstAttribute="top" secondItem="iXS-ny-gNE" secondAttribute="bottom" constant="10" id="Hbw-e8-eZv"/>
+                        <constraint firstItem="2RL-0w-NDE" firstAttribute="leading" secondItem="nQr-MD-26C" secondAttribute="leading" id="JPM-IL-VWx"/>
+                        <constraint firstItem="JIo-gm-60J" firstAttribute="top" secondItem="VQo-Lz-RjU" secondAttribute="bottom" constant="15" id="L4H-zG-MOg"/>
+                        <constraint firstItem="iXS-ny-gNE" firstAttribute="leading" secondItem="nQr-MD-26C" secondAttribute="leading" id="LFQ-4x-Zek"/>
+                        <constraint firstAttribute="trailing" secondItem="zhX-1f-dHj" secondAttribute="trailing" id="MMy-xM-ziD"/>
+                        <constraint firstItem="iXS-ny-gNE" firstAttribute="top" secondItem="JIo-gm-60J" secondAttribute="bottom" constant="10" id="Rwe-bl-erM"/>
+                        <constraint firstItem="zhX-1f-dHj" firstAttribute="top" secondItem="tYb-bn-6Hx" secondAttribute="bottom" constant="10" id="WDv-Kf-L9U"/>
+                        <constraint firstAttribute="trailing" secondItem="udk-95-PEL" secondAttribute="trailing" id="bP4-6R-EN2"/>
+                        <constraint firstItem="JIo-gm-60J" firstAttribute="leading" secondItem="nQr-MD-26C" secondAttribute="leading" id="f4H-sw-RRS"/>
+                        <constraint firstItem="tYb-bn-6Hx" firstAttribute="leading" secondItem="xyV-tQ-2Zj" secondAttribute="trailing" constant="15" id="fYb-lL-ceY"/>
+                        <constraint firstItem="2RL-0w-NDE" firstAttribute="top" secondItem="zhX-1f-dHj" secondAttribute="bottom" constant="20" id="gKA-KX-qUv"/>
+                        <constraint firstAttribute="trailing" secondItem="JIo-gm-60J" secondAttribute="trailing" id="iF6-OZ-9qj"/>
+                        <constraint firstItem="udk-95-PEL" firstAttribute="leading" secondItem="tYb-bn-6Hx" secondAttribute="trailing" constant="15" id="iTw-sf-Kvf"/>
+                        <constraint firstAttribute="trailing" secondItem="iXS-ny-gNE" secondAttribute="trailing" id="lxx-pm-s9P"/>
+                        <constraint firstAttribute="trailing" secondItem="2RL-0w-NDE" secondAttribute="trailing" id="m1Q-Dh-KxO"/>
+                        <constraint firstItem="xyV-tQ-2Zj" firstAttribute="top" secondItem="iXS-ny-gNE" secondAttribute="bottom" constant="10" id="nw3-Yp-PSj"/>
+                        <constraint firstItem="tYb-bn-6Hx" firstAttribute="top" secondItem="iXS-ny-gNE" secondAttribute="bottom" constant="10" id="rO8-jC-1s4"/>
+                        <constraint firstItem="VQo-Lz-RjU" firstAttribute="top" secondItem="nQr-MD-26C" secondAttribute="top" id="tSS-Lh-1Jt"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="tintColor" red="0.99963909390000005" green="1" blue="0.99975615740000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="nQr-MD-26C" firstAttribute="top" secondItem="3tf-er-Ryp" secondAttribute="bottom" constant="30" id="4XZ-Ea-CiN"/>
+                <constraint firstAttribute="trailing" secondItem="nQr-MD-26C" secondAttribute="trailing" constant="30" id="85Z-gA-8Cw"/>
+                <constraint firstItem="nQr-MD-26C" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="30" id="eFn-gQ-vy2"/>
+                <constraint firstItem="3tf-er-Ryp" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="kRM-gl-ZD7"/>
+                <constraint firstAttribute="bottom" secondItem="nQr-MD-26C" secondAttribute="bottom" id="p1R-Ke-qpS"/>
+                <constraint firstAttribute="trailing" secondItem="3tf-er-Ryp" secondAttribute="trailing" id="qhd-wj-G3c"/>
+                <constraint firstItem="3tf-er-Ryp" firstAttribute="top" secondItem="2" secondAttribute="top" id="t0K-tl-6nl"/>
+            </constraints>
+            <point key="canvasLocation" x="34.5" y="53.5"/>
+        </view>
+    </objects>
+</document>

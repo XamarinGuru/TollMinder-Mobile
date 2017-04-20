@@ -18,19 +18,19 @@
             android:layout_marginLeft="20dp"
             android:layout_centerVertical="true"
             android:src="@drawable/icon_back"
-            local:MvxBind="Click BackToProfileCommand"
+            local:MvxBind="Click CloseAddCreditCardCommand"
             android:background="@android:color/transparent"
             android:focusable="true"
-            android:focusableInTouchMode="true" />
+            android:focusableInTouchMode="true"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="25dp"
             android:textSize="20dp"
-            android:text="Payment Information"
+            android:text="Add Your Credit Card"
             android:id="@+id/top_credit_card_label"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white" />
         <TextView
             android:layout_width="180dp"
             android:layout_marginTop="10dp"
@@ -38,151 +38,183 @@
             android:layout_below="@id/top_credit_card_label"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:text="Please, Enter Your Payment Information."
+            android:text="Please, Enter Your Add Your Credit Card."
             android:gravity="center_horizontal"
             android:textSize="15dp"
-            android:textColor="@color/blue"/>
+            android:textColor="@color/blue" />
     </RelativeLayout>
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:orientation="vertical"
         android:layout_below="@id/profile_top_navigation">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="58dp"
-                android:src="@drawable/creditCards"
-                android:layout_marginBottom="10dp"/>
-            <android.support.design.widget.TextInputLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:theme="@style/TextInput"
-                android:layout_marginBottom="10dp"
-                local:MvxBind="Error Errors['Name On Card']">
-                <EditText
-                    android:id="@+id/name_on_card_editText"
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="58dp"
+                    android:src="@drawable/creditCards"
+                    android:layout_marginBottom="10dp" />
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:hint="Name On Card"
-                    android:inputType="textNoSuggestions"
-                    android:nextFocusDown="@+id/card_number_editText"
-                    android:layout_marginLeft="10dp"
-                    android:padding="10dp"
-                    android:singleLine="true"
-                    local:MvxBind="Text NameOnCardString;" />
-            </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
+                    android:theme="@style/TextInput"
+                    android:layout_marginBottom="10dp"
+                    local:MvxBind="Error Errors['Name On Card']">
+                    <EditText
+                        android:id="@+id/name_on_card_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:hint="Name On Card"
+                        android:inputType="textNoSuggestions"
+                        android:nextFocusDown="@+id/card_number_editText"
+                        android:layout_marginLeft="10dp"
+                        android:padding="10dp"
+                        android:singleLine="true"
+                        local:MvxBind="Text CardHolder;" />
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/TextInput"
+                    android:layout_marginBottom="10dp"
+                    local:MvxBind="Error Errors['Card Number']">
+                    <EditText
+                        android:id="@+id/card_number_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:hint="Card Number*"
+                        android:inputType="number"
+                        android:maxLength="16"
+                        android:nextFocusDown="@+id/month_expiration_editText"
+                        android:layout_marginLeft="10dp"
+                        android:padding="10dp"
+                        android:password="true"
+                        local:MvxBind="Text CreditCardNumber;" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        local:passwordToggleEnabled="false"
+                        android:theme="@style/TextInput"
+                        local:MvxBind="Error Errors['MM']">
+                        <EditText
+                            android:id="@+id/month_expiration_editText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:hint="MM*"
+                            android:inputType="number"
+                            android:nextFocusDown="@+id/year_expiration_editText"
+                            android:maxLength="2"
+                            android:gravity="center"
+                            android:password="true"
+                            android:padding="10dp"
+                            android:singleLine="true"
+                            local:MvxBind="Text ExpirationMonth" />
+                    </android.support.design.widget.TextInputLayout>
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        local:passwordToggleEnabled="false"
+                        android:theme="@style/TextInput"
+                        local:MvxBind="Error Errors['YY']">
+                        <EditText
+                            android:id="@+id/year_expiration_editText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:hint="YY*"
+                            android:inputType="number"
+                            android:maxLength="2"
+                            android:nextFocusDown="@+id/cvv_editText"
+                            android:gravity="center"
+                            android:password="true"
+                            android:padding="10dp"
+                            android:singleLine="true"
+                            local:MvxBind="Text ExpirationYear" />
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_alignParentRight="true"
+                    local:passwordToggleEnabled="false"
+                    android:theme="@style/TextInput"
+                    local:MvxBind="Error Errors['CVV']">
+                    <EditText
+                        android:id="@+id/cvv_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:hint="CVV*"
+                        android:inputType="number"
+                        android:maxLength="3"
+                        android:nextFocusDown="@+id/zip_code_editText"
+                        android:password="true"
+                        android:layout_marginLeft="10dp"
+                        android:padding="10dp"
+                        android:singleLine="true"
+                        local:MvxBind="Text Cvv" />
+                </android.support.design.widget.TextInputLayout>
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:theme="@style/TextInput"
-                android:layout_marginBottom="10dp"
-                local:MvxBind="Error Errors['Card Number']">
-                <EditText
-                    android:id="@+id/card_number_editText"
+                android:orientation="vertical"
+                android:id="@+id/card_container"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:hint="Card Number"
-                    android:inputType="number"
-                    android:nextFocusDown="@+id/experience_date_editText"
-                    android:layout_marginLeft="10dp"
-                    android:padding="10dp"
-                    android:singleLine="true"
-                    local:MvxBind="Text CardNumberString;" />
-            </android.support.design.widget.TextInputLayout>
+                    android:layout_marginBottom="10dp"
+                    local:passwordToggleEnabled="false"
+                    android:theme="@style/TextInput"
+                    local:MvxBind="Error Errors['ZipCode']">
+                    <EditText
+                        android:id="@+id/zip_code_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:hint="Zip Code"
+                        android:inputType="number"
+                        android:password="true"
+                        android:layout_marginLeft="10dp"
+                        android:padding="10dp"
+                        android:singleLine="true"
+                        local:MvxBind="Text ZipCode" />
+                </android.support.design.widget.TextInputLayout>
+                <Button
+                    android:id="@+id/add_license_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:minHeight="50dp"
+                    android:text="Save Credit Card"
+                    android:textColor="#015e4c"
+                    android:background="@drawable/button_style"
+                    local:MvxBind="Click SaveCreditCardCommand" />
+            </LinearLayout>
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginRight="5dp"
-                android:theme="@style/TextInput"
-                local:MvxBind="Error Errors['State']">
-                <EditText
-                    android:id="@+id/experience_date_editText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:hint="Exp. Date : 01 | 2020"
-                    android:inputType="textNoSuggestions"
-                    android:nextFocusDown="@+id/cvv_editText"
-                    android:layout_marginLeft="10dp"
-                    android:padding="10dp"
-                    android:singleLine="true"
-                    local:MvxBind="Text ExperienceDateString;" />
-            </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginLeft="5dp"
-                local:passwordToggleEnabled="false"
-                android:theme="@style/TextInput"
-                local:MvxBind="Error Errors['CVV']">
-                <EditText
-                    android:id="@+id/cvv_editText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:hint="CVV"
-                    android:inputType="number"
-                    android:nextFocusDown="@+id/zip_code_editText"
-                    android:password="true"
-                    android:layout_marginLeft="10dp"
-                    android:padding="10dp"
-                    android:singleLine="true"
-                    local:MvxBind="Text CvvString" />
-            </android.support.design.widget.TextInputLayout>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/card_container"
-            android:focusable="true"
-            android:focusableInTouchMode="true">
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                local:passwordToggleEnabled="false"
-                android:theme="@style/TextInput"
-                local:MvxBind="Error Errors['ZipCode']">
-                <EditText
-                    android:id="@+id/zip_code_editText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:hint="Zip Code"
-                    android:inputType="number"
-                    android:password="true"
-                    android:layout_marginLeft="10dp"
-                    android:padding="10dp"
-                    android:singleLine="true"
-                    local:MvxBind="Text ZipCodeString" />
-            </android.support.design.widget.TextInputLayout>
-            <Button
-                android:id="@+id/add_license_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:minHeight="50dp"
-                android:text="Save Credit Card"
-                android:textColor="#015e4c"
-                android:background="@drawable/button_style"
-                local:MvxBind="Click SaveCreditCardCommand" />
-        </LinearLayout>
-    </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

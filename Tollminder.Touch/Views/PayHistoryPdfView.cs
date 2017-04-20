@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Drawing;
-using System.IO;
 using Cirrious.FluentLayouts.Touch;
 using Foundation;
 using MvvmCross.Binding.BindingContext;
-using QuickLook;
-using Tollminder.Core.ViewModels;
+using Tollminder.Core.ViewModels.Payments;
 using Tollminder.Touch.Controllers;
-using Tollminder.Touch.Controls;
 using Tollminder.Touch.Extensions;
-using Tollminder.Touch.Helpers;
 using UIKit;
 
 namespace Tollminder.Touch.Views
@@ -44,7 +39,7 @@ namespace Tollminder.Touch.Views
             informationLabel.Text = "Payment History";
             informationLabel.Font = UIFont.BoldSystemFontOfSize(16f);
             informationLabel.TextAlignment = UITextAlignment.Center;
-            
+
             urlLabel = new UILabel();
             pdfWebView = new UIWebView(View.Bounds);
 
@@ -98,8 +93,8 @@ namespace Tollminder.Touch.Views
                 set.Bind(openInButton).To(vm => vm.FileOpenInCommand);
                 set.Apply();
                 pdfWebView.LoadRequest(new NSUrlRequest(new NSUrl(urlLabel.Text)));
-        }
-            catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message, ex.StackTrace);
             }

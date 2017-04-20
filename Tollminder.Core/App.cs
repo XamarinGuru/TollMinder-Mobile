@@ -1,16 +1,11 @@
-using System.Threading.Tasks;
-using Tollminder.Core.ViewModels;
-using Tollminder.Core.Services;
-using Tollminder.Core.Services.Implementation;
 using Tollminder.Core.ServicesHelpers;
-using Tollminder.Core.ServicesHelpers.Implementation;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform.IoC;
 using MvvmCross.Platform;
 using MvvmCross.Core.Platform;
-using Tollminder.Core.Helpers;
-using System.Threading;
-using Tollminder.Core.Utils.Slack;
+using Tollminder.Core.Services.RoadsProcessing;
+using Tollminder.Core.Services.Api;
+using Tollminder.Core.Services.GeoData;
 
 namespace Tollminder.Core
 {
@@ -30,19 +25,25 @@ namespace Tollminder.Core
                 .EndingWith("Service")
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
-            //SlackManager.SendMessage("App has been started!!!!!!");
             RegisterAppStart(new CustomAppStart());
 
-			Mvx.LazyConstructAndRegisterSingleton<IWaypointChecker, WaypointChecker> ();
-			Mvx.LazyConstructAndRegisterSingleton<IDistanceChecker, DistanceChecker> ();
-			Mvx.LazyConstructAndRegisterSingleton<ITrackFacade, TrackFacade>();
+            Mvx.LazyConstructAndRegisterSingleton<IWaypointChecker, WaypointChecker>();
+            Mvx.LazyConstructAndRegisterSingleton<IDistanceChecker, DistanceChecker>();
+            Mvx.LazyConstructAndRegisterSingleton<ITrackFacade, TrackFacade>();
+            Mvx.LazyConstructAndRegisterSingleton<IPaymentProcessing, PaymentProcessing>();
+#if DEBUG
+            Mvx.LazyConstructAndRegisterSingleton<IGeoLocationWatcher, MockGeoLocation>();
+            Mvx.LazyConstructAndRegisterSingleton<IMotionActivity, MockGeoLocation>();
+            Mvx.LazyConstructAndRegisterSingleton<IMockGeoLocation, MockGeoLocation>();
+#endif
         }
 
-        async void StateChanged (object sender, MvxSetup.MvxSetupStateEventArgs e)
+        async void StateChanged(object sender, MvxSetup.MvxSetupStateEventArgs e)
         {
             if (e.SetupState == MvxSetup.MvxSetupState.Initialized)
             {
-                await Mvx.Resolve<ITrackFacade>().Initialize();
+                await Mvx.Resolve<ITrackFacade>().CheckAreWeStillOnTheRoadAsync();
+                await Mvx.Resolve<ITrackFacade>().InitializeAsync();
                 _setup.StateChanged -= StateChanged;
                 _setup = null;
             }

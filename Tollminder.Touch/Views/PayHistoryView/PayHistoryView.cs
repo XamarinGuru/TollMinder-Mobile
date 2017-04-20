@@ -1,34 +1,28 @@
 ﻿using System;
 using Cirrious.FluentLayouts.Touch;
-using CoreGraphics;
-using Google.SignIn;
 using MvvmCross.Binding.BindingContext;
-using MvvmCross.iOS.Views;
-using Tollminder.Core;
-using Tollminder.Core.Converters;
-using Tollminder.Core.Helpers;
-using Tollminder.Core.ViewModels;
 using Tollminder.Touch.Controllers;
 using Tollminder.Touch.Controls;
 using Tollminder.Touch.Extensions;
 using Tollminder.Touch.Helpers;
 using Tollminder.Touch.Interfaces;
 using UIKit;
-using Foundation;
-using Tollminder.Touch.Converters;
-using System.Diagnostics;
-using System.Drawing;
 using MvvmCross.Binding.iOS.Views;
+using Tollminder.Core.ViewModels.Payments;
+using CoreGraphics;
+using Tollminder.Core.Converters;
 
 namespace Tollminder.Touch.Views
 {
     public class PayHistoryView : BaseViewController<PayHistoryViewModel>, ICleanBackStack
     {
         UIButton backHomeView;
-		UITableView tableView;
+        UITableView tableView;
         ProfileButton dowloadHistoryButton;
         UILabel informationLabel;
-        
+        UIView scrollView;
+        UIActivityIndicatorView activityIndicatorView;
+
         public PayHistoryView()
         {
         }
@@ -46,7 +40,7 @@ namespace Tollminder.Touch.Views
             base.InitializeObjects();
 
             var topView = new UIView();
-            var scrollView = new UIView();
+            scrollView = new UIView();
             var bottomView = new UIView();
 
             informationLabel = new UILabel();
@@ -80,21 +74,21 @@ namespace Tollminder.Touch.Views
                 informationLabel.WithSameWidth(topView),
                 informationLabel.WithRelativeHeight(topView, 0.3f)
             );
-            
+
             dowloadHistoryButton = ProfileButtonManager.ButtonInitiaziler("Download History", UIImage.FromFile(@"Images/ProfileView/ic_license.png"));
             tableView = new UITableView();
 
-            bottomView.AddIfNotNull(dowloadHistoryButton,tableView);
+            bottomView.AddIfNotNull(dowloadHistoryButton, tableView);
             bottomView.AddConstraints(
                 dowloadHistoryButton.AtTopOf(bottomView),
                 dowloadHistoryButton.WithSameCenterX(bottomView),
                 dowloadHistoryButton.WithSameWidth(bottomView),
                 dowloadHistoryButton.WithRelativeHeight(bottomView, 0.1f),
 
-				tableView.Below(dowloadHistoryButton),
-				tableView.WithSameCenterX(bottomView),
-				tableView.WithSameWidth(bottomView),
-				tableView.WithRelativeHeight(bottomView, 1)
+                tableView.Below(dowloadHistoryButton),
+                tableView.WithSameCenterX(bottomView),
+                tableView.WithSameWidth(bottomView),
+                tableView.WithRelativeHeight(bottomView, 1)
             );
 
             scrollView.AddIfNotNull(bottomView);
@@ -108,40 +102,65 @@ namespace Tollminder.Touch.Views
             );
 
             View.AddIfNotNull(topView, scrollView);
-			View.AddConstraints(
-				topView.AtTopOf(View),
-				topView.WithSameWidth(View),
-				topView.WithRelativeHeight(View, 0.2f),
+            View.AddConstraints(
+                topView.AtTopOf(View),
+                topView.WithSameWidth(View),
+                topView.WithRelativeHeight(View, 0.2f),
 
-				scrollView.Below(topView, 1),
+                scrollView.Below(topView, 1),
                 scrollView.AtLeftOf(View, 30),
                 scrollView.AtRightOf(View, 30),
                 scrollView.WithRelativeHeight(View, 0.8f)
             );
+            AddLoader();
         }
 
         protected override void InitializeBindings()
         {
-             base.InitializeBindings();
+            base.InitializeBindings();
 
-			// choice here:
-			//
-			//   for original demo use:
-			//     var source = new MvxStandardTableViewSource(tableView, "TitleText");
-			//
-			//   or for prettier cells from XIB file use:
-			//     tableView.RowHeight = 88;
-			//     var source = new MvxSimpleTableViewSource(tableView, BookCell.Key, BookCell.Key);
-
-			tableView.RowHeight = 44;
-			var source = new MvxSimpleTableViewSource(tableView, PayHistoryCell.Key, PayHistoryCell.Key);
-			tableView.Source = source;
+            tableView.RowHeight = 44;
+            var source = new MvxSimpleTableViewSource(tableView, PayHistoryCell.Key, PayHistoryCell.Key);
+            tableView.Source = source;
 
             var set = this.CreateBindingSet<PayHistoryView, PayHistoryViewModel>();
             set.Bind(backHomeView).To(vm => vm.BackHomeCommand);
             set.Bind(dowloadHistoryButton).To(vm => vm.DownloadHistoryCommand);
-			set.Bind(source).To(vm => vm.History);
-			set.Apply();
+            set.Bind(activityIndicatorView).For(x => x.Hidden).To(vm => vm.IsBusy).WithConversion(new BoolInverseConverter());
+            set.Bind(source).To(vm => vm.History);
+            set.Apply();
+        }
+
+        public override void ViewDidAppear(bool animated)
+        {
+            base.ViewDidAppear(animated);
+        }
+
+        private void AddLoader()
+        {
+            activityIndicatorView = (UIActivityIndicatorView)View.ViewWithTag(1000);
+
+            // show busy indicator. create it first if it doesn't already exists
+            if (activityIndicatorView == null)
+            {
+                var s = scrollView.Bounds;
+                activityIndicatorView = new UIActivityIndicatorView()
+                {
+                    ActivityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray,
+                    Tag = 1000
+                };
+                activityIndicatorView.BackgroundColor = UIColor.White;
+                activityIndicatorView.Alpha = 0.7f;
+                scrollView.AddIfNotNull(activityIndicatorView);
+                scrollView.AddConstraints(
+                    activityIndicatorView.AtTopOf(scrollView),
+                    activityIndicatorView.AtLeftOf(scrollView),
+                    activityIndicatorView.AtRightOf(scrollView),
+                    activityIndicatorView.AtBottomOf(scrollView)
+                );
+                scrollView.BringSubviewToFront(activityIndicatorView);
+                activityIndicatorView.StartAnimating();
+            }
         }
     }
 }

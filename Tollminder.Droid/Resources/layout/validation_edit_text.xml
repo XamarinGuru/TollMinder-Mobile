@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/validation_error_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:visibility="invisible"
+        android:layout_marginRight="@dimen/margin_default_small"
+        android:textColor="@color/colorError"
+        tools:visibility="visible"
+        tools:text="Email is too short" />
+    <EditText
+        android:layout_width="match_parent"
+        android:id="@+id/validation_edit_text"
+        android:layout_height="@dimen/default_edit_text_height"
+        android:background="@drawable/edit_text_rounded_background"
+        android:paddingLeft="@dimen/margin_default"
+        android:paddingRight="@dimen/margin_default"
+        android:textSize="15sp"
+        tools:text="login" />
+</LinearLayout>

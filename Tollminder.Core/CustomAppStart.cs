@@ -1,8 +1,8 @@
-﻿using System;
-using MvvmCross.Core.ViewModels;
+﻿using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
-using Tollminder.Core.Services;
+using Tollminder.Core.Services.Settings;
 using Tollminder.Core.ViewModels;
+using Tollminder.Core.ViewModels.UserProfile;
 
 namespace Tollminder.Core
 {
@@ -18,7 +18,7 @@ namespace Tollminder.Core
             }
             else
                 ShowViewModel<LoginViewModel>();
-            //ShowViewModel<RegistrationViewModel>();
+            //ShowViewModel<VehicleViewModel>();
         }
     }
 }

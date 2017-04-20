@@ -3,9 +3,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using Foundation;
-using QuickLook;
-using Tollminder.Core.Services;
-using Tollminder.Touch.Views;
+using Tollminder.Core.Services.ProfileData;
 using UIKit;
 
 namespace Tollminder.Touch.Services
@@ -39,7 +37,7 @@ namespace Tollminder.Touch.Services
             var currentViewController = topViewController.RootViewController;
             UIActivityViewController activityVC = new UIActivityViewController(
                 new NSObject[] { new NSString(documentName), new NSUrl(_documentUrl) }, null);
-            if(currentViewController != null)
+            if (currentViewController != null)
                 currentViewController.PresentViewController(activityVC, true, null);
         }
     }

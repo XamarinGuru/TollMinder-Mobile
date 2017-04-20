@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using CoreGraphics;
 using Facebook.CoreKit;
 using Facebook.LoginKit;
 using Foundation;
 using MvvmCross.Platform;
-using Newtonsoft.Json;
 using Tollminder.Core.Models;
-using Tollminder.Core.Services;
+using Tollminder.Core.Services.SocialNetworks;
 
 namespace Tollminder.Touch.Services
 {
@@ -47,12 +45,12 @@ namespace Tollminder.Touch.Services
             manager = null;
         }
 
-        public Task<SocialData> GetPersonData()
+        public Task<SocialData> GetPersonDataAsync()
         {
             _facebookTask = new TaskCompletionSource<SocialData>();
             CancellationToken canellationToken = new CancellationToken(true);
 
-            manager.LogInWithReadPermissions(readPermissions.ToArray(), (res, e) => 
+            manager.LogInWithReadPermissions(readPermissions.ToArray(), (res, e) =>
             {
                 if (e != null)
                 {
@@ -72,8 +70,8 @@ namespace Tollminder.Touch.Services
                         return;
                     }
                 }
-                catch(Exception ex)
-                { 
+                catch (Exception ex)
+                {
                     Debug.WriteLine(ex.Message, ex.StackTrace);
                 }
 

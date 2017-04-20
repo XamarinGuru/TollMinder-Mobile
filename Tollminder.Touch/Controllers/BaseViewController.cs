@@ -1,5 +1,6 @@
 ﻿using System;
 using Cirrious.FluentLayouts.Touch;
+using CoreGraphics;
 using Foundation;
 using MvvmCross.Binding.BindingContext;
 using Tollminder.Core.ViewModels;
@@ -30,11 +31,25 @@ namespace Tollminder.Touch.Controllers
         {
             base.ViewDidLoad();
             AddIndicatorView();
-            NavigationItem.BackBarButtonItem = new UIBarButtonItem(string.Empty, UIBarButtonItemStyle.Plain, null);
+            //NavigationItem.BackBarButtonItem = new UIBarButtonItem(string.Empty, UIBarButtonItemStyle.Plain, null);
             this.CreateBinding(this).For(v => v.Title).To((BaseViewModel vm) => vm.Title).Apply();
 
             InitializeObjects();
             InitializeBindings();
+        }
+
+        protected void SetBackground(string imagePath)
+        {
+            var imageViewBackground = new UIImageView(new CGRect(0, 0, View.Frame.Width, View.Frame.Height));
+            imageViewBackground.Image = new UIImage(imagePath);
+            imageViewBackground.ContentMode = UIViewContentMode.ScaleAspectFill;
+
+            View.AddIfNotNull(imageViewBackground);
+            View.SendSubviewToBack(imageViewBackground);
+            View.AddConstraints(
+                imageViewBackground.WithSameWidth(View),
+                imageViewBackground.WithSameHeight(View)
+            );
         }
 
         protected virtual void InitializeObjects()
@@ -61,7 +76,6 @@ namespace Tollminder.Touch.Controllers
                 _activityView.AtBottomOf(View)
             );
         }
-
 
         public override void DidMoveToParentViewController(UIKit.UIViewController parent)
         {

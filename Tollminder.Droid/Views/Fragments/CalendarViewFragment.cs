@@ -5,8 +5,8 @@ using Android.Views;
 using Android.Widget;
 using MvvmCross.Platform;
 using MvvmCross.Platform.Droid.Platform;
-using Tollminder.Core.Services;
-using Tollminder.Core.ViewModels;
+using Tollminder.Core.Services.Notifications;
+using Tollminder.Core.ViewModels.Payments;
 
 namespace Tollminder.Droid.Views.Fragments
 {
@@ -23,7 +23,7 @@ namespace Tollminder.Droid.Views.Fragments
             get { return Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity; }
         }
 
-        public Task<DateTime> ShowDialog(DateTime currentValue)
+        public Task<DateTime> ShowDialogAsync(DateTime currentValue)
         {
             view = CurrentActivity.LayoutInflater.Inflate(Resource.Layout.calendar_fragment, null);
             AlertDialog.Builder builder = new AlertDialog.Builder(CurrentActivity);
@@ -31,7 +31,7 @@ namespace Tollminder.Droid.Views.Fragments
             builder.Create();
             dialog = builder.Show();
 
-            calendarView = view.FindViewById<CalendarView>(Resource.Id.calendarView); 
+            calendarView = view.FindViewById<CalendarView>(Resource.Id.calendarView);
             backToPayHistory = view.FindViewById<ImageButton>(Resource.Id.calendar_btn_back_to_payhistory);
             var result = new TaskCompletionSource<DateTime>();
             var unixTime = currentValue.ToUniversalTime() -
@@ -52,10 +52,10 @@ namespace Tollminder.Droid.Views.Fragments
                 dialog.Dismiss();
             };
 
-            backToPayHistory.Click+= (sender, e) => 
-            {
-                dialog.Dismiss();
-            };
+            backToPayHistory.Click += (sender, e) =>
+             {
+                 dialog.Dismiss();
+             };
 
             model.PropertyChanged += (sender, args) =>
             {

@@ -1,6 +1,5 @@
-﻿using System;
-using System.Net.Http;
-using Tollminder.Core.Services;
+﻿using System.Net.Http;
+using Tollminder.Core.Services.Api;
 
 namespace Tollminder.Droid.Services
 {

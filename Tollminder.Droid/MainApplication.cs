@@ -4,7 +4,6 @@ using Android.App;
 using Android.OS;
 using Android.Runtime;
 using Plugin.CurrentActivity;
-using Tollminder.Droid.AndroidServices;
 using Xamarin;
 
 namespace Tollminder.Droid

@@ -36,7 +36,8 @@ namespace Tollminder.Touch.Controls
         public UIColor LabelTextColor
         {
             get { return labelTextColor; }
-            set { 
+            set
+            {
                 labelTextColor = value;
                 labelText.TextColor = labelTextColor;
             }
@@ -45,7 +46,11 @@ namespace Tollminder.Touch.Controls
         public UILabel ValueText
         {
             get { return valueText; }
-            set { valueText = value; }
+            set
+            {
+                valueText = value;
+                valueText.Lines = 2;
+            }
         }
 
         public UIColor ValueTextColor
@@ -92,7 +97,6 @@ namespace Tollminder.Touch.Controls
             iconView = new MvxImageView();
             labelText = new UILabel();
             valueText = new UILabel();
-            
             labelText.Font = UIFont.BoldSystemFontOfSize(14f);
             this.AddIfNotNull(iconView, labelText, valueText);
 

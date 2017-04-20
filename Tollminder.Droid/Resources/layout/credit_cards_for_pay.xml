@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:local="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/tab_background"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/profile_top_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/profile_top_background">
+        <Button
+            android:id="@+id/add_credit_card"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:layout_marginRight="20dp"
+            android:layout_centerVertical="true"
+            android:text="Close"
+            android:layout_alignParentRight="true"
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            local:MvxBind="Click CloseCreditCardsForPayCommand"
+            android:background="@android:color/transparent"/>
+    </RelativeLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <MvvmCross.Droid.Support.V7.RecyclerView.MvxRecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            local:MvxItemTemplate="@layout/credit_card_item"
+            local:MvxBind="ItemsSource CrediCards; ItemClick ItemSelectedCommand" />
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

@@ -4,176 +4,202 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Timers;
-using AudioToolbox;
 using AVFoundation;
 using Foundation;
 using MvvmCross.Platform;
 using OpenEars;
 using Tollminder.Core.Models;
-using Tollminder.Core.Services;
-using Tollminder.Touch.Views;
 using UIKit;
+using Chance.MvvmCross.Plugins.UserInteraction;
+using MvvmCross.Platform.Core;
+using Tollminder.Core.Services.SpeechRecognition;
 
 namespace Tollminder.Touch.Services.SpeechServices
 {
-	public class TouchSpeechToTextService : ISpeechToTextService
-	{
+    public class TouchSpeechToTextService : ISpeechToTextService
+    {
         readonly ITextFromSpeechMappingService MappingService;
         readonly ITextToSpeechService TextToSpeechService;
 
-		OEEventsObserver observer;
-		OEPocketsphinxController pocketSphinxController;
-		OEFliteController fliteController;
+        OEEventsObserver observer;
+        OEPocketsphinxController pocketSphinxController;
+        OEFliteController fliteController;
         AVAudioPlayer _audioPlayer;
         AnswerType _answer;
         Core.Utils.Timer _timer;
         bool isTimeStarted;
+        int repeatTimeoutSeconts = 5;
+        TaskCompletionSource<bool> _alertRecognitionTCS;
+        TaskCompletionSource<bool> _voiceRecognitionTCS;
+        CancellationTokenSource cancellationToken;
 
-        TaskCompletionSource<bool> _recognitionTask;
+        UIAlertView _questionAlert;
 
-		UIAlertView _questionAlert;
+        string pathToLanguageModel;
+        string pathToDictionary;
+        string pathToAcousticModel;
+        string firstVoiceToUse;
+        string secondVoiceToUse;
 
-		string pathToLanguageModel;
-		string pathToDictionary;
-		string pathToAcousticModel;
-		string firstVoiceToUse;
-		string secondVoiceToUse;
 
-		string _question;
-		public string Question
-		{
-			get
-			{
-				return _question;
-			}
-			set
-			{
-				_question = value;
-			}
-		}
+        public string Question { get; set; }
 
-		public TouchSpeechToTextService()
-		{
+        readonly IUserInteraction userInteractionService;
+
+        public TouchSpeechToTextService(IUserInteraction userInteractionService)
+        {
+            this.userInteractionService = userInteractionService;
             MappingService = Mvx.Resolve<ITextFromSpeechMappingService>();
             TextToSpeechService = Mvx.Resolve<ITextToSpeechService>();
 
-			observer = new OEEventsObserver();
-			observer.WeakDelegate = new MyOpenEarsEventsObserverDelegate(this);
-			pocketSphinxController = new OEPocketsphinxController();
-			fliteController = new OEFliteController();
+            observer = new OEEventsObserver();
+            observer.WeakDelegate = new MyOpenEarsEventsObserverDelegate(this);
+            pocketSphinxController = new OEPocketsphinxController();
+            fliteController = new OEFliteController();
 
-			firstVoiceToUse = "cmu_us_slt";
-			secondVoiceToUse = "cmu_us_rms";
-			pathToLanguageModel = NSBundle.MainBundle.ResourcePath + System.IO.Path.DirectorySeparatorChar + "OpenEars1.languagemodel";
-			pathToDictionary = NSBundle.MainBundle.ResourcePath + System.IO.Path.DirectorySeparatorChar + "OpenEars1.dic";
-			pathToAcousticModel = NSBundle.MainBundle.ResourcePath + System.IO.Path.DirectorySeparatorChar + "AcousticModelEnglish.bundle";
-		}
-		
-		public Task<bool> AskQuestion(string question)
-		{
-			_recognitionTask = new TaskCompletionSource<bool>();
-
-            TimerManager(question);
-
-			return _recognitionTask.Task;
-		}
-
-        async Task AskQuestionMethod(string question)
-        {
-            UIApplication.SharedApplication.InvokeOnMainThread(() =>
-            {
-                _questionAlert = new UIAlertView(question, "Please, answer after the signal", null, "NO", "Yes");
-                _questionAlert.Clicked += (sender, _buttonArgs) =>
-                {
-                    TimerManager(question);
-                    _recognitionTask.TrySetResult(_buttonArgs.ButtonIndex != _questionAlert.CancelButtonIndex);
-                };
-                _questionAlert.Show();
-            });
-            if (await TextToSpeechService.Speak(question, false))
-            {
-                if (await TextToSpeechService.Speak("Please, answer after the signal", false))
-                {
-                    if (isTimeStarted)
-                    {
-                        UIApplication.SharedApplication.InvokeOnMainThread(() =>
-                        {
-                            AVAudioSession.SharedInstance().SetCategory(AVAudioSessionCategory.Playback);
-                            AVAudioSession.SharedInstance().SetActive(true);
-                        //SystemSound notificationSound = SystemSound.FromFile(@"/System/Library/Audio/UISounds/jbl_begin.caf");
-                        //notificationSound.AddSystemSoundCompletion(SystemSound.Vibrate.PlaySystemSound);
-                        //notificationSound.PlaySystemSound();
-
-                        _audioPlayer = AVAudioPlayer.FromUrl(NSUrl.FromFilename(Path.Combine("Sounds", "tap.aif")));
-                            _audioPlayer.PrepareToPlay();
-                            _audioPlayer.Play();
-                        });
-
-                        Question = question;
-                        StartListening();
-                    }
-                }
-            }
+            firstVoiceToUse = "cmu_us_slt";
+            secondVoiceToUse = "cmu_us_rms";
+            pathToLanguageModel = NSBundle.MainBundle.ResourcePath + System.IO.Path.DirectorySeparatorChar + "OpenEars1.languagemodel";
+            pathToDictionary = NSBundle.MainBundle.ResourcePath + System.IO.Path.DirectorySeparatorChar + "OpenEars1.dic";
+            pathToAcousticModel = NSBundle.MainBundle.ResourcePath + System.IO.Path.DirectorySeparatorChar + "AcousticModelEnglish.bundle";
         }
 
-        public void CheckResult(IList<string> matches)
+        public async Task<bool> AskQuestionAsync(string question)
         {
-            TimerManager(Question);
+            bool result = false;
+            for (int i = 0; i < 3; i++)
+            {
+                try
+                {
+                    cancellationToken = new CancellationTokenSource(TimeSpan.FromSeconds(repeatTimeoutSeconts));
+                    cancellationToken.CancelAfter(TimeSpan.FromSeconds(repeatTimeoutSeconts));
+                    result = await AskOneTimeQuestionAsync(question);
+                    break;
+                }
+                catch (TaskCanceledException ex)
+                {
+                    Debug.WriteLine("TaskCanceledException");
+                    //cancellationToken.Dispose();
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+            }
+            return result;
+
+        }
+
+        public async Task<bool> AskOneTimeQuestionAsync(string question)
+        {
+            var result = false;
+            _alertRecognitionTCS = new TaskCompletionSource<bool>();
+            try
+            {
+                UIApplication.SharedApplication.InvokeOnMainThread(() =>
+                {
+                    _questionAlert = new UIAlertView(question, "Please, answer after the signal", null, "NO", "Yes");
+                    _questionAlert.Clicked += (sender, _buttonArgs) =>
+                    {
+                        try
+                        {
+                            _alertRecognitionTCS.TrySetResult(_buttonArgs.ButtonIndex != _questionAlert.CancelButtonIndex);
+                            _questionAlert.Show();
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine(ex.Message);
+                        }
+                    };
+                    _questionAlert.Show();
+                });
+
+                _voiceRecognitionTCS = new TaskCompletionSource<bool>();
+                result = await await Task.WhenAny(new[] { _alertRecognitionTCS.Task, AskQuestionMethodAsync(question) });
+
+                userInteractionService.DisposeIfDisposable();
+            }
+            catch (TaskCanceledException ex)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+                StopListening();
+            }
+            return result;
+        }
+
+        async Task<bool> AskQuestionMethodAsync(string question)
+        {
+            bool result = false;
+
+
+            await TextToSpeechService.SpeakAsync(question, false).ConfigureAwait(false);
+            await TextToSpeechService.SpeakAsync("Please, answer after the signal", false).ConfigureAwait(false);
+            UIApplication.SharedApplication.InvokeOnMainThread(() =>
+           {
+               AVAudioSession.SharedInstance().SetCategory(AVAudioSessionCategory.Playback);
+               AVAudioSession.SharedInstance().SetActive(true);
+
+               _audioPlayer = AVAudioPlayer.FromUrl(NSUrl.FromFilename(Path.Combine("Sounds", "tap.aif")));
+               _audioPlayer.PrepareToPlay();
+               _audioPlayer.Play();
+           });
+            StartListening();
+            var intRes = Task.WaitAny(new[] { _voiceRecognitionTCS.Task }, TimeSpan.FromSeconds(10));
+            if (intRes == -1)
+                throw new TaskCanceledException();
+            result = await _voiceRecognitionTCS.Task;
+
+            return result;
+        }
+
+        public async void CheckResult(IList<string> matches)
+        {
             _answer = MappingService.DetectAnswer(matches);
 
             if (_answer != AnswerType.Unknown)
             {
-                TextToSpeechService.Speak($"Your answer is {_answer.ToString()}", false).ConfigureAwait(false);
-                _recognitionTask.TrySetResult(_answer == AnswerType.Positive);
+                await TextToSpeechService.SpeakAsync($"Your answer is {_answer}", false).ConfigureAwait(false);
+                _voiceRecognitionTCS.TrySetResult(_answer == AnswerType.Positive);
             }
             else
-                TimerManager(Question);
+                _voiceRecognitionTCS.TrySetCanceled();
         }
 
-		public void StartListening()
-		{
+        public void StartListening()
+        {
             pocketSphinxController.StartListeningWithLanguageModelAtPathdictionaryAtPathlanguageModelIsJSGF(
-				pathToLanguageModel,
-				pathToDictionary,
-				pathToAcousticModel,
-				false
-			);
-		}
+                pathToLanguageModel,
+                pathToDictionary,
+                pathToAcousticModel,
+                false
+            );
+        }
 
-		public void StopListening()
-		{
-			pocketSphinxController.StopListening();
+        public void StopListening()
+        {
+            pocketSphinxController.StopListening();
             UIApplication.SharedApplication.InvokeOnMainThread(() =>
             {
                 _questionAlert?.DismissWithClickedButtonIndex(0, true);
             });
-		}
-
-        private void TimerManager(string question)
-        {
-            StopListening();
-            if (!isTimeStarted)
-            {
-                isTimeStarted = true;
-                _timer = new Core.Utils.Timer((s) => { AskQuestionMethod(question); }, question, new TimeSpan(0, 0, 0), new TimeSpan(0, 0, 15), true);
-            }
-            else
-            {
-                _timer.Cancel();
-                isTimeStarted = false;
-            }
         }
 
-		public void SuspendRecognition()
-		{
-			pocketSphinxController.SuspendRecognition();
-		}
+        public void SuspendRecognition()
+        {
+            pocketSphinxController.SuspendRecognition();
+        }
 
-		public void ResumeRecognition()
-		{
-			pocketSphinxController.ResumeRecognition();
-		}
-	}
+        public void ResumeRecognition()
+        {
+            pocketSphinxController.ResumeRecognition();
+        }
+    }
 }
 

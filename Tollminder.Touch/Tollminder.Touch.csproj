@@ -23,8 +23,6 @@
     <ConsolePause>false</ConsolePause>
     <MtouchArch>x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
-    <MtouchUseRefCounting>true</MtouchUseRefCounting>
-    <MtouchUseSGen>true</MtouchUseSGen>
     <MtouchFastDev>true</MtouchFastDev>
     <MtouchDebug>true</MtouchDebug>
     <CodesignKey>iPhone Distribution: Dmitry Stepanov (W6C5Q44UVB)</CodesignKey>
@@ -42,19 +40,27 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
-    <MtouchUseSGen>true</MtouchUseSGen>
     <CodesignKey>iPhone Distribution: Dmitry Stepanov (W6C5Q44UVB)</CodesignKey>
-    <MtouchUseRefCounting>true</MtouchUseRefCounting>
     <MtouchUseLlvm>true</MtouchUseLlvm>
     <IpaPackageName>TollMinder</IpaPackageName>
-    <MtouchExtraArgs></MtouchExtraArgs>
+    <MtouchExtraArgs>--linkskip=Tollminder.Core
+	--linkskip=Tollminder.iOS
+		--linkskip=MvvmCross.Plugins.File
+		--linkskip=MvvmCross.Plugins.File.iOS
+		--linkskip=MvvmCross.Plugins.Json
+		--linkskip=MvvmCross.Plugins.DownloadCache
+		--linkskip=MvvmCross.Plugins.DownloadCache.iOS
+		--linkskip=Chance.MvvmCross.Plugins.UserInteraction
+		--linkskip=Chance.MvvmCross.Plugins.UserInteraction.Touch
+		--linkskip=MvvmCross.Binding.iOS
+		--linkskip=Newtonsoft.Json</MtouchExtraArgs>
     <CodesignProvision>Automatic:AdHoc</CodesignProvision>
     <BuildIpa>true</BuildIpa>
     <IpaMetadata>Info.plist</IpaMetadata>
     <MtouchFloat32>false</MtouchFloat32>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
-    <MtouchUseThumb>true</MtouchUseThumb>
+    <MtouchUseThumb>false</MtouchUseThumb>
     <MtouchLink>SdkOnly</MtouchLink>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
@@ -64,11 +70,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <MtouchArch>i386</MtouchArch>
+    <MtouchArch>i386, x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
-    <MtouchUseRefCounting>true</MtouchUseRefCounting>
     <CodesignKey>iPhone Distribution: Dmitry Stepanov (W6C5Q44UVB)</CodesignKey>
-    <MtouchUseSGen>true</MtouchUseSGen>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
@@ -84,11 +88,9 @@
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchFloat32>false</MtouchFloat32>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Developer: Dmitry Stepanov (C2BVG7CP4Y)</CodesignKey>
     <DeviceSpecificBuild>true</DeviceSpecificBuild>
     <MtouchDebug>true</MtouchDebug>
-    <MtouchUseSGen>true</MtouchUseSGen>
-    <MtouchUseRefCounting>true</MtouchUseRefCounting>
     <MtouchProfiling>true</MtouchProfiling>
     <IpaPackageName></IpaPackageName>
     <CodesignProvision></CodesignProvision>
@@ -114,9 +116,6 @@
     </Reference>
     <Reference Include="System.Reactive.Linq">
       <HintPath>..\packages\Rx-Linq.2.2.5\lib\portable-windows8+net45+wp8\System.Reactive.Linq.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Insights">
       <HintPath>..\packages\Xamarin.Insights.1.12.3\lib\Xamarin.iOS10\Xamarin.Insights.dll</HintPath>
@@ -191,21 +190,6 @@
       <HintPath>..\packages\Birdie.MvvmCross.Plugins.UserInteraction.1.4.0\lib\Xamarin.iOS10\Chance.MvvmCross.Plugins.UserInteraction.Touch.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http" />
-    <Reference Include="SQLitePCLRaw.core">
-      <HintPath>..\packages\SQLitePCLRaw.core.1.1.2\lib\Xamarin.iOS10\SQLitePCLRaw.core.dll</HintPath>
-    </Reference>
-    <Reference Include="SQLitePCLRaw.provider.sqlite3">
-      <HintPath>..\packages\SQLitePCLRaw.provider.sqlite3.ios_unified.1.1.2\lib\Xamarin.iOS10\SQLitePCLRaw.provider.sqlite3.dll</HintPath>
-    </Reference>
-    <Reference Include="SQLitePCLRaw.batteries_green">
-      <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.2\lib\Xamarin.iOS10\SQLitePCLRaw.batteries_green.dll</HintPath>
-    </Reference>
-    <Reference Include="SQLitePCLRaw.batteries_v2">
-      <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.2\lib\Xamarin.iOS10\SQLitePCLRaw.batteries_v2.dll</HintPath>
-    </Reference>
-    <Reference Include="SQLite-net">
-      <HintPath>..\packages\sqlite-net-pcl.1.2.1\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLite-net.dll</HintPath>
-    </Reference>
     <Reference Include="Facebook">
       <HintPath>..\packages\Xamarin.Facebook.iOS.4.18.0.1\lib\Xamarin.iOS10\Facebook.dll</HintPath>
     </Reference>
@@ -236,6 +220,30 @@
     <Reference Include="AuthorizeNet">
       <HintPath>..\packages\AuthorizeNet.1.9.1\lib\AuthorizeNet.dll</HintPath>
     </Reference>
+    <Reference Include="Card.IO">
+      <HintPath>..\packages\Xamarin.CardIO.iOS.5.4.1\lib\Xamarin.iOS10\Card.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoTouch.Dialog-1" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\netstandard1.3\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLite-net">
+      <HintPath>..\packages\sqlite-net-pcl.1.3.1\lib\netstandard1.1\SQLite-net.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.core">
+      <HintPath>..\packages\SQLitePCLRaw.core.1.1.3\lib\Xamarin.iOS10\SQLitePCLRaw.core.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.provider.sqlite3">
+      <HintPath>..\packages\SQLitePCLRaw.provider.sqlite3.ios_unified.1.1.3\lib\Xamarin.iOS10\SQLitePCLRaw.provider.sqlite3.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.batteries_green">
+      <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.3\lib\Xamarin.iOS10\SQLitePCLRaw.batteries_green.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.batteries_v2">
+      <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.3\lib\Xamarin.iOS10\SQLitePCLRaw.batteries_v2.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
@@ -255,6 +263,14 @@
     <InterfaceDefinition Include="Resources\LaunchScreen.xib" />
     <InterfaceDefinition Include="Views\PayHistoryView\PayHistoryCell.xib" />
     <InterfaceDefinition Include="Views\PayHistoryView\PayHistoryHeader.xib" />
+    <InterfaceDefinition Include="Views\PaymentViews\AddCreditCardViewController.xib" />
+    <InterfaceDefinition Include="Views\PaymentViews\PaymentViewController.xib" />
+    <InterfaceDefinition Include="Views\DriverViews\VehicleViewController.xib" />
+    <InterfaceDefinition Include="Views\PaymentViews\CreditCardsViewController.xib" />
+    <InterfaceDefinition Include="Views\PaymentViews\CreditCardsTableViewCell.xib" />
+    <InterfaceDefinition Include="Views\PaymentViews\NotPayedTripsTableViewCell.xib" />
+    <InterfaceDefinition Include="Views\PaymentViews\CardsForPayTableViewCell.xib" />
+    <InterfaceDefinition Include="Views\UserProfile\RegistrationViewController.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -266,7 +282,6 @@
     <Compile Include="Setup.cs" />
     <Compile Include="DebugTrace.cs" />
     <Compile Include="LinkerPleaseInclude.cs" />
-    <Compile Include="Services\TouchTextToSpeechService.cs" />
     <Compile Include="Views\HomeDebugView.cs" />
     <Compile Include="Views\HomeDebugView.designer.cs">
       <DependentUpon>HomeDebugView.cs</DependentUpon>
@@ -285,7 +300,6 @@
     <Compile Include="Bootstrap\MessengerPluginBootstrap.cs" />
     <Compile Include="Bootstrap\SqlitePluginBootstrap.cs" />
     <Compile Include="Services\TouchInsightsService.cs" />
-    <Compile Include="Views\LoginView.cs" />
     <Compile Include="Controllers\MvxTextFieldResponderController.cs" />
     <Compile Include="Controllers\KeyboardTextFieldController.cs" />
     <Compile Include="Extensions\ViewExtensions.cs" />
@@ -302,16 +316,12 @@
     <Compile Include="Views\HomeView.cs" />
     <Compile Include="Controls\RoundedButton.cs" />
     <Compile Include="Converters\GetPathToImageConverter.cs" />
-    <Compile Include="Services\TouchCheckerAppFirstLaunch.cs" />
     <Compile Include="Helpers\RoundedButtonManager.cs" />
-    <Compile Include="Services\TouchNetworkCheck.cs" />
-    <Compile Include="Views\ProfileView.cs" />
     <Compile Include="Services\TouchSheduleNotification.cs" />
     <Compile Include="Services\SpeechServices\MyOpenEarsEventsObserverDelegate.cs" />
     <Compile Include="Services\SpeechServices\TouchSpeechToTextService.cs" />
     <Compile Include="Controls\ProfileButton.cs" />
     <Compile Include="Helpers\ProfileButtonManager.cs" />
-    <Compile Include="Views\LicensePlateView.cs" />
     <Compile Include="Views\PayHistoryView\PayHistoryView.cs" />
     <Compile Include="Views\PayHistoryView\PayHistoryCell.cs" />
     <Compile Include="Views\PayHistoryView\PayHistoryCell.designer.cs">
@@ -328,12 +338,50 @@
     <Compile Include="Controls\TextFiled\TextFieldValidatorView.cs" />
     <Compile Include="Controls\TextFiled\TextFieldWithValidator.cs" />
     <Compile Include="Controls\BoardField.cs" />
-    <Compile Include="Views\RegistrationView.cs" />
-    <Compile Include="Services\TouchProgressDialogManager.cs" />
     <Compile Include="Controls\LoadingOverlay.cs" />
     <Compile Include="Controls\EnhancedToolbar.cs" />
     <Compile Include="Helpers\KeyboardHandler.cs" />
     <Compile Include="Converters\GetSliderPageConverter.cs" />
+    <Compile Include="Views\PaymentViews\AddCreditCardViewController.cs" />
+    <Compile Include="Views\PaymentViews\AddCreditCardViewController.designer.cs">
+      <DependentUpon>AddCreditCardViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PaymentViews\PaymentViewController.cs" />
+    <Compile Include="Views\PaymentViews\PaymentViewController.designer.cs">
+      <DependentUpon>PaymentViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Bootstrap\CreditCardScanBootstrapAction.cs" />
+    <Compile Include="Plugin.cs" />
+    <Compile Include="Services\TouchCreditCardScanService.cs" />
+    <Compile Include="Services\SpeechServices\TouchTextToSpeechService.cs" />
+    <Compile Include="Views\DriverViews\LicensePlateView.cs" />
+    <Compile Include="Views\DriverViews\VehicleViewController.cs" />
+    <Compile Include="Views\DriverViews\VehicleViewController.designer.cs">
+      <DependentUpon>VehicleViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PaymentViews\CreditCardsViewController.cs" />
+    <Compile Include="Views\PaymentViews\CreditCardsViewController.designer.cs">
+      <DependentUpon>CreditCardsViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PaymentViews\CreditCardsTableViewCell.cs" />
+    <Compile Include="Views\PaymentViews\CreditCardsTableViewCell.designer.cs">
+      <DependentUpon>CreditCardsTableViewCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PaymentViews\NotPayedTripsTableViewCell.cs" />
+    <Compile Include="Views\PaymentViews\NotPayedTripsTableViewCell.designer.cs">
+      <DependentUpon>NotPayedTripsTableViewCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PaymentViews\PaymentTableViewSource.cs" />
+    <Compile Include="Views\PaymentViews\CardsForPayTableViewCell.cs" />
+    <Compile Include="Views\PaymentViews\CardsForPayTableViewCell.designer.cs">
+      <DependentUpon>CardsForPayTableViewCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserProfile\RegistrationViewController.cs" />
+    <Compile Include="Views\UserProfile\RegistrationViewController.designer.cs">
+      <DependentUpon>RegistrationViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserProfile\LoginView.cs" />
+    <Compile Include="Views\UserProfile\ProfileView.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets')" />
@@ -367,6 +415,9 @@
     <Folder Include="Views\PayHistoryView\" />
     <Folder Include="Controls\TextFiled\" />
     <Folder Include="Resources\Images\HomeView\InformationBoard\" />
+    <Folder Include="Views\PaymentViews\" />
+    <Folder Include="Views\DriverViews\" />
+    <Folder Include="Views\UserProfile\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\OpenEars1.dic" />
@@ -417,6 +468,8 @@
     <BundleResource Include="Resources\Images\splash.png" />
     <BundleResource Include="Resources\Images\LoginView\ic_google.png" />
     <BundleResource Include="Resources\Images\HomeView\ic_logout.png" />
+    <BundleResource Include="Resources\Images\ic_card.png" />
+    <BundleResource Include="Resources\Images\ic_license.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="facebookios">
@@ -425,6 +478,10 @@
     </XamarinComponentReference>
     <XamarinComponentReference Include="googleiossignin">
       <Version>4.0.0.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="cardioios">
+      <Version>5.4.1.1</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>

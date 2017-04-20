@@ -16,11 +16,12 @@
     <AssemblyName>Tollminder.Droid</AssemblyName>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
   <AndroidSdkBuildToolsVersion>23.0.2</AndroidSdkBuildToolsVersion>
-    <TargetFrameworkVersion>v7.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v7.1</TargetFrameworkVersion>
     <XamarinInsightsApiKey>2b455f0ac1fe12ddfc5b5ffae045c69e33a79c33</XamarinInsightsApiKey>
     <AndroidLinkMode>None</AndroidLinkMode>
     <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
     <JavaMaximumHeapSize>3G</JavaMaximumHeapSize>
+    <AndroidTlsProvider></AndroidTlsProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,7 +35,7 @@
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <AndroidSupportedAbis>x86;armeabi;armeabi-v7a;arm64-v8a;x86_64</AndroidSupportedAbis>
     <AndroidKeyStore>True</AndroidKeyStore>
-    <AndroidSigningKeyStore>/Users/gloriumtech/Documents/Repository/TollMinder/TollMinder.keystore</AndroidSigningKeyStore>
+    <AndroidSigningKeyStore>../TollMinder.keystore</AndroidSigningKeyStore>
     <AndroidSigningStorePass>Palladium5 </AndroidSigningStorePass>
     <AndroidSigningKeyAlias>tollminder</AndroidSigningKeyAlias>
     <AndroidSigningKeyPass>Palladium5 </AndroidSigningKeyPass>
@@ -270,6 +271,9 @@
     <Reference Include="MaskedEditText">
       <HintPath>..\packages\MaskedEditText.0.1.0\lib\MaskedEditText.dll</HintPath>
     </Reference>
+    <Reference Include="MvvmCross.Droid.Support.V7.RecyclerView">
+      <HintPath>..\packages\MvvmCross.Droid.Support.V7.RecyclerView.4.4.0\lib\MonoAndroid70\MvvmCross.Droid.Support.V7.RecyclerView.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -316,7 +320,6 @@
     <Compile Include="AndroidServices\NorficationService.cs" />
     <Compile Include="Views\ProfileView.cs" />
     <Compile Include="Views\LicenseView.cs" />
-    <Compile Include="Views\CreditCardView.cs" />
     <Compile Include="Controls\ProfileButton.cs" />
     <Compile Include="Views\PayHistoryView.cs" />
     <Compile Include="Views\Fragments\CalendarViewFragment.cs" />
@@ -339,8 +342,12 @@
     <Compile Include="Controls\BoardInformationLabel.cs" />
     <Compile Include="Views\Fragments\RoadInformationFragment.cs" />
     <Compile Include="Views\RegistrationView.cs" />
-    <Compile Include="Services\DroidProgressDialogManager.cs" />
     <Compile Include="AndroidServices\FieldsService.cs" />
+    <Compile Include="Controls\ValidationEditText.cs" />
+    <Compile Include="Views\PaymentsViews\CreditCardView.cs" />
+    <Compile Include="Views\PaymentsViews\AddCreditCardView.cs" />
+    <Compile Include="TemplateSelectors\TypeTemplateSelector.cs" />
+    <Compile Include="Views\PaymentsViews\PaymentView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AboutAssets.txt" />
@@ -367,6 +374,8 @@
     <Folder Include="ResourcesToCopy\" />
     <Folder Include="ResourcesToCopy\" />
     <Folder Include="Adapters\" />
+    <Folder Include="Views\PaymentsViews\" />
+    <Folder Include="TemplateSelectors\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\MonoAndroid10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\MonoAndroid10\Xamarin.Insights.targets')" />
@@ -545,6 +554,16 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_facebook.png" />
     <AndroidResource Include="Resources\drawable\facebook_button_style.xml" />
     <AndroidResource Include="Resources\layout\calendar_radio_button.xml" />
+    <AndroidResource Include="Resources\layout\credit_cards_list_view.xml" />
+    <AndroidResource Include="Resources\layout\credit_card_item.xml" />
+    <AndroidResource Include="Resources\layout\validation_edit_text.xml" />
+    <AndroidResource Include="Resources\drawable\edit_text_rounded_background.xml" />
+    <AndroidResource Include="Resources\drawable\edit_text_rounded_error_background.xml" />
+    <AndroidResource Include="Resources\layout\pay_view.xml" />
+    <AndroidResource Include="Resources\layout\pay_item.xml" />
+    <AndroidResource Include="Resources\layout\credit_cards_for_pay.xml" />
+    <AndroidResource Include="Resources\layout\pay_history_item.xml" />
+    <AndroidResource Include="Resources\layout\home_view_mock_location.axml" />
   </ItemGroup>
   <ItemGroup>
     <ProguardConfiguration Include="Properties\AndroidManifest.xml" />

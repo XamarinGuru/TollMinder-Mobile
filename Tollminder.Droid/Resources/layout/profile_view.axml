@@ -20,7 +20,7 @@
             local:MvxBind="Click BackHomeCommand"
             android:background="@android:color/transparent"
             android:focusable="true"
-            android:focusableInTouchMode="true" />
+            android:focusableInTouchMode="true"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,17 +30,17 @@
             android:text="Profile"
             android:id="@+id/top_profile_label"
             android:textColor="@color/white" />
+
         <TextView
             android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_below="@id/top_profile_label"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
             android:text="Please, Enter Your Personal Information."
             android:textSize="15dp"
             android:gravity="center_horizontal"
-            android:textColor="@color/blue" />
+            android:textColor="@color/blue"
+            android:layout_alignTop="@+id/back_to_home_view"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/textView" />
     </RelativeLayout>
     <ScrollView
         android:layout_width="match_parent"
@@ -70,6 +70,7 @@
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
                         android:hint="First Name"
+                        android:layout_marginLeft="10dp"
                         android:inputType="textNoSuggestions"
                         android:nextFocusDown="@+id/lastName_editText"
                         android:drawablePadding="5dp"
@@ -92,6 +93,7 @@
                         android:hint="Last Name"
                         android:inputType="textNoSuggestions"
                         android:nextFocusDown="@+id/email_editText"
+                        android:layout_marginLeft="10dp"
                         android:drawablePadding="55dp"
                         android:padding="10dp"
                         android:singleLine="true"
@@ -218,8 +220,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="50dp"
-                    local:text_profile="Add Credit Card"
-                    local:MvxBind="Click AddCreditCardCommand"
+                    local:text_profile="Credit Cards"
+                    local:MvxBind="Click ShowCreditCardsCommand"
                     local:icon_profile="@drawable/ic_card" />
             </LinearLayout>
         </LinearLayout>

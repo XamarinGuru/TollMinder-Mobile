@@ -6,14 +6,12 @@ using Android.Gms.Auth.Api;
 using Android.Gms.Auth.Api.SignIn;
 using Android.Gms.Common;
 using Android.Gms.Common.Apis;
-using Android.Gms.Plus;
 using Android.OS;
 using Android.Support.V4.App;
-using Android.Views;
 using MvvmCross.Platform;
 using MvvmCross.Platform.Droid.Platform;
 using Tollminder.Core.Models;
-using Tollminder.Core.Services;
+using Tollminder.Core.Services.SocialNetworks;
 using Tollminder.Droid.Inerfaces;
 
 namespace Tollminder.Droid.Services
@@ -55,9 +53,9 @@ namespace Tollminder.Droid.Services
                 .Build();
         }
 
-        public Task<SocialData> GetPersonData()
+        public Task<SocialData> GetPersonDataAsync()
         {
-            if(!googleApiClient.IsConnecting)
+            if (!googleApiClient.IsConnecting)
             {
                 signInClicked = true;
                 //ResolveSignInError();
@@ -73,19 +71,19 @@ namespace Tollminder.Droid.Services
 
         private void ResolveSignInError()
         {
-            if(googleApiClient.IsConnected)
+            if (googleApiClient.IsConnected)
             {
                 // No need to resolve errors, already connected
                 return;
             }
-            if(connectionResult.HasResolution)
+            if (connectionResult.HasResolution)
             {
                 try
                 {
                     intentInProgress = true;
                     Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity.StartIntentSenderForResult(connectionResult.Resolution.IntentSender, 0, null, 0, 0, 0);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     intentInProgress = false;
                     googleApiClient.Connect();
@@ -122,7 +120,7 @@ namespace Tollminder.Droid.Services
                     _gPlusTask.TrySetResult(null);
                 }
                 intentInProgress = false;
-                if(!googleApiClient.IsConnecting)
+                if (!googleApiClient.IsConnecting)
                     googleApiClient.Connect();
             }
         }
@@ -153,12 +151,12 @@ namespace Tollminder.Droid.Services
 
         public void OnConnectionFailed(ConnectionResult result)
         {
-            if(!intentInProgress)
+            if (!intentInProgress)
             {
                 // store the connectionResult so that we can use it latter when the user clikcs 'sign-in'
                 connectionResult = result;
 
-                if(signInClicked)
+                if (signInClicked)
                 {
                     // the user already clicked 'sign-in' so we attemp to resolve all
                     // errors until the user is signed in, or the cancel

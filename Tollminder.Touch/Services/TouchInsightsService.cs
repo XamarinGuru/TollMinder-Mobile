@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Tollminder.Core.Services;
+using Tollminder.Core.Services.Settings;
 using Xamarin;
 
 namespace Tollminder.Touch.Services

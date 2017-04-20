@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PaymentViewController">
+            <connections>
+                <outlet property="NotPayedTripsTableVIew" destination="tW4-uf-QaR" id="BcR-S8-CH8"/>
+                <outlet property="PayNavigationBar" destination="zQj-ds-tno" id="9oK-W9-JrR"/>
+                <outlet property="PayNavigationItem" destination="nWt-XD-gF4" id="JGf-eN-dpz"/>
+                <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="2">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zQj-ds-tno">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="80" id="ufQ-sN-EiX"/>
+                    </constraints>
+                    <color key="tintColor" red="0.99963909390000005" green="1" blue="0.99975615740000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="barTintColor" red="0.2066648304" green="0.38275384899999998" blue="0.62765270470000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <items>
+                        <navigationItem id="nWt-XD-gF4"/>
+                    </items>
+                </navigationBar>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="tW4-uf-QaR">
+                    <rect key="frame" x="20" y="90" width="335" height="497"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </tableView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W43-Nk-gsj">
+                    <rect key="frame" x="0.0" y="587" width="375" height="80"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total amount: $   " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LpT-dO-pCf">
+                            <rect key="frame" x="53" y="8" width="155" height="64"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="anE-ha-Io9">
+                            <rect key="frame" x="216" y="28" width="159" height="24"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="0.2066648304" green="0.38275384899999998" blue="0.62765270470000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstItem="LpT-dO-pCf" firstAttribute="top" secondItem="W43-Nk-gsj" secondAttribute="topMargin" id="5kb-hn-zrt"/>
+                        <constraint firstItem="anE-ha-Io9" firstAttribute="leading" secondItem="LpT-dO-pCf" secondAttribute="trailing" constant="8" id="GUu-3C-tYK"/>
+                        <constraint firstAttribute="height" constant="80" id="Yzm-jn-fYf"/>
+                        <constraint firstItem="anE-ha-Io9" firstAttribute="centerY" secondItem="W43-Nk-gsj" secondAttribute="centerY" id="c33-wE-bJV"/>
+                        <constraint firstItem="LpT-dO-pCf" firstAttribute="centerY" secondItem="W43-Nk-gsj" secondAttribute="centerY" id="n5t-qf-rSp"/>
+                        <constraint firstAttribute="trailing" secondItem="anE-ha-Io9" secondAttribute="trailing" id="rju-s1-JUe"/>
+                        <constraint firstItem="LpT-dO-pCf" firstAttribute="leading" secondItem="W43-Nk-gsj" secondAttribute="leading" constant="53" id="yom-81-hZd"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="zQj-ds-tno" firstAttribute="top" secondItem="2" secondAttribute="top" id="36V-OK-y2V"/>
+                <constraint firstItem="W43-Nk-gsj" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="5UJ-qt-FiS"/>
+                <constraint firstAttribute="trailing" secondItem="zQj-ds-tno" secondAttribute="trailing" id="B5h-IF-uT2"/>
+                <constraint firstItem="W43-Nk-gsj" firstAttribute="top" secondItem="tW4-uf-QaR" secondAttribute="bottom" id="EDK-aU-RG1"/>
+                <constraint firstItem="zQj-ds-tno" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="PSD-1T-Xl9"/>
+                <constraint firstAttribute="trailing" secondItem="W43-Nk-gsj" secondAttribute="trailing" id="VXi-9c-RYw"/>
+                <constraint firstItem="tW4-uf-QaR" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="20" id="XRC-nB-6Hf"/>
+                <constraint firstAttribute="bottom" secondItem="W43-Nk-gsj" secondAttribute="bottom" id="aGf-3c-zfW"/>
+                <constraint firstAttribute="trailing" secondItem="tW4-uf-QaR" secondAttribute="trailing" constant="20" id="upi-bM-Xdb"/>
+                <constraint firstItem="tW4-uf-QaR" firstAttribute="top" secondItem="zQj-ds-tno" secondAttribute="bottom" constant="10" id="xtv-qc-0Bs"/>
+            </constraints>
+            <point key="canvasLocation" x="34.5" y="54.5"/>
+        </view>
+    </objects>
+</document>

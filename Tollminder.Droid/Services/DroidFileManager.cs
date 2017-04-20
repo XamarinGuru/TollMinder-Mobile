@@ -1,10 +1,8 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Net;
 using Android.App;
-using Android.Content;
 using Plugin.CurrentActivity;
-using Tollminder.Core.Services;
+using Tollminder.Core.Services.ProfileData;
 
 namespace Tollminder.Droid.Services
 {
@@ -37,7 +35,7 @@ namespace Tollminder.Droid.Services
         {
             //ActivityManager am = (ActivityManager)Context.GetSystemService(Context.ActivityService);
             //ComponentName cn = am.GetRunningTasks(1).Get(0).topActivity;
-            if(progressBar == null)
+            if (progressBar == null)
                 progressBar = new ProgressDialog(CrossCurrentActivity.Current.Activity);
 
             if (progressBar.IsShowing)
@@ -48,7 +46,8 @@ namespace Tollminder.Droid.Services
 
             builder.SetMessage("File is downloaded!");
             builder.SetCancelable(true);
-            builder.SetPositiveButton("Ok", delegate{
+            builder.SetPositiveButton("Ok", delegate
+            {
                 dialog.Dismiss();
             });
             dialog = builder.Create();

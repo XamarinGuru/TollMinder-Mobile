@@ -11,6 +11,11 @@ using Tollminder.Core.Helpers;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tollminder.Core.ViewModels.UserProfile;
+using Tollminder.Core.Services.Settings;
+using Tollminder.Core.Services.GeoData;
+using Tollminder.Core.Services.Api;
+using Tollminder.Core.Services.RoadsProcessing;
 
 namespace Tollminder.Core.ViewModels
 {
@@ -21,9 +26,11 @@ namespace Tollminder.Core.ViewModels
         readonly IStoredSettingsService _storedSettingsService;
         readonly IGeoLocationWatcher _geoWatcher;
         readonly ISynchronisationService synchronisationService;
+        readonly IWaypointChecker waypointChecker;
 
         IList<MvxSubscriptionToken> _tokens;
-        public HomeDebugViewModel(IMvxMessenger messenger, ITrackFacade track, IGeoLocationWatcher geoWatcher, IStoredSettingsService storedSettingsService, ISynchronisationService synchronisationService)
+        public HomeDebugViewModel(IMvxMessenger messenger, ITrackFacade track, IGeoLocationWatcher geoWatcher, IStoredSettingsService storedSettingsService,
+                                  ISynchronisationService synchronisationService, IWaypointChecker waypointChecker)
         {
             _track = track;
             _messenger = messenger;
@@ -31,19 +38,20 @@ namespace Tollminder.Core.ViewModels
             IsBound = _geoWatcher.IsBound;
             this.synchronisationService = synchronisationService;
             _storedSettingsService = storedSettingsService;
+            this.waypointChecker = waypointChecker;
 
             _tokens = new List<MvxSubscriptionToken>();
         }
 
-        Task RefreshToolRoads()
+        Task RefreshToolRoadsAsync()
         {
-            return ServerCommandWrapper(() => Mvx.Resolve<IGeoDataService>().RefreshTollRoads(CancellationToken.None));
+            return ServerCommandWrapperAsync(() => Mvx.Resolve<IGeoDataService>().RefreshTollRoadsAsync(CancellationToken.None));
         }
 
         public async override void Start()
         {
-            if (await synchronisationService.AuthorizeTokenSynchronisation())
-                await Task.Run(RefreshToolRoads);
+            if (await synchronisationService.AuthorizeTokenSynchronisationAsync())
+                await Task.Run(RefreshToolRoadsAsync);
             else
             {
                 Close(this);
@@ -69,9 +77,9 @@ namespace Tollminder.Core.ViewModels
             LogText = Log._messageLog.ToString();
 
             StatusString = _track.TollStatus.ToString();
-            TollRoadString = Mvx.Resolve<IWaypointChecker>().TollRoad?.Name;
-            if (Mvx.Resolve<IWaypointChecker>().TollPointsInRadius != null)
-                CurrentWaypointString = string.Join("\n", Mvx.Resolve<IWaypointChecker>().TollPointsInRadius?.Select(x => x.Name));
+            TollRoadString = waypointChecker.TollRoad?.Name;
+            if (waypointChecker.TollPointsInRadius != null)
+                CurrentWaypointString = string.Join("\n", waypointChecker.TollPointsInRadius?.Select(x => x.Name));
         }
 
         bool _isBound;
@@ -170,7 +178,7 @@ namespace Tollminder.Core.ViewModels
             {
                 return _startCommand ?? (_startCommand = new MvxCommand(async () =>
                {
-                   if (await _track.StartServices())
+                   if (await _track.StartServicesAsync())
                        IsBound = _geoWatcher.IsBound;
                }));
             }

@@ -34,140 +34,159 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="App.cs" />
     <Compile Include="ViewModels\HomeDebugViewModel.cs" />
-    <Compile Include="Services\IPlatform.cs" />
-    <Compile Include="Services\ITextToSpeechService.cs" />
-    <Compile Include="Models\GeoLocation.cs" />
-    <Compile Include="Services\IGeoLocationWatcher.cs" />
     <Compile Include="Helpers\LocationUpdatedEventArgs.cs" />
     <Compile Include="Models\MotionType.cs" />
-    <Compile Include="Services\IMotionActivity.cs" />
     <Compile Include="Models\Messages.cs" />
     <Compile Include="Models\Enums.cs" />
-    <Compile Include="Models\GeofenceException.cs" />
     <Compile Include="Helpers\Log.cs" />
-    <Compile Include="Services\INotificationSender.cs" />
     <Compile Include="Helpers\LocationChecker.cs" />
-    <Compile Include="Services\IGeoDataServiceAsync.cs" />
-    <Compile Include="Services\Implementation\GeoDataServiceAsync.cs" />
     <Compile Include="Utils\Timer.cs" />
-    <Compile Include="Services\IHttpService.cs" />
-    <Compile Include="Services\Implementation\HttpService.cs" />
     <Compile Include="Models\DownloadBytesProgress.cs" />
-    <Compile Include="Models\TollGeolocationStatus.cs" />
     <Compile Include="ServicesHelpers\ITrackFacade.cs" />
-    <Compile Include="ServicesHelpers\Implementation\TrackFacade.cs" />
-    <Compile Include="Models\TollRoadWaypoint.cs" />
-    <Compile Include="Models\WaypointAction.cs" />
-    <Compile Include="Services\Implementation\PersmissionsService.cs" />
-    <Compile Include="Services\IPermissionsService.cs" />
     <Compile Include="Models\Statuses\NotOnTollRoadStatus.cs" />
     <Compile Include="Models\Statuses\BaseStatus.cs" />
-    <Compile Include="Services\IGeoDataService.cs" />
-    <Compile Include="Services\IWaypointChecker.cs" />
-    <Compile Include="Services\IDistanceChecker.cs" />
     <Compile Include="Extensions\Extensions.cs" />
-    <Compile Include="Services\Implementation\DistanceChecker.cs" />
-    <Compile Include="Services\Implementation\GeoDataService.cs" />
-    <Compile Include="Services\Implementation\WaypointChecker.cs" />
     <Compile Include="Models\Statuses\OnTollRoadStatus.cs" />
     <Compile Include="Models\Statuses\StatusesFactory.cs" />
-    <Compile Include="Services\INotifyService.cs" />
-    <Compile Include="Services\Implementation\NotifyService.cs" />
-    <Compile Include="ServicesHelpers\Implementation\AutomoveActivity.cs" />
-    <Compile Include="Services\IServerApiService.cs" />
-    <Compile Include="Services\Implementation\ServerApiService.cs" />
-    <Compile Include="Services\IBatteryDrainService.cs" />
-    <Compile Include="Services\Implementation\BatteryDrainService.cs" />
-    <Compile Include="Services\ITextFromSpeechMappingService.cs" />
-    <Compile Include="Services\Implementation\TextFromSpeechMappingService.cs" />
-    <Compile Include="Services\ISpeechToTextService.cs" />
-    <Compile Include="Services\IStoredSettingsBase.cs" />
-    <Compile Include="Services\IStoredSettingsService.cs" />
-    <Compile Include="Services\Implementation\StoredSettingsService.cs" />
     <Compile Include="Helpers\MvxBindingContextOwnerExtensions.cs" />
-    <Compile Include="Models\TollRoad.cs" />
     <Compile Include="Models\Statuses\NearTollRoadExitStatus.cs" />
-    <Compile Include="Services\Implementation\SettingsService.cs" />
     <Compile Include="Models\Statuses\NearTollRoadEntranceStatus.cs" />
-    <Compile Include="Models\TollPoint.cs" />
     <Compile Include="Interfaces\IDatabaseEntry.cs" />
-    <Compile Include="Services\IDataBaseService.cs" />
-    <Compile Include="Services\Implementation\DataBaseService.cs" />
-    <Compile Include="Services\IGeoData.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="Models\Validator.cs" />
     <Compile Include="Models\ValidatorDataItem.cs" />
-    <Compile Include="Services\IInsightsService.cs" />
-    <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="Helpers\RegularExpressionHelper.cs" />
     <Compile Include="Converters\BoolInverseConverter.cs" />
     <Compile Include="CustomAppStart.cs" />
-    <Compile Include="Models\SocialData.cs" />
-    <Compile Include="Services\IFacebookLoginService.cs" />
-    <Compile Include="Services\ISocialLoginServiceBase.cs" />
-    <Compile Include="Services\IGPlusLoginService.cs" />
     <Compile Include="Theme.cs" />
-    <Compile Include="Models\FacebookAccountResult.cs" />
     <Compile Include="Models\BaseApiResponse.cs" />
     <Compile Include="Helpers\DateTimeFromUnixConverterHelper.cs" />
     <Compile Include="Helpers\DateHelper.cs" />
-    <Compile Include="Models\Profile.cs" />
     <Compile Include="Models\ErrorApiResponse.cs" />
-    <Compile Include="Services\Implementation\HttpClientService.cs" />
-    <Compile Include="Services\IHttpClientService.cs" />
     <Compile Include="Models\ProgressCompleted.cs" />
-    <Compile Include="Services\IExceptionHandlerService.cs" />
     <Compile Include="Exceptions\Interfaces\IHttpExceptionHandler.cs" />
     <Compile Include="Exceptions\HttpStatusCodeHandler.cs" />
     <Compile Include="Exceptions\ServerUnavailableException.cs" />
     <Compile Include="Exceptions\ApiException.cs" />
     <Compile Include="Exceptions\UIApiException.cs" />
-    <Compile Include="Services\IHttpClientHandlerService.cs" />
     <Compile Include="Helpers\HttpHelpers\ProgressByteArrayContent.cs" />
     <Compile Include="Helpers\HttpHelpers\ProgressStringContent.cs" />
     <Compile Include="Helpers\HttpHelpers\SchemaEnumeration.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
-    <Compile Include="Utils\Slack\SlackClient.cs" />
-    <Compile Include="Utils\Slack\Payload.cs" />
-    <Compile Include="Utils\Slack\SlackManager.cs" />
-    <Compile Include="Services\ICheckerAppFirstLaunch.cs" />
-    <Compile Include="Services\INetworkCheck.cs" />
-    <Compile Include="ViewModels\ProfileViewModel.cs" />
-    <Compile Include="ViewModels\LicenseViewModel.cs" />
-    <Compile Include="ViewModels\CreditCardViewModel.cs" />
-    <Compile Include="Models\StatesData.cs" />
-    <Compile Include="ViewModels\PayHistoryViewModel.cs" />
-    <Compile Include="Models\DriverLicense.cs" />
-    <Compile Include="Models\PayHistory.cs" />
-    <Compile Include="ViewModels\CalendarViewModel.cs" />
-    <Compile Include="Services\ICalendarDialog.cs" />
-    <Compile Include="Services\ILoadResourceData.cs" />
-    <Compile Include="Services\Implementation\StatesService.cs" />
-    <Compile Include="Services\Implementation\LicenseDataService.cs" />
     <Compile Include="Models\Rate.cs" />
-    <Compile Include="ViewModels\PayHistoryPdfViewModel.cs" />
-    <Compile Include="Services\IFileManager.cs" />
-    <Compile Include="Services\ISynchronisationService.cs" />
-    <Compile Include="Services\IProfileSettingService.cs" />
-    <Compile Include="Services\Implementation\ProfileSettingService.cs" />
-    <Compile Include="Services\Implementation\SynchronisationService.cs" />
-    <Compile Include="ViewModels\RegistrationViewModel.cs" />
-    <Compile Include="Services\IProgressDialogManager.cs" />
     <Compile Include="Extensions\FieldValidator\ValidationResultExtension.cs" />
     <Compile Include="Extensions\FieldValidator\ObservableDictionary.cs" />
+    <Compile Include="PluginLoader.cs" />
+    <Compile Include="Services\ScanCreditCard\CreditCardScanOptions.cs" />
+    <Compile Include="Services\ScanCreditCard\ICreditCardScanService.cs" />
+    <Compile Include="ViewModels\Vehicles\VehiclesDataViewModel.cs" />
+    <Compile Include="ViewModels\Vehicles\VehicleViewModel.cs" />
+    <Compile Include="Models\PaymentData\PayForTrip.cs" />
+    <Compile Include="Models\PaymentData\AddCreditCard.cs" />
+    <Compile Include="Models\PaymentData\CreditCardAuthorizeDotNet.cs" />
+    <Compile Include="Models\DriverData\Vehicle.cs" />
+    <Compile Include="Models\DriverData\DriverLicense.cs" />
+    <Compile Include="ViewModels\Payments\PayHistoryPdfViewModel.cs" />
+    <Compile Include="ViewModels\Payments\PayHistoryViewModel.cs" />
+    <Compile Include="ViewModels\Vehicles\LicenseViewModel.cs" />
+    <Compile Include="ViewModels\Payments\CalendarViewModel.cs" />
+    <Compile Include="ViewModels\UserProfile\LoginViewModel.cs" />
+    <Compile Include="ViewModels\UserProfile\ProfileViewModel.cs" />
+    <Compile Include="ViewModels\UserProfile\RegistrationViewModel.cs" />
+    <Compile Include="Models\UserData\FacebookAccountResult.cs" />
+    <Compile Include="Models\UserData\Profile.cs" />
+    <Compile Include="Models\UserData\SocialData.cs" />
+    <Compile Include="Models\TollRoadData\TollPoint.cs" />
+    <Compile Include="Models\TollRoadData\TollRoad.cs" />
+    <Compile Include="Models\TollRoadData\TollRoadWaypoint.cs" />
+    <Compile Include="Models\TollRoadData\WaypointAction.cs" />
+    <Compile Include="Models\GeoData\GeofenceException.cs" />
+    <Compile Include="Models\GeoData\GeoLocation.cs" />
+    <Compile Include="Models\GeoData\TollGeolocationStatus.cs" />
+    <Compile Include="Models\UserData\StatesData.cs" />
+    <Compile Include="Models\PaymentData\PayHistory.cs" />
+    <Compile Include="ViewModels\Payments\AddCreditCardViewModel.cs" />
+    <Compile Include="ViewModels\Payments\PayViewModel.cs" />
+    <Compile Include="Models\PaymentData\TripCompleted.cs" />
+    <Compile Include="Models\PaymentData\TripResponse.cs" />
+    <Compile Include="ViewModels\Payments\CreditCardsViewModel.cs" />
+    <Compile Include="Services\Api\HttpClientService.cs" />
+    <Compile Include="Services\Api\HttpService.cs" />
+    <Compile Include="Services\Api\ServerApiService.cs" />
+    <Compile Include="Services\Api\IHttpClientHandlerService.cs" />
+    <Compile Include="Services\Api\IHttpClientService.cs" />
+    <Compile Include="Services\Api\IHttpService.cs" />
+    <Compile Include="Services\GeoData\GeoDataService.cs" />
+    <Compile Include="Services\GeoData\IGeoData.cs" />
+    <Compile Include="Services\GeoData\IGeoDataService.cs" />
+    <Compile Include="Services\GeoData\IGeoLocationWatcher.cs" />
+    <Compile Include="Services\Api\ProfileSettingService.cs" />
+    <Compile Include="Services\Api\SynchronisationService.cs" />
+    <Compile Include="Services\RoadsProcessing\DistanceChecker.cs" />
+    <Compile Include="Services\RoadsProcessing\WaypointChecker.cs" />
+    <Compile Include="Services\Settings\BatteryDrainService.cs" />
+    <Compile Include="Services\Settings\DataBaseService.cs" />
+    <Compile Include="Services\Settings\PersmissionsService.cs" />
+    <Compile Include="Services\Settings\SettingsService.cs" />
+    <Compile Include="Services\Settings\StoredSettingsService.cs" />
+    <Compile Include="Services\Settings\IBatteryDrainService.cs" />
+    <Compile Include="Services\Settings\IDataBaseService.cs" />
+    <Compile Include="Services\Settings\IStoredSettingsBase.cs" />
+    <Compile Include="Services\Settings\IStoredSettingsService.cs" />
+    <Compile Include="Services\Settings\IPermissionsService.cs" />
+    <Compile Include="Services\Api\IProfileSettingService.cs" />
+    <Compile Include="Services\Api\IServerApiService.cs" />
+    <Compile Include="Services\Api\ISynchronisationService.cs" />
+    <Compile Include="Services\SpeechRecognition\TextFromSpeechMappingService.cs" />
+    <Compile Include="Services\SpeechRecognition\ISpeechToTextService.cs" />
+    <Compile Include="Services\SpeechRecognition\ITextFromSpeechMappingService.cs" />
+    <Compile Include="Services\SpeechRecognition\ITextToSpeechService.cs" />
+    <Compile Include="Services\SocialNetworks\IFacebookLoginService.cs" />
+    <Compile Include="Services\SocialNetworks\IGPlusLoginService.cs" />
+    <Compile Include="Services\SocialNetworks\ISocialLoginServiceBase.cs" />
+    <Compile Include="Services\Settings\IInsightsService.cs" />
+    <Compile Include="Services\RoadsProcessing\IDistanceChecker.cs" />
+    <Compile Include="Services\RoadsProcessing\IWaypointChecker.cs" />
+    <Compile Include="Services\RoadsProcessing\IMotionActivity.cs" />
+    <Compile Include="Services\SpeechRecognition\IPlatform.cs" />
+    <Compile Include="Services\Settings\IExceptionHandlerService.cs" />
+    <Compile Include="Services\ProfileData\LicenseDataService.cs" />
+    <Compile Include="Services\ProfileData\StatesService.cs" />
+    <Compile Include="Services\ProfileData\ILoadResourceData.cs" />
+    <Compile Include="Services\ProfileData\IFileManager.cs" />
+    <Compile Include="Services\Notifications\ICalendarDialog.cs" />
+    <Compile Include="Services\Notifications\INotificationSender.cs" />
+    <Compile Include="Services\Notifications\INotifyService.cs" />
+    <Compile Include="ServicesHelpers\AutomoveActivity.cs" />
+    <Compile Include="ServicesHelpers\TrackFacade.cs" />
+    <Compile Include="Services\Notifications\NotifyService.cs" />
+    <Compile Include="Services\Api\IPaymentProcessing.cs" />
+    <Compile Include="Services\Api\PaymentProcessing.cs" />
+    <Compile Include="Converters\ValidationConverter.cs" />
+    <Compile Include="ViewModels\Payments\CreditCardAuthorizeDotNetViewModel.cs" />
+    <Compile Include="Models\PaymentData\PaymentProfile.cs" />
+    <Compile Include="Models\PaymentData\NotPayedTrip.cs" />
+    <Compile Include="Models\PaymentData\Trip.cs" />
+    <Compile Include="Services\Settings\IQueueItem.cs" />
+    <Compile Include="ViewModels\Payments\CreditCardsForPayViewModel.cs" />
+    <Compile Include="Models\PaymentData\ServerResponse.cs" />
+    <Compile Include="Converters\GeoLocationConverter.cs" />
+    <Compile Include="Models\Statuses\SearchingNearestTollPointStatus.cs" />
+    <Compile Include="Models\GeoData\TollGeoStatusResult.cs" />
+    <Compile Include="Services\GeoData\MockGeoData\IMockGeoLocation.cs" />
+    <Compile Include="Services\GeoData\MockGeoData\MockGeoLocation.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
     <Folder Include="Models\" />
     <Folder Include="Helpers\" />
-    <Folder Include="Services\Implementation\" />
     <Folder Include="ServicesHelpers\" />
     <Folder Include="Utils\" />
-    <Folder Include="ServicesHelpers\Implementation\" />
     <Folder Include="Models\Statuses\" />
     <Folder Include="Extensions\" />
     <Folder Include="Interfaces\" />
@@ -175,8 +194,25 @@
     <Folder Include="Exceptions\" />
     <Folder Include="Exceptions\Interfaces\" />
     <Folder Include="Helpers\HttpHelpers\" />
-    <Folder Include="Utils\Slack\" />
     <Folder Include="Extensions\FieldValidator\" />
+    <Folder Include="Services\ScanCreditCard\" />
+    <Folder Include="ViewModels\Vehicles\" />
+    <Folder Include="Models\PaymentData\" />
+    <Folder Include="Models\DriverData\" />
+    <Folder Include="ViewModels\Payments\" />
+    <Folder Include="ViewModels\UserProfile\" />
+    <Folder Include="Models\UserData\" />
+    <Folder Include="Models\GeoData\" />
+    <Folder Include="Models\TollRoadData\" />
+    <Folder Include="Services\Api\" />
+    <Folder Include="Services\GeoData\" />
+    <Folder Include="Services\RoadsProcessing\" />
+    <Folder Include="Services\Settings\" />
+    <Folder Include="Services\SpeechRecognition\" />
+    <Folder Include="Services\SocialNetworks\" />
+    <Folder Include="Services\ProfileData\" />
+    <Folder Include="Services\Notifications\" />
+    <Folder Include="Services\GeoData\MockGeoData\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="ModernHttpClient">
@@ -191,26 +227,11 @@
     <Reference Include="System.Reactive.Linq">
       <HintPath>..\packages\Rx-Linq.2.2.5\lib\portable-windows8+net45+wp8\System.Reactive.Linq.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System.Reactive.PlatformServices">
       <HintPath>..\packages\Rx-PlatformServices.2.3\lib\portable-windows8+net45+wp8\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
-    <Reference Include="SQLite-net">
-      <HintPath>..\packages\sqlite-net-pcl.1.2.0\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLite-net.dll</HintPath>
-    </Reference>
     <Reference Include="SQLiteNetExtensions">
       <HintPath>..\packages\SQLiteNetExtensions.2.0.0-alpha2\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\SQLiteNetExtensions.dll</HintPath>
-    </Reference>
-    <Reference Include="SQLitePCLRaw.core">
-      <HintPath>..\packages\SQLitePCLRaw.core.1.1.0\lib\portable-net45+netcore45+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLitePCLRaw.core.dll</HintPath>
-    </Reference>
-    <Reference Include="SQLitePCLRaw.batteries_green">
-      <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.0\lib\portable-net45+netcore45+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLitePCLRaw.batteries_green.dll</HintPath>
-    </Reference>
-    <Reference Include="SQLitePCLRaw.batteries_v2">
-      <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.0\lib\portable-net45+netcore45+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLitePCLRaw.batteries_v2.dll</HintPath>
     </Reference>
     <Reference Include="Plugin.Permissions.Abstractions">
       <HintPath>..\packages\Plugin.Permissions.1.2.1\lib\portable-net45+wp80+win+wpa81\Plugin.Permissions.Abstractions.dll</HintPath>
@@ -269,10 +290,31 @@
     <Reference Include="Xamarin.Insights">
       <HintPath>..\packages\Xamarin.Insights.1.12.3\lib\portable-win+net45+wp80+windows8+wpa+MonoAndroid10+MonoTouch10\Xamarin.Insights.dll</HintPath>
     </Reference>
+    <Reference Include="PropertyChanged">
+      <HintPath>..\packages\PropertyChanged.Fody.1.52.1\lib\portable-net4+sl4+wp8+win8+wpa81+MonoAndroid16+MonoTouch40\PropertyChanged.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.core">
+      <HintPath>..\packages\SQLitePCLRaw.core.1.1.0\lib\portable-net45+netcore45+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLitePCLRaw.core.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.batteries_green">
+      <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.0\lib\portable-net45+netcore45+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLitePCLRaw.batteries_green.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.batteries_v2">
+      <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.0\lib\portable-net45+netcore45+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLitePCLRaw.batteries_v2.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLite-net">
+      <HintPath>..\packages\sqlite-net-pcl.1.2.0\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLite-net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\portable-net45+win8+wpa81+wp8\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="states.json" />
+    <EmbeddedResource Include="Services\GeoData\MockGeoData\mockRoad.json" />
+    <EmbeddedResource Include="Services\GeoData\MockGeoData\mockTheRoad.json" />
   </ItemGroup>
   <Import Project="..\packages\Xamarin.Forms.2.3.3.175\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.3.3.175\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />
   <Import Project="..\packages\Xamarin.Insights.1.12.3\build\portable-win+net45+wp80+windows8+wpa+MonoAndroid10+MonoTouch10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\portable-win+net45+wp80+windows8+wpa+MonoAndroid10+MonoTouch10\Xamarin.Insights.targets')" />
+  <Import Project="..\packages\Fody.1.29.2\build\portable-net+sl+win+wpa+wp\Fody.targets" Condition="Exists('..\packages\Fody.1.29.2\build\portable-net+sl+win+wpa+wp\Fody.targets')" />
 </Project>

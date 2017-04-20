@@ -1,34 +1,35 @@
 ﻿using System;
-using Tollminder.Core.Services;
+using Tollminder.Core.Services.Notifications;
 using UIKit;
 
 namespace Tollminder.Touch.Services
 {
-	public class TouchNotificationSender : INotificationSender
-	{
+    public class TouchNotificationSender : INotificationSender
+    {
         UILocalNotification notification;
 
-		#region INotificationSender implementation
+        #region INotificationSender implementation
 
-		public void SendLocalNotification (string title, string message)
-		{
-			UIApplication.SharedApplication.InvokeOnMainThread (() => {
-				notification = new UILocalNotification ();
-				notification.AlertTitle = title;
-				notification.AlertBody = message;
-				notification.SoundName = UILocalNotification.DefaultSoundName;
+        public void SendLocalNotification(string title, string message)
+        {
+            UIApplication.SharedApplication.InvokeOnMainThread(() =>
+            {
+                notification = new UILocalNotification();
+                notification.AlertTitle = title;
+                notification.AlertBody = message;
+                notification.SoundName = UILocalNotification.DefaultSoundName;
                 //notification.AlertAction = UILocalNotification.
                 UIApplication.SharedApplication.CancelLocalNotification(notification);
-                UIApplication.SharedApplication.PresentLocalNotificationNow (notification);
-			});
-		}
+                UIApplication.SharedApplication.PresentLocalNotificationNow(notification);
+            });
+        }
 
-		public void SendRemoteNotification ()
-		{
-			throw new NotImplementedException ();
-		}
+        public void SendRemoteNotification()
+        {
+            throw new NotImplementedException();
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }
 

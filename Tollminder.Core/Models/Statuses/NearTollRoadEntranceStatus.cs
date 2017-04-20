@@ -1,27 +1,20 @@
 using System.Threading.Tasks;
+using MvvmCross.Platform;
 using Tollminder.Core.Helpers;
-using Tollminder.Core.Services.Implementation;
+using Tollminder.Core.Models.GeoData;
+using Tollminder.Core.Services.Api;
+using Tollminder.Core.Services.Settings;
 
 namespace Tollminder.Core.Models.Statuses
 {
     public class NearTollRoadEntranceStatus : BaseStatus
     {
-        public override bool CheckBatteryDrain()
+        public async override Task<TollGeoStatusResult> CheckStatus(TollGeoStatusResult tollGeoStatus)
         {
-            return false;
-        }
+            if (tollGeoStatus?.TollPointWithDistance == null)
+                return new TollGeoStatusResult() { TollGeolocationStatus = TollGeolocationStatus.NotOnTollRoad };
 
-        public async override Task<TollGeolocationStatus> CheckStatus()
-        {
-            var location = GeoWatcher.Location;
-            var waypoints = GeoDataService.FindNearestEntranceTollPoints(location);
-
-            WaypointChecker.SetTollPointsInRadius(waypoints);
-
-            if (waypoints.Count == 0)
-                return TollGeolocationStatus.NotOnTollRoad;
-
-            var insideTollPoint = WaypointChecker.DetectWeAreInsideSomeTollPoint(location);
+            var insideTollPoint = WaypointChecker.DetectWeAreInsideSomeTollPoint(tollGeoStatus.Location);
 
             if (insideTollPoint != null)
             {
@@ -30,34 +23,60 @@ namespace Tollminder.Core.Models.Statuses
 
                 WaypointChecker.SetIgnoredChoiceTollPoint(insideTollPoint);
 
+#if REALEASE
                 if (WaypointChecker.TollPointsInRadius.Count == 1)
                     GeoWatcher.StopUpdatingHighAccuracyLocation();
+#endif
 
-                if (await SpeechToTextService.AskQuestion($"Are you entering {insideTollPoint.Name} tollroad?"))
+                if (await SpeechToTextService.AskQuestionAsync($"Are you entering {insideTollPoint.Name} tollroad?"))
                 {
                     WaypointChecker.SetEntrance(insideTollPoint);
 
                     if (insideTollPoint.WaypointAction == WaypointAction.Bridge)
                     {
                         WaypointChecker.SetExit(insideTollPoint);
-
+                        SaveTripProgress();
                         WaypointChecker.SetTollPointsInRadius(null);
-                        await NotifyService.Notify("Bill was created");
+                        await NotifyService.NotifyAsync("Bill was created");
                         WaypointChecker.ClearData();
-                        return TollGeolocationStatus.NotOnTollRoad;
+                        return new TollGeoStatusResult()
+                        {
+                            TollGeolocationStatus = Mvx.Resolve<IStoredSettingsService>().CurrentRoadStatus == TollGeolocationStatus.OnTollRoad
+                                                       ? Mvx.Resolve<IStoredSettingsService>().CurrentRoadStatus
+                                                       : TollGeolocationStatus.NotOnTollRoad
+                        };
                     }
                     else
-                        return TollGeolocationStatus.OnTollRoad;
+                    {
+                        Mvx.Resolve<IStoredSettingsService>().CurrentRoadStatus = TollGeolocationStatus.OnTollRoad;
+                        return new TollGeoStatusResult() { TollGeolocationStatus = TollGeolocationStatus.OnTollRoad };
+                    }
                 }
                 else
                 {
-                    return TollGeolocationStatus.NotOnTollRoad;
+                    return new TollGeoStatusResult() { TollGeolocationStatus = TollGeolocationStatus.NotOnTollRoad };
                 }
             }
             else
             {
-                return TollGeolocationStatus.NearTollRoadEntrance;
+                return new TollGeoStatusResult() { TollGeolocationStatus = TollGeolocationStatus.NearTollRoadEntrance };
             }
+        }
+
+        public override bool CheckBatteryDrain()
+        {
+            return false;
+        }
+
+        private void SaveTripProgress()
+        {
+            Mvx.Resolve<IPaymentProcessing>().TripCompletedAsync(new PaymentData.TripCompleted()
+            {
+                StartWayPointId = WaypointChecker.Entrance.Id,
+                EndWayPointId = WaypointChecker.Exit.Id,
+                TollRoadId = WaypointChecker.Exit.TollRoadId,
+                UserId = Mvx.Resolve<IStoredSettingsService>().ProfileId
+            });
         }
     }
 }

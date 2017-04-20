@@ -6,9 +6,11 @@ using MvvmCross.Platform;
 using MvvmCross.Platform.Droid.Platform;
 using Newtonsoft.Json;
 using Tollminder.Core.Models;
-using Tollminder.Core.Services;
+using Tollminder.Core.Services.Notifications;
+using Tollminder.Core.Services.SocialNetworks;
 using Tollminder.Droid.Views;
 using Xamarin.Auth;
+using Chance.MvvmCross.Plugins.UserInteraction;
 
 namespace Tollminder.Droid.Services
 {
@@ -19,7 +21,7 @@ namespace Tollminder.Droid.Services
         Intent loginViewIntent;
         TaskCompletionSource<SocialData> _facebookTask;
 
-        public Task<SocialData> GetPersonData()
+        public Task<SocialData> GetPersonDataAsync()
         {
             _facebookTask = new TaskCompletionSource<SocialData>();
             LoginToFacebook();
@@ -50,11 +52,11 @@ namespace Tollminder.Droid.Services
             var expiresIn = Convert.ToDouble(e.Account.Properties["expires_in"]);
             var expiryDate = DateTime.Now + TimeSpan.FromSeconds(expiresIn);
 
-            await GetAccountInformation(e.Account);
-            Mvx.Resolve<IProgressDialogManager>().ShowProgressDialog("Please wait!", "Facebook authorization. Data loading...");
+            await GetAccountInformationAsync(e.Account);
+            await Mvx.Resolve<IUserInteraction>().AlertAsync("Facebook authorization. Data loading...", "Please wait!");
         }
 
-        private async Task GetAccountInformation(Account account)
+        private async Task GetAccountInformationAsync(Account account)
         {
             await new OAuth2Request("GET", new Uri("https://graph.facebook.com/me"), null, account).GetResponseAsync().ContinueWith(async responseAsync =>
             {
