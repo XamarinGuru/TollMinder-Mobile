@@ -10,9 +10,7 @@ namespace Tollminder.Touch.Views
     {
         private PaymentTableViewSource notPayedTripsTableViewSource;
 
-        public PaymentViewController() : base("PaymentViewController", null)
-        {
-        }
+        public PaymentViewController() : base("PaymentViewController", null) { }
 
         protected override void InitializeObjects()
         {
@@ -21,8 +19,8 @@ namespace Tollminder.Touch.Views
             SetBackground(@"Images/tab_background.png");
             PayNavigationItem.Title = "Your Unpaid Trips";
             PayNavigationBar.TitleTextAttributes = new UIStringAttributes() { ForegroundColor = UIColor.White };
-            PayNavigationItem.LeftBarButtonItem = new UIBarButtonItem(UIImage.FromFile("Images/ic_back.png"), UIBarButtonItemStyle.Plain, null);
-            PayNavigationItem.RightBarButtonItem = new UIBarButtonItem(UIImage.FromFile("Images/ProfileView/ic_card.png"), UIBarButtonItemStyle.Plain, null);
+            PayNavigationItem.LeftBarButtonItem = new UIBarButtonItem(UIImage.FromFile(@"Images/ic_back.png"), UIBarButtonItemStyle.Plain, null);
+            PayNavigationItem.RightBarButtonItem = new UIBarButtonItem(UIImage.FromFile(@"Images/ProfileView/ic_card.png"), UIBarButtonItemStyle.Plain, null);
 
             notPayedTripsTableViewSource = new PaymentTableViewSource(NotPayedTripsTableVIew);
             NotPayedTripsTableVIew.Source = notPayedTripsTableViewSource;

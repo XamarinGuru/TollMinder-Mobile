@@ -1,16 +1,13 @@
 ﻿using System;
-using MvvmCross.Platform;
 using Newtonsoft.Json;
 using SQLite;
 using SQLiteNetExtensions.Attributes;
-using Tollminder.Core.Helpers;
 
 namespace Tollminder.Core.Models
 {
     public class TollPoint : IEquatable<TollRoadWaypoint>, IDatabaseEntry
     {
-        [PrimaryKey]//, AutoIncrement]
-        //public int DBId { get; set; }
+        [PrimaryKey]
         [JsonProperty("_id")]
         public string Id { get; set; }
         public string Name { get; set; }
@@ -27,7 +24,6 @@ namespace Tollminder.Core.Models
         [JsonProperty("interval")]
         public int Interval { get; set; }
 #endif
-        //[OneToOne(CascadeOperations = CascadeOperation.All)]
         [Ignore]
         public GeoLocation Location { get; set; }
         [JsonProperty("action")]
@@ -37,20 +33,6 @@ namespace Tollminder.Core.Models
         {
             Location = new GeoLocation();
         }
-
-        //public TollPoint(string name, string location, string type)
-        //{
-        //    Name = name;
-        //    Location = new GeoLocation(location);
-        //    WaypointAction enumType;
-        //    if (Enum.TryParse(type, out enumType))
-        //        WaypointAction = enumType;
-        //    else
-        //    {
-        //        Log.LogMessage($"Wrong action type : {type}");
-        //        throw new Exception("Wrong action type");
-        //    }
-        //}
 
         public bool Equals(TollRoadWaypoint other)
         {

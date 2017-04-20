@@ -57,18 +57,21 @@ namespace Tollminder.Core.Services.GeoData
             {
                 var currentTime = DateTime.UtcNow;
                 var timeSpan = TimeSpan.FromDays(1);
-                //var shouldUpdateTollRoads = currentTime - _storedSettingsService.LastSyncDateTime > timeSpan;
+                var shouldUpdateTollRoads = currentTime - _storedSettingsService.LastSyncDateTime > timeSpan;
 
-                var list = await _serverApiService.RefreshTollRoadsAsync(_storedSettingsService.LastSyncDateTime.UnixTime(), token);
-                if (list != null)
+                if (shouldUpdateTollRoads)
                 {
-                    _storedSettingsService.LastSyncDateTime = currentTime;
-                    _dataBaseStorage.InsertOrUpdateAllTollRoads(list);
-                }
-                else
-                {
-                    Insights.Report(new NullReferenceException { Source = "Response, has no roads!" });
-                    Mvx.Resolve<IUserInteraction>().Alert("App has not get any roads!", null, "Warning", "Ok");
+                    var list = await _serverApiService.RefreshTollRoadsAsync(_storedSettingsService.LastSyncDateTime.UnixTime(), token);
+                    if (list != null)
+                    {
+                        _storedSettingsService.LastSyncDateTime = currentTime;
+                        _dataBaseStorage.InsertOrUpdateAllTollRoads(list);
+                    }
+                    else
+                    {
+                        Insights.Report(new NullReferenceException { Source = "Response, has no roads!" });
+                        Mvx.Resolve<IUserInteraction>().Alert("App has not get any roads!", null, "Warning", "Ok");
+                    }
                 }
             }
             catch (Exception ex)

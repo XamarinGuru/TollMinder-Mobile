@@ -17,6 +17,8 @@ namespace Tollminder.Core.Services.Settings
         readonly IStoredSettingsBase storedSettingsBase;
         readonly IServerApiService serverApiService;
         private Profile _user;
+        private bool isPorcessing;
+
         TaskCompletionSource<IList<TollRoad>> roadListTask;
         string databaseName = "tollminder.sqlite";
         SQLite.SQLiteConnection _connection;
@@ -89,16 +91,22 @@ namespace Tollminder.Core.Services.Settings
         {
             try
             {
-                DeleteOldTollRoads(tollRoads);
+                if (!isPorcessing)
+                {
+                    isPorcessing = true;
+                    DeleteOldTollRoads(tollRoads);
 
-                Connection.InsertOrReplaceAllWithChildren(tollRoads, true);
-                var points = Connection.GetAllWithChildren<TollPoint>();
-                var roads = Connection.GetAllWithChildren<TollRoad>();
-                roadListTask.TrySetResult(tollRoads);
+                    Connection.InsertOrReplaceAllWithChildren(tollRoads, true);
+                    roadListTask.TrySetResult(tollRoads);
+                }
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
+            }
+            finally
+            {
+                isPorcessing = false;
             }
         }
 
@@ -139,10 +147,11 @@ namespace Tollminder.Core.Services.Settings
 
         void DeleteOldTollRoads(IList<TollRoad> tollRoads)
         {
-            var tollRoadsFromLocalDataBase = Connection.GetAllWithChildren<TollRoad>(null, true);
-            Output(tollRoadsFromLocalDataBase);
             try
             {
+                var tollRoadsFromLocalDataBase = Connection.GetAllWithChildren<TollRoad>(null, true);
+
+                Output(tollRoadsFromLocalDataBase);
                 var tollRoadsToRemove = GetPointsToRemove(tollRoads, tollRoadsFromLocalDataBase);
                 if (tollRoadsToRemove != null)
                 {

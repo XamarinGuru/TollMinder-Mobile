@@ -1,8 +1,4 @@
 ﻿using System;
-using MvvmCross.Platform;
-using Tollminder.Core.Helpers;
-using Chance.MvvmCross.Plugins.UserInteraction;
-using Xamarin;
 using Tollminder.Core.Services.Settings;
 
 namespace Tollminder.Core.Models
@@ -61,22 +57,6 @@ namespace Tollminder.Core.Models
             Longitude = lng;
         }
 
-        //public GeoLocation(string location)
-        //{
-        //    try
-        //    {
-        //        var coords = location.Split(',');
-        //        Latitude = double.Parse(coords[0]);
-        //        Longitude = double.Parse(coords[1]);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.LogMessage($"Wrong dummy location: {location}, ex {ex.Message + ex.StackTrace}");
-        //        Mvx.Resolve<IUserInteraction>().Alert("Wrong location data", null, "Error", "Ok");
-        //        Insights.Report(ex);
-        //    }
-        //}
-
         // does this equal another location?
         public bool Equals(GeoLocation other)
         {
@@ -85,16 +65,6 @@ namespace Tollminder.Core.Models
                 && (Math.Abs(Altitude - other.Altitude) < Epsilon));
             return result;
         }
-
-        //public override string ToString()
-        //{
-        //    if (SettingsService.wrongLongitude == Longitude && Longitude != 0)
-        //    {
-        //        Insights.Report(new Exception("This shit again change minus on plus!!!"));
-        //        Mvx.Resolve<IUserInteraction>().Alert("You received a wrong longitude!", null, "Error", "Ok");
-        //    }
-        //    return string.Format("{0}, {1}", Latitude, Longitude);
-        //}
     }
 }
 
