@@ -7,7 +7,7 @@ namespace Tollminder.Core.Models.PaymentData
     public class NotPayedTrip
     {
         [JsonProperty("trips")]
-        public List<Trip> Trips { get; set; }
+        public List<PayHistory> Trips { get; set; }
         [JsonProperty("amount")]
         public string Amount { get; set; }
     }

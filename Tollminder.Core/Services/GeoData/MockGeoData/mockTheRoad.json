@@ -1,5 +1,27 @@
 ﻿[
-
+    {
+    "_id": "584a4c0ef44d57dc336998cb",
+    "_tollRoad": "584a4b53f44d57dc336998ca",
+    "name": "Glorium entrance xamarin",
+    "latitude": 50.43710284424217,
+    "longitude": 30.51011547446251,
+    "interval": 20000,
+    "__v": 0,
+    "updatedAt": "2016-12-09T06:16:42.900Z",
+    "createdAt": "2016-12-09T06:16:21.626Z"
+  },
+    {
+    "_id": "584a4c0ef44d57dc336998cb",
+    "_tollRoad": "584a4b53f44d57dc336998ca",
+    "name": "Vladimirovskaya street",
+    "latitude": 50.436116,
+    "longitude": 30.508648,
+    "interval": 20000,
+    "action": "exit",
+    "__v": 0,
+    "updatedAt": "2016-12-09T06:16:42.900Z",
+    "createdAt": "2016-12-09T06:16:21.626Z"
+  },
   {
     "_id": "584a4c0ef44d57dc336998cb",
     "_tollRoad": "584a4b53f44d57dc336998ca",
@@ -273,16 +295,6 @@
         "action": "exit",
         "__v": 0,
         "createdAt": "2016-12-09T06:51:38.173Z"
-      },
-      {
-        "_id": "584a6373f44d57dc336998e2",
-        "_wayPoint": "584a542df44d57dc336998df",
-        "name": "Volodfimir enter",
-        "latitude": 50.4583052262009,
-        "longitude": 30.525852665305138,
-        "action": "entrance",
-        "__v": 0,
-        "createdAt": "2016-12-09T07:55:31.418Z"
       },
       {
         "_id": "584a63a1f44d57dc336998e3",

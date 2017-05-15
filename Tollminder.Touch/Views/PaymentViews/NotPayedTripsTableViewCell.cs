@@ -21,11 +21,11 @@ namespace Tollminder.Touch.Views.PaymentViews
         {
             this.DelayBind(() =>
                 {
-                    var bindingSet = this.CreateBindingSet<NotPayedTripsTableViewCell, Trip>();
+                    var bindingSet = this.CreateBindingSet<NotPayedTripsTableViewCell, PayHistory>();
                     bindingSet.Bind(TollRoadLabel).To(vm => vm.TollRoadName);
-                    bindingSet.Bind(AmountLabel).To(vm => vm.Cost);
+                    bindingSet.Bind(AmountLabel).To(vm => vm.Amount);
                     bindingSet.Bind(BillingDateLabel).To(vm => vm.PaymentDate);
-                    bindingSet.Bind(TransactionIdLabel).To(vm => vm.Transaction);
+                    bindingSet.Bind(TransactionIdLabel).To(vm => vm.TransactionId);
                     bindingSet.Apply();
                 });
         }

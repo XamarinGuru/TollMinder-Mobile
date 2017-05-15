@@ -1,9 +1,10 @@
 ﻿using System;
 using Newtonsoft.Json;
+using Tollminder.Core.Services.Settings;
 
 namespace Tollminder.Core.Models.PaymentData
 {
-    public class PayHistory
+    public class PayHistory : IQueueItem
     {
         [JsonProperty(PropertyName = "tollRoadName")]
         public string TollRoadName { get; set; }
@@ -22,5 +23,7 @@ namespace Tollminder.Core.Models.PaymentData
                 paymentDate = DateTime.Parse(value).ToString("yy-MMM-dd ddd");
             }
         }
+
+        public ItemPriority Priority => ItemPriority.Any;
     }
 }
