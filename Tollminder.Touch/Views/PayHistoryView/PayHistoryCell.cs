@@ -15,8 +15,6 @@ namespace Tollminder.Touch.Views
 
         public PayHistoryCell(IntPtr handle) : base(handle)
         {
-
-            // Note: this .ctor should not contain any initialization logic.
             this.DelayBind(() =>
             {
                 var set = this.CreateBindingSet<PayHistoryCell, PayHistory>();
@@ -25,7 +23,6 @@ namespace Tollminder.Touch.Views
                 set.Apply();
             });
         }
-
 
         public static PayHistoryCell Create()
         {

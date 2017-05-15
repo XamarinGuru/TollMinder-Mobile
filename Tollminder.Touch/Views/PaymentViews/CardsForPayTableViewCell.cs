@@ -23,7 +23,7 @@ namespace Tollminder.Touch.Views.PaymentViews
         {
             this.DelayBind(() =>
                 {
-                    cardsForPayTableViewSource = new MvxSimpleTableViewSource(CardsForPayTableVIew, CreditCardsTableViewCell.Key, CreditCardsTableViewCell.Key);//, CardsForPayTableViewCell.Key);
+                    cardsForPayTableViewSource = new MvxSimpleTableViewSource(CardsForPayTableVIew, CreditCardsTableViewCell.Key, CreditCardsTableViewCell.Key);
                     CardsForPayTableVIew.Source = cardsForPayTableViewSource;
                     CardsForPayTableVIew.EstimatedRowHeight = 90f;
                     CardsForPayTableVIew.RowHeight = UITableView.AutomaticDimension;

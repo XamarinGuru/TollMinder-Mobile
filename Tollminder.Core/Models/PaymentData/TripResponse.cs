@@ -5,9 +5,7 @@ namespace Tollminder.Core.Models.PaymentData
 {
     public class TripResponse
     {
-        [JsonProperty("_id")]
-        public string Id { get; set; }
-        [JsonProperty("user")]
+        [JsonProperty("_user")]
         public string UserId { get; set; }
         [JsonProperty("_startWayPoint")]
         public string StartWayPointId { get; set; }

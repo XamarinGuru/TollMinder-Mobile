@@ -15,7 +15,7 @@ namespace Tollminder.Touch.Views.PaymentViews
         public PaymentTableViewSource(UITableView tableView)
             : base(tableView)
         {
-            tableView.RegisterNibForCellReuse(NotPayedTripsTableViewCell.Nib, NotPayedTripsTableViewCell.Key);
+            tableView.RegisterNibForCellReuse(PayHistoryCell.Nib, PayHistoryCell.Key);
             tableView.RegisterNibForCellReuse(CardsForPayTableViewCell.Nib, CardsForPayTableViewCell.Key);
         }
 
@@ -24,7 +24,7 @@ namespace Tollminder.Touch.Views.PaymentViews
             if (item is CreditCardsForPayViewModel)
                 return tableView.DequeueReusableCell(CardsForPayTableViewCell.Key, indexPath);
 
-            return tableView.DequeueReusableCell(NotPayedTripsTableViewCell.Key, indexPath) as NotPayedTripsTableViewCell;
+            return tableView.DequeueReusableCell(PayHistoryCell.Key, indexPath) as PayHistoryCell;
         }
 
         public override System.Collections.IEnumerable ItemsSource
@@ -53,8 +53,5 @@ namespace Tollminder.Touch.Views.PaymentViews
                 TableView.ScrollToRow(NSIndexPath.FromRowSection(0, 0), UITableViewScrollPosition.Top, true);
             }
         }
-
-        public override nfloat EstimatedHeight(UITableView tableView, NSIndexPath indexPath)
-            => 450f;
     }
 }

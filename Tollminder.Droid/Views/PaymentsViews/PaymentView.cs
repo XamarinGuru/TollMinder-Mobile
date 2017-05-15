@@ -27,7 +27,7 @@ namespace Tollminder.Droid.Views.PaymentsViews
             recyclerView = FindViewById<MvxRecyclerView>(Resource.Id.pay_recycler_view);
             recyclerView.Adapter = new MvxRecyclerAdapter((IMvxAndroidBindingContext)BindingContext);
             recyclerView.ItemTemplateSelector = new TypeTemplateSelector(new Dictionary<Type, int> {
-                { typeof(Trip), Resource.Layout.pay_item },
+                { typeof(PayHistory), Resource.Layout.pay_item },
                 { typeof(CreditCardsForPayViewModel), Resource.Layout.credit_cards_for_pay }
             });
             SubscribeForHeaderInsertion();

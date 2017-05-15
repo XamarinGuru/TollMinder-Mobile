@@ -36,6 +36,7 @@ namespace Tollminder.Touch.Views
             bindingSet.Bind(notPayedTripsTableViewSource).To(vm => vm.NotPayedTrips);
             bindingSet.Bind(PayNavigationItem.LeftBarButtonItem).To(vm => vm.BackToMainPageCommand);
             bindingSet.Bind(PayNavigationItem.RightBarButtonItem).To(vm => vm.PayCommand);
+            bindingSet.Bind(AmountLabel).To(vm => vm.Amount);
             bindingSet.Apply();
             NotPayedTripsTableVIew.ReloadData();
         }

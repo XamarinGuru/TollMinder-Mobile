@@ -11,17 +11,19 @@ using MvvmCross.Binding.iOS.Views;
 using Tollminder.Core.ViewModels.Payments;
 using CoreGraphics;
 using Tollminder.Core.Converters;
+using Tollminder.Touch.Views.PaymentViews;
 
 namespace Tollminder.Touch.Views
 {
     public class PayHistoryView : BaseViewController<PayHistoryViewModel>, ICleanBackStack
     {
         UIButton backHomeView;
-        UITableView tableView;
+        UITableView payHistoryTableView;
         ProfileButton dowloadHistoryButton;
         UILabel informationLabel;
         UIView scrollView;
         UIActivityIndicatorView activityIndicatorView;
+        private MvxSimpleTableViewSource payHistoryViewSource;
 
         public PayHistoryView()
         {
@@ -42,6 +44,7 @@ namespace Tollminder.Touch.Views
             var topView = new UIView();
             scrollView = new UIView();
             var bottomView = new UIView();
+            payHistoryTableView = new UITableView();
 
             informationLabel = new UILabel();
             informationLabel.TextColor = UIColor.White;
@@ -76,19 +79,25 @@ namespace Tollminder.Touch.Views
             );
 
             dowloadHistoryButton = ProfileButtonManager.ButtonInitiaziler("Download History", UIImage.FromFile(@"Images/ProfileView/ic_license.png"));
-            tableView = new UITableView();
 
-            bottomView.AddIfNotNull(dowloadHistoryButton, tableView);
+            payHistoryViewSource = new MvxSimpleTableViewSource(payHistoryTableView, NotPayedTripsTableViewCell.Key, NotPayedTripsTableViewCell.Key);
+            payHistoryTableView.Source = payHistoryViewSource;
+            payHistoryTableView.BackgroundColor = UIColor.Clear;
+            payHistoryTableView.SeparatorStyle = UITableViewCellSeparatorStyle.None;
+            payHistoryTableView.EstimatedRowHeight = 90f;
+            payHistoryTableView.RowHeight = UITableView.AutomaticDimension;
+
+            bottomView.AddIfNotNull(dowloadHistoryButton, payHistoryTableView);
             bottomView.AddConstraints(
                 dowloadHistoryButton.AtTopOf(bottomView),
                 dowloadHistoryButton.WithSameCenterX(bottomView),
                 dowloadHistoryButton.WithSameWidth(bottomView),
                 dowloadHistoryButton.WithRelativeHeight(bottomView, 0.1f),
 
-                tableView.Below(dowloadHistoryButton),
-                tableView.WithSameCenterX(bottomView),
-                tableView.WithSameWidth(bottomView),
-                tableView.WithRelativeHeight(bottomView, 1)
+                payHistoryTableView.Below(dowloadHistoryButton),
+                payHistoryTableView.WithSameCenterX(bottomView),
+                payHistoryTableView.WithSameWidth(bottomView),
+                payHistoryTableView.WithRelativeHeight(bottomView, 1)
             );
 
             scrollView.AddIfNotNull(bottomView);
@@ -119,16 +128,13 @@ namespace Tollminder.Touch.Views
         {
             base.InitializeBindings();
 
-            tableView.RowHeight = 44;
-            var source = new MvxSimpleTableViewSource(tableView, PayHistoryCell.Key, PayHistoryCell.Key);
-            tableView.Source = source;
-
             var set = this.CreateBindingSet<PayHistoryView, PayHistoryViewModel>();
             set.Bind(backHomeView).To(vm => vm.BackHomeCommand);
             set.Bind(dowloadHistoryButton).To(vm => vm.DownloadHistoryCommand);
             set.Bind(activityIndicatorView).For(x => x.Hidden).To(vm => vm.IsBusy).WithConversion(new BoolInverseConverter());
-            set.Bind(source).To(vm => vm.History);
+            set.Bind(payHistoryViewSource).To(vm => vm.History);
             set.Apply();
+            payHistoryTableView.ReloadData();
         }
 
         public override void ViewDidAppear(bool animated)
