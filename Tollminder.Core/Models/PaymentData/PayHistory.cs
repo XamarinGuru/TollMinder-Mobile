@@ -9,7 +9,7 @@ namespace Tollminder.Core.Models.PaymentData
         [JsonProperty(PropertyName = "tollRoadName")]
         public string TollRoadName { get; set; }
         [JsonProperty(PropertyName = "cost")]
-        public int Amount { get; set; }
+        public double Amount { get; set; }
         [JsonProperty(PropertyName = "_transaction")]
         public string TransactionId { get; set; }
 
