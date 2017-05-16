@@ -219,23 +219,23 @@ namespace Tollminder.Touch.Views
                 bottomView.WithRelativeHeight(View, 0.27f),
                 bottomView.AtBottomOf(View, 30)
             );
-#if DEBUG
-            CreateWaypointPicker();
-            nextLocatioButton = ButtonInitializer("Next Geo Location", UIControlState.Normal, UIColor.Black, UIColor.White, UIControlState.Normal, null);
+            //#if DEBUG
+            //            CreateWaypointPicker();
+            //            nextLocatioButton = ButtonInitializer("Next Geo Location", UIControlState.Normal, UIColor.Black, UIColor.White, UIControlState.Normal, null);
 
-            View.AddIfNotNull(waypointActionsTextField, nextLocatioButton);
-            View.AddConstraints(
-                waypointActionsTextField.WithSameCenterY(View),
-                waypointActionsTextField.AtLeftOf(View, 10),
-                waypointActionsTextField.Height().EqualTo(50),
-                waypointActionsTextField.Width().EqualTo(100),
+            //            View.AddIfNotNull(waypointActionsTextField, nextLocatioButton);
+            //            View.AddConstraints(
+            //                waypointActionsTextField.WithSameCenterY(View),
+            //                waypointActionsTextField.AtLeftOf(View, 10),
+            //                waypointActionsTextField.Height().EqualTo(50),
+            //                waypointActionsTextField.Width().EqualTo(100),
 
-                nextLocatioButton.AtRightOf(View, 5),
-                nextLocatioButton.WithSameCenterY(View),
-                nextLocatioButton.Height().EqualTo(50),
-                nextLocatioButton.Width().EqualTo(200)
-            );
-#endif
+            //                nextLocatioButton.AtRightOf(View, 5),
+            //                nextLocatioButton.WithSameCenterY(View),
+            //                nextLocatioButton.Height().EqualTo(50),
+            //                nextLocatioButton.Width().EqualTo(200)
+            //            );
+            //#endif
         }
 
         private void CreateWaypointPicker()
@@ -333,13 +333,13 @@ namespace Tollminder.Touch.Views
             set.Bind(statusLabel.ValueText).To(v => v.StatusString);
             set.Bind(tollRoadString.ValueText).To(v => v.TollRoadString);
             set.Bind(nextWaypointString.ValueText).To(v => v.WaypointChecker.DistanceToNearestTollpoint);
-#if DEBUG       
-            set.Bind(waypointActionsPickerViewModel).For(p => p.ItemsSource).To(vm => vm.WaypointActions);
-            set.Bind(waypointActionsPickerViewModel).For(p => p.SelectedItem).To(vm => vm.SelectedWaypointAction);
-            set.Bind(waypointActionsTextField).To(vm => vm.SelectedWaypointAction);
-            set.Bind(nextLocatioButton).To(vm => vm.NextGeoLocationCommand);
-            set.Bind(nextLocatioButton).For(b => b.Enabled).To(vm => vm.IsBusy).WithConversion(new BoolInverseConverter());
-#endif
+            //#if DEBUG       
+            //            set.Bind(waypointActionsPickerViewModel).For(p => p.ItemsSource).To(vm => vm.WaypointActions);
+            //            set.Bind(waypointActionsPickerViewModel).For(p => p.SelectedItem).To(vm => vm.SelectedWaypointAction);
+            //            set.Bind(waypointActionsTextField).To(vm => vm.SelectedWaypointAction);
+            //            set.Bind(nextLocatioButton).To(vm => vm.NextGeoLocationCommand);
+            //            set.Bind(nextLocatioButton).For(b => b.Enabled).To(vm => vm.IsBusy).WithConversion(new BoolInverseConverter());
+            //#endif
             set.Apply();
         }
     }
